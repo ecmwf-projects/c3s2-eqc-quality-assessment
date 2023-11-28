@@ -4,6 +4,27 @@
 
 `{data-type}_{dataset-id}_{assessment-category}_q{question-number}_{task-id}.ipynb`
 
+Data types:
+- climate
+- insitu
+- reanalysis
+- satellite
+- seasonal
+
+Assessment categories:
+- climate-and-weather-extremes
+- climate-impact-indicators
+- climate-monitoring
+- consistency-assessment
+- data-completeness
+- forecast-skill
+- intercomparison
+- mean
+- model-performance
+- trend-assessment
+- uncertainty
+- variability
+
 ## License
 
 ```
