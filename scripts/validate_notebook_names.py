@@ -37,7 +37,7 @@ def main(directory: str):
         assert len(segments) == 5, f"{path=!s}: Invalid {path.name=}"
         (
             data_type,
-            collection_id,
+            dataset_id,
             assessment_category,
             question_number,
             task_id,
@@ -45,10 +45,10 @@ def main(directory: str):
 
         assert data_type in DATA_TYPES, f"{path=!s}: Invalid {data_type=}"
 
-        url = f"{API_URL}/resources/dataset/{collection_id}"
+        url = f"{API_URL}/resources/dataset/{dataset_id}"
         assert (
             urllib.request.urlopen(url).getcode() == 200
-        ), f"{path=!s}: Invalid {collection_id=}"
+        ), f"{path=!s}: Invalid {dataset_id=}"
 
         assert (
             assessment_category in ASSESSMENT_CATEGORIES
