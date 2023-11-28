@@ -5,7 +5,7 @@ import uuid
 
 DATA_TYPES = (
     "climate",
-    "in-situ",
+    "insitu",
     "reanalysis",
     "satellite",
     "seasonal",
