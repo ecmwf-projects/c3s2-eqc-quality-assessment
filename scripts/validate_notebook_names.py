@@ -56,7 +56,7 @@ def main(directory: str):
         # Check assessment category
         assert (
             assessment_category in ASSESSMENT_CATEGORIES
-        ), f"{path=!s}: Invalid {assessment_category=}."
+        ), f"{path=!s}: Invalid {assessment_category=}"
 
         # Check question number
         assert len(question_number) == 3, f"{path=!s}: Invalid {question_number=}"
