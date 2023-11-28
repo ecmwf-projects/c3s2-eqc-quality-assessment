@@ -45,7 +45,7 @@ def main(directory: str):
         # Check data type
         assert data_type in DATA_TYPES, f"{path=!s}: Invalid {data_type=}"
         subfolder = DATA_TYPES[data_type]
-        assert set(path.parts) & {subfolder}, f"{path=!s}: Invalid {subfolder=}"
+        assert subfolder in path.parts, f"{path=!s}: Invalid {subfolder=}"
 
         # Check dataset ID
         url = f"{API_URL}/resources/dataset/{dataset_id}"
