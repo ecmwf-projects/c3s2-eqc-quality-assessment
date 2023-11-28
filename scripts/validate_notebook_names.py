@@ -26,7 +26,7 @@ ASSESSMENT_CATEGORIES = (
     "variability",
 )
 
-URL = "https://cds.climate.copernicus.eu/api/v2"
+API_URL = "https://cds.climate.copernicus.eu/api/v2"
 
 
 def main(directory: str):
@@ -45,7 +45,7 @@ def main(directory: str):
 
         assert data_type in DATA_TYPES, f"{path=!s}: Invalid {data_type=}"
 
-        url = f"{URL}/resources/dataset/{collection_id}"
+        url = f"{API_URL}/resources/dataset/{collection_id}"
         assert (
             urllib.request.urlopen(url).getcode() == 200
         ), f"{path=!s}: Invalid {collection_id=}"
