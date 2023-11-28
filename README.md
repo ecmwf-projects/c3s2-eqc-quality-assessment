@@ -2,7 +2,7 @@
 
 ## Naming convention
 
-`{data_type}_{dataset_id}_{assessment_category}_q{question_number}_{task_id}.ipynb`
+`{data-type}_{dataset-id}_{assessment-category}_q{question-number}_{task-id}.ipynb`
 
 ## License
 
