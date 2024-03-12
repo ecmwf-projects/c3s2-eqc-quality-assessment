@@ -32,7 +32,7 @@ def main(directory: str):
     for path in pathlib.Path(directory).glob("**/*.ipynb"):
         assert path.stem.islower(), f"{path=!s}: Invalid {path.name=}"
         segments = path.stem.split("_")
-        assert len(segments) == 5, f"{path=!s}: Invalid {path.name=}"
+        assert len(segments) == 4, f"{path=!s}: Invalid {path.name=}"
         (
             data_type,
             dataset_id,
