@@ -1,7 +1,6 @@
 import argparse
 import pathlib
 import urllib.request
-import uuid
 
 DATA_TYPES = {
     "climate": "Climate_Projections",
@@ -39,7 +38,6 @@ def main(directory: str):
             dataset_id,
             assessment_category,
             question_number,
-            task_id,
         ) = segments
 
         # Check data type
@@ -62,12 +60,6 @@ def main(directory: str):
         assert len(question_number) == 3, f"{path=!s}: Invalid {question_number=}"
         assert question_number[0] == "q", f"{path=!s}: Invalid {question_number=}"
         assert question_number[1:].isdigit(), f"{path=!s}: Invalid {question_number=}"
-
-        # Check task ID
-        try:
-            uuid.UUID(task_id)
-        except ValueError:
-            raise ValueError(f"{path=!s}: Invalid {task_id=}")
 
 
 if __name__ == "__main__":

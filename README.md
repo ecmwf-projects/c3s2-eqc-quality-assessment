@@ -2,7 +2,7 @@
 
 ## Naming convention
 
-`{data-type}_{dataset-id}_{assessment-category}_q{question-number}_{task-id}.ipynb`
+`{data-type}_{dataset-id}_{assessment-category}_q{question-number}.ipynb`
 
 Data types:
 - climate
