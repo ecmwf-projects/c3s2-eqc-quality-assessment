@@ -1,6 +1,6 @@
 import argparse
-import pathlib
 import urllib.request
+from pathlib import Path
 
 DATA_TYPES = {
     "climate": "Climate_Projections",
@@ -28,8 +28,8 @@ ASSESSMENT_CATEGORIES = (
 API_URL = "https://cds.climate.copernicus.eu/api/v2"
 
 
-def main(directory: str):
-    for path in pathlib.Path(directory).glob("**/*.ipynb"):
+def main(paths: list[Path]):
+    for path in paths:
         assert path.stem.islower(), f"{path=!s}: Invalid {path.name=}"
         segments = path.stem.split("_")
         assert len(segments) == 4, f"{path=!s}: Invalid {path.name=}"
@@ -64,6 +64,6 @@ def main(directory: str):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("directory", type=str)
+    parser.add_argument("paths", action="store", type=Path, nargs="*")
     args = parser.parse_args()
-    main(args.directory)
+    main(args.paths)
