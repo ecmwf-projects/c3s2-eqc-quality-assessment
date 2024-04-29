@@ -15,7 +15,7 @@ def main(paths: list[Path]) -> None:
             required_tags = REQUIRED_TAGS.get(cell["cell_type"], set())
             if not required_tags <= tags:
                 write = True
-                tags |= required_tags
+                tags.update(required_tags)
                 cell["metadata"]["tags"] = list(tags)
 
         if write:
