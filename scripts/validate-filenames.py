@@ -28,7 +28,7 @@ ASSESSMENT_CATEGORIES = (
 API_URL = "https://cds.climate.copernicus.eu/api/v2"
 
 
-def main(paths: list[Path]):
+def main(paths: list[Path]) -> None:
     for path in paths:
         assert path.stem.islower(), f"{path=!s}: Invalid {path.name=}"
         segments = path.stem.split("_")

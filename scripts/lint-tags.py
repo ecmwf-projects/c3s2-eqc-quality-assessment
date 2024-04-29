@@ -5,7 +5,7 @@ import argparse
 REQUIRED_TAGS: dict[str, set[str]] = {"code": {"hide-input"}}
 
 
-def main(paths: list[Path]):
+def main(paths: list[Path]) -> None:
     for path in paths:
         write = False
         notebook = nbformat.read(path, nbformat.NO_CONVERT)
