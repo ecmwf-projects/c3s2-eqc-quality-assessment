@@ -40,10 +40,10 @@ jobs:
       uses: actions/checkout@v4
       with:
         repository: ecmwf-projects/c3s_eqc_book_main
-    - name: List all changed files
+    - name: Build book
       env:
         ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
       run: |
         for file in ${ALL_CHANGED_FILES}; do
-          echo "$file was changed"
+        jupyter-book build $file || exit
         done
