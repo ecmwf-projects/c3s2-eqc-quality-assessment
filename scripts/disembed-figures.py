@@ -1,0 +1,31 @@
+import nbformat
+from pathlib import Path
+import argparse
+import base64
+
+
+def main(paths: list[Path]) -> None:
+    for path in paths:
+        write = False
+        notebook = nbformat.read(path, nbformat.NO_CONVERT)
+
+        for cell in notebook.cells:
+            attachments = cell.pop("attachments", {})
+            for name, data in attachments.items():
+                write = True
+                cell["source"] = cell["source"].replace(
+                    f"(attachment:{name})", f"({name})"
+                )
+                for _, encoded in data.items():
+                    with open(f"{name}", "wb") as f:
+                        f.write(base64.b64decode(encoded))
+
+        if write:
+            nbformat.write(notebook, path)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("paths", action="store", type=Path, nargs="*")
+    args = parser.parse_args()
+    main(args.paths)

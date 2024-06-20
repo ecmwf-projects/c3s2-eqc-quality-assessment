@@ -56,6 +56,7 @@ jobs:
             filename=$(basename -- "$fullfile")
             prefix="${filename%.*}"
             cp ../../"$fullfile" "$filename" || exit
+            python ../../scripts/disembed-figures.py "$filename" || exit
             jupyter-book build "$filename" || exit
             mv _build/_page/"$prefix"/html ../../book_preview/"$prefix" || exit
             rm -fr _build
