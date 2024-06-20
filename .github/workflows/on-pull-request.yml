@@ -37,12 +37,13 @@ jobs:
       env:
         ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
       run: |-
-        permalinks=""
+        permalinks="<ul>"
         for fullfile in ${ALL_CHANGED_FILES}; do
             commit=$(git rev-list -1 HEAD "$fullfile")
-            permalinks+="\n- https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment/blob/$commit/$fullfile"
+            permalinks+="<li>https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment/blob/$commit/$fullfile</li>"
         done
-        echo -e "permalinks=$permalinks" >>"$GITHUB_OUTPUT"
+        permalinks+="</ul>"
+        echo "permalinks=$permalinks" >>"$GITHUB_OUTPUT"
     - name: Comment PR with permalinks
       uses: thollander/actions-comment-pull-request@v2
       with:
