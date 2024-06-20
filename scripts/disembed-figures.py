@@ -17,8 +17,7 @@ def main(paths: list[Path]) -> None:
                     f"(attachment:{name})", f"({name})"
                 )
                 for _, encoded in data.items():
-                    with open(f"{name}", "wb") as f:
-                        f.write(base64.b64decode(encoded))
+                    Path(name).write_bytes(base64.b64decode(encoded))
 
         if write:
             nbformat.write(notebook, path)
