@@ -24,13 +24,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+    - name: Get changed notebooks
+      id: changed-files
+      uses: tj-actions/changed-files@v44
+      with:
+        files: |
+          **.ipynb
+    - name: Install jupyter-book
+      uses: mamba-org/setup-micromamba@v1
+      with:
+        create-args: >-
+          jupyter-book
     - name: Checkout book repo
       uses: actions/checkout@v4
       with:
         repository: ecmwf-projects/c3s_eqc_book_main
-    - name: Install jupyter-book
-      uses: mamba-org/setup-micromamba@v1
-      with:
-        environment-name: test-env
-        create-args: >-
-          jupyter-book
+    - name: List all changed files
+      env:
+        ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+      run: |
+        for file in ${ALL_CHANGED_FILES}; do
+          echo "$file was changed"
+        done
