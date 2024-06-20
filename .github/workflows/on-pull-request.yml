@@ -1,12 +1,4 @@
-name: on-push
-
-on:
-  push:
-    branches:
-    - main
-  pull_request:
-    branches:
-    - main
+on: pull_request
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -67,3 +59,8 @@ jobs:
       with:
         name: book-preview
         path: book_preview/*
+    - name: Comment PR
+      uses: thollander/actions-comment-pull-request@v2
+      with:
+        message: |
+          echo "book-preview: ${{ steps.artifact-upload-step.outputs.artifact-url }}"
