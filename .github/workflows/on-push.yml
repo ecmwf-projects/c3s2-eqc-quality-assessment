@@ -49,16 +49,14 @@ jobs:
       env:
         ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
       run: |-
-        cd book/c3s_eqc_quality_assessments || exit
-        mkdir wip || exit
-        for file in ${ALL_CHANGED_FILES}; do
-            cp ../../"$file" wip/. || exit
-        done
-        mkdir ../../pages || exit
-        for file in wip/*.ipynb; do
-            jupyter-book build "$file" || exit
-            prefix=$(basename "$file")
-            mv _build/_page/wip-"$prefix"/html ../../pages/"$prefix" || exit
+        mkdir pages || exit
+        cd book/c3s_eqc_quality_assessments || exit        
+        for fullfile in ${ALL_CHANGED_FILES}; do
+            filename=$(basename -- "$fullfile")
+            prefix="${filename%.*}"
+            cp ../../"$fullfile" "$filename" || exit
+            jupyter-book build "$filename" || exit
+            mv _build/_page/"$prefix"/html ../../pages/"$prefix" || exit
         done
     - uses: actions/upload-artifact@v4
       with:
