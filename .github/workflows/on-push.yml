@@ -54,7 +54,12 @@ jobs:
         for file in ${ALL_CHANGED_FILES}; do
             cp ../../"$file" wip/. || exit
         done
+        mkdir ../../pages || exit
         for file in wip/*.ipynb; do
             jupyter-book build "$file" || exit
+            prefix=$(basename "$file")
+            mv _build/_page/wip-"$prefix"/html ../../pages/"$prefix" || exit
         done
-
+    - uses: actions/upload-artifact@v4
+      with:
+        path: pages/*
