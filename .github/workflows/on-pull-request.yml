@@ -32,6 +32,24 @@ jobs:
       with:
         files: |
           **.ipynb
+    - name: Build permalinks
+      id: build-permalinks
+      env:
+        ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+      run: |-
+        permalinks=""
+        for fullfile in ${ALL_CHANGED_FILES}; do
+            commit=$(git rev-list -1 HEAD "$fullfile")
+            permalinks+="- https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment/blob/$commit/$fullfile"
+        done
+        echo "permalinks=$permalinks" >>"$GITHUB_OUTPUT"
+    - name: Comment PR with permalinks
+      uses: thollander/actions-comment-pull-request@v2
+      with:
+        message: |
+          **Permalinks:**
+          ${{ steps.build-permalinks.outputs.permalinks }}
+        comment_tag: permalinks
     - name: Checkout book repo
       uses: actions/checkout@v4
       with:
