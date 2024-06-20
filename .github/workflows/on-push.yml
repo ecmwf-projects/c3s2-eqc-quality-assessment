@@ -19,3 +19,18 @@ jobs:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
     - uses: pre-commit/action@v3.0.1
+
+  build-book:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Checkout book repo
+      uses: actions/checkout@v4
+      with:
+        repository: ecmwf-projects/c3s_eqc_book_main
+    - name: Install jupyter-book
+      uses: mamba-org/setup-micromamba@v1
+      with:
+        environment-name: test-env
+        create-args: >-
+          jupyter-book
