@@ -26,6 +26,7 @@ jobs:
 
   build-book:
     runs-on: ubuntu-latest
+    needs: pre-commit
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
@@ -57,7 +58,9 @@ jobs:
             cp ../../"$fullfile" "$filename" || exit
             jupyter-book build "$filename" || exit
             mv _build/_page/"$prefix"/html ../../pages/"$prefix" || exit
+            rm -fr _build
         done
     - uses: actions/upload-artifact@v4
       with:
+        name: jupyter-book-preview
         path: pages/*
