@@ -1,6 +1,7 @@
-import nbformat
-from pathlib import Path
 import argparse
+from pathlib import Path
+
+import nbformat
 
 MANDATORY_TAGS: dict[str, set[str]] = {"code": {"hide-input"}}
 
