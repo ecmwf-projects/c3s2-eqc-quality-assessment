@@ -1,7 +1,8 @@
-import nbformat
-from pathlib import Path
 import argparse
 import base64
+from pathlib import Path
+
+import nbformat
 
 
 def main(paths: list[Path]) -> None:
