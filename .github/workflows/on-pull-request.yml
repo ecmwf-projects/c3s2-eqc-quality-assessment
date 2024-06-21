@@ -39,8 +39,10 @@ jobs:
       run: |-
         permalinks="<ul>"
         for fullfile in ${ALL_CHANGED_FILES}; do
+            fullfile="${fullfile//\\&/&}"
             commit=$(git rev-list -1 HEAD "$fullfile")
-            url=${{ github.server_url }}/${{ github.repository }}/blob/$commit/$fullfile
+            suffix="${fullfile//&/%26}"
+            url=${{ github.server_url }}/${{ github.repository }}/blob/$commit/$suffix
             permalinks+="<li><a href=\"$url\">$url</a></li>"
         done
         permalinks+="</ul>"
@@ -67,6 +69,7 @@ jobs:
         mkdir book_preview || exit
         cd book/c3s_eqc_quality_assessments || exit        
         for fullfile in ${ALL_CHANGED_FILES}; do
+            fullfile="${fullfile//\\&/&}"
             filename=$(basename -- "$fullfile")
             prefix="${filename%.*}"
             cp ../../"$fullfile" "$filename" || exit
