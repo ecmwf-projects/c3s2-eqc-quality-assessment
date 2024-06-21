@@ -16,8 +16,8 @@ def main(paths: list[Path]) -> None:
                 cell["source"] = cell["source"].replace(
                     f"(attachment:{name})", f"({name})"
                 )
-                for _, encoded in data.items():
-                    Path(name).write_bytes(base64.b64decode(encoded))
+                for encoded in data.values():
+                    (path.parent / name).write_bytes(base64.b64decode(encoded))
 
         if write:
             nbformat.write(notebook, path)
