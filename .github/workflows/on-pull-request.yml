@@ -40,7 +40,8 @@ jobs:
         permalinks="<ul>"
         for fullfile in ${ALL_CHANGED_FILES}; do
             commit=$(git rev-list -1 HEAD "$fullfile")
-            url=${{ github.server_url }}/${{ github.repository }}/blob/$commit/$fullfile
+            suffix="${fullfile//\\&/%26}"
+            url=${{ github.server_url }}/${{ github.repository }}/blob/$commit/$suffix
             permalinks+="<li><a href=\"$url\">$url</a></li>"
         done
         permalinks+="</ul>"
