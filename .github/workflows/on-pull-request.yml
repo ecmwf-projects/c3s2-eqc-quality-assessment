@@ -67,16 +67,18 @@ jobs:
         ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
       run: |-
         mkdir book_preview || exit
-        cd book/c3s_eqc_quality_assessments || exit        
+        cd book/c3s_eqc_quality_assessments || exit  
         for fullfile in ${ALL_CHANGED_FILES}; do
+            mkdir tmp || exit      
             fullfile="${fullfile//\\&/&}"
             filename=$(basename -- "$fullfile")
             prefix="${filename%.*}"
-            cp ../../"$fullfile" "$filename" || exit
-            python ../../scripts/convert-to-book-format.py "$filename" || exit
+            cp ../../"$fullfile" tmp/"$filename" || exit
+            python ../../scripts/convert-to-book-format.py tmp/"$filename" || exit
             jupyter-book build "$filename" || exit
-            mv _build/_page/"$prefix"/html ../../book_preview/"$prefix" || exit
+            mv _build/_page/tmp-"$prefix"/html ../../book_preview/"$prefix" || exit
             rm -fr _build
+            rm -fr tmp
         done
     - uses: actions/upload-artifact@v4
       id: upload-artifact
