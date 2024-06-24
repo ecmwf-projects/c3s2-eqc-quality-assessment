@@ -3,25 +3,26 @@ import base64
 from pathlib import Path
 
 import nbformat
+from nbformat.v4 import new_markdown_cell
+
+LOGO_PATH = "../LogoLine_horizon_C3S.png"
 
 
 def main(paths: list[Path]) -> None:
     for path in paths:
-        write = False
         notebook = nbformat.read(path, nbformat.NO_CONVERT)
 
+        notebook.cells.insert(0, new_markdown_cell(f"![logo]({LOGO_PATH})"))
         for cell in notebook.cells:
             attachments = cell.pop("attachments", {})
             for name, data in attachments.items():
-                write = True
                 cell["source"] = cell["source"].replace(
                     f"(attachment:{name})", f"({name})"
                 )
                 for encoded in data.values():
                     (path.parent / name).write_bytes(base64.b64decode(encoded))
 
-        if write:
-            nbformat.write(notebook, path)
+        nbformat.write(notebook, path)
 
 
 if __name__ == "__main__":
