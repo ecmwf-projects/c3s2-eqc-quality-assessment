@@ -1,0 +1,93 @@
+on: pull_request
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash -l {0}
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: 3.x
+    - uses: pre-commit/action@v3.0.1
+
+  build-book:
+    runs-on: ubuntu-latest
+    needs: pre-commit
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: 3.x
+    - name: Get changed notebooks
+      id: changed-files
+      uses: tj-actions/changed-files@v44
+      with:
+        files: |
+          **.ipynb
+    - name: Build permalinks
+      id: build-permalinks
+      env:
+        ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+      run: |-
+        permalinks="<ul>"
+        for fullfile in ${ALL_CHANGED_FILES}; do
+            fullfile="${fullfile//\\&/&}"
+            commit=$(git rev-list -1 HEAD "$fullfile")
+            suffix="${fullfile//&/%26}"
+            url=${{ github.server_url }}/${{ github.repository }}/blob/$commit/$suffix
+            permalinks+="<li><a href=\"$url\">$url</a></li>"
+        done
+        permalinks+="</ul>"
+        echo "permalinks=$permalinks" >>"$GITHUB_OUTPUT"
+    - name: Comment PR with permalinks
+      uses: thollander/actions-comment-pull-request@v2
+      with:
+        message: |
+          **Permalinks:**
+          ${{ steps.build-permalinks.outputs.permalinks }}
+        comment_tag: permalinks
+    - name: Checkout book repo
+      uses: actions/checkout@v4
+      with:
+        repository: ecmwf-projects/c3s_eqc_book_main
+        path: book
+    - name: Install jupyter-book
+      run: |
+        python -m pip install jupyter-book
+    - name: Build pages
+      env:
+        ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+      run: |-
+        mkdir book_preview || exit
+        cd book/c3s_eqc_quality_assessments || exit  
+        for fullfile in ${ALL_CHANGED_FILES}; do
+            mkdir tmp || exit      
+            fullfile="${fullfile//\\&/&}"
+            filename=$(basename -- "$fullfile")
+            prefix="${filename%.*}"
+            cp ../../"$fullfile" tmp/"$filename" || exit
+            python ../../scripts/convert-to-book-format.py tmp/"$filename" || exit
+            jupyter-book build tmp/"$filename" || exit
+            mv _build/_page/tmp-"$prefix"/html ../../book_preview/"$prefix" || exit
+            rm -fr _build
+            rm -fr tmp
+        done
+    - uses: actions/upload-artifact@v4
+      id: upload-artifact
+      with:
+        name: book-preview
+        path: book_preview/*
+    - name: Comment PR with book preview url
+      uses: thollander/actions-comment-pull-request@v2
+      with:
+        message: |
+          **Jupyter Book Preview:** ${{ steps.upload-artifact.outputs.artifact-url }}
+        comment_tag: artifact-url
