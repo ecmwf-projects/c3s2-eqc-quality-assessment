@@ -16,7 +16,7 @@ def get_disclaimer(readme: Path) -> str:
     lines = readme.open()
     disclaimer = ['<div class="alert alert-block alert-warning">']
     for line in lines:
-        if line.startswith("> [!WARNING]"):
+        if line.startswith("> \[!WARNING\]"):
             for line in lines:
                 if line.startswith(">"):
                     disclaimer.append(line.removeprefix(">").strip())
