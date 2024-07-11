@@ -1,22 +1,23 @@
 # c3s2-eqc-quality-assessment
 
-> [!WARNING]
+> \[!WARNING\]
 > Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
 
 ## Quick start
 
 To build the book:
+
 ```bash
 pip install -r requirements.txt
 make build-book
 ```
-
 
 ## Naming convention
 
 `{data-type}_{dataset-id}_{assessment-category}_q{question-number}.ipynb`
 
 Data types:
+
 - climate
 - insitu
 - reanalysis
@@ -24,6 +25,7 @@ Data types:
 - seasonal
 
 Assessment categories:
+
 - climate-and-weather-extremes
 - climate-impact-indicators
 - climate-monitoring
