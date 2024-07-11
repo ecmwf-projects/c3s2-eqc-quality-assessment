@@ -5,6 +5,13 @@
 
 ## Quick start
 
+To install pre-commit:
+
+```bash
+pip install pre-commit
+pre-commit install
+```
+
 To build the book:
 
 ```bash
