@@ -52,6 +52,32 @@ def add_disclaimer(notebook: nbformat.NotebookNode) -> None:
     notebook.cells.insert(0, cell)
 
 
+def edit_section_references(notebook: nbformat.NotebookNode, path: Path) -> None:
+    references = {}
+    for cell in notebook.cells:
+        if "source" not in cell:
+            continue
+
+        lines: list[str] = []
+        for line in cell["source"].splitlines():
+            if line.strip().startswith("(") and line.strip().endswith(")="):
+                old_reference = line.strip()[1:-2]
+                new_reference = f"{path.stem}:{old_reference}"
+                references[old_reference] = new_reference
+                line = line.replace(f"({old_reference})=", f"({new_reference})=")
+            lines.append(line)
+        cell["source"] = "\n".join(lines)
+
+    for cell in notebook.cells:
+        if "source" not in cell:
+            continue
+
+        for old_reference, new_reference in references.items():
+            cell["source"] = cell["source"].replace(
+                f"]({old_reference})", f"]({new_reference})"
+            )
+
+
 def convert_notebook(path: Path, disclaimer: bool) -> None:
     notebook = nbformat.read(path, nbformat.NO_CONVERT)
 
@@ -62,6 +88,8 @@ def convert_notebook(path: Path, disclaimer: bool) -> None:
     for cell in notebook.cells:
         add_tags(cell)
         decode_attachmets(cell, path)
+
+    edit_section_references(notebook, path)
 
     nbformat.write(notebook, path)
 
