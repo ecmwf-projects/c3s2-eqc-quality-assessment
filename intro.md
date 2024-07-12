@@ -54,7 +54,7 @@ These assessments are organised by the type of data they address. Note that whil
 
 ## Running the Notebooks
 
-Most of these quality assessments include Python code to produce data and figures which help answer the user question. This code is included primarily for transparency and traceability, as the software was designed to support evaluators running the assessments on EQC infrastructure, rather than to be easily reproducable. However, sections of it may also be directly applicable to your application and can be adapted or adjusted to your needs.
+Most of these quality assessments include Python code to produce data and figures which help answer the user question. This code is included primarily for transparency and traceability, as the software was designed to support evaluators running the assessments on EQC infrastructure, rather than to be easily reproducible. However, sections of it may also be directly applicable to your application and can be adapted or adjusted to your needs.
 
 Most code in the Notebooks is self contained (but does make use of the [custom software](https://github.com/bopen/c3s-eqc-automatic-quality-control/tree/main/c3s_eqc_automatic_quality_control) prepared by [BOpen](https://www.bopen.eu/) for EQC evaluators). Some quality assessments may rely on the outcomes and code of previous assessments, or offline computations.
 
