@@ -2,63 +2,84 @@
 
 # Template instructions
 
-Instructions for the Jupyter Notebook template for quality assessments (quality_assessment_template.ipynb). This template aims to ensure consistency in content and the look and feel of the assessment once it is included in the [Jupyter Book](https://ecmwf-projects.github.io/c3s2-eqc-quality-assessment/intro.html). The syntax includes MyST formatting needed for the Jupyter Book which will not render in all Jupyter Notebook viewers, or GitHub, but should work in Jupyter Lab on VM.
+Instructions for the [Jupyter Notebook template for quality assessments](./template.ipynb). This template aims to ensure consistency in content and the look and feel of the assessment once it is included in the [Jupyter Book](https://ecmwf-projects.github.io/c3s2-eqc-quality-assessment/intro.html). The syntax includes MyST formatting needed for the Jupyter Book which will not render in all Jupyter Notebook viewers, or GitHub, but works in Jupyter Lab on the Virtual Machine.
 
-NOTE: some additional formatting required for the Jupyter Book will be applied when the page for a given assessment is built, and so are not included in this template. This includes the extraction of embedded images, 'collapsing' the code cells, and adding a logo line.
-NOTE: please follow the headings and subheadings approached used in the template. The level of the heading is determined by the number of hashes before it (#Title, ##Use case etc.). The following link should be helpful: https://jupyterbook.org/en/stable/reference/cheatsheet.html
-NOTE: there is a new approach to linking the methodology list to the subsections in analysis and results
+```{note}
+Some additional formatting required for the Jupyter Book will be automatically applied when the page for a given assessment is built, and so are not included in this template. This includes the extraction of embedded images, 'collapsing' the code cells, and adding a logo line.
+```
 
-## Assessment title:
+```{note}
+Please follow the headings and subheadings approach used in the template. The level of the heading is determined by the number of hashes before it (#Title, ##Use case, etc.). The following link should be helpful: https://jupyterbook.org/en/stable/reference/cheatsheet.html
+```
 
-We do not aim to be completely prescriptive about the title, it should be readable and descriptive, but also include some key tags to increase searchability, e.g. *Seasonal forecasts bias assessment for impact models*
+```{note}
+There is a new approach to linking the methodology list to the subsections in analysis and results.
+```
 
-- Data stream: Satellite (observations), Insitu (observations), Reanalysis, Seasonal (Forecasts), Climate (projections)
-- Quality area: bias, forecast skill, completeness, intercomparison of X and Y, comparison to X, trend assessment, extremes, spatial/temporal resolution, reliability, accuracy, etc
-- Application area: impact models, risk assessment, climate monitoring, scientific study of X, X sector, 'region', 'specific C3S application', flood forecasting, etc
+## Assessment title
 
-NOTE: the title will be used in the table of contents for the data stream and the side bar of the Jupyter Book, so it needs to be unique, not too long, and help guide users to the assessment by mentioning the key analysis or outcomes.
+We do not aim to be completely prescriptive about the title, it should be readable and descriptive, but also include some key tags to increase searchability, e.g. *Seasonal forecasts bias assessment for impact models*.
 
-NOTE: the title should be the only 'level one' heading (single # before the heading), otherwise the other headings will also appear as separate links in the table of contents for the data stream and sidebar.
+- **Data stream**: Satellite (observations), Insitu (observations), Reanalysis, Seasonal (Forecasts), Climate (projections)
+- **Quality area**: bias, forecast skill, completeness, intercomparison of X and Y, comparison to X, trend assessment, extremes, spatial/temporal resolution, reliability, accuracy, etc.
+- **Application area**: impact models, risk assessment, climate monitoring, scientific study of X, X sector, 'region', 'specific C3S application', flood forecasting, etc.
 
-## Production date and author:
+```{note}
+The title will be used in the table of contents for the data stream and the side bar of the Jupyter Book, so it needs to be unique, not too long, and help guide users to the assessment by mentioning the key analysis or outcomes.
+```
+
+```{note}
+The title should be the only 'level one' heading (single # before the heading), otherwise the other headings will also appear as separate links in the table of contents for the data stream and sidebar.
+```
+
+## Production date and author
 
 Include a production date (approximating when the data was downloaded and code first run, or document first accessed). Optionally, the author(s) can be acknowledge, by name and/or institute, or instead 'EQC evaluator'.
 
-## Use case:
+## Use case
 
-The use case is listed directly in the heading of the section, 'Use case: .....'
+The use case is listed directly in the heading of the section: `## Use case: ...`
 
-## User question:
+## User question
 
 User question, or User questions, if more than one question is answered in the assessment, or if a second question helps clarify the aim of the assessment. The question or questions are bold and highlighted with bullet points.
 
-## Context text (no heading):
+## Context text (no heading)
 
 A section of text with no heading which appears after the user question and before the quality assessment statement. References can be used to link to examples of relevant literature or example applications relevant to the use case and user question. It should be as short as possible, but contain enough information for users to understand the context of the assessment and the main approach to be used. Together with the assessment title, use case and user question, and assessment statement all key information should be contained at the top of the assessment.
 
-## Quality assessment statement:
+## Quality assessment statement
 
-Key results and guidance including an answer to the user question - to be visually highlighted and with the section title ‘Quality assessment statement’. Note that the blue notification box that contains the quality assessment statement bullet points will not appear in GitHub, but will be rendered when the Jupyter Book page is created.
+Key results and guidance including an answer to the user question - to be visually highlighted and with the section title ‘Quality assessment statement’.
 
-## Figure:
+```{note}
+The blue notification box that contains the quality assessment statement bullet points will not appear in GitHub, but will be rendered when the Jupyter Book page is created.
+```
 
-A key figure should be included if possible, acting as a 'graphical abstract' for the assessment. This could be a figure generated later in the code, or from an external source (if licensing allows reproduction) - in this case the source should be cited in the caption. Images should be dragged and dropped into the markdown cell, which created an 'attachment code', and the external file is no longer needed. If the image file already includes a figure number and the caption then simple syntax can be used (`![](attachment:.... ID from drag and drop)`). Otherwise, figure formatting can be used, where the attachment code from the drag and drop needs to be wrapped in the figure syntax. This approach should also be followed if images not generated by code are included later in the assessment.
+## Figure
 
-Note that the figure formatting will not render in Github, but will work when the Jupyter Book page is built.
+A key figure should be included if possible, acting as a 'graphical abstract' for the assessment. This could be a figure generated later in the code, or from an external source (if licensing allows reproduction) - in this case the source should be cited in the caption. Images should be dragged and dropped into the markdown cell, which created an 'attachment code', and the external file is no longer needed. If the image file already includes a figure number and the caption then simple syntax can be used (`![](attachment:... ID from drag and drop)`). Otherwise, figure formatting can be used, where the attachment code from the drag and drop needs to be wrapped in the figure syntax. This approach should also be followed if images not generated by code are included later in the assessment.
 
-## Methodology:
+```{note}
+The figure formatting will not render in Github, but will work when the Jupyter Book page is built.
+```
+
+## Methodology
 
 Some text to introduce the methodology, including relevant sources, followed by a numbered list of the analysis steps under the 'analysis and results' section. The headings of each list item should link to the sections within 'Analysis and results' - this needs to be done manually. Extra steps or explanations can be added in the bullets between each numbered item.
 
 The syntax for the link in the methodology list is: `[](section-1)`, where no text in the square brackets is needed (the heading of the corresponding section in 'Analysis and Results' will be shown automatically), and the label in the circle brackets is the manually set label used later to identify the section in question like
-`(section-1)=`
-`### 1. Section 1 title).`
 
-## Analysis and results:
+```md
+(section-1)=
+### 1. Section 1 title
+```
+
+## Analysis and results
 
 A series of subsections with the same titles as in the listen in the methodology. In turn, these can have their own subsections. Code cells will be collapsed when the Jupyter Book is built. The final results should be clearly presented and discussed, supporting (but not repeating), the quality assessment statement.
 
-## If you want to know more:
+## If you want to know more
 
 Including a key resources subsection, which can link to suggested further reading, code packages used, and the relevant CDS catalogue entries.
 
