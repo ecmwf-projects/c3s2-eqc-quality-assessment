@@ -1,8 +1,19 @@
-on: pull_request
+name: on-pull-request
+on:
+  pull_request:
+    types:
+    - opened
+    - reopened
+    - synchronize
+    - closed
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
+env:
+  PRE_BUILD_DIR: "_pre_build"
+  PRE_BUILD_FLAGS: "--disclaimer"
 
 defaults:
   run:
@@ -15,17 +26,34 @@ jobs:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
       with:
-        python-version: 3.x
+        python-version: '3.x'
     - uses: pre-commit/action@v3.0.1
 
-  build-book:
+  deploy-preview:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     needs: pre-commit
     steps:
     - uses: actions/checkout@v4
+    - run: git fetch origin gh-pages
     - uses: actions/setup-python@v5
       with:
-        python-version: 3.x
+        python-version: '3.x'
+        cache: 'pip'
+    - run: pip install -r requirements.txt
+    - run: make build-book PRE_BUILD_DIR=${{ env.PRE_BUILD_DIR }} PRE_BUILD_FLAGS=${{ env.PRE_BUILD_FLAGS }}
+    - uses: rossjrw/pr-preview-action@v1
+      with:
+        source-dir: "${{ env.PRE_BUILD_DIR }}/_build/html"
+
+  comment-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+    - uses: actions/checkout@v4
     - name: Get changed notebooks
       id: changed-files
       uses: tj-actions/changed-files@v44
@@ -47,47 +75,38 @@ jobs:
         done
         permalinks+="</ul>"
         echo "permalinks=$permalinks" >>"$GITHUB_OUTPUT"
+    - name: Build URLs
+      id: build-urls
+      env:
+        ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+      run: |-
+        permalinks="<ul>"
+        previews="<ul>"
+        for fullfile in ${ALL_CHANGED_FILES}; do
+            fullfile="${fullfile//\\&/&}"
+            commit=$(git rev-list -1 HEAD "$fullfile")
+            suffix="${fullfile//&/%26}"
+            permalink=${{ github.server_url }}/${{ github.repository }}/blob/$commit/$suffix
+            permalinks+="<li><a href=\"$permalink\">$permalink</a></li>"
+            suffix="${fullfile/.ipynb/.html}"
+            preview=https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-preview/pr-${{ github.event.number }}/$suffix
+            previews+="<li><a href=\"$preview\">$preview</a></li>"
+        done
+        permalinks+="</ul>"
+        echo "permalinks=$permalinks" >>"$GITHUB_OUTPUT"
+        previews+="</ul>"
+        echo "previews=$previews" >>"$GITHUB_OUTPUT"
     - name: Comment PR with permalinks
       uses: thollander/actions-comment-pull-request@v2
       with:
         message: |
           **Permalinks:**
-          ${{ steps.build-permalinks.outputs.permalinks }}
+          ${{ steps.build-urls.outputs.permalinks }}
         comment_tag: permalinks
-    - name: Checkout book repo
-      uses: actions/checkout@v4
-      with:
-        repository: ecmwf-projects/c3s_eqc_book_main
-        path: book
-    - name: Install jupyter-book
-      run: |
-        python -m pip install jupyter-book
-    - name: Build pages
-      env:
-        ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
-      run: |-
-        mkdir book_preview || exit
-        cd book/c3s_eqc_quality_assessments || exit  
-        for fullfile in ${ALL_CHANGED_FILES}; do
-            mkdir tmp || exit      
-            fullfile="${fullfile//\\&/&}"
-            filename=$(basename -- "$fullfile")
-            prefix="${filename%.*}"
-            cp ../../"$fullfile" tmp/"$filename" || exit
-            python ../../scripts/convert-to-book-format.py tmp/"$filename" || exit
-            jupyter-book build tmp/"$filename" || exit
-            mv _build/_page/tmp-"$prefix"/html ../../book_preview/"$prefix" || exit
-            rm -fr _build
-            rm -fr tmp
-        done
-    - uses: actions/upload-artifact@v4
-      id: upload-artifact
-      with:
-        name: book-preview
-        path: book_preview/*
-    - name: Comment PR with book preview url
+    - name: Comment PR with previews
       uses: thollander/actions-comment-pull-request@v2
       with:
         message: |
-          **Jupyter Book Preview:** ${{ steps.upload-artifact.outputs.artifact-url }}
-        comment_tag: artifact-url
+          **Previews:**
+          ${{ steps.build-urls.outputs.previews }}
+        comment_tag: previews
