@@ -45,8 +45,11 @@ Assessment categories:
 - intercomparison
 - mean
 - model-performance
+- resolution
+- timeliness
 - trend-assessment
 - uncertainty
+- validation
 - variability
 
 ## License
