@@ -2,6 +2,10 @@
 
 # Template instructions
 
+```{note}
+If anything is unclear with the templates, or if you encounter any problems, please report them at [GH164](https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment/issues/164).
+```
+
 Instructions for the [Jupyter Notebook template for quality assessments](./template.ipynb). This template aims to ensure consistency in content and the look and feel of the assessment once it is included in the [Jupyter Book](https://ecmwf-projects.github.io/c3s2-eqc-quality-assessment/intro.html). The syntax includes MyST formatting needed for the Jupyter Book which will not render in all Jupyter Notebook viewers, or GitHub, but works in Jupyter Lab on the Virtual Machine.
 
 ```{note}
