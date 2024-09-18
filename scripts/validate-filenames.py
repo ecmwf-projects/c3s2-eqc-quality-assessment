@@ -20,8 +20,11 @@ ASSESSMENT_CATEGORIES = (
     "intercomparison",
     "mean",
     "model-performance",
+    "resolution",
+    "timeliness",
     "trend-assessment",
     "uncertainty",
+    "validation",
     "variability",
 )
 
