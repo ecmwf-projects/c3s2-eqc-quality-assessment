@@ -13,11 +13,12 @@ DATA_TYPES = {
 SUBFOLDERS = {
     "climate": ("CMIP6", "CORDEX"),
     "satellite": (
-        "Atmosphere_Physics_ECVs",
-        "Atmospheric_composition_ECVs",
-        "Land_Biosphere_ECVs",
-        "Land_Hydrology&Cryosphere_ECVs",
-        "Ocean_ECVs",
+        "Atmosphere_Physics",
+        "Atmospheric_Composition",
+        "Cryosphere",
+        "Land_Biosphere",
+        "Land_Hydrology",
+        "Ocean",
     ),
 }
 
