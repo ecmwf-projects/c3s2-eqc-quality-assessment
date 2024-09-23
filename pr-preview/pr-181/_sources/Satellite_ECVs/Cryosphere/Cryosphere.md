@@ -1,6 +1,6 @@
 ![logo](../../LogoLine_horizon_C3S.png)
 
-# Satellite Observations: Cryosphere
+# Cryosphere
 
 The individual quality assessments produced by the EQC evaluators are listed and linked below.
 
