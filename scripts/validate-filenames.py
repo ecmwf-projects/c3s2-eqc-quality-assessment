@@ -10,6 +10,17 @@ DATA_TYPES = {
     "seasonal": "Seasonal_Forecasts",
 }
 
+SUBFOLDERS = {
+    "climate": ("CMIP6", "CORDEX"),
+    "satellite": (
+        "Atmosphere_Physics_ECVs",
+        "Atmospheric_composition_ECVs",
+        "Land_Biosphere_ECVs",
+        "Land_Hydrology&Cryosphere_ECVs",
+        "Ocean_ECVs",
+    ),
+}
+
 ASSESSMENT_CATEGORIES = (
     "climate-and-weather-extremes",
     "climate-impact-indicators",
@@ -45,8 +56,11 @@ def main(paths: list[Path]) -> None:
 
         # Check data type
         assert data_type in DATA_TYPES, f"{path=!s}: Invalid {data_type=}"
-        subfolder = DATA_TYPES[data_type]
-        assert subfolder in path.parts, f"{path=!s}: Invalid {subfolder=}"
+        if subfolders := SUBFOLDERS.get(data_type):
+            assert path.parts[-2] in subfolders, f"{path=!s}: Invalid {subfolders=}"
+        folder = DATA_TYPES[data_type]
+        folder_index = -3 if subfolders else -2
+        assert folder in path.parts[folder_index], f"{path=!s}: Invalid {folder=}"
 
         # Check dataset ID
         url = f"{API_URL}/resources/dataset/{dataset_id}"
