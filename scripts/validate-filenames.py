@@ -40,7 +40,7 @@ ASSESSMENT_CATEGORIES = (
     "variability",
 )
 
-API_URL = "https://cds-dev-bopen.copernicus-climate.eu/api/catalogue/v1/collections"
+API_URL = "https://cds.climate.copernicus.eu/api/catalogue/v1/collections"
 
 
 def main(paths: list[Path]) -> None:
