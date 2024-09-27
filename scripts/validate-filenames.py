@@ -23,6 +23,14 @@ SUBFOLDERS = {
 }
 
 ASSESSMENT_CATEGORIES = (
+    "completeness",
+    "consistency",
+    "extremes-detection",
+    "resolution",
+    "timeliness",
+    "uncertainty-quality-flags",
+    "validation",
+    # Deprecated
     "climate-and-weather-extremes",
     "climate-impact-indicators",
     "climate-monitoring",
@@ -32,11 +40,8 @@ ASSESSMENT_CATEGORIES = (
     "intercomparison",
     "mean",
     "model-performance",
-    "resolution",
-    "timeliness",
     "trend-assessment",
     "uncertainty",
-    "validation",
     "variability",
 )
 
