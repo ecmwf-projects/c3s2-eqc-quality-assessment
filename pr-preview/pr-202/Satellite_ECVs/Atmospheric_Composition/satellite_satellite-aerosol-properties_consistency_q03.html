@@ -451,7 +451,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-identification-of-pollution-hotspots">🌍 Use Case: Identification of Pollution Hotspots</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">Quality Assessment Statement</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality Assessment Statement</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
 </ul>
 </li>
@@ -493,11 +493,12 @@ Please note that this repository is used for development and review, so quality 
 <p>Near-surface aerosols can seriously endanger human health, particularly in “megacities.” The aerosol optical depth (AOD) measures the extinction of solar radiation due to aerosols and, in the boundary layer, is often adopted as an indicator of local air pollution. Over the last few decades, the Mediterranean has experienced rapid growth in urbanization, vehicle use, and industrialization, which has been reflected in increased pollutant emissions into the atmosphere. The eastern basin of the Mediterranean and the surrounding regions include two megacities: Cairo (&gt;15 million inhabitants, Egypt) [1] at the southern edge of the basin and Istanbul [2] (&gt;12 million inhabitants, Turkey) at the northeastern edge, as well as several large urban centers such as Athens [3] (&gt;4 million inhabitants) in Greece. The health effects of interactions between pollutants and photochemical oxidants can be exacerbated in the Mediterranean under conditions of high temperature and humidity. According to literature dating back to 1999, Cairo has experienced recurring air pollution incidents known as the “black cloud” phenomenon during the autumn season. These occurrences have been attributed to two primary factors: the burning of agricultural waste and the long-distance transport of desert dust [4]. Research suggests that while dust aerosols contribute to elevated air pollution levels during the fall, the primary factor behind the black cloud pollution is the biomass burning of agricultural waste [1], [5]. Given that higher AOD values generally reflect greater concentrations of particulate matter in the atmosphere, indicating higher levels of air pollution [6], this notebook concludes that the resolution of satellite AOD data is adequate for identifying pollution hotspots, particularly in megacities.</p>
 </section>
 <section id="quality-assessment-statement">
-<h2>Quality Assessment Statement<a class="headerlink" href="#quality-assessment-statement" title="Link to this heading">#</a></h2>
+<h2>📢 Quality Assessment Statement<a class="headerlink" href="#quality-assessment-statement" title="Link to this heading">#</a></h2>
 <p>The Sentinel-3 satellite AOD data resolution can identify pollution hotspots, such as megacities.</p>
 <section id="methodology">
 <h3>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h3>
-<p>The analysis comprises the following steps:</p>
+<p>To assess the AOD data resolution for pollution hotspot identification, we conducted a seasonal averages analysis and time series comparison. First, We calculated seasonal averages to capture temporal patterns in aerosol concentrations. Then, we analyzed time series for specific locations to compare aerosol trends between urban centers and nearby areas, providing insights into the spatial resolution’s effectiveness in identifying pollution hotspots.</p>
+<p>The analysis and results are organised in the following steps, which are detailed in the sections below:</p>
 <p>• Data Collection and Preprocessing: Download AOD and Fine_AOD data (AOD550 and FM_AOD550 from “Aerosol properties gridded data from 1995 to present derived from satellite observations,” horizontal resolution: 1° x 1°; temporal resolution: monthly).</p>
 <p>• Data Transformation and Merging: Data from both versions were aggregated monthly and converted into a unified format, allowing the two versions to be combined seamlessly. This provided a comprehensive dataset covering the period from July 2017 to December 2022.</p>
 <p>• Calculate and plot the merged seasonal mean of AOD 550 nm and FMAOD 550 nm for the determined period: Seasonal averages for AOD were calculated for each season: Winter (DJF), Spring (MAM), Summer (JJA), and Autumn (SON). This step was crucial for identifying temporal patterns in aerosol concentrations across the region.</p>
@@ -790,7 +791,6 @@ Attributes: (12/18)
 <p>b. Define functions to calculate the seasonal mean of AOD and FMAOD for the determined period.</p>
 <p>c. Download the monthly and spatially weighted mean AOD and FMAOD for Cairo.</p>
 <p>d. Download the monthly and spatially weighted mean AOD and FMAOD for Tanta.</p>
-<p>a. Setting up the data request, downloading</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -818,20 +818,11 @@ Attributes: (12/18)
 
 <span class="n">lon_slicetanta</span><span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mf">30.94</span><span class="p">,</span> <span class="mf">31.5</span><span class="p">)</span>
 <span class="n">lat_slicetanta</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<p>b. Define functions to calculate the seasonal mean of AOD and FMAOD for the determined period.</p>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">source_to_time_monthly</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+
+
+
+
+<span class="k">def</span> <span class="nf">source_to_time_monthly</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
     <span class="c1"># Naming convention: YYYYMM-*.nc</span>
     <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y%m&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
@@ -846,20 +837,12 @@ Attributes: (12/18)
     <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">set_coords</span><span class="p">(</span><span class="s2">&quot;source&quot;</span><span class="p">)</span>  
     <span class="n">ds</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">regionalise</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">lon_slice</span><span class="o">=</span><span class="n">lon_slicetanta</span><span class="p">,</span> <span class="n">lat_slice</span><span class="o">=</span><span class="n">lat_slicetanta</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">source_to_time_monthly</span><span class="p">(</span><span class="n">ds</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<p>c. Download the monthly and spatially weighted mean AOD and FMAOD for Cairo.</p>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_dictcairo</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+
+
+
+<span class="n">ds_dictcairo</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">version</span><span class="p">,</span> <span class="n">kwargs</span> <span class="ow">in</span> <span class="n">time_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">requests2</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">update_request_date</span><span class="p">(</span>
         <span class="n">request2</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">version</span><span class="p">},</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">stringify_dates</span><span class="o">=</span><span class="kc">True</span>
@@ -871,20 +854,11 @@ Attributes: (12/18)
     <span class="p">)</span>
 
 <span class="n">final_dataset</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">ds_dictcairo</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<p>d. Download the monthly and spatially weighted mean AOD and FMAOD for Tanta.</p>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_dicttanta</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+
+
+<span class="n">ds_dicttanta</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">version</span><span class="p">,</span> <span class="n">kwargs</span> <span class="ow">in</span> <span class="n">time_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">requests2</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">update_request_date</span><span class="p">(</span>
         <span class="n">request2</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">version</span><span class="p">},</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">stringify_dates</span><span class="o">=</span><span class="kc">True</span>
@@ -900,6 +874,13 @@ Attributes: (12/18)
 </div>
 </div>
 </details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 608/608 [00:25&lt;00:00, 24.16it/s]
+100%|██████████| 730/730 [00:30&lt;00:00, 23.73it/s]
+ 99%|█████████▉| 602/608 [00:21&lt;00:00, 32.92it/s]
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="plot-the-monthly-aod-550-nm-and-fine-mode-aod-550-nm-time-series-for-a-single-megacity-cairo-and-the-nearby-area-tanta">
@@ -1070,7 +1051,7 @@ Attributes: (12/18)
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-identification-of-pollution-hotspots">🌍 Use Case: Identification of Pollution Hotspots</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">Quality Assessment Statement</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality Assessment Statement</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
 </ul>
 </li>
