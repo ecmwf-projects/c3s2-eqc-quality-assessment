@@ -34,7 +34,7 @@ def validate_headers(path: Path) -> None:
 
     assert title_count == 1, f"{path=!s}: Invalid {title_count=}"
     for header, header_count in headers_count.items():
-        assert header_count == 1, f"{path=!s}: Invalid {header_count=} or {header=}"
+        assert header_count == 1, f"{path=!s}: Invalid {header_count=} of {header=}"
 
 
 def main(paths: list[Path]) -> None:
