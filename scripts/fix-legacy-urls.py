@@ -3,7 +3,9 @@ from pathlib import Path
 
 import nbformat
 
-STRING_MAPPER = {"/cdsapp#!/dataset/": "/datasets/"}
+STRING_MAPPER = {
+    "/cdsapp#!/dataset/": "/datasets/",
+}
 
 
 def fix_legacy_urls(path: Path) -> None:
@@ -11,11 +13,11 @@ def fix_legacy_urls(path: Path) -> None:
 
     write = False
     for cell in notebook.cells:
-        if "source" not in cell:
+        if cell["cell_type"] != "markdown":
             continue
 
         for old, new in STRING_MAPPER.items():
-            if old in (source := cell["source"]):
+            if old in (source := cell.get("source", "")):
                 cell["source"] = source.replace(old, new)
                 write = True
 
