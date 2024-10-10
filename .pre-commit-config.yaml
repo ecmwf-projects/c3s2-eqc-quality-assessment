@@ -1,25 +1,27 @@
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.6.0
+  rev: v5.0.0
   hooks:
   - id: check-yaml
   - id: check-toml
   - id: check-merge-conflict
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.5.1
+  rev: v0.6.9
   hooks:
   - id: ruff
     args: [--fix, --show-fixes]
+    types_or: [python, pyi]
   - id: ruff-format
+    types_or: [python, pyi]
 - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-  rev: v2.13.0
+  rev: v2.14.0
   hooks:
   - id: pretty-format-yaml
     args: [--autofix, --preserve-quotes]
   - id: pretty-format-toml
     args: [--autofix]
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.10.1
+  rev: v1.11.2
   hooks:
   - id: mypy
     args: [--strict, --ignore-missing-imports]
@@ -31,6 +33,22 @@ repos:
     language: python
     types: [jupyter]
     exclude: ^templates/
+- repo: local
+  hooks:
+  - id: fix-legacy-urls
+    name: fix-legacy-urls
+    entry: python scripts/fix-legacy-urls.py
+    language: python
+    types: [jupyter]
+    additional_dependencies: [nbformat]
+- repo: local
+  hooks:
+  - id: validate-headers
+    name: validate-headers
+    entry: python scripts/validate-headers.py
+    language: python
+    types: [jupyter]
+    additional_dependencies: [nbformat]
 - repo: https://github.com/executablebooks/mdformat
   rev: 0.7.17
   hooks:
