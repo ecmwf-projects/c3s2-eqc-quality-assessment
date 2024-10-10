@@ -31,6 +31,9 @@ def validate_headers(path: Path) -> None:
             for header in headers_count:
                 if line.startswith(header):
                     headers_count[header] += 1
+                    break
+            else:
+                assert not line.startswith("## "), f"{path=!s}: Invalid H2 {line=}"
 
     assert title_count == 1, f"{path=!s}: Invalid {title_count=}"
     for header, header_count in headers_count.items():
