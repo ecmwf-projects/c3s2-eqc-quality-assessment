@@ -3,7 +3,7 @@ from pathlib import Path
 
 import nbformat
 
-HEADERS = (
+HEADINGS = (
     "## 🌍 Use case:",
     "## ❓ Quality assessment question",
     "## 📢 Quality assessment statement",
@@ -17,7 +17,7 @@ def validate_headers(path: Path) -> None:
     notebook = nbformat.read(path, nbformat.NO_CONVERT)
 
     title_count = 0
-    headers_count = dict.fromkeys(HEADERS, 0)
+    headings_count = dict.fromkeys(HEADINGS, 0)
     for cell in notebook.cells:
         if cell["cell_type"] != "markdown":
             continue
@@ -28,16 +28,16 @@ def validate_headers(path: Path) -> None:
                 title_count += 1
                 continue
 
-            for header in headers_count:
-                if line.startswith(header):
-                    headers_count[header] += 1
+            for heading in headings_count:
+                if line.startswith(heading):
+                    headings_count[heading] += 1
                     break
             else:
                 assert not line.startswith("## "), f"{path=!s}: Invalid H2 {line=}"
 
     assert title_count == 1, f"{path=!s}: Invalid {title_count=}"
-    for header, header_count in headers_count.items():
-        assert header_count == 1, f"{path=!s}: Invalid {header_count=} of {header=}"
+    for heading, header_count in headings_count.items():
+        assert header_count == 1, f"{path=!s}: Invalid {header_count=} of {heading=}"
 
 
 def main(paths: list[Path]) -> None:
