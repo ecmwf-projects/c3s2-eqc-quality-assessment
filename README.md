@@ -3,6 +3,9 @@
 > \[!WARNING\]
 > Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
 
+> \[!NOTE\]\
+> If anything is unclear with the templates, or if you encounter any problems, please report them at [GH164](https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment/issues/164).
+
 ## Quick start
 
 To install pre-commit:
@@ -33,18 +36,13 @@ Data types:
 
 Assessment categories:
 
-- climate-and-weather-extremes
-- climate-impact-indicators
-- climate-monitoring
-- consistency-assessment
-- data-completeness
-- forecast-skill
-- intercomparison
-- mean
-- model-performance
-- trend-assessment
-- uncertainty
-- variability
+- completeness
+- consistency
+- extremes-detection
+- resolution
+- timeliness
+- uncertainty-quality-flags
+- validation
 
 ## License
 
