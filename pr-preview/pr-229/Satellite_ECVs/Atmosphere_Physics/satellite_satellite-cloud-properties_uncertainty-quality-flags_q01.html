@@ -471,6 +471,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#standardize-the-different-datasets-into-the-same-format">Standardize the different datasets into the same format</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#latitudinal-cloud-fraction">Latitudinal cloud fraction</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#boreal-summer-and-winter-latitudinal-cloud-fraction">Boreal Summer and Winter latitudinal cloud fraction</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#global-maps">Global maps</a></li>
 </ul>
 </li>
 </ul>
@@ -496,7 +497,7 @@ document.write(`
 Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
 </div><section class="tex2jax_ignore mathjax_ignore" id="satellite-cloud-cover-validation-for-energy-budget-analysis">
 <h1><span class="section-number">1.1.1. </span>Satellite cloud cover validation for energy budget analysis<a class="headerlink" href="#satellite-cloud-cover-validation-for-energy-budget-analysis" title="Link to this heading">#</a></h1>
-<p>Production date: 10-10-2024</p>
+<p>Production date: 15-10-2024</p>
 <p>Produced by: CNRS</p>
 <section id="use-case-detection-of-changes-in-the-latitudinal-position-of-cloudiest-and-clearest-regions">
 <h2>🌍 Use case: Detection of changes in the latitudinal position of cloudiest and clearest regions<a class="headerlink" href="#use-case-detection-of-changes-in-the-latitudinal-position-of-cloudiest-and-clearest-regions" title="Link to this heading">#</a></h2>
@@ -507,7 +508,7 @@ Please note that this repository is used for development and review, so quality 
 <li><p><strong>Which satellite dataset provides the lowest uncertainty in latitudinal cloud fraction?</strong></p></li>
 </ul>
 <p>Clouds are fundamental regulators of the Earth’s climate system, significantly influencing the planet’s radiative budget, hydrological cycle, and global circulation. These factors, in turn, play a crucial role in shaping ecosystems, agriculture, water resources, and weather patterns. The overall impact of clouds on Earth’s climate is determined by various properties, including cloud amount, height, thickness, and microphysical characteristics. Given their substantial influence on climate, cloud properties are extensively studied, both in the present context and in relation to their evolution under climate change.
-The following notebook focuses on the cloud amount, which strongly impact the Earth’s climate. A large cloud cover can lead to increased albedo, reflecting more sunlight back into space, which can cool the surface. Conversely, a small amount of clouds may result in enhanced solar radiation reaching the Earth’s surface, leading to higher temperatures and altered precipitation patterns.</p>
+The following notebook focuses on the cloud amount, which strongly impacts the Earth’s climate. A large cloud cover can lead to increased albedo, reflecting more sunlight back into space, which can cool the surface. Conversely, a small amount of clouds may result in enhanced solar radiation reaching the Earth’s surface, leading to higher temperatures and altered precipitation patterns.</p>
 <p>This analysis utilizes cloud observations from the dataset <a class="reference external" href="https://cds-beta.climate.copernicus.eu/datasets/satellite-cloud-properties?tab=overview"><strong>Cloud properties global gridded monthly and daily data from 1979 to present derived from satellite observations</strong></a>, derived from satellite observations and available through the Climate Data Store. The cloud properties in this dataset are provided by three distinct products, categorized into two main families.
 The CLARA (CM SAF cLoud, Albedo and surface Radiation) product family includes two retrieval versions applied on AVHRR (Advanced Very High Resolution Radiometer) observations, CLARA-A2 and CLARA-A3. The CCI (Climate Change Initiative) product family is represented by a single product derived from ATSR (Along Track Scanning Radiometer) and SLSTR (Sea and Land Surface Temperature Radiometer).</p>
 <p>The three datasets, CLARA-A2, CLARA-A3, and CCI, use distinct methods to retrieve cloud properties. This notebook presents a comparative analysis of the cloud cover estimates from these datasets, both among themselves and against other satellite data <a class="reference external" href="https://link.springer.com/article/10.1007/s10712-024-09824-0">[1]</a>. Additionally, it includes a discussion on the comparisons and uncertainty estimates.</p>
@@ -516,9 +517,12 @@ The CLARA (CM SAF cLoud, Albedo and surface Radiation) product family includes t
 <h2>📢 Quality assessment statement<a class="headerlink" href="#quality-assessment-statement" title="Link to this heading">#</a></h2>
 <p>These are the key outcomes of this assessment:</p>
 <ul class="simple">
-<li><p>Zonal mean cloud cover is consistent across the three datasets, as the values fall within the uncertainty ranges.</p></li>
-<li><p>CLARA-A2 does not provide uncertainty estimates for cloud cover observations. CLARA-A3 is almost always more precise than CCI, with 5 to 10% uncertainty.</p></li>
-<li><p>The CLARA-A3 retrieval of cloud cover has large uncertainties and negative bias in polar regions during winter.</p></li>
+<li><p>Zonal mean cloud cover is consistent across the three datasets, as the values fall within the uncertainty ranges. In general, CLARA-A3 provides the largest cloud cover and CCI the smallest one, with a difference of approximately 4%.</p></li>
+<li><p>CLARA-A2 does not provide uncertainty estimates for cloud cover observations. The cloud cover uncertainty of CLARA-A3 varies between 5 to 10%, with largest values in the polar regions, while the one of CCI varies between 10 to 15%, with largest values in the subtropics.</p></li>
+<li><p>In polar regions during winter, the CLARA-A3 cloud cover has a negative bias and large uncertainties.</p></li>
+<li><p>Geographical patterns show large cloud cover near the equator, in the midlatitudes over ocean, as well as in the stratocumulus regions off the western coasts in the subtropics. Prominent regions with low cloud cover are over the deserts and the subtropical ocean, in particular where one expects open cell cumulus clouds. However, the CCI patterns are much noisier than the ones from CLARA.</p></li>
+<li><p>The difference between CLARA-A3 and CLARA-A2 is positive over ocean, in particular at larger latitudes, and negative over land.</p></li>
+<li><p>The global mean cloud cover of CCI ( 59.3%) lies outside the range, while CLARA-A3 (63.5%) lies within the range of the global mean of the GEWEX cloud assessment (66% ± 4%).</p></li>
 </ul>
 </section>
 <section id="methodology">
@@ -539,6 +543,8 @@ The CLARA (CM SAF cLoud, Albedo and surface Radiation) product family includes t
 <li><p>Plot the latitudinal cloud cover and uncertainty across the entire selected period</p></li>
 <li><p>Plot the latitudinal cloud cover during boreal winter and summer</p></li>
 <li><p>Plot the latitudinal cloud cover difference between boreal summer and winter</p></li>
+<li><p>Plot the global maps of cloud cover of the three datasets</p></li>
+<li><p>Plot the the global maps of cloud cover difference of CCI and CLARA-A2 with CLARA-A3</p></li>
 </ul>
 </section>
 <section id="analysis-and-results">
@@ -559,7 +565,8 @@ The CLARA (CM SAF cLoud, Albedo and surface Radiation) product family includes t
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">c3s_eqc_automatic_quality_control</span> <span class="kn">import</span> <span class="n">download</span>
+<span class="kn">from</span> <span class="nn">c3s_eqc_automatic_quality_control</span> <span class="kn">import</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span>
+<span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="c1"># Suppress all warnings</span>
@@ -642,7 +649,7 @@ The CLARA (CM SAF cLoud, Albedo and surface Radiation) product family includes t
 </section>
 <section id="download-the-datasets">
 <span id="satellite-satellite-cloud-properties-uncertainty-quality-flags-q01-section-download"></span><h3>Download the datasets<a class="headerlink" href="#download-the-datasets" title="Link to this heading">#</a></h3>
-<p>In this section, three datasets are downloaded. The CCI files lack “time” information within the xarray coordinates; therefore, the time information is extracted from the file attributes.</p>
+<p>In this section, three monthly datasets are downloaded. The CCI files lack “time” information within the xarray coordinates; therefore, the time information is extracted from the file attributes.</p>
 <p>In addition, the CLARA-A3 product provides a quality flag labeled “record_status” which indicates the overall status of each month. This flag indicates the quality of the data, and any month identified as low quality is subsequently filtered out.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
@@ -661,7 +668,7 @@ The CLARA (CM SAF cLoud, Albedo and surface Radiation) product family includes t
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 [00:01&lt;00:00,  1.79s/it]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 [00:00&lt;00:00, 28.25it/s]
 </pre></div>
 </div>
 </div>
@@ -682,7 +689,7 @@ The CLARA (CM SAF cLoud, Albedo and surface Radiation) product family includes t
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 [00:00&lt;00:00, 11.76it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 [00:00&lt;00:00, 64.07it/s]
 </pre></div>
 </div>
 </div>
@@ -703,7 +710,7 @@ The CLARA (CM SAF cLoud, Albedo and surface Radiation) product family includes t
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 [00:00&lt;00:00, 32.80it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 [00:00&lt;00:00, 76.43it/s]
 </pre></div>
 </div>
 </div>
@@ -766,6 +773,11 @@ dtype: int8
 
 <span class="c1"># Standardize the name of the uncertainty estimate in the datasets</span>
 <span class="n">ds_clara_a3</span> <span class="o">=</span> <span class="n">ds_clara_a3</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;cfc_unc_mean&#39;</span><span class="p">:</span> <span class="s1">&#39;cfc_unc&#39;</span><span class="p">})</span>
+
+<span class="n">DS_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;CCI&#39;</span> <span class="p">:</span> <span class="n">ds_cci</span><span class="p">,</span>
+           <span class="s1">&#39;CLARA-A2&#39;</span> <span class="p">:</span> <span class="n">ds_clara_a2</span><span class="p">,</span>
+           <span class="s1">&#39;CLARA-A3&#39;</span> <span class="p">:</span> <span class="n">ds_clara_a3</span>
+          <span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -781,12 +793,7 @@ dtype: int8
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DS_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;CCI&#39;</span> <span class="p">:</span> <span class="n">ds_cci</span><span class="p">,</span>
-           <span class="s1">&#39;CLARA-A2&#39;</span> <span class="p">:</span> <span class="n">ds_clara_a2</span><span class="p">,</span>
-           <span class="s1">&#39;CLARA-A3&#39;</span> <span class="p">:</span> <span class="n">ds_clara_a3</span>
-          <span class="p">}</span>
-
-<span class="n">DS_mean_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DS_mean_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 
 <span class="k">for</span> <span class="n">dataset_name</span><span class="p">,</span> <span class="n">ds_</span> <span class="ow">in</span> <span class="n">DS_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">DS_mean_dict</span><span class="p">[</span><span class="n">dataset_name</span><span class="p">]</span>    <span class="o">=</span> <span class="n">ds_</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="s1">&#39;longitude&#39;</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">])</span>
@@ -839,7 +846,7 @@ dtype: int8
 </div>
 <p><em><strong>Figure caption:</strong> Latitudinal cloud fraction for the datasets CCI, CLARA-A2, and CLARA-A3, with the averages calculated for the year 2011. The solid line represents the zonal average cloud cover, while the shaded area indicates the average uncertainty across each latitudinal band. Uncertainty estimates are available for the CCI and CLARA-A3 datasets, whereas CLARA-A2 does not include uncertainty information.</em></p>
 <p>The zonal annual mean cloud cover is visualized for three monthly mean datasets of CCI, CLARA-A2, and CLARA-A3. The shaded areas represent the zonal annual mean uncertainty. The plot reveals several key features worth highlighting.</p>
-<p>The CLARA-A2 cloud cover retrieval does not provide any estimate of uncertainties <a class="reference external" href="https://doi.org/10.1175/JAM-2188.1">[2]</a>.
+<p>The CLARA-A2 cloud cover retrieval does not provide any estimate of uncertainties.
 CCI has zonal annual mean uncertainties of 10 to 15%, while CLARA-A3 has zonal annual mean uncertainties of about 5 to 10%.</p>
 <p>The latitudinal behaviour of the three datasets is similar, with CLARA-A3 providing the largest cloud cover. Still all the three proucts agree within the uncertainty of CCI. The latitudinal cloud cover behaviour is also similar to the ones of the 11 datasets reported in the most recent GEWEX Cloud Assessment <a class="reference external" href="https://link.springer.com/article/10.1007/s10712-024-09824-0">[1]</a>.</p>
 <p>The peaks and troughs in latitudinal cloud cover are influenced by global atmospheric circulation. The highest cloud cover is observed in the mid-latitudes, driven by mid and low clouds in the summer and storm clouds in the winter. The narrow peak in the deep tropics corresponds to the Intertropical Convergence Zone, which is associated with heavy precipitation. The troughs are linked to the subsidence regions in the subtropics and Antarctic.</p>
@@ -917,7 +924,86 @@ CCI has zonal annual mean uncertainties of 10 to 15%, while CLARA-A3 has zonal a
 <p><em><strong>Figure caption:</strong> Difference between Boreal Summer and Winter latitudinal cloud fraction for the datasets CCI, CLARA-A2, and CLARA-A3. The solid line represents the zonal average cloud fraction difference, while the shaded area indicates the average uncertainty across each latitudinal band.</em></p>
 <p>The datasets again agree in their latitudinal behaviour in both seasons.</p>
 <p>Comparing boreal summer and winter shows larger uncertainties during polar winter: The lack of illumination reduces the ability to fully exploit all AVHRR channels. Twilight conditions present further challenges due to solar contamination effect. During polar summer, under continuous illumination, the uncertainties are much smaller. In the other regions, the uncertainties are slightly larger than the annual zonal mean uncertainties.</p>
-<p>The difference between boreal summer and winter clearly shows the displacement of the ITCZ towards the summer hemisphere in all three datasets. Furthermore, more clouds are detected in polar summer than in polar winter. In general, these seasonal differences are aligned with the one of the datasets in the GEWEX cloud assessment, except for CALIPSO in the polar winter <a class="reference external" href="https://link.springer.com/article/10.1007/s10712-024-09824-0">[1]</a>. The latter active instrument is more sensitive to clouds over ice and snow than passive remote sensing, in particular during nighttime <a class="reference external" href="https://acp.copernicus.org/articles/10/1789/2010/">[2]</a>.</p>
+<p>The difference between boreal summer and winter clearly shows the displacement of the ITCZ towards the summer hemisphere in all three datasets. Furthermore, more clouds are detected in polar summer than in polar winter. In general, these seasonal differences are aligned with the ones of the datasets in the GEWEX cloud assessment, except for CALIPSO (Cloud-Aerosol Lidar and Infrared Pathfinder Satellite Observation) in the polar winter <a class="reference external" href="https://link.springer.com/article/10.1007/s10712-024-09824-0">[1]</a>. The latter active instrument is more sensitive to clouds over ice and snow than passive remote sensing, in particular during nighttime <a class="reference external" href="https://acp.copernicus.org/articles/10/1789/2010/">[2]</a>.</p>
+</section>
+<section id="global-maps">
+<h4>Global maps<a class="headerlink" href="#global-maps" title="Link to this heading">#</a></h4>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">dataset_name</span><span class="p">,</span> <span class="n">ds_</span> <span class="ow">in</span> <span class="n">DS_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">da_</span> <span class="o">=</span> <span class="n">ds_</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="s1">&#39;time&#39;</span><span class="p">])[</span><span class="s1">&#39;cfc&#39;</span><span class="p">]</span>
+    <span class="n">da_</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;long_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;cloud cover [%]&#39;</span>
+
+    <span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span>
+        <span class="n">da_</span><span class="p">,</span>
+        <span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">Robinson</span><span class="p">(),</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;YlGnBu&quot;</span><span class="p">,</span>
+        <span class="n">levels</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
+        <span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../_images/9cb3e7d69831cc7a92bcb25907b1c303ea99794d5382275e30786dac23c5ec6c.png" src="../../_images/9cb3e7d69831cc7a92bcb25907b1c303ea99794d5382275e30786dac23c5ec6c.png" />
+<img alt="../../_images/3a1f2200edeaf606e12888af75516ef45533d641e15511972e07d8d022bc1584.png" src="../../_images/3a1f2200edeaf606e12888af75516ef45533d641e15511972e07d8d022bc1584.png" />
+<img alt="../../_images/fbf223dab2c96d90133e69d424c56fc6b2bea3c561fcfb16e6ef22c55026974c.png" src="../../_images/fbf223dab2c96d90133e69d424c56fc6b2bea3c561fcfb16e6ef22c55026974c.png" />
+</div>
+</div>
+<p><em><strong>Figure caption:</strong> Cloud cover maps of the datasets CCI (top), CLARA-A2 (middle), and CLARA-A3 (bottom), calculated for the year 2011.</em></p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DS_coarsen</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;CCI&#39;</span> <span class="p">:</span>      <span class="n">ds_cci</span><span class="p">,</span>
+              <span class="s1">&#39;CLARA-A2&#39;</span> <span class="p">:</span> <span class="n">ds_clara_a2</span><span class="o">.</span><span class="n">coarsen</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+          <span class="p">}</span>
+
+
+<span class="n">ds_clara_a3_coarse</span> <span class="o">=</span> <span class="n">ds_clara_a3</span><span class="o">.</span><span class="n">coarsen</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">dataset_name</span><span class="p">,</span> <span class="n">ds_</span> <span class="ow">in</span> <span class="n">DS_coarsen</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">da_</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds_</span> <span class="o">-</span> <span class="n">ds_clara_a3_coarse</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="s1">&#39;time&#39;</span><span class="p">])[</span><span class="s1">&#39;cfc&#39;</span><span class="p">]</span>
+    <span class="n">da_</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;long_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;cloud cover difference [%]&#39;</span>
+    
+    <span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span>
+        <span class="n">da_</span><span class="p">,</span>
+        <span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">Robinson</span><span class="p">(),</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdGy&quot;</span><span class="p">,</span>
+        <span class="n">levels</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
+        <span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">dataset_name</span><span class="si">}</span><span class="s1"> - CLARA-A3&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../_images/12ea592cb34e05b414319e9e3018ae1d17c0f773579f773df4593b4f064f57b9.png" src="../../_images/12ea592cb34e05b414319e9e3018ae1d17c0f773579f773df4593b4f064f57b9.png" />
+<img alt="../../_images/89081e5342a24b6a287a9b8800086cd245c6a14def78593152bb74ef7763a10d.png" src="../../_images/89081e5342a24b6a287a9b8800086cd245c6a14def78593152bb74ef7763a10d.png" />
+</div>
+</div>
+<p><em><strong>Figure caption:</strong> Cloud cover difference maps comparing the CCI (top) and CLARA-A2 (bottom) datasets with CLARA-A3, calculated for the year 2011. The differences are computed at a spatial resolution of 0.5 degrees.</em></p>
+<p>Global means between the three datasets vary from 59.3% (CCI) to 63.5% (CLARA-A3). The latter one is within the range of the global mean of the GEWEX cloud assessment, given as 66% ± 4%.
+The geographical patterns of large cloud cover show prominent features near the equator as the Inter-Tropical Convergence Zone (ITCZ), in the midlatitudes over ocean, in particular in the Southern hemisphere, given by winter storm tracks and stratocumulus and the stratocumulus regions off the western coasts in the subtropics. Prominent regions with low cloud cover are over the deserts and the subtropical ocean, in particular where one expects open cell cumulus clouds.
+However, the CCI patterns are much noisier than the ones from CLARA. This can be seen in the map differences.
+The difference between CLARA-A3 and CLARA-A2 is positive over ocean, in particular at larger latitudes, and negative over land.</p>
 </section>
 </section>
 </section>
@@ -935,11 +1021,20 @@ CCI has zonal annual mean uncertainties of 10 to 15%, while CLARA-A3 has zonal a
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/bopen/c3s-eqc-automatic-quality-control/tree/main/c3s_eqc_automatic_quality_control">C3S EQC custom functions</a>, <code class="docutils literal notranslate"><span class="pre">c3s_eqc_automatic_quality_control</span></code>, prepared by <a class="reference external" href="https://www.bopen.eu/">BOpen</a></p></li>
 </ul>
+<p>The GEWEX Cloud Assessment:</p>
+<ul class="simple">
+<li><p>The Global Energy and Water Exchanges (GEWEX) program is a core project of the World Climate Research Programme (WCRP). The first GEWEX Cloud Assessment was published in 2012 and it provided the first coordinated inter-comparison of publicly available, global
+cloud products [<a class="reference external" href="https://doi.org/10.1175/BAMS-D-12-00117.1">3</a>-<a class="reference external" href="https://www.wcrp-climate.org/documents/GEWEX_Cloud_Assessment_2012.pdf">4</a>]. The database associated with the GEWEX Cloud Assessment
+has revealed its usefulness for the assessment of new datasets. Since in the last decade existing
+cloud property retrievals have been revised and new retrievals have been developed, this exercise has been recently repeated with 11 global cloud products derived from measurements of multi-spectral imagers, IR sounders, and lidar <a class="reference external" href="https://link.springer.com/article/10.1007/s10712-024-09824-0">[1]</a>. The first cloud assessment included products from ATSR, while the most recent assessment includes CLARA-A2. The updated cloud assessment database is available at <a class="reference external" href="https://gewexca.aeris-data.fr/">this link</a>.</p></li>
+</ul>
 </section>
 <section id="reference-useful-material">
 <h3>Reference/Useful material<a class="headerlink" href="#reference-useful-material" title="Link to this heading">#</a></h3>
 <p><a class="reference external" href="https://link.springer.com/article/10.1007/s10712-024-09824-0">[1]</a> Stubenrauch, C.J., Kinne, S., Mandorli, G. et al. Lessons Learned from the Updated GEWEX Cloud Assessment Database. Surv Geophys (2024). <a class="reference external" href="https://doi.org/10.1007/s10712-024-09824-0">https://doi.org/10.1007/s10712-024-09824-0</a></p>
 <p><a class="reference external" href="https://acp.copernicus.org/articles/10/1789/2010/">[2]</a>  Karlsson, K.-G. and Dybbroe, A.: Evaluation of Arctic cloud products from the EUMETSAT Climate Monitoring Satellite Application Facility based on CALIPSO-CALIOP observations, Atmos. Chem. Phys., 10, 1789–1807, <a class="reference external" href="https://doi.org/10.5194/acp-10-1789-2010">https://doi.org/10.5194/acp-10-1789-2010</a>, 2010.</p>
+<p><a class="reference external" href="https://doi.org/10.1175/BAMS-D-12-00117.1">[3]</a> Stubenrauch, C. J., and Coauthors, 2013: Assessment of Global Cloud Datasets from Satellites: Project and Database Initiated by the GEWEX Radiation Panel. Bull. Amer. Meteor. Soc., 94, 1031–1049, <a class="reference external" href="https://doi.org/10.1175/BAMS-D-12-00117.1">https://doi.org/10.1175/BAMS-D-12-00117.1</a>.</p>
+<p><a class="reference external" href="https://www.wcrp-climate.org/documents/GEWEX_Cloud_Assessment_2012.pdf">[4]</a> Stubenrauch CJ, Rossow WB, Kinne S, GEWEX Cloud Assessment Team (2012) Assessment of Global Cloud Datasets from Satellites, A Project of the World Climate Research Programme Global Energy and Water Cycle Experiment (GEWEX) Radiation Panel, WCRP report.</p>
 </section>
 </section>
 </section>
@@ -1027,6 +1122,7 @@ CCI has zonal annual mean uncertainties of 10 to 15%, while CLARA-A3 has zonal a
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#standardize-the-different-datasets-into-the-same-format">Standardize the different datasets into the same format</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#latitudinal-cloud-fraction">Latitudinal cloud fraction</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#boreal-summer-and-winter-latitudinal-cloud-fraction">Boreal Summer and Winter latitudinal cloud fraction</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#global-maps">Global maps</a></li>
 </ul>
 </li>
 </ul>
