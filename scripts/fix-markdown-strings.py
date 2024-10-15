@@ -11,6 +11,8 @@ STRING_MAPPER = {
     "## Methodology": "## 📋 Methodology",
     "## Analysis and results": "## 📈 Analysis and results",
     "## If you want to know more": "## ℹ️ If you want to know more",
+    "## 🌍 Use Case:": "## 🌍 Use case:",
+    "## 📈 Analysis and Results": "## 📈 Analysis and results",
 }
 
 
