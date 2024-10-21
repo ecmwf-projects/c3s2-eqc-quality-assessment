@@ -6,13 +6,15 @@ import nbformat
 STRING_MAPPER = {
     "/cdsapp#!/dataset/": "/datasets/",
     "## Use case:": "## 🌍 Use case:",
+    "## Use Case:": "## 🌍 Use case:",
+    "## 🌍 Use Case:": "## 🌍 Use case:",
     "## Quality assessment question": "## ❓ Quality assessment question",
     "## Quality assessment statement": "## 📢 Quality assessment statement",
     "## Methodology": "## 📋 Methodology",
     "## Analysis and results": "## 📈 Analysis and results",
-    "## If you want to know more": "## ℹ️ If you want to know more",
-    "## 🌍 Use Case:": "## 🌍 Use case:",
+    "## Analysis and Results": "## 📈 Analysis and results",
     "## 📈 Analysis and Results": "## 📈 Analysis and results",
+    "## If you want to know more": "## ℹ️ If you want to know more",
 }
 
 
