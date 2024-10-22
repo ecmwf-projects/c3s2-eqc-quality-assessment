@@ -36,21 +36,13 @@ Data types:
 
 Assessment categories:
 
-- climate-and-weather-extremes
-- climate-impact-indicators
-- climate-monitoring
-- consistency-assessment
-- data-completeness
-- forecast-skill
-- intercomparison
-- mean
-- model-performance
+- completeness
+- consistency
+- extremes-detection
 - resolution
 - timeliness
-- trend-assessment
-- uncertainty
+- uncertainty-quality-flags
 - validation
-- variability
 
 ## License
 
