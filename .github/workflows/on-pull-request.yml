@@ -63,6 +63,7 @@ jobs:
     - run: pip install -r requirements.txt
     - run: make build-book PRE_BUILD_DIR=${{ env.PRE_BUILD_DIR }} PRE_BUILD_FLAGS=${{ env.PRE_BUILD_FLAGS }}
     - uses: rossjrw/pr-preview-action@v1
+      if: steps.changed-files.outputs.any_changed == 'true'
       with:
         source-dir: "${{ env.PRE_BUILD_DIR }}/_build/html"
 
