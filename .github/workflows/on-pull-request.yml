@@ -29,11 +29,13 @@ jobs:
         python-version: '3.x'
     - uses: pre-commit/action@v3.0.1
 
-  deploy-preview:
+  get-changed-notebooks:
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
+    outputs:
+      all-changed-files: ${{ steps.get-changed-notebooks.outputs.ALL_CHANGED_FILES }}
     steps:
     - uses: actions/checkout@v4
     - run: git fetch origin gh-pages
@@ -48,10 +50,20 @@ jobs:
       with:
         files: |
           **.ipynb
+    - run: |
+        echo "ALL_CHANGED_FILES=$ALL_CHANGED_FILES" >> $GITHUB_OUTPUT
+
+  deploy-preview:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    needs: get-changed-notebooks
+    steps:
     - name: Remove untouched notebooks
       id: remove-untouched-notebooks
       env:
-        ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        ALL_CHANGED_FILES: ${{ needs.get-changed-notebooks.outputs.all-changed-files }}
       run: |-
         for file in ${ALL_CHANGED_FILES}; do
             mv "$file" "$file".keep
@@ -70,18 +82,13 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
+    needs: get-changed-notebooks
     steps:
     - uses: actions/checkout@v4
-    - name: Get changed notebooks
-      id: changed-files
-      uses: tj-actions/changed-files@v45
-      with:
-        files: |
-          **.ipynb
     - name: Build permalinks
       id: build-permalinks
       env:
-        ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        ALL_CHANGED_FILES: ${{ needs.get-changed-notebooks.outputs.all-changed-files }}
       run: |-
         permalinks="<ul>"
         for fullfile in ${ALL_CHANGED_FILES}; do
