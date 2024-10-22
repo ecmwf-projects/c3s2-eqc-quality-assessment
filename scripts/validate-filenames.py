@@ -23,6 +23,14 @@ SUBFOLDERS = {
 }
 
 ASSESSMENT_CATEGORIES = (
+    "completeness",
+    "consistency",
+    "extremes-detection",
+    "resolution",
+    "timeliness",
+    "uncertainty-quality-flags",
+    "validation",
+    # Deprecated
     "climate-and-weather-extremes",
     "climate-impact-indicators",
     "climate-monitoring",
@@ -32,15 +40,12 @@ ASSESSMENT_CATEGORIES = (
     "intercomparison",
     "mean",
     "model-performance",
-    "resolution",
-    "timeliness",
     "trend-assessment",
     "uncertainty",
-    "validation",
     "variability",
 )
 
-API_URL = "https://cds.climate.copernicus.eu/api/v2"
+API_URL = "https://cds.climate.copernicus.eu/api/catalogue/v1/collections"
 
 
 def main(paths: list[Path]) -> None:
@@ -50,7 +55,7 @@ def main(paths: list[Path]) -> None:
         assert len(segments) == 4, f"{path=!s}: Invalid {path.name=}"
         (
             data_type,
-            dataset_id,
+            collection_id,
             assessment_category,
             question_number,
         ) = segments
@@ -64,10 +69,13 @@ def main(paths: list[Path]) -> None:
         assert folder in path.parts[folder_index], f"{path=!s}: Invalid {folder=}"
 
         # Check dataset ID
-        url = f"{API_URL}/resources/dataset/{dataset_id}"
-        assert (
-            urllib.request.urlopen(url).getcode() == 200
-        ), f"{path=!s}: Invalid {dataset_id=}"
+        url = "/".join([API_URL, collection_id])
+        code = None
+        try:
+            code = urllib.request.urlopen(url).getcode()
+        except Exception:
+            pass
+        assert code == 200, f"{path=!s}: Invalid {collection_id=}"
 
         # Check assessment category
         assert (
