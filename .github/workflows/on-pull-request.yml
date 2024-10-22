@@ -42,6 +42,25 @@ jobs:
       with:
         python-version: '3.x'
         cache: 'pip'
+    - uses: actions/checkout@v4
+    - name: Get changed notebooks
+      id: changed-files
+      uses: tj-actions/changed-files@v45
+      with:
+        files: |
+          **.ipynb
+    - name: Remove untouched notebooks
+      id: remove-untouched-notebooks
+      env:
+        ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+      run: |-
+        for file in ${ALL_CHANGED_FILES}; do
+            mv "$file" "$file".keep
+        done
+        find . -type f -name "*.ipynb" -not -path "./templates/*" -exec rm -f {} +
+        for file in ${ALL_CHANGED_FILES}; do
+            mv "$file".keep "$file"
+        done
     - run: pip install -r requirements.txt
     - run: make build-book PRE_BUILD_DIR=${{ env.PRE_BUILD_DIR }} PRE_BUILD_FLAGS=${{ env.PRE_BUILD_FLAGS }}
     - uses: rossjrw/pr-preview-action@v1
