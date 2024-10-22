@@ -1,22 +1,33 @@
 # c3s2-eqc-quality-assessment
 
-> [!WARNING]
+> \[!WARNING\]
 > Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
+
+> \[!NOTE\]\
+> If anything is unclear with the templates, or if you encounter any problems, please report them at [GH164](https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment/issues/164).
 
 ## Quick start
 
+To install pre-commit:
+
+```bash
+pip install pre-commit
+pre-commit install
+```
+
 To build the book:
+
 ```bash
 pip install -r requirements.txt
 make build-book
 ```
-
 
 ## Naming convention
 
 `{data-type}_{dataset-id}_{assessment-category}_q{question-number}.ipynb`
 
 Data types:
+
 - climate
 - insitu
 - reanalysis
@@ -24,18 +35,14 @@ Data types:
 - seasonal
 
 Assessment categories:
-- climate-and-weather-extremes
-- climate-impact-indicators
-- climate-monitoring
-- consistency-assessment
-- data-completeness
-- forecast-skill
-- intercomparison
-- mean
-- model-performance
-- trend-assessment
-- uncertainty
-- variability
+
+- completeness
+- consistency
+- extremes-detection
+- resolution
+- timeliness
+- uncertainty-quality-flags
+- validation
 
 ## License
 

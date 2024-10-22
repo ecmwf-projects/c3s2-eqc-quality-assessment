@@ -34,7 +34,6 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-    needs: pre-commit
     steps:
     - uses: actions/checkout@v4
     - run: git fetch origin gh-pages
@@ -42,9 +41,29 @@ jobs:
       with:
         python-version: '3.x'
         cache: 'pip'
+    - uses: actions/checkout@v4
+    - name: Get changed notebooks
+      id: changed-files
+      uses: tj-actions/changed-files@v45
+      with:
+        files: |
+          **.ipynb
+    - name: Remove untouched notebooks
+      id: remove-untouched-notebooks
+      env:
+        ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+      run: |-
+        for file in ${ALL_CHANGED_FILES}; do
+            mv "$file" "$file".keep
+        done
+        find . -type f -name "*.ipynb" -not -path "./templates/*" -exec rm -f {} +
+        for file in ${ALL_CHANGED_FILES}; do
+            mv "$file".keep "$file"
+        done
     - run: pip install -r requirements.txt
     - run: make build-book PRE_BUILD_DIR=${{ env.PRE_BUILD_DIR }} PRE_BUILD_FLAGS=${{ env.PRE_BUILD_FLAGS }}
     - uses: rossjrw/pr-preview-action@v1
+      if: steps.changed-files.outputs.any_changed == 'true'
       with:
         source-dir: "${{ env.PRE_BUILD_DIR }}/_build/html"
 
@@ -52,12 +71,11 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
-    needs: deploy-preview
     steps:
     - uses: actions/checkout@v4
     - name: Get changed notebooks
       id: changed-files
-      uses: tj-actions/changed-files@v44
+      uses: tj-actions/changed-files@v45
       with:
         files: |
           **.ipynb
@@ -98,16 +116,16 @@ jobs:
         previews+="</ul>"
         echo "previews=$previews" >>"$GITHUB_OUTPUT"
     - name: Comment PR with permalinks
-      uses: thollander/actions-comment-pull-request@v2
+      uses: thollander/actions-comment-pull-request@v3
       with:
         message: |
           **Permalinks:**
           ${{ steps.build-urls.outputs.permalinks }}
-        comment_tag: permalinks
+        comment-tag: permalinks
     - name: Comment PR with previews
-      uses: thollander/actions-comment-pull-request@v2
+      uses: thollander/actions-comment-pull-request@v3
       with:
         message: |
           **Previews:**
           ${{ steps.build-urls.outputs.previews }}
-        comment_tag: previews
+        comment-tag: previews
