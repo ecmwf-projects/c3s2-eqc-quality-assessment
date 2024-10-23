@@ -16,17 +16,19 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
@@ -36,10 +38,11 @@
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
     <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
@@ -66,6 +69,7 @@
     <link rel="prev" title="3. Reanalysis" href="reanalysis.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -81,19 +85,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -101,7 +94,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -109,8 +101,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -129,7 +121,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -159,21 +152,17 @@
     
     
     <img src="../_static/C3S–POS–LINE.png" class="logo__image only-light" alt="eqcbook - Home"/>
-    <script>document.write(`<img src="../_static/C3S–POS–LINE.png" class="logo__image only-dark" alt="eqcbook - Home"/>`);</script>
+    <img src="../_static/C3S–POS–LINE.png" class="logo__image only-dark pst-js-only" alt="eqcbook - Home"/>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -397,24 +386,16 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
+</button>
 <button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
@@ -480,7 +461,7 @@ Please note that this repository is used for development and review, so quality 
 <section id="quality-assessment-question">
 <h2>❓ Quality assessment question<a class="headerlink" href="#quality-assessment-question" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><strong>Do state-of-the-art reanalysis products correctly represent surface and near-surface wind speeds?</strong></p></li>
+<li><p><strong>Do modern global reanalysis products correctly represent surface and near-surface wind speeds?</strong></p></li>
 </ul>
 <p>By comparing model results with independent observations, differences between the model and observations can be identified and quantified. Here we extract results from three recent papers, which concentrate on evaluating the latest reanalysis by the European Centre for Medium-Range Weather Forecasts (ECMWF), ERA5, in its capability to correctly represent the wind speed both at surface and at the wind turbine hub heights, over those regions where the wind speed is significant for the wind energy production.</p>
 <p>Typical modern turbine hub heights are between 80 and 120 m, which can be preferable to surface level measurements when considering the absence of surrounding obstructions and thus for wind field monitoring and applications in power generation. At the same time, the maintenance of these structures is much more expensive than that of the surface stations, and therefore these data appear scarce, or make up time series that are not always long enough to serve the purpose.</p>
@@ -490,7 +471,7 @@ Please note that this repository is used for development and review, so quality 
 <div class="note admonition">
 <p class="admonition-title">These are the key outcomes of this assessment</p>
 <ul class="simple">
-<li><p>ERA5 is the best-performing reanalysis for near-surface wind estimates and provides valuable climate information in near-real time, beneficial for various wind energy applications</p></li>
+<li><p>ERA5 is the best-performing global reanalysis for near-surface wind estimates and provides valuable climate information in near-real time, beneficial for various wind energy applications</p></li>
 <li><p>Accuracy: ERA5 shows good agreement with observational data across Europe. It successfully captures the spatial and temporal variability of wind speeds</p></li>
 <li><p>Biases: Some regional biases are noted, but overall, ERA5 performs better than previous reanalyses, such as ERA-Interim</p></li>
 <li><p>Climatological Patterns: ERA5 effectively reproduces climatological patterns and extremes, providing a reliable dataset for wind energy and climate studies</p></li>
@@ -502,7 +483,7 @@ Please note that this repository is used for development and review, so quality 
 <section id="methodology">
 <h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
 <p>The different spatio temporal characteristics of the wind field are of different interest depending on application. Here we finalize this work in support of the wind energy production, extrapolating results from recent scientific literature available <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-ramon"><span class="std std-ref">[1]</span></a>, <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-fan"><span class="std std-ref">[2]</span></a>. A focus over Europe is also reported <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-molina"><span class="std std-ref">[3]</span></a>.</p>
-<p>Uncertainties are provided through the comparison with ERA5 predecessor, ERA Interim <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-dee"><span class="std std-ref">[4]</span></a>, and other three state-of-the-art reanalysis products, that are JRA-55 <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-kobayashi"><span class="std std-ref">[5]</span></a>, MERRA-2 <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-gelaro"><span class="std std-ref">[6]</span></a>, and CFSv2 <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-saha"><span class="std std-ref">[7]</span></a>.</p>
+<p>Uncertainties are provided through the comparison with ERA5 predecessor, ERA Interim <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-dee"><span class="std std-ref">[4]</span></a>, and other three contemporary global reanalysis products, that are JRA-55 <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-kobayashi"><span class="std std-ref">[5]</span></a>, MERRA-2 <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-gelaro"><span class="std std-ref">[6]</span></a>, and CFSv2 <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-saha"><span class="std std-ref">[7]</span></a>.</p>
 <p>Validation is carried out for two different <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-key-resources"><span class="std std-ref">observational datasets</span></a>, described in the following. Note that none of the reanalyses considered here ingest surface winds from land stations, meaning that the validation is performed against wind speed measurements that have not already been assimilated. This is important to ensure a fair comparison, since a verification with observations employed in the assimilation of a reanalysis could lead to biased scores.</p>
 <p>The Tall Tower Dataset is a worldwide network composed, at the time of the publication of the paper we are citing, by 222 towers <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-ramon-lledo"><span class="std std-ref">[8]</span></a>. The dataset contains quality-controlled wind observations plus other climate observations such as temperature or relative humidity. Among these, those with the longest wind data series were selected, and compared to the average life of such a mast, the achievable length is around 3 years. So here the validation will be done through the comparison with the resulting 77 towers available.</p>
 <figure class="align-default" id="id1">
@@ -518,12 +499,12 @@ Please note that this repository is used for development and review, so quality 
 <p><span class="caption-number">Fig. 3.1.2 </span><span class="caption-text">Situation in the map of each meteorological station. Colour scale represents the score (see <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-regional-frequency"><span class="std std-ref">Regional frequency distribution of hourly data</span></a> of each location. The frequency distribution of the stations marked with a red symbol are represented in Figure 5: station 88 (× symbol), station 132 (square), station 240 (triangle) and station 242 (upside-down triangle). Reproduced from <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-molina"><span class="std std-ref">[3]</span></a>.</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<p>The <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-key-resources"><span class="std std-ref">hourly single levels dataset</span></a> is basically used, with different time aggregation. For consistency with the height at which the measurements are taken, both the variables at 10 m and those at 100 m of ERA5 are taken into account for comparison. When needed, to adjust both surface and near-surface to the closest 100m tower height, a vertical extrapolation of reanalysis wind speed is performed using a power-law relation:</p>
+<p>The reanalysis wind data used from the ERA5 dataset are both <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-key-resources"><span class="std std-ref">hourly</span></a> and <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-key-resources"><span class="std std-ref">monthly</span></a>. For consistency with the height at which the measurements are taken, both the variables at 10 m and those at 100 m of ERA5 are taken into account for comparison. When needed, to adjust both surface and near-surface to the closest 100m tower height, a vertical extrapolation of reanalysis wind speed is performed using a power-law relation:</p>
 <div class="math notranslate nohighlight">
 \[
 \frac{U_2}{U_1} = (\frac{z_2}{z_1})^\alpha
 \]</div>
-<p>where U2 and U1 represent wind speeds at heights z2 (e.g. 110 m) and z1 (e.g. 10 m), respectively, and <span class="math notranslate nohighlight">\(\alpha\)</span> is a nondimensional wind
+<p>where U2 and U1 represent wind speeds at heights z2 (e.g. 100 m) and z1 (e.g. 10 m), respectively, and <span class="math notranslate nohighlight">\(\alpha\)</span> is a nondimensional wind
 shear exponent, which is typically set to 0.143 <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-touma"><span class="std std-ref">[9]</span></a> <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-wang"><span class="std std-ref">[10]</span></a> <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-tian"><span class="std std-ref">[11]</span></a>.</p>
 <p>Results are shown for:</p>
 <p><strong><a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-reanalysis-era5-monthly-single-levels-validation-uncertainties-q02-section-1"><span class="std std-ref">1. Uncertainties and validation in the tower regions with seasonal average</span></a></strong></p>
@@ -554,7 +535,7 @@ shear exponent, which is typically set to 0.143 <a class="reference internal" hr
 </figcaption>
 </figure>
 <p>Figure above shows the average annual cycle of 245 locations (weather stations and corresponding reanalysis grid cells) across Europe. Each box represents the average monthly distribution of hourly data at the stations over the period 1979-2018, green are the observations, transparent the reanalysis.</p>
-<p>In substantial agreement with what found in section 1, it can be noted that ERA5 presents median values that are slightly larger in winter and slightly smaller in summer, and that upper extreme wind values (whisker ends) are generally larger for ERA5 than for observations, which means that the reanalysis gives a wider range of monthly wind values for the analysed period.
+<p>In substantial agreement with what found in the previous section, it can be noted that ERA5 presents median values that are slightly larger in winter and slightly smaller in summer, and that upper extreme wind values (whisker ends) are generally larger for ERA5 than for observations, which means that the reanalysis gives a wider range of monthly wind values for the analysed period.
 It can be particularly noted for the autumn-winter months. Cold months also exhibit a clear asymmetry in ERA5 boxes, with lower percentiles width (25–50) larger than higher ones (50–75), which is not seen in observations boxes, although interquartile range (percentile 75 vs. percentile 25) is quite similar for both observations and reanalysis. Summer ERA5 boxes are, on the contrary, symmetric, although lower box values (percentile 25) seem to give smaller values than observational ones. Differences among locations seem to be larger in autumn-winter months, as the interquartile range and whiskers are bigger than spring-summer months in both series.</p>
 </section>
 <section id="regional-frequency-distribution-of-hourly-data">
@@ -571,7 +552,7 @@ It can be particularly noted for the autumn-winter months. Cold months also exhi
 score = \sum_1^n min(Z_m,Z_0)
 \]</div>
 <p>where n is the number of bins used to calculate the frequency distribution for a given location (here, 0.5 m/s has been used as bin size), <span class="math notranslate nohighlight">\(Z_m\)</span> is the fraction (or frequency) of values in a given bin from the reanalysis and <span class="math notranslate nohighlight">\(Z_0\)</span> is the fraction (or frequency) of values in a given bin from the observed data. The sum of all <span class="math notranslate nohighlight">\(Z\)</span> m is 1, and the same for <span class="math notranslate nohighlight">\(Z_0\)</span> sum.</p>
-<p>To illustrate specific cases with small and, more interestingly, large differences between wind distributions, figure 5 presents hourly frequency distribution performance of the best (a: station 88) and some of the worst (b: station 132, c: station 240 and d: station 242) stations. In the best one, reanalysis and observation distributions perfectly fits. For the poorer scored stations, it is seen that
+<p>To illustrate specific cases with small and, more interestingly, large differences between wind distributions, the figure above presents hourly frequency distribution performance of the best (a: station 88) and some of the worst (b: station 132, c: station 240 and d: station 242) stations. In the best one, reanalysis and observation distributions perfectly fits. For the poorer scored stations, it is seen that
 the reanalysis tends to largely overestimate lower wind speed frequencies (0–3 m/s range) and underestimate the higher ones (4–8 m/s range).</p>
 <p>Both overestimation of light wind frequency and underestimation of strong wind frequency, have been also seen in previous works when models are used and can be related to the fact that solving the dynamics equations is applied to each point continuously, at defined grids. Also, parameterizations in models, which means a limitation in several ways to fully describe atmospheric mechanisms, can lead to an underestimation of the most extreme events (see e.g. <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-larsen"><span class="std std-ref">[12]</span></a>; <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-cannon"><span class="std std-ref">[13]</span></a>).</p>
 </section>
@@ -581,7 +562,7 @@ the reanalysis tends to largely overestimate lower wind speed frequencies (0–3
 <figure class="align-default" id="id6">
 <a class="reference internal image-reference" href="../_images/5ee722b0-03c4-4a4f-b2e4-ab7b8843e7c4.png"><img alt="../_images/5ee722b0-03c4-4a4f-b2e4-ab7b8843e7c4.png" src="../_images/5ee722b0-03c4-4a4f-b2e4-ab7b8843e7c4.png" style="height: 700px;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 3.1.6 </span><span class="caption-text">Normalized linear trend (% per decade), calculated as the linear trend of surface wind speeds divided by the seasonal mean surface wind speeds in DJF over the 1980–2017 period for (a) ERA-Interim, (b) ERA5, (c) JRA55, (d) MERRA2, and (e) R1. Hatched regions in (a)–(e) indicate where the trends are significant at the 95% confidence level. In (f) we represent an agreement map between the five reanalyses. Blues (reds) indicate agreement between the five reanalyses about the negative (positive) trends in the surface wind speed in DJF in the 1980–2017 period. An asterisk indicates that the trends are significant at the 95% confidence level: no asterisk indicates that the trends are not significant. One asterisk (∗) means that only one of the reanalyses has significant trends, two asterisks (∗∗) inform us that two reanalyses have significant trends, and so on. Reproduced from <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-ramon"><span class="std std-ref">[1]</span></a>.</span><a class="headerlink" href="#id6" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 3.1.6 </span><span class="caption-text">Normalized linear trend (% per decade), calculated as the linear trend of surface wind speeds divided by the seasonal mean surface wind speeds in DJF over the 1980–2017 period for (a) ERA-Interim, (b) ERA5, (c) JRA55, (d) MERRA2, and (e) R1. Hatched regions in (a)–(e) indicate where the trends are significant at the 95% confidence level. In (f) we represent an agreement map between the five reanalyses. Blues (reds) indicate agreement between the five reanalyses about the negative (positive) trends in the surface wind speed in DJF in the 1980–2017 period. An asterisk indicates that the trends are significant at the 95% confidence level: no asterisk indicates that the trends are not significant. One asterisk (∗) means that only one of the reanalyses has significant trends, two asterisks (∗∗) indicate that two reanalyses have significant trends, and so on. Reproduced from <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-ramon"><span class="std std-ref">[1]</span></a>.</span><a class="headerlink" href="#id6" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id7">
@@ -590,7 +571,7 @@ the reanalysis tends to largely overestimate lower wind speed frequencies (0–3
 <p><span class="caption-number">Fig. 3.1.7 </span><span class="caption-text">Comparison on the overall trends during 1989–2018 in the observations against that in the five products. The gray, red, blue, pink, green, and orange bars represent observations, ERA5, ERA-Interim, JRA-55, CFSv2, and MERRA-2, respectively. The error bars show the upper and lower confidence limits of the Sen slope <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-gocic"><span class="std std-ref">[14]</span></a> values with 95% confidence interval. Significance levels are expressed with stars, triangles, and circles, representing p &lt; 0.01, p &lt; 0.05, and p &gt; 0.05, respectively. Reproduced from <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-fan"><span class="std std-ref">[2]</span></a>.</span><a class="headerlink" href="#id7" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<p>Linear trends are presented in Figure 6 and 7 as the rate of change of wind speed over the considered period for the five chosen reanalysis products. At a global scale, no products show significant agreement with observations and large uncertainties and disagreements can be found between the reanalysis products.</p>
+<p>Linear trends are presented in the two figures above as the rate of change of wind speed over the considered period for the five chosen reanalysis products. At a global scale, no products show significant agreement with observations and large uncertainties and disagreements can be found between the reanalysis products.</p>
 <p>Also, observed land surface wind speeds have varied significantly over the past few decades, the decreasing trends having recently reversed (see e.g. Fig. 4, <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-fan"><span class="std std-ref">[2]</span></a>).</p>
 <p>This is clearly connected to the assessment of wind resources. Regionally, recent increasing wind speed trends have led to rapid growth in potential wind energy production after the turning points - see Table 5, <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q02-fan"><span class="std std-ref">[2]</span></a> - in Asia, including the increasing by 45% in Southeast Asia, 34% in East Asia, 30% in central Asia, and 23% in South Asia. In addition, potential wind energy production in South and North America, Africa, Australia, and Europe has increased by 20%, 10%, 12%, 23%, and 2%, respectively. Despite relatively slow growth of wind energy in Europe, the trends of potential wind energy production in all regions is positive in recent decades.</p>
 <p>After the turning point, however, none of the reanalysis products shows the same positive and significant wind speed trend as the observations. The figure below shows that the products are highly uncertain in reproducing the observed decadal variations of wind speed at both the global and regional scale.</p>
@@ -700,7 +681,8 @@ General specifications and basic characteristics. J. Meteor. Soc. Japan, 93, 5�
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -775,8 +757,8 @@ By the Copernicus Climate Change Service (C3S), entrusted to ECMWF (European Cen
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
 
   <footer class="bd-footer">
   </footer>
