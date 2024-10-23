@@ -24,9 +24,13 @@ def validate_headers(path: Path) -> None:
 
         for line in cell.get("source", "").splitlines():
             line = line.strip()
+
             if line.startswith("# "):
                 title_count += 1
                 continue
+            assert title_count or path.name.startswith(
+                "template"
+            ), f"{path=!s}: The first line is not a title."
 
             for heading in headings_count:
                 if line.startswith(heading):
