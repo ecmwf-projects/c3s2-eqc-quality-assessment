@@ -28,9 +28,8 @@ def validate_headers(path: Path) -> None:
             if line.startswith("# "):
                 title_count += 1
                 continue
-            assert title_count or path.name.startswith(
-                "template"
-            ), f"{path=!s}: The first line is not a title."
+            if not path.name.startswith("template"):
+                assert title_count, f"{path=!s}: The first line is not a title."
 
             for heading in headings_count:
                 if line.startswith(heading):
