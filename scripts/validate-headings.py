@@ -17,6 +17,7 @@ def validate_headers(path: Path) -> None:
     notebook = nbformat.read(path, nbformat.NO_CONVERT)
 
     title_count = 0
+    admonition_count = 0
     headings_count = dict.fromkeys(HEADINGS, 0)
     for cell in notebook.cells:
         if cell["cell_type"] != "markdown":
@@ -27,7 +28,9 @@ def validate_headers(path: Path) -> None:
 
             if line.startswith("# "):
                 title_count += 1
-                continue
+            elif line.startswith("```{admonition}"):
+                admonition_count += 1
+
             if not path.name.startswith("template"):
                 assert title_count, f"{path=!s}: The first line is not a title."
 
@@ -39,6 +42,7 @@ def validate_headers(path: Path) -> None:
                 assert not line.startswith("## "), f"{path=!s}: Invalid H2 {line=}"
 
     assert title_count == 1, f"{path=!s}: Invalid {title_count=}"
+    assert admonition_count == 1, f"{path=!s}: Invalid {admonition_count=}"
     for heading, header_count in headings_count.items():
         assert header_count == 1, f"{path=!s}: Invalid {header_count=} of {heading=}"
 
