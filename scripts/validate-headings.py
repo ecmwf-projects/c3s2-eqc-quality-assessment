@@ -28,8 +28,8 @@ def validate_headers(path: Path) -> None:
 
             if line.startswith("# "):
                 title_count += 1
-            elif line.startswith(
-                "```{admonition} These are the key outcomes of this assessment"
+            elif (
+                line == "```{admonition} These are the key outcomes of this assessment"
             ):
                 admonition_count += 1
 
