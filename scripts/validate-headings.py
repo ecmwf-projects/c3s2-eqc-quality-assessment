@@ -12,6 +12,8 @@ HEADINGS = (
     "## ℹ️ If you want to know more",
 )
 
+ADMONITION_TITLE = "These are the key outcomes of this assessment"
+
 
 def validate_headers(path: Path) -> None:
     notebook = nbformat.read(path, nbformat.NO_CONVERT)
@@ -28,9 +30,7 @@ def validate_headers(path: Path) -> None:
 
             if line.startswith("# "):
                 title_count += 1
-            elif (
-                line == "```{admonition} These are the key outcomes of this assessment"
-            ):
+            elif line == f"```{{admonition}} {ADMONITION_TITLE}":
                 admonition_count += 1
 
             if not path.name.startswith("template"):
