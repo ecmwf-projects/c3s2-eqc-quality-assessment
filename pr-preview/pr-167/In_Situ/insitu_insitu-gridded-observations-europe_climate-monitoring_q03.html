@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>2.1. Insitu wind and precipitation completeness for climate monitoring &#8212; eqcbook</title>
+    <title>2.1. In-situ precipitation completeness for climate monitoring &#8212; eqcbook</title>
   
   
   
@@ -16,17 +16,19 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
@@ -36,10 +38,11 @@
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
     <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
@@ -64,6 +67,7 @@
     <link rel="prev" title="2. Insitu Observations" href="insitu.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -79,19 +83,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -99,7 +92,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -107,8 +99,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -127,7 +119,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -157,21 +150,17 @@
     
     
     <img src="../_static/C3S–POS–LINE.png" class="logo__image only-light" alt="eqcbook - Home"/>
-    <script>document.write(`<img src="../_static/C3S–POS–LINE.png" class="logo__image only-dark" alt="eqcbook - Home"/>`);</script>
+    <img src="../_static/C3S–POS–LINE.png" class="logo__image only-dark pst-js-only" alt="eqcbook - Home"/>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -209,7 +198,7 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Insitu Observations</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="insitu.html">2. Quality assessments for Insitu Observations</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">2.1. Insitu wind and precipitation completeness for climate monitoring</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">2.1. In-situ precipitation completeness for climate monitoring</a></li>
 </ul>
 </details></li>
 </ul>
@@ -395,24 +384,16 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
+</button>
 <button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
@@ -426,7 +407,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Insitu wind and precipitation completeness for climate monitoring</h1>
+    <h1>In-situ precipitation completeness for climate monitoring</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -436,7 +417,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-impact-of-climate-change-on-precipitation-over-the-iberian-peninsula">🌍 Use case: Impact of climate change on precipitation over the Iberian Peninsula.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-assessment-of-climate-change">🌍 Use case: Assessment of Climate Change.</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
@@ -446,31 +427,18 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-overview">Data Overview</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-and-prepared-e-obs-data">1.1. Download and prepared E-OBS data</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#download-era5-and-prepared-data">Download ERA5 and prepared data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-and-prepare-e-obs-data">1.1. Download and prepare E-OBS data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inspect-and-view-data">1.2. Inspect and view data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-climatology-and-the-probability-density-function-pdf-for-alternative-30-year-periods">2. Plot the climatology and the probability density function (PDF) for alternative 30-year periods</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#calculation-of-the-climatological-mean">2.1. Calculation of the Climatological Mean</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-e-obs-with-era5">2. Merge E-OBS with ERA5</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inspect-and-view-the-merged-datasets">3. Inspect and view the merged datasets</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#save-the-data-into-csv-and-nc-formats">Save the data into .csv and .nc formats</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-and-plot-seasonal-pdfs-and-the-climatological-season-maps">3. Calculate and plot seasonal PDFs and the climatological season maps</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-the-annual-count-of-days">4. Calculate the annual count of days</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">Discussion</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-the-probability-density-function-pdf">4.  Calculate the Probability density function (PDF)</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#work-in-progress">Work in progress</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-the-the-annual-count-of-days">5. Calculate the the annual count of days</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Work in progress</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#map-of-the-annual-count-of-days">6. Map of the annual count of days</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Work in progress</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#main-takeaways">7. Main takeaways</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Work in progress</a></li>
-</ul>
-</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#main-takeaways">5. Main takeaways</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
@@ -492,42 +460,51 @@ document.write(`
   <p><img alt="logo" src="../_images/LogoLine_horizon_C3S1.png" /></p>
 <div class="alert alert-block alert-warning">
 Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
-</div><section class="tex2jax_ignore mathjax_ignore" id="insitu-wind-and-precipitation-completeness-for-climate-monitoring">
-<h1><span class="section-number">2.1. </span>Insitu wind and precipitation completeness for climate monitoring<a class="headerlink" href="#insitu-wind-and-precipitation-completeness-for-climate-monitoring" title="Link to this heading">#</a></h1>
-<p>Production date: 10/10/2024</p>
-<p>Produced by: Ana Oliveira (CoLAB +ATLANTIC)</p>
-<section id="use-case-impact-of-climate-change-on-precipitation-over-the-iberian-peninsula">
-<h2>🌍 Use case: Impact of climate change on precipitation over the Iberian Peninsula.<a class="headerlink" href="#use-case-impact-of-climate-change-on-precipitation-over-the-iberian-peninsula" title="Link to this heading">#</a></h2>
+</div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If anything is unclear with the templates, or if you encounter any problems, please report them at <a class="reference external" href="https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment/issues/164">GH164</a>.</p>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="in-situ-precipitation-completeness-for-climate-monitoring">
+<h1><span class="section-number">2.1. </span>In-situ precipitation completeness for climate monitoring<a class="headerlink" href="#in-situ-precipitation-completeness-for-climate-monitoring" title="Link to this heading">#</a></h1>
+<p>Production date: 21/10/2024</p>
+<p>Produced by: Ana Oliveira and Luís Figueiredo (CoLAB +ATLANTIC)</p>
+<section id="use-case-assessment-of-climate-change">
+<h2>🌍 Use case: Assessment of Climate Change.<a class="headerlink" href="#use-case-assessment-of-climate-change" title="Link to this heading">#</a></h2>
 </section>
 <section id="quality-assessment-question">
 <h2>❓ Quality assessment question<a class="headerlink" href="#quality-assessment-question" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><strong>How consistent are the estimates of precipitation and wind speed trends from E-OBS compared to those from reanalysis products?</strong></p></li>
+<li><p><strong>User Question: How consistent is the 30-year precipitation climatology over time? How consistent are precipitation trends from E-OBS compared to those from reanalysis products?</strong></p></li>
 </ul>
-<p>In this Use Case we will access the E-OBS daily gridded meteorological data for Europe from 1950 to present derived from in-situ observations (henceforth, E-OBS) data from the Climate Data Store (CDS) of the Copernicus Climate Change Service (C3S) and analyse the spatial consistency of the E-OBS air temperature climatology over a given Area of Interest (AoI).</p>
+<p>In this Use Case, we will access the E-OBS daily gridded meteorological data for Europe from 1950 to present derived from in-situ observations (henceforth, E-OBS) data from the Climate Data Store (CDS) of the Copernicus Climate Change Service (C3S) and analyse the spatial consistency of the E-OBS precipitation (RR) climatology, and its ensemble, over a given Area of Interest (AoI), as a regional example of using E-OBS in the scope of the European State of Climate <a class="reference external" href="https://climate.copernicus.eu/esotc/2023">[1]</a>. The analysis includes:</p>
+<ul class="simple">
+<li><p>(i) the climatology and probability density function of each alternative 30-year period available (i.e., 1951-1980, 1961-1990, 1971-2000, 1981-2010, 1991-2020);</p></li>
+<li><p>(ii) the linear trends of the annual amount of days when precipitation ≥ 10mm, as defined by the World Meteorological Organization’s Expert Team on Sector-Specific Climate Indices (ET-SCI) in conjunction with sector experts <a class="reference external" href="https://climpact-sci.org/">[2]</a> <a class="reference external" href="https://library.wmo.int/index.php?lvl=notice_display&amp;amp;id=20130">[3]</a>;</p></li>
+<li><p>(iii) the corresponding maps, to disclose where RR extremes are changing the most.</p></li>
+</ul>
 </section>
 <section id="quality-assessment-statement">
 <h2>📢 Quality assessment statement<a class="headerlink" href="#quality-assessment-statement" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Accordingly, with <a class="reference external" href="https://doi.org/10.1002/joc.7269">Bandhauer, M. et al (2021)</a>, both E-OBS and ERA5 demonstrate accuracy in capturing precipitation patterns, with E-OBS showing good agreement in regions with dense station networks while ERA5 exhibits consistent mesoscale pattern representation. The authors also concluded that E-OBS can capture extreme values of precipitation in areas with high data density but may smooth out extreme events in data-sparse regions, however ERA5 shows improved detection of extreme precipitation events due to advanced physical modeling.</p></li>
-<li><p><a class="reference external" href="https://doi.org/10.1029/2020EA001633">Rivoire P., Martius O. and Naveau P. (2021)</a> studied the consistency of precipitation and wind speed trends in ERA-5 compared to 2 observational datasets (E-OBS and CMORPH) analysis; since ERA-5 offers regular spatial and temporal coverage, the precipitation data are derived from short-term forecasts (not observations), the authors wanted to fill the gap in large-scale assessments of ERA-5 comparing it with E-OBS over Europe and globally with CMORPH, emphasizing intensity distribution and co-occurrence of events. The authors showed that ERA-5 demonstrated a high level of accuracy in capturing precipitation trends compared to E-OBS, in Europe where discrepancies are smaller. However, they found some differences in extreme precipitation events, indicating potential precision limitations in ERA-5 data, especially in tropical regions.</p></li>
+<li><p>Daily precipitation (RR) from E-OBS offers complete temporal-spatial coverage over the AoI, showing significative inter-annual variability and non-significant trends, consistent with ERA5 and those reported in the literature  <a class="reference external" href="https://doi.org/10.1029/2017JD028200">[4]</a>.</p></li>
+<li><p>According to <a class="reference external" href="https://doi.org/10.1002/joc.7269">[5]</a>, both E-OBS and ERA5 demonstrate accuracy in capturing precipitation patterns, with E-OBS showing good agreement in regions with dense station networks, while ERA5 exhibits consistent mesoscale pattern representation.</p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1029/2009JD011799">[6]</a> and <a class="reference external" href="https://doi.org/10.1029/2020EA001633">[7]</a> studied the consistency of precipitation values depicted in E-OBS and compared it to 2 additional datasets (ERA5 and CMORPH) over Europe, emphasizing its superior reliability in regions with dense data.</p></li>
+<li><p>Both authors thus concluded that E-OBS captures extreme values of precipitation in areas with high data density, but may smooth out extreme events in data-sparse regions. Hence, since the input stations are not fully available, the ensemble spread should be used as a complementary indicator of the confidence level and variability of such data.</p></li>
 </ul>
+<p><img alt="EOBS_RR_yearly_mean.png" src="../_images/EOBS_RR_yearly_mean.png" /></p>
 </section>
 <section id="methodology">
 <h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
-<p><strong><a class="reference internal" href="#insitu-insitu-gridded-observations-europe-climate-monitoring-q03-c3s2-d520-5-3-14b-quality-assessment-user-questions-eobs-uq3-v1-4-code-section-1"><span class="std std-ref">1. Define the AoI, search and download E-OBS</span></a></strong><br />
-<strong><a class="reference internal" href="#insitu-insitu-gridded-observations-europe-climate-monitoring-q03-c3s2-d520-5-3-14b-quality-assessment-user-questions-eobs-uq3-v1-4-code-section-1-1"><span class="std std-ref">1.1. Download and prepared E-OBS data</span></a></strong><br />
-<strong><a class="reference internal" href="#insitu-insitu-gridded-observations-europe-climate-monitoring-q03-c3s2-d520-5-3-14b-quality-assessment-user-questions-eobs-uq3-v1-4-code-section-2"><span class="std std-ref">2. Merge E-OBS with ERA5</span></a></strong><br />
-<strong><a class="reference internal" href="#insitu-insitu-gridded-observations-europe-climate-monitoring-q03-c3s2-d520-5-3-14b-quality-assessment-user-questions-eobs-uq3-v1-4-code-section-3"><span class="std std-ref">3. Inspect and view the merged datasets</span></a></strong><br />
-<strong><a class="reference internal" href="#insitu-insitu-gridded-observations-europe-climate-monitoring-q03-c3s2-d520-5-3-14b-quality-assessment-user-questions-eobs-uq3-v1-4-code-section-4"><span class="std std-ref">4.  Calculate the Probability density function (PDF)</span></a></strong><br />
-<strong><a class="reference internal" href="#insitu-insitu-gridded-observations-europe-climate-monitoring-q03-c3s2-d520-5-3-14b-quality-assessment-user-questions-eobs-uq3-v1-4-code-section-5"><span class="std std-ref">5. Calculate the the annual count of days</span></a></strong><br />
-<strong><a class="reference internal" href="#insitu-insitu-gridded-observations-europe-climate-monitoring-q03-c3s2-d520-5-3-14b-quality-assessment-user-questions-eobs-uq3-v1-4-code-section-6"><span class="std std-ref">6. Map of the annual count of days</span></a></strong><br />
-<strong><a class="reference internal" href="#insitu-insitu-gridded-observations-europe-climate-monitoring-q03-c3s2-d520-5-3-14b-quality-assessment-user-questions-eobs-uq3-v1-4-code-section-7"><span class="std std-ref">7. Main takeaways</span></a></strong></p>
+<p><strong><a class="reference internal" href="#insitu-insitu-gridded-observations-europe-climate-monitoring-q03-code-section-1"><span class="std std-ref">1. Define the AoI, search and download E-OBS</span></a></strong><br />
+<strong><a class="reference internal" href="#insitu-insitu-gridded-observations-europe-climate-monitoring-q03-code-section-2"><span class="std std-ref">2. Plot the climatology and the probability density function (PDF) for alternative 30-year periods</span></a></strong><br />
+<strong><a class="reference internal" href="#insitu-insitu-gridded-observations-europe-climate-monitoring-q03-code-section-3"><span class="std std-ref">3. Calculate and plot seasonal PDFs and the climatological season maps</span></a></strong><br />
+<strong><a class="reference internal" href="#insitu-insitu-gridded-observations-europe-climate-monitoring-q03-code-section-4"><span class="std std-ref">4. Calculate the annual count of days</span></a></strong><br />
+<strong><a class="reference internal" href="#insitu-insitu-gridded-observations-europe-climate-monitoring-q03-code-section-5"><span class="std std-ref">5. Main takeaways</span></a></strong></p>
 </section>
 <section id="analysis-and-results">
 <h2>📈 Analysis and results<a class="headerlink" href="#analysis-and-results" title="Link to this heading">#</a></h2>
 <section id="define-the-aoi-search-and-download-e-obs">
-<span id="insitu-insitu-gridded-observations-europe-climate-monitoring-q03-c3s2-d520-5-3-14b-quality-assessment-user-questions-eobs-uq3-v1-4-code-section-1"></span><h3>1. Define the AoI, search and download E-OBS<a class="headerlink" href="#define-the-aoi-search-and-download-e-obs" title="Link to this heading">#</a></h3>
+<span id="insitu-insitu-gridded-observations-europe-climate-monitoring-q03-code-section-1"></span><h3>1. Define the AoI, search and download E-OBS<a class="headerlink" href="#define-the-aoi-search-and-download-e-obs" title="Link to this heading">#</a></h3>
 <section id="import-all-the-libraries-packages">
 <h4>Import all the libraries/packages<a class="headerlink" href="#import-all-the-libraries-packages" title="Link to this heading">#</a></h4>
 <p>We will be working with data in NetCDF format. To best handle this data we will use libraries for working with multidimensional arrays, in particular Xarray. We will also need libraries for plotting and viewing data, in this case we will use Matplotlib and Cartopy.</p>
@@ -538,27 +515,15 @@ Please note that this repository is used for development and review, so quality 
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
 <span class="kn">import</span> <span class="nn">pymannkendall</span> <span class="k">as</span> <span class="nn">mk</span>
-<span class="kn">from</span> <span class="nn">c3s_eqc_automatic_quality_control</span> <span class="kn">import</span> <span class="n">download</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">plot</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">from</span> <span class="nn">c3s_eqc_automatic_quality_control</span> <span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span>
 
-<span class="c1"># # import libraries</span>
-<span class="c1"># from cdo import cdo</span>
-
-<span class="c1"># # check cdo</span>
-<span class="c1"># cdo = Cdo()</span>
-<span class="c1"># help(cdo.sinfov)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;figure.figsize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;seaborn-v0_8-notebook&quot;</span><span class="p">)</span>
-
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -584,8 +549,29 @@ Please note that this repository is used for development and review, so quality 
 … having copied the API request to a Jupyter Notebook cell, running it will retrieve and download the data you requested into your local directory. However, before you run it, the <code class="docutils literal notranslate"><span class="pre">terms</span> <span class="pre">and</span> <span class="pre">conditions</span></code> of this particular dataset need to have been accepted directly at the CDS website. The option to view and accept these conditions is given at the end of the download form, just above the <code class="docutils literal notranslate"><span class="pre">Show</span> <span class="pre">API</span> <span class="pre">request</span></code> option. In addition, it is also useful to define the time period and AoI parameters and edit the request accordingly, as exemplified in the cells below.</p>
 </section>
 </section>
-<section id="download-and-prepared-e-obs-data">
-<span id="insitu-insitu-gridded-observations-europe-climate-monitoring-q03-c3s2-d520-5-3-14b-quality-assessment-user-questions-eobs-uq3-v1-4-code-section-1-1"></span><h3>1.1. Download and prepared E-OBS data<a class="headerlink" href="#download-and-prepared-e-obs-data" title="Link to this heading">#</a></h3>
+<section id="download-and-prepare-e-obs-data">
+<h3>1.1. Download and prepare E-OBS data<a class="headerlink" href="#download-and-prepare-e-obs-data" title="Link to this heading">#</a></h3>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define climatology periods - ToI</span>
+<span class="n">years_start</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1951</span><span class="p">,</span> <span class="mi">1961</span><span class="p">,</span> <span class="mi">1971</span><span class="p">,</span> <span class="mi">1981</span><span class="p">,</span> <span class="mi">1991</span><span class="p">]</span>
+<span class="n">years_stop</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1980</span><span class="p">,</span> <span class="mi">1990</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">2010</span><span class="p">,</span> <span class="mi">2020</span><span class="p">]</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;deepskyblue&quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="s2">&quot;gold&quot;</span><span class="p">,</span> <span class="s2">&quot;darkorange&quot;</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">]</span>
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">years_start</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">years_stop</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+
+<span class="c1"># Define region of interest - AoI</span>
+<span class="n">area</span> <span class="o">=</span> <span class="p">[</span><span class="mi">44</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>  <span class="c1"># N, W, S, E</span>
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">area</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -594,183 +580,124 @@ Please note that this repository is used for development and review, so quality 
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define request</span>
-<span class="n">request</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="s2">&quot;insitu-gridded-observations-europe&quot;</span><span class="p">,</span>
-    <span class="p">{</span>
-        <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;zip&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;product_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ensemble_mean&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;precipitation_amount&quot;</span><span class="p">,</span> <span class="s2">&quot;wind_speed&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;grid_resolution&quot;</span><span class="p">:</span> <span class="s2">&quot;0.25deg&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;period&quot;</span><span class="p">:</span> <span class="s2">&quot;full_period&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;28.0e&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;area&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">42.15</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.50</span><span class="p">,</span> <span class="mf">36.95</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.19</span><span class="p">],</span>
-    <span class="p">},</span>
-<span class="p">)</span>
-
-<span class="c1"># Process the request</span>
-<span class="n">ds_EOBS</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span><span class="o">*</span><span class="n">request</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Subset data for the year range 1950 to 2020</span>
-<span class="n">ds_EOBS</span> <span class="o">=</span> <span class="n">ds_EOBS</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;1950-01-01&#39;</span><span class="p">,</span> <span class="s1">&#39;2020-12-31&#39;</span><span class="p">))</span>
-
-<span class="c1"># Inspect data</span>
-<span class="n">ds_EOBS</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Rename and update attributes for &#39;rr&#39;</span>
-<span class="n">ds_EOBS</span> <span class="o">=</span> <span class="n">ds_EOBS</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;rr&#39;</span><span class="p">:</span> <span class="s1">&#39;RR EOBS&#39;</span><span class="p">})</span>
-<span class="n">ds_EOBS</span><span class="p">[</span><span class="s1">&#39;RR EOBS&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;long_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Total Precipitation&#39;</span>
-<span class="n">ds_EOBS</span><span class="p">[</span><span class="s1">&#39;RR EOBS&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;mm&#39;</span>
-
-<span class="c1"># Rename and update attributes for &#39;var2&#39;</span>
-<span class="n">ds_EOBS</span> <span class="o">=</span> <span class="n">ds_EOBS</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;fg&#39;</span><span class="p">:</span> <span class="s1">&#39;WS EOBS&#39;</span><span class="p">})</span>
-<span class="n">ds_EOBS</span><span class="p">[</span><span class="s1">&#39;WS EOBS&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;long_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Wind Speed&#39;</span>
-<span class="n">ds_EOBS</span><span class="p">[</span><span class="s1">&#39;WS EOBS&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;m/s&#39;</span>
-
-<span class="n">ds_EOBS</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<section id="download-era5-and-prepared-data">
-<h4>Download ERA5 and prepared data<a class="headerlink" href="#download-era5-and-prepared-data" title="Link to this heading">#</a></h4>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define time interval</span>
-<span class="n">start</span> <span class="o">=</span> <span class="s2">&quot;1950-01&quot;</span>
-<span class="n">stop</span> <span class="o">=</span> <span class="s2">&quot;2020-12&quot;</span>
-
-<span class="c1"># Define request</span>
-<span class="n">collection_id</span> <span class="o">=</span> <span class="s2">&quot;reanalysis-era5-single-levels&quot;</span>
+<span class="n">collection_id</span> <span class="o">=</span> <span class="s2">&quot;insitu-gridded-observations-europe&quot;</span>
 <span class="n">request</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;product_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ensemble_mean&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s1">&#39;netcdf&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;variable&#39;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s1">&#39;10m_u_component_of_wind&#39;</span><span class="p">,</span> <span class="s1">&#39;10m_v_component_of_wind&#39;</span><span class="p">,</span> <span class="s1">&#39;total_precipitation&#39;</span><span class="p">,</span>
-        <span class="p">],</span>
+    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;precipitation_amount&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;grid_resolution&quot;</span><span class="p">:</span> <span class="s2">&quot;0_25deg&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;period&quot;</span><span class="p">:</span> <span class="s2">&quot;full_period&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;28_0e&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;area&quot;</span><span class="p">:</span> <span class="n">area</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">collection_id_era5</span> <span class="o">=</span> <span class="s2">&quot;reanalysis-era5-single-levels&quot;</span>
+<span class="n">request_era5</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;product_type&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;ensemble_mean&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;total_precipitation&quot;</span><span class="p">],</span>
     <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">hour</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">:00&quot;</span> <span class="k">for</span> <span class="n">hour</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">3</span><span class="p">)],</span>
-    <span class="s2">&quot;area&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">44</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="s2">&quot;area&quot;</span><span class="p">:</span> <span class="n">area</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">start</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">min</span><span class="p">(</span><span class="n">years_start</span><span class="p">)</span><span class="si">}</span><span class="s2">-01&quot;</span>
+<span class="n">stop</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">years_stop</span><span class="p">)</span><span class="si">}</span><span class="s2">-12&quot;</span>
+<span class="n">request_era5</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">update_request_date</span><span class="p">(</span><span class="n">request_era5</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define transform function to reduce downloaded data</span>
+<span class="k">def</span> <span class="nf">dayofyear_reindex</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">years_start</span><span class="p">,</span> <span class="n">years_stop</span><span class="p">):</span>
+    <span class="c1"># 15-day rolling mean</span>
+    <span class="n">ds_rolled</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 
-<span class="p">}</span> 
+    <span class="c1"># Extract periods</span>
+    <span class="n">datasets</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">years_start</span><span class="p">,</span> <span class="n">years_stop</span><span class="p">):</span>
+        <span class="n">period</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year_start</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">year_stop</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">ds_masked</span> <span class="o">=</span> <span class="n">ds_rolled</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">ds_rolled</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span> <span class="o">&gt;=</span> <span class="n">year_start</span><span class="p">)</span>
+            <span class="o">&amp;</span> <span class="p">(</span><span class="n">ds_rolled</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span> <span class="o">&lt;=</span> <span class="n">year_stop</span><span class="p">),</span>
+            <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">ds_masked</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.dayofyear&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="p">[</span><span class="n">period</span><span class="p">])</span>
+        <span class="p">)</span>
+    <span class="n">ds_dayofyear</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span>
 
-<span class="n">requests</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">update_request_date</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">)</span>
+    <span class="c1"># Add season (pick any leap year)</span>
+    <span class="n">season</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">ds_dayofyear</span><span class="p">[</span><span class="s2">&quot;dayofyear&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s2">&quot;2008&quot;</span><span class="p">),</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">season</span>
+    <span class="k">return</span> <span class="n">ds_dayofyear</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">season</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;dayofyear&quot;</span><span class="p">,</span> <span class="n">season</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Periods</span>
+<span class="n">dataarrays</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">reduction</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span> <span class="s2">&quot;spread&quot;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">reduction</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
+        <span class="n">collection_id</span><span class="p">,</span>
+        <span class="n">request</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;product_type&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;ensemble_</span><span class="si">{</span><span class="n">reduction</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">},</span>
+        <span class="n">transform_func</span><span class="o">=</span><span class="n">dayofyear_reindex</span><span class="p">,</span>
+        <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;years_start&quot;</span><span class="p">:</span> <span class="n">years_start</span><span class="p">,</span> <span class="s2">&quot;years_stop&quot;</span><span class="p">:</span> <span class="n">years_stop</span><span class="p">},</span>
+    <span class="p">)[</span><span class="s2">&quot;rr&quot;</span><span class="p">]</span>
+    <span class="n">dataarrays</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">reduction</span><span class="p">))</span>
+    <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">reduction</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="n">ds_periods</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">dataarrays</span><span class="p">)</span>
 
-<span class="c1"># Process the request</span>
-<span class="n">ds_ERA5</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span><span class="n">collection_id</span><span class="p">,</span> <span class="n">requests</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Subset data for the year range 1950 to 2020</span>
-<span class="n">ds_ERA5</span> <span class="o">=</span> <span class="n">ds_ERA5</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;1950-01-01&#39;</span><span class="p">,</span> <span class="s1">&#39;2020-12-31&#39;</span><span class="p">))</span>
+<span class="c1"># Timeseries</span>
+<span class="n">da_eobs</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
+    <span class="n">collection_id</span><span class="p">,</span>
+    <span class="n">request</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;product_type&quot;</span><span class="p">:</span> <span class="s2">&quot;ensemble_mean&quot;</span><span class="p">},</span>
+    <span class="n">transform_func</span><span class="o">=</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">,</span>
+<span class="p">)[</span><span class="s2">&quot;rr&quot;</span><span class="p">]</span>
+<span class="n">da_eobs</span> <span class="o">=</span> <span class="n">da_eobs</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">))</span>
 
-<span class="c1"># Inspect data</span>
-<span class="n">ds_ERA5</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert units for precipitation from meters to millimeters</span>
-<span class="n">ds_ERA5</span><span class="p">[</span><span class="s1">&#39;tp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_ERA5</span><span class="p">[</span><span class="s1">&#39;tp&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Resample precipitation to daily frequency and sum up</span>
-<span class="n">ds_ERA5_precip</span> <span class="o">=</span> <span class="n">ds_ERA5</span><span class="p">[</span><span class="s1">&#39;tp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;1D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
-<span class="n">ds_ERA5_precip</span> <span class="o">=</span> <span class="n">ds_ERA5_precip</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;RR ERA5&#39;</span><span class="p">)</span>
-<span class="n">ds_ERA5_precip</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;long_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Total Precipitation&#39;</span>
-<span class="n">ds_ERA5_precip</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;mm&#39;</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_ERA5_precip</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate wind speed from U and V components</span>
-<span class="n">u10</span> <span class="o">=</span> <span class="n">ds_ERA5</span><span class="p">[</span><span class="s1">&#39;u10&#39;</span><span class="p">]</span>
-<span class="n">v10</span> <span class="o">=</span> <span class="n">ds_ERA5</span><span class="p">[</span><span class="s1">&#39;v10&#39;</span><span class="p">]</span>
-<span class="n">wind_speed_ERA5</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">u10</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">v10</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">da_era5</span> <span class="o">=</span> <span class="n">da_eobs</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="o">*</span><span class="n">da_eobs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
-<span class="c1"># Resample wind speed to daily frequency</span>
-<span class="n">wind_speed_daily</span> <span class="o">=</span> <span class="n">wind_speed_ERA5</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;1D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
-<span class="n">wind_speed_daily</span> <span class="o">=</span> <span class="n">wind_speed_daily</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;WS ERA5&#39;</span><span class="p">)</span>
-<span class="n">wind_speed_daily</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;long_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;10m Wind Speed&#39;</span>
-<span class="n">wind_speed_daily</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;m/s&#39;</span>
+<span class="n">da_timeseries</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">da_eobs</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;E-OBS&quot;</span><span class="p">]),</span>
+        <span class="n">da_era5</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ERA5&quot;</span><span class="p">]),</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;product&quot;</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>reduction=&#39;mean&#39;
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 [00:00&lt;00:00,  3.97it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>reduction=&#39;spread&#39;
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 [00:00&lt;00:00, 43.70it/s]
+100%|██████████| 1/1 [00:00&lt;00:00,  1.75it/s]
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
@@ -779,17 +706,966 @@ Please note that this repository is used for development and review, so quality 
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Combine ERA5 variables into one dataset</span>
-<span class="n">ds_ERA5_daily</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">({</span><span class="s1">&#39;RR ERA5&#39;</span><span class="p">:</span> <span class="n">ds_ERA5_precip</span><span class="p">,</span> <span class="s1">&#39;WS ERA5&#39;</span><span class="p">:</span> <span class="n">wind_speed_daily</span><span class="p">})</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define useful functions</span>
+
+<span class="c1"># Statistics dataframe</span>
+<span class="k">def</span> <span class="nf">make_statistics_dataframe</span><span class="p">(</span><span class="n">da</span><span class="p">):</span>
+    <span class="n">dims</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">-</span> <span class="p">{</span><span class="s2">&quot;period&quot;</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;period&quot;</span><span class="p">:</span> <span class="n">da</span><span class="p">[</span><span class="s2">&quot;period&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="n">da</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dims</span><span class="p">),</span>
+            <span class="s2">&quot;mean&quot;</span><span class="p">:</span> <span class="n">da</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dims</span><span class="p">),</span>
+            <span class="s2">&quot;maximum&quot;</span><span class="p">:</span> <span class="n">da</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dims</span><span class="p">),</span>
+            <span class="s2">&quot;minimum&quot;</span><span class="p">:</span> <span class="n">da</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">dims</span><span class="p">),</span>
+            <span class="s2">&quot;st.deviation&quot;</span><span class="p">:</span> <span class="n">da</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">dims</span><span class="p">),</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+
+<span class="c1"># Histogram</span>
+<span class="k">def</span> <span class="nf">compute_hist</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">hist</span><span class="p">,</span> <span class="n">bin_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">da_hist</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">hist</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;bins&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">bin_edges</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">bin_edges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">})</span>
+    <span class="n">da_hist</span><span class="p">[</span><span class="s2">&quot;bins&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">attrs</span>
+    <span class="n">da_hist</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Probability Density&quot;</span>
+    <span class="k">return</span> <span class="n">da_hist</span>
+
+<span class="c1"># Probability density function</span>
+<span class="k">def</span> <span class="nf">plot_pdf</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">bins</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">da</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+
+    <span class="n">dims</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;hue&quot;</span><span class="p">,</span> <span class="s2">&quot;row&quot;</span><span class="p">,</span> <span class="s2">&quot;col&quot;</span><span class="p">}</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">dims</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">compute_hist</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">plt</span><span class="o">.</span><span class="n">rc_context</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;axes.prop_cycle&quot;</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">cycler</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">),</span>
+            <span class="s2">&quot;axes.grid&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="n">da</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </details>
 </div>
 </section>
+<section id="inspect-and-view-data">
+<h3>1.2. Inspect and view data<a class="headerlink" href="#inspect-and-view-data" title="Link to this heading">#</a></h3>
+<p>Now that we have downloaded the data, we can inspect it. We have requested the data in NetCDF format. This is a commonly used format for array-oriented scientific data. To read and process this data we will make use of the Xarray library. Xarray is an open source project and Python package that makes working with labelled multi-dimensional arrays simple and efficient. We will read the data from our NetCDF file into an xarray.Dataset.</p>
+<p>To understand better the E-OBS data structure and check the aggregated Daily Mean Precipitation (RR), we will first need to retrieve the RR variable from the 2 multidimensional netCDF data structures and calculate the descriptive statistics.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print the xarray data structure</span>
+<span class="n">ds_periods</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme=dark],
+html[data-theme=dark],
+body[data-theme=dark],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1F1F1F;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: inline-block;
+  opacity: 0;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:focus + label {
+  border: 2px solid var(--xr-font-color0);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: '►';
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: '▼';
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: '(';
+}
+
+.xr-dim-list:after {
+  content: ')';
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ',';
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt; Size: 21MB
+Dimensions:    (latitude: 32, longitude: 44, dayofyear: 366, period: 5)
+Coordinates:
+  * latitude   (latitude) float64 256B 36.12 36.38 36.62 ... 43.38 43.62 43.88
+  * longitude  (longitude) float64 352B -9.875 -9.625 -9.375 ... 0.625 0.875
+  * dayofyear  (dayofyear) int64 3kB 1 2 3 4 5 6 7 ... 361 362 363 364 365 366
+  * period     (period) &lt;U9 180B &#x27;1951-1980&#x27; &#x27;1961-1990&#x27; ... &#x27;1991-2020&#x27;
+    season     (dayofyear) &lt;U3 4kB dask.array&lt;chunksize=(366,), meta=np.ndarray&gt;
+Data variables:
+    mean       (period, dayofyear, latitude, longitude) float32 10MB dask.array&lt;chunksize=(5, 366, 32, 44), meta=np.ndarray&gt;
+    spread     (period, dayofyear, latitude, longitude) float32 10MB dask.array&lt;chunksize=(5, 366, 32, 44), meta=np.ndarray&gt;
+Attributes:
+    units:          mm
+    long_name:      rainfall mean
+    standard_name:  thickness_of_rainfall_amount
+    cell_methods:   time: mean</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-230fea47-020c-4e25-96d2-3ce9d9966ad1' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-230fea47-020c-4e25-96d2-3ce9d9966ad1' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>latitude</span>: 32</li><li><span class='xr-has-index'>longitude</span>: 44</li><li><span class='xr-has-index'>dayofyear</span>: 366</li><li><span class='xr-has-index'>period</span>: 5</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-144db9eb-caa3-48d0-90a8-883a2c28e6e1' class='xr-section-summary-in' type='checkbox'  checked><label for='section-144db9eb-caa3-48d0-90a8-883a2c28e6e1' class='xr-section-summary' >Coordinates: <span>(5)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>latitude</span></div><div class='xr-var-dims'>(latitude)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>36.12 36.38 36.62 ... 43.62 43.88</div><input id='attrs-b9940c51-f494-4298-832c-c1df16e0ab3f' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b9940c51-f494-4298-832c-c1df16e0ab3f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e58b3c86-db9e-4fd5-9084-7bed6fef72c5' class='xr-var-data-in' type='checkbox'><label for='data-e58b3c86-db9e-4fd5-9084-7bed6fef72c5' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degrees_north</dd><dt><span>long_name :</span></dt><dd>Latitude values</dd><dt><span>axis :</span></dt><dd>Y</dd><dt><span>standard_name :</span></dt><dd>latitude</dd><dt><span>positive :</span></dt><dd>North</dd><dt><span>type :</span></dt><dd>double</dd><dt><span>valid_max :</span></dt><dd>90.0</dd><dt><span>valid_min :</span></dt><dd>-90.0</dd><dt><span>out_name :</span></dt><dd>latitude</dd></dl></div><div class='xr-var-data'><pre>array([36.125, 36.375, 36.625, 36.875, 37.125, 37.375, 37.625, 37.875, 38.125,
+       38.375, 38.625, 38.875, 39.125, 39.375, 39.625, 39.875, 40.125, 40.375,
+       40.625, 40.875, 41.125, 41.375, 41.625, 41.875, 42.125, 42.375, 42.625,
+       42.875, 43.125, 43.375, 43.625, 43.875])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>longitude</span></div><div class='xr-var-dims'>(longitude)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-9.875 -9.625 ... 0.625 0.875</div><input id='attrs-aabdbade-8ea4-429f-bbc8-abffd937dfd2' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-aabdbade-8ea4-429f-bbc8-abffd937dfd2' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-28f3604e-13a4-4c46-8ceb-adf7a5953a52' class='xr-var-data-in' type='checkbox'><label for='data-28f3604e-13a4-4c46-8ceb-adf7a5953a52' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degrees_east</dd><dt><span>long_name :</span></dt><dd>Longitude values</dd><dt><span>axis :</span></dt><dd>X</dd><dt><span>standard_name :</span></dt><dd>longitude</dd><dt><span>positive :</span></dt><dd>East</dd><dt><span>type :</span></dt><dd>double</dd><dt><span>valid_max :</span></dt><dd>360.0</dd><dt><span>valid_min :</span></dt><dd>-180.0</dd><dt><span>out_name :</span></dt><dd>longitude</dd></dl></div><div class='xr-var-data'><pre>array([-9.875, -9.625, -9.375, -9.125, -8.875, -8.625, -8.375, -8.125, -7.875,
+       -7.625, -7.375, -7.125, -6.875, -6.625, -6.375, -6.125, -5.875, -5.625,
+       -5.375, -5.125, -4.875, -4.625, -4.375, -4.125, -3.875, -3.625, -3.375,
+       -3.125, -2.875, -2.625, -2.375, -2.125, -1.875, -1.625, -1.375, -1.125,
+       -0.875, -0.625, -0.375, -0.125,  0.125,  0.375,  0.625,  0.875])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>dayofyear</span></div><div class='xr-var-dims'>(dayofyear)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>1 2 3 4 5 6 ... 362 363 364 365 366</div><input id='attrs-d8066ed6-4d33-4c29-ad09-94daaeaedc68' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-d8066ed6-4d33-4c29-ad09-94daaeaedc68' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a0cdf1da-d1e1-404e-9fba-576f6d6f3b0d' class='xr-var-data-in' type='checkbox'><label for='data-a0cdf1da-d1e1-404e-9fba-576f6d6f3b0d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([  1,   2,   3, ..., 364, 365, 366])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>period</span></div><div class='xr-var-dims'>(period)</div><div class='xr-var-dtype'>&lt;U9</div><div class='xr-var-preview xr-preview'>&#x27;1951-1980&#x27; ... &#x27;1991-2020&#x27;</div><input id='attrs-2cb3dc47-2ef9-4805-b503-b4a438507db2' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-2cb3dc47-2ef9-4805-b503-b4a438507db2' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-72e70384-695d-468d-88b6-4c78a0873fe4' class='xr-var-data-in' type='checkbox'><label for='data-72e70384-695d-468d-88b6-4c78a0873fe4' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([&#x27;1951-1980&#x27;, &#x27;1961-1990&#x27;, &#x27;1971-2000&#x27;, &#x27;1981-2010&#x27;, &#x27;1991-2020&#x27;],
+      dtype=&#x27;&lt;U9&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>season</span></div><div class='xr-var-dims'>(dayofyear)</div><div class='xr-var-dtype'>&lt;U3</div><div class='xr-var-preview xr-preview'>dask.array&lt;chunksize=(366,), meta=np.ndarray&gt;</div><input id='attrs-976e21cc-af46-4e3a-b1cd-61433762fa1d' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-976e21cc-af46-4e3a-b1cd-61433762fa1d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e2bed557-652a-4e0d-8d0c-2f3fa29b7e7b' class='xr-var-data-in' type='checkbox'><label for='data-e2bed557-652a-4e0d-8d0c-2f3fa29b7e7b' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><table>
+    <tr>
+        <td>
+            <table style="border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <td> </td>
+                        <th> Array </th>
+                        <th> Chunk </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr>
+                        <th> Bytes </th>
+                        <td> 4.29 kiB </td>
+                        <td> 4.29 kiB </td>
+                    </tr>
+                    
+                    <tr>
+                        <th> Shape </th>
+                        <td> (366,) </td>
+                        <td> (366,) </td>
+                    </tr>
+                    <tr>
+                        <th> Dask graph </th>
+                        <td colspan="2"> 1 chunks in 6 graph layers </td>
+                    </tr>
+                    <tr>
+                        <th> Data type </th>
+                        <td colspan="2"> <U3 numpy.ndarray </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td>
+        <svg width="170" height="75" style="stroke:rgb(0,0,0);stroke-width:1" >
+
+  <!-- Horizontal lines -->
+  <line x1="0" y1="0" x2="120" y2="0" style="stroke-width:2" />
+  <line x1="0" y1="25" x2="120" y2="25" style="stroke-width:2" />
+
+  <!-- Vertical lines -->
+  <line x1="0" y1="0" x2="0" y2="25" style="stroke-width:2" />
+  <line x1="120" y1="0" x2="120" y2="25" style="stroke-width:2" />
+
+  <!-- Colored Rectangle -->
+  <polygon points="0.0,0.0 120.0,0.0 120.0,25.412616514582485 0.0,25.412616514582485" style="fill:#ECB172A0;stroke-width:0"/>
+
+  <!-- Text -->
+  <text x="60.000000" y="45.412617" font-size="1.0rem" font-weight="100" text-anchor="middle" >366</text>
+  <text x="140.000000" y="12.706308" font-size="1.0rem" font-weight="100" text-anchor="middle" transform="rotate(0,140.000000,12.706308)">1</text>
+</svg>
+        </td>
+    </tr>
+</table></div></li></ul></div></li><li class='xr-section-item'><input id='section-493575b4-2eb6-42c2-9df0-4576663e4619' class='xr-section-summary-in' type='checkbox'  checked><label for='section-493575b4-2eb6-42c2-9df0-4576663e4619' class='xr-section-summary' >Data variables: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>mean</span></div><div class='xr-var-dims'>(period, dayofyear, latitude, longitude)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>dask.array&lt;chunksize=(5, 366, 32, 44), meta=np.ndarray&gt;</div><input id='attrs-69a7821d-10b5-48cf-9063-43165baf7282' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-69a7821d-10b5-48cf-9063-43165baf7282' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ad1496a3-4495-4431-a6f2-e5c5e3f53b1e' class='xr-var-data-in' type='checkbox'><label for='data-ad1496a3-4495-4431-a6f2-e5c5e3f53b1e' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>mm</dd><dt><span>long_name :</span></dt><dd>rainfall mean</dd><dt><span>standard_name :</span></dt><dd>thickness_of_rainfall_amount</dd><dt><span>cell_methods :</span></dt><dd>time: mean</dd></dl></div><div class='xr-var-data'><table>
+    <tr>
+        <td>
+            <table style="border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <td> </td>
+                        <th> Array </th>
+                        <th> Chunk </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr>
+                        <th> Bytes </th>
+                        <td> 9.83 MiB </td>
+                        <td> 9.83 MiB </td>
+                    </tr>
+                    
+                    <tr>
+                        <th> Shape </th>
+                        <td> (5, 366, 32, 44) </td>
+                        <td> (5, 366, 32, 44) </td>
+                    </tr>
+                    <tr>
+                        <th> Dask graph </th>
+                        <td colspan="2"> 1 chunks in 2 graph layers </td>
+                    </tr>
+                    <tr>
+                        <th> Data type </th>
+                        <td colspan="2"> float32 numpy.ndarray </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td>
+        <svg width="352" height="158" style="stroke:rgb(0,0,0);stroke-width:1" >
+
+  <!-- Horizontal lines -->
+  <line x1="0" y1="0" x2="26" y2="0" style="stroke-width:2" />
+  <line x1="0" y1="25" x2="26" y2="25" style="stroke-width:2" />
+
+  <!-- Vertical lines -->
+  <line x1="0" y1="0" x2="0" y2="25" style="stroke-width:2" />
+  <line x1="26" y1="0" x2="26" y2="25" style="stroke-width:2" />
+
+  <!-- Colored Rectangle -->
+  <polygon points="0.0,0.0 26.968199403781718,0.0 26.968199403781718,25.412616514582485 0.0,25.412616514582485" style="fill:#ECB172A0;stroke-width:0"/>
+
+  <!-- Text -->
+  <text x="13.484100" y="45.412617" font-size="1.0rem" font-weight="100" text-anchor="middle" >5</text>
+  <text x="46.968199" y="12.706308" font-size="1.0rem" font-weight="100" text-anchor="middle" transform="rotate(0,46.968199,12.706308)">1</text>
+
+
+  <!-- Horizontal lines -->
+  <line x1="96" y1="0" x2="166" y2="70" style="stroke-width:2" />
+  <line x1="96" y1="37" x2="166" y2="108" style="stroke-width:2" />
+
+  <!-- Vertical lines -->
+  <line x1="96" y1="0" x2="96" y2="37" style="stroke-width:2" />
+  <line x1="166" y1="70" x2="166" y2="108" style="stroke-width:2" />
+
+  <!-- Colored Rectangle -->
+  <polygon points="96.0,0.0 166.58823529411765,70.58823529411765 166.58823529411765,108.42808478616038 96.0,37.83984949204274" style="fill:#ECB172A0;stroke-width:0"/>
+
+  <!-- Horizontal lines -->
+  <line x1="96" y1="0" x2="135" y2="0" style="stroke-width:2" />
+  <line x1="166" y1="70" x2="206" y2="70" style="stroke-width:2" />
+
+  <!-- Vertical lines -->
+  <line x1="96" y1="0" x2="166" y2="70" style="stroke-width:2" />
+  <line x1="135" y1="0" x2="206" y2="70" style="stroke-width:2" />
+
+  <!-- Colored Rectangle -->
+  <polygon points="96.0,0.0 135.59074174702533,0.0 206.17897704114299,70.58823529411765 166.58823529411765,70.58823529411765" style="fill:#ECB172A0;stroke-width:0"/>
+
+  <!-- Horizontal lines -->
+  <line x1="166" y1="70" x2="206" y2="70" style="stroke-width:2" />
+  <line x1="166" y1="108" x2="206" y2="108" style="stroke-width:2" />
+
+  <!-- Vertical lines -->
+  <line x1="166" y1="70" x2="166" y2="108" style="stroke-width:2" />
+  <line x1="206" y1="70" x2="206" y2="108" style="stroke-width:2" />
+
+  <!-- Colored Rectangle -->
+  <polygon points="166.58823529411765,70.58823529411765 206.17897704114299,70.58823529411765 206.17897704114299,108.42808478616038 166.58823529411765,108.42808478616038" style="fill:#ECB172A0;stroke-width:0"/>
+
+  <!-- Text -->
+  <text x="186.383606" y="128.428085" font-size="1.0rem" font-weight="100" text-anchor="middle" >44</text>
+  <text x="226.178977" y="89.508160" font-size="1.0rem" font-weight="100" text-anchor="middle" transform="rotate(0,226.178977,89.508160)">32</text>
+  <text x="121.294118" y="93.133967" font-size="1.0rem" font-weight="100" text-anchor="middle" transform="rotate(45,121.294118,93.133967)">366</text>
+</svg>
+        </td>
+    </tr>
+</table></div></li><li class='xr-var-item'><div class='xr-var-name'><span>spread</span></div><div class='xr-var-dims'>(period, dayofyear, latitude, longitude)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>dask.array&lt;chunksize=(5, 366, 32, 44), meta=np.ndarray&gt;</div><input id='attrs-6f789f39-e9bd-4c1c-a501-957d4cc72168' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-6f789f39-e9bd-4c1c-a501-957d4cc72168' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-814654a9-23f1-41e8-b907-e8e5c5d68c4d' class='xr-var-data-in' type='checkbox'><label for='data-814654a9-23f1-41e8-b907-e8e5c5d68c4d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>mm</dd><dt><span>long_name :</span></dt><dd>rainfall spread</dd><dt><span>standard_name :</span></dt><dd>thickness_of_rainfall_amount</dd><dt><span>cell_methods :</span></dt><dd>time: mean</dd></dl></div><div class='xr-var-data'><table>
+    <tr>
+        <td>
+            <table style="border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <td> </td>
+                        <th> Array </th>
+                        <th> Chunk </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr>
+                        <th> Bytes </th>
+                        <td> 9.83 MiB </td>
+                        <td> 9.83 MiB </td>
+                    </tr>
+                    
+                    <tr>
+                        <th> Shape </th>
+                        <td> (5, 366, 32, 44) </td>
+                        <td> (5, 366, 32, 44) </td>
+                    </tr>
+                    <tr>
+                        <th> Dask graph </th>
+                        <td colspan="2"> 1 chunks in 2 graph layers </td>
+                    </tr>
+                    <tr>
+                        <th> Data type </th>
+                        <td colspan="2"> float32 numpy.ndarray </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td>
+        <svg width="352" height="158" style="stroke:rgb(0,0,0);stroke-width:1" >
+
+  <!-- Horizontal lines -->
+  <line x1="0" y1="0" x2="26" y2="0" style="stroke-width:2" />
+  <line x1="0" y1="25" x2="26" y2="25" style="stroke-width:2" />
+
+  <!-- Vertical lines -->
+  <line x1="0" y1="0" x2="0" y2="25" style="stroke-width:2" />
+  <line x1="26" y1="0" x2="26" y2="25" style="stroke-width:2" />
+
+  <!-- Colored Rectangle -->
+  <polygon points="0.0,0.0 26.968199403781718,0.0 26.968199403781718,25.412616514582485 0.0,25.412616514582485" style="fill:#ECB172A0;stroke-width:0"/>
+
+  <!-- Text -->
+  <text x="13.484100" y="45.412617" font-size="1.0rem" font-weight="100" text-anchor="middle" >5</text>
+  <text x="46.968199" y="12.706308" font-size="1.0rem" font-weight="100" text-anchor="middle" transform="rotate(0,46.968199,12.706308)">1</text>
+
+
+  <!-- Horizontal lines -->
+  <line x1="96" y1="0" x2="166" y2="70" style="stroke-width:2" />
+  <line x1="96" y1="37" x2="166" y2="108" style="stroke-width:2" />
+
+  <!-- Vertical lines -->
+  <line x1="96" y1="0" x2="96" y2="37" style="stroke-width:2" />
+  <line x1="166" y1="70" x2="166" y2="108" style="stroke-width:2" />
+
+  <!-- Colored Rectangle -->
+  <polygon points="96.0,0.0 166.58823529411765,70.58823529411765 166.58823529411765,108.42808478616038 96.0,37.83984949204274" style="fill:#ECB172A0;stroke-width:0"/>
+
+  <!-- Horizontal lines -->
+  <line x1="96" y1="0" x2="135" y2="0" style="stroke-width:2" />
+  <line x1="166" y1="70" x2="206" y2="70" style="stroke-width:2" />
+
+  <!-- Vertical lines -->
+  <line x1="96" y1="0" x2="166" y2="70" style="stroke-width:2" />
+  <line x1="135" y1="0" x2="206" y2="70" style="stroke-width:2" />
+
+  <!-- Colored Rectangle -->
+  <polygon points="96.0,0.0 135.59074174702533,0.0 206.17897704114299,70.58823529411765 166.58823529411765,70.58823529411765" style="fill:#ECB172A0;stroke-width:0"/>
+
+  <!-- Horizontal lines -->
+  <line x1="166" y1="70" x2="206" y2="70" style="stroke-width:2" />
+  <line x1="166" y1="108" x2="206" y2="108" style="stroke-width:2" />
+
+  <!-- Vertical lines -->
+  <line x1="166" y1="70" x2="166" y2="108" style="stroke-width:2" />
+  <line x1="206" y1="70" x2="206" y2="108" style="stroke-width:2" />
+
+  <!-- Colored Rectangle -->
+  <polygon points="166.58823529411765,70.58823529411765 206.17897704114299,70.58823529411765 206.17897704114299,108.42808478616038 166.58823529411765,108.42808478616038" style="fill:#ECB172A0;stroke-width:0"/>
+
+  <!-- Text -->
+  <text x="186.383606" y="128.428085" font-size="1.0rem" font-weight="100" text-anchor="middle" >44</text>
+  <text x="226.178977" y="89.508160" font-size="1.0rem" font-weight="100" text-anchor="middle" transform="rotate(0,226.178977,89.508160)">32</text>
+  <text x="121.294118" y="93.133967" font-size="1.0rem" font-weight="100" text-anchor="middle" transform="rotate(45,121.294118,93.133967)">366</text>
+</svg>
+        </td>
+    </tr>
+</table></div></li></ul></div></li><li class='xr-section-item'><input id='section-2d488161-faaf-4811-873f-42113b0aa4a7' class='xr-section-summary-in' type='checkbox'  ><label for='section-2d488161-faaf-4811-873f-42113b0aa4a7' class='xr-section-summary' >Indexes: <span>(4)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>latitude</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-5b706c6a-2c14-4138-b374-5c81cbb8fcbd' class='xr-index-data-in' type='checkbox'/><label for='index-5b706c6a-2c14-4138-b374-5c81cbb8fcbd' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([36.125, 36.375, 36.625, 36.875, 37.125, 37.375, 37.625, 37.875, 38.125,
+       38.375, 38.625, 38.875, 39.125, 39.375, 39.625, 39.875, 40.125, 40.375,
+       40.625, 40.875, 41.125, 41.375, 41.625, 41.875, 42.125, 42.375, 42.625,
+       42.875, 43.125, 43.375, 43.625, 43.875],
+      dtype=&#x27;float64&#x27;, name=&#x27;latitude&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>longitude</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-7f4443c9-048a-47b7-aa4e-d2a99caf02d8' class='xr-index-data-in' type='checkbox'/><label for='index-7f4443c9-048a-47b7-aa4e-d2a99caf02d8' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([-9.875, -9.625, -9.375, -9.125, -8.875, -8.625, -8.375, -8.125, -7.875,
+       -7.625, -7.375, -7.125, -6.875, -6.625, -6.375, -6.125, -5.875, -5.625,
+       -5.375, -5.125, -4.875, -4.625, -4.375, -4.125, -3.875, -3.625, -3.375,
+       -3.125, -2.875, -2.625, -2.375, -2.125, -1.875, -1.625, -1.375, -1.125,
+       -0.875, -0.625, -0.375, -0.125,  0.125,  0.375,  0.625,  0.875],
+      dtype=&#x27;float64&#x27;, name=&#x27;longitude&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>dayofyear</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-c56bb89b-d2cc-4e77-856d-f485ebac2aa3' class='xr-index-data-in' type='checkbox'/><label for='index-c56bb89b-d2cc-4e77-856d-f485ebac2aa3' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([  1,   2,   3,   4,   5,   6,   7,   8,   9,  10,
+       ...
+       357, 358, 359, 360, 361, 362, 363, 364, 365, 366],
+      dtype=&#x27;int64&#x27;, name=&#x27;dayofyear&#x27;, length=366))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>period</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-415a7c62-25d5-4dbf-ad0f-0ef724485062' class='xr-index-data-in' type='checkbox'/><label for='index-415a7c62-25d5-4dbf-ad0f-0ef724485062' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([&#x27;1951-1980&#x27;, &#x27;1961-1990&#x27;, &#x27;1971-2000&#x27;, &#x27;1981-2010&#x27;, &#x27;1991-2020&#x27;], dtype=&#x27;object&#x27;, name=&#x27;period&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-456c0ac4-1ab1-42e0-b300-a5c230473716' class='xr-section-summary-in' type='checkbox'  checked><label for='section-456c0ac4-1ab1-42e0-b300-a5c230473716' class='xr-section-summary' >Attributes: <span>(4)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>mm</dd><dt><span>long_name :</span></dt><dd>rainfall mean</dd><dt><span>standard_name :</span></dt><dd>thickness_of_rainfall_amount</dd><dt><span>cell_methods :</span></dt><dd>time: mean</dd></dl></div></li></ul></div></div></div></div>
+</div>
+<p>We can see from the data structure that our information is already stored in a four-dimensional array with two data variables, corresponding to the RR ‘mean’ and ensemble ‘spread’, with dimensions: 5 time periods in ‘period’, 366 days in ‘dayofyear’, 32 steps in ‘latitude’, and 44 steps in ‘longitude’. This is because the toolbox provides an already post-processed output with the values calculated using the transformer function. In this use case, the following 30-years climatological periods are considered, as per the guidelines from the World Meteorological Organization (WMO):</p>
+<ul class="simple">
+<li><p>1951 to 1980</p></li>
+<li><p>1961 to 1990</p></li>
+<li><p>1971 to 2000</p></li>
+<li><p>1981 to 2010</p></li>
+<li><p>1991 to 2020</p></li>
+</ul>
+<p>This reduces the amount of data to be processed and stored locally, faclitating the next steps. Let’s inspect the data and compute the basic descriptive statistics of each period and print them in tabular form.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Inspect RR statistics</span>
+<span class="n">make_statistics_dataframe</span><span class="p">(</span><span class="n">ds_periods</span><span class="p">[</span><span class="s2">&quot;mean&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>period</th>
+      <th>number</th>
+      <th>mean</th>
+      <th>maximum</th>
+      <th>minimum</th>
+      <th>st.deviation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1951-1980</td>
+      <td>363804</td>
+      <td>1.746239</td>
+      <td>10.900444</td>
+      <td>0.0</td>
+      <td>1.262965</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1961-1990</td>
+      <td>363804</td>
+      <td>1.709346</td>
+      <td>10.590667</td>
+      <td>0.0</td>
+      <td>1.245602</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1971-2000</td>
+      <td>363804</td>
+      <td>1.637471</td>
+      <td>10.033778</td>
+      <td>0.0</td>
+      <td>1.173242</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1981-2010</td>
+      <td>363804</td>
+      <td>1.580396</td>
+      <td>8.686889</td>
+      <td>0.0</td>
+      <td>1.124286</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1991-2020</td>
+      <td>363804</td>
+      <td>1.592505</td>
+      <td>8.249778</td>
+      <td>0.0</td>
+      <td>1.117631</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Inspect RR spread statistics</span>
+<span class="n">make_statistics_dataframe</span><span class="p">(</span><span class="n">ds_periods</span><span class="p">[</span><span class="s2">&quot;spread&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>period</th>
+      <th>number</th>
+      <th>mean</th>
+      <th>maximum</th>
+      <th>minimum</th>
+      <th>st.deviation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1951-1980</td>
+      <td>363804</td>
+      <td>1.207785</td>
+      <td>4.860889</td>
+      <td>0.0</td>
+      <td>0.673531</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1961-1990</td>
+      <td>363804</td>
+      <td>1.174952</td>
+      <td>4.682667</td>
+      <td>0.0</td>
+      <td>0.659140</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1971-2000</td>
+      <td>363804</td>
+      <td>1.146566</td>
+      <td>4.486667</td>
+      <td>0.0</td>
+      <td>0.646300</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1981-2010</td>
+      <td>363804</td>
+      <td>1.120039</td>
+      <td>4.519333</td>
+      <td>0.0</td>
+      <td>0.637473</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1991-2020</td>
+      <td>363804</td>
+      <td>1.125873</td>
+      <td>4.456222</td>
+      <td>0.0</td>
+      <td>0.635379</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>As we can see from the descriptive statistics, the two most recent climatological periods are characterized by mean lower and maximum precipitation - in the Iberian Peninsula, the mean annual RR between 1991 and 2020 is almost 0.15mm above the equivalent in 1951 to 1980, while the annual maximum rr has a negative difference by more than 2.0mm. To further explore these findings, let’s compare E-OBS and ERA5 over the AoI.</p>
+<p>To do this, we need to create a set of weights based on latitude values. The weighted method is used to create a weighted dataset. Any subsequent aggregation operations (such as mean, sum, etc.) will take these weights into account. These weights can be used to account for the varying area of grid cells in latitude-longitude grids to ensure that calculations properly account for varying areas represented by grid cells at different latitudes.</p>
+<p>Now we will proceed with merging RR from both datasets.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot an overall comparison between both data products</span>
+<span class="n">da_timeseries</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hue</span><span class="o">=</span><span class="s2">&quot;product&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Comparison&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/a29fc26bc50bb3749f31aa317e8a96d479f88935217a08abd612b9522de0ff75.png" src="../_images/a29fc26bc50bb3749f31aa317e8a96d479f88935217a08abd612b9522de0ff75.png" />
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot a comparison between the years with maximum and minimum annual precipitation</span>
+<span class="n">da_timeseries_yearly</span> <span class="o">=</span> <span class="n">da_timeseries</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s2">&quot;E-OBS&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.year&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">zooms</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;maximum&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">da_timeseries_yearly</span><span class="o">.</span><span class="n">idxmax</span><span class="p">(</span><span class="s2">&quot;year&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()),</span>
+    <span class="s2">&quot;minimum&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">da_timeseries_yearly</span><span class="o">.</span><span class="n">idxmin</span><span class="p">(</span><span class="s2">&quot;year&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()),</span>
+<span class="p">}</span>
+<span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">zooms</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">da_timeseries</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">))</span>
+    <span class="n">da</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hue</span><span class="o">=</span><span class="s2">&quot;product&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The year with the </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/019d545283cfaa9e93f92c744bffacde10a2fcc42c574225f57dde9bec817bdd.png" src="../_images/019d545283cfaa9e93f92c744bffacde10a2fcc42c574225f57dde9bec817bdd.png" />
+<img alt="../_images/0dbd1572f01444257329a2db87706e9d9c0f301e0afbe0c6af8d0c09f7a93076.png" src="../_images/0dbd1572f01444257329a2db87706e9d9c0f301e0afbe0c6af8d0c09f7a93076.png" />
+</div>
+</div>
+<p>These time series plots show that both data products have very similar temporal variability and ranges in the RR values, with very few cases of RR &gt; 20mm. Furthermore, the same level of agreement is found when the annual maximum and minimum RR values are analysed: 1960 is shown to have several days surpassing 12mm of rain, whereas in 2005 there where only two days in which these values were reached.</p>
 </section>
-<section id="merge-e-obs-with-era5">
-<span id="insitu-insitu-gridded-observations-europe-climate-monitoring-q03-c3s2-d520-5-3-14b-quality-assessment-user-questions-eobs-uq3-v1-4-code-section-2"></span><h3>2. Merge E-OBS with ERA5<a class="headerlink" href="#merge-e-obs-with-era5" title="Link to this heading">#</a></h3>
+<section id="plot-the-climatology-and-the-probability-density-function-pdf-for-alternative-30-year-periods">
+<span id="insitu-insitu-gridded-observations-europe-climate-monitoring-q03-code-section-2"></span><h3>2. Plot the climatology and the probability density function (PDF) for alternative 30-year periods<a class="headerlink" href="#plot-the-climatology-and-the-probability-density-function-pdf-for-alternative-30-year-periods" title="Link to this heading">#</a></h3>
+<section id="calculation-of-the-climatological-mean">
+<h4>2.1. Calculation of the Climatological Mean<a class="headerlink" href="#calculation-of-the-climatological-mean" title="Link to this heading">#</a></h4>
+<p>With the subsets per period already created, now it is time to calculate the climatological mean over each Time of Interest (ToI). Here, the calculation of the annual mean RR map for each day of the year (DOY) is done, while considering a 15-days Simple Moving Average (SMA), in order to smooth the inter-days varibility.</p>
+<p>To complement the statistics and the maps of the annual mean RR over the Iberian Peninsula, it is also useful to consider the full distribution of the values of this variable, which is a function of space and time. The PDF is useful to this effect, as is shows how frequent certain values are in a given period. To this effect, we will use the helper functions defined earlier to calculate the climatology and the probability density function. In the following plot, we compare the PDF across the five climatology periods to emphasise how these frequencies have been changing.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -797,223 +1673,124 @@ Please note that this repository is used for development and review, so quality 
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Interpolate ERA5 data to match E-OBS resolution</span>
-<span class="n">ds_ERA5_interp</span> <span class="o">=</span> <span class="n">ds_ERA5_daily</span><span class="o">.</span><span class="n">interp_like</span><span class="p">(</span><span class="n">ds_EOBS</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the PDF and climatology maps of RR</span>
+<span class="n">maps_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;col&quot;</span><span class="p">:</span> <span class="s2">&quot;period&quot;</span><span class="p">,</span> <span class="s2">&quot;cmap&quot;</span><span class="p">:</span> <span class="s2">&quot;jet&quot;</span><span class="p">,</span> <span class="s2">&quot;robust&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+<span class="n">pdf_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;colors&quot;</span><span class="p">:</span> <span class="n">colors</span><span class="p">,</span> <span class="s2">&quot;hue&quot;</span><span class="p">:</span> <span class="s2">&quot;period&quot;</span><span class="p">,</span> <span class="s2">&quot;figsize&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">]}</span>
+<span class="k">for</span> <span class="n">da</span> <span class="ow">in</span> <span class="n">ds_periods</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+    <span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;dayofyear&quot;</span><span class="p">,</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="o">**</span><span class="n">maps_kwargs</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-<span class="c1"># Merge the datasets</span>
-<span class="n">merged_ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="n">ds_EOBS</span><span class="p">,</span> <span class="n">ds_ERA5_interp</span><span class="p">],</span> <span class="n">join</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+    <span class="n">plot_pdf</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="o">**</span><span class="n">pdf_kwargs</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </details>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">merged_ds</span><span class="p">)</span>
-</pre></div>
+<div class="cell_output docutils container">
+<img alt="../_images/4159363dc8fd84a5a5c46c6a6d5e1da82d7c07601597ff7bdf7abafc94411463.png" src="../_images/4159363dc8fd84a5a5c46c6a6d5e1da82d7c07601597ff7bdf7abafc94411463.png" />
+<img alt="../_images/3c299e9dd53d5dc416b23826b83b05824a88c3c0ab69db3ef4595dabc3e7971a.png" src="../_images/3c299e9dd53d5dc416b23826b83b05824a88c3c0ab69db3ef4595dabc3e7971a.png" />
+<img alt="../_images/ca1318936e29de57de25df47424b69d0207508b3472ef39e2b0234da799cd764.png" src="../_images/ca1318936e29de57de25df47424b69d0207508b3472ef39e2b0234da799cd764.png" />
+<img alt="../_images/db2dede9706cf19be93931b549e43a27c621b069061346155abde942d53cdfce.png" src="../_images/db2dede9706cf19be93931b549e43a27c621b069061346155abde942d53cdfce.png" />
 </div>
 </div>
-</details>
-</div>
-</section>
-<section id="inspect-and-view-the-merged-datasets">
-<span id="insitu-insitu-gridded-observations-europe-climate-monitoring-q03-c3s2-d520-5-3-14b-quality-assessment-user-questions-eobs-uq3-v1-4-code-section-3"></span><h3>3. Inspect and view the merged datasets<a class="headerlink" href="#inspect-and-view-the-merged-datasets" title="Link to this heading">#</a></h3>
-<p>Precipitation amount and Wind Speed plot representation, with an overview of a selected subset (year of 2000)</p>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate mean values over latitude and longitude</span>
-<span class="n">mean_ds</span> <span class="o">=</span> <span class="n">merged_ds</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;longitude&#39;</span><span class="p">,</span> <span class="s1">&#39;latitude&#39;</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the Precipitation data</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Precipitation Comparison: E-OBS vs ERA5&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Date&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Precipitation (mm)&#39;</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mean_ds</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">mean_ds</span><span class="p">[</span><span class="s1">&#39;RR EOBS&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;E-OBS Precipitation&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mean_ds</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">mean_ds</span><span class="p">[</span><span class="s1">&#39;RR ERA5&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;ERA5 Precipitation&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
-
-<span class="c1"># Add legend</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
-
-<span class="c1"># Show the plot</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Specify the year you want to subset (e.g., 2000)</span>
-<span class="n">year_to_subset</span> <span class="o">=</span> <span class="s1">&#39;2000&#39;</span>
-
-<span class="c1"># Subset the dataset for the specified year</span>
-<span class="n">subset_rr</span> <span class="o">=</span> <span class="n">mean_ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">year_to_subset</span><span class="p">)</span>
-
-<span class="n">subset_rr</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the Precipitation data considering a subset</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Precipitation Comparison - year 2000&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Date&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Precipitation (mm)&#39;</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subset_rr</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">subset_rr</span><span class="p">[</span><span class="s1">&#39;RR ERA5&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;ERA5 (RR)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subset_rr</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">subset_rr</span><span class="p">[</span><span class="s1">&#39;RR EOBS&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;E-OBS (RR)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
-
-<span class="c1"># Add a legend</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-
-<span class="c1"># Show the plot</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the Wind Speed (WS) data</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Wind Speed Comparison: E-OBS vs ERA5&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Date&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Wind Speed (m/s)&#39;</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mean_ds</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">mean_ds</span><span class="p">[</span><span class="s1">&#39;WS ERA5&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;ERA 5 (WS)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mean_ds</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">mean_ds</span><span class="p">[</span><span class="s1">&#39;WS EOBS&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;E-OBS (WS)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
-
-<span class="c1"># Add a legend</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-
-<span class="c1"># Show the plot</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the Wind Speed (WS) data considering a subset</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Wind Speed Comparison - year 2000&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Date&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Wind Speed (m/s)&#39;</span><span class="p">)</span>
-
-<span class="c1"># Plot tg data</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subset_rr</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">subset_rr</span><span class="p">[</span><span class="s1">&#39;WS ERA5&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;ERA5 (WS)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subset_rr</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">subset_rr</span><span class="p">[</span><span class="s1">&#39;WS EOBS&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;E-OBS (WS)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
-
-<span class="c1"># Add a legend</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-
-<span class="c1"># Show the plot</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<section id="save-the-data-into-csv-and-nc-formats">
-<h4>Save the data into .csv and .nc formats<a class="headerlink" href="#save-the-data-into-csv-and-nc-formats" title="Link to this heading">#</a></h4>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save as NetCDF for inspecting spatially averaged data</span>
-<span class="n">merged_ds</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span><span class="s1">&#39;RR_WS_EOBS_ERA5_merged.nc&#39;</span><span class="p">)</span>
-<span class="c1"># Convert xarray dataset to pandas DataFrame</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">merged_ds</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
-<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;RR_WS_EOBS_ERA5_merged.csv&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
+<p>The RR climatology maps already disclose some spatial patterns of the annual statistics summarised before: for instance, the decrease of RR is more pronounced in north-western and south-eastern coastal parts of the AoI, compared to the inland region. Nevertheless, as shown in the rainfall spread maps,the northernmost part of the AoI is characterised by a larger range - this suggests that there is a lower confidence in the gridded values over this region, possibly attributable to lower density of stations or increased regional RR variability.</p>
+<p>In addition, the PDF plots show that a gradual shift in the distribution of precipitation can be observed over time. Particularly from the earlier time period (1951-1980) represented in light blue, to the more recent periods (1991-2020) in red, there is a slight reduction of cases where average RR surpassed 2.0mm. From the rainfall spread PDF plot, it is also shown that the spread range is becoming more concentrated around certain values (below 1.5mm). This agrees with the consistent increase of in-situ data available, along time.</p>
 </section>
 </section>
-<section id="calculate-the-probability-density-function-pdf">
-<span id="insitu-insitu-gridded-observations-europe-climate-monitoring-q03-c3s2-d520-5-3-14b-quality-assessment-user-questions-eobs-uq3-v1-4-code-section-4"></span><h3>4.  Calculate the Probability density function (PDF)<a class="headerlink" href="#calculate-the-probability-density-function-pdf" title="Link to this heading">#</a></h3>
-<p>Of each alternative 30-year period</p>
-<section id="work-in-progress">
-<h4>Work in progress<a class="headerlink" href="#work-in-progress" title="Link to this heading">#</a></h4>
+<section id="calculate-and-plot-seasonal-pdfs-and-the-climatological-season-maps">
+<span id="insitu-insitu-gridded-observations-europe-climate-monitoring-q03-code-section-3"></span><h3>3. Calculate and plot seasonal PDFs and the climatological season maps<a class="headerlink" href="#calculate-and-plot-seasonal-pdfs-and-the-climatological-season-maps" title="Link to this heading">#</a></h3>
+<p>To take the analysis further, it is also useful to proceed with the calculation of seasonal climatologies. In this case the ToI will consider all the seasons of the year, i.e., Winter (Decembre, January, and February - DJF), Spring (March, April, May - MAM), Summer (June, July, and August - JJA) and Autumn (September, October, November - SON). In both cases, we will plot their PDF and maps for all the five periods.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">da</span> <span class="ow">in</span> <span class="n">ds_periods</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+    <span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span>
+        <span class="n">da</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;season&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">row</span><span class="o">=</span><span class="s2">&quot;season&quot;</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">maps_kwargs</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="n">plot_pdf</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;season&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">pdf_kwargs</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/ca8da4de2137205175ed76f066a9d789433af8e90e81f53c119ba4ec9de2e1a1.png" src="../_images/ca8da4de2137205175ed76f066a9d789433af8e90e81f53c119ba4ec9de2e1a1.png" />
+<img alt="../_images/7a226b7eacaa9bb0ab5d4c6b124a5cf2cb6100326073148887f5262b33303afc.png" src="../_images/7a226b7eacaa9bb0ab5d4c6b124a5cf2cb6100326073148887f5262b33303afc.png" />
+<img alt="../_images/2d7b913c848ed9c9ed22aa123927dfc60e9a8e4979d4d4395964517dca61d57b.png" src="../_images/2d7b913c848ed9c9ed22aa123927dfc60e9a8e4979d4d4395964517dca61d57b.png" />
+<img alt="../_images/8b6a0344e6aa6503b6f37e4adec7a33149b39cd30a38e9d40584f7a7996d4a21.png" src="../_images/8b6a0344e6aa6503b6f37e4adec7a33149b39cd30a38e9d40584f7a7996d4a21.png" />
+</div>
+</div>
+<p>In the above plots, we can see a dissimilar spatial pattern between seasonal changes: in the Winter, the higher RR changes are clustered along the Atlantic littoral zones, namely along the Portuguese western and the Spanish northern coasts, in which pixel values above 2.5mm are becoming rarer; by contrast, in the dry Summer season, the areas with an average lack of rainfall are expanding further inland in Spain. During the transition seasons, we can see here also contrasts: while the Spring shows a decrease in overall precipitation, in the Autumn, the reduction is more pronounced in the North-western part of AoI, whereas there is a slight increase in the average precipitation over the South-western region of the Iberian Peninsula (from the South of Portugal to the South of Spain).</p>
+<p>In complement, the ensemble spread maps illustrate the confidence level and variability that these average values may represent - as with the climatology mean, also the rainfall spread has a strong seasonality component, directly proportional to the overall rainfall mean. Hence, coastal regions to the West and North of the Iberian Peninsula are characterised by a larger spread during the Winter, Autumn and Spring seasons. While the PDF results complement these findings, the shift towards lower precipitation is very slight, when comparing the most recent and earlier periods. The only exception is the Autumn season in which such a tendency is absent.</p>
 </section>
-</section>
-<section id="calculate-the-the-annual-count-of-days">
-<span id="insitu-insitu-gridded-observations-europe-climate-monitoring-q03-c3s2-d520-5-3-14b-quality-assessment-user-questions-eobs-uq3-v1-4-code-section-5"></span><h3>5. Calculate the the annual count of days<a class="headerlink" href="#calculate-the-the-annual-count-of-days" title="Link to this heading">#</a></h3>
-<p>When RR&gt;=10mm; as defined by WMO Expert Team on Climate Change Detection Indices, ETCCDI</p>
-<section id="id1">
-<h4>Work in progress<a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
-</section>
-</section>
-<section id="map-of-the-annual-count-of-days">
-<span id="insitu-insitu-gridded-observations-europe-climate-monitoring-q03-c3s2-d520-5-3-14b-quality-assessment-user-questions-eobs-uq3-v1-4-code-section-6"></span><h3>6. Map of the annual count of days<a class="headerlink" href="#map-of-the-annual-count-of-days" title="Link to this heading">#</a></h3>
-<p>These maps will be compared to disclose if RR extremes are shifting in terms of mean and the distribution’s tails.
-The results from these maps shall be developed and compared considering the two datasets.</p>
-<section id="id2">
-<h4>Work in progress<a class="headerlink" href="#id2" title="Link to this heading">#</a></h4>
+<section id="calculate-the-annual-count-of-days">
+<span id="insitu-insitu-gridded-observations-europe-climate-monitoring-q03-code-section-4"></span><h3>4. Calculate the annual count of days<a class="headerlink" href="#calculate-the-annual-count-of-days" title="Link to this heading">#</a></h3>
+<p>To take the analysis one step further, we will calculate the the amount of days when RR≥10mm. Also called as the ‘Number of very heavy rain days’, this R10mm index is defined by WMO Expert Team on Climate Change Detection Indices, ETCCDI. We will proceed with the intercomparions of the results between both the E-OBS and ERA5 data products.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate and plot the annual time series of R10mm days for E-OBS and ERA5, along with their linear trend</span>
+<span class="n">df</span> <span class="o">=</span> <span class="p">(</span><span class="n">da_timeseries</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.year&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="n">subplots</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">product</span><span class="p">,</span> <span class="n">df_product</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;product&quot;</span><span class="p">)):</span>
+    <span class="n">years</span> <span class="o">=</span> <span class="n">df_product</span><span class="o">.</span><span class="n">columns</span>
+    <span class="n">x_values</span> <span class="o">=</span> <span class="n">years</span> <span class="o">-</span> <span class="n">years</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">mk_result</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">original_test</span><span class="p">(</span><span class="n">df_product</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">r_value</span><span class="p">,</span> <span class="n">p_value</span><span class="p">,</span> <span class="n">std_err</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">linregress</span><span class="p">(</span>
+        <span class="n">x_values</span><span class="p">,</span>
+        <span class="n">df_product</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span>
+    <span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_values</span><span class="p">,</span> <span class="n">intercept</span> <span class="o">+</span> <span class="n">slope</span> <span class="o">*</span> <span class="p">(</span><span class="n">x_values</span><span class="p">),</span> <span class="s2">&quot;k--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Sen&#39;s Slope&quot;</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+
+    <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">&quot;Slope: </span><span class="si">{</span><span class="n">slope</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> days/year&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;P-value: </span><span class="si">{</span><span class="n">p_value</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Tau: </span><span class="si">{</span><span class="n">mk_result</span><span class="o">.</span><span class="n">Tau</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Intercept: </span><span class="si">{</span><span class="n">intercept</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> days&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">1.01</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;top&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/90ceacfc56665a49fe83c9bb22667b67f83e5c497a00a4f4b964d64283ee4450.png" src="../_images/90ceacfc56665a49fe83c9bb22667b67f83e5c497a00a4f4b964d64283ee4450.png" />
+</div>
+</div>
+<p>As shown in these plots, neither dataset reveals any statistically significant trend in the number of days with rainfall exceeding 10.0 mm, despite the slight RR reduction observed in the climatologies and statistics. Interestingly, both datasets have similar intercepts, slightly negative slopes, and notable inter-annual variability. Furthermore, ERA5 has slightly fewer years in which heavy precipitation occured in 6 or more days (32, compared to 34 in E-OBS), but showcases the overall maximum of the two time series (17 heavy precipitaiton days in 1963, compared to 14 days in the E-OBS dataset). Despite non-significant results, the last two decades are indeed characterised by fewer heavy precipitaiton days, compared to the ealrier periods.</p>
+<section id="discussion">
+<h4>Discussion<a class="headerlink" href="#discussion" title="Link to this heading">#</a></h4>
+<p>The analysis shows a strong overall agreement between the E-OBS and ERA5 datasets which reinforces their fitness to disclose spatio-temporal precipitation patterns, including significative precipitation events over the Iberian Peninsula, across the period of study. Over the recent decades, the data suggests a shift in precipitation patterns towards reduced rainfall, especially during the Winter and Spring, and a decrease in the frequency of extreme precipitation days. Nevertheless, inter-annual variability remains consistently high, and there is no statistically significant trend in the number of heavy precipitation days (RR ≥ 10 mm), between 1950 and 2020, in both datasets. Although slight downward trends are visible, they are not strong enough to be conclusive. Some minor discrepancies arise when comparing the amount of such extreme precipitation days, this difference may be due to some smoothing introduced by the interpolation algorithm used to produce the E-OBS gridded data, especially in regions with sparse data coverage.</p>
+<p>The lack of a trend may be due to natural variability or decadal oscillations, which may limit our ability to detect the statistical significance of centennial-scale changes which may lead to sectoral impacts, such as reduced water availability, severe drought, or flooding potential. Such shifts may have serious implications for agriculture, infrastructure planning, and climate adaptation policies.</p>
+<p>These findings show how the precipitation statistics over the Iberian Peninsula are, in fact, consistent and adeuqatly disclose the full temporal and spatial variability of changes in the local and regional climate. While the ensemble spread shows inhomogeneous spatial patterns that may arise from the irregular density of in-situ stations available, across the region, as well as from the variability of the precipitation over this region, the agreement with ERA5 reinforces the confidence in using the E-OBS dataset when further detail is required.</p>
+<p>Indeed, inhomogeneities accross the region indicate that E-OBS accuracy may be location-dependent. As described in this dataset’s documentation, the usage of this dataset should be done with caution, especially when interpreting trends and extremes, considering the potential limitations in accuracy and completeness in regions where observational data may be scarcer (Cornes et al., 2018). Furthermore, potential biases should be considered from the interpolation techniques employed, and consider the spatial variability of the variables when interpreting results. As an indicator of the confidence intervals associated with individual grid cells, the ensemble spread may provide insights into the reliability of data in specific locations, aiding in the assessment of uncertainties (Carvalho, Cardoso Pereira, and Rocha, 2021). In all cases, the intercomparison with reference in-situ data is advised.</p>
 </section>
 </section>
 <section id="main-takeaways">
-<span id="insitu-insitu-gridded-observations-europe-climate-monitoring-q03-c3s2-d520-5-3-14b-quality-assessment-user-questions-eobs-uq3-v1-4-code-section-7"></span><h3>7. Main takeaways<a class="headerlink" href="#main-takeaways" title="Link to this heading">#</a></h3>
-<section id="id3">
-<h4>Work in progress<a class="headerlink" href="#id3" title="Link to this heading">#</a></h4>
-</section>
+<span id="insitu-insitu-gridded-observations-europe-climate-monitoring-q03-code-section-5"></span><h3>5. Main takeaways<a class="headerlink" href="#main-takeaways" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>The comparison of precipitation trends between E-OBS and ERA5 reveals several important insights. Both datasets are largely consistent in capturing overall precipitation patterns, particularly in terms of the frequency and occurrence of daily precipitation events. ERA5 and E-OBS demonstrate strong alignment in their time series, but there are some minor discrepancies in the detection of heavy rainfall days. This slight discrepancy suggests an intercomparison between E-OBS and reference stations is advised, when using this dataset for detecting rainfall extremes, particularly in data-sparse regions.</p></li>
+<li><p>The lack of statistically significant trends in the number of heavy precipitation days (≥10 mm) across both datasets further supports the notion that there is no clear trend in extreme rainfall events over the observed period (1950–2020), in this region, despite an overall slight reduction in terms of climatological mean values, especially during the Winter and Spring.</p></li>
+<li><p>When focusing on extreme events, ERA5 shows the highest maximum magnitudes, which aligns with the findings from the literature, such as <a class="reference external" href="https://doi.org/10.1002/joc.7269">[3]</a> and <a class="reference external" href="https://doi.org/10.1029/2020EA001633">[5]</a>, who emphasized ERA5’s improved detection of extreme precipitation compared to E-OBS. Therefore, while the datasets offer consistent estimates for general precipitation trends, researchers studying extreme events or regions with limited observational data should consider these differences in extreme rainfall representation.</p></li>
+<li><p>In conclusion, while E-OBS remains a robust dataset for historical analysis, particularly in areas with dense observational networks, it is advised to use in-situ stations data to provide complementary insights, especially in regions with sparse data coverage and for analyses focused on extreme precipitation events. The choice of dataset should thus be informed by the specific research focus.</p></li>
+</ul>
 </section>
 </section>
 <section id="i-if-you-want-to-know-more">
@@ -1035,11 +1812,13 @@ The results from these maps shall be developed and compared considering the two 
 </section>
 <section id="references">
 <h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
-<p><a class="reference external" href="https://library.wmo.int/index.php?lvl=notice_display&amp;amp;id=20130">[1]</a> World Meteorological Organization (WMO) Guidelines on the Calculation of Climate Normals:</p>
-<p><a class="reference external" href="https://doi.org/10.1029/2017JD028200">[2]</a> Cornes, R., G. van der Schrier, E.J.M. van den Besselaar, and P.D. Jones. 2018: An Ensemble Version of the E-OBS Temperature and Precipitation Datasets, J. Geophys. Res. (Atmospheres), 123.</p>
-<p><a class="reference external" href="https://doi.org/10.1002/JOC.7269">[3]</a> Bandhauer, Moritz, Francesco Isotta, Mónika Lakatos, Cristian Lussana, Line Båserud, Beatrix Izsák, Olivér Szentes, Ole Einar Tveito, and Christoph Frei. 2022. “Evaluation of Daily Precipitation Analyses in E-OBS (V19.0e) and ERA5 by Comparison to Regional High-Resolution Datasets in European Regions.” International Journal of Climatology 42 (2): 727–47.</p>
-<p><a class="reference external" href="https://doi.org/10.1029/2009JD011799">[4]</a> Hofstra, Nynke, Malcolm Haylock, Mark New, and Phil D. Jones. 2009. “Testing E-OBS European High-Resolution Gridded Data Set of Daily Precipitation and Surface Temperature.” Journal of Geophysical Research Atmospheres.</p>
-<p><a class="reference external" href="https://doi.org/10.1029/2020EA001633">[5]</a> Rivoire, Pauline, Olivia Martius, and Philippe Naveau. 2021. “A Comparison of Moderate and Extreme ERA-5 Daily Precipitation With Two Observational Data Sets.” Earth and Space Science 8 (4): e2020EA001633.</p>
+<p><a class="reference external" href="https://climate.copernicus.eu/esotc/2023">[1]</a> Copernicus Climate Change Service. 2024. European State of the Climate 2023.</p>
+<p><a class="reference external" href="https://climpact-sci.org/">[2]</a> Climpact. 2024.</p>
+<p><a class="reference external" href="https://library.wmo.int/index.php?lvl=notice_display&amp;amp;id=20130">[3]</a> World Meteorological Organization (WMO) Guidelines on the Calculation of Climate Normals:</p>
+<p><a class="reference external" href="https://doi.org/10.1029/2017JD028200">[4]</a> Cornes, R., G. van der Schrier, E.J.M. van den Besselaar, and P.D. Jones. 2018: An Ensemble Version of the E-OBS Temperature and Precipitation Datasets, J. Geophys. Res. (Atmospheres), 123.</p>
+<p><a class="reference external" href="https://doi.org/10.1002/JOC.7269">[5]</a> Bandhauer, Moritz, Francesco Isotta, Mónika Lakatos, Cristian Lussana, Line Båserud, Beatrix Izsák, Olivér Szentes, Ole Einar Tveito, and Christoph Frei. 2022. “Evaluation of Daily Precipitation Analyses in E-OBS (V19.0e) and ERA5 by Comparison to Regional High-Resolution Datasets in European Regions.” International Journal of Climatology 42 (2): 727–47.</p>
+<p><a class="reference external" href="https://doi.org/10.1029/2009JD011799">[6]</a> Hofstra, Nynke, Malcolm Haylock, Mark New, and Phil D. Jones. 2009. “Testing E-OBS European High-Resolution Gridded Data Set of Daily Precipitation and Surface Temperature.” Journal of Geophysical Research Atmospheres.</p>
+<p><a class="reference external" href="https://doi.org/10.1029/2020EA001633">[7]</a> Rivoire, Pauline, Olivia Martius, and Philippe Naveau. 2021. “A Comparison of Moderate and Extreme ERA-5 Daily Precipitation With Two Observational Data Sets.” Earth and Space Science 8 (4): e2020EA001633.</p>
 </section>
 </section>
 </section>
@@ -1099,7 +1878,8 @@ The results from these maps shall be developed and compared considering the two 
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -1108,7 +1888,7 @@ The results from these maps shall be developed and compared considering the two 
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-impact-of-climate-change-on-precipitation-over-the-iberian-peninsula">🌍 Use case: Impact of climate change on precipitation over the Iberian Peninsula.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-assessment-of-climate-change">🌍 Use case: Assessment of Climate Change.</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
@@ -1118,31 +1898,18 @@ The results from these maps shall be developed and compared considering the two 
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-overview">Data Overview</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-and-prepared-e-obs-data">1.1. Download and prepared E-OBS data</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#download-era5-and-prepared-data">Download ERA5 and prepared data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-and-prepare-e-obs-data">1.1. Download and prepare E-OBS data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inspect-and-view-data">1.2. Inspect and view data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-climatology-and-the-probability-density-function-pdf-for-alternative-30-year-periods">2. Plot the climatology and the probability density function (PDF) for alternative 30-year periods</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#calculation-of-the-climatological-mean">2.1. Calculation of the Climatological Mean</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-e-obs-with-era5">2. Merge E-OBS with ERA5</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inspect-and-view-the-merged-datasets">3. Inspect and view the merged datasets</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#save-the-data-into-csv-and-nc-formats">Save the data into .csv and .nc formats</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-and-plot-seasonal-pdfs-and-the-climatological-season-maps">3. Calculate and plot seasonal PDFs and the climatological season maps</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-the-annual-count-of-days">4. Calculate the annual count of days</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">Discussion</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-the-probability-density-function-pdf">4.  Calculate the Probability density function (PDF)</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#work-in-progress">Work in progress</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-the-the-annual-count-of-days">5. Calculate the the annual count of days</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Work in progress</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#map-of-the-annual-count-of-days">6. Map of the annual count of days</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Work in progress</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#main-takeaways">7. Main takeaways</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Work in progress</a></li>
-</ul>
-</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#main-takeaways">5. Main takeaways</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
@@ -1198,8 +1965,8 @@ By the Copernicus Climate Change Service (C3S), entrusted to ECMWF (European Cen
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
 
   <footer class="bd-footer">
   </footer>
