@@ -458,10 +458,10 @@ Please note that this repository is used for development and review, so quality 
 <section id="quality-assessment-questions">
 <h2>❓ Quality assessment questions<a class="headerlink" href="#quality-assessment-questions" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><strong>How can I assess the forecasted temperatures for two months time?</strong></p></li>
+<li><p><strong>How can I assess the forecast temperatures for two months time?</strong></p></li>
 <li><p><strong>Do the different forecast systems provide a consistent outlook?</strong></p></li>
 </ul>
-<p>Seasonal forecast in C3S provides a prediction of the near future. For two months prediction time, emphasis should be put on a probabilistic approach understanding the uncertainty in the prediction <a class="reference external" href="https://doi.org/10.1098/rsif.2013.1162">[1]</a>. To this end, here we assess important characteristics of seasonal forecasts, how they can be compared, interpreted and used.</p>
+<p>Seasonal forecast in C3S provides a prediction of the near future. For two months prediction time, emphasis should be put on a probabilistic approach and understanding the uncertainty in the prediction <a class="reference external" href="https://doi.org/10.1098/rsif.2013.1162">[1]</a>. To this end, here we assess important characteristics of seasonal forecasts, how they can be compared, interpreted and used.</p>
 </section>
 <section id="quality-assessment-statement">
 <h2>📢 Quality assessment statement<a class="headerlink" href="#quality-assessment-statement" title="Link to this heading">#</a></h2>
@@ -472,7 +472,7 @@ Please note that this repository is used for development and review, so quality 
 <li><p>The resulting plots show the uncertainty in the forecast (range of outcomes for each forecast system and between forecast systems), how the seasonal forecast differs from the model climatology, and how likely it is that the coming months will be in the lower, middle or upper terciles of the climatology.</p></li>
 <li><p>For the specific example provided, forecasts issued in June 2023 and valid for 2m air temperature for a region over Southern Norway in July 2023 shows that:</p>
 <ul>
-<li><p>All forecast systems provide a consistent outlook that the month will end up in the upper tercile of the climatology (probabilities between 50 and 61% for the different systems).</p></li>
+<li><p>All forecast systems provide a consistent outlook that the month will end up in the upper tercile of the climatology (probabilities between 45 and 61% for the different systems).</p></li>
 <li><p>The climatology of the different forecast systems are quite different, hence they need to be bias adjusted before their face-value  can be combined in a multi-model forecast. This emphasises the need for always comparing the forecasts with the hindcast climatology.</p></li>
 </ul>
 </li>
@@ -485,7 +485,7 @@ Please note that this repository is used for development and review, so quality 
 <section id="methodology">
 <h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
 <p>This code in this notebook enables an assessment of the range of possible outcomes for two months prediction time of seasonal forecast systems, in the case of near surface temperature. For reference, the forecasts are presented together with the expected (normal) range of temperatures for the month and region of interest. The normal range is based on so-called hindcasts of past weather from the same forecasting system.</p>
-<p>This quality assessment does not assess the historical quality of the seasonal forecast, as the forecasts (e.g. hindcasts) are not compared with historical outcomes (e.g. observations or re-analyses like ERA5). This will be done in another notebook, and is also done <a class="reference external" href="https://confluence.ecmwf.int/display/CKB/C3S+seasonal+forecasts+verification+plots">here</a>.</p>
+<p>This quality assessment does not assess the historical quality of the seasonal forecast, as the forecasts (e.g. hindcasts) are not compared with historical outcomes (e.g. observations or re-analyses like ERA5). This will be done in another notebook, and is also done <a class="reference external" href="https://confluence.ecmwf.int/display/CKB/C3S+seasonal+forecasts+verification+plots">here</a>, in verification plots for the C3S graphical products.</p>
 <p><a class="reference internal" href="#seasonal-seasonal-monthly-single-levels-uncertainty-quality-flags-q01-section-1"><span class="std std-ref"><strong>1. Choose data to use and setup code:</strong></span></a></p>
 <ul class="simple">
 <li><p>Choose a selection of forecast systems and versions, forecast start time (year and month), hindcast period (normally 1993-2016), region (latitude-longitude box).</p></li>
@@ -561,7 +561,7 @@ Please note that this repository is used for development and review, so quality 
 </ul>
 <p>To see the different alternatives see the API-request at the bottom of <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/seasonal-monthly-single-levels?tab=form">this page</a></p>
 <p>Note: if you want to change parameter you might also want to add conversion functions in this section. For example for precipitation you might want to convert from precipitation rate to total precipitation amount</p>
-<p>The data is downloaded to a 1 degree lat/lon grid from 89.5 N to 89.5 S and 179.5 W to 179.5 E which is the grid for the latest model versions of all models except for JMA. The JMA data, which is on a 1.25 x 1.25 grid, is therefore interpolated. This is as a convencience to ensure that the lat-lon slices return the same grids for the different systems, and that we can use similar requests to cds. Otherwise the interpolation would not be needed since we are doing an area average.</p>
+<p>The data is downloaded to a 1 degree lat/lon grid from 89.5 N to 89.5 S and 179.5 W to 179.5 E which is the grid for the latest model versions of all models except for JMA. The JMA data, which is on a 1.25 x 1.25 grid, is therefore interpolated. This is as a convencience to ensure that the lat-lon slices return the same grids for the different systems, and that we can use similar requests to cds. Otherwise the interpolation would not be needed since we are doing an area average. Also, the ‘weights’ flag will be set to ‘True’ in the next section, which means the area average is carried out taking into account the variation of the cell areas with cosine of latitude in the regular lat-lon grid.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -934,7 +934,7 @@ The figure produced reinforces the findings from the figures produced in the las
 </div>
 <p>Figure 1 shows the uncertainty, the range of outcomes covered by the ensemble members in the different seasonal forecast systems separately, while Figure 2 shows the probabilities from all the individual forecast systems for the lower, middle, and upper tercile together. While all systems show the same tendency towards that the upper tercile has the highest probability, there is still a substantial chance for the lower and middle tercile to happen as well. In fact, the probability of not ending up in the upper tercile is still around 50%.</p>
 <p>To answer to the questions stated initially; The generated plots assess the forecasted temperatures with a two months lead time and indicate that the most likely tercile is the upper tercile, but that it is almost equally likely that we will not end up in the upper tercile. In particular, Figure 2 shows that the different seasonal forecast systems provide a consistent outlook. In general, multi-model system forecasts often provide better forecasts and estimates of the uncertainty than applying a single model system (e.g. Doblas-Reyes et al., 2009 [<a class="reference external" href="https://doi.org/10.1002/qj.464">2</a>]).</p>
-<p>There are multiple ways to visualize seasonal forecasts and their associated uncertainty as probabilistic forecasts. C3S provides more examples of this as charts or graphical products (<a class="reference external" href="https://climate.copernicus.eu/charts/packages/c3s_seasonal/">https://climate.copernicus.eu/charts/packages/c3s_seasonal/</a>)</p>
+<p>There are multiple ways to visualize seasonal forecasts and their associated uncertainty as probabilistic forecasts. C3S provides more examples of this as  in the graphical products: <a class="reference external" href="https://climate.copernicus.eu/charts/packages/c3s_seasonal/">https://climate.copernicus.eu/charts/packages/c3s_seasonal/</a></p>
 </section>
 </section>
 <section id="i-if-you-want-to-know-more">
