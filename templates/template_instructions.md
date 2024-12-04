@@ -26,7 +26,8 @@ There is a new approach to linking the methodology list to the subsections in an
 
 We do not aim to be completely prescriptive about the title, it should be readable and descriptive, but also include some keywords to increase searchability, e.g. *Seasonal forecasts bias assessment for impact models*.
 
-It could include: 
+It could include:
+
 - **Data stream/ECV/variable/index**: Satellite (observations), Insitu (observations), Reanalysis, Seasonal (Forecasts), Climate (projections)
 - **Quality area**: bias, forecast skill, completeness, intercomparison of X and Y, comparison to X, trend assessment, extremes, spatial/temporal resolution, reliability, accuracy, etc.
 - **Application area**: impact models, risk assessment, climate monitoring, scientific study of X, Y sector, 'region', 'specific C3S application', flood forecasting, etc.
