@@ -1,22 +1,27 @@
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.6.0
+  rev: v5.0.0
   hooks:
   - id: check-yaml
+  - id: check-toml
   - id: check-merge-conflict
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.4.3
+  rev: v0.7.3
   hooks:
   - id: ruff
     args: [--fix, --show-fixes]
+    types_or: [python, pyi]
   - id: ruff-format
+    types_or: [python, pyi]
 - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-  rev: v2.13.0
+  rev: v2.14.0
   hooks:
   - id: pretty-format-yaml
     args: [--autofix, --preserve-quotes]
+  - id: pretty-format-toml
+    args: [--autofix]
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.10.0
+  rev: v1.13.0
   hooks:
   - id: mypy
     args: [--strict, --ignore-missing-imports]
@@ -27,9 +32,31 @@ repos:
     entry: python scripts/validate-filenames.py
     language: python
     types: [jupyter]
-  - id: format-tags
-    name: format-tags
-    entry: python scripts/format-tags.py
+    exclude: ^templates/
+- repo: local
+  hooks:
+  - id: fix-markdown-strings
+    name: fix-markdown-strings
+    entry: python scripts/fix-markdown-strings.py
     language: python
     types: [jupyter]
     additional_dependencies: [nbformat]
+- repo: local
+  hooks:
+  - id: validate-headings
+    name: validate-headings
+    entry: python scripts/validate-headings.py
+    language: python
+    types: [jupyter]
+    additional_dependencies: [nbformat]
+- repo: https://github.com/executablebooks/mdformat
+  rev: 0.7.18
+  hooks:
+  - id: mdformat
+    additional_dependencies:
+    - mdformat-gfm
+- repo: https://github.com/kynan/nbstripout
+  rev: 0.8.0
+  hooks:
+  - id: nbstripout
+    args: [--drop-empty-cells, --keep-count, --keep-output, --extra-keys, metadata.kernelspec]
