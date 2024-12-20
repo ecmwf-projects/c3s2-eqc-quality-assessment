@@ -16,17 +16,19 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
@@ -36,10 +38,11 @@
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
@@ -64,6 +67,7 @@
     <link rel="prev" title="1.1. Atmosphere Physics" href="Atmosphere_Physics.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -79,19 +83,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -99,7 +92,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -107,8 +99,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -127,7 +119,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -157,21 +150,17 @@
     
     
     <img src="../../_static/C3S–POS–LINE.png" class="logo__image only-light" alt="eqcbook - Home"/>
-    <script>document.write(`<img src="../../_static/C3S–POS–LINE.png" class="logo__image only-dark" alt="eqcbook - Home"/>`);</script>
+    <img src="../../_static/C3S–POS–LINE.png" class="logo__image only-dark pst-js-only" alt="eqcbook - Home"/>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -249,9 +238,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -395,24 +389,16 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
+</button>
 <button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
@@ -443,10 +429,10 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-the-data-to-use-and-setup-code">1. Choose the data to use and setup code</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-and-transform">2. Download and Transform</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-spatial-weighted-time-series-time-weighted-means-spatial-weighted-zonal-means">3. Plot Spatial weighted time series, Time weighted means, Spatial weighted Zonal means</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-spatial-weighted-time-series">Plot Spatial weighted time series</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-time-weighted-means">Plot Time weighted means</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-spatial-weighted-zonal-means">Plot Spatial weighted Zonal means</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-spatial-weighted-time-series-time-weighted-means-spatial-weighted-zonal-means">3. Plot spatial weighted time series, time weighted means, spatial weighted zonal means</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-spatial-weighted-time-series">Plot spatial weighted time series</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-time-weighted-means">Plot time weighted means</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-spatial-weighted-zonal-means">Plot spatial weighted zonal means</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion-and-applications">Discussion and applications</a></li>
@@ -474,16 +460,16 @@ Please note that this repository is used for development and review, so quality 
 </div><section class="tex2jax_ignore mathjax_ignore" id="satellite-surface-radiation-budget-intercomparison-for-climate-change-monitoring">
 <h1><span class="section-number">1.1.1. </span>Satellite Surface Radiation Budget intercomparison for climate change monitoring<a class="headerlink" href="#satellite-surface-radiation-budget-intercomparison-for-climate-change-monitoring" title="Link to this heading">#</a></h1>
 <p>Production date: 29-06-2023</p>
-<p>Produced by: CNR-ISMAR, Andrea Storto and Vincenzo de Toma</p>
+<p>Produced by: CNR-ISMAR</p>
 <section id="use-case-use-surface-radiation-budget-to-monitor-climate-change">
 <h2>🌍 Use case: Use surface radiation budget to monitor climate change<a class="headerlink" href="#use-case-use-surface-radiation-budget-to-monitor-climate-change" title="Link to this heading">#</a></h2>
 </section>
 <section id="quality-assessment-question-s">
 <h2>❓ Quality assessment question(s)<a class="headerlink" href="#quality-assessment-question-s" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><strong>What is the climatology and temporal variability of SRB and its uncertainty? Can I use it to monitor the change in the radiation budget?</strong></p></li>
+<li><p><strong>What is the climatology and temporal variability of SRB and its uncertainty? How consistent are the surface radiation budget products?</strong></p></li>
 </ul>
-<p><strong>‘Context’</strong> The Surface Radiation Budget (SRB) products allow quantifying the surface energy budget, the energy exchanges at the atmospheric lower boundary (with ocean, ice, and land), and their temporal and spatial variability, for use in several climate applications. Their temporal coverage and spatial detail vary significantly between the products. There exist offsets between the product, which tend to be significant near the polar regions for shortwave components, and at low latitudes for longwave fluxes.</p>
+<p>The Surface Radiation Budget (SRB) products allow quantifying the surface energy budget, the energy exchanges at the atmospheric lower boundary (with ocean, ice, and land), and their temporal and spatial variability, for use in several climate applications, such as, for instance: i) climate modeling and validation, where SRB data are essential for initializing and validating general circulation models (GCMs) of the ocean and atmosphere. Accurate SRB measurements help improve model predictions of climate behavior by ensuring that energy exchanges are correctly represented; ii) energy balance analysis, focusing on understanding the role of SRB on Earth’s energy balance, which influences global temperatures and climate dynamics. Discrepancies in the SRB can indicate changes in climate forcings, such as increased greenhouse gases or variations in solar radiation; iii) surface temperature studies, where SRB data contribute to studying regional amplifications of climate variations; iv) research on other cycles, like for instance the hydrological cycle, for which SRB strongly influences the evaporation rate and, to a lesser extent, precipitation patterns. Their temporal coverage and spatial detail, however, vary significantly between the products. There exist offsets between the products, which tend to be significant near the polar regions for shortwave components, and at low latitudes for longwave fluxes. In particular, biases of opposite sign (negative for CLARA products, positive for ESA and C3S products) and documented within the Product Validation and Intercomparison Reports, amplify the cross-product differences.</p>
 </section>
 <section id="quality-assessment-statement">
 <h2>📢 Quality assessment statement<a class="headerlink" href="#quality-assessment-statement" title="Link to this heading">#</a></h2>
@@ -498,7 +484,7 @@ Please note that this repository is used for development and review, so quality 
 </div>
 <p>Using satellite data to estimate the surface radiation budget - comprising shortwave and longwave radiation at the interfaces between atmosphere and ocean, atmosphere and land, and atmosphere and ice - is often discontinuous and poses significant challenges for climate monitoring and model verification. These estimates can be influenced by various atmospheric conditions and instrument limitations, making their use complex and recommended only for expert users (<a class="reference external" href="https://doi.org/10.1016/j.agrformet.2006.02.001">[1]</a>; <a class="reference external" href="https://doi.org/10.1175/2008BAMS2634.1">[2]</a>). Partial temporal (and spatial, to a lesser extent) sampling of the datasets hampers their easy utilization.</p>
 <figure class="align-default" id="id1">
-<img alt="../../_images/955600f0-e8db-4f87-b515-9c9c8689440d.png" src="../../_images/955600f0-e8db-4f87-b515-9c9c8689440d.png" />
+<img alt="../../_images/3189c254-8931-4b03-b4ac-6a5959af85cc.png" src="../../_images/3189c254-8931-4b03-b4ac-6a5959af85cc.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 1.1.1.1 </span><span class="caption-text">Zonally averaged outgoing longwave radiation at the surface</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
 </figcaption>
@@ -506,13 +492,13 @@ Please note that this repository is used for development and review, so quality 
 </section>
 <section id="methodology">
 <h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
-<p>In this notebook we inter-compare the following catalogue entries from the Climate and Atmosphere Data Store (CDS) by Copernicus:</p>
+<p>In this notebook we inter-compare the following catalogue entries from the Climate Data Store (CDS) by Copernicus:</p>
 <ol class="arabic simple">
 <li><p>CLARA-A2: CM SAF cLoud, Albedo and surface RAdiation dataset from AVHRR data - Edition 2. Satellite Application Facility on Climate Monitoring (CLARA EUMETSAT)</p></li>
 <li><p>ESA Cloud Climate Change Initiative (ESA Cloud_cci) data: Cloud_cci ATSR2-AATSR L3C/L3U CLD_PRODUCTS v3.0.</p></li>
-<li><p>Surface Radiation Budget, CCI ICDR product version 3.1. Copernicus Climate Change Service (C3S) Climate Data Store (CDS). (CLARA C3S)
-In particular, this analysis takes into account the Essential Climate Variables (ECV) as follows:</p></li>
+<li><p>Surface Radiation Budget, CCI ICDR product version 3.1. Copernicus Climate Change Service (C3S) Climate Data Store (CDS). (CLARA C3S)</p></li>
 </ol>
+<p>In particular, this analysis takes into account the Essential Climate Variables (ECV) as follows:</p>
 <ul class="simple">
 <li><p>Surface Reflected Solar Radiation (SRS);</p></li>
 <li><p>Surface Incoming Solar Radiation (SIS);</p></li>
@@ -520,19 +506,14 @@ In particular, this analysis takes into account the Essential Climate Variables 
 <li><p>Surface Outgoing Longwave Radiation (SOL).</p></li>
 </ul>
 <p>The analysis and results are organised in the following steps, which are detailed in the sections below:</p>
-<p><strong>1. <a class="reference internal" href="#satellite-satellite-surface-radiation-budget-climate-monitoring-q01-choose-the-data-to-use-and-setup-code"><span class="std std-ref">Choose the data to use and setup code</span></a>:</strong></p>
-<p><strong>2. <a class="reference internal" href="#satellite-satellite-surface-radiation-budget-climate-monitoring-q01-download-and-transform"><span class="std std-ref">Download and Transform</span></a>:</strong></p>
-<p><strong>3. <a class="reference internal" href="#satellite-satellite-surface-radiation-budget-climate-monitoring-q01-plot-spatial-weighted-time-series-time-weighted-means-spatial-weighted-zonal-means"><span class="std std-ref">Plot Spatial weighted time series, Time weighted means, Spatial weighted Zonal means</span></a>:</strong></p>
-<ul class="simple">
-<li><p>Plot Spatial weighted time series</p></li>
-<li><p>Time weighted means</p></li>
-<li><p>Spatial weighted Zonal means</p></li>
-</ul>
+<p><strong><a class="reference internal" href="#satellite-satellite-surface-radiation-budget-climate-monitoring-q01-section-1"><span class="std std-ref">1. Choose the data to use and setup code</span></a></strong></p>
+<p><strong><a class="reference internal" href="#satellite-satellite-surface-radiation-budget-climate-monitoring-q01-section-2"><span class="std std-ref">2. Download and Transform</span></a></strong></p>
+<p><strong><a class="reference internal" href="#satellite-satellite-surface-radiation-budget-climate-monitoring-q01-section-3"><span class="std std-ref">3. Plot spatial weighted time series, time weighted means, spatial weighted zonal means</span></a></strong></p>
 </section>
 <section id="analysis-and-results">
 <h2>📈 Analysis and results<a class="headerlink" href="#analysis-and-results" title="Link to this heading">#</a></h2>
 <section id="choose-the-data-to-use-and-setup-code">
-<span id="satellite-satellite-surface-radiation-budget-climate-monitoring-q01-choose-the-data-to-use-and-setup-code"></span><h3>1. Choose the data to use and setup code<a class="headerlink" href="#choose-the-data-to-use-and-setup-code" title="Link to this heading">#</a></h3>
+<span id="satellite-satellite-surface-radiation-budget-climate-monitoring-q01-section-1"></span><h3>1. Choose the data to use and setup code<a class="headerlink" href="#choose-the-data-to-use-and-setup-code" title="Link to this heading">#</a></h3>
 <p>In this section, we import the required packages and set up the dataset names for further use in the following sections. Processing functions are also defined.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
@@ -640,7 +621,7 @@ In particular, this analysis takes into account the Essential Climate Variables 
 
 <span class="k">def</span> <span class="nf">spatial_weighted_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">lon_slice</span><span class="p">,</span> <span class="n">lat_slice</span><span class="p">):</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">regionalise</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">lon_slice</span><span class="o">=</span><span class="n">lon_slice</span><span class="p">,</span> <span class="n">lat_slice</span><span class="o">=</span><span class="n">lat_slice</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 <span class="n">xarray_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;drop_variables&quot;</span><span class="p">:</span> <span class="s2">&quot;time_bounds&quot;</span><span class="p">,</span> <span class="s2">&quot;preprocess&quot;</span><span class="p">:</span> <span class="n">preprocess_time</span><span class="p">}</span>
 </pre></div>
@@ -650,7 +631,7 @@ In particular, this analysis takes into account the Essential Climate Variables 
 </div>
 </section>
 <section id="download-and-transform">
-<span id="satellite-satellite-surface-radiation-budget-climate-monitoring-q01-download-and-transform"></span><h3>2. Download and Transform<a class="headerlink" href="#download-and-transform" title="Link to this heading">#</a></h3>
+<span id="satellite-satellite-surface-radiation-budget-climate-monitoring-q01-section-2"></span><h3>2. Download and Transform<a class="headerlink" href="#download-and-transform" title="Link to this heading">#</a></h3>
 <p>The code below will download the products.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
@@ -661,6 +642,7 @@ In particular, this analysis takes into account the Essential Climate Variables 
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_maps</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="n">ds_timeseries</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">p</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">product</span><span class="p">,</span> <span class="n">request</span> <span class="ow">in</span> <span class="n">request_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">product</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">start</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;start&quot;</span><span class="p">)</span>
@@ -668,6 +650,7 @@ In particular, this analysis takes into account the Essential Climate Variables 
     <span class="n">requests</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">update_request_date</span><span class="p">(</span>
         <span class="n">request</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span> <span class="n">stringify_dates</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">product</span><span class="p">)</span>
 
     <span class="c1"># Maps</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
@@ -688,7 +671,7 @@ In particular, this analysis takes into account the Essential Climate Variables 
         <span class="n">transform_func</span><span class="o">=</span><span class="n">spatial_weighted_mean</span><span class="p">,</span>
         <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="p">{</span>
             <span class="s2">&quot;lon_slice&quot;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span>
-            <span class="s2">&quot;lat_slice&quot;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">),</span>
+            <span class="s2">&quot;lat_slice&quot;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span>
         <span class="p">},</span>
         <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">,</span>
         <span class="o">**</span><span class="n">xarray_kwargs</span><span class="p">,</span>
@@ -702,47 +685,47 @@ In particular, this analysis takes into account the Essential Climate Variables 
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CLARA C3S
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2/2 [00:00&lt;00:00,  6.54it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2/2 [00:00&lt;00:00, 40.78it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CLARA EUMETSAT
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 4/4 [00:00&lt;00:00,  5.55it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 4/4 [00:00&lt;00:00, 37.06it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ESA ENVISAT
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 4/4 [00:00&lt;00:00, 12.72it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 4/4 [00:00&lt;00:00, 32.28it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ESA ERS2
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 3/3 [00:00&lt;00:00, 13.04it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 3/3 [00:00&lt;00:00, 23.33it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sentinel 3A
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2/2 [00:00&lt;00:00, 11.53it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2/2 [00:00&lt;00:00,  5.95it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sentinel 3B
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2/2 [00:00&lt;00:00,  7.58it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2/2 [00:00&lt;00:00, 27.02it/s]
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="plot-spatial-weighted-time-series-time-weighted-means-spatial-weighted-zonal-means">
-<span id="satellite-satellite-surface-radiation-budget-climate-monitoring-q01-plot-spatial-weighted-time-series-time-weighted-means-spatial-weighted-zonal-means"></span><h3>3. Plot Spatial weighted time series, Time weighted means, Spatial weighted Zonal means<a class="headerlink" href="#plot-spatial-weighted-time-series-time-weighted-means-spatial-weighted-zonal-means" title="Link to this heading">#</a></h3>
+<span id="satellite-satellite-surface-radiation-budget-climate-monitoring-q01-section-3"></span><h3>3. Plot spatial weighted time series, time weighted means, spatial weighted zonal means<a class="headerlink" href="#plot-spatial-weighted-time-series-time-weighted-means-spatial-weighted-zonal-means" title="Link to this heading">#</a></h3>
 <section id="plot-spatial-weighted-time-series">
-<h4>Plot Spatial weighted time series<a class="headerlink" href="#plot-spatial-weighted-time-series" title="Link to this heading">#</a></h4>
-<p>Below, we calculate and plot spatially weighted means for the different surface radiation budget products. Please note that masks of available data may differ across the products.</p>
+<h4>Plot spatial weighted time series<a class="headerlink" href="#plot-spatial-weighted-time-series" title="Link to this heading">#</a></h4>
+<p>Below, we calculate and plot spatially weighted means for the different surface radiation budget products. Please note that masks of available data may differ across the products. However, the spatial weighted means are calculated between 60°S and 60°N, so that mask inconsistencies have minimal effects.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -763,16 +746,58 @@ In particular, this analysis takes into account the Essential Climate Variables 
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/2c8d9da5c97f8ef54823d2ea72662155f2f0d9fc3933fb6df3fd42b4f42af22a.png" src="../../_images/2c8d9da5c97f8ef54823d2ea72662155f2f0d9fc3933fb6df3fd42b4f42af22a.png" />
-<img alt="../../_images/beaed8527a4e5393ee34b7f2e2ed88ecf3ce673a4a5f99c866a5cb06bd8dee4d.png" src="../../_images/beaed8527a4e5393ee34b7f2e2ed88ecf3ce673a4a5f99c866a5cb06bd8dee4d.png" />
-<img alt="../../_images/7fccaf012091e463e86fecb6751d6d869a3ba5c83ccd9a6b5a4bed7925c61943.png" src="../../_images/7fccaf012091e463e86fecb6751d6d869a3ba5c83ccd9a6b5a4bed7925c61943.png" />
-<img alt="../../_images/64c3afa2e6fce3ef16186ac91fcb7dd99c35a884c69fb3068f45bce6c1702500.png" src="../../_images/64c3afa2e6fce3ef16186ac91fcb7dd99c35a884c69fb3068f45bce6c1702500.png" />
+<img alt="../../_images/7ed8764a750560e114cae1ef4fd461fa048302c20fce27a7761c0309128fdb33.png" src="../../_images/7ed8764a750560e114cae1ef4fd461fa048302c20fce27a7761c0309128fdb33.png" />
+<img alt="../../_images/57d7fab032ae96b4c9d4f6273127536815aafb57783ba1deb1c7b59b24af9f78.png" src="../../_images/57d7fab032ae96b4c9d4f6273127536815aafb57783ba1deb1c7b59b24af9f78.png" />
+<img alt="../../_images/0787396b4baa64a4de007df55e084d72a4f33e0dd08eb20507dc4df4781d2175.png" src="../../_images/0787396b4baa64a4de007df55e084d72a4f33e0dd08eb20507dc4df4781d2175.png" />
+<img alt="../../_images/d84bf020e0a934ae5094c2b40ed49bd4a2726a28e7dc904fe41f0e35021d0f5a.png" src="../../_images/d84bf020e0a934ae5094c2b40ed49bd4a2726a28e7dc904fe41f0e35021d0f5a.png" />
 </div>
 </div>
-<p>The timeseries above show that the different products do not overlap temporally, and thus they can be combined for expert use only. Moreover, there exist significant offsets, especially for the surface (outgoing and downwelling) longwave radiation.</p>
+<p>The timeseries above show that the different products do not overlap temporally, and thus they can be combined by expert users only. Moreover, there exist large offsets, likely linked to the different processing chains and sensors rather than to inter-annual variations, especially for the surface (outgoing and downwelling) longwave radiation.</p>
+<p>The seasonal means below indicate a good consistency for solar radiation products (both reflected and incoming) across the products. However, longwave radiation products have poorer consistency, with CLARA systematically exhibiting, on average, about 10 W m-2 less than the other products concerning the downwelling longwave radiation; it is known, indeed, from the Validation Report (CM SAF Cloud, Albedo, Radiation data record, AVHRR-based, Edition 3 (CLARA-A3) Surface Radiation, doi:10.5676/EUM_SAF_CM/CLARA_AVHRR/V003) that CLARA surface downwelling radiation suffers from a negative bias of about -6 W m-2 compared to station-based observations, while ESA products (both longwave and shortwave radiative fluxes) are known to be positvely biased (ESA Cloud_cci Product Validation and Intercomparison Report (PVIR), <a class="reference external" href="https://climate.esa.int/media/documents/Cloud_Product-Validation-and-Intercomparison-Report-PVIR_v6.0.pdf">https://climate.esa.int/media/documents/Cloud_Product-Validation-and-Intercomparison-Report-PVIR_v6.0.pdf</a>, and SRB CCI-ICDR: Product Quality Assurance Document (PQAD), <a class="reference external" href="https://confluence.ecmwf.int/pages/viewpage.action?pageId=304239428">https://confluence.ecmwf.int/pages/viewpage.action?pageId=304239428</a>). Results on the outgoing longwave radiations show different distributions of the datasets, with CLARA and ESA Envisat exhibiting the smallest and the largest values, on average.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+    <span class="n">prodlist</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">ts_var</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">product</span><span class="p">,</span> <span class="n">ds</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ds_timeseries</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+        <span class="n">prodlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">product</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
+            <span class="n">prodlist</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">product</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">product</span><span class="o">==</span><span class="s1">&#39;ESA ERS2&#39;</span><span class="p">:</span>
+            <span class="n">tdrop</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2002</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2002</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">28</span><span class="p">)))</span>
+            <span class="n">ds_var</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">drop_sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">tdrop</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ds_var</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+        <span class="n">ts_var</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds_var</span><span class="p">)</span>
+    <span class="n">ts_var</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ts_var</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="s1">&#39;product&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s1">&#39;product&#39;</span><span class="p">:</span> <span class="n">prodlist</span><span class="p">})</span>
+    <span class="n">ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ts_var</span><span class="p">)</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ts</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="s1">&#39;variable&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s1">&#39;variable&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">variables</span><span class="p">)})</span>
+
+<span class="n">t1</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;time.month&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">col</span><span class="o">=</span><span class="s1">&#39;variable&#39;</span><span class="p">,</span> <span class="n">col_wrap</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;product&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">markeredgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">markeredgewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">t1</span><span class="o">.</span><span class="n">axs</span><span class="o">.</span><span class="n">flatten</span><span class="p">():</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">t1</span><span class="o">.</span><span class="n">axs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]:</span>
+    <span class="n">col</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Radiation [W/m$^2$]&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../_images/2c52dee23f67c24ea216b33c0642e3d9c976bc30e6e555392a8d6f8c3f99ee61.png" src="../../_images/2c52dee23f67c24ea216b33c0642e3d9c976bc30e6e555392a8d6f8c3f99ee61.png" />
+</div>
+</div>
 </section>
 <section id="plot-time-weighted-means">
-<h4>Plot Time weighted means<a class="headerlink" href="#plot-time-weighted-means" title="Link to this heading">#</a></h4>
+<h4>Plot time weighted means<a class="headerlink" href="#plot-time-weighted-means" title="Link to this heading">#</a></h4>
 <p>Below, we calculate and plot time-weighted means for the different surface radiation budget products. Please note that periods differ across the products as shown in the previous section.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
@@ -781,53 +806,62 @@ In particular, this analysis takes into account the Essential Climate Variables 
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ms</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+    <span class="n">m_var</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">vmin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">values</span> <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">ds_maps</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="p">])</span>
     <span class="n">vmax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">values</span> <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">ds_maps</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="p">])</span>
     <span class="k">for</span> <span class="n">product</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">ds_maps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
             <span class="k">continue</span>
-        <span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span>
-            <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">],</span>
-            <span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">Robinson</span><span class="p">(),</span>
-            <span class="n">levels</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span>
-            <span class="n">vmin</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">vmin</span><span class="p">),</span>
-            <span class="n">vmax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">vmax</span><span class="p">),</span>
-            <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdBu_r&quot;</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">product</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;stop&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">longitude</span><span class="p">)</span><span class="o">==</span><span class="mi">1440</span><span class="p">:</span>
+            <span class="n">m_var</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">coarsen</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s1">&#39;latitude&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">89.75</span><span class="p">,</span> <span class="mf">89.75</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="s1">&#39;longitude&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">179.85</span><span class="p">,</span> <span class="mf">179.85</span><span class="p">,</span> <span class="mi">360</span><span class="p">)}))</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">longitude</span><span class="p">)</span><span class="o">==</span><span class="mi">720</span><span class="p">:</span>
+            <span class="n">m_var</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">coarsen</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s1">&#39;latitude&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">89.75</span><span class="p">,</span> <span class="mf">89.75</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="s1">&#39;longitude&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">179.85</span><span class="p">,</span> <span class="mf">179.85</span><span class="p">,</span> <span class="mi">360</span><span class="p">)}))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">m_var</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">])</span>
+    <span class="n">m_var</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">mv</span> <span class="k">for</span> <span class="n">mv</span> <span class="ow">in</span> <span class="n">m_var</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="s1">&#39;product&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s1">&#39;product&#39;</span><span class="p">:</span> <span class="n">prodlist</span><span class="p">})</span>
+    <span class="n">ms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">m_var</span><span class="p">)</span>
+<span class="n">ms</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">ms</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="s1">&#39;variable&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s1">&#39;variable&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">variables</span><span class="p">)})</span>
+<span class="n">levels_cbar</span> <span class="o">=</span>  <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">125</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">175</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">220</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">260</span><span class="p">,</span> <span class="mi">280</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">325</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span> <span class="mi">375</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">425</span><span class="p">,</span> <span class="mi">450</span><span class="p">,</span> <span class="mi">475</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">525</span><span class="p">,</span> <span class="mi">550</span><span class="p">,</span> <span class="mi">560</span><span class="p">,</span> <span class="mi">570</span><span class="p">]</span>
+<span class="n">p2</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">col</span><span class="o">=</span><span class="s1">&#39;product&#39;</span><span class="p">,</span>
+             <span class="n">row</span><span class="o">=</span><span class="s1">&#39;variable&#39;</span><span class="p">,</span> 
+             <span class="n">subplot_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;projection&#39;</span><span class="p">:</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()},</span>
+             <span class="n">levels</span><span class="o">=</span> <span class="n">levels_cbar</span><span class="p">,</span> <span class="c1">#range(int(ms.min()), int(ms.max()), 5),</span>
+             <span class="n">extend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+             <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gist_rainbow&quot;</span><span class="p">,</span>
+             <span class="n">add_colorbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+             <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">p2</span><span class="o">.</span><span class="n">axs</span><span class="o">.</span><span class="n">flat</span><span class="p">:</span>  <span class="c1"># loop through the map axes</span>
+    <span class="n">subplotspec</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_subplotspec</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">subplotspec</span><span class="o">.</span><span class="n">is_last_row</span><span class="p">():</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">subplotspec</span><span class="o">.</span><span class="n">is_first_col</span><span class="p">():</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">(</span><span class="s1">&#39;50m&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">gridlines</span><span class="p">()</span>
+<span class="n">p2</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">set_layout_engine</span><span class="p">(</span><span class="s2">&quot;compressed&quot;</span><span class="p">)</span>
+<span class="n">cax</span> <span class="o">=</span> <span class="n">p2</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.80</span><span class="p">,</span> <span class="mf">0.035</span><span class="p">])</span>
+<span class="n">p2</span><span class="o">.</span><span class="n">add_colorbar</span><span class="p">(</span><span class="n">cax</span><span class="o">=</span><span class="n">cax</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">,</span> <span class="n">fraction</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.85</span><span class="p">,</span><span class="mf">0.50</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;Radiation [$W/m^2$]&#39;</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">p2</span><span class="o">.</span><span class="n">cbar</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">(</span><span class="n">levels_cbar</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">(),</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">cmap</span><span class="o">.</span><span class="n">set_over</span><span class="p">(</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">cmap</span><span class="o">.</span><span class="n">set_under</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/aee0449d82de9b81b231a67d38c60d7397b472719b832acf734f5a6212a9a5a4.png" src="../../_images/aee0449d82de9b81b231a67d38c60d7397b472719b832acf734f5a6212a9a5a4.png" />
-<img alt="../../_images/63bae183a351777368d13cd22d88cebd706ba2fb1c2c2d69265e665d06fe17ac.png" src="../../_images/63bae183a351777368d13cd22d88cebd706ba2fb1c2c2d69265e665d06fe17ac.png" />
-<img alt="../../_images/d878cc4768722f00b7db2cbc07142dca226ef33aad9edd928305d68d9aa2ff5d.png" src="../../_images/d878cc4768722f00b7db2cbc07142dca226ef33aad9edd928305d68d9aa2ff5d.png" />
-<img alt="../../_images/9afb15443d9235dcc440ce94a2311189c443dbfd5389c75e32f4bda0dd1db77b.png" src="../../_images/9afb15443d9235dcc440ce94a2311189c443dbfd5389c75e32f4bda0dd1db77b.png" />
-<img alt="../../_images/6e32dff487d579701b8093a6d0f79aedde10dfa70c1bbf4d58f79315364c08d6.png" src="../../_images/6e32dff487d579701b8093a6d0f79aedde10dfa70c1bbf4d58f79315364c08d6.png" />
-<img alt="../../_images/4407b093dd927445ac00e0e0ff761ea057987984ee2a7782198a79160be7051d.png" src="../../_images/4407b093dd927445ac00e0e0ff761ea057987984ee2a7782198a79160be7051d.png" />
-<img alt="../../_images/ea056976f7ac695d8cc8ef61e570dcfb75d81c0216525c80d9b6cd805964e395.png" src="../../_images/ea056976f7ac695d8cc8ef61e570dcfb75d81c0216525c80d9b6cd805964e395.png" />
-<img alt="../../_images/6cb6c799691c9999dec41ff2e7a71a445c0b547c9f747d69995f08f77cdfc09b.png" src="../../_images/6cb6c799691c9999dec41ff2e7a71a445c0b547c9f747d69995f08f77cdfc09b.png" />
-<img alt="../../_images/2f2092474a1c538e442a582f1ad4c1bbe9fc0ab095d2765bbf63387af24d4aca.png" src="../../_images/2f2092474a1c538e442a582f1ad4c1bbe9fc0ab095d2765bbf63387af24d4aca.png" />
-<img alt="../../_images/ddd7988ffda0ead3e7e41ec21f7de8fc97678b9d0dfc7dfe93aca297bb3699b2.png" src="../../_images/ddd7988ffda0ead3e7e41ec21f7de8fc97678b9d0dfc7dfe93aca297bb3699b2.png" />
-<img alt="../../_images/2fdad5c0b68a2f2251a13b0620dd03d5a1f7f497ef02dcef937ebb18fff7357a.png" src="../../_images/2fdad5c0b68a2f2251a13b0620dd03d5a1f7f497ef02dcef937ebb18fff7357a.png" />
-<img alt="../../_images/fd36cde71ca2cc061709b6f46c4f66310ee47f4628382b6f80a2e5a29a955dcf.png" src="../../_images/fd36cde71ca2cc061709b6f46c4f66310ee47f4628382b6f80a2e5a29a955dcf.png" />
-<img alt="../../_images/0ac26d00ec6272d358b096142ab73d832847b9f7959ebfe48c1e7acbaccad80b.png" src="../../_images/0ac26d00ec6272d358b096142ab73d832847b9f7959ebfe48c1e7acbaccad80b.png" />
-<img alt="../../_images/13f7743aa69afdde0220231a42b9a02595f7b7cee9ce630930f429a138b80d50.png" src="../../_images/13f7743aa69afdde0220231a42b9a02595f7b7cee9ce630930f429a138b80d50.png" />
-<img alt="../../_images/995d3719c8c2e957e629ca0b11e0870318856167e97b7cf1b6da2b4ce57aa35f.png" src="../../_images/995d3719c8c2e957e629ca0b11e0870318856167e97b7cf1b6da2b4ce57aa35f.png" />
-<img alt="../../_images/42025d3dffa5b8a9505afaf47a7a41c79e6552e1be2a1b3cf0999b0f6dd057d8.png" src="../../_images/42025d3dffa5b8a9505afaf47a7a41c79e6552e1be2a1b3cf0999b0f6dd057d8.png" />
-<img alt="../../_images/d12754bebc584fc7dff13825836b1c3927f21f79f256591c04cce7edc00f0c92.png" src="../../_images/d12754bebc584fc7dff13825836b1c3927f21f79f256591c04cce7edc00f0c92.png" />
-<img alt="../../_images/62c8670595b1a132734e1b06d855d19ded0dbdd7713032bb2d724995e3cc6a98.png" src="../../_images/62c8670595b1a132734e1b06d855d19ded0dbdd7713032bb2d724995e3cc6a98.png" />
-<img alt="../../_images/7f0dc58f44c1756d6b85722e7a5f79d43dbe6c85a41408d0a8ef1ddbe5496980.png" src="../../_images/7f0dc58f44c1756d6b85722e7a5f79d43dbe6c85a41408d0a8ef1ddbe5496980.png" />
-<img alt="../../_images/3974fe0f289d134e245565b0415b0cb9dd0358e9ad49765cfe3e583b373aedf6.png" src="../../_images/3974fe0f289d134e245565b0415b0cb9dd0358e9ad49765cfe3e583b373aedf6.png" />
+<img alt="../../_images/2fd1910b0c5b5e991841ecd2b5dce70867a18dbc17de47e1bcd4fa541d073cfd.png" src="../../_images/2fd1910b0c5b5e991841ecd2b5dce70867a18dbc17de47e1bcd4fa541d073cfd.png" />
 </div>
 </div>
-<p>Maps exhibit generally similar features, although the different products are poorly consistent in many areas, especially longwave flux components (downwelling and outgoing) at low latitudes, and shortwave at high latitudes.</p>
+<p>Maps exhibit generally similar features. The incoming shortwave radiation peaks at low latitudes; variations in its reflected counterpart depend on albedo values, which are very low in the open ocean and then increase for land, and snow and it is the highest over desertic regions. Values of reflected shortwave radiation over the open ocean seem too low in ESA and C3S products (less than 8 W m-2), while CLARA values (13-16 W m-2) are more aligned to the open ocean albedo of 0.06.
+The downwelling longwave radiation is also distributed geographically depending on the incoming solar radiation and cloudiness, and thus also peaks in the Tropical band. In contrast, the outgoing downwelling radiations rely on the surface temperature, and thus peak again in the Tropics, with the lowest values on ice-covered regions.
+However, the different products are poorly consistent in many areas. In CLARA, for instance, the reflected shortwave is smaller over desertic regions and larger over oceans, while the incoming shortwave is on average smaller in the Tropical band. Downwelling longwave components are in good agreement, except for local differences (e.g., ESA ERS-2 over the Indian sub-continent), while differences in the outgoing longwave radiation are large over land, and mountainous areas in particular.</p>
 </section>
 <section id="plot-spatial-weighted-zonal-means">
-<h4>Plot Spatial weighted Zonal means<a class="headerlink" href="#plot-spatial-weighted-zonal-means" title="Link to this heading">#</a></h4>
+<h4>Plot spatial weighted zonal means<a class="headerlink" href="#plot-spatial-weighted-zonal-means" title="Link to this heading">#</a></h4>
 <p>The code below will calculate and plot weighted zonal means for the surface radiation budget products. Please note that spatial and temporal sampling may differ across the products.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
@@ -840,7 +874,10 @@ In particular, this analysis takes into account the Essential Climate Variables 
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">product</span><span class="p">,</span> <span class="n">ds</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ds_maps</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
         <span class="k">if</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
             <span class="k">continue</span>
-        <span class="n">da</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;longitude&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">var</span><span class="o">==</span><span class="s1">&#39;sis&#39;</span> <span class="ow">and</span> <span class="n">product</span><span class="o">==</span><span class="s1">&#39;CLARA EUMETSAT&#39;</span><span class="p">:</span>
+            <span class="n">da</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span><span class="mi">60</span><span class="p">)),</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">da</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">da</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;C</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">product</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
@@ -850,19 +887,19 @@ In particular, this analysis takes into account the Essential Climate Variables 
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/d4b82df523264c42cfa11d04bded9fbe4a12d2c1453f813c3aaf895a91dcc46a.png" src="../../_images/d4b82df523264c42cfa11d04bded9fbe4a12d2c1453f813c3aaf895a91dcc46a.png" />
-<img alt="../../_images/4006c154d39c46f92643afa201ec792843ba04acf9aec8d3c998ec14b787003b.png" src="../../_images/4006c154d39c46f92643afa201ec792843ba04acf9aec8d3c998ec14b787003b.png" />
-<img alt="../../_images/866df3abcce250b22660c0f1fcf7f62bf6da2e43342d323e13701670ead34315.png" src="../../_images/866df3abcce250b22660c0f1fcf7f62bf6da2e43342d323e13701670ead34315.png" />
-<img alt="../../_images/39bb4010ecbf780c33c9cca9ffe76546f156edf78a18cb393cde7a88cd1fa04e.png" src="../../_images/39bb4010ecbf780c33c9cca9ffe76546f156edf78a18cb393cde7a88cd1fa04e.png" />
+<img alt="../../_images/79be469fb68790603d840f628eb19f939ac2e95b7891e92d230a73ecce80eeac.png" src="../../_images/79be469fb68790603d840f628eb19f939ac2e95b7891e92d230a73ecce80eeac.png" />
+<img alt="../../_images/e1f135548b7ff230a4360778c99b0d812a2a205acc267c0e613e191f2f620773.png" src="../../_images/e1f135548b7ff230a4360778c99b0d812a2a205acc267c0e613e191f2f620773.png" />
+<img alt="../../_images/4ab29e5640ec1dfa057de2e416e522c6daff80eeb7c2b33a6626a698df35f2d8.png" src="../../_images/4ab29e5640ec1dfa057de2e416e522c6daff80eeb7c2b33a6626a698df35f2d8.png" />
+<img alt="../../_images/52ec8a2a324adc3b1a167972f221aa4c587114025186521b460e5ffe32a96e20.png" src="../../_images/52ec8a2a324adc3b1a167972f221aa4c587114025186521b460e5ffe32a96e20.png" />
 </div>
 </div>
-<p>Zonal means exhibit generally similar features, although the different products are poorly consistent in several cases. Incoming shortwave data are inconsisten at high latitude also due to missing data therein, while downwelling longwave radiation significantly differ in the Tropical region.</p>
+<p>Zonal means exhibit generally similar features, although the different products are poorly consistent in several cases. Incoming shortwave data are inconsistent at high latitude also due to missing data therein during each hemispheric winter (which however may vary across different years), while downwelling longwave radiation datasets differ in the Tropical regions and in the Northern Hemisphere, in general.</p>
 </section>
 </section>
 <section id="discussion-and-applications">
 <h3>Discussion and applications<a class="headerlink" href="#discussion-and-applications" title="Link to this heading">#</a></h3>
 <p>Evaluation of the surface radiation budget has large implications in climate studies and has been the subject of numerous investigations (e.g., <a class="reference external" href="https://doi.org/10.5194/acp-5-2847-2005">[8]</a>). We briefly focus on two examples of application, respectively considering the ocean heat uptake and climate model simulation validation.
-The ocean heat uptake refers to the fact that due to the large heat capacity of seawater, most of the excess heat of the Earth’s System is stored in the oceans. About 89% of energy is estimated to reside in the global ocean (<a class="reference external" href="https://doi.org/10.5194/essd-15-1675-2023">[9]</a>); the surface heat budget is responsible for variations in net air-sea heat flux, i.e. the energy flux at the air-sea and ice-sea interface that regulates the temporal variations of the energy accumulated in the oceans. Ocean heat content tendency (or ocean heat uptake) is closely related to the surface radiation budget over the oceans, and any trend in the surface radiation budget will result in acceleration of the ocean warming. SRB observational products (<a class="reference external" href="https://doi.org/10.3389/fmars.2019.00430">[5]</a>), eventually complemented with model reanalyses or simulations (<a class="reference external" href="https://doi.org/10.1038/s41467-022-32540-5">[7]</a>; <a class="reference external" href="https://doi.org/10.1175/JCLI-D-21-0793.1">[4]</a>), all contribute to our monitoring and understanding of ocean heat uptake variations.
+The ocean heat uptake refers to the fact that due to the large heat capacity of seawater, most of the excess heat of the Earth’s System is stored in the oceans. About 89% of energy is estimated to reside in the global ocean (<a class="reference external" href="https://doi.org/10.5194/essd-15-1675-2023">[9]</a>); the surface heat budget is responsible for variations in net air-sea heat flux, i.e. the energy flux at the air-sea and ice-sea interface that regulates the temporal variations of the energy accumulated in the oceans. Ocean heat content tendency (or ocean heat uptake) is closely related to the surface radiation budget over the oceans, and any trend in the surface radiation budget will result in acceleration of the ocean warming. SRB observational products (<a class="reference external" href="https://doi.org/10.3389/fmars.2019.00430">[5]</a>), eventually complemented with model reanalyses or simulations (<a class="reference external" href="https://doi.org/10.1038/s41467-022-32540-5">[7]</a>; <a class="reference external" href="https://doi.org/10.1175/JCLI-D-21-0793.1">[4]</a>), all contribute to our monitoring and understanding of ocean heat uptake variations. Further to the SRB variables, strictly speaking, the ocean heat loss due to turbulent fluxes (latent and sensible heat fluxes) needs to be accounted for in estimating the net air-sea heat flux; reanalyses or some observation-only products contain such fluxes, which can be, however, affected by large uncertainties due to the strong non-linearity of the turbulent fluxes.
 The second application involves validating climate model simulations in terms of surface radiation budget. For climate predictions and projections, it is important to have a reliable surface radiation budget so that the ocean-atmosphere energy exchanges are accurately simulated. Inaccuracies in the SRB will result, in turn, in biases and systematic errors in the lower atmosphere temperature (e.g., <a class="reference external" href="https://doi.org/10.1002/2017JD027194">[6]</a>). The SRB products can be used to spot inaccuracies in the climate model simulations, for instance focusing on specific regions, such as polar regions (<a class="reference external" href="https://doi.org/10.1002/2016JD025099">[3]</a>).</p>
 </section>
 </section>
@@ -945,7 +982,8 @@ The second application involves validating climate model simulations in terms of
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -961,10 +999,10 @@ The second application involves validating climate model simulations in terms of
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-the-data-to-use-and-setup-code">1. Choose the data to use and setup code</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-and-transform">2. Download and Transform</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-spatial-weighted-time-series-time-weighted-means-spatial-weighted-zonal-means">3. Plot Spatial weighted time series, Time weighted means, Spatial weighted Zonal means</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-spatial-weighted-time-series">Plot Spatial weighted time series</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-time-weighted-means">Plot Time weighted means</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-spatial-weighted-zonal-means">Plot Spatial weighted Zonal means</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-spatial-weighted-time-series-time-weighted-means-spatial-weighted-zonal-means">3. Plot spatial weighted time series, time weighted means, spatial weighted zonal means</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-spatial-weighted-time-series">Plot spatial weighted time series</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-time-weighted-means">Plot time weighted means</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-spatial-weighted-zonal-means">Plot spatial weighted zonal means</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion-and-applications">Discussion and applications</a></li>
@@ -1023,8 +1061,8 @@ By the Copernicus Climate Change Service (C3S), entrusted to ECMWF (European Cen
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>
