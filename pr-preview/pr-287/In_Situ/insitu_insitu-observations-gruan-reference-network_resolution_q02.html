@@ -654,7 +654,7 @@ Understanding the climate change, and the underlying causes, requires an underst
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;altitude&quot;</span><span class="p">,</span> <span class="s2">&quot;ylim&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30000</span><span class="p">]}</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;altitude&quot;</span><span class="p">}</span>
 <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">da</span> <span class="ow">in</span> <span class="n">ds_profiles</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">da</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hue</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">add_legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">plot_kwargs</span><span class="p">)</span>
     <span class="n">mean</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -666,7 +666,13 @@ Understanding the climate change, and the underlying causes, requires an underst
             <span class="n">label</span><span class="o">=</span><span class="s2">&quot;mean ± std&quot;</span> <span class="k">if</span> <span class="n">sign</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="o">**</span><span class="n">plot_kwargs</span><span class="p">,</span>
         <span class="p">)</span>
-    <span class="n">mean</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">plot_kwargs</span><span class="p">)</span>
+    <span class="n">mean</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+        <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span>
+        <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">12_000</span> <span class="k">if</span> <span class="n">var</span> <span class="o">==</span> <span class="s2">&quot;specific_humidity&quot;</span> <span class="k">else</span> <span class="mi">30_000</span><span class="p">),</span>
+        <span class="o">**</span><span class="n">plot_kwargs</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -677,7 +683,7 @@ Understanding the climate change, and the underlying causes, requires an underst
 <div class="cell_output docutils container">
 <img alt="../_images/07e84310f190846067646fb8465a4292b2889a3ecaf45f9eeeeac94d7cfa49dd.png" src="../_images/07e84310f190846067646fb8465a4292b2889a3ecaf45f9eeeeac94d7cfa49dd.png" />
 <img alt="../_images/99bec5546e40a16bac0f5230ce5190acce2b7baca0ff525636582c5244326cc8.png" src="../_images/99bec5546e40a16bac0f5230ce5190acce2b7baca0ff525636582c5244326cc8.png" />
-<img alt="../_images/c26e18918fef1e5f2e9048bbfb008aed26d64e3952707076312d45bbe757accb.png" src="../_images/c26e18918fef1e5f2e9048bbfb008aed26d64e3952707076312d45bbe757accb.png" />
+<img alt="../_images/b92b33e73a1db9e027f43e9523ac832649b98688c1966b81d449285bc8e1579a.png" src="../_images/b92b33e73a1db9e027f43e9523ac832649b98688c1966b81d449285bc8e1579a.png" />
 </div>
 </div>
 <p><strong>Figure 1</strong>. 1-month of vertical profiles (in color) for temperature (the upper panel), relative humidity (middle) and specific humidity (lower panel) for NYA.The mean profiles with standard deviation are also reported (in black)</p>
