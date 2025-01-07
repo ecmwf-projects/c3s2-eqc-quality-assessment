@@ -30,7 +30,7 @@
   <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 <link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -544,11 +544,11 @@
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
-<span class="kn">from</span> <span class="nn">c3s_eqc_automatic_quality_control</span> <span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">utils</span>
-<span class="kn">from</span> <span class="nn">xarrayMannKendall</span> <span class="kn">import</span> <span class="n">Mann_Kendall_test</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">utils</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">xarrayMannKendall</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mann_Kendall_test</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;seaborn-v0_8-notebook&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;hatch.linewidth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span> 
@@ -624,7 +624,7 @@
     <span class="s2">&quot;year_stop&quot;</span><span class="p">:</span> <span class="n">year_stop</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="k">def</span> <span class="nf">get_da</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_da</span><span class="p">(</span>
     <span class="n">ds</span><span class="p">,</span> <span class="n">min_land_fraction</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span><span class="p">,</span> <span class="n">lon_slice</span><span class="p">,</span> <span class="n">lat_slice</span>
 <span class="p">):</span>
     <span class="n">da</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">year_start</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">year_stop</span><span class="p">)))</span>
@@ -633,14 +633,14 @@
         <span class="k">return</span> <span class="n">da</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;land_fraction&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">min_land_fraction</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">da</span>
 
-<span class="k">def</span> <span class="nf">get_da_nomask</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_da_nomask</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span><span class="p">):</span>
     <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span> <span class="o">&gt;=</span> <span class="n">year_start</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span> <span class="o">&lt;=</span> <span class="n">year_stop</span><span class="p">)</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="o">.</span><span class="n">compute</span><span class="p">(),</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="p">(</span><span class="n">varname</span><span class="p">,)</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">{</span><span class="s2">&quot;xco2&quot;</span><span class="p">}</span>
     <span class="n">da</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">da</span>
 
-<span class="k">def</span> <span class="nf">convert_units</span><span class="p">(</span><span class="n">da</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_units</span><span class="p">(</span><span class="n">da</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">da</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_nobs&quot;</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">da</span>
 
@@ -654,7 +654,7 @@
     <span class="k">return</span> <span class="n">da</span>
 
 
-<span class="k">def</span> <span class="nf">compute_seasonal_timeseries_nomask</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_seasonal_timeseries_nomask</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span><span class="p">):</span>
     <span class="c1"># Shift years (shift -1 to get D(year-1)J(year)F(year))</span>
     <span class="n">da</span> <span class="o">=</span> <span class="n">get_da_nomask</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span><span class="p">)</span>
     <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">time</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
@@ -664,20 +664,20 @@
     <span class="k">return</span> <span class="n">convert_units</span><span class="p">(</span><span class="n">da</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">()</span>
 
 
-<span class="k">def</span> <span class="nf">compute_statistics</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="o">**</span><span class="n">get_da_kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_statistics</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="o">**</span><span class="n">get_da_kwargs</span><span class="p">):</span>
     <span class="n">da</span> <span class="o">=</span> <span class="n">get_da</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="o">**</span><span class="n">get_da_kwargs</span><span class="p">)</span>
     <span class="n">da</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_statistics</span><span class="p">(</span><span class="n">da</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">convert_units</span><span class="p">(</span><span class="n">da</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">()</span>
 
 
-<span class="k">def</span> <span class="nf">compute_monthly_anomalies</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="o">**</span><span class="n">get_da_kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_monthly_anomalies</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="o">**</span><span class="n">get_da_kwargs</span><span class="p">):</span>
     <span class="n">da</span> <span class="o">=</span> <span class="n">get_da</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="o">**</span><span class="n">get_da_kwargs</span><span class="p">)</span>
     <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.month&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="n">da</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.month&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">convert_units</span><span class="p">(</span><span class="n">da</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">compute_mann_kendall_trend</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="o">**</span><span class="n">mann_kendall_kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_mann_kendall_trend</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="o">**</span><span class="n">mann_kendall_kwargs</span><span class="p">):</span>
     <span class="n">coords_name</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;latitude&quot;</span><span class="p">}</span>
     <span class="n">ds_trend</span> <span class="o">=</span> <span class="n">Mann_Kendall_test</span><span class="p">(</span>
         <span class="n">da</span><span class="p">,</span> <span class="n">coords_name</span><span class="o">=</span><span class="n">coords_name</span><span class="p">,</span> <span class="o">**</span><span class="n">mann_kendall_kwargs</span>
@@ -685,7 +685,7 @@
     <span class="k">return</span> <span class="n">ds_trend</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">coords_name</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;time&quot;</span><span class="p">})</span>
 
 
-<span class="k">def</span> <span class="nf">compute_seasonal_detrended_anomaly</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="o">**</span><span class="n">polyfit_kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_seasonal_detrended_anomaly</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="o">**</span><span class="n">polyfit_kwargs</span><span class="p">):</span>
     <span class="n">da_trend</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span>
         <span class="n">da</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">],</span> <span class="n">da</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">polyfit_kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">polyfit_coefficients</span>
     <span class="p">)</span>
@@ -693,7 +693,7 @@
     <span class="k">return</span> <span class="n">da_detrended</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.year&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">seasonal_weighted_mean</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">compute_anomaly_trends</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="o">**</span><span class="n">get_da_kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_anomaly_trends</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="o">**</span><span class="n">get_da_kwargs</span><span class="p">):</span>
     <span class="n">da_anomaly</span> <span class="o">=</span> <span class="n">compute_monthly_anomalies</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="o">**</span><span class="n">get_da_kwargs</span><span class="p">)</span>
 
     <span class="c1"># Mann-Kendall</span>
