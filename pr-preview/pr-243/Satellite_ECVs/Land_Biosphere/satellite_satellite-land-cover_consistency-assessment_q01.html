@@ -16,19 +16,21 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-  
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -36,10 +38,11 @@
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
@@ -64,6 +67,7 @@
     <link rel="prev" title="1.4. Land Biosphere" href="Land_Biosphere.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -79,19 +83,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -99,7 +92,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -107,8 +99,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -127,7 +119,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -157,21 +150,17 @@
     
     
     <img src="../../_static/C3S–POS–LINE.png" class="logo__image only-light" alt="eqcbook - Home"/>
-    <script>document.write(`<img src="../../_static/C3S–POS–LINE.png" class="logo__image only-dark" alt="eqcbook - Home"/>`);</script>
+    <img src="../../_static/C3S–POS–LINE.png" class="logo__image only-dark pst-js-only" alt="eqcbook - Home"/>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -249,9 +238,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -395,24 +389,16 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
+</button>
 <button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
@@ -464,9 +450,9 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bar-chart-analysis"><strong>Bar Chart Analysis</strong></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#area-coverage-1992-vs-2020"><strong>1. Area Coverage (1992 vs. 2020)</strong></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#absolute-difference-in-land-cover-2020-vs-1992"><strong>2. Absolute Difference in Land Cover (2020 vs. 1992)</strong></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#relative-difference-in-land-cover-2020-vs-1992"><strong>3. Relative Difference in Land Cover (2020 vs. 1992)</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#area-coverage-2022-vs-1992"><strong>1. Area Coverage (2022 vs. 1992)</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#absolute-difference-in-land-cover-2022-vs-1992"><strong>2. Absolute Difference in Land Cover (2022 vs. 1992)</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#relative-difference-in-land-cover-2022-vs-1992"><strong>3. Relative Difference in Land Cover (2022 vs. 1992)</strong></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#overall-trends"><strong>Overall Trends</strong></a></li>
 </ul>
 </li>
@@ -495,7 +481,7 @@ Please note that this repository is used for development and review, so quality 
 </div><section class="tex2jax_ignore mathjax_ignore" id="satellite-land-cover-completeness-for-spatial-planning-and-land-management">
 <h1><span class="section-number">1.4.1. </span>Satellite Land Cover completeness for Spatial Planning and Land Management<a class="headerlink" href="#satellite-land-cover-completeness-for-spatial-planning-and-land-management" title="Link to this heading">#</a></h1>
 <p>Production date: 22-10-2024</p>
-<p>Produced by: +ATLANTIC</p>
+<p>Produced by: Luís Figueiredo e Inês Girão (+ATLANTIC)</p>
 <section id="use-case-using-land-cover-products-to-monitor-land-cover-lc-changes">
 <h2>🌍 Use case: Using land cover products to monitor Land Cover (LC) changes<a class="headerlink" href="#use-case-using-land-cover-products-to-monitor-land-cover-lc-changes" title="Link to this heading">#</a></h2>
 </section>
@@ -514,7 +500,7 @@ Please note that this repository is used for development and review, so quality 
 <li><p>Another aspect of the analysis supporting the dataset’s precision is the identification of trade-offs between urban expansion and the decline of agricultural areas, a well-documented phenomenon. Numerous studies, including observations across multiple European regions, note that urban growth frequently replaces agricultural lands <a class="reference external" href="https://doi.org/10.1088/1748-9326/9/6/064015">[4]</a>.</p></li>
 <li><p>The results of this notebook also show that the spatial resolution is sufficient to detect regional differences, and the temporal resolution is adequate to highlight annual variations, ensuring a comprehensive understanding of patterns over time.</p></li>
 </ul>
-<p><img alt="LULC19922020.png" src="../../_images/LULC19922020.png" /></p>
+<p><img alt="LC_IPCCclasses_1992_2022.png" src="../../_images/LC_IPCCclasses_1992_2022.png" /></p>
 </section>
 <section id="methodology">
 <h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
@@ -540,15 +526,15 @@ We will also need libraries for plotting and viewing data.</p>
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span> <span class="c1"># import vector geospatial data</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span> <span class="c1"># plot graphs</span>
-<span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">patches</span> 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> <span class="c1"># perform trigonometric calculations</span>
-<span class="kn">import</span> <span class="nn">shapely.geometry</span> <span class="c1"># work with geometric shapes</span>
-<span class="kn">import</span> <span class="nn">regionmask</span> <span class="c1"># transform attributes and geometries into specific regions</span>
-<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">c3s_eqc_automatic_quality_control</span> <span class="kn">import</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">utils</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span> <span class="c1"># import vector geospatial data</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span> <span class="c1"># plot graphs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">patches</span> 
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span> <span class="c1"># perform trigonometric calculations</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shapely.geometry</span> <span class="c1"># work with geometric shapes</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">regionmask</span> <span class="c1"># transform attributes and geometries into specific regions</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">utils</span> 
 
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;seaborn-v0_8-notebook&quot;</span><span class="p">)</span> <span class="c1"># predifined style of all graphical outputs</span>
 </pre></div>
@@ -563,8 +549,8 @@ We will also need libraries for plotting and viewing data.</p>
 <p>The dataset consists of 2 versions (v2.0.7 produced by the European Space Agency (ESA) Climate Change Initiative (CCI) and v2.1.1 produced by Copernicus Climate Change Service (C3S)).</p>
 <p>Data specifications for this use case:</p>
 <ul class="simple">
-<li><p>Year: 1992 and 2020</p></li>
-<li><p>Version: v2.0.7 for 1992 and v2.1.1 for 2020</p></li>
+<li><p>Year: 1992 and 2022</p></li>
+<li><p>Version: v2.0.7 for 1992 and v2.1.1 for 2022</p></li>
 <li><p>Format: Zip files</p></li>
 </ul>
 <p>At the end of the download form, select <code class="docutils literal notranslate"><span class="pre">Show</span> <span class="pre">API</span> <span class="pre">request</span></code>. This will reveal a block of code, which you can simply copy and paste into a cell of your Jupyter Notebook …</p>
@@ -577,7 +563,7 @@ We will also need libraries for plotting and viewing data.</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Years to download</span>
-<span class="n">years</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1992</span><span class="p">,</span> <span class="mi">2020</span><span class="p">]</span>
+<span class="n">years</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1992</span><span class="p">,</span> <span class="mi">2022</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -625,12 +611,39 @@ We will also need libraries for plotting and viewing data.</p>
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/2 [00:00&lt;?, ?it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2/2 [00:00&lt;00:00,  5.75it/s]
-/home/ines/miniconda3/envs/bopen/lib/python3.10/site-packages/xarray/core/concat.py:532: FutureWarning: unique with argument that is not not a Series, Index, ExtensionArray, or np.ndarray is deprecated and will raise in a future version.
-  common_dims = tuple(pd.unique([d for v in vars for d in v.dims]))
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/2 [00:00&lt;?, ?it/s]2025-01-02 15:26:13,333 INFO [2024-09-28T00:00:00] **Welcome to the New Climate Data Store (CDS)!** This new system is in its early days of full operations and still undergoing enhancements and fine tuning. Some disruptions are to be expected. Your 
+[feedback](https://jira.ecmwf.int/plugins/servlet/desk/portal/1/create/202) is key to improve the user experience on the new CDS for the benefit of everyone. Thank you.
+2025-01-02 15:26:13,334 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-01-02 15:26:13,335 INFO [2024-09-16T00:00:00] Remember that you need to have an ECMWF account to use the new CDS. **Your old CDS credentials will not work in new CDS!**
+2025-01-02 15:26:13,336 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-01-02 15:26:13,751 INFO [2024-09-28T00:00:00] **Welcome to the New Climate Data Store (CDS)!** This new system is in its early days of full operations and still undergoing enhancements and fine tuning. Some disruptions are to be expected. Your 
+[feedback](https://jira.ecmwf.int/plugins/servlet/desk/portal/1/create/202) is key to improve the user experience on the new CDS for the benefit of everyone. Thank you.
+2025-01-02 15:26:13,752 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-01-02 15:26:13,752 INFO [2024-09-16T00:00:00] Remember that you need to have an ECMWF account to use the new CDS. **Your old CDS credentials will not work in new CDS!**
+2025-01-02 15:26:13,753 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-01-02 15:26:14,145 INFO Request ID is 352f3378-5ffd-40a4-9cf9-a15899e3fbab
+2025-01-02 15:26:14,315 INFO status has been updated to accepted
+2025-01-02 15:26:23,258 INFO status has been updated to running
+2025-01-02 15:29:00,897 INFO status has been updated to successful
+ 50%|█████     | 1/2 [02:51&lt;02:51, 171.85s/it]2025-01-02 15:29:04,891 INFO [2024-09-28T00:00:00] **Welcome to the New Climate Data Store (CDS)!** This new system is in its early days of full operations and still undergoing enhancements and fine tuning. Some disruptions are to be expected. Your 
+[feedback](https://jira.ecmwf.int/plugins/servlet/desk/portal/1/create/202) is key to improve the user experience on the new CDS for the benefit of everyone. Thank you.
+2025-01-02 15:29:04,894 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-01-02 15:29:04,896 INFO [2024-09-16T00:00:00] Remember that you need to have an ECMWF account to use the new CDS. **Your old CDS credentials will not work in new CDS!**
+2025-01-02 15:29:04,899 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-01-02 15:29:05,123 INFO [2024-09-28T00:00:00] **Welcome to the New Climate Data Store (CDS)!** This new system is in its early days of full operations and still undergoing enhancements and fine tuning. Some disruptions are to be expected. Your 
+[feedback](https://jira.ecmwf.int/plugins/servlet/desk/portal/1/create/202) is key to improve the user experience on the new CDS for the benefit of everyone. Thank you.
+2025-01-02 15:29:05,124 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-01-02 15:29:05,125 INFO [2024-09-16T00:00:00] Remember that you need to have an ECMWF account to use the new CDS. **Your old CDS credentials will not work in new CDS!**
+2025-01-02 15:29:05,126 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-01-02 15:29:05,354 INFO Request ID is be05ba9f-5462-430e-bcab-403249dce4c1
+2025-01-02 15:29:05,423 INFO status has been updated to accepted
+2025-01-02 15:29:14,025 INFO status has been updated to running
+2025-01-02 15:29:17,834 INFO status has been updated to accepted
+2025-01-02 15:29:25,615 INFO status has been updated to running
+2025-01-02 15:35:08,529 INFO status has been updated to successful
+100%|██████████| 2/2 [08:58&lt;00:00, 269.28s/it]
+/tmp/ipykernel_1903/3410308190.py:6: DeprecationWarning: dropping variables using `drop` is deprecated; use drop_vars.
+  ds = ds.assign_coords(year=ds[&quot;time&quot;].dt.year).swap_dims(time=&quot;year&quot;).drop(&quot;time&quot;)
 </pre></div>
 </div>
 </div>
@@ -660,7 +673,7 @@ We will also need libraries for plotting and viewing data.</p>
 <span class="n">lccs_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">values</span><span class="p">)}</span>
 
 <span class="c1"># Helper function to format the labels text</span>
-<span class="k">def</span> <span class="nf">format_key</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">format_key</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">key</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
 
 <span class="n">lccs_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">format_key</span><span class="p">(</span><span class="n">key</span><span class="p">):</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">lccs_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
@@ -670,44 +683,44 @@ We will also need libraries for plotting and viewing data.</p>
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;No Data&#39;: (&#39;#000000&#39;, 0),
- &#39;Cropland Rainfed&#39;: (&#39;#ffff64&#39;, 10),
- &#39;Cropland Rainfed Herbaceous Cover&#39;: (&#39;#ffff64&#39;, 11),
- &#39;Cropland Rainfed Tree Or Shrub Cover&#39;: (&#39;#ffff00&#39;, 12),
- &#39;Cropland Irrigated&#39;: (&#39;#aaf0f0&#39;, 20),
- &#39;Mosaic Cropland&#39;: (&#39;#dcf064&#39;, 30),
- &#39;Mosaic Natural Vegetation&#39;: (&#39;#c8c864&#39;, 40),
- &#39;Tree Broadleaved Evergreen Closed To Open&#39;: (&#39;#006400&#39;, 50),
- &#39;Tree Broadleaved Deciduous Closed To Open&#39;: (&#39;#00a000&#39;, 60),
- &#39;Tree Broadleaved Deciduous Closed&#39;: (&#39;#00a000&#39;, 61),
- &#39;Tree Broadleaved Deciduous Open&#39;: (&#39;#aac800&#39;, 62),
- &#39;Tree Needleleaved Evergreen Closed To Open&#39;: (&#39;#003c00&#39;, 70),
- &#39;Tree Needleleaved Evergreen Closed&#39;: (&#39;#003c00&#39;, 71),
- &#39;Tree Needleleaved Evergreen Open&#39;: (&#39;#005000&#39;, 72),
- &#39;Tree Needleleaved Deciduous Closed To Open&#39;: (&#39;#285000&#39;, 80),
- &#39;Tree Needleleaved Deciduous Closed&#39;: (&#39;#285000&#39;, 81),
- &#39;Tree Needleleaved Deciduous Open&#39;: (&#39;#286400&#39;, 82),
- &#39;Tree Mixed&#39;: (&#39;#788200&#39;, 90),
- &#39;Mosaic Tree And Shrub&#39;: (&#39;#8ca000&#39;, 100),
- &#39;Mosaic Herbaceous&#39;: (&#39;#be9600&#39;, 110),
- &#39;Shrubland&#39;: (&#39;#966400&#39;, 120),
- &#39;Shrubland Evergreen&#39;: (&#39;#966400&#39;, 121),
- &#39;Shrubland Deciduous&#39;: (&#39;#966400&#39;, 122),
- &#39;Grassland&#39;: (&#39;#ffb432&#39;, 130),
- &#39;Lichens And Mosses&#39;: (&#39;#ffdcd2&#39;, 140),
- &#39;Sparse Vegetation&#39;: (&#39;#ffebaf&#39;, 150),
- &#39;Sparse Tree&#39;: (&#39;#ffc864&#39;, 151),
- &#39;Sparse Shrub&#39;: (&#39;#ffd278&#39;, 152),
- &#39;Sparse Herbaceous&#39;: (&#39;#ffebaf&#39;, 153),
- &#39;Tree Cover Flooded Fresh Or Brakish Water&#39;: (&#39;#00785a&#39;, 160),
- &#39;Tree Cover Flooded Saline Water&#39;: (&#39;#009678&#39;, 170),
- &#39;Shrub Or Herbaceous Cover Flooded&#39;: (&#39;#00dc82&#39;, 180),
- &#39;Urban&#39;: (&#39;#c31400&#39;, 190),
- &#39;Bare Areas&#39;: (&#39;#fff5d7&#39;, 200),
- &#39;Bare Areas Consolidated&#39;: (&#39;#dcdcdc&#39;, 201),
- &#39;Bare Areas Unconsolidated&#39;: (&#39;#fff5d7&#39;, 202),
- &#39;Water&#39;: (&#39;#0046c8&#39;, 210),
- &#39;Snow And Ice&#39;: (&#39;#ffffff&#39;, 220)}
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;No Data&#39;: (&#39;#000000&#39;, np.uint8(0)),
+ &#39;Cropland Rainfed&#39;: (&#39;#ffff64&#39;, np.uint8(10)),
+ &#39;Cropland Rainfed Herbaceous Cover&#39;: (&#39;#ffff64&#39;, np.uint8(11)),
+ &#39;Cropland Rainfed Tree Or Shrub Cover&#39;: (&#39;#ffff00&#39;, np.uint8(12)),
+ &#39;Cropland Irrigated&#39;: (&#39;#aaf0f0&#39;, np.uint8(20)),
+ &#39;Mosaic Cropland&#39;: (&#39;#dcf064&#39;, np.uint8(30)),
+ &#39;Mosaic Natural Vegetation&#39;: (&#39;#c8c864&#39;, np.uint8(40)),
+ &#39;Tree Broadleaved Evergreen Closed To Open&#39;: (&#39;#006400&#39;, np.uint8(50)),
+ &#39;Tree Broadleaved Deciduous Closed To Open&#39;: (&#39;#00a000&#39;, np.uint8(60)),
+ &#39;Tree Broadleaved Deciduous Closed&#39;: (&#39;#00a000&#39;, np.uint8(61)),
+ &#39;Tree Broadleaved Deciduous Open&#39;: (&#39;#aac800&#39;, np.uint8(62)),
+ &#39;Tree Needleleaved Evergreen Closed To Open&#39;: (&#39;#003c00&#39;, np.uint8(70)),
+ &#39;Tree Needleleaved Evergreen Closed&#39;: (&#39;#003c00&#39;, np.uint8(71)),
+ &#39;Tree Needleleaved Evergreen Open&#39;: (&#39;#005000&#39;, np.uint8(72)),
+ &#39;Tree Needleleaved Deciduous Closed To Open&#39;: (&#39;#285000&#39;, np.uint8(80)),
+ &#39;Tree Needleleaved Deciduous Closed&#39;: (&#39;#285000&#39;, np.uint8(81)),
+ &#39;Tree Needleleaved Deciduous Open&#39;: (&#39;#286400&#39;, np.uint8(82)),
+ &#39;Tree Mixed&#39;: (&#39;#788200&#39;, np.uint8(90)),
+ &#39;Mosaic Tree And Shrub&#39;: (&#39;#8ca000&#39;, np.uint8(100)),
+ &#39;Mosaic Herbaceous&#39;: (&#39;#be9600&#39;, np.uint8(110)),
+ &#39;Shrubland&#39;: (&#39;#966400&#39;, np.uint8(120)),
+ &#39;Shrubland Evergreen&#39;: (&#39;#966400&#39;, np.uint8(121)),
+ &#39;Shrubland Deciduous&#39;: (&#39;#966400&#39;, np.uint8(122)),
+ &#39;Grassland&#39;: (&#39;#ffb432&#39;, np.uint8(130)),
+ &#39;Lichens And Mosses&#39;: (&#39;#ffdcd2&#39;, np.uint8(140)),
+ &#39;Sparse Vegetation&#39;: (&#39;#ffebaf&#39;, np.uint8(150)),
+ &#39;Sparse Tree&#39;: (&#39;#ffc864&#39;, np.uint8(151)),
+ &#39;Sparse Shrub&#39;: (&#39;#ffd278&#39;, np.uint8(152)),
+ &#39;Sparse Herbaceous&#39;: (&#39;#ffebaf&#39;, np.uint8(153)),
+ &#39;Tree Cover Flooded Fresh Or Brakish Water&#39;: (&#39;#00785a&#39;, np.uint8(160)),
+ &#39;Tree Cover Flooded Saline Water&#39;: (&#39;#009678&#39;, np.uint8(170)),
+ &#39;Shrub Or Herbaceous Cover Flooded&#39;: (&#39;#00dc82&#39;, np.uint8(180)),
+ &#39;Urban&#39;: (&#39;#c31400&#39;, np.uint8(190)),
+ &#39;Bare Areas&#39;: (&#39;#fff5d7&#39;, np.uint8(200)),
+ &#39;Bare Areas Consolidated&#39;: (&#39;#dcdcdc&#39;, np.uint8(201)),
+ &#39;Bare Areas Unconsolidated&#39;: (&#39;#fff5d7&#39;, np.uint8(202)),
+ &#39;Water&#39;: (&#39;#0046c8&#39;, np.uint8(210)),
+ &#39;Snow And Ice&#39;: (&#39;#ffffff&#39;, np.uint8(220))}
 </pre></div>
 </div>
 </div>
@@ -753,7 +766,7 @@ We will also need libraries for plotting and viewing data.</p>
 <section id="plot-maps">
 <h4>Plot maps<a class="headerlink" href="#plot-maps" title="Link to this heading">#</a></h4>
 <p>Having defined the color and legends for the IPCC classes and using the metadata of the dataset to get the colors and legends for each Land Cover class it is now possible to plot our data either with the original colors or with the IPCC previously defined colors.</p>
-<p>The function below plots the year 1992 and the year 2020 LC maps, using both land cover schemes. From the output, we can already distinguish some changes at the location of the larger metropolitan areas of the Iberian Peninsula.</p>
+<p>The function below plots the year 1992 and the year 2022 LC maps, using both land cover schemes. From the output, we can already distinguish some changes at the location of the larger metropolitan areas of the Iberian Peninsula.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -776,8 +789,8 @@ We will also need libraries for plotting and viewing data.</p>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/e00d66b02a84ff1766a1c160a96373014a82865a02088a49ae161ac13006b3ce.png" src="../../_images/e00d66b02a84ff1766a1c160a96373014a82865a02088a49ae161ac13006b3ce.png" />
-<img alt="../../_images/9aeefffb228f8e14eda41dcfdf9a74b4357f7094c2158e7fffd86841ff7e03fe.png" src="../../_images/9aeefffb228f8e14eda41dcfdf9a74b4357f7094c2158e7fffd86841ff7e03fe.png" />
+<img alt="../../_images/5acc5d90e5efd4a61f6f9c0a715de77187f0bb9fa2eb1391d249c0565f2327ef.png" src="../../_images/5acc5d90e5efd4a61f6f9c0a715de77187f0bb9fa2eb1391d249c0565f2327ef.png" />
+<img alt="../../_images/070f5b99a800c0b0153decc1a7114b35c3defdf3a90c5c444606835059e6e1a9.png" src="../../_images/070f5b99a800c0b0153decc1a7114b35c3defdf3a90c5c444606835059e6e1a9.png" />
 </div>
 </div>
 </section>
@@ -875,7 +888,7 @@ We will also need libraries for plotting and viewing data.</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Fuction to calculate class area with original classes</span>
-<span class="k">def</span> <span class="nf">calculate_area_by_class</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">cell_area</span><span class="p">,</span> <span class="n">year</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">calculate_area_by_class</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">cell_area</span><span class="p">,</span> <span class="n">year</span><span class="p">):</span>
     <span class="c1"># Select the data for the given year</span>
     <span class="n">ds_year</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">)</span>
     
@@ -893,9 +906,9 @@ We will also need libraries for plotting and viewing data.</p>
     
     <span class="k">return</span> <span class="n">area_by_class</span>
 
-<span class="c1"># Calculate areas for 1992 and 2020</span>
+<span class="c1"># Calculate areas for 1992 and 2022</span>
 <span class="n">area_1992</span> <span class="o">=</span> <span class="n">calculate_area_by_class</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;cell_area&quot;</span><span class="p">],</span> <span class="mi">1992</span><span class="p">)</span>
-<span class="n">area_2020</span> <span class="o">=</span> <span class="n">calculate_area_by_class</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;cell_area&quot;</span><span class="p">],</span> <span class="mi">2020</span><span class="p">)</span>
+<span class="n">area_2022</span> <span class="o">=</span> <span class="n">calculate_area_by_class</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;cell_area&quot;</span><span class="p">],</span> <span class="mi">2022</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -925,12 +938,12 @@ We will also need libraries for plotting and viewing data.</p>
         <span class="c1"># Assign the total area to the corresponding year dictionary</span>
         <span class="k">if</span> <span class="n">year</span> <span class="o">==</span> <span class="mi">1992</span><span class="p">:</span>
             <span class="n">area_1992</span><span class="p">[</span><span class="n">lc_class</span><span class="p">]</span> <span class="o">=</span> <span class="n">total_area</span>
-        <span class="k">elif</span> <span class="n">year</span> <span class="o">==</span> <span class="mi">2020</span><span class="p">:</span>
-            <span class="n">area_2020</span><span class="p">[</span><span class="n">lc_class</span><span class="p">]</span> <span class="o">=</span> <span class="n">total_area</span>
+        <span class="k">elif</span> <span class="n">year</span> <span class="o">==</span> <span class="mi">2022</span><span class="p">:</span>
+            <span class="n">area_2022</span><span class="p">[</span><span class="n">lc_class</span><span class="p">]</span> <span class="o">=</span> <span class="n">total_area</span>
 
 <span class="c1"># Convert the areas dictionaries to lists in the order of lc_classes for plotting</span>
 <span class="n">areas_1992_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">area_1992</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">lc_class</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">lc_class</span> <span class="ow">in</span> <span class="n">lc_classes</span><span class="p">]</span>
-<span class="n">areas_2020_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">area_2020</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">lc_class</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">lc_class</span> <span class="ow">in</span> <span class="n">lc_classes</span><span class="p">]</span>
+<span class="n">areas_2022_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">area_2022</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">lc_class</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">lc_class</span> <span class="ow">in</span> <span class="n">lc_classes</span><span class="p">]</span>
 
 <span class="c1"># Get class names and colors from the reversed dictionary (numeric_to_name and numeric_to_color)</span>
 <span class="n">class_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">numeric_to_name</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">lc_class</span><span class="p">),</span> <span class="s1">&#39;Unknown&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">lc_class</span> <span class="ow">in</span> <span class="n">lc_classes</span><span class="p">]</span>
@@ -946,18 +959,18 @@ We will also need libraries for plotting and viewing data.</p>
 <span class="c1"># Plot bars for 1992 with black edges and solid colors (alpha=1 ensures no transparency)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">areas_1992_list</span><span class="p">,</span> <span class="n">bar_width</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;1992&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="c1"># Plot bars for 2020 next to 1992, with hatching, black edges, and no transparency</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="n">bar_width</span><span class="p">,</span> <span class="n">areas_2020_list</span><span class="p">,</span> <span class="n">bar_width</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;2020&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">hatch</span><span class="o">=</span><span class="s1">&#39;//&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># Plot bars for 2022 next to 1992, with hatching, black edges, and no transparency</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="n">bar_width</span><span class="p">,</span> <span class="n">areas_2022_list</span><span class="p">,</span> <span class="n">bar_width</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;2022&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">hatch</span><span class="o">=</span><span class="s1">&#39;//&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="c1"># Customize the plot</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Land Cover Class&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Sum of Area [km²]&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Comparison of Land Cover Classes in 1992 and 2020 for the Iberian Peninsula&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Comparison of Land Cover Classes in 1992 and 2022 for the Iberian Peninsula&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="n">bar_width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">class_names</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>  <span class="c1"># Set class names as x-ticks</span>
 
 <span class="n">legend_handles</span> <span class="o">=</span> <span class="p">[</span>
     <span class="n">patches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;1992&#39;</span><span class="p">),</span>
-    <span class="n">patches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">hatch</span><span class="o">=</span><span class="s1">&#39;//&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;2020&#39;</span><span class="p">)</span>
+    <span class="n">patches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">hatch</span><span class="o">=</span><span class="s1">&#39;//&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;2022&#39;</span><span class="p">)</span>
 <span class="p">]</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">legend_handles</span><span class="p">)</span>
 
@@ -969,7 +982,7 @@ We will also need libraries for plotting and viewing data.</p>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/7e2a7836906b3dfdd625704c83d8bbaa1841db3e2ea3611265e28c18fe218dcf.png" src="../../_images/7e2a7836906b3dfdd625704c83d8bbaa1841db3e2ea3611265e28c18fe218dcf.png" />
+<img alt="../../_images/fbe6da3182dbd1153799bb90e13df1768dfa594b2cf8072ba2b3344084ecee34.png" src="../../_images/fbe6da3182dbd1153799bb90e13df1768dfa594b2cf8072ba2b3344084ecee34.png" />
 </div>
 </div>
 <div class="cell tag_hide-input docutils container">
@@ -979,9 +992,9 @@ We will also need libraries for plotting and viewing data.</p>
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">patches</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">patches</span>
 
 <span class="c1"># Define a threshold for classes with areas above or below a specific value (km²). </span>
 <span class="c1"># Be aware that you will need to change the &#39;&gt;=&#39; and &#39;&lt;=&#39; further in this code cell</span>
@@ -989,7 +1002,7 @@ We will also need libraries for plotting and viewing data.</p>
 
 <span class="c1"># Initialize dictionaries to store the total area for each class for both years</span>
 <span class="n">areas_1992</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">areas_2020</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">areas_2022</span> <span class="o">=</span> <span class="p">{}</span>
 
 <span class="c1"># Get all land cover classes (numeric codes)</span>
 <span class="n">lc_classes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;lccs_class&quot;</span><span class="p">])</span>
@@ -1004,20 +1017,20 @@ We will also need libraries for plotting and viewing data.</p>
         <span class="c1"># Store the total area for each class in the corresponding year dictionary</span>
         <span class="k">if</span> <span class="n">year</span> <span class="o">==</span> <span class="mi">1992</span><span class="p">:</span>
             <span class="n">areas_1992</span><span class="p">[</span><span class="n">lc_class</span><span class="p">]</span> <span class="o">=</span> <span class="n">total_area</span>
-        <span class="k">elif</span> <span class="n">year</span> <span class="o">==</span> <span class="mi">2020</span><span class="p">:</span>
-            <span class="n">areas_2020</span><span class="p">[</span><span class="n">lc_class</span><span class="p">]</span> <span class="o">=</span> <span class="n">total_area</span>
+        <span class="k">elif</span> <span class="n">year</span> <span class="o">==</span> <span class="mi">2022</span><span class="p">:</span>
+            <span class="n">areas_2022</span><span class="p">[</span><span class="n">lc_class</span><span class="p">]</span> <span class="o">=</span> <span class="n">total_area</span>
 
 <span class="c1"># Filter for large or smaller areas and prepare lists for plotting</span>
 <span class="n">areas_1992</span> <span class="o">=</span> <span class="p">{</span><span class="n">lc</span><span class="p">:</span> <span class="n">area</span> <span class="k">for</span> <span class="n">lc</span><span class="p">,</span> <span class="n">area</span> <span class="ow">in</span> <span class="n">areas_1992</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">area</span> <span class="o">&gt;=</span> <span class="n">area_threshold</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">lc</span><span class="p">)}</span> <span class="c1"># Change the &#39;&gt;=&#39; and &#39;&lt;=&#39; to ajust if you want to asses above or below the defined treshold</span>
-<span class="n">areas_2020</span> <span class="o">=</span> <span class="p">{</span><span class="n">lc</span><span class="p">:</span> <span class="n">area</span> <span class="k">for</span> <span class="n">lc</span><span class="p">,</span> <span class="n">area</span> <span class="ow">in</span> <span class="n">areas_2020</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">area</span> <span class="o">&gt;=</span> <span class="n">area_threshold</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">lc</span><span class="p">)}</span> <span class="c1"># Change the &#39;&gt;=&#39; and &#39;&lt;=&#39; to ajust if you want to asses above or below the defined treshold</span>
+<span class="n">areas_2022</span> <span class="o">=</span> <span class="p">{</span><span class="n">lc</span><span class="p">:</span> <span class="n">area</span> <span class="k">for</span> <span class="n">lc</span><span class="p">,</span> <span class="n">area</span> <span class="ow">in</span> <span class="n">areas_2022</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">area</span> <span class="o">&gt;=</span> <span class="n">area_threshold</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">lc</span><span class="p">)}</span> <span class="c1"># Change the &#39;&gt;=&#39; and &#39;&lt;=&#39; to ajust if you want to asses above or below the defined treshold</span>
 
 <span class="c1"># Map numeric codes to class names, assuming the values in your dictionary are codes.</span>
 <span class="n">codes_to_names</span> <span class="o">=</span> <span class="p">{</span><span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">key</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">lccs_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
 <span class="c1"># Prepare data for plotting</span>
-<span class="n">lc_classes_large</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">areas_1992</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">areas_2020</span><span class="o">.</span><span class="n">keys</span><span class="p">())))</span>
+<span class="n">lc_classes_large</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">areas_1992</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">areas_2022</span><span class="o">.</span><span class="n">keys</span><span class="p">())))</span>
 <span class="n">areas_1992_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">areas_1992</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">lc</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">lc</span> <span class="ow">in</span> <span class="n">lc_classes_large</span><span class="p">]</span>
-<span class="n">areas_2020_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">areas_2020</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">lc</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">lc</span> <span class="ow">in</span> <span class="n">lc_classes_large</span><span class="p">]</span>
+<span class="n">areas_2022_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">areas_2022</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">lc</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">lc</span> <span class="ow">in</span> <span class="n">lc_classes_large</span><span class="p">]</span>
 <span class="n">class_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">codes_to_names</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">lc</span><span class="p">),</span> <span class="s1">&#39;Unknown&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">lc</span> <span class="ow">in</span> <span class="n">lc_classes_large</span><span class="p">]</span>
 <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">lccs_dict</span><span class="p">[</span><span class="n">class_name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">class_name</span> <span class="ow">in</span> <span class="n">class_names</span><span class="p">]</span>  <span class="c1"># Extracting colors using class names from lccs_dict</span>
 
@@ -1027,16 +1040,16 @@ We will also need libraries for plotting and viewing data.</p>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">areas_1992_list</span><span class="p">,</span> <span class="n">bar_width</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;1992&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="n">bar_width</span><span class="p">,</span> <span class="n">areas_2020_list</span><span class="p">,</span> <span class="n">bar_width</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;2020&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">hatch</span><span class="o">=</span><span class="s1">&#39;//&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="n">bar_width</span><span class="p">,</span> <span class="n">areas_2022_list</span><span class="p">,</span> <span class="n">bar_width</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;2022&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">hatch</span><span class="o">=</span><span class="s1">&#39;//&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Land Cover Class&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Sum of Area [km²]&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Comparison for Larger Area Land Cover Classes in 1992 and 2020&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Comparison for Larger Area Land Cover Classes in 1992 and 2022&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="n">bar_width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">class_names</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
 
 <span class="n">legend_handles</span> <span class="o">=</span> <span class="p">[</span>
     <span class="n">patches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;1992&#39;</span><span class="p">),</span>
-    <span class="n">patches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">hatch</span><span class="o">=</span><span class="s1">&#39;//&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;2020&#39;</span><span class="p">)</span>
+    <span class="n">patches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">hatch</span><span class="o">=</span><span class="s1">&#39;//&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;2022&#39;</span><span class="p">)</span>
 <span class="p">]</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">legend_handles</span><span class="p">)</span>
 
@@ -1047,14 +1060,14 @@ We will also need libraries for plotting and viewing data.</p>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/ff7652c28095a58211df59789ba63e07ea7dbf389893ca089f842d9552e3e951.png" src="../../_images/ff7652c28095a58211df59789ba63e07ea7dbf389893ca089f842d9552e3e951.png" />
+<img alt="../../_images/d209647eaee8e143751da7195e33808dc4b0b930e5d176137e1ca9616c9188d7.png" src="../../_images/d209647eaee8e143751da7195e33808dc4b0b930e5d176137e1ca9616c9188d7.png" />
 </div>
 </div>
 </section>
 <section id="plot-analysis">
 <h4>Plot Analysis<a class="headerlink" href="#plot-analysis" title="Link to this heading">#</a></h4>
-<p>From these plots, the ‘Urban’ class seems to show the largest change between 1992 and 2020, despite being the second class with the lowest total area. In addition, the ‘Water’ class has the greatest area in this AoI - this is expected as it is surounded by the Atlantic and Mediterranean.</p>
-<p>To better highlight theses aspects, let’s calculate the number of pixels subject to LC changes, and plot the results as percentages. To do that, we define a simple label_counter function to calculate the number of pixels per class in 1992 and 2020, and then proceed with the percentage difference calculation.</p>
+<p>From these plots, the ‘Urban’ class seems to show the largest change between 1992 and 2022, despite being the second class with the lowest total area. In addition, the ‘Water’ class has the greatest area in this AoI - this is expected as it is surounded by the Atlantic and Mediterranean.</p>
+<p>To better highlight theses aspects, let’s calculate the number of pixels subject to LC changes, and plot the results as percentages. To do that, we define a simple label_counter function to calculate the number of pixels per class in 1992 and 2022, and then proceed with the percentage difference calculation.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1063,7 +1076,7 @@ We will also need libraries for plotting and viewing data.</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Count the number of pixel per LC class</span>
-<span class="k">def</span> <span class="nf">label_counter</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">labels_list</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">label_counter</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">labels_list</span><span class="p">):</span>
     <span class="n">pixel_count</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels_list</span><span class="p">:</span>   
@@ -1083,19 +1096,19 @@ We will also need libraries for plotting and viewing data.</p>
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Function to calculate the percentage differences in pixel counts for each LC class between 1992 and 2020</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Function to calculate the percentage differences in pixel counts for each LC class between 1992 and 2022</span>
 <span class="n">unique_lccs_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">lccs_class</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">lccs_class</span> <span class="ow">in</span> <span class="n">lccs_dict</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
 
-<span class="c1"># Calculate pixel counts for 1992 and 2020</span>
+<span class="c1"># Calculate pixel counts for 1992 and 2022</span>
 <span class="n">pixel_count_1992</span> <span class="o">=</span> <span class="n">label_counter</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">lccs_class</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">unique_lccs_classes</span><span class="p">)</span>
-<span class="n">pixel_count_2020</span> <span class="o">=</span> <span class="n">label_counter</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">lccs_class</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">unique_lccs_classes</span><span class="p">)</span>
+<span class="n">pixel_count_2022</span> <span class="o">=</span> <span class="n">label_counter</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">lccs_class</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">unique_lccs_classes</span><span class="p">)</span>
 
 <span class="n">difference_dict</span> <span class="o">=</span> <span class="p">{}</span>
 
 <span class="c1"># Loop through each LC class to calculate the percentage difference</span>
 <span class="k">for</span> <span class="n">lccs_class</span> <span class="ow">in</span> <span class="n">unique_lccs_classes</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">pixel_count_1992</span><span class="p">[</span><span class="n">lccs_class</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Avoid division by zero</span>
-        <span class="n">difference</span> <span class="o">=</span> <span class="p">(</span><span class="n">pixel_count_2020</span><span class="p">[</span><span class="n">lccs_class</span><span class="p">]</span> <span class="o">-</span> <span class="n">pixel_count_1992</span><span class="p">[</span><span class="n">lccs_class</span><span class="p">])</span> <span class="o">/</span> <span class="n">pixel_count_1992</span><span class="p">[</span><span class="n">lccs_class</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span>
+        <span class="n">difference</span> <span class="o">=</span> <span class="p">(</span><span class="n">pixel_count_2022</span><span class="p">[</span><span class="n">lccs_class</span><span class="p">]</span> <span class="o">-</span> <span class="n">pixel_count_1992</span><span class="p">[</span><span class="n">lccs_class</span><span class="p">])</span> <span class="o">/</span> <span class="n">pixel_count_1992</span><span class="p">[</span><span class="n">lccs_class</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span>
         <span class="n">difference_dict</span><span class="p">[</span><span class="n">lccs_class</span><span class="p">]</span> <span class="o">=</span> <span class="n">difference</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">difference_dict</span><span class="p">[</span><span class="n">lccs_class</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>  <span class="c1"># Handle zero pixel count in 1992 (set to NaN or 0 as needed)</span>
@@ -1130,12 +1143,12 @@ We will also need libraries for plotting and viewing data.</p>
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;No Data&#39;: (&#39;#000000&#39;, 0, nan), &#39;Cropland Rainfed&#39;: (&#39;#ffff64&#39;, 10, -1.3167444095008671), &#39;Cropland Rainfed Herbaceous Cover&#39;: (&#39;#ffff64&#39;, 11, 1.390817664604471), &#39;Cropland Rainfed Tree Or Shrub Cover&#39;: (&#39;#ffff00&#39;, 12, 1.2805180217384122), &#39;Cropland Irrigated&#39;: (&#39;#aaf0f0&#39;, 20, 0.09425045234815954), &#39;Mosaic Cropland&#39;: (&#39;#dcf064&#39;, 30, 3.2285246974157666), &#39;Mosaic Natural Vegetation&#39;: (&#39;#c8c864&#39;, 40, -11.803737194591228), &#39;Tree Broadleaved Evergreen Closed To Open&#39;: (&#39;#006400&#39;, 50, nan), &#39;Tree Broadleaved Deciduous Closed To Open&#39;: (&#39;#00a000&#39;, 60, -10.554162808565968), &#39;Tree Broadleaved Deciduous Closed&#39;: (&#39;#00a000&#39;, 61, 0.0), &#39;Tree Broadleaved Deciduous Open&#39;: (&#39;#aac800&#39;, 62, nan), &#39;Tree Needleleaved Evergreen Closed To Open&#39;: (&#39;#003c00&#39;, 70, -6.677060709268345), &#39;Tree Needleleaved Evergreen Closed&#39;: (&#39;#003c00&#39;, 71, nan), &#39;Tree Needleleaved Evergreen Open&#39;: (&#39;#005000&#39;, 72, nan), &#39;Tree Needleleaved Deciduous Closed To Open&#39;: (&#39;#285000&#39;, 80, 0.0), &#39;Tree Needleleaved Deciduous Closed&#39;: (&#39;#285000&#39;, 81, nan), &#39;Tree Needleleaved Deciduous Open&#39;: (&#39;#286400&#39;, 82, nan), &#39;Tree Mixed&#39;: (&#39;#788200&#39;, 90, -2.1875217361062806), &#39;Mosaic Tree And Shrub&#39;: (&#39;#8ca000&#39;, 100, 11.264543102717068), &#39;Mosaic Herbaceous&#39;: (&#39;#be9600&#39;, 110, -31.065947739527168), &#39;Shrubland&#39;: (&#39;#966400&#39;, 120, 0.013294293505575499), &#39;Shrubland Evergreen&#39;: (&#39;#966400&#39;, 121, nan), &#39;Shrubland Deciduous&#39;: (&#39;#966400&#39;, 122, -0.3499222395023328), &#39;Grassland&#39;: (&#39;#ffb432&#39;, 130, 5.666135913659816), &#39;Lichens And Mosses&#39;: (&#39;#ffdcd2&#39;, 140, nan), &#39;Sparse Vegetation&#39;: (&#39;#ffebaf&#39;, 150, -36.405250757320765), &#39;Sparse Tree&#39;: (&#39;#ffc864&#39;, 151, nan), &#39;Sparse Shrub&#39;: (&#39;#ffd278&#39;, 152, nan), &#39;Sparse Herbaceous&#39;: (&#39;#ffebaf&#39;, 153, -3.6363636363636362), &#39;Tree Cover Flooded Fresh Or Brakish Water&#39;: (&#39;#00785a&#39;, 160, nan), &#39;Tree Cover Flooded Saline Water&#39;: (&#39;#009678&#39;, 170, nan), &#39;Shrub Or Herbaceous Cover Flooded&#39;: (&#39;#00dc82&#39;, 180, 0.4978749241044323), &#39;Urban&#39;: (&#39;#c31400&#39;, 190, 172.73710434329195), &#39;Bare Areas&#39;: (&#39;#fff5d7&#39;, 200, -11.608782886370701), &#39;Bare Areas Consolidated&#39;: (&#39;#dcdcdc&#39;, 201, -3.578617758890629), &#39;Bare Areas Unconsolidated&#39;: (&#39;#fff5d7&#39;, 202, -0.35650623885918004), &#39;Water&#39;: (&#39;#0046c8&#39;, 210, 5.293864156197169), &#39;Snow And Ice&#39;: (&#39;#ffffff&#39;, 220, nan)}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;No Data&#39;: (&#39;#000000&#39;, np.uint8(0), nan), &#39;Cropland Rainfed&#39;: (&#39;#ffff64&#39;, np.uint8(10), np.float64(-1.6818347536023497)), &#39;Cropland Rainfed Herbaceous Cover&#39;: (&#39;#ffff64&#39;, np.uint8(11), np.float64(1.4002638368383662)), &#39;Cropland Rainfed Tree Or Shrub Cover&#39;: (&#39;#ffff00&#39;, np.uint8(12), np.float64(1.1252436486173973)), &#39;Cropland Irrigated&#39;: (&#39;#aaf0f0&#39;, np.uint8(20), np.float64(-0.1987631315995571)), &#39;Mosaic Cropland&#39;: (&#39;#dcf064&#39;, np.uint8(30), np.float64(2.1589793915603535)), &#39;Mosaic Natural Vegetation&#39;: (&#39;#c8c864&#39;, np.uint8(40), np.float64(-12.702285702493285)), &#39;Tree Broadleaved Evergreen Closed To Open&#39;: (&#39;#006400&#39;, np.uint8(50), nan), &#39;Tree Broadleaved Deciduous Closed To Open&#39;: (&#39;#00a000&#39;, np.uint8(60), np.float64(-10.110276010165684)), &#39;Tree Broadleaved Deciduous Closed&#39;: (&#39;#00a000&#39;, np.uint8(61), np.float64(0.0)), &#39;Tree Broadleaved Deciduous Open&#39;: (&#39;#aac800&#39;, np.uint8(62), nan), &#39;Tree Needleleaved Evergreen Closed To Open&#39;: (&#39;#003c00&#39;, np.uint8(70), np.float64(-6.690400656992425)), &#39;Tree Needleleaved Evergreen Closed&#39;: (&#39;#003c00&#39;, np.uint8(71), nan), &#39;Tree Needleleaved Evergreen Open&#39;: (&#39;#005000&#39;, np.uint8(72), nan), &#39;Tree Needleleaved Deciduous Closed To Open&#39;: (&#39;#285000&#39;, np.uint8(80), np.float64(-45.45454545454545)), &#39;Tree Needleleaved Deciduous Closed&#39;: (&#39;#285000&#39;, np.uint8(81), nan), &#39;Tree Needleleaved Deciduous Open&#39;: (&#39;#286400&#39;, np.uint8(82), nan), &#39;Tree Mixed&#39;: (&#39;#788200&#39;, np.uint8(90), np.float64(-2.9943660012519997)), &#39;Mosaic Tree And Shrub&#39;: (&#39;#8ca000&#39;, np.uint8(100), np.float64(12.779464361446463)), &#39;Mosaic Herbaceous&#39;: (&#39;#be9600&#39;, np.uint8(110), np.float64(-28.909166321028618)), &#39;Shrubland&#39;: (&#39;#966400&#39;, np.uint8(120), np.float64(-1.5226829829800619)), &#39;Shrubland Evergreen&#39;: (&#39;#966400&#39;, np.uint8(121), nan), &#39;Shrubland Deciduous&#39;: (&#39;#966400&#39;, np.uint8(122), np.float64(-5.67651632970451)), &#39;Grassland&#39;: (&#39;#ffb432&#39;, np.uint8(130), np.float64(4.825109115130877)), &#39;Lichens And Mosses&#39;: (&#39;#ffdcd2&#39;, np.uint8(140), nan), &#39;Sparse Vegetation&#39;: (&#39;#ffebaf&#39;, np.uint8(150), np.float64(-36.23407222195509)), &#39;Sparse Tree&#39;: (&#39;#ffc864&#39;, np.uint8(151), nan), &#39;Sparse Shrub&#39;: (&#39;#ffd278&#39;, np.uint8(152), nan), &#39;Sparse Herbaceous&#39;: (&#39;#ffebaf&#39;, np.uint8(153), np.float64(-5.034013605442176)), &#39;Tree Cover Flooded Fresh Or Brakish Water&#39;: (&#39;#00785a&#39;, np.uint8(160), nan), &#39;Tree Cover Flooded Saline Water&#39;: (&#39;#009678&#39;, np.uint8(170), nan), &#39;Shrub Or Herbaceous Cover Flooded&#39;: (&#39;#00dc82&#39;, np.uint8(180), np.float64(1.493624772313297)), &#39;Urban&#39;: (&#39;#c31400&#39;, np.uint8(190), np.float64(180.53726270253568)), &#39;Bare Areas&#39;: (&#39;#fff5d7&#39;, np.uint8(200), np.float64(-12.264390878006047)), &#39;Bare Areas Consolidated&#39;: (&#39;#dcdcdc&#39;, np.uint8(201), np.float64(-4.249608588682621)), &#39;Bare Areas Unconsolidated&#39;: (&#39;#fff5d7&#39;, np.uint8(202), np.float64(-0.35650623885918004)), &#39;Water&#39;: (&#39;#0046c8&#39;, np.uint8(210), np.float64(5.230881426724567)), &#39;Snow And Ice&#39;: (&#39;#ffffff&#39;, np.uint8(220), nan)}
 </pre></div>
 </div>
 </div>
 </div>
-<p>Having calculated the percentage difference, we can now have a look at the results. Please note that percentage differences are calculated per class level - i.e., the changes in number of pixel in each class (between 1992 and 2020) are divided by the total number of pixels in that same class in 1992. Hence, these percentages reflect relative per-class changes.</p>
+<p>Having calculated the percentage difference, we can now have a look at the results. Please note that percentage differences are calculated per class level - i.e., the changes in number of pixel in each class (between 1992 and 2022) are divided by the total number of pixels in that same class in 1992. Hence, these percentages reflect relative per-class changes.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1156,7 +1169,7 @@ We will also need libraries for plotting and viewing data.</p>
 <span class="n">bars</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">results_values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">bar_colors</span><span class="p">)</span>
 
 <span class="c1"># Customize the plot (if needed)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;LC change between 1992 and 2020, per LC class&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;LC change between 1992 and 2022, per LC class&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
 <span class="c1"># plt.xlabel(&quot;Keys&quot;, fontsize=14)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;LC change [%]&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
@@ -1169,10 +1182,10 @@ We will also need libraries for plotting and viewing data.</p>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/8d86c7a87d668add71487115ad0e945487fdf0957eddf730176dadb1d7e43056.png" src="../../_images/8d86c7a87d668add71487115ad0e945487fdf0957eddf730176dadb1d7e43056.png" />
+<img alt="../../_images/9bdb0494d98823f106e4e490beb57f64346fbba7653a549c3fb2dbfbdcbe374f.png" src="../../_images/9bdb0494d98823f106e4e490beb57f64346fbba7653a549c3fb2dbfbdcbe374f.png" />
 </div>
 </div>
-<p>From this plot, we can verify that the ‘Urban’ class has indeed changed the most between 1992 and 2020 - in this AoI, ‘Urban’ areas have increased by more than 150%! By contrast, several vegetation classes have been reduced, although with percentages more evenly distributed accross different classes (e.g., broadleaved and needleleaved tree cover classes).</p>
+<p>From this plot, we can verify that the ‘Urban’ class has indeed changed the most between 1992 and 2022 - in this AoI, ‘Urban’ areas have increased by more than 150%! By contrast, several vegetation classes have been reduced, although with percentages more evenly distributed accross different classes (e.g., broadleaved and needleleaved tree cover classes).</p>
 </section>
 </section>
 <section id="calculate-the-area-percentage-and-the-area-percentage-change-for-the-most-populated-regions">
@@ -1182,11 +1195,11 @@ We will also need libraries for plotting and viewing data.</p>
 <p>Having found the ‘urbanization’ pattern in this AoI, we can now look into specific NUTS 2 regions, in more detail. In particular, we will select those that include the greatest Iberian cities, in terms of population number. These statistics are retrieved from the Urban Audit Indicators database available at  European Commission - Eurostat.
 The selected NUTS 2 regions are:</p>
 <ul class="simple">
-<li><p>Comunidad de Madrid, which includes the city of Madrid (5 098 717 people, in 2020), capital of Spain;</p></li>
-<li><p>Cataluña, which includes the city of Barcelona (3 755 512 people, in 2020);</p></li>
-<li><p>Área Metropolitana de Lisboa, which includes Lisboa (1 872 036 people, in 2020), capital of Portugal;</p></li>
-<li><p>Comunitat Valenciana, which includes Valencia (1 417 464 people, in 2020);</p></li>
-<li><p>Norte, which includes Porto (955 864 people, in 2020).</p></li>
+<li><p>Comunidad de Madrid, which includes the city of Madrid (5 098 717 people, in 2022), capital of Spain;</p></li>
+<li><p>Cataluña, which includes the city of Barcelona (3 755 512 people, in 2022);</p></li>
+<li><p>Área Metropolitana de Lisboa, which includes Lisboa (1 872 036 people, in 2022), capital of Portugal;</p></li>
+<li><p>Comunitat Valenciana, which includes Valencia (1 417 464 people, in 2022);</p></li>
+<li><p>Norte, which includes Porto (955 864 people, in 2022).</p></li>
 </ul>
 <p>We will look at each one in terms of area percentages, now using the IPCC classes to highlight the more aggregated LC changes.</p>
 </section>
@@ -1194,11 +1207,11 @@ The selected NUTS 2 regions are:</p>
 <h4>Calculation of the percentage area, absolute change, and relative percentage change for each IPCC class category<a class="headerlink" href="#calculation-of-the-percentage-area-absolute-change-and-relative-percentage-change-for-each-ipcc-class-category" title="Link to this heading">#</a></h4>
 <ol class="arabic simple">
 <li><p><strong>Area Percentage Coverage</strong>:<br />
-<em>Example</em>: In 1992, forest land covered 35% of the total area, while urban areas occupied 10%. By 2020, forest coverage decreased to 30%, and urban areas expanded to 15%. This metric gives the proportion of the total land occupied by each land cover class.</p></li>
+<em>Example</em>: In 1992, forest land covered 35% of the total area, while urban areas occupied 10%. By 2022, forest coverage decreased to 30%, and urban areas expanded to 15%. This metric gives the proportion of the total land occupied by each land cover class.</p></li>
 <li><p><strong>Absolute Percentage Difference</strong>:<br />
-<em>Example</em>: In 1992, 10% of the region was classified as agricultural land. By 2020, this had decreased to 8%. The absolute percentage difference in agricultural land coverage is −2% (from 10% in 1992 to 8% in 2020, representing a 2% decrease in total land area occupied by agriculture).</p></li>
+<em>Example</em>: In 1992, 10% of the region was classified as agricultural land. By 2022, this had decreased to 8%. The absolute percentage difference in agricultural land coverage is −2% (from 10% in 1992 to 8% in 2022, representing a 2% decrease in total land area occupied by agriculture).</p></li>
 <li><p><strong>Relative Percentage Difference</strong>:<br />
-<em>Example</em>: In 1992, 10% of the area was classified as wetlands. By 2020, wetlands accounted for 12% of the total area. The relative percentage difference is calculated as ((12−10)/10)∗100 = +20%. This means there was a 20% increase in wetland area relative to its size in 1992.</p></li>
+<em>Example</em>: In 1992, 10% of the area was classified as wetlands. By 2022, wetlands accounted for 12% of the total area. The relative percentage difference is calculated as ((12−10)/10)∗100 = +20%. This means there was a 20% increase in wetland area relative to its size in 1992.</p></li>
 </ol>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
@@ -1224,15 +1237,15 @@ The selected NUTS 2 regions are:</p>
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">patches</span>
-<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
-<span class="kn">from</span> <span class="nn">shapely.vectorized</span> <span class="kn">import</span> <span class="n">contains</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">patches</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">shapely.vectorized</span><span class="w"> </span><span class="kn">import</span> <span class="n">contains</span>
 
 <span class="c1"># Function to calculate the percentage cover of each IPCC class for a given year in a given region</span>
-<span class="k">def</span> <span class="nf">calculate_ipcc_percentage_coverage</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">region_mask</span><span class="p">,</span> <span class="n">total_area_region</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">calculate_ipcc_percentage_coverage</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">region_mask</span><span class="p">,</span> <span class="n">total_area_region</span><span class="p">):</span>
     <span class="n">lccs_year</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;lccs_class&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">)</span>  <span class="c1"># Select data for the given year</span>
 
     <span class="c1"># Mask the lccs_year data with the region mask</span>
@@ -1253,18 +1266,18 @@ The selected NUTS 2 regions are:</p>
     <span class="k">return</span> <span class="n">ipcc_percentage_coverage</span>
 
 <span class="c1"># Function to calculate absolute and relative percentage differences</span>
-<span class="k">def</span> <span class="nf">calculate_differences</span><span class="p">(</span><span class="n">coverage_1992</span><span class="p">,</span> <span class="n">coverage_2020</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">calculate_differences</span><span class="p">(</span><span class="n">coverage_1992</span><span class="p">,</span> <span class="n">coverage_2022</span><span class="p">):</span>
     <span class="n">absolute_differences</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">relative_differences</span> <span class="o">=</span> <span class="p">{}</span>
     
     <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">coverage_1992</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-        <span class="c1"># Absolute percentage difference: (2020 - 1992)</span>
-        <span class="n">abs_diff</span> <span class="o">=</span> <span class="n">coverage_2020</span><span class="p">[</span><span class="n">group</span><span class="p">]</span> <span class="o">-</span> <span class="n">coverage_1992</span><span class="p">[</span><span class="n">group</span><span class="p">]</span>
+        <span class="c1"># Absolute percentage difference: (2022 - 1992)</span>
+        <span class="n">abs_diff</span> <span class="o">=</span> <span class="n">coverage_2022</span><span class="p">[</span><span class="n">group</span><span class="p">]</span> <span class="o">-</span> <span class="n">coverage_1992</span><span class="p">[</span><span class="n">group</span><span class="p">]</span>
         <span class="n">absolute_differences</span><span class="p">[</span><span class="n">group</span><span class="p">]</span> <span class="o">=</span> <span class="n">abs_diff</span>
         
         <span class="c1"># Handle relative differences, avoid division by zero</span>
         <span class="k">if</span> <span class="n">coverage_1992</span><span class="p">[</span><span class="n">group</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">rel_diff</span> <span class="o">=</span> <span class="p">((</span><span class="n">coverage_2020</span><span class="p">[</span><span class="n">group</span><span class="p">]</span> <span class="o">-</span> <span class="n">coverage_1992</span><span class="p">[</span><span class="n">group</span><span class="p">])</span> <span class="o">/</span> <span class="n">coverage_1992</span><span class="p">[</span><span class="n">group</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span>
+            <span class="n">rel_diff</span> <span class="o">=</span> <span class="p">((</span><span class="n">coverage_2022</span><span class="p">[</span><span class="n">group</span><span class="p">]</span> <span class="o">-</span> <span class="n">coverage_1992</span><span class="p">[</span><span class="n">group</span><span class="p">])</span> <span class="o">/</span> <span class="n">coverage_1992</span><span class="p">[</span><span class="n">group</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">rel_diff</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Set a safe default if the base year value is zero</span>
         <span class="n">relative_differences</span><span class="p">[</span><span class="n">group</span><span class="p">]</span> <span class="o">=</span> <span class="n">rel_diff</span>
@@ -1272,7 +1285,7 @@ The selected NUTS 2 regions are:</p>
     <span class="k">return</span> <span class="n">absolute_differences</span><span class="p">,</span> <span class="n">relative_differences</span>
 
 <span class="c1"># Function to set y-axis limits with some padding and handle NaN values</span>
-<span class="k">def</span> <span class="nf">add_padding_to_limits</span><span class="p">(</span><span class="n">min_val</span><span class="p">,</span> <span class="n">max_val</span><span class="p">,</span> <span class="n">padding_factor</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_padding_to_limits</span><span class="p">(</span><span class="n">min_val</span><span class="p">,</span> <span class="n">max_val</span><span class="p">,</span> <span class="n">padding_factor</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
     <span class="c1"># If all values are NaN, set default limits (0, 1) to avoid errors</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">min_val</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">max_val</span><span class="p">):</span>
         <span class="k">return</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>  <span class="c1"># Default values if min or max are NaN or Inf</span>
@@ -1282,7 +1295,7 @@ The selected NUTS 2 regions are:</p>
     <span class="k">return</span> <span class="n">min_val</span> <span class="o">-</span> <span class="n">padding</span><span class="p">,</span> <span class="n">max_val</span> <span class="o">+</span> <span class="n">padding</span>
 
 <span class="c1"># Function to add padding only to the maximum y-limit for area coverage plots</span>
-<span class="k">def</span> <span class="nf">add_padding_to_max_limit</span><span class="p">(</span><span class="n">min_val</span><span class="p">,</span> <span class="n">max_val</span><span class="p">,</span> <span class="n">padding_factor</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_padding_to_max_limit</span><span class="p">(</span><span class="n">min_val</span><span class="p">,</span> <span class="n">max_val</span><span class="p">,</span> <span class="n">padding_factor</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
     <span class="c1"># If min or max values are NaN or Inf, set default limits (0, 1) to avoid errors</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">min_val</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">max_val</span><span class="p">):</span>
         <span class="k">return</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>  <span class="c1"># Default values if min or max are NaN or Inf</span>
@@ -1293,19 +1306,19 @@ The selected NUTS 2 regions are:</p>
 
 
 <span class="c1"># Plotting function for Area Percentage Coverage without padding for the min limit and excluding &quot;No Data&quot;</span>
-<span class="k">def</span> <span class="nf">plot_area_percentage_coverage</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">coverage_1992</span><span class="p">,</span> <span class="n">coverage_2020</span><span class="p">,</span> <span class="n">region_name</span><span class="p">,</span> <span class="n">y_max</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_area_percentage_coverage</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">coverage_1992</span><span class="p">,</span> <span class="n">coverage_2022</span><span class="p">,</span> <span class="n">region_name</span><span class="p">,</span> <span class="n">y_max</span><span class="p">):</span>
     <span class="c1"># Filter out &quot;No Data&quot; from the labels, percentages, and colors</span>
     <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">coverage_1992</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s1">&#39;No Data&#39;</span><span class="p">]</span>
     <span class="n">percentages_1992</span> <span class="o">=</span> <span class="p">[</span><span class="n">coverage_1992</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span>
-    <span class="n">percentages_2020</span> <span class="o">=</span> <span class="p">[</span><span class="n">coverage_2020</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span>
+    <span class="n">percentages_2022</span> <span class="o">=</span> <span class="p">[</span><span class="n">coverage_2022</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span>
     <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">ipcc_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span>
     
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>  <span class="c1"># Label locations</span>
     <span class="n">width</span> <span class="o">=</span> <span class="mf">0.35</span>  <span class="c1"># Width of the bars</span>
 
-    <span class="c1"># Plot bars for 1992 and 2020</span>
+    <span class="c1"># Plot bars for 1992 and 2022</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">percentages_1992</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;1992&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">percentages_2020</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;2020&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">hatch</span><span class="o">=</span><span class="s1">&#39;//&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">percentages_2022</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;2022&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">hatch</span><span class="o">=</span><span class="s1">&#39;//&#39;</span><span class="p">)</span>
     
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;IPCC Land Cover Classes&#39;</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Coverage Area (%)&#39;</span><span class="p">)</span>
@@ -1318,15 +1331,15 @@ The selected NUTS 2 regions are:</p>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">min_area</span><span class="p">,</span> <span class="n">max_area</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
 
-    <span class="c1"># Custom legend with patches for 1992 and 2020</span>
+    <span class="c1"># Custom legend with patches for 1992 and 2022</span>
     <span class="n">legend_handles</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">patches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;1992&#39;</span><span class="p">),</span>
-        <span class="n">patches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">hatch</span><span class="o">=</span><span class="s1">&#39;//&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;2020&#39;</span><span class="p">)</span>
+        <span class="n">patches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">hatch</span><span class="o">=</span><span class="s1">&#39;//&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;2022&#39;</span><span class="p">)</span>
     <span class="p">]</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">legend_handles</span><span class="p">)</span>
 
 <span class="c1"># Plotting function for Absolute and Relative Differences</span>
-<span class="k">def</span> <span class="nf">plot_percentage_differences</span><span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">abs_diff</span><span class="p">,</span> <span class="n">rel_diff</span><span class="p">,</span> <span class="n">region_name</span><span class="p">,</span> <span class="n">y_max_abs</span><span class="p">,</span> <span class="n">y_min_abs</span><span class="p">,</span> <span class="n">y_max_rel</span><span class="p">,</span> <span class="n">y_min_rel</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_percentage_differences</span><span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">abs_diff</span><span class="p">,</span> <span class="n">rel_diff</span><span class="p">,</span> <span class="n">region_name</span><span class="p">,</span> <span class="n">y_max_abs</span><span class="p">,</span> <span class="n">y_min_abs</span><span class="p">,</span> <span class="n">y_max_rel</span><span class="p">,</span> <span class="n">y_min_rel</span><span class="p">):</span>
     <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">abs_diff</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s1">&#39;No Data&#39;</span><span class="p">]</span>
     <span class="n">abs_diffs</span> <span class="o">=</span> <span class="p">[</span><span class="n">abs_diff</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span>
     <span class="n">rel_diffs</span> <span class="o">=</span> <span class="p">[</span><span class="n">rel_diff</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span>
@@ -1385,15 +1398,15 @@ The selected NUTS 2 regions are:</p>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: Total area for region </span><span class="si">{</span><span class="n">region_name</span><span class="si">}</span><span class="s2"> is zero. Skipping this region.&quot;</span><span class="p">)</span>
         <span class="k">continue</span>
 
-    <span class="c1"># Calculate the percentage coverage for 1992 and 2020</span>
+    <span class="c1"># Calculate the percentage coverage for 1992 and 2022</span>
     <span class="n">coverage_1992</span> <span class="o">=</span> <span class="n">calculate_ipcc_percentage_coverage</span><span class="p">(</span><span class="mi">1992</span><span class="p">,</span> <span class="n">region_mask</span><span class="p">,</span> <span class="n">total_area_region</span><span class="p">)</span>
-    <span class="n">coverage_2020</span> <span class="o">=</span> <span class="n">calculate_ipcc_percentage_coverage</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="n">region_mask</span><span class="p">,</span> <span class="n">total_area_region</span><span class="p">)</span>
+    <span class="n">coverage_2022</span> <span class="o">=</span> <span class="n">calculate_ipcc_percentage_coverage</span><span class="p">(</span><span class="mi">2022</span><span class="p">,</span> <span class="n">region_mask</span><span class="p">,</span> <span class="n">total_area_region</span><span class="p">)</span>
 
     <span class="c1"># Calculate the differences</span>
-    <span class="n">abs_diff</span><span class="p">,</span> <span class="n">rel_diff</span> <span class="o">=</span> <span class="n">calculate_differences</span><span class="p">(</span><span class="n">coverage_1992</span><span class="p">,</span> <span class="n">coverage_2020</span><span class="p">)</span>
+    <span class="n">abs_diff</span><span class="p">,</span> <span class="n">rel_diff</span> <span class="o">=</span> <span class="n">calculate_differences</span><span class="p">(</span><span class="n">coverage_1992</span><span class="p">,</span> <span class="n">coverage_2022</span><span class="p">)</span>
 
     <span class="c1"># Update the global minimum and maximum values</span>
-    <span class="n">max_area_percentage_coverage</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_area_percentage_coverage</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">coverage_1992</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">coverage_2020</span><span class="o">.</span><span class="n">values</span><span class="p">())))</span>
+    <span class="n">max_area_percentage_coverage</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_area_percentage_coverage</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">coverage_1992</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">coverage_2022</span><span class="o">.</span><span class="n">values</span><span class="p">())))</span>
     <span class="n">max_absolute_difference</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_absolute_difference</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">abs_diff</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
     <span class="n">max_relative_difference</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_relative_difference</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">rel_diff</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
 
@@ -1419,18 +1432,18 @@ The selected NUTS 2 regions are:</p>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: Total area for region </span><span class="si">{</span><span class="n">region_name</span><span class="si">}</span><span class="s2"> is zero. Skipping this region.&quot;</span><span class="p">)</span>
         <span class="k">continue</span>
 
-    <span class="c1"># Calculate the percentage coverage for 1992 and 2020</span>
+    <span class="c1"># Calculate the percentage coverage for 1992 and 2022</span>
     <span class="n">coverage_1992</span> <span class="o">=</span> <span class="n">calculate_ipcc_percentage_coverage</span><span class="p">(</span><span class="mi">1992</span><span class="p">,</span> <span class="n">region_mask</span><span class="p">,</span> <span class="n">total_area_region</span><span class="p">)</span>
-    <span class="n">coverage_2020</span> <span class="o">=</span> <span class="n">calculate_ipcc_percentage_coverage</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="n">region_mask</span><span class="p">,</span> <span class="n">total_area_region</span><span class="p">)</span>
+    <span class="n">coverage_2022</span> <span class="o">=</span> <span class="n">calculate_ipcc_percentage_coverage</span><span class="p">(</span><span class="mi">2022</span><span class="p">,</span> <span class="n">region_mask</span><span class="p">,</span> <span class="n">total_area_region</span><span class="p">)</span>
 
     <span class="c1"># Calculate the differences</span>
-    <span class="n">abs_diff</span><span class="p">,</span> <span class="n">rel_diff</span> <span class="o">=</span> <span class="n">calculate_differences</span><span class="p">(</span><span class="n">coverage_1992</span><span class="p">,</span> <span class="n">coverage_2020</span><span class="p">)</span>
+    <span class="n">abs_diff</span><span class="p">,</span> <span class="n">rel_diff</span> <span class="o">=</span> <span class="n">calculate_differences</span><span class="p">(</span><span class="n">coverage_1992</span><span class="p">,</span> <span class="n">coverage_2022</span><span class="p">)</span>
 
     <span class="c1"># Create the figure with three subplots in the same row</span>
     <span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 
     <span class="c1"># Plot the Area Percentage Coverage</span>
-    <span class="n">plot_area_percentage_coverage</span><span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">coverage_1992</span><span class="p">,</span> <span class="n">coverage_2020</span><span class="p">,</span> <span class="n">region_name</span><span class="p">,</span> <span class="n">max_area_percentage_coverage</span><span class="p">)</span>
+    <span class="n">plot_area_percentage_coverage</span><span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">coverage_1992</span><span class="p">,</span> <span class="n">coverage_2022</span><span class="p">,</span> <span class="n">region_name</span><span class="p">,</span> <span class="n">max_area_percentage_coverage</span><span class="p">)</span>
 
     <span class="c1"># Plot the Absolute and Relative Percentage Differences with global minimum and maximum values</span>
     <span class="n">plot_percentage_differences</span><span class="p">(</span><span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">,</span> <span class="n">abs_diff</span><span class="p">,</span> <span class="n">rel_diff</span><span class="p">,</span> <span class="n">region_name</span><span class="p">,</span> 
@@ -1445,23 +1458,53 @@ The selected NUTS 2 regions are:</p>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/f033d486a900bef05a76de600fa0c3cb1fa2b41a86230450c9764ad538dd200e.png" src="../../_images/f033d486a900bef05a76de600fa0c3cb1fa2b41a86230450c9764ad538dd200e.png" />
-<img alt="../../_images/0414764f9525e62d70bf98793ed4cca1b1b8cba4f10089f288ae23fa14d5c00b.png" src="../../_images/0414764f9525e62d70bf98793ed4cca1b1b8cba4f10089f288ae23fa14d5c00b.png" />
-<img alt="../../_images/bfb7ae9f8483a2eeb26239f522b0a979124ff55c217a582a6d7ca7b9045a41b7.png" src="../../_images/bfb7ae9f8483a2eeb26239f522b0a979124ff55c217a582a6d7ca7b9045a41b7.png" />
-<img alt="../../_images/2fe06110e296a17f1d92e9142c2bed554c917cf9409d0cc11fb3aaffd7f2e4c1.png" src="../../_images/2fe06110e296a17f1d92e9142c2bed554c917cf9409d0cc11fb3aaffd7f2e4c1.png" />
-<img alt="../../_images/a81a4e409d0c15979777d2309c457dd951ba8ca1e546c39896af60da27553065.png" src="../../_images/a81a4e409d0c15979777d2309c457dd951ba8ca1e546c39896af60da27553065.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_1903/1024102569.py:149: DeprecationWarning: The &#39;unary_union&#39; attribute is deprecated, use the &#39;union_all()&#39; method instead.
+  region_geometry = region_of_interest.geometry.unary_union
+/tmp/ipykernel_1903/1024102569.py:149: DeprecationWarning: The &#39;unary_union&#39; attribute is deprecated, use the &#39;union_all()&#39; method instead.
+  region_geometry = region_of_interest.geometry.unary_union
+/tmp/ipykernel_1903/1024102569.py:149: DeprecationWarning: The &#39;unary_union&#39; attribute is deprecated, use the &#39;union_all()&#39; method instead.
+  region_geometry = region_of_interest.geometry.unary_union
+/tmp/ipykernel_1903/1024102569.py:149: DeprecationWarning: The &#39;unary_union&#39; attribute is deprecated, use the &#39;union_all()&#39; method instead.
+  region_geometry = region_of_interest.geometry.unary_union
+/tmp/ipykernel_1903/1024102569.py:149: DeprecationWarning: The &#39;unary_union&#39; attribute is deprecated, use the &#39;union_all()&#39; method instead.
+  region_geometry = region_of_interest.geometry.unary_union
+/tmp/ipykernel_1903/1024102569.py:183: DeprecationWarning: The &#39;unary_union&#39; attribute is deprecated, use the &#39;union_all()&#39; method instead.
+  region_geometry = region_of_interest.geometry.unary_union
+</pre></div>
+</div>
+<img alt="../../_images/737d34634214096c2947ff6ed9ab22600ffd70d3fd0e8a98fadb170bffbddc42.png" src="../../_images/737d34634214096c2947ff6ed9ab22600ffd70d3fd0e8a98fadb170bffbddc42.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_1903/1024102569.py:183: DeprecationWarning: The &#39;unary_union&#39; attribute is deprecated, use the &#39;union_all()&#39; method instead.
+  region_geometry = region_of_interest.geometry.unary_union
+</pre></div>
+</div>
+<img alt="../../_images/1438d11565ed5bdab5e51c36b1f33549334f9eb2faa8b80b52f1e454e6335263.png" src="../../_images/1438d11565ed5bdab5e51c36b1f33549334f9eb2faa8b80b52f1e454e6335263.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_1903/1024102569.py:183: DeprecationWarning: The &#39;unary_union&#39; attribute is deprecated, use the &#39;union_all()&#39; method instead.
+  region_geometry = region_of_interest.geometry.unary_union
+</pre></div>
+</div>
+<img alt="../../_images/1cd20a1f3b4a495af521f2ae863d321a340b6f96d5da097cc602feb9941d2129.png" src="../../_images/1cd20a1f3b4a495af521f2ae863d321a340b6f96d5da097cc602feb9941d2129.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_1903/1024102569.py:183: DeprecationWarning: The &#39;unary_union&#39; attribute is deprecated, use the &#39;union_all()&#39; method instead.
+  region_geometry = region_of_interest.geometry.unary_union
+</pre></div>
+</div>
+<img alt="../../_images/4ecc26cafbecc181bd0b14cb33894dc7f24e569a99d2c8311e09ce3a2ba20bf4.png" src="../../_images/4ecc26cafbecc181bd0b14cb33894dc7f24e569a99d2c8311e09ce3a2ba20bf4.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_1903/1024102569.py:183: DeprecationWarning: The &#39;unary_union&#39; attribute is deprecated, use the &#39;union_all()&#39; method instead.
+  region_geometry = region_of_interest.geometry.unary_union
+</pre></div>
+</div>
+<img alt="../../_images/326ed59674738ac39451a5d4b608547e9a15b78b36737f1feabed86ba2d2dc5d.png" src="../../_images/326ed59674738ac39451a5d4b608547e9a15b78b36737f1feabed86ba2d2dc5d.png" />
 </div>
 </div>
 </section>
 </section>
 <section id="bar-chart-analysis">
 <h3><strong>Bar Chart Analysis</strong><a class="headerlink" href="#bar-chart-analysis" title="Link to this heading">#</a></h3>
-<section id="area-coverage-1992-vs-2020">
-<h4><strong>1. Area Coverage (1992 vs. 2020)</strong><a class="headerlink" href="#area-coverage-1992-vs-2020" title="Link to this heading">#</a></h4>
+<section id="area-coverage-2022-vs-1992">
+<h4><strong>1. Area Coverage (2022 vs. 1992)</strong><a class="headerlink" href="#area-coverage-2022-vs-1992" title="Link to this heading">#</a></h4>
 <p>Across the four regions, significant land cover changes were observed in the Settlement and Agriculture classes, while Forest and Grassland exhibited more stable trends. Wetland and Other land cover classes remain consistently low, with minimal variations.</p>
 <ul class="simple">
 <li><p><strong>Agriculture</strong>
-All four regions display a decrease in agricultural land from 1992 to 2020. This trend is most prominent in Área Metropolitana de Lisboa, where the agricultural area saw the largest drop, while Comunidad de Madrid and Cataluña show more moderate decreases.</p></li>
+All four regions display a decrease in agricultural land from 1992 to 2022. This trend is most prominent in Área Metropolitana de Lisboa, where the agricultural area saw the largest drop, while Comunidad de Madrid and Cataluña show more moderate decreases.</p></li>
 <li><p><strong>Forest</strong>
 Forest cover remained relatively stable, with slight decreases in Comunidad de Madrid and Cataluña, but small increases in Área Metropolitana de Lisboa and Comunitat Valenciana. This suggests that forest areas have been largely preserved or even expanded slightly in some regions.</p></li>
 <li><p><strong>Grassland</strong>
@@ -1472,8 +1515,8 @@ A striking increase in urban/settlement areas is observed across all four region
 Both categories have minimal land cover percentages across the four regions. Slight increases in the Other category were noted in Área Metropolitana de Lisboa and Comunitat Valenciana, but overall, their contribution to total land cover remains negligible.</p></li>
 </ul>
 </section>
-<section id="absolute-difference-in-land-cover-2020-vs-1992">
-<h4><strong>2. Absolute Difference in Land Cover (2020 vs. 1992)</strong><a class="headerlink" href="#absolute-difference-in-land-cover-2020-vs-1992" title="Link to this heading">#</a></h4>
+<section id="absolute-difference-in-land-cover-2022-vs-1992">
+<h4><strong>2. Absolute Difference in Land Cover (2022 vs. 1992)</strong><a class="headerlink" href="#absolute-difference-in-land-cover-2022-vs-1992" title="Link to this heading">#</a></h4>
 <p>The absolute difference analysis highlights how much the land cover changed between the two periods.</p>
 <ul class="simple">
 <li><p><strong>Agriculture</strong>
@@ -1488,8 +1531,8 @@ All regions experienced a noticeable absolute increase in settlement areas, with
 The absolute differences for Wetland and Other land cover classes remain negligible, contributing very little to overall land use changes.</p></li>
 </ul>
 </section>
-<section id="relative-difference-in-land-cover-2020-vs-1992">
-<h4><strong>3. Relative Difference in Land Cover (2020 vs. 1992)</strong><a class="headerlink" href="#relative-difference-in-land-cover-2020-vs-1992" title="Link to this heading">#</a></h4>
+<section id="relative-difference-in-land-cover-2022-vs-1992">
+<h4><strong>3. Relative Difference in Land Cover (2022 vs. 1992)</strong><a class="headerlink" href="#relative-difference-in-land-cover-2022-vs-1992" title="Link to this heading">#</a></h4>
 <p>The relative difference highlights the proportional change in land cover classes over the period.</p>
 <ul class="simple">
 <li><p><strong>Agriculture</strong>
@@ -1519,7 +1562,7 @@ Wetlands and Other land cover types remain negligible and unchanged across the r
 <section id="main-takeaways">
 <span id="satellite-satellite-land-cover-consistency-assessment-q01-c3s2-d520-5-3-2b-quality-assessment-user-questions-lulc-uq1-v1-17-code-section-5"></span><h3>5. Main Takeaways<a class="headerlink" href="#main-takeaways" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>The dataset shows strong physical consistency with official sources and studies, aligning well with equivalent statistics from EUROSTAT <a class="reference external" href="https://ec.europa.eu/statistical-atlas/viewer/?ch=gridvizChapter&amp;amp;mids=BKGCNT,totalPop21,CNTOVL&amp;amp;o=1,1,0.7&amp;amp;center=40.94812,-2.2287,5&amp;amp;lcis=totalPop21&amp;amp;">[3]</a> and peer-reviewed research <a class="reference external" href="https://doi.org/10.1016/j.apgeog.2009.07.003">[1]</a>,<a class="reference external" href="https://doi.org/10.3390/land7030099">[2]</a>. The analysis revealed significant urbanization in the AoI from 1992 to 2020, with the IPCC ‘Settlement’ class (equivalent to the ‘Urban’ class in LC data) showing substantial increases. In 1992, urban areas comprised a small fraction of NUTS 2 territories, ranging from approximately 2% (Comunitat Valenciana) to 10% (Área Metropolitana de Lisboa). By 2020, this fraction had doubled or more in all cases, especially in regions with large metropolitan areas like Comunidad de Madrid (Spain) and Área Metropolitana de Lisboa (Portugal). This urban expansion came largely at the expense of Agriculture and Grassland areas, except in Norte, where the increase in settlement area was offset by a reduction in Forest. This trend aligns with the overall growth in built-up areas across Europe, as shown by the Joint Research Center (JRC) using the <a class="reference external" href="https://human-settlement.emergency.copernicus.eu/datasets.php">GHSL dataset</a> <a class="reference external" href="https://publications.jrc.ec.europa.eu/repository/handle/JRC116711">[5]</a>. Despite small discrepancies (5-8%) with EUROSTAT’s land categories, the dataset’s overall consistency suggests it is reliable, though classification nuances should be considered.</p></li>
+<li><p>The dataset shows strong physical consistency with official sources and studies, aligning well with equivalent statistics from EUROSTAT <a class="reference external" href="https://ec.europa.eu/statistical-atlas/viewer/?ch=gridvizChapter&amp;amp;mids=BKGCNT,totalPop21,CNTOVL&amp;amp;o=1,1,0.7&amp;amp;center=40.94812,-2.2287,5&amp;amp;lcis=totalPop21&amp;amp;">[3]</a> and peer-reviewed research <a class="reference external" href="https://doi.org/10.1016/j.apgeog.2009.07.003">[1]</a>,<a class="reference external" href="https://doi.org/10.3390/land7030099">[2]</a>. The analysis revealed significant urbanization in the AoI from 1992 to 2022, with the IPCC ‘Settlement’ class (equivalent to the ‘Urban’ class in LC data) showing substantial increases. In 1992, urban areas comprised a small fraction of NUTS 2 territories, ranging from approximately 2% (Comunitat Valenciana) to 10% (Área Metropolitana de Lisboa). By 2022, this fraction had doubled or more in all cases, especially in regions with large metropolitan areas like Comunidad de Madrid (Spain) and Área Metropolitana de Lisboa (Portugal). This urban expansion came largely at the expense of Agriculture and Grassland areas, except in Norte, where the increase in settlement area was offset by a reduction in Forest. This trend aligns with the overall growth in built-up areas across Europe, as shown by the Joint Research Center (JRC) using the <a class="reference external" href="https://human-settlement.emergency.copernicus.eu/datasets.php">GHSL dataset</a> <a class="reference external" href="https://publications.jrc.ec.europa.eu/repository/handle/JRC116711">[5]</a>. Despite small discrepancies (5-8%) with EUROSTAT’s land categories, the dataset’s overall consistency suggests it is reliable, though classification nuances should be considered.</p></li>
 <li><p>Urban expansion generally occurred at the expense of Agriculture and Grassland areas, except in the Norte region, where the increase in Settlement area corresponded with a reduction in Forest. These shifts illustrate the spatial trade-offs between land use types. Forest areas, however, have shown minimal change in most regions, reinforcing the idea that urban growth primarily affects agricultural and open land rather than forested areas. Furthermore, although Settlements now occupy a larger share of the land, they still account for less than 20% of the total area in most regions. Forest, Grassland, and Agricultural classes continue to dominate across our AoI. The trade-offs between urban expansion and the decline in agricultural areas are well-documented, with numerous studies highlighting the conversion of agricultural land to urban uses. This pattern has been observed in multiple European regions, where urban growth frequently replaces agricultural land <a class="reference external" href="https://doi.org/10.1088/1748-9326/9/6/064015">[4]</a>.</p></li>
 <li><p>The use of two levels of class aggregation allowed for a comprehensive analysis of trends, both from a generalized and more detailed perspective. While this approach introduces some uncertainty due to the aggregation of more granular data, it provides a clearer picture of major trends across land cover classes. This methodological decision was crucial for understanding urban expansion while maintaining the ability to capture more subtle land cover shifts.
 Classification methodologies across datasets can introduce uncertainties, particularly when distinguishing between land cover categories like Agriculture and Grassland. For example, certain features (e.g., greenhouses) might be classified as Agriculture in one dataset but as Artificial Land in another. Such discrepancies highlight the need for consistent application of classification rules to avoid misinterpretation. Despite these challenges, the dataset still demonstrates high accuracy and precision in identifying urban expansion trends <a class="reference external" href="https://www.mdpi.com/2072-4292/15/9/2285">[6]</a>.</p></li>
@@ -1613,7 +1656,8 @@ Classification methodologies across datasets can introduce uncertainties, partic
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -1650,9 +1694,9 @@ Classification methodologies across datasets can introduce uncertainties, partic
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bar-chart-analysis"><strong>Bar Chart Analysis</strong></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#area-coverage-1992-vs-2020"><strong>1. Area Coverage (1992 vs. 2020)</strong></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#absolute-difference-in-land-cover-2020-vs-1992"><strong>2. Absolute Difference in Land Cover (2020 vs. 1992)</strong></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#relative-difference-in-land-cover-2020-vs-1992"><strong>3. Relative Difference in Land Cover (2020 vs. 1992)</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#area-coverage-2022-vs-1992"><strong>1. Area Coverage (2022 vs. 1992)</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#absolute-difference-in-land-cover-2022-vs-1992"><strong>2. Absolute Difference in Land Cover (2022 vs. 1992)</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#relative-difference-in-land-cover-2022-vs-1992"><strong>3. Relative Difference in Land Cover (2022 vs. 1992)</strong></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#overall-trends"><strong>Overall Trends</strong></a></li>
 </ul>
 </li>
@@ -1712,8 +1756,8 @@ By the Copernicus Climate Change Service (C3S), entrusted to ECMWF (European Cen
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>
