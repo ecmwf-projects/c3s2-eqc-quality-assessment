@@ -30,7 +30,7 @@
   <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 <link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -472,12 +472,12 @@ Please note that this repository is used for development and review, so quality 
 </ul>
 <p>In this Use Case, we will access the Fire burned area from 2001 to present derived from satellite observations (henceforth, FIRE) from the Climate Data Store (CDS) of the Copernicus Climate Change Service (C3S).
 The pixel-level product of this dataset, including information on confidence levels, pixel detection flags, and land cover of burned pixels, will be used to quantify burned areas and associated land cover changes across European NUTS2 regions in Portugal.
-The analysis will focus on the period 2016–2019, with particular attention to the catastrophic wildfire event on June 17, 2017, in Pedrógão Grande. This event, one of Portugal’s most devastating wildfires, resulted in significant loss of life and environmental damage. By leveraging the detailed data provided in the BA dataset, we aim to calculate the spatial extent of burned areas and estimate the loss of tree-covered areas within affected regions.
+The analysis will focus on the period 2016–2019, with particular attention to the catastrophic wildfire event on June 17, 2017, in Pedrógão Grande. This event, one of Portugal’s most devastating wildfires, resulted in significant loss of life and environmental damage. By leveraging the detailed data provided in the FIRE dataset, we aim to calculate the spatial extent of burned areas and estimate the loss of tree-covered areas within affected regions.
 This Use Case demonstrates the application of C3S datasets for high-resolution wildfire impact assessments, supporting disaster management, and landscape recovery planning, and serves as a regional example in alignment with the European State of Climate report <a class="reference external" href="https://climate.copernicus.eu/esotc/2023">[1]</a>.</p>
 </section>
 <section id="quality-assessment-statement">
 <h2>📢 Quality assessment statement<a class="headerlink" href="#quality-assessment-statement" title="Link to this heading">#</a></h2>
-<div class="admonition-these-are-the-key-outcomes-of-this-assessment admonition">
+<div class="note admonition">
 <p class="admonition-title">These are the key outcomes of this assessment</p>
 <ul class="simple">
 <li><p>The FIRE dataset, when using LULC forest class, offers a consistent, high-resolution framework for tracking and measuring burned areas. This facilitates assessments of the effects of wildfires throughout Europe and allows for in-depth analysis of forest alterations that are in line with IPCC forest group definitions.</p></li>
@@ -486,8 +486,11 @@ This Use Case demonstrates the application of C3S datasets for high-resolution w
 <li><p>The FIRE dataset (<a class="reference external" href="https://doi.org/10.1016/j.agrformet.2024.110108">[5]</a>) supports advanced analyses of wildfire impacts, by leveraging detailed pixel-level information, enhancing the understanding of spatial fire dynamics, and providing valuable data for risk management, mitigation planning, and long-term landscape recovery efforts.</p></li>
 </ul>
 </div>
-<figure class="align-default">
-<img alt="../../_images/89bbb524-1d3b-42bd-9f7e-5ddf86780b04.png" src="../../_images/89bbb524-1d3b-42bd-9f7e-5ddf86780b04.png" />
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../../_images/c5a5ae69-12e6-472e-b2a5-ced035116ba9.png"><img alt="../../_images/c5a5ae69-12e6-472e-b2a5-ced035116ba9.png" src="../../_images/c5a5ae69-12e6-472e-b2a5-ced035116ba9.png" style="height: 300px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 1.4.1.1 </span><span class="caption-text">Map represention and comparation between the total burned area and the confidence level for June of 2017 (which corresponds to the month and year with the most burned area values, havin into account this analysis)</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
 </figure>
 </section>
 <section id="methodology">
@@ -512,14 +515,14 @@ This Use Case demonstrates the application of C3S datasets for high-resolution w
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
-<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">regionmask</span>
-<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
-<span class="kn">from</span> <span class="nn">c3s_eqc_automatic_quality_control</span> <span class="kn">import</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">utils</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">regionmask</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">utils</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;seaborn-v0_8-notebook&quot;</span><span class="p">)</span>
 </pre></div>
@@ -623,7 +626,7 @@ This Use Case demonstrates the application of C3S datasets for high-resolution w
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 4/4 [00:00&lt;00:00, 11.49it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████████████████████████████████████████████████████████████████████| 4/4 [00:00&lt;00:00, 15.36it/s]
 </pre></div>
 </div>
 </div>
@@ -639,21 +642,27 @@ This Use Case demonstrates the application of C3S datasets for high-resolution w
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scaling_factor</span> <span class="o">=</span> <span class="mf">0.002778</span>
-<span class="n">resolution_km</span> <span class="o">=</span> <span class="n">scaling_factor</span> <span class="o">*</span> <span class="mf">111.195</span>
-<span class="n">indexes</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]),</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;latitude&quot;</span><span class="p">)</span>
-<span class="n">lats</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">indexes</span> <span class="o">*</span> <span class="n">scaling_factor</span>
-<span class="n">grid_cell_area</span> <span class="o">=</span> <span class="n">resolution_km</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">lats</span><span class="p">))</span>
-<span class="n">grid_cell_area</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;cell_area&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Area&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;km2&quot;</span><span class="p">,</span>
-<span class="p">}</span>
-<span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">cell_area</span><span class="o">=</span><span class="n">grid_cell_area</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Compute cell area</span>
+<span class="n">cell_area</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">grid_cell_area</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">cell_area</span> <span class="o">*=</span> <span class="mf">1.0e-6</span>
+<span class="n">cell_area</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;km2&quot;</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span>
+    <span class="n">cell_area</span><span class="o">=</span><span class="n">cell_area</span><span class="p">,</span>
+    <span class="n">latitude</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">],</span>
+    <span class="n">longitude</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">],</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading data from &#39;https://raw.githubusercontent.com/cf-convention/cf-convention.github.io/master/Data/cf-standard-names/current/src/cf-standard-name-table.xml&#39; to file &#39;/home/luis/.cache/pooch/47dae451573e45041e8665efd76db5a9-cf-standard-name-table.xml&#39;.
+SHA256 hash of downloaded file: c71fbecaed81ca0871d776df4410e1d0b97e7f62901e65392e4d26149e68f3c4
+Use this value as the &#39;known_hash&#39; argument of &#39;pooch.retrieve&#39; to ensure that the file hasn&#39;t changed if it is downloaded again in the future.
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
@@ -662,7 +671,8 @@ This Use Case demonstrates the application of C3S datasets for high-resolution w
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">shapefile_url</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Mask regions</span>
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">shapefile_url</span><span class="p">)</span>
 <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[(</span><span class="n">gdf</span><span class="p">[</span><span class="s2">&quot;CNTR_CODE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;PT&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">gdf</span><span class="p">[</span><span class="s2">&quot;LEVL_CODE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)]</span>
 <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
 <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span><span class="p">)</span>
@@ -687,7 +697,8 @@ This Use Case demonstrates the application of C3S datasets for high-resolution w
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">burned_pixels</span> <span class="o">=</span> <span class="p">(</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Show Burned Area Statistics</span>
+<span class="n">burned_pixels</span> <span class="o">=</span> <span class="p">(</span>
     <span class="n">ds_region</span><span class="p">[</span><span class="s2">&quot;cell_area&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds_region</span><span class="p">[</span><span class="s2">&quot;JD&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">])</span>
 <span class="p">)</span>
 <span class="n">burned_pixels</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
@@ -735,15 +746,15 @@ This Use Case demonstrates the application of C3S datasets for high-resolution w
       <td>0.000000</td>
       <td>0.0</td>
       <td>0.000000</td>
-      <td>0.288531</td>
+      <td>0.187658</td>
       <td>0.0</td>
     </tr>
     <tr>
       <th>2017-06</th>
-      <td>5.473672</td>
+      <td>3.526023</td>
       <td>0.0</td>
-      <td>743.152782</td>
-      <td>60.945786</td>
+      <td>481.158749</td>
+      <td>39.639369</td>
       <td>0.0</td>
     </tr>
     <tr>
@@ -751,14 +762,14 @@ This Use Case demonstrates the application of C3S datasets for high-resolution w
       <td>0.000000</td>
       <td>0.0</td>
       <td>0.000000</td>
-      <td>0.643154</td>
+      <td>0.419061</td>
       <td>0.0</td>
     </tr>
     <tr>
       <th>2019-06</th>
       <td>0.000000</td>
       <td>0.0</td>
-      <td>1.987535</td>
+      <td>1.287724</td>
       <td>0.000000</td>
       <td>0.0</td>
     </tr>
@@ -802,13 +813,13 @@ This Use Case demonstrates the application of C3S datasets for high-resolution w
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/873a571a14d3ea77a7c69dd1752251a3cad1ede19ca6bd0ec5055f129f41cba8.png" src="../../_images/873a571a14d3ea77a7c69dd1752251a3cad1ede19ca6bd0ec5055f129f41cba8.png" />
-<img alt="../../_images/e20c5fd19c440b41aba8327dd7c34026dc328b40df7cefbb86078825573141e6.png" src="../../_images/e20c5fd19c440b41aba8327dd7c34026dc328b40df7cefbb86078825573141e6.png" />
-<img alt="../../_images/1d491a73a59bd873b8216627bdb3090e3dceae233b8a5d885f770c498c2d25b0.png" src="../../_images/1d491a73a59bd873b8216627bdb3090e3dceae233b8a5d885f770c498c2d25b0.png" />
-<img alt="../../_images/688e776e6d8a2ec82c778589c55b77823d43a48a9b553af2d0c29fd6f4190f1b.png" src="../../_images/688e776e6d8a2ec82c778589c55b77823d43a48a9b553af2d0c29fd6f4190f1b.png" />
+<img alt="../../_images/f78a16e2d568b25e3cdd1449605e3420ca33682283aca64985cfaf06c56d44a3.png" src="../../_images/f78a16e2d568b25e3cdd1449605e3420ca33682283aca64985cfaf06c56d44a3.png" />
+<img alt="../../_images/c96a65fae7464ca455a6b8494886e14ccbf8aa289aaade763b13a8ca8f490d3b.png" src="../../_images/c96a65fae7464ca455a6b8494886e14ccbf8aa289aaade763b13a8ca8f490d3b.png" />
+<img alt="../../_images/175ff623bde8b0896ace5786834090f99e803a2e912e36918f2f2416a20dcf96.png" src="../../_images/175ff623bde8b0896ace5786834090f99e803a2e912e36918f2f2416a20dcf96.png" />
+<img alt="../../_images/7a00a3736362ee324904ba24d6593b60ae5c55a9a694a9a045dc4276b10e3f6e.png" src="../../_images/7a00a3736362ee324904ba24d6593b60ae5c55a9a694a9a045dc4276b10e3f6e.png" />
 </div>
 </div>
-<p>This maps reprsent the comparation between the total burned area and the confidence level from 2016 to 2019 (only for month of June) and an be observed, acordingly with the pivot table above, for the years 2016, 2018 and 2019, there are no fisible changes and the most affected area were Centro (PT), Norte and Alentejo. Althout for June 2017, Burned areas in all regions are minimal, indicating relatively low fire activity during this period, but  The Centro (PT) region shows a significant increase compared to other regions. This coroborates with the impact that Pedrogão Grande Wildfire reported by several scientific papers (e.g., <a class="reference external" href="https://www.mdpi.com/2571-6255/7/3/90">[3]</a>, <a class="reference external" href="https://www.mdpi.com/2571-6255/3/4/57">[4]</a>, <a class="reference external" href="https://doi.org/10.1016/j.agrformet.2024.110108">[5]</a>).</p>
+<p>These maps represent the comparation between the total burned area and the confidence level from 2016 to 2019 (only for month of June) and an be observed, accordingly with the pivot table above, for the years 2016, 2018 and 2019, there are no visible changes and the most affected area were Centro (PT), Norte and Alentejo. Althout for June 2017, Burned areas in all regions are minimal, indicating relatively low fire activity during this period, but  The Centro (PT) region shows a significant increase compared to other regions. This coroborates with the impact that Pedrogão Grande Wildfire reported by several scientific papers (e.g., <a class="reference external" href="https://www.mdpi.com/2571-6255/7/3/90">[3]</a>, <a class="reference external" href="https://www.mdpi.com/2571-6255/3/4/57">[4]</a>, <a class="reference external" href="https://doi.org/10.1016/j.agrformet.2024.110108">[5]</a>).</p>
 </section>
 <section id="land-cover-analysis">
 <span id="satellite-satellite-fire-burned-area-completeness-q03-code-section-4"></span><h3>4. Land Cover Analysis<a class="headerlink" href="#land-cover-analysis" title="Link to this heading">#</a></h3>
@@ -857,12 +868,12 @@ This Use Case demonstrates the application of C3S datasets for high-resolution w
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/9095b30150d7a7cb827cf7eb4402edb5d59dbd71495395200eb6c2d9c6724538.png" src="../../_images/9095b30150d7a7cb827cf7eb4402edb5d59dbd71495395200eb6c2d9c6724538.png" />
-<img alt="../../_images/49b430dd550c2655cd282b6db9bf01072c434c834f374317b8eec46adfe87434.png" src="../../_images/49b430dd550c2655cd282b6db9bf01072c434c834f374317b8eec46adfe87434.png" />
-<img alt="../../_images/a72bb88592af080735f245d1911a801669c4b899c41a4be2e824fe9c4563d2f8.png" src="../../_images/a72bb88592af080735f245d1911a801669c4b899c41a4be2e824fe9c4563d2f8.png" />
+<img alt="../../_images/35728d89e19ab92c1d8819e17f9f6a2540be0586b0be68b0c191b9549e479ed9.png" src="../../_images/35728d89e19ab92c1d8819e17f9f6a2540be0586b0be68b0c191b9549e479ed9.png" />
+<img alt="../../_images/e3ca7814916ea65266e1e782581c03a78636c7dc0f3827c498a168de18d94e66.png" src="../../_images/e3ca7814916ea65266e1e782581c03a78636c7dc0f3827c498a168de18d94e66.png" />
+<img alt="../../_images/4cfb4810f6dacca83664f350f458f08c7c89baaa1fbb85b08e4982cb20be0a5f.png" src="../../_images/4cfb4810f6dacca83664f350f458f08c7c89baaa1fbb85b08e4982cb20be0a5f.png" />
 </div>
 </div>
-<p>In this section, it is represented the Bar chart with the total burned area versus the Land Cover class Forest per timestamp (in km²) for the regions that represented values of brned area.</p>
+<p>In this section, it is represented the Bar chart with the total burned area versus the Land Cover class Forest per timestamp (in km²) for the regions that represented values of burned area.</p>
 <p>For Alentejo:</p>
 <ul class="simple">
 <li><p>The burned area is negligible except for a small spike in June 2017.</p></li>
@@ -871,11 +882,11 @@ This Use Case demonstrates the application of C3S datasets for high-resolution w
 </ul>
 <p>For Centro (PT):</p>
 <ul class="simple">
-<li><p>A significant peak in June 2017, with the total burned area close to 750 km² in wich the main burned area was forest.</p></li>
+<li><p>A significant peak in June 2017, with the total burned area close to 480 km² in wich the main burned area was forest.</p></li>
 <li><p>The lack of significant burned area in 2018 and 2019 suggests improved conditions, fire management, or fewer fire-prone circumstances.</p></li>
 </ul>
 <p>From the analysis, the years 2016, 2018, and 2019 show no significant occurrences of burned forest area across all regions, with minimal or negligible values reported.</p>
-<p>However, June 2017 stands out as an exceptional year for forest fires, particularly in the Centro (PT) region, which recorded an overwhelming burned area of nearly 750 km². This accounts for the vast majority of the total burned area in the dataset.</p>
+<p>However, June 2017 stands out as an exceptional year for forest fires, particularly in the Centro (PT) region, which recorded an overwhelming burned area of nearly 480 km². This accounts for the vast majority of the total burned area in the dataset.</p>
 <p>Other regions, such as Norte, reported moderate burned areas during the same period, though significantly lower than in Centro (PT). Meanwhile, regions like Alentejo and Área Metropolitana de Lisboa show negligible or no significant forest fire activity throughout the analyzed period.</p>
 <p>This updated analysis reinforces that the forest fires of June 2017 were concentrated primarily in the Centro (PT) region, with Norte experiencing a smaller but notable impact, while other regions were largely unaffected.</p>
 </section>
@@ -883,7 +894,7 @@ This Use Case demonstrates the application of C3S datasets for high-resolution w
 <span id="satellite-satellite-fire-burned-area-completeness-q03-code-section-5"></span><h3>5. Main Takeaways<a class="headerlink" href="#main-takeaways" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>The analysis focuses only on the regions of Centro (PT), Norte, and Alentejo, as other regions with zero burned area values contribute no relevant information to wildfire activity.</p></li>
-<li><p>The temporal analysis highlights a significant spike in burned area during June 2017, exceeding 750 km² in the Centro (PT) region, which was primarily forest land cover. This aligns with the catastrophic wildfire in Pedrógão Grande, as reported in scientific literature (<a class="reference external" href="https://www.mdpi.com/2571-6255/7/3/90">[3]</a>, <a class="reference external" href="https://www.mdpi.com/2571-6255/3/4/57">[4]</a> and <a class="reference external" href="https://doi.org/10.1016/j.agrformet.2024.110108">[5]</a>).</p></li>
+<li><p>The temporal analysis highlights a significant spike in burned area during June 2017, exceeding 450 km² in the Centro (PT) region, which was primarily forest land cover. This aligns with the catastrophic wildfire in Pedrógão Grande, as reported in scientific literature (<a class="reference external" href="https://www.mdpi.com/2571-6255/7/3/90">[3]</a>, <a class="reference external" href="https://www.mdpi.com/2571-6255/3/4/57">[4]</a> and <a class="reference external" href="https://doi.org/10.1016/j.agrformet.2024.110108">[5]</a>).</p></li>
 <li><p>The Maps representation confirms that Centro (PT) was the most severely impacted region, with Norte showing moderate burned areas during the same period. Alentejo recorded a small peak in burned area for June 2017, though overall wildfire activity was minimal. Regions like Área Metropolitana de Lisboa exhibited negligible or no wildfire activity throughout the analyzed years.</p></li>
 <li><p>Across the years 2016, 2018, and 2019, no significant changes in burned area were observed during June, indicating relatively low fire activity across all regions. This underscores the anomalous nature of June 2017 as an extreme wildfire event.</p></li>
 <li><p>The FIRE dataset remains a reliable tool for assessing burned areas and land cover changes. Its pixel-level granularity and confidence level information ensure accurate spatial estimates of wildfire impacts, particularly for extreme events like Pedrógão Grande.</p></li>
