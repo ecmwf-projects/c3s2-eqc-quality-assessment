@@ -489,16 +489,16 @@ Here, the goal is to assess the completeness of the chlorophyll-a dataset at bot
 <p class="admonition-title">These are the key outcomes of this assessment</p>
 <p>The Ocean Colour dataset version 6.0:</p>
 <ul class="simple">
-<li><p>provides a limited representation of the spatial distribution of chlorophyll-a concentrations in the oceanic region below latitude 45.5°S, based on less than 8% of valid observations.</p></li>
-<li><p>provides an acceptable representation of the spatial distribution of chlorophyll-a concentrations off the southeast coast of South America, based on more than 35% of valid observations.</p></li>
+<li><p>provides a limited representation of the spatial distribution of chlorophyll-a concentrations in the oceanic region below latitude 45.5°S, based on less than 8% of valid pixels.</p></li>
+<li><p>provides an acceptable representation of the spatial distribution of chlorophyll-a concentrations off the southeast coast of South America, based on more than 35% of valid pixels.</p></li>
 <li><p>does not reliably capture temporal chlorophyll-a patterns in the Southern Ocean, due to potential chlorophyll-a overestimation during the austral winter.</p></li>
-<li><p>allows for the calculation of monthly chlorophyll-a trends in the Southern Ocean, although these trends should be interpreted with caution as based on less than 14% of valid observations.</p></li>
+<li><p>allows for the calculation of monthly chlorophyll-a trends in the Southern Ocean, although these trends should be interpreted with caution as based on less than 14% of valid pixels.</p></li>
 </ul>
 </div>
 </section>
 <section id="methodology">
 <h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
-<p>This notebook provides an assessment of the ability of the Ocean Colour dataset version 6.0 to represent the spatial distribution and temporal variability of chlorophyll-a concentrations in the Indian, Pacific, and Atlantic Ocean sectors of the Permanent Open Ocean Zone in the Southern Ocean by analysing the number of valid observations available.</p>
+<p>This notebook provides an assessment of the ability of the Ocean Colour dataset version 6.0 to represent the spatial distribution and temporal variability of chlorophyll-a concentrations in the Indian, Pacific, and Atlantic Ocean sectors of the Permanent Open Ocean Zone in the Southern Ocean by analysing the number of valid pixels available.</p>
 <p>The analysis and results are detailed in the sections below:</p>
 <p><a class="reference internal" href="#satellite-satellite-ocean-colour-completeness-q01-section-1"><span class="std std-ref">1. Choose the data to use and set up the code</span></a></p>
 <ul class="simple">
@@ -554,7 +554,7 @@ Here, the goal is to assess the completeness of the chlorophyll-a dataset at bot
 </section>
 <section id="define-parameters-to-be-analysed-time-period-variables-regions-and-data-request">
 <h4>Define parameters to be analysed (time period, variables, regions) and data request<a class="headerlink" href="#define-parameters-to-be-analysed-time-period-variables-regions-and-data-request" title="Link to this heading">#</a></h4>
-<p>The analysis performed in this notebook examines the spatial and temporal distribution of chlorophyll-a data, and corresponding valid observations, over a 26-year period (January 1998 - December 2023) in three sectors within the oceanic region in the Southern Ocean located between latitudes 47.5°S and 63.5°S (i.e., the Permanent Open Ocean Zone, POOZ) <a class="reference external" href="https://www.sciencedirect.com/science/article/abs/pii/096706379500021W?via%3Dihub">[7]</a>. The three POOZ sectors analysed are: the Indian Ocean sector (IO_POOZ), the Pacific Ocean sector (PO_POOZ) and the Atlantic Ocean sector (AO_POOZ), which extend between longitudes 20°E and 150°E, 150°E and 70°W, and 70°W and 20°E, respectively <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2019GL083163">[8]</a>.</p>
+<p>The analysis performed in this notebook examines the spatial and temporal distribution of chlorophyll-a data, and corresponding valid pixels, over a 21-year period (January 2003 - December 2023), which accounts for previous EQC information (<a class="reference external" href="https://cds.climate.copernicus.eu/datasets/satellite-ocean-colour?tab=quality_assurance_tab">https://cds.climate.copernicus.eu/datasets/satellite-ocean-colour?tab=quality_assurance_tab</a>) and includes only complete years. The analysis is performed over three sectors within the oceanic region in the Southern Ocean located between latitudes 47.5°S and 63.5°S (i.e., the Permanent Open Ocean Zone, POOZ) <a class="reference external" href="https://www.sciencedirect.com/science/article/abs/pii/096706379500021W?via%3Dihub">[7]</a>. The three POOZ sectors analysed are: the Indian Ocean sector (IO_POOZ), the Pacific Ocean sector (PO_POOZ) and the Atlantic Ocean sector (AO_POOZ), which extend between longitudes 20°E and 150°E, 150°E and 70°W, and 70°W and 20°E, respectively <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2019GL083163">[8]</a>.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -563,7 +563,7 @@ Here, the goal is to assess the completeness of the chlorophyll-a dataset at bot
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Time period</span>
-<span class="n">start</span> <span class="o">=</span> <span class="s2">&quot;1998-01&quot;</span>
+<span class="n">start</span> <span class="o">=</span> <span class="s2">&quot;2003-01&quot;</span>
 <span class="n">stop</span> <span class="o">=</span> <span class="s2">&quot;2023-12&quot;</span>
 
 <span class="c1"># Variable</span>
@@ -657,7 +657,7 @@ Both functions account for the varying surface area at different latitudes. Aver
 
 <span class="k">def</span><span class="w"> </span><span class="nf">postprocess</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
     <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;mean&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Chl-a&quot;</span><span class="p">,</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;mg m-3&quot;</span><span class="p">})</span>
-    <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;valid_pixels&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;valid observations&quot;</span><span class="p">,</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;%&quot;</span><span class="p">})</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;valid_pixels&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;valid pixels&quot;</span><span class="p">,</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;%&quot;</span><span class="p">})</span>
     <span class="k">return</span> <span class="n">ds</span>
 </pre></div>
 </div>
@@ -667,7 +667,7 @@ Both functions account for the varying surface area at different latitudes. Aver
 </section>
 <section id="data-retrieval">
 <h4>Data retrieval<a class="headerlink" href="#data-retrieval" title="Link to this heading">#</a></h4>
-<p>The <code class="docutils literal notranslate"><span class="pre">monthly_weighted_log_mean</span></code> and <code class="docutils literal notranslate"><span class="pre">regionalised_spatial_weighted_mean</span></code> functions are applied to the chlorophyll-a dataset in the selected regions, and temporal and spatial averages are downloaded as two separated arrays.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">monthly_weighted_log_mean</span></code> and <code class="docutils literal notranslate"><span class="pre">weighted_log_map</span></code> functions are applied to the chlorophyll-a dataset in the selected regions, and temporal and spatial averages are downloaded as two separated arrays.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -738,7 +738,7 @@ Both functions account for the varying surface area at different latitudes. Aver
 <span id="satellite-satellite-ocean-colour-completeness-q01-section-3"></span><h3>3. Mapping function and trends calculation<a class="headerlink" href="#mapping-function-and-trends-calculation" title="Link to this heading">#</a></h3>
 <section id="define-mapping-function">
 <h4>Define mapping function<a class="headerlink" href="#define-mapping-function" title="Link to this heading">#</a></h4>
-<p>The <code class="docutils literal notranslate"><span class="pre">plot_map</span></code> function is defined to visualise the maps of average chlorophyll-a concentrations and corresponding valid observations percentages across the POOZ.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">plot_map</span></code> function is defined to visualise the maps of average chlorophyll-a concentrations and corresponding percentages of valid pixels across the POOZ.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -789,7 +789,13 @@ Both functions account for the varying surface area at different latitudes. Aver
                     <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
         <span class="n">sector_lines</span> <span class="o">=</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="o">-</span><span class="mi">70</span><span class="p">]</span> 
     <span class="k">for</span> <span class="n">lon</span> <span class="ow">in</span> <span class="n">sector_lines</span><span class="p">:</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">lon</span><span class="p">,</span> <span class="n">lon</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="o">-</span><span class="mi">40</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">110</span><span class="p">)</span>        
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">lon</span><span class="p">,</span> <span class="n">lon</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="o">-</span><span class="mi">40</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">110</span><span class="p">)</span>    
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">85</span><span class="p">,</span> <span class="o">-</span><span class="mi">55</span><span class="p">,</span> <span class="s1">&#39;IO_POOZ&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
+                <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span> <span class="mi">700</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">220</span><span class="p">,</span> <span class="o">-</span><span class="mi">55</span><span class="p">,</span> <span class="s1">&#39;PO_POOZ&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
+                <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span> <span class="mi">700</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">325</span><span class="p">,</span> <span class="o">-</span><span class="mi">60</span><span class="p">,</span> <span class="s1">&#39;AO_POOZ&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
+                <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span> <span class="mi">700</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ax</span>  
 </pre></div>
 </div>
@@ -799,7 +805,7 @@ Both functions account for the varying surface area at different latitudes. Aver
 </section>
 <section id="compute-trends">
 <h4>Compute trends<a class="headerlink" href="#compute-trends" title="Link to this heading">#</a></h4>
-<p>The <code class="docutils literal notranslate"><span class="pre">calculate_mk_trends</span></code> function is defined to calculate chlorophyll-a trends and their statistical significance for each individual month over the 26-year period analysed here in the three POOZ sectors.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">calculate_mk_trends</span></code> function is defined to calculate chlorophyll-a trends and their statistical significance for each individual month over the 21-year period analysed here in the three POOZ sectors.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -839,7 +845,7 @@ Both functions account for the varying surface area at different latitudes. Aver
 <span id="satellite-satellite-ocean-colour-completeness-q01-section-4"></span><h3>4. Display and discuss results<a class="headerlink" href="#display-and-discuss-results" title="Link to this heading">#</a></h3>
 <section id="display-results">
 <h4>Display results<a class="headerlink" href="#display-results" title="Link to this heading">#</a></h4>
-<p>Maps showing the spatial distribution of the percentage of valid observations and the derived chlorophyll-a concentration in the POOZ are provided. Additionally, two sets of heatmaps are generated: the first series shows the monthly chlorophyll-a time series for each POOZ sector by month and year, while the second series displays the corresponding percentage of valid observations. White grid cells in the chlorophyll-a heatmaps indicate missing data. Monthly climatology of valid observations and chlorophyll-a concentrations are also shown. Chlorophyll-a trends and their statistical significance, calculated for each individual month over the 26-year period analysed, are summarized in a table, where statistically significant trends are highlighted in bold.</p>
+<p>Maps showing the spatial distribution of the percentage of valid pixels and the derived chlorophyll-a concentration in the POOZ are provided. Additionally, two sets of heatmaps are generated: the first series shows the monthly chlorophyll-a time series for each POOZ sector by month and year, while the second series displays the corresponding percentage of valid pixels. White grid cells in the chlorophyll-a heatmaps indicate missing data. Monthly climatology of valid pixels and chlorophyll-a concentrations are also shown. Chlorophyll-a trends and their statistical significance, calculated for each individual month over the 21-year period analysed, are summarized in a table, where statistically significant trends are highlighted in bold.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -854,7 +860,7 @@ Both functions account for the varying surface area at different latitudes. Aver
               <span class="n">central_longitude</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">add_circle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">add_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">title_pad</span><span class="o">=</span><span class="mi">55</span><span class="p">,</span> 
               <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;max&#39;</span><span class="p">,</span> <span class="n">add_cbar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">plot_map</span><span class="p">(</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">maps</span><span class="p">[</span><span class="s1">&#39;SO&#39;</span><span class="p">][</span><span class="s1">&#39;valid_pixels&#39;</span><span class="p">],</span> <span class="n">maps</span><span class="p">[</span><span class="s1">&#39;SO&#39;</span><span class="p">][</span><span class="s1">&#39;longitude&#39;</span><span class="p">],</span> <span class="n">maps</span><span class="p">[</span><span class="s1">&#39;SO&#39;</span><span class="p">][</span><span class="s1">&#39;latitude&#39;</span><span class="p">],</span>
-               <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">cbar_label</span><span class="o">=</span><span class="s1">&#39;Valid observations (%)&#39;</span><span class="p">,</span>  
+               <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">cbar_label</span><span class="o">=</span><span class="s1">&#39;Valid pixels (%)&#39;</span><span class="p">,</span>  
               <span class="n">central_longitude</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">add_circle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">add_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">title_pad</span><span class="o">=</span><span class="mi">55</span><span class="p">,</span> 
               <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;max&#39;</span><span class="p">,</span> <span class="n">add_cbar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">])</span>
@@ -891,8 +897,8 @@ Both functions account for the varying surface area at different latitudes. Aver
 <span class="p">(</span><span class="n">ds_monthly</span><span class="p">[</span><span class="s1">&#39;valid_pixels&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">region</span><span class="o">=</span><span class="s1">&#39;AO_POOZ&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
     <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;AO_POOZ&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Valid Observations&#39;</span><span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Valid observations [%]&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Valid pixels&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Valid pixels [%]&#39;</span><span class="p">)</span>
 <span class="p">(</span><span class="n">ds_monthly</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">region</span><span class="o">=</span><span class="s1">&#39;IO_POOZ&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
     <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;IO_POOZ&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 <span class="p">(</span><span class="n">ds_monthly</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">region</span><span class="o">=</span><span class="s1">&#39;PO_POOZ&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
@@ -908,13 +914,14 @@ Both functions account for the varying surface area at different latitudes. Aver
 <span class="c1"># Display mk results</span>
 <span class="n">regions</span> <span class="o">=</span> <span class="n">mk_trends_data</span><span class="p">[</span><span class="s1">&#39;region&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 <span class="n">months</span> <span class="o">=</span> <span class="n">mk_trends_data</span><span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">month_abbreviations</span> <span class="o">=</span> <span class="p">[</span><span class="n">calendar</span><span class="o">.</span><span class="n">month_abbr</span><span class="p">[</span><span class="n">month</span><span class="p">]</span> <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="n">months</span><span class="p">]</span>
 <span class="n">formatted_data</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">significance_flags</span> <span class="o">=</span> <span class="p">[]</span> 
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">region</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">regions</span><span class="p">):</span>
     <span class="n">row</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">sig_row</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">month</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">months</span><span class="p">):</span>
-        <span class="n">slope</span> <span class="o">=</span> <span class="n">mk_trends_data</span><span class="p">[</span><span class="s1">&#39;slope&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+        <span class="n">slope</span> <span class="o">=</span> <span class="n">mk_trends_data</span><span class="p">[</span><span class="s1">&#39;slope&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span>
         <span class="n">p_value</span> <span class="o">=</span> <span class="n">mk_trends_data</span><span class="p">[</span><span class="s1">&#39;p_value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">p_value</span> <span class="o">&lt;=</span> <span class="mf">0.05</span><span class="p">:</span> 
             <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">slope</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">p_value</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span> 
@@ -924,15 +931,15 @@ Both functions account for the varying surface area at different latitudes. Aver
             <span class="n">sig_row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">formatted_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
     <span class="n">significance_flags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sig_row</span><span class="p">)</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">formatted_data</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">regions</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">months</span><span class="p">)</span>
-<span class="n">significance_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">significance_flags</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">regions</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">months</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">formatted_data</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">regions</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">month_abbreviations</span><span class="p">)</span>
+<span class="n">significance_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">significance_flags</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">regions</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">month_abbreviations</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">highlight_significant</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">is_significant</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">is_significant</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;font-weight: bold;&quot;</span>
     <span class="k">return</span> <span class="s2">&quot;&quot;</span>
 <span class="n">styled_table</span> <span class="o">=</span> <span class="p">(</span>
     <span class="n">df</span><span class="o">.</span><span class="n">style</span>
-    <span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">&quot;Chlorophyll-a Trends (mg m-3 month-1)&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">&quot;Chlorophyll-a Trends (μg m-3 month-1)&quot;</span><span class="p">)</span>
     <span class="o">.</span><span class="n">apply</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="n">data</span><span class="p">:</span> <span class="n">significance_df</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="kc">True</span><span class="p">:</span> <span class="s2">&quot;font-weight: bold;&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">}),</span>
         <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -944,79 +951,79 @@ Both functions account for the varying surface area at different latitudes. Aver
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/c6c06be8efde06fb4afb63c784e30449e29c953d6359f15065893313b301b0a2.png" src="../../_images/c6c06be8efde06fb4afb63c784e30449e29c953d6359f15065893313b301b0a2.png" />
-<img alt="../../_images/3050334adcb07e4f261951f8360894c5f7e3f5d37935a6c969b0edfc62f2c1b2.png" src="../../_images/3050334adcb07e4f261951f8360894c5f7e3f5d37935a6c969b0edfc62f2c1b2.png" />
-<img alt="../../_images/1e1288b918ad4d30a87263fe3a4449e9d05f7e94619bf2e577bf3865f1fd8c4f.png" src="../../_images/1e1288b918ad4d30a87263fe3a4449e9d05f7e94619bf2e577bf3865f1fd8c4f.png" />
-<img alt="../../_images/8752c578b7db75e3e6f7971627c0b0e193ce29489eda395bc53c76f0efdba3e9.png" src="../../_images/8752c578b7db75e3e6f7971627c0b0e193ce29489eda395bc53c76f0efdba3e9.png" />
+<img alt="../../_images/3012d42f1304a018d9babaee04d47e13dcb56c99685bab140dabd3d353e1f5fa.png" src="../../_images/3012d42f1304a018d9babaee04d47e13dcb56c99685bab140dabd3d353e1f5fa.png" />
+<img alt="../../_images/c02cf44505d7fb1def36dac849a6cc3b5a991164e14d73b0157fabc61adfe64b.png" src="../../_images/c02cf44505d7fb1def36dac849a6cc3b5a991164e14d73b0157fabc61adfe64b.png" />
+<img alt="../../_images/a399fade44fbd7e58c243be5dca39ff5c0a486acda52e54292a6598f46f1a11d.png" src="../../_images/a399fade44fbd7e58c243be5dca39ff5c0a486acda52e54292a6598f46f1a11d.png" />
+<img alt="../../_images/9bbe88fdffd76de7d853e7dc42328af38d16ad46d7b5305a708a0884de36ddd1.png" src="../../_images/9bbe88fdffd76de7d853e7dc42328af38d16ad46d7b5305a708a0884de36ddd1.png" />
 <div class="output text_html"><style type="text/css">
-#T_2bffe_row0_col0, #T_2bffe_row0_col1, #T_2bffe_row0_col2, #T_2bffe_row0_col3, #T_2bffe_row0_col4, #T_2bffe_row0_col5, #T_2bffe_row0_col6, #T_2bffe_row0_col7, #T_2bffe_row0_col8, #T_2bffe_row0_col9, #T_2bffe_row0_col10, #T_2bffe_row1_col2, #T_2bffe_row1_col3, #T_2bffe_row1_col4, #T_2bffe_row1_col5, #T_2bffe_row1_col6, #T_2bffe_row1_col7, #T_2bffe_row2_col2, #T_2bffe_row2_col3, #T_2bffe_row2_col4, #T_2bffe_row2_col6, #T_2bffe_row2_col7 {
+#T_c80e2_row0_col0, #T_c80e2_row0_col1, #T_c80e2_row0_col2, #T_c80e2_row0_col3, #T_c80e2_row0_col4, #T_c80e2_row0_col6, #T_c80e2_row0_col7, #T_c80e2_row0_col8, #T_c80e2_row0_col9, #T_c80e2_row1_col3, #T_c80e2_row1_col4, #T_c80e2_row1_col7, #T_c80e2_row1_col8, #T_c80e2_row2_col3, #T_c80e2_row2_col4, #T_c80e2_row2_col6, #T_c80e2_row2_col7 {
   font-weight: bold;
 }
 </style>
-<table id="T_2bffe">
-  <caption>Chlorophyll-a Trends (mg m-3 month-1)</caption>
+<table id="T_c80e2">
+  <caption>Chlorophyll-a Trends (μg m-3 month-1)</caption>
   <thead>
     <tr>
       <th class="blank level0" >&nbsp;</th>
-      <th id="T_2bffe_level0_col0" class="col_heading level0 col0" >1</th>
-      <th id="T_2bffe_level0_col1" class="col_heading level0 col1" >2</th>
-      <th id="T_2bffe_level0_col2" class="col_heading level0 col2" >3</th>
-      <th id="T_2bffe_level0_col3" class="col_heading level0 col3" >4</th>
-      <th id="T_2bffe_level0_col4" class="col_heading level0 col4" >5</th>
-      <th id="T_2bffe_level0_col5" class="col_heading level0 col5" >6</th>
-      <th id="T_2bffe_level0_col6" class="col_heading level0 col6" >7</th>
-      <th id="T_2bffe_level0_col7" class="col_heading level0 col7" >8</th>
-      <th id="T_2bffe_level0_col8" class="col_heading level0 col8" >9</th>
-      <th id="T_2bffe_level0_col9" class="col_heading level0 col9" >10</th>
-      <th id="T_2bffe_level0_col10" class="col_heading level0 col10" >11</th>
-      <th id="T_2bffe_level0_col11" class="col_heading level0 col11" >12</th>
+      <th id="T_c80e2_level0_col0" class="col_heading level0 col0" >Jan</th>
+      <th id="T_c80e2_level0_col1" class="col_heading level0 col1" >Feb</th>
+      <th id="T_c80e2_level0_col2" class="col_heading level0 col2" >Mar</th>
+      <th id="T_c80e2_level0_col3" class="col_heading level0 col3" >Apr</th>
+      <th id="T_c80e2_level0_col4" class="col_heading level0 col4" >May</th>
+      <th id="T_c80e2_level0_col5" class="col_heading level0 col5" >Jun</th>
+      <th id="T_c80e2_level0_col6" class="col_heading level0 col6" >Jul</th>
+      <th id="T_c80e2_level0_col7" class="col_heading level0 col7" >Aug</th>
+      <th id="T_c80e2_level0_col8" class="col_heading level0 col8" >Sep</th>
+      <th id="T_c80e2_level0_col9" class="col_heading level0 col9" >Oct</th>
+      <th id="T_c80e2_level0_col10" class="col_heading level0 col10" >Nov</th>
+      <th id="T_c80e2_level0_col11" class="col_heading level0 col11" >Dec</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th id="T_2bffe_level0_row0" class="row_heading level0 row0" >IO_POOZ</th>
-      <td id="T_2bffe_row0_col0" class="data row0 col0" >0.0012 (0.0473)</td>
-      <td id="T_2bffe_row0_col1" class="data row0 col1" >0.0011 (0.0002)</td>
-      <td id="T_2bffe_row0_col2" class="data row0 col2" >0.0009 (0.0003)</td>
-      <td id="T_2bffe_row0_col3" class="data row0 col3" >0.0006 (0.0003)</td>
-      <td id="T_2bffe_row0_col4" class="data row0 col4" >0.0008 (0.0001)</td>
-      <td id="T_2bffe_row0_col5" class="data row0 col5" >0.0023 (0.0208)</td>
-      <td id="T_2bffe_row0_col6" class="data row0 col6" >0.0015 (0.0000)</td>
-      <td id="T_2bffe_row0_col7" class="data row0 col7" >0.0011 (0.0000)</td>
-      <td id="T_2bffe_row0_col8" class="data row0 col8" >0.0006 (0.0001)</td>
-      <td id="T_2bffe_row0_col9" class="data row0 col9" >0.0004 (0.0153)</td>
-      <td id="T_2bffe_row0_col10" class="data row0 col10" >0.0008 (0.0343)</td>
-      <td id="T_2bffe_row0_col11" class="data row0 col11" >0.0009 (0.1457)</td>
+      <th id="T_c80e2_level0_row0" class="row_heading level0 row0" >IO_POOZ</th>
+      <td id="T_c80e2_row0_col0" class="data row0 col0" >1.7790 (0.0235)</td>
+      <td id="T_c80e2_row0_col1" class="data row0 col1" >1.3479 (0.0003)</td>
+      <td id="T_c80e2_row0_col2" class="data row0 col2" >1.0629 (0.0041)</td>
+      <td id="T_c80e2_row0_col3" class="data row0 col3" >0.7690 (0.0034)</td>
+      <td id="T_c80e2_row0_col4" class="data row0 col4" >0.7683 (0.0086)</td>
+      <td id="T_c80e2_row0_col5" class="data row0 col5" >0.5300 (0.6505)</td>
+      <td id="T_c80e2_row0_col6" class="data row0 col6" >1.2719 (0.0023)</td>
+      <td id="T_c80e2_row0_col7" class="data row0 col7" >1.2598 (0.0002)</td>
+      <td id="T_c80e2_row0_col8" class="data row0 col8" >0.9638 (0.0001)</td>
+      <td id="T_c80e2_row0_col9" class="data row0 col9" >0.6180 (0.0320)</td>
+      <td id="T_c80e2_row0_col10" class="data row0 col10" >0.4780 (0.3812)</td>
+      <td id="T_c80e2_row0_col11" class="data row0 col11" >1.3382 (0.1095)</td>
     </tr>
     <tr>
-      <th id="T_2bffe_level0_row1" class="row_heading level0 row1" >PO_POOZ</th>
-      <td id="T_2bffe_row1_col0" class="data row1 col0" >0.0003 (0.5968)</td>
-      <td id="T_2bffe_row1_col1" class="data row1 col1" >0.0003 (0.3321)</td>
-      <td id="T_2bffe_row1_col2" class="data row1 col2" >0.0005 (0.0473)</td>
-      <td id="T_2bffe_row1_col3" class="data row1 col3" >0.0011 (0.0000)</td>
-      <td id="T_2bffe_row1_col4" class="data row1 col4" >0.0017 (0.0001)</td>
-      <td id="T_2bffe_row1_col5" class="data row1 col5" >0.0024 (0.0122)</td>
-      <td id="T_2bffe_row1_col6" class="data row1 col6" >0.0020 (0.0024)</td>
-      <td id="T_2bffe_row1_col7" class="data row1 col7" >0.0012 (0.0000)</td>
-      <td id="T_2bffe_row1_col8" class="data row1 col8" >0.0003 (0.0641)</td>
-      <td id="T_2bffe_row1_col9" class="data row1 col9" >0.0003 (0.0524)</td>
-      <td id="T_2bffe_row1_col10" class="data row1 col10" >0.0007 (0.0641)</td>
-      <td id="T_2bffe_row1_col11" class="data row1 col11" >0.0008 (0.4275)</td>
+      <th id="T_c80e2_level0_row1" class="row_heading level0 row1" >PO_POOZ</th>
+      <td id="T_c80e2_row1_col0" class="data row1 col0" >0.7043 (0.5661)</td>
+      <td id="T_c80e2_row1_col1" class="data row1 col1" >-0.2822 (0.4874)</td>
+      <td id="T_c80e2_row1_col2" class="data row1 col2" >0.1760 (0.5260)</td>
+      <td id="T_c80e2_row1_col3" class="data row1 col3" >1.0227 (0.0019)</td>
+      <td id="T_c80e2_row1_col4" class="data row1 col4" >1.1610 (0.0235)</td>
+      <td id="T_c80e2_row1_col5" class="data row1 col5" >1.5488 (0.4995)</td>
+      <td id="T_c80e2_row1_col6" class="data row1 col6" >1.5226 (0.1235)</td>
+      <td id="T_c80e2_row1_col7" class="data row1 col7" >1.1339 (0.0001)</td>
+      <td id="T_c80e2_row1_col8" class="data row1 col8" >0.5096 (0.0201)</td>
+      <td id="T_c80e2_row1_col9" class="data row1 col9" >0.2187 (0.3812)</td>
+      <td id="T_c80e2_row1_col10" class="data row1 col10" >0.8796 (0.0852)</td>
+      <td id="T_c80e2_row1_col11" class="data row1 col11" >0.7861 (0.6077)</td>
     </tr>
     <tr>
-      <th id="T_2bffe_level0_row2" class="row_heading level0 row2" >AO_POOZ</th>
-      <td id="T_2bffe_row2_col0" class="data row2 col0" >0.0015 (0.2704)</td>
-      <td id="T_2bffe_row2_col1" class="data row2 col1" >0.0014 (0.2011)</td>
-      <td id="T_2bffe_row2_col2" class="data row2 col2" >0.0010 (0.0308)</td>
-      <td id="T_2bffe_row2_col3" class="data row2 col3" >0.0012 (0.0136)</td>
-      <td id="T_2bffe_row2_col4" class="data row2 col4" >0.0021 (0.0004)</td>
-      <td id="T_2bffe_row2_col5" class="data row2 col5" >0.0017 (0.4503)</td>
-      <td id="T_2bffe_row2_col6" class="data row2 col6" >0.0028 (0.0000)</td>
-      <td id="T_2bffe_row2_col7" class="data row2 col7" >0.0015 (0.0000)</td>
-      <td id="T_2bffe_row2_col8" class="data row2 col8" >0.0006 (0.1029)</td>
-      <td id="T_2bffe_row2_col9" class="data row2 col9" >0.0007 (0.5371)</td>
-      <td id="T_2bffe_row2_col10" class="data row2 col10" >0.0018 (0.1457)</td>
-      <td id="T_2bffe_row2_col11" class="data row2 col11" >0.0015 (0.2171)</td>
+      <th id="T_c80e2_level0_row2" class="row_heading level0 row2" >AO_POOZ</th>
+      <td id="T_c80e2_row2_col0" class="data row2 col0" >-0.1337 (1.0000)</td>
+      <td id="T_c80e2_row2_col1" class="data row2 col1" >1.2132 (0.6077)</td>
+      <td id="T_c80e2_row2_col2" class="data row2 col2" >0.5293 (0.4503)</td>
+      <td id="T_c80e2_row2_col3" class="data row2 col3" >1.3570 (0.0372)</td>
+      <td id="T_c80e2_row2_col4" class="data row2 col4" >1.2037 (0.0497)</td>
+      <td id="T_c80e2_row2_col5" class="data row2 col5" >0.8919 (0.8219)</td>
+      <td id="T_c80e2_row2_col6" class="data row2 col6" >2.1216 (0.0086)</td>
+      <td id="T_c80e2_row2_col7" class="data row2 col7" >1.3946 (0.0008)</td>
+      <td id="T_c80e2_row2_col8" class="data row2 col8" >0.1215 (0.7398)</td>
+      <td id="T_c80e2_row2_col9" class="data row2 col9" >-1.2910 (0.2906)</td>
+      <td id="T_c80e2_row2_col10" class="data row2 col10" >1.0990 (0.4874)</td>
+      <td id="T_c80e2_row2_col11" class="data row2 col11" >-0.3304 (0.9759)</td>
     </tr>
   </tbody>
 </table>
@@ -1026,15 +1033,15 @@ Both functions account for the varying surface area at different latitudes. Aver
 <section id="discussion">
 <h4>Discussion<a class="headerlink" href="#discussion" title="Link to this heading">#</a></h4>
 <p><strong>Chlorophyll-a spatial distribution:</strong></p>
-<p>The mean availability of chlorophyll-a data over the 26-year period analysed is approximately 7% across the entire POOZ, indicating limited dataset coverage that may not fully capture the spatial variability of chlorophyll-a distribution in this region. A small difference in the number of valid observations is observed across the three POOZ sectors: the PO_POOZ exhibits the greatest availability (8.8%), followed by the AO_POOZ (7.7%) and the IO_POOZ (6.8%). A significant number of valid observations (above 35%) are detected off the southeastern coasts of South America. Therefore, the representation of the spatial distribution of chlorophyll-a in this area can be assumed to be more reliable than elsewhere in the POOZ.<br />
-Different average chlorophyll-a concentrations are observed in the three POOZ sectors: the AO_POOZ sector is the less oligotrophic with an average value of about 0.2 mg m<sup>-3</sup>, whereas the IO_POOZ and PO_POOZ are characterized by lower, but comparable averages (0.12 and 0.13 mg m<sup>-3</sup> in the IO_POOZ and PO_POOZ, respectively), confirming what reported in previous studies (e.g., <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2019GL083163">[8]</a>). While the subregional variability in terms of valid observations likely depends on differences in sea ice extent and cloud coverage across the three POOZ sectors, differences in their average chlorophyll-a concentration are influenced by  several key factors, such as nutrient supply through Patagonian dust deposition and/or upwelling (e.g., <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2006jc004072">[11]</a> <a class="reference external" href="https://tos.org/oceanography/article/patagonian-dust-as-a-source-of-macronutrients-in-the-southwest-atlantic-oce">[12]</a> <a class="reference external" href="https://www.frontiersin.org/journals/marine-science/articles/10.3389/fmars.2024.1363088/full">[13]</a>).</p>
+<p>The mean availability of chlorophyll-a valid pixels over the 21-year period analysed is approximately 8% across the entire POOZ, indicating limited dataset coverage that may not fully capture the spatial variability of chlorophyll-a distribution in this region. A small difference in the number of valid pixels is observed across the three POOZ sectors: the PO_POOZ exhibits the greatest availability (9.5%), followed by the AO_POOZ (8.3%) and the IO_POOZ (7.3%). A significant number of valid pixels (above 30%) are detected off the southeastern coasts of South America. Therefore, the representation of the spatial distribution of chlorophyll-a in this area can be assumed to be more reliable than elsewhere in the POOZ.<br />
+Different average chlorophyll-a concentrations are observed in the three POOZ sectors: the AO_POOZ sector is the less oligotrophic with an average value of about 0.2 mg m<sup>-3</sup>, whereas the IO_POOZ and PO_POOZ are characterized by lower averages (0.12 and 0.14 mg m<sup>-3</sup>, respectively), confirming what reported in previous studies (e.g., <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2019GL083163">[8]</a>). While the subregional variability in terms of valid pixels likely depends on differences in sea ice extent and cloud coverage across the three POOZ sectors, differences in their average chlorophyll-a concentration are influenced by  several key factors, such as nutrient supply through Patagonian dust deposition and/or upwelling (e.g., <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2006jc004072">[11]</a> <a class="reference external" href="https://tos.org/oceanography/article/patagonian-dust-as-a-source-of-macronutrients-in-the-southwest-atlantic-oce">[12]</a> <a class="reference external" href="https://www.frontiersin.org/journals/marine-science/articles/10.3389/fmars.2024.1363088/full">[13]</a>).</p>
 <p><strong>Chlorophyll-a temporal distribution:</strong></p>
-<p>Besides missing data (i.e., white grid cells in the chlorophyll-a heatmap), the average chlorophyll-a concentrations calculated for each individual month over the 26-year period analysed here show surprisingly high isolated values (up to 1.0 mg m<sup>-3</sup>) during the polar night months (i.e., May–July) in all three POOZ sectors. This pattern, which is also observed when analysing the chlorophyll-a monthly climatology, is in contrast to what is typically observed in the Southern Ocean, where the lowest chlorophyll-a concentrations are generally found during the austral winter (e.g., <a class="reference external" href="https://www.nature.com/articles/s41467-020-19157-2">[14]</a>). This suggests the presence of a suspicious artefact in the dataset, leading to an overestimation of chlorophyll-a during this period.
-Conversely, the monthly climatological distribution of valid chlorophyll-a observations is in line with expectations based on their dependence on the solar zenith angle: the highest percentage (up to about 14%) is observed between November and February, when the solar zenith angle is low, then it decreases to reach its minimum (almost 0%) during the polar night months (i.e. May-July) and gradually increases again towards the end of the year.
-It is interesting to note that, as shown in the valid observation heatmap, the valid percentages reveal an initial increase starting in 2002, when MERIS and MODIS-Aqua satellites joined the SeaWiFS mission, and between 2016 and 2020, when the highest number of observation systems were operational (i.e., MODIS-Aqua, VIIRS, OLCI-3A, and OLCI-3B)
+<p>Besides missing data (i.e., white grid cells in the chlorophyll-a heatmap), the average chlorophyll-a concentrations calculated for each individual month over the 21-year period analysed here show surprisingly high isolated values (up to 1.0 mg m<sup>-3</sup>) during the polar night months (i.e., May–July) in all three POOZ sectors. This pattern, which is also observed when analysing the chlorophyll-a monthly climatology and was previously described in <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0034425707001253?via%3Dihub">[14]</a>, is in contrast to what is typically observed in the Southern Ocean, where the lowest chlorophyll-a concentrations are generally found during the austral winter (e.g., <a class="reference external" href="https://www.nature.com/articles/s41467-020-19157-2">[15]</a>). This suggests the presence of a suspicious artefact in the dataset, leading to an overestimation of chlorophyll-a during this period.
+Conversely, the monthly climatological distribution of valid chlorophyll-a pixels is in line with expectations based on their dependence on the solar zenith angle: the highest percentage (up to about 15%) is observed between November and February, when the solar zenith angle is low, then it decreases to reach its minimum (almost 0%) during the polar night months (i.e. May-July) and gradually increases again towards the end of the year.
+It is interesting to note that, as shown in the valid pixels heatmap, the valid percentages increased between 2017 and 2019, reaching a maximum in 2018 (up to about 24%), when the highest number of observing systems were operational (i.e., MODIS-Aqua, VIIRS, OLCI-3A, and OLCI-3B)
 (<a class="reference external" href="http://dast.data.compute.cci2.ecmwf.int/documents/satellite-ocean-colour/v6.0/WP2-FDDP-2022-04_C3S2-Lot3_PUGS-of-v6.0-OceanColour-product_v1.1_FINAL.pdf">[1]</a>).<br />
-Despite varying statistical significance, the linear trends calculated for each individual month between 1998 and 2023 indicate an overall chlorophyll-a increase across all POOZ sectors examined, consistent with the results of previous studies (e.g., <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2019GL083163">[8]</a>). However, these trends should be interpreted with caution as they are based on a percentage of valid observations always below 14%.<br />
-Particular attention should be paid to chlorophyll-a data and trends during the polar night months in the POOZ due to the scarcity of valid observations and the potential chlorophyll-a overestimation.</p>
+The linear trends calculated for each individual month between 2003 and 2023 vary in statistical significance and indicate an overall chlorophyll-a increase across all POOZ sectors examined, consistent with previous studies (e.g., <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2019GL083163">[8]</a>; <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0141113624005178?via%3Dihub">[16]</a>). However, these trends should be interpreted with caution as they are based on a percentage of valid pixels always below 15%.<br />
+Particular attention should be paid to chlorophyll-a data and trends during the polar night months in the POOZ due to the scarcity of valid pixels and the potential chlorophyll-a overestimation.</p>
 </section>
 </section>
 </section>
@@ -1074,7 +1081,10 @@ Particular attention should be paid to chlorophyll-a data and trends during the 
 <p><a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2006jc004072">[11]</a> Sokolov, S., &amp; Rintoul, S.R. (2007). On the relationship between fronts of the Antarctic Circumpolar Current and surface chlorophyll concentrations in the Southern Ocean, Journal of Geophysical Research, 112, C07030.</p>
 <p><a class="reference external" href="https://tos.org/oceanography/article/patagonian-dust-as-a-source-of-macronutrients-in-the-southwest-atlantic-oce">[12]</a> Paparazzo, F.E., Crespi-Abril, A.C., Gonçalves,  R.J., Barbieri, E.S., Gracia Villalobos, L.L., Solís, M.E., &amp; Soria, G. (2018). Patagonian dust as a source of macronutrients in the Southwest Atlantic Ocean. Oceanography, 31(4), 33-39.</p>
 <p><a class="reference external" href="https://www.frontiersin.org/journals/marine-science/articles/10.3389/fmars.2024.1363088/full">[13]</a> Demasy, C., Boye, M., Lai, B., Burckel, P., Feng, Y., Losno, R., Borensztajn, S., &amp; Besson, P. (2024). Iron dissolution from Patagonian dust in the Southern Ocean: under present and future conditions. Frontiers in Marine Science, 11, 1363088.</p>
-<p><a class="reference external" href="https://www.nature.com/articles/s41467-020-19157-2">[14]</a> Arteaga, L.A., Boss, E., Behrenfeld, M.J., Westberr, T.K., &amp; Sarmiento, J.L. (2020). Seasonal modulation of phytoplankton biomass in the Southern Ocean. Nature Communications, 11, 5364.</p>
+<p><a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0034425707001253?via%3Dihub">[14]</a> Gregg, W.W., &amp; Casey, N.W. (2007).
+Sampling biases in MODIS and SeaWiFS ocean chlorophyll data. Remote Sensing of Environment, 111(1), 25-35.</p>
+<p><a class="reference external" href="https://www.nature.com/articles/s41467-020-19157-2">[15]</a> Arteaga, L.A., Boss, E., Behrenfeld, M.J., Westberry, T.K., &amp; Sarmiento, J.L. (2020). Seasonal modulation of phytoplankton biomass in the Southern Ocean. Nature Communications, 11, 5364.</p>
+<p><a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0141113624005178?via%3Dihub">[16]</a> Venegas, R.M., Rivas, D., &amp; Treml, E. (2025).  Global climate-driven sea surface temperature and chlorophyll dynamics. Marine Environmental Research, 204, 106856</p>
 </section>
 </section>
 </section>
