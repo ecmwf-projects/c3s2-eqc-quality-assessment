@@ -22,6 +22,8 @@ STRING_MAPPER = {
     "## If you want to know more": "## ℹ️ If you want to know more",
 }
 
+ADMONITION_TITLE = "These are the key outcomes of this assessment"
+
 
 def fix_legacy_urls(path: Path) -> None:
     notebook = nbformat.read(path, nbformat.NO_CONVERT)
@@ -35,6 +37,19 @@ def fix_legacy_urls(path: Path) -> None:
             if old in (source := cell.get("source", "")):
                 cell["source"] = source.replace(old, new)
                 write = True
+
+        admonition = 0
+        admonition_is_note = False
+        for line in (source := cell.get("source", "")).splitlines():
+            line = line.strip()
+            if line == f"```{{admonition}} {ADMONITION_TITLE}":
+                admonition = 1
+            elif admonition and not admonition_is_note:
+                admonition_is_note = line.startswith(":class: note")
+                if not admonition_is_note:
+                    cell["source"] = source.replace(line, ":class: note\n" + line)
+                    admonition = 0
+                    write = True
 
     if write:
         nbformat.write(notebook, path)
