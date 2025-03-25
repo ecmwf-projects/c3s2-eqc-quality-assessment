@@ -29,8 +29,6 @@ def fix_legacy_urls(path: Path) -> None:
     notebook = nbformat.read(path, nbformat.NO_CONVERT)
 
     write = False
-    admonition_count = 0
-    admonition_is_note = False
     for cell in notebook.cells:
         if cell["cell_type"] != "markdown":
             continue
@@ -40,15 +38,17 @@ def fix_legacy_urls(path: Path) -> None:
                 cell["source"] = source.replace(old, new)
                 write = True
 
+        admonition = 0
+        admonition_is_note = False
         for line in (source := cell.get("source", "")).splitlines():
             line = line.strip()
             if line == f"```{{admonition}} {ADMONITION_TITLE}":
-                admonition_count += 1
-            elif admonition_count and not admonition_is_note:
+                admonition = 1
+            elif admonition and not admonition_is_note:
                 admonition_is_note = line.startswith(":class: note")
                 if not admonition_is_note:
                     cell["source"] = source.replace(line, ":class: note\n" + line)
-                    admonition_count = 0
+                    admonition = 0
                     write = True
 
     if write:
