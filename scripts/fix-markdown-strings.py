@@ -22,11 +22,15 @@ STRING_MAPPER = {
     "## If you want to know more": "## ℹ️ If you want to know more",
 }
 
+ADMONITION_TITLE = "These are the key outcomes of this assessment"
+
 
 def fix_legacy_urls(path: Path) -> None:
     notebook = nbformat.read(path, nbformat.NO_CONVERT)
 
     write = False
+    admonition_count = 0
+    admonition_is_note = False
     for cell in notebook.cells:
         if cell["cell_type"] != "markdown":
             continue
@@ -35,6 +39,17 @@ def fix_legacy_urls(path: Path) -> None:
             if old in (source := cell.get("source", "")):
                 cell["source"] = source.replace(old, new)
                 write = True
+
+        for line in (source := cell.get("source", "")).splitlines():
+            line = line.strip()
+            if line == f"```{{admonition}} {ADMONITION_TITLE}":
+                admonition_count += 1
+            elif admonition_count and not admonition_is_note:
+                admonition_is_note = line.startswith(":class: note")
+                if not admonition_is_note:
+                    cell["source"] = source.replace(line, ":class: note\n" + line)
+                    admonition_count = 0
+                    write = True
 
     if write:
         nbformat.write(notebook, path)
