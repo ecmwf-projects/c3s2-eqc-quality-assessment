@@ -10,6 +10,7 @@ STRING_MAPPER = {
     "## 🌍 Use Case:": "## 🌍 Use case:",
     "## Quality assessment question": "## ❓ Quality assessment question",
     "## Quality Assessment Question": "## ❓ Quality assessment question",
+    "## Quality Assessment question": "## ❓ Quality assessment question",
     "## ❓ Quality Assessment Question": "## ❓ Quality assessment question",
     "## Quality assessment statement": "## 📢 Quality assessment statement",
     "## Quality Assessment Statement": "## 📢 Quality assessment statement",
@@ -19,6 +20,7 @@ STRING_MAPPER = {
     "## Analysis and Results": "## 📈 Analysis and results",
     "## 📈 Analysis and Results": "## 📈 Analysis and results",
     "## If you want to know more": "## ℹ️ If you want to know more",
+    "BOpen": "B-Open",
 }
 
 
