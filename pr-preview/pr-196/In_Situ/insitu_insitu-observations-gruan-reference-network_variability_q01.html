@@ -28,8 +28,8 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -445,11 +445,13 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-retrieval">1. Setup and retrieval</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#results-and-discussion">2. Results and discussion</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#lapse-rate-tropopause-time-series-monthly-values-and-its-annual-cycle">Lapse Rate Tropopause time series (monthly values) and its annual cycle</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#trend-and-seasonality-of-lrt">Trend and Seasonality of LRT</a></li>
-</ul>
-</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#define-parameters">Define Parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#define-request">Define request</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-to-cache">Functions to cache</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-and-transform">Download and transform</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#results-and-discussion">2. Results and discussion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lapse-rate-tropopause-time-series-monthly-values-and-its-annual-cycle">Lapse Rate Tropopause time series (monthly values) and its annual cycle</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#trend-and-seasonality-of-lrt">Trend and Seasonality of LRT</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
@@ -474,7 +476,7 @@ Please note that this repository is used for development and review, so quality 
 </div><section class="tex2jax_ignore mathjax_ignore" id="reference-upper-air-network-for-climate-monitoring">
 <h1><span class="section-number">2.1. </span>Reference Upper-Air Network for climate monitoring<a class="headerlink" href="#reference-upper-air-network-for-climate-monitoring" title="Link to this heading">#</a></h1>
 <p>Production date: 01-07-2023</p>
-<p>Produced by: V. Ciardini (ENEA), P. Grigioni (ENEA), G. Pace (ENEA) and C. Scarchilli (ENEA)’</p>
+<p>Produced by: V. Ciardini (ENEA), P. Grigioni (ENEA), G. Pace (ENEA) and C. Scarchilli (ENEA)</p>
 <section id="use-case-monitoring-the-effects-of-climate-change-on-the-tropopause-characteristics">
 <h2>🌍 Use case: monitoring the effects of climate change on the tropopause characteristics<a class="headerlink" href="#use-case-monitoring-the-effects-of-climate-change-on-the-tropopause-characteristics" title="Link to this heading">#</a></h2>
 </section>
@@ -532,25 +534,20 @@ Currently, data from 18 stations are available on the CDS for the period 2006-20
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import CDSAPI credential</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">calendar</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
 
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CDSAPI_RC&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~/ciardini_virginia/.cdsapirc&quot;</span><span class="p">)</span>
-
-<span class="c1"># Import packages</span>
-
-<span class="kn">import</span> <span class="nn">calendar</span>
-<span class="kn">import</span> <span class="nn">pathlib</span>
-
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">scipy</span>
-<span class="kn">import</span> <span class="nn">scipy.stats</span>
-<span class="kn">import</span> <span class="nn">statsmodels.tsa.seasonal</span>
-<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
-<span class="kn">from</span> <span class="nn">c3s_eqc_automatic_quality_control</span> <span class="kn">import</span> <span class="n">download</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cdsapi</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.stats</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.tsa.seasonal</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">download</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;seaborn-v0_8-notebook&quot;</span><span class="p">)</span>
 </pre></div>
@@ -559,6 +556,9 @@ Currently, data from 18 stations are available on the CDS for the period 2006-20
 </details>
 </div>
 <p>Time range of data series can be set by the User; different stations can be selected by means of Station acronyms (list of GRUAN station acronyms, locations, geographical coordinates and WMO n. are reported in the Product User Guide and Specification for GRUAN Temperature, Relative Humidity and Wind profiles available at <a class="reference external" href="https://datastore.copernicus-climate.eu/documents/in-situ/PUG_GRUAN-1.pdf">[9]</a>).</p>
+</section>
+<section id="define-parameters">
+<h3>Define Parameters<a class="headerlink" href="#define-parameters" title="Link to this heading">#</a></h3>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -566,22 +566,27 @@ Currently, data from 18 stations are available on the CDS for the period 2006-20
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define Parameters</span>
-
-<span class="c1"># Time period</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Time period</span>
 <span class="n">start</span> <span class="o">=</span> <span class="s2">&quot;2006-05&quot;</span>
 <span class="n">stop</span> <span class="o">=</span> <span class="s2">&quot;2020-03&quot;</span>
 
 <span class="c1"># Stations</span>
 <span class="n">stations</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;TEN&quot;</span><span class="p">,</span> <span class="s2">&quot;LIN&quot;</span><span class="p">,</span> <span class="s2">&quot;NYA&quot;</span><span class="p">]</span>  <span class="c1"># Use None to analyse all stations</span>
+<span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stations</span><span class="p">,</span> <span class="nb">list</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span>
 
 <span class="c1"># Directory for csv files</span>
 <span class="n">csv_dir</span> <span class="o">=</span> <span class="s2">&quot;./csv_files&quot;</span>
+
+<span class="c1"># CDS credentials</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CDSAPI_RC&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~/ciardini_virginia/.cdsapirc&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </details>
 </div>
+</section>
+<section id="define-request">
+<h3>Define request<a class="headerlink" href="#define-request" title="Link to this heading">#</a></h3>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -589,31 +594,109 @@ Currently, data from 18 stations are available on the CDS for the period 2006-20
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define request</span>
-
-<span class="n">collection_id</span> <span class="o">=</span> <span class="s2">&quot;insitu-observations-gruan-reference-network&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">collection_id</span> <span class="o">=</span> <span class="s2">&quot;insitu-observations-gruan-reference-network&quot;</span>
 <span class="n">request</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;csv-lev.zip&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;air_temperature&quot;</span><span class="p">,</span> <span class="s2">&quot;altitude&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;air_temperature&quot;</span><span class="p">,</span> <span class="s2">&quot;air_pressure&quot;</span><span class="p">,</span> <span class="s2">&quot;altitude&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;netcdf&quot;</span><span class="p">,</span>
 <span class="p">}</span>
-<span class="n">requests</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">update_request_date</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">)</span>
 
-<span class="c1"># Functions to cache</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">cdsapi</span><span class="o">.</span><span class="n">Client</span><span class="p">()</span>
+<span class="n">requests</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;1MS&quot;</span><span class="p">):</span>
+    <span class="n">time_request</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y&quot;</span><span class="p">),</span> <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%m&quot;</span><span class="p">)}</span>
+    <span class="n">time_request</span><span class="p">[</span><span class="s2">&quot;day&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">apply_constraints</span><span class="p">(</span>
+        <span class="n">collection_id</span><span class="p">,</span> <span class="n">request</span> <span class="o">|</span> <span class="n">time_request</span>
+    <span class="p">)[</span><span class="s2">&quot;day&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">time_request</span><span class="p">[</span><span class="s2">&quot;day&quot;</span><span class="p">]:</span>
+        <span class="n">requests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">request</span> <span class="o">|</span> <span class="n">time_request</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-03-26 08:22:09,952 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-03-26 08:22:09,953 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="functions-to-cache">
+<h3>Functions to cache<a class="headerlink" href="#functions-to-cache" title="Link to this heading">#</a></h3>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">_reorganize_dataset</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+    <span class="c1"># Rename</span>
+    <span class="p">(</span><span class="n">varname</span><span class="p">,)</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;observed_variable&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">observation_value</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">varname</span><span class="p">))</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="s2">&quot;observed_variable&quot;</span><span class="p">)</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="n">var</span><span class="p">:</span> <span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">varname</span><span class="p">,</span> <span class="n">var</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_value&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)])</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span>
+            <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;uncertainty&quot;</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="c1"># Update attrs</span>
+    <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">da</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">match</span> <span class="n">var</span><span class="p">:</span>
+            <span class="k">case</span> <span class="s2">&quot;pressure&quot;</span><span class="p">:</span>
+                <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;standard_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Pressure&quot;</span>
+            <span class="k">case</span> <span class="s2">&quot;air_temperature&quot;</span><span class="p">:</span>
+                <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;standard_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Temperature&quot;</span>
+            <span class="k">case</span> <span class="s2">&quot;altitude&quot;</span><span class="p">:</span>
+                <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;standard_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Altitude&quot;</span>
+            <span class="k">case</span> <span class="s2">&quot;relative_humidity&quot;</span><span class="p">:</span>
+                <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;standard_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Relative&quot;</span>
+        <span class="k">for</span> <span class="n">string</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;units&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">string</span> <span class="ow">in</span> <span class="n">var</span><span class="p">:</span>
+                <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+                <span class="p">(</span><span class="n">value</span><span class="p">,)</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                <span class="n">attrs_var</span> <span class="o">=</span> <span class="n">varname</span> <span class="k">if</span> <span class="n">var</span> <span class="o">==</span> <span class="n">string</span> <span class="k">else</span> <span class="n">var</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">string</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="n">ds</span><span class="p">[</span><span class="n">attrs_var</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">string</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="k">return</span> <span class="n">ds</span>
 
-<span class="k">def</span> <span class="nf">calculate_tropopause</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">reorganize_dataset</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">stations</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">da</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">bytes_</span><span class="p">):</span>
+            <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">char</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">stations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;primary_station_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">stations</span><span class="p">),</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ds</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">ds</span>
+
+    <span class="n">datasets</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;observed_variable&quot;</span><span class="p">):</span>
+        <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_reorganize_dataset</span><span class="p">(</span><span class="n">ds</span><span class="p">))</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ds</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">calculate_tropopause</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
     <span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;WMO Lapse-Rate Tropopause&quot;</span><span class="p">,</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;km&quot;</span><span class="p">}</span>
 
-    <span class="c1"># sort and drop</span>
-    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">swap_dims</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">&quot;altitude&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="s2">&quot;altitude&quot;</span><span class="p">)</span>
-    <span class="n">ds</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">ds</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;altitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notnull</span><span class="p">())</span>
-        <span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="s2">&quot;altitude&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;any&quot;</span><span class="p">)</span>
-        <span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="s2">&quot;altitude&quot;</span><span class="p">)</span>
+    <span class="c1"># convert, drop, and sort</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">swap_dims</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">&quot;altitude&quot;</span><span class="p">)[[</span><span class="s2">&quot;air_temperature&quot;</span><span class="p">,</span> <span class="s2">&quot;altitude&quot;</span><span class="p">,</span> <span class="s2">&quot;pressure&quot;</span><span class="p">]]</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;altitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span> <span class="o">&amp;</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notnull</span><span class="p">())</span><span class="o">.</span><span class="n">compute</span><span class="p">(),</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
-
-    <span class="c1"># convert units</span>
     <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;altitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;altitude&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1.0e-3</span>
-    <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;air_pressure&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;air_pressure&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1.0e-2</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1.0e-2</span><span class="p">)</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="s2">&quot;altitude&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">swap_dims</span><span class="p">(</span><span class="n">altitude</span><span class="o">=</span><span class="s2">&quot;pressure&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="s2">&quot;pressure&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">swap_dims</span><span class="p">(</span><span class="n">pressure</span><span class="o">=</span><span class="s2">&quot;altitude&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="s2">&quot;altitude&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">ds</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">&quot;altitude&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;altitude&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;altitude&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
         <span class="c1"># Column must be at least 2km</span>
@@ -622,9 +705,7 @@ Currently, data from 18 stations are available on the CDS for the period 2006-20
     <span class="c1"># interpolate</span>
     <span class="n">interp_altitude</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">40.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
     <span class="n">temp</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;air_temperature&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">altitude</span><span class="o">=</span><span class="n">interp_altitude</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;cubic&quot;</span><span class="p">)</span>
-    <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span>
-        <span class="n">air_pressure</span><span class="o">=</span><span class="mi">10</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;air_pressure&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">altitude</span><span class="o">=</span><span class="n">interp_altitude</span><span class="p">)</span>
-    <span class="p">)</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">pressure</span><span class="o">=</span><span class="mi">10</span> <span class="o">**</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">interp_like</span><span class="p">(</span><span class="n">temp</span><span class="p">))</span>
     <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="s2">&quot;altitude&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">temp</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">&quot;altitude&quot;</span><span class="p">]:</span>
         <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="n">attrs</span><span class="p">)</span>
@@ -635,7 +716,7 @@ Currently, data from 18 stations are available on the CDS for the period 2006-20
     <span class="n">lapse_rate</span> <span class="o">=</span> <span class="n">lapse_rate</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">altitude</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">lapse_rate</span><span class="p">[</span><span class="s2">&quot;altitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span>
 
     <span class="c1"># mask and loop over valid lapse rates</span>
-    <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">lapse_rate</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">lapse_rate</span><span class="p">[</span><span class="s2">&quot;air_pressure&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">500</span><span class="p">)</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">lapse_rate</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">lapse_rate</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">500</span><span class="p">)</span>
     <span class="n">valid_altitude</span> <span class="o">=</span> <span class="n">lapse_rate</span><span class="p">[</span><span class="s2">&quot;altitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="o">.</span><span class="n">compute</span><span class="p">(),</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">bottom</span> <span class="ow">in</span> <span class="n">valid_altitude</span><span class="p">:</span>
         <span class="n">temp_bottom</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">altitude</span><span class="o">=</span><span class="n">bottom</span><span class="p">)</span>
@@ -650,31 +731,56 @@ Currently, data from 18 stations are available on the CDS for the period 2006-20
     <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="n">attrs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">compute_tropopause_altitude</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_tropopause_altitude</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">stations</span><span class="p">):</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">reorganize_dataset</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">stations</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ds</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">swap_dims</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+        <span class="n">da</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="p">[],</span>
+            <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">),</span>
+            <span class="n">coords</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;primary_station_id&quot;</span><span class="p">:</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;primary_station_id&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;report_timestamp&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">da</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;tropopause&quot;</span><span class="p">)</span>
+
     <span class="n">dataarrays</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">report_id</span><span class="p">,</span> <span class="n">ds_id</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;report_id&quot;</span><span class="p">]):</span>
-        <span class="n">coords</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;report_id&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">report_id</span><span class="p">])}</span>
-        <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">da_coord</span> <span class="ow">in</span> <span class="n">ds_id</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">unique</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">da_coord</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">coords</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">unique</span><span class="p">))</span>
         <span class="n">da</span> <span class="o">=</span> <span class="n">calculate_tropopause</span><span class="p">(</span><span class="n">ds_id</span><span class="p">)</span>
-        <span class="n">dataarrays</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">coords</span><span class="p">))</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ds_id</span><span class="p">[</span><span class="s2">&quot;report_timestamp&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)))</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span>
+            <span class="kc">None</span>
+        <span class="p">)</span>
+        <span class="n">station</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ds_id</span><span class="p">[</span><span class="s2">&quot;primary_station_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+        <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
+        <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">primary_station_id</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">station</span><span class="p">))</span>
+        <span class="n">dataarrays</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">da</span><span class="p">)</span>
     <span class="n">da</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dataarrays</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">)</span>
-    <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">da</span><span class="p">[</span><span class="s2">&quot;report_timestamp&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">da</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;tropopause&quot;</span><span class="p">)</span>
-
-<span class="c1"># Download and compute tropopause</span>
-
-<span class="n">ds</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="download-and-transform">
+<h3>Download and transform<a class="headerlink" href="#download-and-transform" title="Link to this heading">#</a></h3>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
     <span class="n">collection_id</span><span class="p">,</span>
     <span class="n">requests</span><span class="p">,</span>
     <span class="n">chunks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
     <span class="n">transform_func</span><span class="o">=</span><span class="n">compute_tropopause_altitude</span><span class="p">,</span>
+    <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;stations&quot;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">stations</span><span class="p">)</span> <span class="k">if</span> <span class="n">stations</span> <span class="k">else</span> <span class="n">stations</span><span class="p">},</span>
+    <span class="n">cached_open_mfdataset_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;concat_dim&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;combine&quot;</span><span class="p">:</span> <span class="s2">&quot;nested&quot;</span><span class="p">},</span>
 <span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
 
-<span class="k">if</span> <span class="n">stations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;station_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">stations</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">(),</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">csv_dir_path</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">csv_dir</span><span class="p">)</span>
 <span class="n">csv_dir_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">ds</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">csv_dir_path</span> <span class="o">/</span> <span class="s2">&quot;ds_data.csv&quot;</span><span class="p">)</span>
@@ -682,13 +788,19 @@ Currently, data from 18 stations are available on the CDS for the period 2006-20
 </div>
 </div>
 </details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:10&lt;00:00, 16.47it/s]
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="results-and-discussion">
 <span id="insitu-insitu-observations-gruan-reference-network-variability-q01-section-2"></span><h3>2. Results and discussion<a class="headerlink" href="#results-and-discussion" title="Link to this heading">#</a></h3>
 <p>To investigate tropopause characteristics at three different latitudes, we considered and discussed as follow the interannual variability and the mean annual cycle. Furthermore by applying a classical decomposition <a class="reference external" href="https://otexts.com/fpp2/decomposition.html">[8]</a> and assuming (reasonably) that the seasonal component repeats from year to year, the trend estimation of the LRT was carried out. The stations of Ny-Ålesund (NYA, 78.92°N,11.93°E), Lindemberg (LIN, 52.21°N, 14.12°E) and Tenerife (TEN, 28.32°N, 16.38°W) have been selected, taking into account station data availability <a class="reference external" href="https://datastore.copernicus-climate.eu/documents/in-situ/PUG_GRUAN-1.pdf">[9]</a>, as representatives of the Northern Hemisphere polar, mid-latitude and sub-tropical stations. However, for the trend analysis, only LIN and NYA have been considered, with TEN excluded due to its gaps in data between mid-2010 and 2016.</p>
+</section>
 <section id="lapse-rate-tropopause-time-series-monthly-values-and-its-annual-cycle">
-<h4>Lapse Rate Tropopause time series (monthly values) and its annual cycle<a class="headerlink" href="#lapse-rate-tropopause-time-series-monthly-values-and-its-annual-cycle" title="Link to this heading">#</a></h4>
+<h3>Lapse Rate Tropopause time series (monthly values) and its annual cycle<a class="headerlink" href="#lapse-rate-tropopause-time-series-monthly-values-and-its-annual-cycle" title="Link to this heading">#</a></h3>
 <p>The inter-annual variability of the first LRT shows the typical behaviour with higher (lower) values at lower (higher) latitude. The amplitude of the LRT is more pronounced at lower latitude (TEN) where monthly mean values range between 16.7 km and 9.9 km, while for LIN and NYA, located at mid-latitude and in the Arctic region respectively, LRT varies from 12.4 km and 9.0 km for the former and from 11.0 km and 7.6 km for the latter (Figure 1).
 The annual cycle of mean LRT is calculated from data available on CDS between 2006 and 2020 for the three stations (Figure 2). Climatological statistics of the first LRT based on a long-term series of radiosoundings from the IGRA data archive, show that the height of the first tropopause decreases from 16.2 km near the equator to 8.5 km over the polar regions <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2012GL053460">[10]</a>.The mean annual cycle is more pronounced in the subtropics (TEN, in green), following the typical cycle of the incoming radiation (maximum in summer and minimum in winter), with an amplitude that exceeds 2 km while in the Artic region (NYA, in orange) the mean annual cycle seems to show a two-waves pattern with maxima in summer and in winter and minima in spring and autumn. At mid-latitudes (LIN, in blue), the cycle is less pronounced probably due to the shift in phase from mid to high latitude <a class="reference external" href="https://amt.copernicus.org/articles/7/3947/2014/">[5]</a>. Overall, the results for both the mid-latitude and polar stations are in agreement with those of <a class="reference external" href="https://amt.copernicus.org/articles/7/3947/2014/">[5]</a>, <a class="reference external" href="https://journals.ametsoc.org/view/journals/clim/14/14/1520-0442_2001_014_3117_ttitpr_2.0.co_2.xml">[11]</a>, where the latitudinal and longitudinal characteristics of the tropopause are discussed in detail. Nevertheless, as mentioned above, some authors point out the possible shortcomings of the LRT method in identifying the tropopause during winter and spring in the polar region, due to a stable, near-isothermal middle troposphere and UTLS (i.e. Upper Troposphere and Lower Stratosphere), which sometimes can prevent the LRT criteria from being met <a class="reference external" href="https://journals.ametsoc.org/view/journals/mwre/150/12/MWR-D-22-0174.1.xml">[3]</a>, <a class="reference external" href="https://journals.ametsoc.org/view/journals/clim/14/14/1520-0442_2001_014_3117_ttitpr_2.0.co_2.xml">[11]</a>. On the other hand, <a class="reference external" href="https://journals.ametsoc.org/view/journals/clim/14/14/1520-0442_2001_014_3117_ttitpr_2.0.co_2.xml">[11]</a> compares the thermal tropopause and the dynamical tropopause in the polar region finding that the differences, in arctic winter, are weak in the Aleutian high region, moderate in the polar vortex region (Europe, western Siberia) while, the by far largest differences occur in Antarctic winter.</p>
 <div class="cell tag_hide-input docutils container">
@@ -699,7 +811,7 @@ The annual cycle of mean LRT is calculated from data available on CDS between 20
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-<span class="k">for</span> <span class="n">station</span><span class="p">,</span> <span class="n">da</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;tropopause&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;station_name&quot;</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">station</span><span class="p">,</span> <span class="n">da</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;tropopause&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;primary_station_id&quot;</span><span class="p">):</span>
     <span class="n">da_resampled</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;MS&quot;</span><span class="p">)</span>
     <span class="n">df_mean</span> <span class="o">=</span> <span class="n">da_resampled</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
     <span class="n">df_std</span> <span class="o">=</span> <span class="n">da_resampled</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
@@ -716,13 +828,13 @@ The annual cycle of mean LRT is calculated from data available on CDS between 20
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/data/common/miniforge3/envs/wp5/lib/python3.11/site-packages/matplotlib/transforms.py:2669: RuntimeWarning: divide by zero encountered in scalar divide
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/data/common/miniforge3/envs/wp5/lib/python3.11/site-packages/matplotlib/transforms.py:2650: RuntimeWarning: divide by zero encountered in scalar divide
   x_scale = 1.0 / inw
-/data/common/miniforge3/envs/wp5/lib/python3.11/site-packages/matplotlib/transforms.py:2671: RuntimeWarning: invalid value encountered in scalar multiply
-  self._mtx = np.array([[x_scale, 0.0    , (-inl*x_scale)],
+/data/common/miniforge3/envs/wp5/lib/python3.11/site-packages/matplotlib/transforms.py:2652: RuntimeWarning: invalid value encountered in scalar multiply
+  self._mtx = np.array([[x_scale,     0.0, -inl*x_scale],
 </pre></div>
 </div>
-<img alt="../_images/a490003b6f92a39a18a4f3a6b94bb63d9434683140daf5c302b8bc769d65493a.png" src="../_images/a490003b6f92a39a18a4f3a6b94bb63d9434683140daf5c302b8bc769d65493a.png" />
+<img alt="../_images/d2659871dbf1d837dd9daba7f506ac07764ceff959b60c1e3316f67ef854169f.png" src="../_images/d2659871dbf1d837dd9daba7f506ac07764ceff959b60c1e3316f67ef854169f.png" />
 </div>
 </div>
 <p><strong>Figure 1</strong>. Monthly mean and standard deviation of the LRT for the Arctic (NYA, in orange), mid-latitude (LIN, in blue) and subtropical (TEN, in green) stations.</p>
@@ -734,7 +846,7 @@ The annual cycle of mean LRT is calculated from data available on CDS between 20
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-<span class="k">for</span> <span class="n">station</span><span class="p">,</span> <span class="n">da</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;tropopause&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;station_name&quot;</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">station</span><span class="p">,</span> <span class="n">da</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;tropopause&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;primary_station_id&quot;</span><span class="p">):</span>
     <span class="n">grouped</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.month&quot;</span><span class="p">)</span>
     <span class="n">df_mean</span> <span class="o">=</span> <span class="n">grouped</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
     <span class="n">df_std</span> <span class="o">=</span> <span class="n">grouped</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
@@ -750,13 +862,13 @@ The annual cycle of mean LRT is calculated from data available on CDS between 20
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/2ad9674911b8a6e3b70715b9eceed39ebffb2a463f314e2e0b0d98527fb65af0.png" src="../_images/2ad9674911b8a6e3b70715b9eceed39ebffb2a463f314e2e0b0d98527fb65af0.png" />
+<img alt="../_images/816278a54cb9ced5733660b63ee0959d63487c3ec3c1d2ab293da2ab436a76f9.png" src="../_images/816278a54cb9ced5733660b63ee0959d63487c3ec3c1d2ab293da2ab436a76f9.png" />
 </div>
 </div>
 <p><strong>Figure 2.</strong> Annual cycle of mean LRT and standard deviation for the Arctic (NYA, in orange), mid-latitudes (LIN, in blue) and subtropical (TEN, in green) stations.</p>
 </section>
 <section id="trend-and-seasonality-of-lrt">
-<h4>Trend and Seasonality of LRT<a class="headerlink" href="#trend-and-seasonality-of-lrt" title="Link to this heading">#</a></h4>
+<h3>Trend and Seasonality of LRT<a class="headerlink" href="#trend-and-seasonality-of-lrt" title="Link to this heading">#</a></h3>
 <p>In the following, a time series decomposition of the available monthly mean LRT data is performed for trend estimation purposes.
 Time series of the deseasonalised monthly means of the LRT for LIN and NYA are shown in Figure 3 highlighting its inter-annual variability. The trend analysis (Figure 3) indicates that the LRT rises in both LIN and NYA during the study period.
 Other authors <a class="reference external" href="https://www.science.org/doi/10.1126/sciadv.abi8065">[6]</a> report that, in the NH, since 2000 tropopause altitude has mainly risen due to the warming of the troposphere. A fine-scale analysis computed at two locations with distinct climate conditions (mid-latitude and Arctic) <a class="reference external" href="https://www.mdpi.com/2073-4433/13/6/965">[12]</a> showed significant positive trends in the tropopause heights with rates of increase of 23.7 ± 6.5 m yr<sup>-1</sup> at the mid-latitude site and 28.0 ± 4.0 m yr<sup>-1</sup> at the Arctic site during an 18-year study period. Our results confirm the LRT increase in the decade at the two stations considered, even though the increase is at a higher rate (54 ± 7.2 m yr<sup>-1</sup> at LIN; 30 ± 7.2 m yr<sup>-1</sup> at NYA). Factors, such as higher quality of GRUAN upper-air data, the larger (in time and space) dataset used in <a class="reference external" href="https://www.science.org/doi/10.1126/sciadv.abi8065">[6]</a> and the different time periods that were considered <a class="reference external" href="https://www.mdpi.com/2073-4433/13/6/965">[12]</a>, most probably may explain these differences. In addition, due to the length of the time series, uncertainties remain in the estimates.</p>
@@ -768,7 +880,7 @@ Other authors <a class="reference external" href="https://www.science.org/doi/10
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="n">da</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;tropopause&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;station_name&quot;</span><span class="p">)):</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">station</span><span class="p">,</span> <span class="n">da</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;tropopause&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;primary_station_id&quot;</span><span class="p">)):</span>
     <span class="k">if</span> <span class="n">station</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;LIN&quot;</span><span class="p">,</span> <span class="s2">&quot;NYA&quot;</span><span class="p">]:</span>
         <span class="k">continue</span>
 
@@ -794,21 +906,21 @@ Other authors <a class="reference external" href="https://www.science.org/doi/10
 
     <span class="c1"># Plot</span>
     <span class="n">decomposition</span><span class="o">.</span><span class="n">trend</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;C</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">station</span><span class="p">)</span>
-    <span class="n">fit</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;C</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;linear trend for </span><span class="si">{</span><span class="n">station</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">fit</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;C</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;linear fit for </span><span class="si">{</span><span class="n">station</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="c1"># Text</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">station</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
     <span class="n">pad</span> <span class="o">=</span> <span class="mi">17</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Equation&#39;</span><span class="si">:</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">pad</span><span class="si">}}</span><span class="s2">: </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">slope</span><span class="si">:</span><span class="s2">+.4f</span><span class="si">}</span><span class="s2">x </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">intercept</span><span class="si">:</span><span class="s2">+.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;R^2&#39;</span><span class="si">:</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">pad</span><span class="si">}}</span><span class="s2">: </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">rvalue</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mi">2</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;R^2&#39;</span><span class="si">:</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">pad</span><span class="si">}}</span><span class="s2">: </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">rvalue</span><span class="o">**</span><span class="mi">2</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;p-value (95%)&#39;</span><span class="si">:</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">pad</span><span class="si">}}</span><span class="s2">: &quot;</span> <span class="o">+</span> <span class="s2">&quot;&lt; 0.001&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;p-value&#39;</span><span class="si">:</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">pad</span><span class="si">}}</span><span class="s2">: &quot;</span> <span class="o">+</span> <span class="s2">&quot;&lt; 0.001&quot;</span>
         <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">pvalue</span> <span class="o">&lt;</span> <span class="mf">0.001</span>
         <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">pvalue</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;slope&#39;</span><span class="si">:</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">pad</span><span class="si">}}</span><span class="s2">: </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">slope</span><span class="si">:</span><span class="s2">+.4f</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">ts</span><span class="o">*</span><span class="n">res</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;slope (95%)&#39;</span><span class="si">:</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">pad</span><span class="si">}}</span><span class="s2">: </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">slope</span><span class="si">:</span><span class="s2">+.4f</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">ts</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">res</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;intercept&#39;</span><span class="si">:</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">pad</span><span class="si">}}</span><span class="s2">: </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">intercept</span><span class="si">:</span><span class="s2">+.4f</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">ts</span><span class="o">*</span><span class="n">res</span><span class="o">.</span><span class="n">intercept_stderr</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;intercept (95%)&#39;</span><span class="si">:</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">pad</span><span class="si">}}</span><span class="s2">: </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">intercept</span><span class="si">:</span><span class="s2">+.4f</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">ts</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">res</span><span class="o">.</span><span class="n">intercept_stderr</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="p">)</span>
 
 <span class="c1"># Plot settings</span>
@@ -823,24 +935,23 @@ Other authors <a class="reference external" href="https://www.science.org/doi/10
 </details>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LIN:
-         Equation: +0.0045x -0.3875
-              R^2: 0.59
-    p-value (95%): &lt; 0.001
-            slope: +0.0045 ± 0.0006
-        intercept: -0.3875 ± 0.0556
+         Equation: +0.0046x -0.3892
+              R^2: 0.60
+          p-value: &lt; 0.001
+      slope (95%): +0.0046 ± 0.0006
+  intercept (95%): -0.3892 ± 0.0551
 NYA:
-         Equation: +0.0025x -0.1955
-              R^2: 0.37
-    p-value (95%): &lt; 0.001
-            slope: +0.0025 ± 0.0006
-        intercept: -0.1955 ± 0.0468
+         Equation: +0.0024x -0.1876
+              R^2: 0.35
+          p-value: &lt; 0.001
+      slope (95%): +0.0024 ± 0.0006
+  intercept (95%): -0.1876 ± 0.0465
 </pre></div>
 </div>
-<img alt="../_images/a496da32737739e59e5c8011b62ef86a33404b189f4b8feb9b2685152dc757d7.png" src="../_images/a496da32737739e59e5c8011b62ef86a33404b189f4b8feb9b2685152dc757d7.png" />
+<img alt="../_images/a7548052b79dabbfc0543a40f3724ef3d22b167bb35262faee476136dceb8c26.png" src="../_images/a7548052b79dabbfc0543a40f3724ef3d22b167bb35262faee476136dceb8c26.png" />
 </div>
 </div>
 <p><strong>Figure 3</strong>. Time series of the deseasonalised monthly means of the LRT for LIN (light blue) and NYA (orange); the linear fits (statistically significant at the 95%) are also reported for both stations (in blue, for LIN and in orange for NYA).</p>
-</section>
 </section>
 </section>
 <section id="i-if-you-want-to-know-more">
@@ -852,7 +963,7 @@ NYA:
 <p><a class="reference external" href="https://www.gruan.org/">GRUAN website</a>, <code class="docutils literal notranslate"><span class="pre">GCOS</span> <span class="pre">Reference</span> <span class="pre">Upper-Air</span> <span class="pre">Network</span></code></p>
 <p>Code libraries used:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://github.com/bopen/c3s-eqc-automatic-quality-control/tree/main/c3s_eqc_automatic_quality_control">C3S EQC custom functions</a>, <code class="docutils literal notranslate"><span class="pre">c3s_eqc_automatic_quality_control</span></code>,  prepared by <a class="reference external" href="https://www.bopen.eu/">BOpen</a></p></li>
+<li><p><a class="reference external" href="https://github.com/bopen/c3s-eqc-automatic-quality-control/tree/main/c3s_eqc_automatic_quality_control">C3S EQC custom functions</a>, <code class="docutils literal notranslate"><span class="pre">c3s_eqc_automatic_quality_control</span></code>,  prepared by <a class="reference external" href="https://www.bopen.eu/">B-Open</a></p></li>
 <li><p><a class="reference external" href="https://pypi.org/project/xarray/">Xarray</a> for working with multidimensional arrays in Python</p></li>
 <li><p><a class="reference external" href="https://pypi.org/project/matplotlib/">Matplotlib</a> for visualization in Python</p></li>
 <li><p><a class="reference external" href="https://pypi.org/project/scipy/">Scipy</a> for statistics in Python</p></li>
@@ -949,11 +1060,13 @@ NYA:
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-retrieval">1. Setup and retrieval</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#results-and-discussion">2. Results and discussion</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#lapse-rate-tropopause-time-series-monthly-values-and-its-annual-cycle">Lapse Rate Tropopause time series (monthly values) and its annual cycle</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#trend-and-seasonality-of-lrt">Trend and Seasonality of LRT</a></li>
-</ul>
-</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#define-parameters">Define Parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#define-request">Define request</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-to-cache">Functions to cache</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-and-transform">Download and transform</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#results-and-discussion">2. Results and discussion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lapse-rate-tropopause-time-series-monthly-values-and-its-annual-cycle">Lapse Rate Tropopause time series (monthly values) and its annual cycle</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#trend-and-seasonality-of-lrt">Trend and Seasonality of LRT</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
