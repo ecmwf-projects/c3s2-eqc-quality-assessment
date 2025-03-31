@@ -20,6 +20,7 @@ STRING_MAPPER = {
     "## Analysis and Results": "## 📈 Analysis and results",
     "## 📈 Analysis and Results": "## 📈 Analysis and results",
     "## If you want to know more": "## ℹ️ If you want to know more",
+    "BOpen": "B-Open",
 }
 
 
