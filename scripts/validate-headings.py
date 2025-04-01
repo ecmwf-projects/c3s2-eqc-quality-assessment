@@ -20,6 +20,7 @@ def validate_headers(path: Path) -> None:
 
     title_count = 0
     admonition_count = 0
+    admonition_is_note = False
     headings_count = dict.fromkeys(HEADINGS, 0)
     for cell in notebook.cells:
         if cell["cell_type"] != "markdown":
@@ -32,6 +33,9 @@ def validate_headers(path: Path) -> None:
                 title_count += 1
             elif line == f"```{{admonition}} {ADMONITION_TITLE}":
                 admonition_count += 1
+            elif admonition_count and not admonition_is_note:
+                admonition_is_note = line.startswith(":class: note")
+                assert admonition_is_note, f"{path=!s}: The admonition is not a note"
 
             if not path.name.startswith("template"):
                 assert title_count, f"{path=!s}: The first line is not a title."
