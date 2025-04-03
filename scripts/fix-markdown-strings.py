@@ -24,6 +24,12 @@ STRING_MAPPER = {
 
 ADMONITION_TITLE = "These are the key outcomes of this assessment"
 
+QA_STATEMENT_FORMAT = {
+    "l0": "## 📢 Quality assessment statement",
+    "l1": "```{admonition} " + ADMONITION_TITLE,
+    "l2": ":class: note",
+}
+
 
 def fix_legacy_urls(path: Path) -> None:
     notebook = nbformat.read(path, nbformat.NO_CONVERT)
@@ -38,18 +44,20 @@ def fix_legacy_urls(path: Path) -> None:
                 cell["source"] = source.replace(old, new)
                 write = True
 
-        admonition = 0
-        admonition_is_note = False
-        for line in (source := cell.get("source", "")).splitlines():
-            line = line.strip()
-            if line == f"```{{admonition}} {ADMONITION_TITLE}":
-                admonition = 1
-            elif admonition and not admonition_is_note:
-                admonition_is_note = line.startswith(":class: note")
-                if not admonition_is_note:
-                    cell["source"] = source.replace(line, ":class: note\n" + line)
-                    admonition = 0
-                    write = True
+        if QA_STATEMENT_FORMAT["l0"] in (source := cell.get("source", "")):
+            line_list = []
+            is_cell_changed = False
+            for line in source.splitlines():
+                line_list.append(line.strip())
+            if ADMONITION_TITLE not in line_list[1]:
+                line_list[1] = QA_STATEMENT_FORMAT["l1"]
+                is_cell_changed = True
+            if QA_STATEMENT_FORMAT["l2"] not in line_list[2]:
+                line_list.insert(2, QA_STATEMENT_FORMAT["l2"])
+                is_cell_changed = True
+            if is_cell_changed:
+                cell["source"] = "\n".join(line_list)
+                write = True
 
     if write:
         nbformat.write(notebook, path)
