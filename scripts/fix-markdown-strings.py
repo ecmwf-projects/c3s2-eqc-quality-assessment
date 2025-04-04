@@ -51,11 +51,11 @@ def fix_legacy_urls(path: Path) -> None:
                 line_list.append(line.strip())
             if not line_list[1]:
                 line_list.insert(1, "")
-            if ADMONITION_TITLE not in line_list[1]:
-                line_list[1] = QA_STATEMENT_FORMAT["l1"]
+            if ADMONITION_TITLE not in line_list[2]:
+                line_list[2] = QA_STATEMENT_FORMAT["l2"]
                 is_cell_changed = True
-            if QA_STATEMENT_FORMAT["l2"] not in line_list[2]:
-                line_list.insert(2, QA_STATEMENT_FORMAT["l2"])
+            if QA_STATEMENT_FORMAT["l3"] not in line_list[3]:
+                line_list.insert(3, QA_STATEMENT_FORMAT["l3"])
                 is_cell_changed = True
             if is_cell_changed:
                 cell["source"] = "\n".join(line_list)
