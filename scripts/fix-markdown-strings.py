@@ -49,8 +49,9 @@ def fix_legacy_urls(path: Path) -> None:
             is_cell_changed = False
             for line in source.splitlines():
                 line_list.append(line.strip())
-            if not line_list[1]:
+            if line_list[1]:
                 line_list.insert(1, "")
+                is_cell_changed = True
             if ADMONITION_TITLE not in line_list[2]:
                 line_list[2] = QA_STATEMENT_FORMAT["l2"]
                 is_cell_changed = True
