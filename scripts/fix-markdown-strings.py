@@ -26,8 +26,8 @@ ADMONITION_TITLE = "These are the key outcomes of this assessment"
 
 QA_STATEMENT_FORMAT = {
     "l0": "## 📢 Quality assessment statement",
-    "l1": "```{admonition} " + ADMONITION_TITLE,
-    "l2": ":class: note",
+    "l2": f"```{{admonition}} {ADMONITION_TITLE}",
+    "l3": ":class: note",
 }
 
 
@@ -49,6 +49,8 @@ def fix_legacy_urls(path: Path) -> None:
             is_cell_changed = False
             for line in source.splitlines():
                 line_list.append(line.strip())
+            if not line_list[1]:
+                line_list.insert(1, "")
             if ADMONITION_TITLE not in line_list[1]:
                 line_list[1] = QA_STATEMENT_FORMAT["l1"]
                 is_cell_changed = True
