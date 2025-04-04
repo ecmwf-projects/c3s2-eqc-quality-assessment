@@ -27,7 +27,7 @@ ADMONITION_TITLE = "These are the key outcomes of this assessment"
 CLASS_NOTE = ":class: note"
 
 
-def fix_legacy_urls(path: Path) -> None:
+def fix_template_divergences(path: Path) -> None:
     notebook = nbformat.read(path, nbformat.NO_CONVERT)
 
     write = False
@@ -65,7 +65,7 @@ def fix_legacy_urls(path: Path) -> None:
 
 def main(paths: list[Path]) -> None:
     for path in paths:
-        fix_legacy_urls(path)
+        fix_template_divergences(path)
 
 
 if __name__ == "__main__":
