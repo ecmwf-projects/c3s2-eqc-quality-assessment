@@ -46,17 +46,21 @@ def fix_legacy_urls(path: Path) -> None:
 
         if QA_STATEMENT_FORMAT["l0"] in (source := cell.get("source", "")):
             line_list = []
+            line_cnt = 0
             is_cell_changed = False
             for line in source.splitlines():
                 line_list.append(line.strip())
-            if line_list[1]:
-                line_list.insert(1, "")
+                if QA_STATEMENT_FORMAT["l0"] in line:
+                    qa_state_line = line_cnt
+                line_cnt += 1
+            if line_list[qa_state_line + 1]:
+                line_list.insert(qa_state_line + 1, "")
                 is_cell_changed = True
-            if ADMONITION_TITLE not in line_list[2]:
-                line_list[2] = QA_STATEMENT_FORMAT["l2"]
+            if ADMONITION_TITLE not in line_list[qa_state_line + 2]:
+                line_list[qa_state_line + 2] = QA_STATEMENT_FORMAT["l2"]
                 is_cell_changed = True
-            if QA_STATEMENT_FORMAT["l3"] not in line_list[3]:
-                line_list.insert(3, QA_STATEMENT_FORMAT["l3"])
+            if QA_STATEMENT_FORMAT["l3"] not in line_list[qa_state_line + 3]:
+                line_list.insert(qa_state_line + 3, QA_STATEMENT_FORMAT["l3"])
                 is_cell_changed = True
             if is_cell_changed:
                 cell["source"] = "\n".join(line_list)
