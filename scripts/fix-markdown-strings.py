@@ -24,11 +24,7 @@ STRING_MAPPER = {
 
 ADMONITION_TITLE = "These are the key outcomes of this assessment"
 
-QA_STATEMENT_FORMAT = {
-    "l0": "## 📢 Quality assessment statement",
-    "l2": f"```{{admonition}} {ADMONITION_TITLE}",
-    "l3": ":class: note",
-}
+CLASS_NOTE = ":class: note"
 
 
 def fix_legacy_urls(path: Path) -> None:
@@ -44,26 +40,24 @@ def fix_legacy_urls(path: Path) -> None:
                 cell["source"] = source.replace(old, new)
                 write = True
 
-        if QA_STATEMENT_FORMAT["l0"] in (source := cell.get("source", "")):
-            line_list = []
-            line_cnt = 0
-            is_cell_changed = False
-            for line in source.splitlines():
-                line_list.append(line.strip())
-                if QA_STATEMENT_FORMAT["l0"] in line:
-                    qa_state_line = line_cnt
-                line_cnt += 1
-            if line_list[qa_state_line + 1]:
-                qa_state_line -= 1
-            if ADMONITION_TITLE not in line_list[qa_state_line + 2]:
-                line_list[qa_state_line + 2] = QA_STATEMENT_FORMAT["l2"]
-                is_cell_changed = True
-            if QA_STATEMENT_FORMAT["l3"] not in line_list[qa_state_line + 3]:
-                line_list.insert(qa_state_line + 3, QA_STATEMENT_FORMAT["l3"])
-                is_cell_changed = True
-            if is_cell_changed:
-                cell["source"] = "\n".join(line_list)
-                write = True
+        sections = []
+        for section in cell.get("source", "").split("## "):
+            if section.startswith("📢 Quality assessment statement"):
+                for line in section.splitlines():
+                    if line.strip().startswith("```{admonition}"):
+                        newline = (
+                            f"```{{admonition}} {ADMONITION_TITLE}"
+                            if ADMONITION_TITLE not in line
+                            else line
+                        )
+                        if CLASS_NOTE not in section:
+                            newline = "\n".join([newline, CLASS_NOTE])
+                        if newline != line:
+                            section = section.replace(line, newline)
+                            write = True
+                        break
+            sections.append(section)
+        cell["source"] = "## ".join(sections)
 
     if write:
         nbformat.write(notebook, path)
