@@ -54,8 +54,7 @@ def fix_legacy_urls(path: Path) -> None:
                     qa_state_line = line_cnt
                 line_cnt += 1
             if line_list[qa_state_line + 1]:
-                line_list.insert(qa_state_line + 1, "")
-                is_cell_changed = True
+                qa_state_line -= 1
             if ADMONITION_TITLE not in line_list[qa_state_line + 2]:
                 line_list[qa_state_line + 2] = QA_STATEMENT_FORMAT["l2"]
                 is_cell_changed = True
