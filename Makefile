@@ -1,6 +1,8 @@
 PRE_BUILD_DIR := _pre_build
 PRE_BUILD_TMPDIR := $(shell mktemp -d)
 PRE_BUILD_FLAGS := "--no-disclaimer"
+UNWANTED_DIR := __MACOSX
+
 
 qa:
 	pre-commit run --all-files
@@ -14,4 +16,7 @@ pre-build-book: clean-book
 	python scripts/pre-build.py $(PRE_BUILD_DIR) $(PRE_BUILD_FLAGS)
 
 build-book: pre-build-book
+	for dir in ${UNWANTED_DIR}; do \
+		if [ -d "$${dir}" ]; then rm -r $${dir}; fi \
+	done
 	jupyter-book build -W -n --keep-going $(PRE_BUILD_DIR)
