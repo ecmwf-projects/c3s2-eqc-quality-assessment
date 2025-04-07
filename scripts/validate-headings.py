@@ -37,7 +37,7 @@ def validate_headers(path: Path) -> None:
                 admonition_is_note = line.startswith(":class: note")
                 assert admonition_is_note, f"{path=!s}: The admonition is not a note"
 
-            if line.startswith("# ") or line.startswith("## "):
+            if line.startswith(("# ", "## ")):
                 assert not line.lstrip("#").lstrip()[:1].isdigit()
 
             if not path.name.startswith("template"):
