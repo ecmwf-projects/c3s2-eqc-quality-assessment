@@ -38,7 +38,9 @@ def validate_headers(path: Path) -> None:
                 assert admonition_is_note, f"{path=!s}: The admonition is not a note"
 
             if line.startswith(("# ", "## ")):
-                assert not line.lstrip("#").lstrip()[:1].isdigit()
+                assert not line.lstrip("#").lstrip()[:1].isdigit(), (
+                    f"{path=!s}: First two header levels cannot start with numbers"
+                )
 
             if not path.name.startswith("template"):
                 assert title_count, f"{path=!s}: The first line is not a title."
