@@ -12,11 +12,9 @@ clean-book:
 
 pre-build-book: clean-book
 	cp -r * $(PRE_BUILD_TMPDIR)
+	rm -fr $(PRE_BUILD_TMPDIR)/$(UNWANTED_DIR)
 	mv $(PRE_BUILD_TMPDIR) $(PRE_BUILD_DIR)
 	python scripts/pre-build.py $(PRE_BUILD_DIR) $(PRE_BUILD_FLAGS)
 
 build-book: pre-build-book
-	for dir in ${UNWANTED_DIR}; do \
-		if [ -d "$${dir}" ]; then rm -r $${dir}; fi \
-	done
 	jupyter-book build -W -n --keep-going $(PRE_BUILD_DIR)
