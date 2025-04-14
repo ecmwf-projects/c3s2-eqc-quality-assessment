@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>1.3.1. Assessing the uncertainty of sea ice concentration products &#8212; eqcbook</title>
+    <title>1.3.1. Comparing sea ice concentration products to ice charts &#8212; eqcbook</title>
   
   
   
@@ -194,7 +194,7 @@
 </ul>
 </details></li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="Cryosphere.html">1.3. Cryosphere</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">1.3.1. Assessing the uncertainty of sea ice concentration products</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">1.3.1. Comparing sea ice concentration products to ice charts</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../Land_Biosphere/Land_Biosphere.html">1.4. Land Biosphere</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
@@ -428,7 +428,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Assessing the uncertainty of sea ice concentration products</h1>
+    <h1>Comparing sea ice concentration products to ice charts</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -438,7 +438,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-comparing-sea-ice-concentration-products-to-ice-charts">🌍 Use case: Comparing sea ice concentration products to ice charts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-assessing-the-uncertainty-of-sea-ice-concentration-products">🌍 Use case: Assessing the uncertainty of sea ice concentration products</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
@@ -455,7 +455,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-used-in-caching-of-both-time-series-and-map-data">2.4 Functions used in caching of both time series and map data</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-to-cache-time-series">2.5 Functions to cache time series</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#define-functions-to-cache-map-data">2.6 Define functions to cache map data</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-for-plotting-time-series">2.7 Functions for plotting time series</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-for-post-processing-and-plotting-time-series">2.7 Functions for post-processing and plotting time series</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-for-plotting-maps">2.8 Functions for plotting maps</a></li>
 </ul>
 </li>
@@ -490,39 +490,39 @@ document.write(`
   <p><img alt="logo" src="../../_images/LogoLine_horizon_C3S1.png" /></p>
 <div class="alert alert-block alert-warning">
 Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
-</div><section class="tex2jax_ignore mathjax_ignore" id="assessing-the-uncertainty-of-sea-ice-concentration-products">
-<h1><span class="section-number">1.3.1. </span>Assessing the uncertainty of sea ice concentration products<a class="headerlink" href="#assessing-the-uncertainty-of-sea-ice-concentration-products" title="Link to this heading">#</a></h1>
-<p>Production date: 31-05-2024</p>
+</div><section class="tex2jax_ignore mathjax_ignore" id="comparing-sea-ice-concentration-products-to-ice-charts">
+<h1><span class="section-number">1.3.1. </span>Comparing sea ice concentration products to ice charts<a class="headerlink" href="#comparing-sea-ice-concentration-products-to-ice-charts" title="Link to this heading">#</a></h1>
+<p>Production date: 14-04-2025</p>
 <p>Produced by: Timothy Williams, Nansen Environment and Remote Sensing Center</p>
-<section id="use-case-comparing-sea-ice-concentration-products-to-ice-charts">
-<h2>🌍 Use case: Comparing sea ice concentration products to ice charts<a class="headerlink" href="#use-case-comparing-sea-ice-concentration-products-to-ice-charts" title="Link to this heading">#</a></h2>
+<section id="use-case-assessing-the-uncertainty-of-sea-ice-concentration-products">
+<h2>🌍 Use case: Assessing the uncertainty of sea ice concentration products<a class="headerlink" href="#use-case-assessing-the-uncertainty-of-sea-ice-concentration-products" title="Link to this heading">#</a></h2>
 </section>
 <section id="quality-assessment-question">
 <h2>❓ Quality assessment question<a class="headerlink" href="#quality-assessment-question" title="Link to this heading">#</a></h2>
 <p><strong>How does the interim sea ice concentration product compare to manual ice charts?</strong>
-To assess the uncertainty in the sea ice concontration products, we compare the interim sea ice concentration product, the EUMETSAT (European Organisation for the Exploitation of Meteorological Satellites) OSI SAF (Ocean and Sea Ice Satellite Application Facility) ICDR (Interim Climate Data Record),  which is estimated from passive microwave sensors, is compared to manual ice charts from the United States National Ice Center (NIC). These ice charts only date back to 2017, which is why we only compare them to the ICDR product, and not the two CDR products.</p>
+To assess the uncertainty in the sea ice concontration products, we compare the sea ice concentration derived from passive microwave SSMIS (Special Sensor Microwave Imager/Sounder) sensors, to manual ice charts from the United States National Ice Center (NIC). These ice charts only date back to 2016, which is why we only compare them to the SSMIS products, and not the AMSR (Advanced Microwave Scanning Radiometer) product.</p>
 </section>
 <section id="quality-assessment-statement">
 <h2>📢 Quality assessment statement<a class="headerlink" href="#quality-assessment-statement" title="Link to this heading">#</a></h2>
 <div class="note admonition">
 <p class="admonition-title">These are the key outcomes of this assessment</p>
-<p>The EUMETSAT (European Organisation for the Exploitation of Meteorological Satellites) OSI SAF (Ocean and Sea Ice Satellite Application Facility) ICDR (Interim Climate Data Record) sea ice concentration from passive microwave sensors was compared to daily ice charts for both the Arctic and Antarctic. The ice charts are the daily marginal ice zone (MIZ) charts produced by the United States National Ice Center (NIC). The differences were the largest in summer when the concentration from passive microwave sensors has the largest errors due to melt ponds for example. The maximum integrated ice edge error reached <span class="math notranslate nohighlight">\(2\times10^6\)</span>km<span class="math notranslate nohighlight">\(^2\)</span> in the Arctic and <span class="math notranslate nohighlight">\(4\times10^6\)</span>km<span class="math notranslate nohighlight">\(^2\)</span> in the Antarctic. The ice charts are created manually, so we might expect them to be more reliable, but they might also be more conservative (err on the side of too much ice as opposed to too little) due to their use by the shipping industry. Indeed the NIC extent was generally larger than the ICDR one, which would be consistent with the latter possibility. Hence further checking of which is indeed the most reliable should be done. However, the large disagreements highlight the potential uncertainty in the ICDR.</p>
+<p>Sea ice concentration produced by the EUMETSAT (European Organisation for the Exploitation of Meteorological Satellites) OSI SAF (Ocean and Sea Ice Satellite Application Facility), and derived from SSMIS passive microwave sensors was compared to daily ice charts for both the Arctic and Antarctic. The ice charts are the daily marginal ice zone (MIZ) charts produced by the United States National Ice Center (NIC). The differences were the largest in summer when the concentration from passive microwave sensors has the largest errors due to melt ponds for example. The maximum integrated ice edge error reached <span class="math notranslate nohighlight">\(2\times10^6\)</span>km<span class="math notranslate nohighlight">\(^2\)</span> in the Arctic and <span class="math notranslate nohighlight">\(4\times10^6\)</span>km<span class="math notranslate nohighlight">\(^2\)</span> in the Antarctic. The ice charts are created manually, so we might expect them to be more reliable, but they might also be more conservative (err on the side of too much ice as opposed to too little) due to their use by the shipping industry. Indeed the extent calculated from the ice charts was generally larger than the one from the SSMIS-derived concentration, which would be consistent with the latter possibility. Hence further checking of which is indeed the most reliable should be done.</p>
 </div>
 </section>
 <section id="methodology">
 <h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
-<p>From the <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/satellite-sea-ice-concentration?tab=overview">sea ice concentration dataset</a>, we use the EUMETSAT OSI SAF ICDR product, which covers the years 2016 to 2023.</p>
-<p>NIC ice charts can be downloaded as shapefiles from <a class="reference external" href="https://usicecenter.gov/">https://usicecenter.gov/</a> and then rasterized onto the EUMETSAT OSI SAF Arctic or Antarctic grids and saved as daily netCDF files with paths depending on the date according to <code class="docutils literal notranslate"><span class="pre">nh/%Y/nic_miz_%Y%m%d_nc_pl_a.nc</span></code> for the northern hemisphere, and <code class="docutils literal notranslate"><span class="pre">sh/%Y/nic_miz_%Y%m%d_sc_pl_a.nc</span></code> for the southern hemisphere. These paths are relative to a user-defined directory <code class="docutils literal notranslate"><span class="pre">NIC_ICE_CHARTS_PATH</span></code> set below in the <code class="docutils literal notranslate"><span class="pre">Set</span> <span class="pre">parameters</span></code> section. The netCDF files can be obtained from the author at the email <a class="reference external" href="mailto:timothy&#46;williams&#37;&#52;&#48;nersc&#46;no">timothy<span>&#46;</span>williams<span>&#64;</span>nersc<span>&#46;</span>no</a>, otherwise users can do their own rasterizing. There is bash code in the “Code” section which shows how to download shapefiles for a given date.</p>
+<p>From the <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/satellite-sea-ice-concentration?tab=overview"><span style="color:blue">sea ice concentration dataset</span></a> in the Climate Data Store (CDS), we use the SSMIS CDR (Climate Data Record) product, which covers the years 2016 to 2020, and the SSMIS ICDR (Interim CDR) product, which covers the years 2021 to 2024.</p>
+<p>NIC ice charts can be downloaded as shapefiles from <a class="reference external" href="https://usicecenter.gov/"><span style="color:blue">https://usicecenter.gov/</span></a> and then rasterized onto the EUMETSAT OSI SAF Arctic or Antarctic grids and saved as daily netCDF files with paths depending on the date according to <code class="docutils literal notranslate"><span class="pre">nh/%Y/nic_miz_%Y%m%d_nc_pl_a.nc</span></code> for the northern hemisphere, and <code class="docutils literal notranslate"><span class="pre">sh/%Y/nic_miz_%Y%m%d_sc_pl_a.nc</span></code> for the southern hemisphere. These paths are relative to a user-defined directory <code class="docutils literal notranslate"><span class="pre">NIC_ICE_CHARTS_PATH</span></code> set below in the <code class="docutils literal notranslate"><span class="pre">Set</span> <span class="pre">parameters</span></code> section. The netCDF files can be obtained from the author at the email <a class="reference external" href="mailto:timothy&#46;williams&#37;&#52;&#48;nersc&#46;no"><span style="color:blue">timothy<span>&#46;</span>williams<span>&#64;</span>nersc<span>&#46;</span>no</span></a>, otherwise users can do their own rasterizing. There is bash code in the “Code” section which shows how to download shapefiles for a given date.</p>
 <p>Having obtained the two datasets on the same grid, we can compare them pixel by pixel. The NIC ice charts have 3 categories depending on estimated sea ice concentration (SIC):</p>
 <ol class="arabic simple">
 <li><p><span class="math notranslate nohighlight">\(0\% \leq {\rm SIC} \leq 10\%\)</span></p></li>
 <li><p><span class="math notranslate nohighlight">\(10\% &lt; {\rm SIC} \leq 80\%\)</span></p></li>
 <li><p><span class="math notranslate nohighlight">\(80\% &lt;{\rm SIC} \leq 100\%\)</span></p></li>
 </ol>
-<p>We reduced the number of categories from 3 to 2 (open water or ice-covered) by merging categories 2 and 3. The EUMETSAT OSI SAF SIC product was also converted to open water or ice-covered categories by using a threshold of SIC &gt; 10%.</p>
-<p>We then computed two areas <span class="math notranslate nohighlight">\(A_\pm\)</span>, where <span class="math notranslate nohighlight">\(A_+\)</span> is the total area where the ICDR has ice and NIC has no ice, and <span class="math notranslate nohighlight">\(A_-\)</span> is the total area where the ICDR has no ice and NIC has ice. A “bias” is then defined as <span class="math notranslate nohighlight">\(A_+ - A_-\)</span> and an IIEE (integrated ice edge error, or the total area where the classification from the SIC product disagrees with the ice chart classification, <a class="reference external" href="https://doi.org/10.1002/2015GL067232">[4]</a>) is defined as <span class="math notranslate nohighlight">\(A_+ + A_-\)</span>.
+<p>We reduced the number of categories from 3 to 2 (open water or ice-covered) by merging categories 2 and 3. The CDS SIC product was also converted to open water or ice-covered categories by using a threshold of SIC &gt; 10%.</p>
+<p>We then computed two areas <span class="math notranslate nohighlight">\(A_\pm\)</span>, where <span class="math notranslate nohighlight">\(A_+\)</span> is the total area where the CDS has ice and NIC has no ice, and <span class="math notranslate nohighlight">\(A_-\)</span> is the total area where the CDS has no ice and NIC has ice. A “bias” is then defined as <span class="math notranslate nohighlight">\(A_+ - A_-\)</span> and an IIEE (integrated ice edge error, or the total area where the classification from the SIC product disagrees with the ice chart classification (<a class="reference external" href="https://doi.org/10.1002/2015GL067232"><span style="color:blue">Goessling et al., 2016</span></a>), is defined as <span class="math notranslate nohighlight">\(A_+ + A_-\)</span>.
 Time series of these metrics were then plotted.</p>
-<p>To give an idea of the spatial distribution of the differences, for each pixel and month a probability of being ice-covered was calculated for the ICDR and the NIC charts. The difference between these monthly probabilities was then calculated and plotted as maps.</p>
+<p>To give an idea of the spatial distribution of the differences, for each pixel and month a probability of being ice-covered was calculated for the CDS and the NIC charts. The difference between these monthly probabilities was then calculated and plotted as maps.</p>
 <p>The “Analysis and results” section is structured as follows:</p>
 <p><strong><a class="reference internal" href="#satellite-satellite-sea-ice-concentration-intercomparison-q03-section-1"><span class="std std-ref">1. Download NIC shapefiles</span></a></strong></p>
 <ul class="simple">
@@ -615,8 +615,7 @@ Also specify <code class="docutils literal notranslate"><span class="pre">NIC_IC
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Time</span>
 <span class="n">start_year</span> <span class="o">=</span> <span class="mi">2016</span>
-<span class="n">stop_year</span> <span class="o">=</span> <span class="mi">2022</span>
-<span class="n">map_years</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2016</span><span class="p">,</span> <span class="mi">2023</span><span class="p">))</span>
+<span class="n">stop_year</span> <span class="o">=</span> <span class="mi">2024</span>
 
 <span class="c1"># Path to NIC ice charts</span>
 <span class="n">NIC_ICE_CHARTS_PATH</span> <span class="o">=</span> <span class="s2">&quot;/data/wp5/williams_timothy/nic_ice_charts&quot;</span>
@@ -638,27 +637,38 @@ Also specify <code class="docutils literal notranslate"><span class="pre">NIC_IC
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># allowed time range determined by availability of NIC ice charts</span>
 <span class="n">year_min</span> <span class="o">=</span> <span class="mi">2016</span>
-<span class="n">year_max</span> <span class="o">=</span> <span class="mi">2023</span>
+<span class="n">year_max</span> <span class="o">=</span> <span class="mi">2024</span>
+<span class="c1">#  last year of CDR</span>
+<span class="n">cdr_max</span> <span class="o">=</span> <span class="mi">2020</span>
+
+<span class="n">map_years</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="n">stop_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">map_year</span> <span class="ow">in</span> <span class="n">map_years</span><span class="p">:</span>
     <span class="k">assert</span><span class="p">(</span><span class="n">map_year</span> <span class="o">&gt;=</span> <span class="n">year_min</span> <span class="ow">and</span> <span class="n">map_year</span> <span class="o">&lt;=</span> <span class="n">year_max</span><span class="p">)</span>
 
 <span class="n">collection_id</span> <span class="o">=</span> <span class="s1">&#39;satellite-sea-ice-concentration&#39;</span>
 <span class="n">common_request</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;origin&quot;</span><span class="p">:</span> <span class="s2">&quot;EUMETSAT OSI SAF&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;origin&quot;</span><span class="p">:</span> <span class="s2">&quot;eumetsat_osi_saf&quot;</span><span class="p">,</span>
     <span class="s2">&quot;sensor&quot;</span><span class="p">:</span> <span class="s2">&quot;ssmis&quot;</span><span class="p">,</span>
     <span class="s2">&quot;temporal_aggregation&quot;</span><span class="p">:</span> <span class="s2">&quot;daily&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;cdr_type&quot;</span><span class="p">:</span> <span class="s2">&quot;icdr&quot;</span><span class="p">,</span>
     <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;v2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;v3&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="c1"># requests for calculating time series of differences between ICDR and NIC</span>
-<span class="n">requests_time_series</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">update_request_date</span><span class="p">(</span>
-    <span class="n">common_request</span><span class="p">,</span>
-    <span class="n">start</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span><span class="w"> </span><span class="n">year_min</span><span class="p">)</span><span class="si">}</span><span class="s2">-01&quot;</span><span class="p">,</span>
-    <span class="n">stop</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">min</span><span class="p">(</span><span class="n">stop_year</span><span class="p">,</span><span class="w"> </span><span class="n">year_max</span><span class="p">)</span><span class="si">}</span><span class="s2">-12&quot;</span><span class="p">,</span>
-    <span class="n">stringify_dates</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="n">requests_time_series</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;CDR&quot;</span><span class="p">:</span> <span class="n">download</span><span class="o">.</span><span class="n">update_request_date</span><span class="p">(</span>
+        <span class="n">common_request</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;cdr_type&quot;</span><span class="p">:</span> <span class="s2">&quot;cdr&quot;</span><span class="p">},</span>
+        <span class="n">start</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span><span class="w"> </span><span class="n">year_min</span><span class="p">)</span><span class="si">}</span><span class="s2">-01&quot;</span><span class="p">,</span>
+        <span class="n">stop</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">min</span><span class="p">(</span><span class="n">stop_year</span><span class="p">,</span><span class="w"> </span><span class="n">cdr_max</span><span class="p">)</span><span class="si">}</span><span class="s2">-12&quot;</span><span class="p">,</span>
+        <span class="n">stringify_dates</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="s2">&quot;ICDR&quot;</span><span class="p">:</span> <span class="n">download</span><span class="o">.</span><span class="n">update_request_date</span><span class="p">(</span>
+        <span class="n">common_request</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;cdr_type&quot;</span><span class="p">:</span> <span class="s2">&quot;icdr&quot;</span><span class="p">},</span>
+        <span class="n">start</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span><span class="w"> </span><span class="n">cdr_max</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">-01&quot;</span><span class="p">,</span>
+        <span class="n">stop</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">min</span><span class="p">(</span><span class="n">stop_year</span><span class="p">,</span><span class="w"> </span><span class="n">year_max</span><span class="p">)</span><span class="si">}</span><span class="s2">-12&quot;</span><span class="p">,</span>
+        <span class="n">stringify_dates</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">),</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -812,7 +822,7 @@ Also specify <code class="docutils literal notranslate"><span class="pre">NIC_IC
     <span class="n">da</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
         <span class="n">da</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;probability_ice_covered&quot;</span><span class="p">,</span> 
+            <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;probability_ice_covered&quot;</span><span class="p">,</span>
             <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;%&quot;</span><span class="p">,</span>
             <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Probability of cell being ice-covered&quot;</span><span class="p">,</span>
             <span class="s2">&quot;grid_mapping&quot;</span><span class="p">:</span> <span class="s2">&quot;Lambert_Azimuthal_Grid&quot;</span><span class="p">,</span>
@@ -846,7 +856,7 @@ Also specify <code class="docutils literal notranslate"><span class="pre">NIC_IC
     <span class="n">coords</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
               <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">]}</span>
     <span class="n">datasets</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">postproc_probabilities</span><span class="p">(</span><span class="n">get_probabilities</span><span class="p">(</span><span class="n">ice_mask</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">),</span> <span class="n">coords</span><span class="p">,</span> <span class="s2">&quot;ICDR&quot;</span><span class="p">),</span>
+        <span class="n">postproc_probabilities</span><span class="p">(</span><span class="n">get_probabilities</span><span class="p">(</span><span class="n">ice_mask</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">),</span> <span class="n">coords</span><span class="p">,</span> <span class="s2">&quot;CDS&quot;</span><span class="p">),</span>
         <span class="n">postproc_probabilities</span><span class="p">(</span><span class="n">get_probabilities</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds_nic</span><span class="p">[</span><span class="s2">&quot;ice_code&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">),</span> <span class="o">**</span><span class="n">kw</span><span class="p">),</span> <span class="n">coords</span><span class="p">,</span> <span class="s2">&quot;NIC&quot;</span><span class="p">),</span>
     <span class="p">]</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="s2">&quot;product&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
@@ -860,11 +870,11 @@ Also specify <code class="docutils literal notranslate"><span class="pre">NIC_IC
 </details>
 </div>
 </section>
-<section id="functions-for-plotting-time-series">
-<h4>2.7 Functions for plotting time series<a class="headerlink" href="#functions-for-plotting-time-series" title="Link to this heading">#</a></h4>
+<section id="functions-for-post-processing-and-plotting-time-series">
+<h4>2.7 Functions for post-processing and plotting time series<a class="headerlink" href="#functions-for-post-processing-and-plotting-time-series" title="Link to this heading">#</a></h4>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">rearrange_year_vs_dayofyear</span></code> changes the dataset from having a single time dimension to having two: the year and the Julian day of the year.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">make_subplot</span></code> makes one plot of a variable with a different line for each year (shown with a legend), and with the <span class="math notranslate nohighlight">\(x\)</span> axis being the Julian day of the year.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">merge_time_series</span></code> merges the time series datasets from the CDR and ICDR products.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">plot_against_dayofyear</span></code> calls <code class="docutils literal notranslate"><span class="pre">make_subplot</span></code> for the extents according to NIC and the sea ice concentration product, and also the extent bias and the integrated ice edge error (IIEE).</p></li>
 </ul>
 <div class="cell tag_hide-input docutils container">
@@ -883,46 +893,40 @@ Also specify <code class="docutils literal notranslate"><span class="pre">NIC_IC
     <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">new_dims</span><span class="p">)</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">make_subplot</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">ds_doy</span><span class="p">,</span> <span class="n">vname</span><span class="p">,</span> <span class="n">color_map</span><span class="p">):</span>
-    <span class="n">num_years</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ds_doy</span><span class="o">.</span><span class="n">year</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">year</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ds_doy</span><span class="o">.</span><span class="n">year</span><span class="p">):</span>
-        <span class="n">da</span> <span class="o">=</span> <span class="n">ds_doy</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">)[</span><span class="n">vname</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">dayofyear</span><span class="p">,</span> <span class="n">da</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="p">(</span><span class="n">num_years</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="n">year</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">merge_time_series</span><span class="p">(</span><span class="n">datasets</span><span class="p">):</span>
+    <span class="n">datasets_merged</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">product</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">datasets</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">datasets_merged</span> <span class="o">+=</span> <span class="p">[</span><span class="n">rearrange_year_vs_dayofyear</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="p">[</span><span class="n">product</span><span class="p">])]</span>
+    <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">datasets_merged</span><span class="p">,</span> <span class="s2">&quot;product&quot;</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">plot_time_series_doy</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;viridis&quot;</span><span class="p">):</span>
-    <span class="n">ds_doy</span> <span class="o">=</span> <span class="n">rearrange_year_vs_dayofyear</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
-    <span class="n">num_years</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ds_doy</span><span class="o">.</span><span class="n">year</span><span class="p">)</span>
-    <span class="n">color_map</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="n">cmap</span><span class="p">,</span> <span class="n">num_years</span><span class="p">)</span>
-    <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span>
+    <span class="n">facet</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+        <span class="n">row</span><span class="o">=</span><span class="s2">&quot;variable&quot;</span><span class="p">,</span>
+        <span class="n">col</span><span class="o">=</span><span class="s2">&quot;product&quot;</span><span class="p">,</span>
+        <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;year&quot;</span><span class="p">,</span>
+        <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span>
+        <span class="n">sharey</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="p">,</span>
+        <span class="n">add_legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
 
-    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="n">make_subplot</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">ds_doy</span><span class="p">,</span> <span class="s2">&quot;extent_cds&quot;</span><span class="p">,</span> <span class="n">color_map</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ICDR extent [10$^6$km$^2$]&quot;</span><span class="p">)</span>
-
-    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="n">make_subplot</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">ds_doy</span><span class="p">,</span> <span class="s2">&quot;extent_nic&quot;</span><span class="p">,</span> <span class="n">color_map</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;NIC extent [10$^6$km$^2$]&quot;</span><span class="p">)</span>
-
-
-    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="n">make_subplot</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">ds_doy</span><span class="p">,</span> <span class="s2">&quot;siextent_bias&quot;</span><span class="p">,</span> <span class="n">color_map</span><span class="p">)</span>
-    <span class="n">xlim</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">())</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xlim</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;:k&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bias [10$^6$km$^2$]&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
-
-    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="n">make_subplot</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">ds_doy</span><span class="p">,</span> <span class="s2">&quot;iiee&quot;</span><span class="p">,</span> <span class="n">color_map</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;IIEE [10$^6$km$^2$]&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">DateFormatter</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> %b&quot;</span><span class="p">))</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_tick_params</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
-    <span class="k">return</span>
+    <span class="n">facet</span><span class="o">.</span><span class="n">set_titles</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{value}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+    <span class="n">facet</span><span class="o">.</span><span class="n">add_legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">.506</span><span class="p">,</span><span class="mf">.5</span><span class="p">),</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">framealpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">vname</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="p">,</span> <span class="n">facet</span><span class="o">.</span><span class="n">axs</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;[</span><span class="si">%s</span><span class="s2">]&quot;</span> <span class="o">%</span><span class="k">ds</span>[vname].attrs[&quot;units&quot;], fontsize=15)
+    
+    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">facet</span><span class="o">.</span><span class="n">row_labels</span><span class="p">:</span>
+        <span class="n">vname</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span>
+        <span class="n">longname</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">vname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span>
+        <span class="n">label</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="n">longname</span><span class="p">)</span>
+        
+    <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">facet</span><span class="o">.</span><span class="n">axs</span><span class="o">.</span><span class="n">flatten</span><span class="p">():</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.5</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">DateFormatter</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> %b&quot;</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_tick_params</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1021,8 +1025,8 @@ Also specify <code class="docutils literal notranslate"><span class="pre">NIC_IC
     <span class="k">elif</span> <span class="n">year</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">kw_plot</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;row&quot;</span><span class="p">:</span> <span class="s2">&quot;month&quot;</span><span class="p">,</span> <span class="s2">&quot;col&quot;</span><span class="p">:</span> <span class="s2">&quot;year&quot;</span><span class="p">}</span>
 
-    <span class="n">bias</span> <span class="o">=</span> <span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s2">&quot;ICDR&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span> <span class="o">-</span> <span class="n">da</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s2">&quot;NIC&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
-    <span class="n">bias</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Bias in ICDR compared to NIC ice charts&quot;</span>
+    <span class="n">bias</span> <span class="o">=</span> <span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s2">&quot;CDS&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span> <span class="o">-</span> <span class="n">da</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s2">&quot;NIC&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
+    <span class="n">bias</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Bias in CDS compared to NIC ice charts&quot;</span>
     <span class="n">bias</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;%&quot;</span>
     <span class="n">make_plot</span><span class="p">(</span><span class="n">bias</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="o">**</span><span class="n">kw_plot</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">balance</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">50</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 </pre></div>
@@ -1067,23 +1071,30 @@ Also specify <code class="docutils literal notranslate"><span class="pre">NIC_IC
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># hide-output</span>
-<span class="n">datasets</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">region</span> <span class="ow">in</span> <span class="p">[</span>
-    <span class="s2">&quot;northern_hemisphere&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;southern_hemisphere&quot;</span><span class="p">,</span>
-<span class="p">]:</span>
-    <span class="n">requests</span> <span class="o">=</span> <span class="p">[</span><span class="n">request</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;region&quot;</span><span class="p">:</span> <span class="n">region</span><span class="p">}</span> <span class="k">for</span> <span class="n">request</span> <span class="ow">in</span> <span class="n">requests_time_series</span><span class="p">]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">requests</span><span class="p">)</span>
-    <span class="n">ds</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
-        <span class="n">collection_id</span><span class="p">,</span> <span class="n">requests</span><span class="p">,</span>
-        <span class="n">transform_func</span><span class="o">=</span><span class="n">compute_siconc_nic_time_series</span><span class="p">,</span>
-        <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;region&quot;</span><span class="p">:</span> <span class="n">region</span><span class="p">},</span>
-        <span class="n">chunks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
-        <span class="o">**</span><span class="n">download_kwargs</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">region</span><span class="o">=</span><span class="p">[</span><span class="n">region</span><span class="p">])</span><span class="o">.</span><span class="n">compute</span><span class="p">())</span>
-<span class="n">dataset_compare_nic</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="s2">&quot;region&quot;</span><span class="p">)</span>
-<span class="k">del</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span>
+
+<span class="c1"># Download CDR and ICDR separately</span>
+<span class="n">dataset_compare_nic</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">product</span><span class="p">,</span> <span class="n">requests</span> <span class="ow">in</span> <span class="n">requests_time_series</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">product</span><span class="p">)</span>
+    <span class="n">datasets</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">region</span> <span class="ow">in</span> <span class="p">[</span>
+        <span class="s2">&quot;northern_hemisphere&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;southern_hemisphere&quot;</span><span class="p">,</span>
+    <span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">requests</span><span class="p">)</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
+            <span class="n">collection_id</span><span class="p">,</span> <span class="p">[</span><span class="n">request</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;region&quot;</span><span class="p">:</span> <span class="n">region</span><span class="p">}</span> <span class="k">for</span> <span class="n">request</span> <span class="ow">in</span> <span class="n">requests</span><span class="p">],</span>
+            <span class="n">transform_func</span><span class="o">=</span><span class="n">compute_siconc_nic_time_series</span><span class="p">,</span>
+            <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;region&quot;</span><span class="p">:</span> <span class="n">region</span><span class="p">},</span>
+            <span class="n">chunks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+            <span class="o">**</span><span class="n">download_kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">region</span><span class="o">=</span><span class="p">[</span><span class="n">region</span><span class="p">])</span><span class="o">.</span><span class="n">compute</span><span class="p">())</span>
+    <span class="n">dataset_compare_nic</span><span class="p">[</span><span class="n">product</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="s2">&quot;region&quot;</span><span class="p">)</span>
+    <span class="n">datasets</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># merge the CDR and ICDR time series</span>
+<span class="n">dataset_compare_nic</span> <span class="o">=</span> <span class="n">merge_time_series</span><span class="p">(</span><span class="n">dataset_compare_nic</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1109,7 +1120,7 @@ Also specify <code class="docutils literal notranslate"><span class="pre">NIC_IC
 <span class="p">]:</span>
     <span class="k">for</span> <span class="n">map_year</span> <span class="ow">in</span> <span class="n">map_years</span><span class="p">:</span>
         <span class="n">requests_maps</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">update_request_date</span><span class="p">(</span>
-            <span class="n">common_request</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;region&quot;</span><span class="p">:</span> <span class="n">region</span><span class="p">},</span>
+            <span class="n">common_request</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;region&quot;</span><span class="p">:</span> <span class="n">region</span><span class="p">,</span> <span class="s2">&quot;cdr_type&quot;</span><span class="p">:</span> <span class="s2">&quot;cdr&quot;</span> <span class="k">if</span> <span class="n">map_year</span> <span class="o">&lt;=</span> <span class="n">cdr_max</span> <span class="k">else</span> <span class="s2">&quot;icdr&quot;</span><span class="p">},</span>
             <span class="n">start</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">map_year</span><span class="si">}</span><span class="s2">-01&quot;</span><span class="p">,</span>
             <span class="n">stop</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">map_year</span><span class="si">}</span><span class="s2">-12&quot;</span><span class="p">,</span>
             <span class="n">stringify_dates</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1134,7 +1145,7 @@ Also specify <code class="docutils literal notranslate"><span class="pre">NIC_IC
 <span id="satellite-satellite-sea-ice-concentration-intercomparison-q03-section-4"></span><h3>4. Results<a class="headerlink" href="#results" title="Link to this heading">#</a></h3>
 <section id="northern-hemisphere">
 <h4>4.1 Northern hemisphere<a class="headerlink" href="#northern-hemisphere" title="Link to this heading">#</a></h4>
-<p>Below we plot comparisons between the Arctic sea ice extents in the EUMETSAT OSI SAF concentration datasets and the NIC ice charts. The upper two plots show they have fairly similar intra- and inter-annual variability, although there is more variability at shorter time scales in the NIC extent. The bias (ICDR - NIC) plot shows that ICDR has consistently less ice than NIC, with the possible exception of September. The bias is largest in the summer months when the concentration from passive microwave sensors would be expected to have the greatest errors, at times exceeding <span class="math notranslate nohighlight">\(10^6\)</span>km<span class="math notranslate nohighlight">\(^2\)</span>. The IIEE is also quite high, ranging between 1 and 2.5 <span class="math notranslate nohighlight">\(\times10^6\)</span>km<span class="math notranslate nohighlight">\(^2\)</span>, with the maximum again in summer. The year with the greatest IIEE is 2018, while 2018 (May - June), 2021 (July - August) and 2019 (August - September)  have the lowest values of IIEE.</p>
+<p>Below we plot comparisons between the Arctic sea ice extents in the CDS concentration datasets and the NIC ice charts. The upper two plots show they have fairly similar intra- and inter-annual variability, although there is more variability at shorter time scales in the NIC extent. The bias (CDS - NIC) plot shows that CDS has consistently less ice than NIC, with the possible exception of September. The bias is largest in the summer months when the concentration from passive microwave sensors would be expected to have the greatest errors, at times exceeding <span class="math notranslate nohighlight">\(10^6\)</span>km<span class="math notranslate nohighlight">\(^2\)</span>. The IIEE is also quite high, ranging between 1 and 2.5 <span class="math notranslate nohighlight">\(\times10^6\)</span>km<span class="math notranslate nohighlight">\(^2\)</span>, with the maximum again in summer. The years 2016, 2017 and 2023 have quite high IIEEs in the summer, while 2018 (May - June), 2021 (July - August) and 2019 (August - September)  have the lowest values of IIEE.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1148,10 +1159,10 @@ Also specify <code class="docutils literal notranslate"><span class="pre">NIC_IC
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/b0baea10ad10c77131d0e4817ef16b42fee17cda71851bd31f4ae4b3e482f421.png" src="../../_images/b0baea10ad10c77131d0e4817ef16b42fee17cda71851bd31f4ae4b3e482f421.png" />
+<img alt="../../_images/f98d1e9d45d52a98190fc2aa89ccf94728256bff562b69d632e86c3de60b16f3.png" src="../../_images/f98d1e9d45d52a98190fc2aa89ccf94728256bff562b69d632e86c3de60b16f3.png" />
 </div>
 </div>
-<p>The maps below show monthly climatologies for the bias (ICDR - NIC) in the probability of being ice-covered in the Arctic. The regions where there is disagreement - mostly ice in the ice charts, but not in the ICDR - at the ice edge, which varies in location according to the time of year. In the winter months this is in the Labrador, Greenland and Barents Sea on the Atlantic side, and the Bering and Okhotsk Seas on the Pacific side. In the summer months there are also areas of disagreement off the Arctic and Siberian coasts and in the Hudson Bay. These areas are larger, possibly due to errors in the SIC from passive microwave sensors, and maybe also due to the ice edge being in more dynamic areas such as the Beaufort Sea.</p>
+<p>The maps below show monthly climatologies for the bias (CDS - NIC) in the probability of being ice-covered in the Arctic. The regions where there is disagreement - mostly ice in the ice charts, but not in the CDS - at the ice edge, which varies in location according to the time of year. In the winter months this is in the Labrador, Greenland and Barents Sea on the Atlantic side, and the Bering and Okhotsk Seas on the Pacific side. In the summer months there are also areas of disagreement off the Arctic and Siberian coasts and in the Hudson Bay. These areas are larger, possibly due to errors in the SIC from passive microwave sensors, and maybe also due to the ice edge being in more dynamic areas such as the Beaufort Sea.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1165,13 +1176,13 @@ Also specify <code class="docutils literal notranslate"><span class="pre">NIC_IC
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/0641c46b419260bd15af8732051e8a71561c99abd139792ffadc117dbcbe7469.png" src="../../_images/0641c46b419260bd15af8732051e8a71561c99abd139792ffadc117dbcbe7469.png" />
+<img alt="../../_images/92a81305e0d5d10ad67c8163b5719fd73236211b0903ffb20c7bc8fced0ae3cb.png" src="../../_images/92a81305e0d5d10ad67c8163b5719fd73236211b0903ffb20c7bc8fced0ae3cb.png" />
 </div>
 </div>
 </section>
 <section id="southern-hemisphere">
 <h4>4.2 Southern hemisphere<a class="headerlink" href="#southern-hemisphere" title="Link to this heading">#</a></h4>
-<p>Below we plot comparisons between the Antarctic sea ice extents in the EUMETSAT OSI SAF concentration datasets and the NIC ice charts. As with the Arctic time series, the upper two plots show they have fairly similar intra- and inter-annual variability, and there is again more variability at shorter time scales in the NIC extent. However, this variability has a higher amplitude than for the Arctic. The bias plot shows that ICDR nearly always has less ice than NIC. The bias is largest in the summer months when the concentration from passive microwave sensors would be expected to have the greatest errors, at times exceeding <span class="math notranslate nohighlight">\(3 \times 10^6\)</span>km<span class="math notranslate nohighlight">\(^2\)</span>. The IIEE is only slightly higher, reflecting the fact that there are few areas where ICDR has ice when NIC does not. It ranges between 1 and 2 <span class="math notranslate nohighlight">\(\times10^6\)</span>km<span class="math notranslate nohighlight">\(^2\)</span> in winter, and between 2 and 4 <span class="math notranslate nohighlight">\(\times10^6\)</span>km<span class="math notranslate nohighlight">\(^2\)</span> in summer. The year with the greatest IIEE is 2016.</p>
+<p>Below we plot comparisons between the Antarctic sea ice extents in the CDS concentration datasets and the NIC ice charts. As with the Arctic time series, the upper two plots show they have fairly similar intra- and inter-annual variability, and there is again more variability at shorter time scales in the NIC extent. However, this variability has a higher amplitude than for the Arctic. The bias plot shows that CDS nearly always has less ice than NIC. The bias is largest in the summer months when the concentration from passive microwave sensors would be expected to have the greatest errors, at times exceeding <span class="math notranslate nohighlight">\(3 \times 10^6\)</span>km<span class="math notranslate nohighlight">\(^2\)</span>. The IIEE is only slightly higher, reflecting the fact that there are few areas where CDS has ice when NIC does not. It ranges between 1 and 2 <span class="math notranslate nohighlight">\(\times10^6\)</span>km<span class="math notranslate nohighlight">\(^2\)</span> in winter, and between 2 and 4 <span class="math notranslate nohighlight">\(\times10^6\)</span>km<span class="math notranslate nohighlight">\(^2\)</span> in summer. The years with the greatest IIEE are 2016. 2023 and 2024.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1185,10 +1196,10 @@ Also specify <code class="docutils literal notranslate"><span class="pre">NIC_IC
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/927135936d8a7bc2fe198f3815e9a87851400bb9f85d8e42a03935672ba57159.png" src="../../_images/927135936d8a7bc2fe198f3815e9a87851400bb9f85d8e42a03935672ba57159.png" />
+<img alt="../../_images/87f678f0464cc809c231772045d29495f76bec0b35f4df70688e06fe3cc9fa5c.png" src="../../_images/87f678f0464cc809c231772045d29495f76bec0b35f4df70688e06fe3cc9fa5c.png" />
 </div>
 </div>
-<p>The maps below show monthly climatologies for the bias (ICDR - NIC) in the probability of being ice-covered around Antarctica. In the winter months, the areas where the ICDR and the NIC ice charts disagree are fairly uniformly spread around the continent. In the summer months, there are very large areas of disagreement in the Weddell, Bellingshausen and Ross Seas. In the Indian Ocean sector the areas of disagreement are biggest in summer but they are much less than in the Pacific and Atlantic sectors.</p>
+<p>The maps below show monthly climatologies for the bias (CDS - NIC) in the probability of being ice-covered around Antarctica. In the winter months, the areas where the CDS and the NIC ice charts disagree are fairly uniformly spread around the continent. In the summer months, there are very large areas of disagreement in the Weddell, Bellingshausen and Ross Seas. In the Indian Ocean sector the areas of disagreement are biggest in summer but they are much less than in the Pacific and Atlantic sectors.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1202,7 +1213,7 @@ Also specify <code class="docutils literal notranslate"><span class="pre">NIC_IC
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/45e160e8a5b1787f18f04a9f1deaa7b98e5932f0331aca75b520d54ba1e54585.png" src="../../_images/45e160e8a5b1787f18f04a9f1deaa7b98e5932f0331aca75b520d54ba1e54585.png" />
+<img alt="../../_images/d763be77aa67013500f580f433b43f1511eb20afd4d25507900497d18747dccc.png" src="../../_images/d763be77aa67013500f580f433b43f1511eb20afd4d25507900497d18747dccc.png" />
 </div>
 </div>
 </section>
@@ -1214,24 +1225,26 @@ Also specify <code class="docutils literal notranslate"><span class="pre">NIC_IC
 <h3>Key resources<a class="headerlink" href="#key-resources" title="Link to this heading">#</a></h3>
 <p>Introductory sea ice materials:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://www.epa.gov/climate-indicators/climate-change-indicators-arctic-sea-ice">Role of sea ice in the climate</a></p></li>
-<li><p><a class="reference external" href="https://www.metoffice.gov.uk/research/climate/cryosphere-oceans/sea-ice/measure">Observing sea ice with satellites</a></p></li>
-</ul>
-<p>NIC ice charts website:</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://usicecenter.gov/Products">https://usicecenter.gov/Products</a></p></li>
+<li><p><a class="reference external" href="https://www.epa.gov/climate-indicators/climate-change-indicators-arctic-sea-ice"><span style="color:blue">Role of sea ice in the climate</span></a></p></li>
+<li><p><a class="reference external" href="https://www.metoffice.gov.uk/research/climate/cryosphere-oceans/sea-ice/measure"><span style="color:blue">Observing sea ice with satellites</span></a></p></li>
 </ul>
 <p>Code libraries used:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://github.com/bopen/c3s-eqc-automatic-quality-control/tree/main/c3s_eqc_automatic_quality_control">C3S EQC custom functions</a>, <code class="docutils literal notranslate"><span class="pre">c3s_eqc_automatic_quality_control</span></code>,  prepared by <a class="reference external" href="https://www.bopen.eu/">BOpen</a></p></li>
+<li><p><a class="reference external" href="https://github.com/bopen/c3s-eqc-automatic-quality-control/tree/main/c3s_eqc_automatic_quality_control"><span style="color:blue">C3S EQC custom functions</span></a>, <code class="docutils literal notranslate"><span class="pre">c3s_eqc_automatic_quality_control</span></code>,  prepared by <a class="reference external" href="https://www.bopen.eu/"><span style="color:blue">B-Open</span></a></p></li>
+</ul>
+<p>Information on ice charts:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://usicecenter.gov/Products"><span style="color:blue">NIC ice charts</span></a></p></li>
 </ul>
 </section>
 <section id="references">
 <h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
-<p><a class="reference external" href="https://tc.copernicus.org/articles/9/1797/2015">[1]</a> Ivanova, N., Pedersen, L. T., Tonboe, R. T., Kern, S., Heygster, G., Lavergne, T., Sørensen, A., Saldo, R., Dybkjær, G., Brucker, L., &amp; Shokr, M. (2015). Inter-comparison and evaluation of sea ice algorithms: towards further identification of challenges and optimal approach using passive microwave observations. The Cryosphere, 9(5), 1797-1817.</p>
-<p><a class="reference external" href="https://www.sciencedirect.com/science/article/abs/pii/S0034425796002209">[2]</a> Comiso, J. C., Cavalieri, D. J., Parkinson, C. L., &amp; Gloersen, P. (1997). Passive microwave algorithms for sea ice concentration: A comparison of two techniques. Remote sensing of Environment, 60(3), 357-384.</p>
-<p><a class="reference external" href="https://egusphere.copernicus.org/preprints/2024/egusphere-2024-3861">[3]</a> Buckley, E. M., Horvat, C., &amp; Yoosiri, P. (2024). Sea Ice Concentration Estimates from ICESat-2 Linear Ice Fraction. Part 1: Multi-sensor Comparison of Sea Ice Concentration Products. EGUsphere, 2024, 1-19.</p>
-<p><a class="reference external" href="https://doi.org/10.1002/2015GL067232">[4]</a> Goessling, H. F., Tietsche, S., Day, J. J., Hawkins, E., &amp; Jung, T. (2016). Predictability of the Arctic sea ice edge. Geophysical Research Letters, 43(4), 1642-1650.</p>
+<ol class="arabic simple">
+<li><p>Ivanova, N., Pedersen, L. T., Tonboe, R. T., Kern, S., Heygster, G., Lavergne, T., Sørensen, A., Saldo, R., Dybkjær, G., Brucker, L., &amp; Shokr, M. (2015). Inter-comparison and evaluation of sea ice algorithms: towards further identification of challenges and optimal approach using passive microwave observations. The Cryosphere, 9(5), 1797-1817, <a class="reference external" href="https://tc.copernicus.org/articles/9/1797/2015"><span style="color:blue">https://tc.copernicus.org/articles/9/1797/2015</span></a>.</p></li>
+<li><p>Comiso, J. C., Cavalieri, D. J., Parkinson, C. L., &amp; Gloersen, P. (1997). Passive microwave algorithms for sea ice concentration: A comparison of two techniques. Remote sensing of Environment, 60(3), 357-384, <a class="reference external" href="https://doi.org/10.1016/S0034-4257(96)00220-9"><span style="color:blue">https://doi.org/10.1016/S0034-4257(96)00220-9</span></a>.</p></li>
+<li><p>Buckley, E. M., Horvat, C., &amp; Yoosiri, P. (2024). Sea Ice Concentration Estimates from ICESat-2 Linear Ice Fraction. Part 1: Multi-sensor Comparison of Sea Ice Concentration Products. EGUsphere, 2024, 1-19, <a class="reference external" href="https://doi.org/10.5194/egusphere-2024-3861"><span style="color:blue">https://doi.org/10.5194/egusphere-2024-3861</span></a>.</p></li>
+<li><p>Goessling, H. F., Tietsche, S., Day, J. J., Hawkins, E., &amp; Jung, T. (2016). Predictability of the Arctic sea ice edge. Geophysical Research Letters, 43(4), 1642-1650, <a class="reference external" href="https://doi.org/10.1002/2015GL067232"><span style="color:blue">https://doi.org/10.1002/2015GL067232</span></a>.</p></li>
+</ol>
 </section>
 </section>
 </section>
@@ -1300,7 +1313,7 @@ Also specify <code class="docutils literal notranslate"><span class="pre">NIC_IC
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-comparing-sea-ice-concentration-products-to-ice-charts">🌍 Use case: Comparing sea ice concentration products to ice charts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-assessing-the-uncertainty-of-sea-ice-concentration-products">🌍 Use case: Assessing the uncertainty of sea ice concentration products</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
@@ -1317,7 +1330,7 @@ Also specify <code class="docutils literal notranslate"><span class="pre">NIC_IC
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-used-in-caching-of-both-time-series-and-map-data">2.4 Functions used in caching of both time series and map data</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-to-cache-time-series">2.5 Functions to cache time series</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#define-functions-to-cache-map-data">2.6 Define functions to cache map data</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-for-plotting-time-series">2.7 Functions for plotting time series</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-for-post-processing-and-plotting-time-series">2.7 Functions for post-processing and plotting time series</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-for-plotting-maps">2.8 Functions for plotting maps</a></li>
 </ul>
 </li>
