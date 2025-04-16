@@ -20,14 +20,15 @@ def validate_headers(path: Path) -> None:
 
     title_count = 0
     admonition_count = 0
-    methodology_count = 0
-    section_link_count = 0
+    ref_count = 0
+    anchor_count = 0
     admonition_is_note = False
     headings_count = dict.fromkeys(HEADINGS, 0)
     for cell in notebook.cells:
         if cell["cell_type"] != "markdown":
             continue
 
+        methodology_count = 0
         for line in cell.get("source", "").splitlines():
             line = line.strip()
 
@@ -48,7 +49,9 @@ def validate_headers(path: Path) -> None:
                 methodology_count += 1
             if methodology_count:
                 if "[](" in line:
-                    section_link_count += 1
+                    ref_count += 1
+                if ")=" in line:
+                    anchor_count += 1
 
             if not path.name.startswith("template"):
                 assert title_count, f"{path=!s}: The first line is not a title."
@@ -62,7 +65,10 @@ def validate_headers(path: Path) -> None:
 
     assert title_count == 1, f"{path=!s}: Invalid {title_count=}"
     assert admonition_count == 1, f"{path=!s}: Invalid {admonition_count=}"
-    assert section_link_count, f"{path=!s}: No links to relevant sections"
+    assert ref_count, f"{path=!s}: No links to relevant sections"
+    assert ref_count == anchor_count, (
+        f"{path=!s}: Section reference mismatch {ref_count=}, {anchor_count=}"
+    )
     for heading, header_count in headings_count.items():
         assert header_count == 1, f"{path=!s}: Invalid {header_count=} of {heading=}"
 
