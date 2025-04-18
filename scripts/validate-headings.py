@@ -22,14 +22,14 @@ def validate_headers(path: Path) -> None:
     admonition_count = 0
     ref_count = 0
     anchor_count = 0
-    analysis_count = 0
+    after_analysis_cell = False
     admonition_is_note = False
     headings_count = dict.fromkeys(HEADINGS, 0)
     for cell in notebook.cells:
         if cell["cell_type"] != "markdown":
             continue
 
-        methodology_count = 0
+        in_methodology_cell = False
         for line in cell.get("source", "").splitlines():
             line = line.strip()
 
@@ -47,13 +47,13 @@ def validate_headers(path: Path) -> None:
                 )
 
             if "## 📋 Methodology" in line:
-                methodology_count += 1
+                in_methodology_cell = True
             if "## 📈 Analysis and results" in line:
-                analysis_count += 1
-            if methodology_count:
+                after_analysis_cell = True
+            if in_methodology_cell:
                 if "[](" in line:
                     ref_count += 1
-            if analysis_count:
+            if after_analysis_cell:
                 if ")=" in line:
                     anchor_count += 1
 
