@@ -1,4 +1,5 @@
 import argparse
+import re
 from pathlib import Path
 
 import nbformat
@@ -20,17 +21,20 @@ def validate_headers(path: Path) -> None:
 
     title_count = 0
     admonition_count = 0
-    ref_count = 0
-    anchor_count = 0
-    after_analysis_cell = False
     admonition_is_note = False
     headings_count = dict.fromkeys(HEADINGS, 0)
+
+    references = set()
+    anchors = set()
     for cell in notebook.cells:
         if cell["cell_type"] != "markdown":
             continue
 
-        in_methodology_cell = False
-        for line in cell.get("source", "").splitlines():
+        source = cell.get("source", "")
+        anchors.update(re.findall(r"\((.*?)\)=(?!`)", source))
+        references.update(re.findall(r"\[\]\((.*?)\)", source))
+
+        for line in source.splitlines():
             line = line.strip()
 
             if line.startswith("# "):
@@ -46,17 +50,6 @@ def validate_headers(path: Path) -> None:
                     f"{path=!s}: First two header levels cannot start with numbers"
                 )
 
-            if "## 📋 Methodology" in line:
-                in_methodology_cell = True
-            if "## 📈 Analysis and results" in line:
-                after_analysis_cell = True
-            if in_methodology_cell:
-                if "[](" in line:
-                    ref_count += 1
-            if after_analysis_cell:
-                if ")=" in line:
-                    anchor_count += 1
-
             if not path.name.startswith("template"):
                 assert title_count, f"{path=!s}: The first line is not a title."
 
@@ -69,9 +62,8 @@ def validate_headers(path: Path) -> None:
 
     assert title_count == 1, f"{path=!s}: Invalid {title_count=}"
     assert admonition_count == 1, f"{path=!s}: Invalid {admonition_count=}"
-    assert ref_count, f"{path=!s}: No links to relevant sections"
-    assert ref_count == anchor_count, (
-        f"{path=!s}: Section reference mismatch {ref_count=}, {anchor_count=}"
+    assert anchors and anchors <= references, (
+        f"{path=!s}: Missing section references {anchors - references}"
     )
     for heading, header_count in headings_count.items():
         assert header_count == 1, f"{path=!s}: Invalid {header_count=} of {heading=}"
