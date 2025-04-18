@@ -22,6 +22,7 @@ def validate_headers(path: Path) -> None:
     admonition_count = 0
     ref_count = 0
     anchor_count = 0
+    analysis_count = 0
     admonition_is_note = False
     headings_count = dict.fromkeys(HEADINGS, 0)
     for cell in notebook.cells:
@@ -47,9 +48,12 @@ def validate_headers(path: Path) -> None:
 
             if "## 📋 Methodology" in line:
                 methodology_count += 1
+            if "## 📈 Analysis and results" in line:
+                analysis_count += 1
             if methodology_count:
                 if "[](" in line:
                     ref_count += 1
+            if analysis_count:
                 if ")=" in line:
                     anchor_count += 1
 
