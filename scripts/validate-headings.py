@@ -70,7 +70,7 @@ def validate_headers(path: Path) -> None:
     assert title_count == 1, f"{path=!s}: Invalid {title_count=}"
     assert admonition_count == 1, f"{path=!s}: Invalid {admonition_count=}"
     assert ref_count, f"{path=!s}: No links to relevant sections"
-    assert ref_count <= anchor_count, (
+    assert ref_count == anchor_count, (
         f"{path=!s}: Section reference mismatch {ref_count=}, {anchor_count=}"
     )
     for heading, header_count in headings_count.items():
