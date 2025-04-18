@@ -31,8 +31,8 @@ def validate_headers(path: Path) -> None:
             continue
 
         source = cell.get("source", "")
-        anchors.update(re.findall(r"\((.*)\)=", source))
-        references.update(re.findall(r"\[\]\((.*)\)", source))
+        anchors.update(re.findall(r"\((.*?)\)=(?!`)", source))
+        references.update(re.findall(r"\[\]\((.*?)\)", source))
 
         for line in source.splitlines():
             line = line.strip()
