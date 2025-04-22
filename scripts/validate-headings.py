@@ -24,8 +24,9 @@ def validate_headers(path: Path) -> None:
     admonition_is_note = False
     headings_count = dict.fromkeys(HEADINGS, 0)
 
-    references = set()
     anchors = set()
+    references = set()
+    is_analysis = False
     for cell in notebook.cells:
         if cell["cell_type"] != "markdown":
             continue
@@ -34,8 +35,14 @@ def validate_headers(path: Path) -> None:
         anchors.update(re.findall(r"\((.*?)\)=(?!`)", source))
         references.update(re.findall(r"\[\]\((.*?)\)", source))
 
+        prev_line = ""
         for line in source.splitlines():
             line = line.strip()
+            is_analysis = (
+                not line == HEADINGS[-1] if is_analysis else line == HEADINGS[-2]
+            )
+            if is_analysis and line.startswith("### "):
+                assert prev_line.endswith(")="), f"{path=!s}: Missing anchor for {line}"
 
             if line.startswith("# "):
                 title_count += 1
@@ -59,6 +66,8 @@ def validate_headers(path: Path) -> None:
                     break
             else:
                 assert not line.startswith("## "), f"{path=!s}: Invalid H2 {line=}"
+
+            prev_line = line
 
     assert title_count == 1, f"{path=!s}: Invalid {title_count=}"
     assert admonition_count == 1, f"{path=!s}: Invalid {admonition_count=}"
