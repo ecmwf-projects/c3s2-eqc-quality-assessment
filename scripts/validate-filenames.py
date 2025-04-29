@@ -78,9 +78,9 @@ def main(paths: list[Path]) -> None:
         assert code == 200, f"{path=!s}: Invalid {collection_id=}"
 
         # Check assessment category
-        assert (
-            assessment_category in ASSESSMENT_CATEGORIES
-        ), f"{path=!s}: Invalid {assessment_category=}"
+        assert assessment_category in ASSESSMENT_CATEGORIES, (
+            f"{path=!s}: Invalid {assessment_category=}"
+        )
 
         # Check question number
         assert len(question_number) == 3, f"{path=!s}: Invalid {question_number=}"
