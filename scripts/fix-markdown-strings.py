@@ -21,6 +21,10 @@ STRING_MAPPER = {
     "## 📈 Analysis and Results": "## 📈 Analysis and results",
     "## If you want to know more": "## ℹ️ If you want to know more",
     "BOpen": "B-Open",
+    "https://ads-beta.atmosphere.copernicus.eu": "https://ads.atmosphere.copernicus.eu",
+    "https://cds-beta.climate.copernicus.eu": "https://cds.climate.copernicus.eu",
+    "https://ewds-beta.climate.copernicus.eu": "https://ewds.climate.copernicus.eu",
+    "https://datastore.copernicus-climate.eu": "https://dast.copernicus-climate.eu",
 }
 
 ADMONITION_TITLE = "These are the key outcomes of this assessment"
