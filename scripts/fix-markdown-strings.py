@@ -36,6 +36,10 @@ def fix_template_divergences(path: Path) -> None:
         if cell["cell_type"] != "markdown":
             continue
 
+        if ")=\n\n" in (source := cell["source"]):
+            cell["source"] = source.replace(")=\n\n", ")=\n")
+            write = True
+
         for old, new in STRING_MAPPER.items():
             if old in (source := cell.get("source", "")):
                 cell["source"] = source.replace(old, new)
