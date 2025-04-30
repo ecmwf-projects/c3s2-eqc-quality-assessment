@@ -1,6 +1,7 @@
 import argparse
-import urllib.request
 from pathlib import Path
+
+import requests
 
 DATA_TYPES = {
     "climate": "Climate_Projections",
@@ -70,12 +71,12 @@ def main(paths: list[Path]) -> None:
 
         # Check dataset ID
         url = "/".join([API_URL, collection_id])
-        code = None
         try:
-            code = urllib.request.urlopen(url).getcode()
-        except Exception:
-            pass
-        assert code == 200, f"{path=!s}: Invalid {collection_id=}"
+            requests.get(url).raise_for_status()
+        except requests.HTTPError:
+            raise
+        except Exception as exc:
+            raise RuntimeError(f"{path=!s}: Invalid {url=}") from exc
 
         # Check assessment category
         assert assessment_category in ASSESSMENT_CATEGORIES, (

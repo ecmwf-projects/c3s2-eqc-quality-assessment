@@ -37,9 +37,7 @@ def validate_urls(path: Path) -> None:
             except Exception as exc:
                 raise RuntimeError(f"{path=!s}: Invalid {url=}") from exc
 
-            assert response.status_code == 200, (
-                f"{path=!s}: Invalid {url=} {response.status_code=}"
-            )
+            response.raise_for_status()
 
 
 def main(paths: list[Path]) -> None:

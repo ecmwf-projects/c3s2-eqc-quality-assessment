@@ -6,6 +6,7 @@ UNWANTED_DIR := __MACOSX
 
 qa:
 	pre-commit run --all-files
+	pre-commit run -c .pre-commit-config-weekly.yaml
 
 clean-book:
 	rm -fr $(PRE_BUILD_DIR)
