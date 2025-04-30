@@ -73,8 +73,6 @@ def main(paths: list[Path]) -> None:
         url = "/".join([API_URL, collection_id])
         try:
             requests.get(url).raise_for_status()
-        except requests.HTTPError:
-            raise
         except Exception as exc:
             raise RuntimeError(f"{path=!s}: Invalid {url=}") from exc
 

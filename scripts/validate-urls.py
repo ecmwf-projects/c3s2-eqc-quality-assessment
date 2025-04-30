@@ -34,10 +34,9 @@ def validate_urls(path: Path) -> None:
                         )
                     case 404 | 405:
                         response = requests.get(url, allow_redirects=True)
+                response.raise_for_status()
             except Exception as exc:
                 raise RuntimeError(f"{path=!s}: Invalid {url=}") from exc
-
-            response.raise_for_status()
 
 
 def main(paths: list[Path]) -> None:
