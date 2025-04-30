@@ -22,18 +22,24 @@ def validate_urls(path: Path) -> None:
         source = cell.get("source", "")
         for url in set(re.findall(r"\(\s*(http[^)]*?)\s*\)", source)):
             url = url.replace("https://doi.org/", "https://api.crossref.org/works/")
-            response = requests.head(url, allow_redirects=True)
-            match response.status_code:
-                case 403:
-                    response = requests.head(
-                        url,
-                        allow_redirects=True,
-                        headers={"User-Agent": USER_AGENT},
-                    )
-                case 404 | 405:
-                    response = requests.get(url, allow_redirects=True)
-            code = response.status_code
-            assert code == 200, f"{path=!s}: Invalid {url=} {code=}"
+
+            try:
+                response = requests.head(url, allow_redirects=True)
+                match response.status_code:
+                    case 403:
+                        response = requests.head(
+                            url,
+                            allow_redirects=True,
+                            headers={"User-Agent": USER_AGENT},
+                        )
+                    case 404 | 405:
+                        response = requests.get(url, allow_redirects=True)
+            except Exception as exc:
+                raise RuntimeError(f"{path=!s}: Invalid {url=}") from exc
+
+            assert response.status_code == 200, (
+                f"{path=!s}: Invalid {url=} {response.status_code=}"
+            )
 
 
 def main(paths: list[Path]) -> None:
