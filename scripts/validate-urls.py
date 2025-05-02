@@ -39,9 +39,9 @@ def validate_urls(path: Path) -> None:
                 response.raise_for_status()
             except requests.exceptions.SSLError:
                 if not url.startswith(KNOWN_SSL_ISSUES):
-                    raise
-            except Exception as exc:
-                raise RuntimeError(f"{path=!s}: Invalid {url=}") from exc
+                    raise RuntimeError(f"{path=!s}: Invalid {url=}")
+            except Exception:
+                raise RuntimeError(f"{path=!s}: Invalid {url=}")
 
 
 def main(paths: list[Path]) -> None:
