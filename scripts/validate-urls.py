@@ -11,6 +11,8 @@ USER_AGENT = (
     " Chrome/131.0.0.0 Safari/537.36"
 )
 
+KNOWN_SSL_ISSUES = ("https://www.cnr.it/",)
+
 
 def validate_urls(path: Path) -> None:
     notebook = nbformat.read(path, nbformat.NO_CONVERT)
@@ -35,6 +37,9 @@ def validate_urls(path: Path) -> None:
                     case 404 | 405:
                         response = requests.get(url, allow_redirects=True)
                 response.raise_for_status()
+            except requests.exceptions.SSLError:
+                if not url.startswith(KNOWN_SSL_ISSUES):
+                    raise
             except Exception as exc:
                 raise RuntimeError(f"{path=!s}: Invalid {url=}") from exc
 
