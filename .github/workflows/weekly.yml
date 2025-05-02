@@ -21,10 +21,9 @@ jobs:
     - uses: actions/setup-python@v5
       with:
         python-version: '3.x'
-    - uses: pre-commit/action@v3.0.1
-      with:
-        extra_args: '-c .pre-commit-config-weekly.yaml --all'
-    - name: Run pre-commit autoupdate
+    - name: Install pre-commit
+      run: pip install pre-commit
+    - name: Run autoupdate
       run: |
         pre-commit autoupdate
         pre-commit autoupdate -c .pre-commit-config-weekly.yaml
@@ -32,3 +31,7 @@ jobs:
       uses: peter-evans/create-pull-request@v7
       with:
         title: pre-commit autoupdate
+    - name: Run weekly checks
+      run: |
+        pre-commit -c .pre-commit-config-weekly.yaml --all
+
