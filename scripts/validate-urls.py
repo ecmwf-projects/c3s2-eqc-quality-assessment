@@ -11,7 +11,7 @@ USER_AGENT = (
     " Chrome/131.0.0.0 Safari/537.36"
 )
 
-KNOWN_SSL_ISSUES = ("https://www.cnr.it/",)
+KNOWN_SSL_ISSUES = ("https://www.cnr.it", "https://hermes.acri.fr")
 
 
 def validate_urls(path: Path) -> None:
