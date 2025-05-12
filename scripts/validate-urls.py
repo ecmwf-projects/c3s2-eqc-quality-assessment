@@ -16,6 +16,8 @@ KNOWN_SSL_ISSUES = (
     "https://hermes.acri.fr",
 )
 
+CROSSREF_URL = "https://api.crossref.org/works/"
+
 
 def validate_urls(path: Path) -> None:
     notebook = nbformat.read(path, nbformat.NO_CONVERT)
@@ -26,7 +28,9 @@ def validate_urls(path: Path) -> None:
 
         source = cell.get("source", "")
         for url in set(re.findall(r"\(\s*(http[^)]*?)\s*\)", source)):
-            url = url.replace("https://doi.org/", "https://api.crossref.org/works/")
+            url = url.replace("https://doi.org/", CROSSREF_URL)
+            if url.startswith(CROSSREF_URL):
+                url = url.rstrip("/") + "/agency"
 
             try:
                 response = requests.head(url, allow_redirects=True)
