@@ -21,6 +21,8 @@ STRING_MAPPER = {
     "## 📈 Analysis and Results": "## 📈 Analysis and results",
     "## If you want to know more": "## ℹ️ If you want to know more",
     "BOpen": "B-Open",
+    "http://dx.doi.org": "https://doi.org",
+    "https://dx.doi.org": "https://doi.org",
     "http://doi.org": "https://doi.org",
     "https://ads-beta.atmosphere.copernicus.eu": "https://ads.atmosphere.copernicus.eu",
     "http://ads-beta.atmosphere.copernicus.eu": "https://ads.atmosphere.copernicus.eu",
