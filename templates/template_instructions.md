@@ -26,12 +26,14 @@ There is a new approach to linking the methodology list to the subsections in an
 
 We do not aim to be completely prescriptive about the title, it should be readable and descriptive, but also include some keywords to increase searchability, e.g. *Seasonal forecasts bias assessment for impact models*.
 
-- **Data stream/ECV/variable**: Satellite (observations), Insitu (observations), Reanalysis, Seasonal (Forecasts), Climate (projections)
+It could include:
+
+- **Data stream/ECV/variable/index**: Satellite (observations), Insitu (observations), Reanalysis, Seasonal (Forecasts), Climate (projections)
 - **Quality area**: bias, forecast skill, completeness, intercomparison of X and Y, comparison to X, trend assessment, extremes, spatial/temporal resolution, reliability, accuracy, etc.
-- **Application area**: impact models, risk assessment, climate monitoring, scientific study of X, X sector, 'region', 'specific C3S application', flood forecasting, etc.
+- **Application area**: impact models, risk assessment, climate monitoring, scientific study of X, Y sector, 'region', 'specific C3S application', flood forecasting, etc.
 
 ```{note}
-The title will be used in the table of contents for the data stream and the side bar of the Jupyter Book, so it needs to be unique, not too long, and help guide users to the assessment by mentioning the key analysis or outcomes.
+The title will be used in the table of contents for the data stream and the side bar of the Jupyter Book, so it needs to be unique, not too long, and help guide users to the assessment by mentioning the key analysis or outcomes. It will also be the title shown in the quality tab on the CDS.
 ```
 
 ```{note}
