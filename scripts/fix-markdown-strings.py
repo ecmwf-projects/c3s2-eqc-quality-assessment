@@ -4,7 +4,7 @@ from pathlib import Path
 import nbformat
 
 STRING_MAPPER = {
-    "/cdsapp#!/dataset/": "/datasets/",
+    # Template
     "## Use case:": "## 🌍 Use case:",
     "## Use Case:": "## 🌍 Use case:",
     "## 🌍 Use Case:": "## 🌍 Use case:",
@@ -21,9 +21,8 @@ STRING_MAPPER = {
     "## 📈 Analysis and Results": "## 📈 Analysis and results",
     "## If you want to know more": "## ℹ️ If you want to know more",
     "BOpen": "B-Open",
-    "http://dx.doi.org": "https://doi.org",
-    "https://dx.doi.org": "https://doi.org",
-    "http://doi.org": "https://doi.org",
+    # CADS
+    "/cdsapp#!/dataset/": "/datasets/",
     "https://ads-beta.atmosphere.copernicus.eu": "https://ads.atmosphere.copernicus.eu",
     "http://ads-beta.atmosphere.copernicus.eu": "https://ads.atmosphere.copernicus.eu",
     "https://cds-beta.climate.copernicus.eu": "https://cds.climate.copernicus.eu",
@@ -32,6 +31,10 @@ STRING_MAPPER = {
     "http://ewds-beta.climate.copernicus.eu": "https://ewds.climate.copernicus.eu",
     "https://datastore.copernicus-climate.eu": "https://dast.copernicus-climate.eu",
     "http://datastore.copernicus-climate.eu": "https://dast.copernicus-climate.eu",
+    # DOIs
+    "/agupubs.onlinelibrary.wiley.com/doi/": "/doi.org/",
+    "/dx.doi.org/": "/doi.org/",
+    "http://doi.org": "https://doi.org",
 }
 
 ADMONITION_TITLE = "These are the key outcomes of this assessment"
