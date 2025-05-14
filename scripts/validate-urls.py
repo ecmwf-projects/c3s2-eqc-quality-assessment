@@ -28,11 +28,14 @@ def validate_urls(path: Path) -> None:
             continue
 
         source = cell.get("source", "")
-        for url in set(re.findall(r"\(\s*(http[^)]*?)\s*\)", source)):
+        for url in set(
+            re.findall(
+                r"\(\s*(https?://[^\s()]+(?:\([^\s()]*\)[^\s()]*)*)\s*\)", source
+            )
+        ):
             url = url.replace("https://doi.org/", CROSSREF_URL)
             if url.startswith(CROSSREF_URL):
                 url = url.rstrip("/") + "/agency"
-            url = url.replace("(", "%28").replace(")", "%29")
 
             try:
                 response = requests.head(url, allow_redirects=True)
