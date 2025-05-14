@@ -34,9 +34,6 @@ def validate_urls(path: Path) -> None:
             )
         ):
             url = url.replace("https://doi.org/", CROSSREF_URL)
-            if url.startswith(CROSSREF_URL):
-                url = url.rstrip("/") + "/agency"
-
             try:
                 response = requests.head(url, allow_redirects=True)
                 match response.status_code:
@@ -47,6 +44,8 @@ def validate_urls(path: Path) -> None:
                             headers={"User-Agent": USER_AGENT},
                         )
                     case 404 | 405:
+                        if url.startswith(CROSSREF_URL):
+                            url = url.rstrip("/") + "/agency"
                         response = requests.get(url, allow_redirects=True)
                 response.raise_for_status()
             except requests.exceptions.SSLError:
