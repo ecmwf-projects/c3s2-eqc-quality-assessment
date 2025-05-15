@@ -16,33 +16,30 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
-  <!-- So that users can add custom icons -->
-  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
@@ -67,7 +64,6 @@
     <link rel="prev" title="3. Reanalysis" href="reanalysis.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -83,8 +79,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -92,6 +99,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -99,8 +107,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -119,8 +127,7 @@
       
       
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -150,17 +157,21 @@
     
     
     <img src="../_static/C3S–POS–LINE.png" class="logo__image only-light" alt="eqcbook - Home"/>
-    <img src="../_static/C3S–POS–LINE.png" class="logo__image only-dark pst-js-only" alt="eqcbook - Home"/>
+    <script>document.write(`<img src="../_static/C3S–POS–LINE.png" class="logo__image only-dark" alt="eqcbook - Home"/>`);</script>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -384,16 +395,24 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
 
 
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
+  </button>
+`);
+</script>
 <button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
@@ -458,7 +477,7 @@ Please note that this repository is used for development and review, so quality 
 <ul class="simple">
 <li><p><strong>Do modern global reanalysis products correctly represent near-surface temperature, wind and humidity conditions over the Pacific Northwest Ocean?</strong></p></li>
 </ul>
-<p>By comparing model results with relevant observations, differences between the model and observations can be identified and quantified. However, the validation of reanalysis products over remote areas is difficult due to the scarcity of reliable in situ measurements. In this case, the latest reanalysis by the European Centre for Medium-Range Weather Forecasts (ECMWF), ERA5, was validated with data collected during the 2022 and 2023 campaigns by the Aeroclipper platform <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q01-paul-poli"><span class="std std-ref">[1]</span></a>. The Aeroclipper is a quasi-Lagrangian balloon that provides in situ measurements of atmospheric parameters at heights of 30-40 metres above the ocean <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q01-duvel"><span class="std std-ref">[2]</span></a>, representative of the bottom of the boundary layer that strongly interacts with turbulent flows (momentum, energy, water) at the ocean-atmosphere interface. This balloon is an interesting tool for assessing the representation of the surface layer of the atmosphere by meteorological models and reanalyses, because it can provide high-frequency and high-quality measurements - i.e. not disturbed by the mass of a ship - on quasi-Lagrangian trajectories, which can be compared with gridded data.</p>
+<p>By comparing model results with relevant observations, differences between the model and observations can be identified and quantified. However, the validation of reanalysis products over remote areas is difficult due to the scarcity of reliable in situ measurements. In this case, the latest reanalysis by the European Centre for Medium-Range Weather Forecasts (<a class="reference external" href="https://confluence.ecmwf.int/display/UDOC/L137+model+level+definitions">https://confluence.ecmwf.int/display/UDOC/L137+model+level+definitions</a>), ERA5, was validated with data collected during the 2022 and 2023 campaigns by the Aeroclipper platform <a class="reference internal" href="#paul-poli">[1]</a>. The Aeroclipper is a quasi-Lagrangian balloon that provides in situ measurements of atmospheric parameters at heights of 30-40 metres above the ocean <a class="reference external" href="https://doi.org/10.1175/2008BAMS2500.1">[2]</a>, representative of the bottom of the boundary layer that strongly interacts with turbulent flows (momentum, energy, water) at the ocean-atmosphere interface. This balloon is an interesting tool for assessing the representation of the surface layer of the atmosphere by meteorological models and reanalyses, because it can provide high-frequency and high-quality measurements - i.e. not disturbed by the mass of a ship - on quasi-Lagrangian trajectories, which can be compared with gridded data.</p>
 </section>
 <section id="quality-assessment-statements">
 <h2>📢 Quality assessment statements<a class="headerlink" href="#quality-assessment-statements" title="Link to this heading">#</a></h2>
@@ -473,17 +492,19 @@ Please note that this repository is used for development and review, so quality 
 <section id="methodology">
 <h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
 <p>In order to assess the representation of the surface layer in ERA5, a comparison between Aeroclipper measurements - not assimilated in the model - and the reanalysis, is carried out for the six Aeroclipper flights performed over the northwest Pacific in 2022 and 2023.
-Results are based on a one-hour average for Aeroclipper measurements and for interpolated ERA5 values at the balloon position. For consistency with the height at which the measurements are taken, both the variables at 2 m and those of the first three model levels of ERA5 <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q01-ecmwf"><span class="std std-ref">[3]</span></a> are taken into account for comparison. This means that reference must be made both to the <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q01-key-resources"><span class="std std-ref">single levels dataset</span></a>, for the former, and to the <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q01-key-resources"><span class="std std-ref">complete dataset</span></a> for the latter.</p>
+Results are based on a one-hour average for Aeroclipper measurements and for interpolated ERA5 values at the balloon position. For consistency with the height at which the measurements are taken, both the variables at 2 m and those of the first three model levels of ERA5 are taken into account for comparison. Model levels are approximately 10, 31 and 54 m, respectively model level 1, 2 and 3 <a class="reference external" href="https://confluence.ecmwf.int/display/UDOC/L137+model+level+definitions">[3]</a>. Reference must thus be made both to the <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview">single levels dataset</a>, for the former, and to the <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-complete?tab=overview">complete dataset</a> for the latter.</p>
 <figure class="align-default" id="id1">
-<a class="reference internal image-reference" href="../_images/aecfb04c-af13-4e6c-be56-5ab236b55acd.png"><img alt="../_images/aecfb04c-af13-4e6c-be56-5ab236b55acd.png" src="../_images/aecfb04c-af13-4e6c-be56-5ab236b55acd.png" style="height: 220px;" /></a>
+<a class="reference internal image-reference" href="../_images/aecfb04c-af13-4e6c-be56-5ab236b55acd.png"><img alt="../_images/aecfb04c-af13-4e6c-be56-5ab236b55acd.png" src="../_images/aecfb04c-af13-4e6c-be56-5ab236b55acd.png" style="height: 220px;" />
+</a>
 <figcaption>
 <p><span class="caption-number">Fig. 3.1.1 </span><span class="caption-text">Sample of an Aeroclipper and its payload. Reproduced from <a class="reference external" href="https://www.lmd.ens.fr/vasco/gal.html">https://www.lmd.ens.fr/vasco/gal.html</a>.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-center" id="id2">
-<a class="reference internal image-reference" href="../_images/75603d3e-b662-488b-9d93-4104f94b7ed9.png"><img alt="../_images/75603d3e-b662-488b-9d93-4104f94b7ed9.png" src="../_images/75603d3e-b662-488b-9d93-4104f94b7ed9.png" style="height: 370px;" /></a>
+<a class="reference internal image-reference" href="../_images/75603d3e-b662-488b-9d93-4104f94b7ed9.png"><img alt="../_images/75603d3e-b662-488b-9d93-4104f94b7ed9.png" src="../_images/75603d3e-b662-488b-9d93-4104f94b7ed9.png" style="height: 370px;" />
+</a>
 <figcaption>
-<p><span class="caption-number">Fig. 3.1.2 </span><span class="caption-text">Trajectories of the six Aeroclipper flights (labelled as PRL, PCU and BKA) in 2022 and (labelled as YTT, UEW and PYX) in 2023.</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 3.1.2 </span><span class="caption-text">Trajectories of the six Aeroclipper flights (labelled as PRL, PCU and BKA) in 2022 and (labelled as YTT, UEW and PYX) in 2023. Reproduced from <a class="reference internal" href="#paul-poli">[1]</a>.</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>Results are shown for:</p>
@@ -496,83 +517,90 @@ Results are based on a one-hour average for Aeroclipper measurements and for int
 <section id="specific-humidity">
 <span id="reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q01-reanalysis-era5-monthly-single-levels-reanalysis-era5-complete-validation-q01-section-1"></span><h3>1. Specific humidity<a class="headerlink" href="#specific-humidity" title="Link to this heading">#</a></h3>
 <figure class="align-default" id="id3">
-<a class="reference internal image-reference" href="../_images/c0cf4bf7-fe70-4486-9e0c-3e122e2fde36.png"><img alt="../_images/c0cf4bf7-fe70-4486-9e0c-3e122e2fde36.png" src="../_images/c0cf4bf7-fe70-4486-9e0c-3e122e2fde36.png" style="height: 150px;" /></a>
+<a class="reference internal image-reference" href="../_images/c0cf4bf7-fe70-4486-9e0c-3e122e2fde36.png"><img alt="../_images/c0cf4bf7-fe70-4486-9e0c-3e122e2fde36.png" src="../_images/c0cf4bf7-fe70-4486-9e0c-3e122e2fde36.png" style="height: 150px;" />
+</a>
 <figcaption>
-<p><span class="caption-number">Fig. 3.1.3 </span><span class="caption-text">Timeseries of specific humidity (q), for the YTT Aeroclipper flight (solid black), ERA5 surface parameters (dotted black) and ERA5 for the first three model hybrid levels (solid colors). The timeseries are smoothed with a running mean with ∆t=60 minutes.</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 3.1.3 </span><span class="caption-text">Timeseries of specific humidity (q), for the YTT Aeroclipper flight (solid black), ERA5 surface parameters (dotted black) and ERA5 for the first three model hybrid levels (solid colors). The timeseries are smoothed with a running mean with ∆t=60 minutes. Reproduced from <a class="reference internal" href="#paul-poli">[1]</a>.</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id4">
-<a class="reference internal image-reference" href="../_images/991f6171-b3a1-4589-82f7-19a89c785400.png"><img alt="../_images/991f6171-b3a1-4589-82f7-19a89c785400.png" src="../_images/991f6171-b3a1-4589-82f7-19a89c785400.png" style="height: 300px;" /></a>
+<a class="reference internal image-reference" href="../_images/991f6171-b3a1-4589-82f7-19a89c785400.png"><img alt="../_images/991f6171-b3a1-4589-82f7-19a89c785400.png" src="../_images/991f6171-b3a1-4589-82f7-19a89c785400.png" style="height: 300px;" />
+</a>
 <figcaption>
-<p><span class="caption-number">Fig. 3.1.4 </span><span class="caption-text">Distribution of the differences between Aeroclipper measurements for the six flights (AER) and corresponding ERA5 values at model level 2 (i.e., ~31 m) (left) and at 2 m (right) for the specific humidity (∆q).</span><a class="headerlink" href="#id4" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 3.1.4 </span><span class="caption-text">Distribution of the differences between Aeroclipper measurements for the six flights (AER) and corresponding ERA5 values at model level 2 (i.e., ~31 m) (left) and at 2 m (right) for the specific humidity (∆q). Reproduced from <a class="reference internal" href="#paul-poli">[1]</a>.</span><a class="headerlink" href="#id4" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<p>The analysis shows that the specific humidity above 10 m is underestimated by more than 1 g/kg. The underestimation of specific humidity in the first three model levels appears to be, at least in part, related to the assimilation process, which tends to dry out these model levels at the beginning of each 12-hour assimilation window <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q01-dee"><span class="std std-ref">[4]</span></a>. Dampening then follows, but without reaching an equilibrium or a value close to those observed. At 2 m, the drying due to assimilation is less and the humidity reaches equilibrium a few hours after forecast starts, so the specific humidity at 2 m is in better agreement with the Aeroclipper measurements, but still with a negative bias. This leads to the conclusion that the vertical moisture gradients in the surface layer of the atmosphere are too large in ERA5 compared to the Aeroclipper measurements. Data obtained from field campaigns are a useful complement to global datasets to perform validation, see e.g. Johnston et al., 2021 <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q01-johnston"><span class="std std-ref">[5]</span></a>.</p>
+<p>The analysis shows that the model levels (i.e. above 10 m) underestimate the specific humidity at the Aeroclipper height. The timeseries of the model levels lay systematically below the Aeroclipper signal, with very few exceptions. Distribution shows specifically the second level at 31 m, which is the one in the middle but still representative of all the three levels which are very close to each other, and it can be noticed that most values are negative and the difference is peaked around -1 and -2 g/kg. The underestimation of specific humidity in the first three model levels appears to be, at least in part, related to the assimilation process, which tends to dry out these model levels at the beginning of each 12-hour assimilation window <a class="reference external" href="https://doi.org/10.1256/qj.05.137">[4]</a>. Dampening then follows, but without reaching an equilibrium or a value close to those observed. At 2 m, the drying due to assimilation is less and the humidity reaches equilibrium a few hours after forecast starts, so the specific humidity at 2 m is in better agreement with the Aeroclipper measurements, but still with a negative bias. This leads to the conclusion that the vertical moisture gradients in the surface layer of the atmosphere are too large in ERA5 compared to the Aeroclipper measurements. Data obtained from field campaigns are a useful complement to global datasets to perform validation, see e.g. Johnston et al., 2021 <a class="reference external" href="https://doi.org/10.3390/rs13050880">[5]</a>.</p>
 </section>
 <section id="air-temperature-and-radiative-temperature-at-the-surface">
 <span id="reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q01-reanalysis-era5-monthly-single-levels-reanalysis-era5-complete-validation-q01-section-2"></span><h3>2. Air temperature and radiative temperature at the surface<a class="headerlink" href="#air-temperature-and-radiative-temperature-at-the-surface" title="Link to this heading">#</a></h3>
 <figure class="align-default" id="id5">
-<a class="reference internal image-reference" href="../_images/7c489d50-8631-40bd-9478-a73eff1601e2.png"><img alt="../_images/7c489d50-8631-40bd-9478-a73eff1601e2.png" src="../_images/7c489d50-8631-40bd-9478-a73eff1601e2.png" style="height: 150px;" /></a>
+<a class="reference internal image-reference" href="../_images/7c489d50-8631-40bd-9478-a73eff1601e2.png"><img alt="../_images/7c489d50-8631-40bd-9478-a73eff1601e2.png" src="../_images/7c489d50-8631-40bd-9478-a73eff1601e2.png" style="height: 150px;" />
+</a>
 <figcaption>
-<p><span class="caption-number">Fig. 3.1.5 </span><span class="caption-text">Timeseries of air temperature (Tair), for the YTT Aeroclipper flight (solid black, observed air temperature during daylight in grey), ERA5 surface parameters (dotted black) and ERA5 for the first three model hybrid levels (solid colors). The timeseries are smoothed with a running mean with ∆t=60 minutes.</span><a class="headerlink" href="#id5" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 3.1.5 </span><span class="caption-text">Timeseries of air temperature (Tair), for the YTT Aeroclipper flight (solid black, observed air temperature during daylight in grey), ERA5 surface parameters (dotted black) and ERA5 for the first three model hybrid levels (solid colors). The timeseries are smoothed with a running mean with ∆t=60 minutes. Reproduced from <a class="reference internal" href="#paul-poli">[1]</a>.</span><a class="headerlink" href="#id5" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id6">
-<a class="reference internal image-reference" href="../_images/f62455c8-1ebe-41e4-8989-9c7559d2b4f1.png"><img alt="../_images/f62455c8-1ebe-41e4-8989-9c7559d2b4f1.png" src="../_images/f62455c8-1ebe-41e4-8989-9c7559d2b4f1.png" style="height: 300px;" /></a>
+<a class="reference internal image-reference" href="../_images/f62455c8-1ebe-41e4-8989-9c7559d2b4f1.png"><img alt="../_images/f62455c8-1ebe-41e4-8989-9c7559d2b4f1.png" src="../_images/f62455c8-1ebe-41e4-8989-9c7559d2b4f1.png" style="height: 300px;" />
+</a>
 <figcaption>
-<p><span class="caption-number">Fig. 3.1.6 </span><span class="caption-text">Distribution of the differences between Aeroclipper measurements for the three 2023 flights (AER) and corresponding ERA5 values at model level 2 (i.e., ~31 m) for the air temperature (∆T) during daytime only (left) and nighttime only (right).</span><a class="headerlink" href="#id6" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 3.1.6 </span><span class="caption-text">Distribution of the differences between Aeroclipper measurements for the three 2023 flights (AER) and corresponding ERA5 values at model level 2 (i.e., ~31 m) for the air temperature (∆T) during daytime only (left) and nighttime only (right). Reproduced from <a class="reference internal" href="#paul-poli">[1]</a>.</span><a class="headerlink" href="#id6" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<p>Analysis shows that the air temperature of the first three model levels is underestimated by about 1 K in ERA5 compared to Aeroclipper measurements. In most cases, the temperature difference at 2 m is similar to the temperature at the first three model levels and is sometimes even smaller. The bias seems to be due to overcooling of the surface layer by the model, particularly at night during the forecast, and corrected in part by the assimilation process <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q01-dee"><span class="std std-ref">[4]</span></a>. Moreover, ERA5 underestimation is only marginally impacted by the diurnal cycle.</p>
+<p>Analysis shows that the air temperature is underestimated by about 1 K in ERA5 compared to Aeroclipper measurements. Looking at the timeseries, underestimation can be noticed for the three model levels and for the 2m level. In most cases, the temperature at 2 m is similar to the temperature at the first three model levels and is sometimes even smaller. As showed in the distributions panel, where can be noticed that most values are negative and the difference is peaked around -1 K, the bias tends to be larger during the night and only marginally impacted by the diurnal cycle. Bias seems to be due to overcooling of the surface layer by the model, which occurs especially at night during the forecasts, and corrected in part by the assimilation process <a class="reference external" href="https://doi.org/10.1256/qj.05.137">[4]</a>.</p>
 <figure class="align-default" id="id7">
-<a class="reference internal image-reference" href="../_images/0432d30b-20d1-4ee7-820a-21d314d6822f.png"><img alt="../_images/0432d30b-20d1-4ee7-820a-21d314d6822f.png" src="../_images/0432d30b-20d1-4ee7-820a-21d314d6822f.png" style="height: 150px;" /></a>
+<a class="reference internal image-reference" href="../_images/0432d30b-20d1-4ee7-820a-21d314d6822f.png"><img alt="../_images/0432d30b-20d1-4ee7-820a-21d314d6822f.png" src="../_images/0432d30b-20d1-4ee7-820a-21d314d6822f.png" style="height: 150px;" />
+</a>
 <figcaption>
-<p><span class="caption-number">Fig. 3.1.7 </span><span class="caption-text">Timeseries of sea surface temperature (SST), for the YTT Aeroclipper flight (solid black), ERA5 surface parameters (dotted black) and ERA5 for the first three model hybrid levels (solid colors). The timeseries are smoothed with a running mean with ∆t=60 minutes.</span><a class="headerlink" href="#id7" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 3.1.7 </span><span class="caption-text">Timeseries of sea surface temperature (SST), for the YTT Aeroclipper measurement (solid black), ERA5 surface parameters (SKT in dotted black and SST in solid red). The timeseries are smoothed with a running mean with ∆t=60 minutes. Reproduced from <a class="reference internal" href="#paul-poli">[1]</a>.</span><a class="headerlink" href="#id7" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<p>In the figure above, equivalent brightness temperature values have been compared with the ERA5 skin and sea surface temperature (SKT and SST). As expected, as the YTT flight covers the end of September, the ERA5 SKT is generally smaller than the ERA5 SST, with the exception of low wind speed conditions where a diurnal warm layer develops. At the same time, SKT is slightly larger than the radiative temperature measurement of the Aeroclipper. It should be noted that since there is no measurement of downward IR radiation at the surface, no correction has been applied to the Aeroclipper radiative temperature, partly explaining the ERA5 overestimation. The lower skin radiative temperature measured by the Aeroclipper may also be due in part to the absence of correction for radiative transfer between the surface and the radiometer, whereby the approximately 35 m of rather damp layer may affect the IR transmission in the water vapour continuum. Nevertheless, this result is in substantial agreement with the one in He et al., 2023 <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q01-he"><span class="std std-ref">[6]</span></a>, in which in-situ and satellite data are used to validate ERA5 near-surface air temperature over global oceans (see e.g. Fig. 11 in the reference).
-In conclusion, assuming that the SKT is well represented in ERA5, this study shows that vertical gradients of temperature in the atmospheric surface layer are too large in ERA5 compared with Aeroclipper measurements.</p>
+<p>In the figure above, equivalent brightness temperature values have been compared with the ERA5 skin and sea surface temperature (SKT and SST). During the period of measurements, the ERA5 SKT is generally smaller than the ERA5 SST. At the same time, SKT is slightly larger than the radiative temperature measurement of the Aeroclipper, so that vertical gradients of temperature in the atmospheric surface layer represented in ERA5 result to be too large compared with Aeroclipper measurements. However, it should be noted that the skin temperature measured by Aeroclipper is not corrected for the radiative processes occurring between the surface and the instrument itself (see i.e. <a class="reference external" href="https://www.mdpi.com/2072-4292/14/6/1451">[6]</a>), partly explaining the ERA5 overestimation. Nevertheless, this result is in agreement with the one in He et al., 2023 <a class="reference external" href="https://doi.org/10.1109/JSTARS.2023.3312810">[7]</a>, in which in-situ and satellite data are used to validate ERA5 near-surface air temperature over global oceans (see e.g. Fig. 11 in the reference).</p>
 </section>
 <section id="wind-speed">
 <span id="reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q01-reanalysis-era5-monthly-single-levels-reanalysis-era5-complete-validation-q01-section-3"></span><h3>3. Wind speed<a class="headerlink" href="#wind-speed" title="Link to this heading">#</a></h3>
 <figure class="align-default" id="id8">
-<a class="reference internal image-reference" href="../_images/8f62eadd-82ea-472f-b513-c210d31b81c9.png"><img alt="../_images/8f62eadd-82ea-472f-b513-c210d31b81c9.png" src="../_images/8f62eadd-82ea-472f-b513-c210d31b81c9.png" style="height: 150px;" /></a>
+<a class="reference internal image-reference" href="../_images/8f62eadd-82ea-472f-b513-c210d31b81c9.png"><img alt="../_images/8f62eadd-82ea-472f-b513-c210d31b81c9.png" src="../_images/8f62eadd-82ea-472f-b513-c210d31b81c9.png" style="height: 150px;" />
+</a>
 <figcaption>
-<p><span class="caption-number">Fig. 3.1.8 </span><span class="caption-text">Timeseries of wind speed (wind) for the YTT Aeroclipper flight (solid black), ERA5 surface parameters (dotted black) and ERA5 for the first three model hybrid levels (solid colors). The timeseries are smoothed with a running mean with ∆t=60 minutes.</span><a class="headerlink" href="#id8" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 3.1.8 </span><span class="caption-text">Timeseries of wind speed (wind) for the YTT Aeroclipper flight (solid black), ERA5 surface parameters (dotted black) and ERA5 for the first three model hybrid levels (solid colors). The timeseries are smoothed with a running mean with ∆t=60 minutes. Reproduced from <a class="reference internal" href="#paul-poli">[1]</a>.</span><a class="headerlink" href="#id8" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id9">
-<a class="reference internal image-reference" href="../_images/d31f95ed-58c7-4274-bfb5-2437e8ad4e3c.png"><img alt="../_images/d31f95ed-58c7-4274-bfb5-2437e8ad4e3c.png" src="../_images/d31f95ed-58c7-4274-bfb5-2437e8ad4e3c.png" style="height: 300px;" /></a>
+<a class="reference internal image-reference" href="../_images/d31f95ed-58c7-4274-bfb5-2437e8ad4e3c.png"><img alt="../_images/d31f95ed-58c7-4274-bfb5-2437e8ad4e3c.png" src="../_images/d31f95ed-58c7-4274-bfb5-2437e8ad4e3c.png" style="height: 300px;" />
+</a>
 <figcaption>
-<p><span class="caption-number">Fig. 3.1.9 </span><span class="caption-text">Distribution of the differences between Aeroclipper measurements for the six flights (AER) and corresponding ERA5 values at model level 2 (i.e., ~31 m) for the wind speed (∆V). The timeseries are smoothed with a running mean with ∆t=60 minutes.</span><a class="headerlink" href="#id9" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 3.1.9 </span><span class="caption-text">Distribution of the differences between Aeroclipper measurements for the six flights (AER) and corresponding ERA5 values at model level 2 (i.e., ~31 m) for the wind speed (∆V). The timeseries are smoothed with a running mean with ∆t=60 minutes. Reproduced from <a class="reference internal" href="#paul-poli">[1]</a>.</span><a class="headerlink" href="#id9" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<p>The analysis shows that the wind speed is underestimated by about 0.5 ms-1 in ERA5 compared to Aeroclipper measurements. The wind underestimation is greater during convective episodes associated with convective cold pools and large wind gusts (see e.g. around 22 September). The underestimation of wind speed therefore seems to be partly related to the lack of cold pools in the model. In addition, there is a slight decrease in wind due to assimilation, which is compensated for during the forecast. It can therefore be stated that there is too little wind shear near the surface in ERA5. This result is in substantial agreement with that of Campos et al. <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q01-campos"><span class="std std-ref">[7]</span></a>, where in-situ and satellite data are used to validate the wind speed of ERA5 over the Atlantic Ocean (see e.g. Fig. 4 in the reference).</p>
+<p>The distribution is skewed towards negative values, peaked between -1.5 and 0 m/s, showing that the wind speed is underestimated in ERA5 compared to Aeroclipper measurements. Looking at the timeseries, general underestimation can be noted as well, and it is greater during convective episodes associated with convective cold pools and large wind gusts (see e.g. around 22 September). This bias in the wind speed therefore seems to be partly related to the lack of cold pools in the model. This result showing too little wind shear near the surface in ERA5 is in agreement with that of Campos et al. <a class="reference external" href="https://doi.org/10.3390/rs14194918">[8]</a>, where in-situ and satellite data are used to validate the wind speed of ERA5 over the Atlantic Ocean (see e.g. Fig. 4 in the reference).</p>
 </section>
 </section>
 <section id="i-if-you-want-to-know-more">
 <h2>ℹ️ If you want to know more<a class="headerlink" href="#i-if-you-want-to-know-more" title="Link to this heading">#</a></h2>
-<p>To find out the differences with respect to near-surface variables over the tropical Pacific between the state-of-the-art ERA5 and the previous ERA Interim version, see for example F Li et al., 2021 <a class="reference internal" href="#reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q01-jui-lin"><span class="std std-ref">[8]</span></a>.</p>
-<p><a class="reference external" href="https://mica.aeris-data.fr/">MICA</a>: Measuring the intensity of cyclones using aeroclippers.</p>
+<p>To find out the differences with respect to near-surface variables over the tropical Pacific between the state-of-the-art ERA5 and the previous ERA Interim version, see for example F Li et al., 2021 <a class="reference external" href="https://iopscience.iop.org/article/10.1088/2515-7620/ac1bfe/meta">[8]</a>.</p>
+<p>To know more about aeroclippers: <a class="reference external" href="https://mica.aeris-data.fr/">MICA</a>: Measuring the intensity of cyclones using aeroclippers.</p>
 <section id="key-resources">
-<span id="reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q01-key-resources"></span><h3>Key resources<a class="headerlink" href="#key-resources" title="Link to this heading">#</a></h3>
+<h3>Key resources<a class="headerlink" href="#key-resources" title="Link to this heading">#</a></h3>
 <p>Some key resources and further readings were linked throughout this assessment.
 The CDS catalogue entries for the data used were:</p>
 <ul class="simple">
-<li><p>ERA5 monthly averaged data on single levels from 1940 to present: <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-monthly-means?tab=overview">https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-monthly-means?tab=overview</a></p></li>
+<li><p>ERA5 hourly data on single levels from 1940 to present: <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview">https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview</a></p></li>
 <li><p>Complete ERA5 global atmospheric reanalysis: <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-complete?tab=overview">https://cds.climate.copernicus.eu/datasets/reanalysis-era5-complete?tab=overview</a></p></li>
 </ul>
 </section>
 <section id="references">
 <h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
-<p id="reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q01-paul-poli">[1] Paul Poli, personal communication, 2024</p>
-<p id="reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q01-duvel"><a class="reference external" href="https://www.researchgate.net/publication/236867248_The_Aeroclipper_A_New_Device_to_Explore_Convective_Systems_and_Cyclones">[2]</a> Duvel, Jean Philippe &amp; Basdevant, Claude &amp; Bellenger, Hugo &amp; Reverfdin, Gilles &amp; Vialard, Jerome &amp; Vargas, a. (2009). The Aeroclipper: A New Device to Explore Convective Systems and Cyclones. Bulletin of the American Meteorological Society. 90. 63-71. 10.1175/2008BAMS2500.1.</p>
-<p id="reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q01-ecmwf"><a class="reference external" href="https://confluence.ecmwf.int/display/UDOC/L137+model+level+definitions">[3]</a> Definition of model levels.</p>
-<p id="reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q01-dee"><a class="reference external" href="https://doi.org/10.1256/qj.05.137">[4]</a> Dee, D.P. (2005), Bias and data assimilation. Q.J.R. Meteorol. Soc., 131: 3323-3343.</p>
-<p id="reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q01-johnston"><a class="reference external" href="https://doi.org/10.3390/rs13050880">[5]</a> Johnston, Benjamin R., William J. Randel, and Jeremiah P. Sjoberg. 2021. “Evaluation of Tropospheric Moisture Characteristics Among COSMIC-2, ERA5 and MERRA-2 in the Tropics and Subtropics” Remote Sensing 13, no. 5: 880.</p>
-<p id="reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q01-he"><a class="reference external" href="https://ieeexplore.ieee.org/document/10243150">[6]</a> M. He, J. Qin, N. Lu and L. Yao, “Assessment of ERA5 Near-Surface Air Temperatures Over Global Oceans by Combining MODIS Sea Surface Temperature Products and In-Situ Observations,” in IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing, vol. 16, pp. 8442-8455, 2023, doi: 10.1109/JSTARS.2023.3312810.</p>
-<p id="reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q01-campos"><a class="reference external" href="https://doi.org/10.3390/rs14194918">[7]</a> Campos RM, Gramcianinov CB, de Camargo R, da Silva Dias PL. Assessment and Calibration of ERA5 Severe Winds in the Atlantic Ocean Using Satellite Data. Remote Sensing. 2022; 14(19):4918.</p>
-<p id="reanalysis-reanalysis-era5-single-levels-monthly-means-validation-q01-jui-lin"><a class="reference external" href="https://iopscience.iop.org/article/10.1088/2515-7620/ac1bfe/meta">[8]</a> Jui-Lin F Li et al 2021, Improved ice content, radiation, precipitation and low-level circulation over the tropical pacific from ECMWF ERA-interim to ERA5, Environ. Res. Commun. 3 081006.</p>
+<p><span id="paul-poli">[1]</span> Paul Poli, personal communication, 2024</p>
+<p><a class="reference external" href="https://doi.org/10.1175/2008BAMS2500.1">[2]</a> Duvel, Jean Philippe &amp; Basdevant, Claude &amp; Bellenger, Hugo &amp; Reverfdin, Gilles &amp; Vialard, Jerome &amp; Vargas, a. (2009). The Aeroclipper: A New Device to Explore Convective Systems and Cyclones. Bulletin of the American Meteorological Society. 90. 63-71. 10.1175/2008BAMS2500.1.</p>
+<p><a class="reference external" href="https://confluence.ecmwf.int/display/UDOC/L137+model+level+definitions">[3]</a> Definition of model levels.</p>
+<p><a class="reference external" href="https://doi.org/10.1256/qj.05.137">[4]</a> Dee, D.P. (2005), Bias and data assimilation. Q.J.R. Meteorol. Soc., 131: 3323-3343.</p>
+<p><a class="reference external" href="https://doi.org/10.3390/rs13050880">[5]</a> Johnston, Benjamin R., William J. Randel, and Jeremiah P. Sjoberg. 2021. “Evaluation of Tropospheric Moisture Characteristics Among COSMIC-2, ERA5 and MERRA-2 in the Tropics and Subtropics” Remote Sensing 13, no. 5: 880.</p>
+<p><a class="reference external" href="https://www.mdpi.com/2072-4292/14/6/1451">[6]</a> Zhuomin Li, Mingkun Liu, Sujuan Wang, Liqin Qu and Lei Guan, “Sea Surface Skin Temperature Retrieval from FY-3C/VIRR”, Remote Sens. 2022, 14(6), 1451; <a class="reference external" href="https://doi.org/10.3390/rs14061451">https://doi.org/10.3390/rs14061451</a></p>
+<p><a class="reference external" href="https://doi.org/10.1109/JSTARS.2023.3312810">[7]</a> M. He, J. Qin, N. Lu and L. Yao, “Assessment of ERA5 Near-Surface Air Temperatures Over Global Oceans by Combining MODIS Sea Surface Temperature Products and In-Situ Observations,” in IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing, vol. 16, pp. 8442-8455, 2023, doi: 10.1109/JSTARS.2023.3312810.</p>
+<p><a class="reference external" href="https://doi.org/10.3390/rs14194918">[8]</a> Campos RM, Gramcianinov CB, de Camargo R, da Silva Dias PL. Assessment and Calibration of ERA5 Severe Winds in the Atlantic Ocean Using Satellite Data. Remote Sensing. 2022; 14(19):4918.</p>
+<p><a class="reference external" href="https://iopscience.iop.org/article/10.1088/2515-7620/ac1bfe/meta">[9]</a> Jui-Lin F Li et al 2021, Improved ice content, radiation, precipitation and low-level circulation over the tropical pacific from ECMWF ERA-interim to ERA5, Environ. Res. Commun. 3 081006.</p>
 </section>
 </section>
 </section>
@@ -632,8 +660,7 @@ The CDS catalogue entries for the data used were:</p>
             
             
               
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -705,8 +732,8 @@ By the Copernicus Climate Change Service (C3S), entrusted to ECMWF (European Cen
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>
