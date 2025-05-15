@@ -33,6 +33,7 @@ STRING_MAPPER = {
     "http://datastore.copernicus-climate.eu": "https://dast.copernicus-climate.eu",
     # DOIs
     "/agupubs.onlinelibrary.wiley.com/doi/": "/doi.org/",
+    "/aslopubs.onlinelibrary.wiley.com/doi/pdf/": "/doi.org/",
     "/dx.doi.org/": "/doi.org/",
     "http://doi.org": "https://doi.org",
 }
