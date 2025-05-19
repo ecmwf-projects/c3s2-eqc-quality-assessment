@@ -4,7 +4,7 @@ from pathlib import Path
 import nbformat
 
 STRING_MAPPER = {
-    "/cdsapp#!/dataset/": "/datasets/",
+    # Template
     "## Use case:": "## 🌍 Use case:",
     "## Use Case:": "## 🌍 Use case:",
     "## 🌍 Use Case:": "## 🌍 Use case:",
@@ -21,6 +21,22 @@ STRING_MAPPER = {
     "## 📈 Analysis and Results": "## 📈 Analysis and results",
     "## If you want to know more": "## ℹ️ If you want to know more",
     "BOpen": "B-Open",
+    # CADS
+    "/cdsapp#!/dataset/": "/datasets/",
+    "https://ads-beta.atmosphere.copernicus.eu": "https://ads.atmosphere.copernicus.eu",
+    "http://ads-beta.atmosphere.copernicus.eu": "https://ads.atmosphere.copernicus.eu",
+    "https://cds-beta.climate.copernicus.eu": "https://cds.climate.copernicus.eu",
+    "http://cds-beta.climate.copernicus.eu": "https://cds.climate.copernicus.eu",
+    "https://ewds-beta.climate.copernicus.eu": "https://ewds.climate.copernicus.eu",
+    "http://ewds-beta.climate.copernicus.eu": "https://ewds.climate.copernicus.eu",
+    "https://datastore.copernicus-climate.eu": "https://dast.copernicus-climate.eu",
+    "http://datastore.copernicus-climate.eu": "https://dast.copernicus-climate.eu",
+    # DOIs
+    "/agupubs.onlinelibrary.wiley.com/doi/": "/doi.org/",
+    "/aslopubs.onlinelibrary.wiley.com/doi/pdf/": "/doi.org/",
+    "https://rmets.onlinelibrary.wiley.com/doi/full/": "/doi.org/",
+    "/dx.doi.org/": "/doi.org/",
+    "http://doi.org": "https://doi.org",
 }
 
 ADMONITION_TITLE = "These are the key outcomes of this assessment"
@@ -35,6 +51,10 @@ def fix_template_divergences(path: Path) -> None:
     for cell in notebook.cells:
         if cell["cell_type"] != "markdown":
             continue
+
+        if ")=\n\n" in (source := cell["source"]):
+            cell["source"] = source.replace(")=\n\n", ")=\n")
+            write = True
 
         for old, new in STRING_MAPPER.items():
             if old in (source := cell.get("source", "")):
