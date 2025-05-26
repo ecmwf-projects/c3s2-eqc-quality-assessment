@@ -18,6 +18,7 @@ KNOWN_SSL_ISSUES = (
 )
 
 CROSSREF_URL = "https://api.crossref.org/works/"
+URL_PATTERN = r"https?://[^\s)]+"
 
 
 def validate_urls(path: Path) -> None:
@@ -28,11 +29,7 @@ def validate_urls(path: Path) -> None:
             continue
 
         source = cell.get("source", "")
-        for url in set(
-            re.findall(
-                r"\(\s*(https?://[^\s()]+(?:\([^\s()]*\)[^\s()]*)*)\s*\)", source
-            )
-        ):
+        for url in set(re.findall(URL_PATTERN, source)):
             url = url.replace("https://doi.org/", CROSSREF_URL)
             try:
                 response = requests.head(url, allow_redirects=True)
