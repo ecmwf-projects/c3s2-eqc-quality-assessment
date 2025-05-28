@@ -1,4 +1,5 @@
 import argparse
+import re
 from pathlib import Path
 
 import nbformat
@@ -33,13 +34,21 @@ STRING_MAPPER = {
     "http://datastore.copernicus-climate.eu": "https://dast.copernicus-climate.eu",
     # DOIs
     "/agupubs.onlinelibrary.wiley.com/doi/": "/doi.org/",
+    "/aslopubs.onlinelibrary.wiley.com/doi/pdf/": "/doi.org/",
+    "https://rmets.onlinelibrary.wiley.com/doi/full/": "/doi.org/",
     "/dx.doi.org/": "/doi.org/",
     "http://doi.org": "https://doi.org",
+    # URLs
+    (
+        "https://ec.europa.eu/eurostat/web/gisco/geodata/reference-data"
+        "/administrative-units-statistical-units/nuts"
+    ): "https://ec.europa.eu/eurostat/web/nuts",
 }
 
 ADMONITION_TITLE = "These are the key outcomes of this assessment"
 
 CLASS_NOTE = ":class: note"
+URL_PATTERN = r"https?://[^\s)]+"
 
 
 def fix_template_divergences(path: Path) -> None:
@@ -49,6 +58,11 @@ def fix_template_divergences(path: Path) -> None:
     for cell in notebook.cells:
         if cell["cell_type"] != "markdown":
             continue
+
+        for url in set(re.findall(URL_PATTERN, cell["source"])):
+            if url.endswith("."):
+                cell["source"] = cell["source"].replace(url, url.rstrip("."))
+                write = True
 
         if ")=\n\n" in (source := cell["source"]):
             cell["source"] = source.replace(")=\n\n", ")=\n")
