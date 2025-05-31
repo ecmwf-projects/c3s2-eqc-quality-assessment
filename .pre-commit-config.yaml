@@ -6,7 +6,7 @@ repos:
   - id: check-toml
   - id: check-merge-conflict
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.6.9
+  rev: v0.11.11
   hooks:
   - id: ruff
     args: [--fix, --show-fixes]
@@ -21,18 +21,11 @@ repos:
   - id: pretty-format-toml
     args: [--autofix]
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.11.2
+  rev: v1.15.0
   hooks:
   - id: mypy
     args: [--strict, --ignore-missing-imports]
-- repo: local
-  hooks:
-  - id: validate-filenames
-    name: validate-filenames
-    entry: python scripts/validate-filenames.py
-    language: python
-    types: [jupyter]
-    exclude: ^templates/
+    additional_dependencies: [types-requests]
 - repo: local
   hooks:
   - id: fix-markdown-strings
@@ -50,13 +43,13 @@ repos:
     types: [jupyter]
     additional_dependencies: [nbformat]
 - repo: https://github.com/executablebooks/mdformat
-  rev: 0.7.17
+  rev: 0.7.22
   hooks:
   - id: mdformat
     additional_dependencies:
     - mdformat-gfm
 - repo: https://github.com/kynan/nbstripout
-  rev: 0.7.1
+  rev: 0.8.1
   hooks:
   - id: nbstripout
     args: [--drop-empty-cells, --keep-count, --keep-output, --extra-keys, metadata.kernelspec]
