@@ -35,7 +35,8 @@ STRING_MAPPER = {
     # DOIs
     "/agupubs.onlinelibrary.wiley.com/doi/": "/doi.org/",
     "/aslopubs.onlinelibrary.wiley.com/doi/pdf/": "/doi.org/",
-    "https://rmets.onlinelibrary.wiley.com/doi/full/": "/doi.org/",
+    "/rmets.onlinelibrary.wiley.com/doi/full/": "/doi.org/",
+    "/rmets.onlinelibrary.wiley.com/doi/": "/doi.org/",
     "/dx.doi.org/": "/doi.org/",
     "http://doi.org": "https://doi.org",
     # URLs
