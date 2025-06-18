@@ -38,6 +38,7 @@ STRING_MAPPER = {
     "/rmets.onlinelibrary.wiley.com/doi/full/": "/doi.org/",
     "/rmets.onlinelibrary.wiley.com/doi/": "/doi.org/",
     "/dx.doi.org/": "/doi.org/",
+    "www.science.org/doi/": "doi.org/",
     "http://doi.org": "https://doi.org",
     # URLs
     (
