@@ -11,7 +11,14 @@ USER_AGENT = (
     " Chrome/131.0.0.0 Safari/537.36"
 )
 
-KNOWN_SSL_ISSUES = ("https://www.cnr.it/",)
+KNOWN_SSL_ISSUES = (
+    "https://www.cnr.it",
+    "https://hermes.acri.fr",
+    "https://alt-perubolivia.org",
+)
+
+CROSSREF_URL = "https://api.crossref.org/works/"
+URL_PATTERN = r"https?://[^\s)]+"
 
 
 def validate_urls(path: Path) -> None:
@@ -22,9 +29,8 @@ def validate_urls(path: Path) -> None:
             continue
 
         source = cell.get("source", "")
-        for url in set(re.findall(r"\(\s*(http[^)]*?)\s*\)", source)):
-            url = url.replace("https://doi.org/", "https://api.crossref.org/works/")
-
+        for url in set(re.findall(URL_PATTERN, source)):
+            url = url.replace("https://doi.org/", CROSSREF_URL)
             try:
                 response = requests.head(url, allow_redirects=True)
                 match response.status_code:
@@ -35,6 +41,8 @@ def validate_urls(path: Path) -> None:
                             headers={"User-Agent": USER_AGENT},
                         )
                     case 404 | 405:
+                        if url.startswith(CROSSREF_URL):
+                            url = url.rstrip("/") + "/agency"
                         response = requests.get(url, allow_redirects=True)
                 response.raise_for_status()
             except requests.exceptions.SSLError:
