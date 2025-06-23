@@ -1,0 +1,965 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3.1. ERA5-Land temperature trend for climate change analysis &#8212; eqcbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Reanalyses/reanalysis_reanalysis-era5-land-monthly-means_climate-monitoring_q01';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4. Seasonal forecasts" href="../Seasonal_Forecasts/seasonal.html" />
+    <link rel="prev" title="3. Reanalysis" href="reanalysis.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">⚠️This is under development!⚠️</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/C3S–POS–LINE.png" class="logo__image only-light" alt="eqcbook - Home"/>
+    <img src="../_static/C3S–POS–LINE.png" class="logo__image only-dark pst-js-only" alt="eqcbook - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    C3S EQC quality assessments
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Satellite Observations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Satellite_ECVs/satellite.html">1. Quality assessments for Satellite Observations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Atmosphere_Physics/Atmosphere_Physics.html">1.1. Atmosphere Physics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Atmospheric_Composition/Atmospheric_Composition.html">1.2. Atmospheric Composition</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Cryosphere/Cryosphere.html">1.3. Cryosphere</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Land_Biosphere/Land_Biosphere.html">1.4. Land Biosphere</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Land_Hydrology/Land_Hydrology.html">1.5. Land Hydrology</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Ocean/Ocean.html">1.6. Ocean</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Insitu Observations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../In_Situ/insitu.html">2. Quality assessments for Insitu Observations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Reanalysis</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="reanalysis.html">3. Quality assessments for Reanalysis</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.1. ERA5-Land temperature trend for climate change analysis</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Seasonal Forecasts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Seasonal_Forecasts/seasonal.html">4. Quality assessments for Seasonal Forecasts</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Climate Projections</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Climate_Projections/climate.html">5. Quality assessments for Climate Projections</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Climate_Projections/CMIP6/CMIP6.html">5.1. CMIP6</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Climate_Projections/CORDEX/CORDEX.html">5.2. CORDEX</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quality assessment template</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../templates/template_instructions.html">Template instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../templates/template.html">Template</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment/issues/new?title=Issue%20on%20page%20%2FReanalyses/reanalysis_reanalysis-era5-land-monthly-means_climate-monitoring_q01.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Reanalyses/reanalysis_reanalysis-era5-land-monthly-means_climate-monitoring_q01.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>ERA5-Land temperature trend for climate change analysis</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-monitor-climate-change-over-europe-with-land-reanalysis-data">🌍 Use case: Monitor climate change over Europe with land reanalysis data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-request-and-download">1. Set request and download</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-packages">Import packages</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#set-variables-for-request">Set variables for request</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#set-data-request">Set data request</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#download-data-and-convert-to-celsius">Download data and convert to Celsius</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#function-to-select-and-cut-spain-map">Function to select and cut Spain map</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#results">2. Results</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-annual-mean">Plot annual mean</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-annual-spatial-mean">Plot annual spatial mean</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-with-in-situ-data">Comparison with in-situ data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-resources">Key resources</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><img alt="logo" src="../_images/LogoLine_horizon_C3S1.png" /></p>
+<div class="alert alert-block alert-warning">
+Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
+</div><section class="tex2jax_ignore mathjax_ignore" id="era5-land-temperature-trend-for-climate-change-analysis">
+<h1><span class="section-number">3.1. </span>ERA5-Land temperature trend for climate change analysis<a class="headerlink" href="#era5-land-temperature-trend-for-climate-change-analysis" title="Link to this heading">#</a></h1>
+<p>Production date: 20-07-2024</p>
+<p>Produced by: Cristina Deidda (VUB)</p>
+<section id="use-case-monitor-climate-change-over-europe-with-land-reanalysis-data">
+<h2>🌍 Use case: Monitor climate change over Europe with land reanalysis data<a class="headerlink" href="#use-case-monitor-climate-change-over-europe-with-land-reanalysis-data" title="Link to this heading">#</a></h2>
+</section>
+<section id="quality-assessment-question">
+<h2>❓ Quality assessment question<a class="headerlink" href="#quality-assessment-question" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Are the monthly averaged temperature data from ERA5-Land suitable for recovering the trend of annual mean temperature increase in Spain in order to monitor climate change?</strong></p></li>
+</ul>
+<p><strong>ERA5-Land dataset contains global reanalysis data with different level of aggregation: hourly and monthly average. One of the most analyzed variable provided is the “2m temperature”. Temperature data are important to assess climatology and trends for climate change analysis. Study the climatology is becoming a topic always more essential to study for the increasing temperature due to global warming. In this use case, we want to check the feasibility of using directly ERA5-Land monthly averaged data to compute the average annual temperature trend at country level. We will focus on Spain considering the total length of data series available. To validate the analysis, we will compare it to the climatology statistical provided by Climate Change Knowledge Portal <a class="reference external" href="https://climateknowledgeportal.worldbank.org/country/spain/climate-data-historical">[1]</a>.</strong></p>
+</section>
+<section id="quality-assessment-statement">
+<h2>📢 Quality assessment statement<a class="headerlink" href="#quality-assessment-statement" title="Link to this heading">#</a></h2>
+<div class="note admonition">
+<p class="admonition-title">These are the key outcomes of this assessment</p>
+<ul class="simple">
+<li><p>ERA5-Land data show a statistically significant increasing trend of 0.04°C/year in annual mean temperature for Spain from 1997 to 2022.</p></li>
+<li><p>The trend is consistent with observed in-situ data from the Climate Knowledge Portal, which reports a similar trend of 0.03°C/year.</p></li>
+<li><p>ERA5-Land data tend to underestimate the annual mean temperature, particularly before 2015, due to a cold bias.</p></li>
+<li><p>Despite this cold bias, ERA5-Land data reproduce temperature trends well and are consistent with observed data.</p></li>
+<li><p>Similar findings of cold bias and trend consistency between ERA5-Land and observations have been reported in other regions, such as Turkey and China, indicating that ERA5-  Land is a reliable tool for temperature trend analysis across different geographic areas.</p></li>
+<li><p>ERA5-Land can be considered a valid substitute for in-situ observations in scientific research, despite its cold bias, especially for long-term temperature trend analysis.</p></li>
+</ul>
+</div>
+<p>Using ERA5-Land monthly data, we identified a statistically significant increasing trend of 0.04°C/year in the annual mean temperature for Spain from 1997 to 2022. This is consistent with the observed trend of 0.03°C/year obtained from in-situ data retrieved by the Climate Knowledge Portal <a class="reference external" href="https://climateknowledgeportal.worldbank.org/country/spain/climate-data-historical">[1]</a>. However, the ERA5-Land data exhibit a cold bias, particularly before 2015, which leads to an underestimation of the annual mean temperature (Figure 1).</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../_images/697dfecb-6e88-42bb-bcf9-41a9b11a5623.png"><img alt="../_images/697dfecb-6e88-42bb-bcf9-41a9b11a5623.png" src="../_images/697dfecb-6e88-42bb-bcf9-41a9b11a5623.png" style="height: 400px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 3.1.1 </span><span class="caption-text">Figure 1: Comparison between ERA5-Land and in-situ observations of annual temperature over Spain.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Similar findings have been reported in the literature. For example, Yilmaz (2023) <a class="reference external" href="https://doi.org/10.1016/j.scitotenv.2022.159182">[2]</a> analyzed temperature trends in Turkey and found a high degree of consistency between the trends in ERA5/ERA5-Land and in-situ observations, suggesting that ERA5-Land may serve as a substitute for direct observations. Like our findings, Yilmaz observed a cold bias in ERA5-Land data compared to observations. Zhao and He (2022) <a class="reference external" href="https://doi.org/10.3389/feart.2022.907730">[3]</a> found similar results in their study of the Qilian Mountains in China, where surface 2 m air temperature data from 17 meteorological stations (1979–2017) were compared to the ERA5-Land product. They reported a significant warming trend of 0.488°C/decade in the observed data, and ERA5-Land reanalysis captured the trend well at 0.379°C/decade. Again, a bias between ERA5-Land temperature and observations was noted. They concluded that ERA5-Land reliably reproduces temperature trends and is suitable for scientific research in the region.
+Based on our findings and results from the literature, we suggest that ERA5-Land is suitable for detecting increasing trends for climate change analysis.</p>
+</section>
+<section id="methodology">
+<h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
+<p><strong><a class="reference internal" href="#reanalysis-reanalysis-era5-land-monthly-means-climate-monitoring-q01-section-1"><span class="std std-ref">1. Set request and download</span></a></strong></p>
+<ul class="simple">
+<li><p>Download the 2m temperature variable (K) by selecting the boundary box of the Iberian Peninsula</p></li>
+<li><p>Choose years of analysis: here we selected from 1997 to 2022</p></li>
+<li><p>Convert units of measurement from Kelvin to Celsius</p></li>
+<li><p>Define a function to clip the map using the Spain shapefile</p></li>
+</ul>
+<p><strong><a class="reference internal" href="#reanalysis-reanalysis-era5-land-monthly-means-climate-monitoring-q01-section-2"><span class="std std-ref">2. Results</span></a></strong></p>
+<ul class="simple">
+<li><p>Calculate the average annual temperature for the entire area</p></li>
+<li><p>Create a bar plot grouped by year with annual temperature values</p></li>
+<li><p>Analyze trends and significance using the Mann-Kendall Test</p></li>
+<li><p>Compare with in-situ data</p></li>
+</ul>
+</section>
+<section id="analysis-and-results">
+<h2>📈 Analysis and results<a class="headerlink" href="#analysis-and-results" title="Link to this heading">#</a></h2>
+<section id="set-request-and-download">
+<span id="reanalysis-reanalysis-era5-land-monthly-means-climate-monitoring-q01-section-1"></span><h3>1. Set request and download<a class="headerlink" href="#set-request-and-download" title="Link to this heading">#</a></h3>
+<section id="import-packages">
+<h4>Import packages<a class="headerlink" href="#import-packages" title="Link to this heading">#</a></h4>
+<p>Import c3s_eqc_automatic_quality_control library and packages to calculate the statistics.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
+<span class="kn">import</span> <span class="nn">fsspec</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pymannkendall</span> <span class="k">as</span> <span class="nn">mk</span>
+<span class="kn">import</span> <span class="nn">shapely.geometry</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">from</span> <span class="nn">c3s_eqc_automatic_quality_control</span> <span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;seaborn-v0_8-notebook&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="set-variables-for-request">
+<h4>Set variables for request<a class="headerlink" href="#set-variables-for-request" title="Link to this heading">#</a></h4>
+<p>Set the starting and ending year of analysis and url of Spain shapefile.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Time</span>
+<span class="n">year_start</span> <span class="o">=</span> <span class="mi">1997</span>
+<span class="n">year_stop</span> <span class="o">=</span> <span class="mi">2022</span>
+
+<span class="c1"># External files</span>
+<span class="n">shapefile_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.eea.europa.eu/data-and-maps/data/eea-reference-grids-2/gis-files/spain-shapefile/at_download/file&quot;</span>
+<span class="n">observed_csv</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;observed-annual-average-mean-surface-air-temperature-of-spain-for-1901-2022.csv&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="set-data-request">
+<h4>Set data request<a class="headerlink" href="#set-data-request" title="Link to this heading">#</a></h4>
+<p>Select the request, specifying the type of variable (monthly averaged reanalysis), variable (2m temperature) and the latitude and longitude coordinates for the Iberian Peninsula.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">collection_id</span> <span class="o">=</span> <span class="s2">&quot;reanalysis-era5-land-monthly-means&quot;</span>
+<span class="n">request</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;product_type&quot;</span><span class="p">:</span> <span class="s2">&quot;monthly_averaged_reanalysis&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="s2">&quot;2m_temperature&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span>
+    <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">12</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span>
+    <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;00:00&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;area&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">44</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="download-data-and-convert-to-celsius">
+<h4>Download data and convert to Celsius<a class="headerlink" href="#download-data-and-convert-to-celsius" title="Link to this heading">#</a></h4>
+<p>Download considering 1 year chuncks.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span><span class="n">collection_id</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="n">da</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;t2m&quot;</span><span class="p">]</span>
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">da</span> <span class="o">-=</span> <span class="mf">273.15</span>
+<span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;°C&quot;</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 26/26 [00:05&lt;00:00,  5.15it/s]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="function-to-select-and-cut-spain-map">
+<h4>Function to select and cut Spain map<a class="headerlink" href="#function-to-select-and-cut-spain-map" title="Link to this heading">#</a></h4>
+<p>Function to read Spain shapefile and cut the map.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">clip_shapefile</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">shapefile_url</span><span class="p">):</span>
+    <span class="n">shapefile_crs</span> <span class="o">=</span> <span class="s2">&quot;EPSG:4326&quot;</span>
+    <span class="k">with</span> <span class="n">fsspec</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;simplecache::</span><span class="si">{</span><span class="n">shapefile_url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">layer</span><span class="o">=</span><span class="s2">&quot;es_10km&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">shapefile_crs</span><span class="p">)</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">set_spatial_dims</span><span class="p">(</span><span class="n">x_dim</span><span class="o">=</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="n">y_dim</span><span class="o">=</span><span class="s2">&quot;latitude&quot;</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">write_crs</span><span class="p">(</span><span class="n">shapefile_crs</span><span class="p">)</span>
+    <span class="n">data_clip</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
+        <span class="n">gdf</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">mapping</span><span class="p">),</span> <span class="n">gdf</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">data_clip</span>
+
+
+<span class="n">da</span> <span class="o">=</span> <span class="n">clip_shapefile</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">shapefile_url</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+</section>
+<section id="results">
+<span id="reanalysis-reanalysis-era5-land-monthly-means-climate-monitoring-q01-section-2"></span><h3>2. Results<a class="headerlink" href="#results" title="Link to this heading">#</a></h3>
+<section id="plot-annual-mean">
+<h4>Plot annual mean<a class="headerlink" href="#plot-annual-mean" title="Link to this heading">#</a></h4>
+<p>Evaluation of the spatial annual mean and plot of the curve.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">da_time_mean</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">time_weighted_mean</span><span class="p">(</span><span class="n">da</span><span class="p">)</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span>
+    <span class="n">da_time_mean</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">da_time_mean</span><span class="p">),</span> <span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;YlOrRd&quot;</span>
+<span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/cc8a70cdccb2a5076c090c7e0312c84a533e29b2e07708ed279d58763ce5e933.png" src="../_images/cc8a70cdccb2a5076c090c7e0312c84a533e29b2e07708ed279d58763ce5e933.png" />
+</div>
+</div>
+</section>
+<section id="plot-annual-spatial-mean">
+<h4>Plot annual spatial mean<a class="headerlink" href="#plot-annual-spatial-mean" title="Link to this heading">#</a></h4>
+<p>Calculate trend and significance with Mann Kendall Test and check for significance.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">da_spatial_mean</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">da</span><span class="p">)</span>
+<span class="n">da_annual_mean</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">annual_weighted_mean</span><span class="p">(</span><span class="n">da_spatial_mean</span><span class="p">)</span>
+<span class="n">trend</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">var_s</span><span class="p">,</span> <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">original_test</span><span class="p">(</span><span class="n">da_annual_mean</span><span class="p">)</span>
+
+<span class="c1"># Plot bars</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">da_annual_mean</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">da_annual_mean</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;long_name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">da_annual_mean</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">bar_label</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">containers</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%.2f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Plot lines</span>
+<span class="n">da_annual_mean</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Data&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">da_annual_mean</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">],</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">da_annual_mean</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">])</span> <span class="o">*</span> <span class="n">slope</span> <span class="o">+</span> <span class="n">intercept</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Trend Line&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Annual mean&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Print significance</span>
+<span class="n">is_significant</span> <span class="o">=</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="mf">0.05</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The trend is</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">is_significant</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39; NOT&#39;</span><span class="si">}</span><span class="s2"> significant.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Trend: </span><span class="si">{</span><span class="n">slope</span><span class="si">:</span><span class="s2">f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">da_annual_mean</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">/year&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/6f0e934a6471a4bc3e5daa18fff6032b321a9d4f78a9c2a3c90ded90b6212f6f.png" src="../_images/6f0e934a6471a4bc3e5daa18fff6032b321a9d4f78a9c2a3c90ded90b6212f6f.png" />
+<img alt="../_images/3e2c0d264d87e32232d87ef32c3f0577daad0f7fe4cf40446ca8f452e72c832b.png" src="../_images/3e2c0d264d87e32232d87ef32c3f0577daad0f7fe4cf40446ca8f452e72c832b.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The trend is significant.
+Trend: 0.041025 °C/year
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here, we plot the ERA5-Land 2 meter temperature annual mean from 1997 and 2022. Using Mann Kendall test we found a significant trend of 0.04 °C/year.</p>
+</section>
+<section id="comparison-with-in-situ-data">
+<h4>Comparison with in-situ data<a class="headerlink" href="#comparison-with-in-situ-data" title="Link to this heading">#</a></h4>
+<p>Import in-situ data and comparison with ERA5-Land data.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read the CSV file into a DataFrame</span>
+<span class="n">observed</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">observed_csv</span><span class="p">)</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">observed</span><span class="p">[</span><span class="s2">&quot;Category&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">year_start</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">observed</span><span class="p">[</span><span class="s2">&quot;Category&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">year_stop</span><span class="p">)</span>
+<span class="n">observed</span> <span class="o">=</span> <span class="n">observed</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+
+<span class="c1"># Trend and significance</span>
+<span class="n">trend</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">var_s</span><span class="p">,</span> <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">original_test</span><span class="p">(</span>
+    <span class="n">observed</span><span class="p">[</span><span class="s2">&quot;Annual Mean&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">is_significant</span> <span class="o">=</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="mf">0.05</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The observed trend is</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">is_significant</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39; NOT&#39;</span><span class="si">}</span><span class="s2"> significant.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Trend: </span><span class="si">{</span><span class="n">slope</span><span class="si">:</span><span class="s2">f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">da_annual_mean</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">/year&quot;</span><span class="p">)</span>
+
+<span class="c1"># bias</span>
+<span class="n">bias</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">da_annual_mean</span> <span class="o">-</span> <span class="n">observed</span><span class="p">[</span><span class="s2">&quot;Annual Mean&quot;</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bias: </span><span class="si">{</span><span class="n">bias</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">da_annual_mean</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">/year&quot;</span><span class="p">)</span>
+
+<span class="c1"># Plot the first line</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">observed</span><span class="p">[</span><span class="s2">&quot;Category&quot;</span><span class="p">],</span>
+    <span class="n">observed</span><span class="p">[</span><span class="s2">&quot;Annual Mean&quot;</span><span class="p">],</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;In-situ temperature&quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span>
+    <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Plot the second line</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">da_annual_mean</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">],</span>
+    <span class="n">da_annual_mean</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;ERA5 land temperature &quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+    <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Add labels and title</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Year&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Temperature(°C)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot; Annual temperature from ERA5-Land and in-situ temperature&quot;</span><span class="p">)</span>
+
+<span class="c1"># Add legend</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The observed trend is significant.
+Trend: 0.027333 °C/year
+Bias: -0.4921033702976487 °C/year
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7ff75c605690&gt;
+</pre></div>
+</div>
+<img alt="../_images/18cb331b12b1e9f0fdfa1ecec1abf21c0e0a27d7e5752a7abde456320eb092f1.png" src="../_images/18cb331b12b1e9f0fdfa1ecec1abf21c0e0a27d7e5752a7abde456320eb092f1.png" />
+</div>
+</div>
+<p>The Climate Knowledge Portal <a class="reference external" href="https://climateknowledgeportal.worldbank.org/country/spain/climate-data-historical">[1]</a> provides access to downloadable datasets, including a ‘.csv’ file containing observed annual average surface air temperatures. This data is visualized on the portal’s main page, where users can examine climate statistics for various countries. Here, we analyze the observed in-situ data for Spain. In the plot comparing two key datasets—ERA5-Land and in-situ observations—a significant warming trend is evident. Specifically, the ERA5-Land data shows a trend of 0.04°C per year, while in-situ measurements indicate a slightly lower trend of 0.03°C per year.</p>
+<p>Additionally, the comparison reveals a consistent cold bias in ERA5-Land data relative to the observed values, particularly before 2015. After this point, the bias diminishes, suggesting an improvement in data accuracy. Despite the earlier cold bias, the overall warming trend is well captured by ERA5-Land, closely aligning with the in-situ observations.</p>
+</section>
+</section>
+</section>
+<section id="i-if-you-want-to-know-more">
+<h2>ℹ️ If you want to know more<a class="headerlink" href="#i-if-you-want-to-know-more" title="Link to this heading">#</a></h2>
+<section id="key-resources">
+<h3>Key resources<a class="headerlink" href="#key-resources" title="Link to this heading">#</a></h3>
+<p>Code libraries used:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/bopen/c3s-eqc-automatic-quality-control/tree/main/c3s_eqc_automatic_quality_control">C3S EQC custom functions</a>, <code class="docutils literal notranslate"><span class="pre">c3s_eqc_automatic_quality_control</span></code>,  prepared by <a class="reference external" href="https://www.bopen.eu/">BOpen</a></p></li>
+</ul>
+</section>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://climateknowledgeportal.worldbank.org/country/spain/climate-data-historical">[1]</a> Climate Knowledge Portal, <a class="reference external" href="https://climateknowledgeportal.worldbank.org/country/spain/climate-data-historicaled">https://climateknowledgeportal.worldbank.org/country/spain/climate-data-historicaled</a> (accessed on 17/09/2024).</p>
+<p><a class="reference external" href="https://doi.org/10.1016/j.scitotenv.2022.159182">[2]</a> Yilmaz, M. (2023). Accuracy assessment of temperature trends from ERA5 and ERA5-Land. Science of the Total Environment, 856(Pt 2), 159182.</p>
+<p><a class="reference external" href="https://doi.org/10.3389/feart.2022.907730">[3]</a> Zhao, Peng &amp; He, Zhibin. (2022). A First Evaluation of ERA5-Land Reanalysis Temperature Product Over the Chinese Qilian Mountains. Frontiers in Earth Science. 10. 907730. 10.3389/feart.2022.907730.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Reanalyses"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="reanalysis.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Reanalysis</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../Seasonal_Forecasts/seasonal.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Seasonal forecasts</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-monitor-climate-change-over-europe-with-land-reanalysis-data">🌍 Use case: Monitor climate change over Europe with land reanalysis data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-request-and-download">1. Set request and download</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-packages">Import packages</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#set-variables-for-request">Set variables for request</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#set-data-request">Set data request</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#download-data-and-convert-to-celsius">Download data and convert to Celsius</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#function-to-select-and-cut-spain-map">Function to select and cut Spain map</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#results">2. Results</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-annual-mean">Plot annual mean</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-annual-spatial-mean">Plot annual spatial mean</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-with-in-situ-data">Comparison with in-situ data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-resources">Key resources</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By the Copernicus Climate Change Service (C3S), entrusted to ECMWF (European Centre for Medium-Range Weather Forecasts)
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

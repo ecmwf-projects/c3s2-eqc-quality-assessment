@@ -1,0 +1,992 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3.1. Time consistency of ERA5 for detecting the footprint of climate change in the atmosphere &#8212; eqcbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Reanalyses/reanalysis_reanalysis-era5-pressure-levels-monthly-means_consistency-assessment_q01';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4. Seasonal forecasts" href="../Seasonal_Forecasts/seasonal.html" />
+    <link rel="prev" title="3. Reanalysis" href="reanalysis.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">⚠️This is under development!⚠️</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/C3S–POS–LINE.png" class="logo__image only-light" alt="eqcbook - Home"/>
+    <script>document.write(`<img src="../_static/C3S–POS–LINE.png" class="logo__image only-dark" alt="eqcbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    C3S EQC quality assessments
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Satellite Observations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Satellite_ECVs/satellite.html">1. Quality assessments for Satellite Observations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Atmosphere_Physics/Atmosphere_Physics.html">1.1. Atmosphere Physics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Atmospheric_Composition/Atmospheric_Composition.html">1.2. Atmospheric Composition</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Cryosphere/Cryosphere.html">1.3. Cryosphere</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Land_Biosphere/Land_Biosphere.html">1.4. Land Biosphere</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Land_Hydrology/Land_Hydrology.html">1.5. Land Hydrology</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Ocean/Ocean.html">1.6. Ocean</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Insitu Observations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../In_Situ/insitu.html">2. Quality assessments for Insitu Observations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Reanalysis</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="reanalysis.html">3. Quality assessments for Reanalysis</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.1. Time consistency of ERA5 for detecting the footprint of climate change in the atmosphere</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Seasonal Forecasts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Seasonal_Forecasts/seasonal.html">4. Quality assessments for Seasonal Forecasts</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Climate Projections</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Climate_Projections/climate.html">5. Quality assessments for Climate Projections</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Climate_Projections/CMIP6/CMIP6.html">5.1. CMIP6</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Climate_Projections/CORDEX/CORDEX.html">5.2. CORDEX</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quality assessment template</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../templates/template_instructions.html">Template instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../templates/template.html">Template</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment/issues/new?title=Issue%20on%20page%20%2FReanalyses/reanalysis_reanalysis-era5-pressure-levels-monthly-means_consistency-assessment_q01.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Reanalyses/reanalysis_reanalysis-era5-pressure-levels-monthly-means_consistency-assessment_q01.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Time consistency of ERA5 for detecting the footprint of climate change in the atmosphere</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-assessing-the-impact-of-volcanic-eruptions-on-the-upper-atmosphere-in-the-20th-century">🌍 Use case:  Assessing the impact of volcanic eruptions on the upper atmosphere in the 20th century</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statements">📢 Quality assessment statements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-of-the-analysis">1. Set-up of the analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-retrieval-and-processing">2. Data retrieval and processing</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#get-the-data">Get the data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-monthly-anomalies">Compute monthly anomalies</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#results-for-key-atmospheric-variables">3. Results for key atmospheric variables</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#temperature">Temperature</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#u-component-of-the-wind">U-component of the wind</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#vertical-velocity">Vertical velocity</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#relative-humidity">Relative humidity</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fraction-of-cloud-cover">Fraction of cloud cover</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-resources">Key resources</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><img alt="logo" src="../_images/LogoLine_horizon_C3S1.png" /></p>
+<div class="alert alert-block alert-warning">
+Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
+</div><section class="tex2jax_ignore mathjax_ignore" id="time-consistency-of-era5-for-detecting-the-footprint-of-climate-change-in-the-atmosphere">
+<h1><span class="section-number">3.1. </span>Time consistency of ERA5 for detecting the footprint of climate change in the atmosphere<a class="headerlink" href="#time-consistency-of-era5-for-detecting-the-footprint-of-climate-change-in-the-atmosphere" title="Link to this heading">#</a></h1>
+<p>Production date: 30-08-2024</p>
+<p>Produced by:  Sandro Calmanti (ENEA), Alessandro Dell’Aquila(ENEA)</p>
+<section id="use-case-assessing-the-impact-of-volcanic-eruptions-on-the-upper-atmosphere-in-the-20th-century">
+<h2>🌍 Use case:  Assessing the impact of volcanic eruptions on the upper atmosphere in the 20th century<a class="headerlink" href="#use-case-assessing-the-impact-of-volcanic-eruptions-on-the-upper-atmosphere-in-the-20th-century" title="Link to this heading">#</a></h2>
+</section>
+<section id="quality-assessment-question">
+<h2>❓ Quality assessment question<a class="headerlink" href="#quality-assessment-question" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>How well does ERA5 represent the footprint of major volcanic eruptions in the vertical structure of the atmosphere?</strong></p></li>
+</ul>
+<p>ERA5 is the global climate reanalysis dataset produced by the European Centre for Medium-Range Weather Forecasts (ECMWF), providing hourly estimates of a wide range of atmospheric, land, and oceanic climate variables from 1940 to the present <a class="reference external" href="https://doi.org/10.1002/qj.4803">[1]</a> <a class="reference external" href="https://doi.org/10.1002/qj.3803">[2]</a>. Compared to previous ECMWF reanalyses (ERA, ERA-40, ERA-Interim), ERA5 extends further back to 1940, well before the availability of satellite observations, which provide essential information on the three-dimensional structure of the atmosphere.</p>
+<p>This notebook provides an overview of the long-term consistency of ERA5 by examining the mean vertical structure of key atmospheric parameters and their relation with major volcanic eruptions.</p>
+<p>As an example, the figure below illustrates the temperature impact of the 1991 eruption of Mt. Pinatubo, highlighting the subsequent warming of the lower stratosphere.</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../_images/341c63c4-0f71-4fe5-bfdc-15e25ba2f53f.png"><img alt="../_images/341c63c4-0f71-4fe5-bfdc-15e25ba2f53f.png" src="../_images/341c63c4-0f71-4fe5-bfdc-15e25ba2f53f.png" style="height: 300px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 3.1.1 </span><span class="caption-text">ADD FIGURE CAPTION</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="quality-assessment-statements">
+<h2>📢 Quality assessment statements<a class="headerlink" href="#quality-assessment-statements" title="Link to this heading">#</a></h2>
+<div class="note admonition">
+<p class="admonition-title">These are the key outcomes of this assessment</p>
+<ul class="simple">
+<li><p>ERA5 provides physically consistent information on the expected impact of major volcanic eruptions on the climate system, both in the stratosphere and in the troposphere.</p></li>
+<li><p>Prior to 1979, and particularly during the first two decades of ERA5 from 1940 to 1960, the main mechanisms of stratospheric variability is not consistent with the expected behavior of the quasi-biennial oscillation. Data from the upper stratosphere during the early years of the reanalysis should be treated carefully.</p></li>
+<li><p>ERA5 is punctuated by discontinuities in the upper stratosphere, due to the introduction of different satellite observations.</p></li>
+<li><p>After 2006, with the introduction of radio occultation data, discontinuities in the upper stratosphere are significantly reduced.</p></li>
+</ul>
+</div>
+</section>
+<section id="methodology">
+<h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
+<p>The analysis uses <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-pressure-levels-monthly-means?tab=overview">ERA5 monthly averaged data on pressure levels from 1940 to present</a> available on the Copernicus Data Store and consists of three simple steps.</p>
+<p><strong><a class="reference internal" href="#reanalysis-reanalysis-era5-pressure-levels-monthly-means-consistency-assessment-q01-template-section-1"><span class="std std-ref">1. Set-up of the analysis</span></a></strong></p>
+<p><strong><a class="reference internal" href="#reanalysis-reanalysis-era5-pressure-levels-monthly-means-consistency-assessment-q01-template-section-2"><span class="std std-ref">2. Data retrieval and processing</span></a></strong></p>
+<ul class="simple">
+<li><p>Get the data</p></li>
+<li><p>Compute monthly anomalies</p></li>
+</ul>
+<p><strong><a class="reference internal" href="#reanalysis-reanalysis-era5-pressure-levels-monthly-means-consistency-assessment-q01-template-section-3"><span class="std std-ref">3. Results for key atmospheric variables</span></a></strong></p>
+<ul class="simple">
+<li><p>Temperature</p></li>
+<li><p>U-component of the wind</p></li>
+<li><p>Vertical velocity</p></li>
+<li><p>Ozone mixing ratio</p></li>
+<li><p>Relative humidity</p></li>
+<li><p>Fraction of cloud cover</p></li>
+</ul>
+</section>
+<section id="analysis-and-results">
+<h2>📈 Analysis and results<a class="headerlink" href="#analysis-and-results" title="Link to this heading">#</a></h2>
+<section id="set-up-of-the-analysis">
+<span id="reanalysis-reanalysis-era5-pressure-levels-monthly-means-consistency-assessment-q01-template-section-1"></span><h3>1. Set-up of the analysis<a class="headerlink" href="#set-up-of-the-analysis" title="Link to this heading">#</a></h3>
+<p>We use only standard Python modules for this notebook. In particular <code class="docutils literal notranslate"><span class="pre">numpy</span></code> is necessary to handle the dates of volcanic eruptions.</p>
+<p>The data employed for the analysis include:</p>
+<ul class="simple">
+<li><p>6 variables summarizing key dynamic, thermodynamic and chemical aspects of the state of the atmosphere;</p></li>
+<li><p>the whole time span of ERA5, from 1940 to the present;</p></li>
+<li><p>all 37 pressure levels of ERA5 available on the Climate Data Store (NOTE: the ECMWF Integrated Forecasting System underpinning the production of ERA5 uses <a class="reference external" href="https://confluence.ecmwf.int/display/UDOC/L137+model+level+definitions">137 pressure levels</a> )</p></li>
+</ul>
+<p>The major volcanic eruptions of the XX century with a Volcanic Explosivity Index (<a class="reference external" href="https://www.usgs.gov/observatories/yvo/news/volcanic-explosivity-index-a-tool-comparing-sizes-explosive-volcanic">VEI</a>) greater than 5 are included in the analysis. The approximate date of the eruptions and the corresponding VEI are taken from the catalogue of the <a class="reference external" href="https://volcano.si.edu/">Smithsonian Institution - National Museum of National History</a>. The eruptions of Mount St. Helens El Chichón occurred in 1980 and 1982 respectively. However, for the sake of simplicity they are both attributed to 1981 in the list below.</p>
+<p><strong>NOTE</strong>: the units of the vertical pressure levels are converted from Pascal (Pa) to hecto-Pascal (hPa), which is equivalent to millibars (mb).</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#__________________</span>
+<span class="c1"># Setup environment</span>
+<span class="c1">#__________________</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.ticker</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScalarFormatter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CDSAPI_RC&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~/calmanti_sandro/.cdsapirc&quot;</span><span class="p">)</span>
+
+<span class="c1">#____________________</span>
+<span class="c1"># Define data request</span>
+<span class="c1">#____________________</span>
+
+<span class="n">collection_id</span> <span class="o">=</span> <span class="s2">&quot;reanalysis-era5-pressure-levels-monthly-means&quot;</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="s2">&quot;1940-01&quot;</span>
+<span class="n">stop</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># None: present</span>
+
+<span class="n">variables</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;temperature&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;u_component_of_wind&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;vertical_velocity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;relative_humidity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fraction_of_cloud_cover&quot;</span><span class="p">,</span> 
+<span class="p">]</span>
+
+<span class="n">pressure_levels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;2&quot;</span><span class="p">,</span><span class="s2">&quot;3&quot;</span><span class="p">,</span><span class="s2">&quot;5&quot;</span><span class="p">,</span><span class="s2">&quot;7&quot;</span><span class="p">,</span><span class="s2">&quot;10&quot;</span><span class="p">,</span><span class="s2">&quot;20&quot;</span><span class="p">,</span><span class="s2">&quot;30&quot;</span><span class="p">,</span><span class="s2">&quot;50&quot;</span><span class="p">,</span><span class="s2">&quot;70&quot;</span><span class="p">,</span><span class="s2">&quot;100&quot;</span><span class="p">,</span><span class="s2">&quot;125&quot;</span><span class="p">,</span><span class="s2">&quot;150&quot;</span><span class="p">,</span><span class="s2">&quot;175&quot;</span><span class="p">,</span><span class="s2">&quot;200&quot;</span><span class="p">,</span><span class="s2">&quot;225&quot;</span><span class="p">,</span><span class="s2">&quot;250&quot;</span><span class="p">,</span><span class="s2">&quot;300&quot;</span><span class="p">,</span><span class="s2">&quot;350&quot;</span><span class="p">,</span><span class="s2">&quot;400&quot;</span><span class="p">,</span>
+                   <span class="s2">&quot;450&quot;</span><span class="p">,</span><span class="s2">&quot;500&quot;</span><span class="p">,</span><span class="s2">&quot;550&quot;</span><span class="p">,</span><span class="s2">&quot;600&quot;</span><span class="p">,</span><span class="s2">&quot;650&quot;</span><span class="p">,</span><span class="s2">&quot;700&quot;</span><span class="p">,</span><span class="s2">&quot;750&quot;</span><span class="p">,</span><span class="s2">&quot;775&quot;</span><span class="p">,</span><span class="s2">&quot;800&quot;</span><span class="p">,</span><span class="s2">&quot;825&quot;</span><span class="p">,</span><span class="s2">&quot;850&quot;</span><span class="p">,</span><span class="s2">&quot;875&quot;</span><span class="p">,</span><span class="s2">&quot;900&quot;</span><span class="p">,</span><span class="s2">&quot;925&quot;</span><span class="p">,</span><span class="s2">&quot;950&quot;</span><span class="p">,</span><span class="s2">&quot;975&quot;</span><span class="p">,</span><span class="s2">&quot;1000&quot;</span><span class="p">]</span>
+
+<span class="c1"># Volcanic eruptioin dates</span>
+<span class="c1"># Solid line for VEI=6</span>
+<span class="c1"># Dashed line for VEI=5</span>
+<span class="n">eruptions</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;eruption1&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;volcano&#39;</span><span class="p">:</span> <span class="s1">&#39;Pinatubo&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;1991-06-15&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;linestyle&#39;</span><span class="p">:</span> <span class="s1">&#39;-&#39;</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;eruption2&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;volcano&#39;</span><span class="p">:</span> <span class="s1">&#39;El Chichón, Mount St. Helens&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;1981-01-01&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;linestyle&#39;</span><span class="p">:</span> <span class="s1">&#39;--&#39;</span>  
+    <span class="p">},</span>
+    <span class="s1">&#39;eruption3&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;volcano&#39;</span><span class="p">:</span> <span class="s1">&#39;Agung&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;1963-02-24&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;linestyle&#39;</span><span class="p">:</span> <span class="s1">&#39;-&#39;</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;eruption4&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;volcano&#39;</span><span class="p">:</span> <span class="s1">&#39;Bezymianny&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;date&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;1956-01-01&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;linestyle&#39;</span><span class="p">:</span> <span class="s1">&#39;--&#39;</span>
+    <span class="p">},</span>
+    <span class="c1"># Add more eruptions as needed</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="data-retrieval-and-processing">
+<span id="reanalysis-reanalysis-era5-pressure-levels-monthly-means-consistency-assessment-q01-template-section-2"></span><h3>2. Data retrieval and processing<a class="headerlink" href="#data-retrieval-and-processing" title="Link to this heading">#</a></h3>
+<section id="get-the-data">
+<h4>Get the data<a class="headerlink" href="#get-the-data" title="Link to this heading">#</a></h4>
+<p>For this analysis, we use a very simple processing (spatially weighted mean over the whole grid) applied to a selected set of atmospheric variables.</p>
+<p>Monthly averaged data on pressure levels are retrieved for temperature, U-component of the wind, vertical velocity, ozone mass mixing ratio, relative humidity and cloud cover for the period 1940 to present on all available pressure levels.
+The spatially weighted mean of each variable is computed using a built in transformation function.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#_______________</span>
+<span class="c1"># Retrieve data</span>
+<span class="c1">#_______________</span>
+
+<span class="n">datasets</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading and processing </span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1">#Define a general request</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;grib&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;product_type&quot;</span><span class="p">:</span> <span class="s2">&quot;monthly_averaged_reanalysis&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">variable</span><span class="p">,</span>
+     <span class="s2">&quot;pressure_level&quot;</span><span class="p">:</span> <span class="n">pressure_levels</span> <span class="p">,</span>
+     <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;00:00&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="c1">#Update the request dictionary to include all dates between start and stop</span>
+    <span class="n">requests</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">update_request_date</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">)</span>
+    
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
+      <span class="n">collection_id</span><span class="p">,</span>
+      <span class="n">requests</span><span class="p">,</span>
+      <span class="n">transform_func</span><span class="o">=</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">,</span>
+      <span class="n">chunks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+    <span class="p">)</span>
+    <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+<span class="n">ds_era5</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span>
+
+<span class="c1">#Convert plev to hPa (mb)</span>
+<span class="n">ds_era5</span><span class="p">[</span><span class="s2">&quot;plev&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_era5</span><span class="p">[</span><span class="s2">&quot;plev&quot;</span><span class="p">]</span><span class="o">/</span><span class="mi">100</span>
+<span class="n">ds_era5</span><span class="p">[</span><span class="s2">&quot;plev&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Level&quot;</span><span class="p">,</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;hPa&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="compute-monthly-anomalies">
+<h4>Compute monthly anomalies<a class="headerlink" href="#compute-monthly-anomalies" title="Link to this heading">#</a></h4>
+<p>The next step is to calculate the difference between the monthly vertical profiles of each variable and the corresponding monthly climatology.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Compute anomalies</span>
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">ds_anoma</span> <span class="o">=</span> <span class="n">ds_era5</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;forecast_reference_time.month&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="n">ds_era5</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;forecast_reference_time.month&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;forecast_reference_time&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">ds_anoma</span><span class="o">.</span><span class="n">data_vars</span><span class="p">):</span>
+      <span class="n">ds_anoma</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_era5</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; anomaly&quot;</span>
+      <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">varname</span><span class="si">}</span><span class="s2"> min.:</span><span class="si">{</span><span class="n">ds_anoma</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="si">}</span><span class="s2">  max:</span><span class="si">{</span><span class="n">ds_anoma</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>t min.:-6.438390370217974  max:11.038073943643667
+u min.:-22.757888895140646  max:24.359026856962068
+w min.:-0.0011010774476719158  max:0.0011456845175556556
+r min.:-5.264730876113122  max:8.222526696011663
+cc min.:-0.014970516138825829  max:0.011787966068033423
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="results-for-key-atmospheric-variables">
+<span id="reanalysis-reanalysis-era5-pressure-levels-monthly-means-consistency-assessment-q01-template-section-3"></span><h3>3. Results for key atmospheric variables<a class="headerlink" href="#results-for-key-atmospheric-variables" title="Link to this heading">#</a></h3>
+<p>For all variables listed above, we show the Hovmöller diagram, which illustrates the monthly anomalies compared to the corresponding monthly climatology (see figure below).</p>
+<p>The colour ranges are carefully chosen to emphasise the main features of the long-term variability. We ensure that each variable is shown with an appropriate vertical scale, effectively highlighting the range where most of the variability occurs.</p>
+<p>To illustrate the significant variability in the stratosphere, we use a logarithmic vertical scale for temperature, U-component of the wind, geopotential height and ozone mixing ratio. Conversely, we use a linear vertical scale for vertical velocity, humidity, and cloud fraction, since most of the variability is concentrated in the troposphere. The vertical lines on the graphs indicate the timing of significant volcanic eruptions.</p>
+<p>The figures show key aspects of global-scale atmospheric variability and change, while highlighting the role of volcanic eruptions and some possible artefacts due to the increasing density of data in the stratosphere between 1940 and 1979 and the introduction of satellite observations after 1979.</p>
+<p>The figures below show significant aspects of global-scale atmospheric variability and change, while also highlighting the role of volcanic eruptions and some potential artifacts originating from an increasing density of data in the stratosphere during the period 1940 and 1979 and the introductions of satellite observations after 1979.</p>
+<section id="temperature">
+<h4>Temperature<a class="headerlink" href="#temperature" title="Link to this heading">#</a></h4>
+<p>For temperature, the figures clearly show long-term tropospheric warming and stratospheric cooling trends associated with anthropogenic climate change. The stratospheric warming following the major volcanic eruptions is consistent in magnitude with direct measurements of lower stratospheric warming from the Microwave Sounding Unit (MSU) <a class="reference external" href="https://doi.org/10.1029/2004JD005075">[2]</a>. The cooling of the stratosphere following the transient warming after the Pinatubo eruption is consistent with the reduced stratospheric ozone concentration  discussed by <a class="reference external" href="https://doi.org/10.1175/2008JCLI2482.1">[3]</a>. The discontinuities in the upper stratosphere are related to the introduction of different satellite observations into the data assimilation system <a class="reference external" href="https://doi.org/10.1002/qj.4174">[4]</a>. In particular, the stabilisation of the discontinuities after 2006 corresponds to the assimilation of a large number of radio occultation data in the reanalysis.</p>
+</section>
+<section id="u-component-of-the-wind">
+<h4>U-component of the wind<a class="headerlink" href="#u-component-of-the-wind" title="Link to this heading">#</a></h4>
+<p>With respect to the U-component of the wind, the variability is dominated by the Quasi-Biennial Oscillation (QBO) in the stratosphere <a class="reference external" href="https://doi.org/10.1029/1999RG000073">[5]</a>, with a negligible effect of volcanic eruptions, while no significant global-scale pattern is discernible in the troposphere below 100 hPa. During the first two decades of the reanalysis (1940-1960), the stratospheric variability associated with the QBO is markedly weaker compared to the subsequent period, consistent with the larger variance of the ensemble data assimilation <a class="reference external" href="https://doi.org/10.1002/qj.4174">[4]</a>.</p>
+</section>
+<section id="vertical-velocity">
+<h4>Vertical velocity<a class="headerlink" href="#vertical-velocity" title="Link to this heading">#</a></h4>
+<p>The effect of volcanic eruptions on vertical velocity in the troposphere is negligible. However, the discernible long-term trend in vertical velocity, which is represented in the vertical velocity panel with the transition from mostly positive to mostly negative anomalies after year 2000, has been attributed it to the enhanced  atmospheric deep convection over the tropical western Pacific <a class="reference external" href="https://doi.org/10.5194/acp-22-4393-2022">[6]</a>. Note that a negative vertical velocity anomaly expressed in <span class="math notranslate nohighlight">\(Pa/s\)</span> is equivalent to a positive anomaly expressed in <span class="math notranslate nohighlight">\(m/s\)</span>.</p>
+</section>
+<section id="relative-humidity">
+<h4>Relative humidity<a class="headerlink" href="#relative-humidity" title="Link to this heading">#</a></h4>
+<p>Relative humidity shows a marked decrease in tropospheric water vapour, as expected following major volcanic the eruptions as in the case of Mt. Pinatubo <a class="reference external" href="https://doi.org/10.1126/science.296.5568.727">[7]</a>.</p>
+</section>
+<section id="fraction-of-cloud-cover">
+<h4>Fraction of cloud cover<a class="headerlink" href="#fraction-of-cloud-cover" title="Link to this heading">#</a></h4>
+<p>The fraction of cloud cover does not exhibit a direct global response to major volcanic eruptions. Instead, it is marked by a notable shift in the upper troposphere coinciding with the introduction of satellite observations into assimilation systems after 1979. In recent decades, ERA5 indicates a reduction in low-level clouds (as shown by the negative anomalies in the bottom panel), consistent with the observed decline in cloud amount at mid-latitudes in both hemispheres. This trend is supported by analyses of the International Satellite Cloud Climatology Project (ISCCP) dataset, the Extended Pathfinder Atmospheres (PATMOS-x) dataset, and data from the Earth Radiation Budget Satellite. <a class="reference external" href="https://doi.org/10.1038/nature18273">[8]</a>.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Set time interval to display</span>
+<span class="c1">#xlim=np.array([&#39;1988-01-01&#39;,&#39;1995-12-31&#39;], dtype=&#39;datetime64&#39;) # zoom on Pinatubo</span>
+<span class="c1">#xlim=np.array([&#39;1962-01-01&#39;,&#39;1967-12-31&#39;], dtype=&#39;datetime64&#39;) # zoom on Agung</span>
+<span class="c1">#xlim=np.array([&#39;1980-01-01&#39;,&#39;1985-12-31&#39;], dtype=&#39;datetime64&#39;) # zoom on El Chicon</span>
+<span class="n">xlim</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s1">&#39;1940-01-01&#39;</span><span class="p">,</span><span class="s1">&#39;2022-12-31&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64&#39;</span><span class="p">)</span> <span class="c1"># entire period</span>
+        
+<span class="c1">#Define customized configuration for each variable</span>
+<span class="n">toplot</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Temperature&quot;</span> <span class="p">:</span> <span class="p">{</span>
+       <span class="s2">&quot;vname&quot;</span>   <span class="p">:</span> <span class="s2">&quot;t&quot;</span><span class="p">,</span>
+       <span class="s2">&quot;levels&quot;</span>  <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+       <span class="s2">&quot;yscale&quot;</span>  <span class="p">:</span> <span class="s2">&quot;log&quot;</span><span class="p">,</span>
+       <span class="s2">&quot;ylim&quot;</span>    <span class="p">:</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+       <span class="s2">&quot;yticks&quot;</span>  <span class="p">:</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+       <span class="s2">&quot;cmap&quot;</span>    <span class="p">:</span> <span class="s2">&quot;RdBu_r&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;U component of wind&quot;</span> <span class="p">:</span> <span class="p">{</span>
+       <span class="s2">&quot;vname&quot;</span>   <span class="p">:</span> <span class="s2">&quot;u&quot;</span><span class="p">,</span>
+       <span class="s2">&quot;levels&quot;</span>  <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+       <span class="s2">&quot;yscale&quot;</span>  <span class="p">:</span> <span class="s2">&quot;log&quot;</span><span class="p">,</span>
+       <span class="s2">&quot;ylim&quot;</span>    <span class="p">:</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+       <span class="s2">&quot;yticks&quot;</span>  <span class="p">:</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+       <span class="s2">&quot;cmap&quot;</span>    <span class="p">:</span> <span class="s2">&quot;PuOr&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;Vertical velocity&quot;</span> <span class="p">:</span> <span class="p">{</span>
+       <span class="s2">&quot;vname&quot;</span>   <span class="p">:</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span>
+       <span class="s2">&quot;levels&quot;</span>  <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">0.8e-3</span><span class="p">,</span> <span class="mf">0.8e-3</span><span class="o">+</span><span class="mf">0.8e-4</span><span class="p">,</span> <span class="mf">0.8e-4</span><span class="p">),</span>
+       <span class="s2">&quot;yscale&quot;</span>  <span class="p">:</span> <span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+       <span class="s2">&quot;ylim&quot;</span>    <span class="p">:</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+       <span class="s2">&quot;yticks&quot;</span>  <span class="p">:</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span>
+       <span class="s2">&quot;cmap&quot;</span>    <span class="p">:</span> <span class="s2">&quot;PuOr&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;Relative Humidity&quot;</span> <span class="p">:</span> <span class="p">{</span>
+       <span class="s2">&quot;vname&quot;</span>   <span class="p">:</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span>
+       <span class="s2">&quot;levels&quot;</span>  <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="o">+</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+       <span class="s2">&quot;yscale&quot;</span>  <span class="p">:</span> <span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+       <span class="s2">&quot;ylim&quot;</span>    <span class="p">:</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+       <span class="s2">&quot;yticks&quot;</span>  <span class="p">:</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span>
+       <span class="s2">&quot;cmap&quot;</span>    <span class="p">:</span> <span class="s2">&quot;BrBG&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;Fraction of Cloud Cover&quot;</span> <span class="p">:</span> <span class="p">{</span>
+       <span class="s2">&quot;vname&quot;</span>   <span class="p">:</span> <span class="s2">&quot;cc&quot;</span><span class="p">,</span>
+       <span class="s2">&quot;levels&quot;</span>  <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.01</span><span class="o">+</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">),</span>
+       <span class="s2">&quot;yscale&quot;</span>  <span class="p">:</span> <span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+       <span class="s2">&quot;ylim&quot;</span>    <span class="p">:</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+       <span class="s2">&quot;yticks&quot;</span>  <span class="p">:</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span>
+       <span class="s2">&quot;cmap&quot;</span>    <span class="p">:</span> <span class="s2">&quot;PRGn&quot;</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">toplot</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">varname</span><span class="p">,</span><span class="n">attr</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">toplot</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>    
+    <span class="n">cf</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">ds_anoma</span><span class="p">[</span><span class="s2">&quot;forecast_reference_time&quot;</span><span class="p">],</span><span class="n">ds_anoma</span><span class="p">[</span><span class="s2">&quot;plev&quot;</span><span class="p">],</span>
+                         <span class="n">ds_anoma</span><span class="p">[</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;vname&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="s2">&quot;plev&quot;</span><span class="p">,</span><span class="s2">&quot;forecast_reference_time&quot;</span><span class="p">),</span>
+                         <span class="n">cmap</span><span class="o">=</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;cmap&quot;</span><span class="p">],</span><span class="n">extend</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span><span class="n">levels</span><span class="o">=</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;levels&quot;</span><span class="p">])</span>
+    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;yscale&quot;</span><span class="p">])</span>
+    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;yticks&quot;</span><span class="p">])</span>
+    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">varname</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">ScalarFormatter</span><span class="p">())</span>
+    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;[mb]&#39;</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cf</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">ds_anoma</span><span class="p">[</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;vname&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">])</span> 
+    <span class="c1"># Add volcanic eruptions</span>
+    <span class="k">for</span> <span class="n">eruption_name</span><span class="p">,</span> <span class="n">eruption</span> <span class="ow">in</span> <span class="n">eruptions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>   
+        <span class="n">eruption_date</span> <span class="o">=</span> <span class="n">eruption</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span>
+        <span class="n">linestyle</span> <span class="o">=</span> <span class="n">eruption</span><span class="p">[</span><span class="s1">&#39;linestyle&#39;</span><span class="p">]</span>
+        <span class="n">volcano_name</span> <span class="o">=</span> <span class="n">eruption</span><span class="p">[</span><span class="s1">&#39;volcano&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">eruption_date</span> <span class="o">&gt;=</span> <span class="n">xlim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">eruption_date</span> <span class="o">&lt;=</span> <span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+           <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">eruption_date</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="n">linestyle</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+           <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">eruption_date</span><span class="p">,</span> <span class="mf">1000.</span> <span class="o">-</span> <span class="mf">500.</span><span class="o">/</span><span class="p">(</span><span class="n">attr</span><span class="p">[</span><span class="s1">&#39;ylim&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span> <span class="n">volcano_name</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="s1">&#39;vertical&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+       
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;ERA5 monthly anomalies and volcanic eruptions&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">0.45</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.92</span><span class="p">)</span>    
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">24</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/872ac184babc5ec83b67f4ebf0072adaf20f50f9c2e4fea80d714bea8cac8c29.png" src="../_images/872ac184babc5ec83b67f4ebf0072adaf20f50f9c2e4fea80d714bea8cac8c29.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="i-if-you-want-to-know-more">
+<h2>ℹ️ If you want to know more<a class="headerlink" href="#i-if-you-want-to-know-more" title="Link to this heading">#</a></h2>
+<p>A more detailed analysis global temperature response to the major volcanic eruptions has been conducted by comparing different reanalysis products, including an earlier generation of the ECMWF reanalysis ERA40 <a class="reference external" href="https://doi.org/10.5194/acp-15-13507-2015">[1]</a>.</p>
+<section id="key-resources">
+<h3>Key resources<a class="headerlink" href="#key-resources" title="Link to this heading">#</a></h3>
+<p>This notebook uses <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-pressure-levels-monthly-means?tab=overview">ERA5 monthly averaged data on pressure levels from 1940 to present</a> available on the Climate Data Store.</p>
+<p>A comprehensive catalog of volcanic eruptions is currently (i.e. last updated June 2025) through the <a class="reference external" href="https://doi.org/10.5479/si.GVP.VOTW5-2024.5.2">Global Volcanism Program, 2024. Volcanoes of the World (v. 5.2.8; 6 May 2025). Distributed by Smithsonian Institution, compiled by Venzke, E.</a></p>
+<p>Code libraries used:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/bopen/c3s-eqc-automatic-quality-control/tree/main/c3s_eqc_automatic_quality_control">C3S EQC custom functions</a>, <code class="docutils literal notranslate"><span class="pre">c3s_eqc_automatic_quality_control</span></code>,  prepared by <a class="reference external" href="https://www.bopen.eu/">B-Open</a></p></li>
+</ul>
+</section>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://doi.org/10.1002/qj.4803">[1]</a> Soci, C., Hersbach, H., Simmons, A., Poli, P., Bell, B., Berrisford, P., … &amp; Thépaut, J. N. (2024). The ERA5 global reanalysis from 1940 to 2022. Quarterly Journal of the Royal Meteorological Society, 150(764), 4014-4048.</p>
+<p><a class="reference external" href="https://doi.org/10.1002/qj.3803">[2]</a> Hersbach, H., Bell, B., Berrisford, P., Hirahara, S., Horányi, A., Muñoz‐Sabater, J., … &amp; Thépaut, J. N. (2020). The ERA5 global reanalysis. Quarterly journal of the royal meteorological society, 146(730), 1999-2049.</p>
+<p><a class="reference external" href="https://doi.org/10.1029/2004JD005075">[3]</a> Santer, B.D.,Wigley, T.M.L., Simmons, A.J., Kållberg, P.W., Kelly, G.A., Uppala, S.M., Ammann, C., Boyle, J.S., Brüggemann, W., Doutriaux, C., Fiorino, M., Mears, C., Meehl, G.A., Sausen, R., Taylor, K.E., Washington, W.M., Wehner, M.F., and Wentz, F.J., 2004: Identification of anthropogenic climate change using a second-generation reanalysis. J. Geophys. Res., 109, D21104, doi:10.1029/2004JD005075.</p>
+<p><a class="reference external" href="https://doi.org/10.1175/2008JCLI2482.1">[4]</a> Thompson, D. W., &amp; Solomon, S. (2009). Understanding recent stratospheric climate change. Journal of Climate, 22(8), 1934-1943.</p>
+<p><a class="reference external" href="https://doi.org/10.1002/qj.4174">[5]</a> Bell, B., Hersbach, H., Simmons, A., Berrisford, P., Dahlgren, P., Horányi, A., … &amp; Thépaut, J. N. (2021). The ERA5 global reanalysis: Preliminary extension to 1950. Quarterly Journal of the Royal Meteorological Society, 147(741), 4186-4227.</p>
+<p><a class="reference external" href="https://doi.org/10.1029/1999RG000073">[6]</a> Baldwin, M. P., Gray, L. J., Dunkerton, T. J., Hamilton, K., Haynes, P. H., Randel, W. J., … &amp; Takahashi, M. (2001). The quasi‐biennial oscillation. Reviews of Geophysics, 39(2), 179-229.</p>
+<p><a class="reference external" href="https://doi.org/10.5194/acp-22-4393-2022">[7]</a> Qie, K., Wang, W., Tian, W., Huang, R., Xu, M., Wang, T., &amp; Peng, Y. (2022). Enhanced upward motion through the troposphere over the tropical western Pacific and its implications for the transport of trace gases from the troposphere to the stratosphere. Atmospheric Chemistry and Physics, 22(7), 4393-4411.</p>
+<p><a class="reference external" href="https://doi.org/10.1126/science.296.5568.727">[8]</a> Soden, B. J., Wetherald, R. T., Stenchikov, G. L., &amp; Robock, A. (2002). Global cooling after the eruption of Mount Pinatubo: A test of climate feedback by water vapor. science, 296(5568), 727-730.</p>
+<p><a class="reference external" href="https://doi.org/10.1038/nature18273">[9]</a> Norris, J. R., Allen, R. J., Evan, A. T., Zelinka, M. D., O’Dell, C. W., &amp; Klein, S. A. (2016). Evidence for climate change in the satellite cloud record. Nature, 536(7614), 72-75.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Reanalyses"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="reanalysis.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Reanalysis</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../Seasonal_Forecasts/seasonal.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Seasonal forecasts</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-assessing-the-impact-of-volcanic-eruptions-on-the-upper-atmosphere-in-the-20th-century">🌍 Use case:  Assessing the impact of volcanic eruptions on the upper atmosphere in the 20th century</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statements">📢 Quality assessment statements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-of-the-analysis">1. Set-up of the analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-retrieval-and-processing">2. Data retrieval and processing</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#get-the-data">Get the data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-monthly-anomalies">Compute monthly anomalies</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#results-for-key-atmospheric-variables">3. Results for key atmospheric variables</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#temperature">Temperature</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#u-component-of-the-wind">U-component of the wind</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#vertical-velocity">Vertical velocity</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#relative-humidity">Relative humidity</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fraction-of-cloud-cover">Fraction of cloud cover</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-resources">Key resources</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By the Copernicus Climate Change Service (C3S), entrusted to ECMWF (European Centre for Medium-Range Weather Forecasts)
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
