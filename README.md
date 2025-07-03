@@ -8,11 +8,11 @@
 
 ## Quick start
 
-To install pre-commit:
+To run the quality assurance checks:
 
 ```bash
 pip install pre-commit
-pre-commit install
+make qa
 ```
 
 To build the book:
