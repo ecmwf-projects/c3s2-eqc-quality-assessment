@@ -33,6 +33,9 @@ Data types:
 - reanalysis
 - satellite
 - seasonal
+- indicator
+- derived
+- application
 
 Assessment categories:
 
