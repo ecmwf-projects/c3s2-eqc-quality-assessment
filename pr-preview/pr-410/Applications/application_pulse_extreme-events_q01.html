@@ -1,0 +1,950 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>8.1. Visualisation of temperature during extreme weather events with Climate Pulse &#8212; eqcbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Applications/application_pulse_extreme-events_q01';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Template instructions" href="../templates/template_instructions.html" />
+    <link rel="prev" title="8. Applications" href="application.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">⚠️This is under development!⚠️</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/C3S–POS–LINE.png" class="logo__image only-light" alt="eqcbook - Home"/>
+    <script>document.write(`<img src="../_static/C3S–POS–LINE.png" class="logo__image only-dark" alt="eqcbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    C3S EQC quality assessments
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Satellite Observations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Satellite_ECVs/satellite.html">1. Quality assessments for Satellite Observations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Atmosphere_Physics/Atmosphere_Physics.html">1.1. Atmosphere Physics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Atmospheric_Composition/Atmospheric_Composition.html">1.2. Atmospheric Composition</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Cryosphere/Cryosphere.html">1.3. Cryosphere</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Land_Biosphere/Land_Biosphere.html">1.4. Land Biosphere</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Land_Hydrology/Land_Hydrology.html">1.5. Land Hydrology</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Ocean/Ocean.html">1.6. Ocean</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Insitu Observations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../In_Situ/insitu.html">2. Quality assessments for Insitu Observations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Reanalysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Reanalyses/reanalysis.html">3. Quality assessments for Reanalysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Seasonal Forecasts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Seasonal_Forecasts/seasonal.html">4. Quality assessments for Seasonal Forecasts</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Climate Projections</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Climate_Projections/climate.html">5. Quality assessments for Climate Projections</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Climate_Projections/CMIP6/CMIP6.html">5.1. CMIP6</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Climate_Projections/CORDEX/CORDEX.html">5.2. CORDEX</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Climate Indicators</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Indicators/indicator.html">6. Quality assessments for Climate Indicators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Derived Datasets</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Derived_Datasets/derived.html">7. Quality assessments for Derived Datasets</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Applications</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="application.html">8. Quality assessments for C3S Applications</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">8.1. Visualisation of temperature during extreme weather events with Climate Pulse</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quality assessment template</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../templates/template_instructions.html">Template instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../templates/template.html">Template</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment/issues/new?title=Issue%20on%20page%20%2FApplications/application_pulse_extreme-events_q01.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Applications/application_pulse_extreme-events_q01.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Visualisation of temperature during extreme weather events with Climate Pulse</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-visualising-extreme-temperature-events">🌍 Use case: Visualising extreme temperature events</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#el-ninosouthern-oscillation-enso">1. El Niño–Southern Oscillation (ENSO)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#assessment-of-pulse">Assessment of Pulse</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-20232024-el-nino-event-and-20202021-la-nina-event">Example: 2023–2024 El Niño event and 2020–2021 La Niña event</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#heatwaves">2. Heatwaves</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Introduction</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Assessment of Pulse</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-southeastern-europe-june-2024-heatwave">Example: Southeastern Europe June 2024 Heatwave</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#volcanic-eruptions">3. Volcanic Eruptions</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Introduction</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Assessment of Pulse</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-mount-pinatubo-june-1991">Example: Mount Pinatubo (June 1991)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2022-hunga-tongahunga-haapai-eruption">Example: 2022 Hunga Tonga–Hunga Haʻapai eruption</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-resources">Key resources</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><img alt="logo" src="../_images/LogoLine_horizon_C3S1.png" /></p>
+<div class="alert alert-block alert-warning">
+Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
+</div><section class="tex2jax_ignore mathjax_ignore" id="visualisation-of-temperature-during-extreme-weather-events-with-climate-pulse">
+<h1><span class="section-number">8.1. </span>Visualisation of temperature during extreme weather events with Climate Pulse<a class="headerlink" href="#visualisation-of-temperature-during-extreme-weather-events-with-climate-pulse" title="Link to this heading">#</a></h1>
+<p>Production date: 2025-06-30.</p>
+<p>Produced by: C3S2_521 contract.</p>
+<section id="use-case-visualising-extreme-temperature-events">
+<h2>🌍 Use case: Visualising extreme temperature events<a class="headerlink" href="#use-case-visualising-extreme-temperature-events" title="Link to this heading">#</a></h2>
+</section>
+<section id="quality-assessment-question">
+<h2>❓ Quality assessment question<a class="headerlink" href="#quality-assessment-question" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Is the Climate Pulse application an appropriate tool for broad audiences to visualise temperature data relating to extreme weather and climate events, including El Niño &amp; La Niña, heatwaves, and volcanic eruptions?</strong></p></li>
+</ul>
+<p>Extreme weather events – such as El Niño &amp; La Niña, heatwaves, and volcanic eruptions – can have widespread impacts on human health, society, and the economy <a class="reference external" href="https://doi.org/10.1080/10962247.2017.1401017">[1]</a>. The frequency and intensity of extreme weather events are increasing under climate change <a class="reference external" href="https://doi.org/10.1515/igbp-2016-0005">[2]</a>, making timely and accurate communication of these events and their impacts more critical than ever.</p>
+<p>The <a class="reference external" href="https://pulse.climate.copernicus.eu/"><em>Climate Pulse</em></a> (Pulse) application provides near real-time visualisations of global surface air and sea surface temperature, along with an archive of past daily, monthly, and annual maps derived from the global ERA5 climate reanalysis dataset <a class="reference external" href="https://doi.org/10.1002/qj.3803">[3]</a>. Pulse is designed to help a broad audience clearly and effectively communicate global temperatures.</p>
+<p>This assessment examines the suitability of the Pulse application for visualising the temperature effects of extreme weather events.</p>
+</section>
+<section id="quality-assessment-statement">
+<h2>📢 Quality assessment statement<a class="headerlink" href="#quality-assessment-statement" title="Link to this heading">#</a></h2>
+<div class="note admonition">
+<p class="admonition-title">These are the key outcomes of this assessment</p>
+<p>The Pulse application:</p>
+<ul class="simple">
+<li><p>Is suitable for visualising current and historical (from 1979) <strong>El Niño and La Niña</strong> events. The monthly maps are at a suitable spatial and temporal scale for the visualisation of global surface air and sea surface temperature anomalies. The global average temperature anomaly time series allows for long-term comparison and inspection of the impacts of ENSO events.</p></li>
+<li><p>Is suitable for visualising <strong>heatwaves</strong> from January 2023. This is due to the availability of daily surface air temperature anomaly maps, which can be zoomed in on affected regions, thereby ensuring both spatial and temporal suitability. Prior to 2023, only monthly maps are available, which lack the temporal resolution needed to capture these typically short-term events.</p></li>
+<li><p>Is not suitable for visualising the temperature impacts of <strong>volcanic eruptions</strong> due to it only displaying near-surface (2 m) air temperature data that do not capture the stratospheric effects of these events, along with its use of a 1991–2020 baseline, which makes cooling from historical eruptions like Pinatubo less visible.</p></li>
+</ul>
+</div>
+</section>
+<section id="methodology">
+<h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
+<p>Pulse is an interactive application designed for a broad audience to visualise global surface air temperature (at 2 m above the surface) and sea surface temperature (at 10 m below the surface). It displays daily, monthly, and annual maps along with a global average time series, shown in Figure 1. It displays daily, monthly, and annual maps along with a global average time series, shown in Figure 1. These are based on near real-time data (typical delay of about two days) from the ERA5 climate reanalysis dataset <a class="reference external" href="https://doi.org/10.1002/qj.3803">[3]</a>, including preliminary data from ERA5T, regridded onto a regular 0.25° <span class="math notranslate nohighlight">\(\times\)</span> 0.25° grid, approximately 30 km <span class="math notranslate nohighlight">\(\times\)</span> 30 km. Table 1 outlines the temporal availability of surface air temperature and sea surface temperature data.</p>
+<p>Pulse displays both absolute temperature values and anomalies. The anomalies are calculated as the difference between the current temperature and the 1991–2020 average, the standard reference period used by the World Meteorological Organization (WMO). For daily anomalies, this baseline is smoothed with a low-pass filter to remove short-term variability.</p>
+<p>Table 1: Temporal availability of each visualisation format for surface air temperature and sea surface temperature (start dates of available data).</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>Surface Air Temperature</p></th>
+<th class="head"><p>Sea Surface Temperature</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Time Series</p></td>
+<td><p>1 January 1940</p></td>
+<td><p>1 January 1979</p></td>
+</tr>
+<tr class="row-odd"><td><p>Daily Map</p></td>
+<td><p>1 January 2023</p></td>
+<td><p>1 January 2023</p></td>
+</tr>
+<tr class="row-even"><td><p>Monthly Map</p></td>
+<td><p>January 1979</p></td>
+<td><p>January 1979</p></td>
+</tr>
+<tr class="row-odd"><td><p>Annual Map</p></td>
+<td><p>1979</p></td>
+<td><p>1979</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Outputs from Pulse can be exported in three ways:</p>
+<ol class="arabic simple">
+<li><p>Data download</p></li>
+<li><p>Time series and global image export (Figure 1)</p></li>
+<li><p>Screenshot of the dashboard (Figure 2)</p></li>
+</ol>
+<figure class="align-default" id="id5">
+<a class="reference internal image-reference" href="../_images/application_pulse_example_exports.png"><img alt="../_images/application_pulse_example_exports.png" src="../_images/application_pulse_example_exports.png" style="height: 500px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 8.1.1 </span><span class="caption-text">Examples of the image exports from Pulse. a) Time series of daily global surface air temperature average from 1940, b) Daily map of surface air temperature anomaly (18 June 2025).</span><a class="headerlink" href="#id5" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id6">
+<a class="reference internal image-reference" href="../_images/application_pulse_example_screenshots.png"><img alt="../_images/application_pulse_example_screenshots.png" src="../_images/application_pulse_example_screenshots.png" style="height: 800px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 8.1.2 </span><span class="caption-text">Screenshots of the Pulse dashboard. a) Air temperature absolute values, b) Air temperature anomalies, c) Sea temperature absolute values, d) Sea temperature anomalies.</span><a class="headerlink" href="#id6" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Applications are quality assessed separately from their underpinning datasets. For information on quality attributes of the underlying datasets, the reader is referred to the quality assessment of the datasets, which can be found in their respective CDS catalogue entries or on <a class="reference external" href="https://ecmwf-projects.github.io/c3s2-eqc-quality-assessment/intro.html">GitHub</a>.</p>
+<p>The analysis and results are organised in the following use cases, which are detailed in the sections below:
+<strong><a class="reference internal" href="#application-pulse-extreme-events-q01-section-1"><span class="std std-ref">1. El Niño–Southern Oscillation (ENSO)</span></a></strong></p>
+<p><strong><a class="reference internal" href="#application-pulse-extreme-events-q01-section-2"><span class="std std-ref">2. Heatwaves</span></a></strong></p>
+<p><strong><a class="reference internal" href="#application-pulse-extreme-events-q01-section-3"><span class="std std-ref">3. Volcanic Eruptions</span></a></strong></p>
+</section>
+<section id="analysis-and-results">
+<h2>📈 Analysis and results<a class="headerlink" href="#analysis-and-results" title="Link to this heading">#</a></h2>
+<p>This quality assessment evaluates the suitability of Pulse for visualising extreme weather events for use by broad audiences.
+Three types of events were selected as test cases: El Niño &amp; La Niña, heatwaves, and volcanic eruptions.
+Pulse was assessed based on the availability of relevant data variables, granularity of the data, spatial and temporal coverage and resolution, and the timeliness of data updates.
+The assessment is illustrated with practical examples of how these extreme weather events appear in Pulse in real-world scenarios.</p>
+<section id="el-ninosouthern-oscillation-enso">
+<span id="application-pulse-extreme-events-q01-section-1"></span><h3>1. El Niño–Southern Oscillation (ENSO)<a class="headerlink" href="#el-ninosouthern-oscillation-enso" title="Link to this heading">#</a></h3>
+<section id="introduction">
+<h4>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h4>
+<p>El Niño (warm phase) and La Niña (cold phase) are opposite phases of the ENSO (El Niño–Southern Oscillation), a recurring climate phenomenon in the equatorial Pacific Ocean. They typically recur every 2 to 7 years and last 9 to 12 months <a class="reference external" href="https://doi.org/10.1126/science.1132588">[4]</a>, <a class="reference external" href="https://oceanservice.noaa.gov/facts/ninonina.html#:~:text=Episodes%20of%20El%20Ni%C3%B1o%20and,more%20frequently%20than%20La%20Ni%C3%B1a">[5]</a>, <a class="reference external" href="http://doi.org/10.1007/978-94-017-7499-4_4">[6]</a>. ENSO events are declared when regions in the central and eastern equatorial Pacific, so-called <em>Niño regions</em>, meet certain temperature anomaly thresholds. Commonly used thresholds are <span class="math notranslate nohighlight">\(+\)</span>0.5 °C for an El Niño and <span class="math notranslate nohighlight">\(-\)</span>0.5 °C for a La Niña event, observed for 3 months in a 5-month consecutive period <a class="reference external" href="https://doi.org/10.1126/science.1132588">[4]</a>, <a class="reference external" href="https://doi.org/10.1175/1520-0469%281985%29042%3C2652:ENALN%3E2.0.CO;2">[7]</a>, <a class="reference external" href="https://doi.org/10.1007/s44195-023-00051-5">[8]</a>.</p>
+<p>The ENSO has widespread effects on global weather patterns (Figure 3). Warming due to El Niño, along with ongoing climate change, has led recent events to break many temperature records. The 2023–2024 El Niño event was widely reported in the media as driving nine straight months of record-breaking high temperatures <a class="reference external" href="https://www.dailymail.co.uk/wires/afp/article-13167091/February-marks-9th-straight-month-record-smashing-global-heat-climate-monitor.html">[9]</a>, <a class="reference external" href="https://www.bbc.co.uk/news/science-environment-66143682">[10]</a>. The media also focused on the severely negative impact of this event on human health, such as higher temperatures causing the spread of malaria into traditionally cooler regions of East Africa, and on the negative economic impacts historically associated with El Niño <a class="reference external" href="https://www.dw.com/en/el-nino-climate-pattern-intensifies-in-east-africa/a-68932184">[11]</a>, <a class="reference external" href="https://eu.usatoday.com/story/news/nation/2023/05/18/el-nino-weather-event-cost/70228835007/">[12]</a>. The 2020–2021 La Niña prompted the media to publish warnings of increased flood risk and increased storm power and frequency in North America; however, some outlets focused on potential positive impacts, such as a reduction in Australia’s summer bushfires <a class="reference external" href="https://www.dailymail.co.uk/news/article-8784073/How-La-Nina-weather-event-decade-bring-wet-summer.html">[13]</a>, <a class="reference external" href="https://www.bbc.co.uk/news/science-environment-54725970">[14]</a>.</p>
+<figure class="align-default" id="id7">
+<a class="reference internal image-reference" href="../_images/application_pulse_noaa_enso.png"><img alt="../_images/application_pulse_noaa_enso.png" src="../_images/application_pulse_noaa_enso.png" style="height: 800px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 8.1.3 </span><span class="caption-text">Global distribution of climate impacts of El Niño and La Niña. Source: NOAA (National Oceanic and Atmospheric Administration). Available at: <a class="reference external" href="https://www.climate.gov/news-features/featured-images/global-impacts-el-ni%C3%B1o-and-la-ni%C3%B1a">https://www.climate.gov/news-features/featured-images/global-impacts-el-niño-and-la-niña</a>.</span><a class="headerlink" href="#id7" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="assessment-of-pulse">
+<h4>Assessment of Pulse<a class="headerlink" href="#assessment-of-pulse" title="Link to this heading">#</a></h4>
+<p>Pulse is determined to be suitable for visualising the temperature impacts of El Niño and La Niña events for the following reasons:</p>
+<ul class="simple">
+<li><p><strong>Variables:</strong> Pulse allows for the visualisation of temperature anomalies against WMO’s standard reference period, which is a key indicator of ENSO events. Pulse is suitable for visualising both increases (El Niño) and decreases (La Niña) in temperature anomalies.</p></li>
+<li><p><strong>Data Granularity:</strong> Pulse’s monthly maps show anomalies on a scale from <span class="math notranslate nohighlight">\(-\)</span>7 °C to <span class="math notranslate nohighlight">\(+\)</span>7 °C, in increments of 0.5 to 1 °C (nonlinear colour scale) for surface air temperature and <span class="math notranslate nohighlight">\(-\)</span>3 °C to <span class="math notranslate nohighlight">\(+\)</span>3 °C, in increments of 0.1 to 0.5 °C for sea surface temperature. This scale is fine and wide enough to display the effects of ENSO events.</p></li>
+<li><p><strong>Spatial Coverage and Resolution:</strong> The spatial coverage (global) and resolution (0.25° <span class="math notranslate nohighlight">\(\times\)</span> 0.25°) of the temperature anomaly maps are appropriate for visualising the effects of the ENSO on air and sea temperatures, notably including the central and eastern Pacific regions where ENSO patterns are most pronounced.</p></li>
+<li><p><strong>Temporal Coverage and Resolution:</strong> Pulse shows near real-time and historical temperature data at daily, monthly, and annual time scales. For ENSO events, which typically develop and persist over several months, the monthly data are particularly suitable. The availability of monthly data from January 1979 allows users to look back at previous events, supporting comparisons across multiple ENSO cycles, and helping to contextualise current events within long-term trends.</p></li>
+<li><p><strong>Timeliness:</strong> Pulse is typically updated with data for the latest month within three days, making it well-suited for timely reporting on current events and climate monitoring.</p></li>
+<li><p><strong>Uncertainty:</strong> Pulse does not show uncertainty estimates in the time series or maps. <a class="reference external" href="https://confluence.ecmwf.int/display/CKB/ERA5%3A+uncertainty+estimation">Uncertainties in ERA5 temperatures</a> are generally on the order of 0.5 °C. This is suitable for the use case of visualising ENSO events, which cause significantly larger temperature anomalies.</p></li>
+</ul>
+</section>
+<section id="example-20232024-el-nino-event-and-20202021-la-nina-event">
+<h4>Example: 2023–2024 El Niño event and 2020–2021 La Niña event<a class="headerlink" href="#example-20232024-el-nino-event-and-20202021-la-nina-event" title="Link to this heading">#</a></h4>
+<p>The 2023–2024 El Niño event was officially declared by WMO on 4 July 2023 and dissipated in April 2024 <a class="reference external" href="https://wmo.int/news/media-centre/el-nino-forecast-swing-la-nina-later-year">[15]</a>, <a class="reference external" href="https://wmo.int/news/media-centre/world-meteorological-organization-declares-onset-of-el-nino-conditions">[16]</a>. The 2020–2021 La Niña event emerged in August 2020 and dissipated in May 2021 <a class="reference external" href="https://doi.org/10.1029/2021JD035546">[17]</a>. Figures 4 and 5 show global surface air and sea surface temperature anomalies during these periods, along with a typical year without ENSO activity, visualised using Pulse. The similarities with Figure 3 are evident, particularly the warming (El Niño) and cooling (La Niña) over and in the central and eastern Pacific, and broader global temperature increases.</p>
+<p>Pulse is shown to visualise ENSO events effectively by clearly depicting the associated temperature patterns. Some variations from the expected patterns exist, but these are characteristic of the event.</p>
+<p>Figure 6 shows the global temperatures for both surface air and sea surface as clearly higher for the El Niño period. The general increase in global temperatures relative to the baseline period (1991–2020) may cause the amplitude of El Niño anomalies to appear exaggerated. The opposite is true for La Niña, which may appear weaker than in reality. This issue can be mitigated by using year-on-year comparisons.</p>
+<p>Figure 7 shows the global average temperatures for 2019 (no ENSO activity), 2020, and 2021. The 2020–2021 La Niña was part of a rare triple-dip La Niña, which occurred over three consecutive years from 2020; hence, comparison with succeeding years is not useful <a class="reference external" href="https://doi.org/10.1016/j.atmosres.2023.106937">[18]</a>. Instead, Figure 7 compares temperature anomalies with 2019, showing generally lower values in late 2020 and the first half of 2021, corresponding with La Niña.</p>
+<p>In conclusion, Pulse is suitable for visualising El Niño and La Niña events through their temperature anomalies, making it a valuable tool for a broad audience, including journalists and communicators, seeking to illustrate the climate impacts of such events.</p>
+<figure class="align-default" id="id8">
+<a class="reference internal image-reference" href="../_images/application_pulse_enso_air.png"><img alt="../_images/application_pulse_enso_air.png" src="../_images/application_pulse_enso_air.png" style="height: 1000px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 8.1.4 </span><span class="caption-text">Image exports of monthly surface air temperature anomaly for the 2020–2021 La Niña event (left), a typical year without ENSO activity (2019–2020; centre), and the 2023–2024 El Niño event (right).</span><a class="headerlink" href="#id8" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id9">
+<a class="reference internal image-reference" href="../_images/application_pulse_enso_sst.png"><img alt="../_images/application_pulse_enso_sst.png" src="../_images/application_pulse_enso_sst.png" style="height: 1000px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 8.1.5 </span><span class="caption-text">Image exports of monthly sea surface temperature anomaly for the 2020–2021 La Niña event (left), a typical year without ENSO activity (2019–2020; centre), and the 2023–2024 El Niño event (right).</span><a class="headerlink" href="#id9" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id10">
+<a class="reference internal image-reference" href="../_images/application_pulse_timeseries_elnino.png"><img alt="../_images/application_pulse_timeseries_elnino.png" src="../_images/application_pulse_timeseries_elnino.png" style="height: 500px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 8.1.6 </span><span class="caption-text">Screenshot of the Pulse dashboard showing global surface air and sea surface temperature anomalies for 2023 and 2024. The thick coloured lines marked El Niño have been added in this assessment to show when the events occurred; colours correspond to the year.</span><a class="headerlink" href="#id10" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id11">
+<a class="reference internal image-reference" href="../_images/application_pulse_timeseries_lanina.png"><img alt="../_images/application_pulse_timeseries_lanina.png" src="../_images/application_pulse_timeseries_lanina.png" style="height: 500px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 8.1.7 </span><span class="caption-text">Screenshot of the Pulse dashboard showing global surface air and sea surface temperature anomalies for 2019, 2020, and 2021. The thick coloured lines marked La Niña have been added in this assessment to show when the events occurred; colours correspond to the year.</span><a class="headerlink" href="#id11" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="heatwaves">
+<span id="application-pulse-extreme-events-q01-section-2"></span><h3>2. Heatwaves<a class="headerlink" href="#heatwaves" title="Link to this heading">#</a></h3>
+<section id="id1">
+<h4>Introduction<a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
+<p>There is no universal definition of a <a class="reference external" href="https://climate.copernicus.eu/heatwaves-brief-introduction">heatwave</a>, with different organisations and countries having established their own criteria; however, we can generally define them as a period of time, from a few days up to a few weeks, of temperatures significantly higher than the normal range for that location at that time of year <a class="reference external" href="https://doi.org/10.1029/2022EA002567">[19]</a>, <a class="reference external" href="https://doi.org/10.1088/1748-9326/7/1/014023">[20]</a>. For example, the <a class="reference external" href="https://climate.copernicus.eu/heatwaves-brief-introduction">European State of the Climate 2023</a> used the definition “a period of at least three consecutive days when both the daily surface air temperature minima and maxima are higher than the highest 5% of values for the day in question during the 1991–2020 reference period”.</p>
+<p>One of the main impacts of heatwaves is the danger they pose to human health. According to the <a class="reference external" href="https://www.who.int/news-room/fact-sheets/detail/climate-change-heat-and-health">World Health Organisation</a>, roughly 489 000 heat-related deaths occur each year, and high-intensity heatwave events are known to increase mortality rates. For example, in Europe alone, in the summer of 2022, an estimated 61 672 heat-related excess deaths occurred <a class="reference external" href="https://doi.org/10.1038/s41591-023-02419-z">[21]</a>. Due to these impacts, heatwaves often generate significant news coverage. The June 2024 Eastern Mediterranean heatwave led to real-time reporting of its increasing death toll, as well as journalistic investigations into the overall impact and the drivers of this extreme event <a class="reference external" href="https://www.worldweatherattribution.org/deadly-mediterranean-heatwave-would-not-have-occurred-without-human-induced-climate-change/">[22]</a>, <a class="reference external" href="https://www.euronews.com/green/2024/06/17/death-toll-rises-as-heatwaves-hit-cyprus-greece-and-turkiye-will-this-be-europes-hottest-s">[23]</a>.</p>
+</section>
+<section id="id2">
+<h4>Assessment of Pulse<a class="headerlink" href="#id2" title="Link to this heading">#</a></h4>
+<p>Pulse is determined to be moderately suitable for visualising the temperature impacts of heatwaves, depending on the date and extent of the heatwave, for the following reasons:</p>
+<ul class="simple">
+<li><p><strong>Variables:</strong> Pulse allows for the visualisation of temperature anomalies against WMO’s standard reference period, and significant regional warming anomalies are the key indicator of heatwaves.</p></li>
+<li><p><strong>Data Granularity:</strong> Pulse’s daily maps have anomalies on a scale from <span class="math notranslate nohighlight">\(-\)</span>12 °C to <span class="math notranslate nohighlight">\(+\)</span>12 °C, with approximately 1 °C increments for surface air temperature. This is in line with the temperature anomalies experienced during a heatwave, with regional anomalies usually being around 3 to 8 °C  of warming (<a class="reference external" href="https://www.ecmwf.int/en/about/media-centre/news/2023/european-climate-marked-heat-and-drought-2022-report">for Europe</a>) <a class="reference external" href="https://doi.org/10.1029/2020GL087809">[24]</a>.</p></li>
+<li><p><strong>Spatial Coverage and Resolution:</strong> Pulse uses a 0.25° <span class="math notranslate nohighlight">\(\times\)</span> 0.25° grid, which is suitable for showing regional, national, and multi-country heatwave events. While exported maps are global by default, one can manually zoom in on the globe and take screenshots at different scales. The global time series is unsuitable for visualising heatwaves as they are regional, not global events.</p></li>
+<li><p><strong>Temporal Coverage and Resolution:</strong> Daily air temperature anomaly maps, matching the typical duration of heatwaves, are available in Pulse from 1 January 2023 onwards. Before this date, only monthly and annual maps are available, limiting the usefulness of the application for visualising short historical heatwaves, which may be smoothed out and hence not visible over these time frames.</p></li>
+<li><p><strong>Timeliness:</strong> The near real-time updates of Pulse, typically 2 days behind, allow for timely visualisation of the heatwaves currently taking place, supporting near-real-time weather monitoring and communication.</p></li>
+<li><p><strong>Uncertainty:</strong> Pulse does not show uncertainty estimates in the time series or maps. The <a class="reference external" href="https://confluence.ecmwf.int/display/CKB/ERA5%3A+uncertainty+estimation">ERA5 dataset has an uncertainty</a> of around 0.5 °C. This is suitable for the use case of visualising heatwave events, which cause significantly larger temperature anomalies.</p></li>
+</ul>
+</section>
+<section id="example-southeastern-europe-june-2024-heatwave">
+<h4>Example: Southeastern Europe June 2024 Heatwave<a class="headerlink" href="#example-southeastern-europe-june-2024-heatwave" title="Link to this heading">#</a></h4>
+<p>Between 3 and 27 June 2024, several countries in Southeastern Europe and part of the Middle East were affected by a heatwave, with the most extreme temperatures occurring between 11 and 14 June <a class="reference external" href="https://www.climameter.org/20240611-14-june-eastern-mediterranean-heatwave">[25]</a>. Figure 8 shows the image exports from Pulse; these are global maps that are useful to show where large-scale events are occurring, but less useful for interpreting regional and national effects. also displays the June 2024 average, where the heatwave event is visible due to its extended duration. This visibility typically occurs only with longer heatwaves, not shorter ones. In Figure 9, the region of interest has been magnified, making details in the location of the temperature anomalies more visible. These magnified anomaly maps are more useful for visualising heatwave events with the Pulse application, but the image exports are still suitable.</p>
+<figure class="align-default" id="id12">
+<a class="reference internal image-reference" href="../_images/application_pulse_heatwave_global.png"><img alt="../_images/application_pulse_heatwave_global.png" src="../_images/application_pulse_heatwave_global.png" style="height: 1000px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 8.1.8 </span><span class="caption-text">Image exports of the global surface air temperature anomaly over the 11 to 14 June 2024 peak heatwave period (top and middle) and averaged over June 2024 (bottom).</span><a class="headerlink" href="#id12" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id13">
+<a class="reference internal image-reference" href="../_images/application_pulse_heatwave_regional.png"><img alt="../_images/application_pulse_heatwave_regional.png" src="../_images/application_pulse_heatwave_regional.png" style="height: 500px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 8.1.9 </span><span class="caption-text">Magnified regions of interest of the global surface air temperature anomaly over the 11 to 14 June 2024 peak heatwave period. Note: these are screenshots of the Pulse dashboard.</span><a class="headerlink" href="#id13" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="volcanic-eruptions">
+<span id="application-pulse-extreme-events-q01-section-3"></span><h3>3. Volcanic Eruptions<a class="headerlink" href="#volcanic-eruptions" title="Link to this heading">#</a></h3>
+<section id="id3">
+<h4>Introduction<a class="headerlink" href="#id3" title="Link to this heading">#</a></h4>
+<p>A <a class="reference external" href="https://www.nps.gov/subjects/volcanoes/volcanic-eruptions.htm">volcanic eruption</a> is a sudden release of gas, ash, rock fragments, and/or molten lava through a vent onto the Earth’s surface and/or into the atmosphere. Beyond their dramatic local impacts, large volcanic eruptions can influence global climate through the injection of sulfur dioxide (SO<sub>2</sub>) into the stratosphere, the second major layer of Earth’s atmosphere – above the troposphere – extending from approximately 11 to 50 km in altitude. Once in the stratosphere, sulfur gases oxidise into sulfate aerosols, which reflect incoming solar radiation <a class="reference external" href="https://doi.org/10.1002/wcc.76">[26]</a>.</p>
+<p>In the short term, volcanic eruptions can disrupt local tropospheric conditions, typically over a few days. These effects include a reduction in the diurnal temperature cycle, with cooling in the day due to reduced solar radiation and warming in the night from trapped infrared radiation. The magnitude of this effect depends on the size and location of the eruption, but can be around 15 °C <a class="reference external" href="https://doi.org/10.1029/1998RG000054">[27]</a>. On a global scale, the long-term impact of stratospheric volcanic eruptions is  tropospheric cooling, usually  up to around 0.5 °C, lasting from a few months up to two years, again dependent on the nature and scale of the eruption <a class="reference external" href="https://doi.org/10.1029/1998RG000054">[27]</a>.</p>
+<p>Conversely, the immediate stratospheric response to a volcanic eruption is localised heating. This results from the absorption of infrared solar radiation at the top of the stratospheric layer and terrestrial radiation at its base, following the injection of aerosols. However, this effect only lasts a few weeks, depending on the eruption magnitude and atmospheric circulation patterns, as the aerosols will mix through the stratosphere globally <a class="reference external" href="https://doi.org/10.1002/2013EO350001">[28]</a>. Large eruptions may cause stratospheric temperature increases of a few degrees <a class="reference external" href="https://doi.org/10.1029/1998RG000054">[27]</a>, <a class="reference external" href="https://doi.org/10.1016/j.jastp.2024.106187">[29]</a>. While the global signal is one of net surface cooling and net stratospheric heating, the regional climate response to volcanic eruptions can be more complex.</p>
+<p>Volcanic eruptions are widely reported in the media due to their immediate and often severe impacts on local populations. However, media coverage also frequently highlights the broader implications of such events, including their effects on global surface temperatures and the insights they offer into climate processes and what can be learnt from volcanic eruptions for potential geoengineering strategies <a class="reference external" href="https://www.bbc.co.uk/news/articles/c98qp79gj4no">[30]</a>, <a class="reference external" href="https://cosmosmagazine.com/news/implications-of-hunga-tonga-eruption">[31]</a>.</p>
+</section>
+<section id="id4">
+<h4>Assessment of Pulse<a class="headerlink" href="#id4" title="Link to this heading">#</a></h4>
+<p>Pulse is determined not to be suitable for visualising the temperature impacts of volcanic eruptions, for the following reasons:</p>
+<ul class="simple">
+<li><p><strong>Vertical resolution:</strong> Pulse only displays air temperature 2 m above the surface. Many of the effects of major volcanic eruptions take place in the stratosphere; these are not captured by near-surface temperature data.</p></li>
+<li><p><strong>Confounding factors:</strong> Pulse uses a 1991–2020 baseline for the calculation of temperature anomalies, a period that includes warming from climate change. When analysing historical volcanic eruptions like Pinatubo (1991), this reference period dampens or distorts the apparent magnitude of cooling following the eruption. A baseline more representative of conditions at the time would more accurately reflect the cooling effect of an eruption, although it may be difficult to disentangle from other year-on-year differences such as ENSO events.</p></li>
+<li><p><strong>Temporal resolution:</strong> The annual and monthly maps in Pulse cannot visualise the immediate, local surface air temperature impact of an eruption effectively, since the local effects only last a few days and are thus washed out in longer-term maps. However, with Pulse now providing daily maps from January 2023, any major future volcanic eruptions should prompt an assessment of its suitability for visualising the associated localised, short-term surface cooling effects. The same is true for the sensitivity of the underpinning ERA5 dataset to the near-surface temperature impacts of sudden events like volcanic eruptions.</p></li>
+</ul>
+</section>
+<section id="example-mount-pinatubo-june-1991">
+<h4>Example: Mount Pinatubo (June 1991)<a class="headerlink" href="#example-mount-pinatubo-june-1991" title="Link to this heading">#</a></h4>
+<p>The volcanic eruption of Mount Pinatubo in the Philippines occurred on 15 June 1991, releasing approximately 15 million tons of SO<sub>2</sub> into the stratosphere <a class="reference external" href="https://doi.org/10.1016/j.jastp.2024.106187">[29]</a>, forming a global layer of aerosols in weeks. These aerosols reflected incoming solar radiation, reducing global surface temperatures by an average of about 0.4 °C during 1992–1993 <a class="reference external" href="https://doi.org/10.1016/j.jastp.2024.106187">[29]</a>, making it one of the most notable short-term climate impacts of a volcanic eruption in the 20th century. The aerosol layer gradually dissipated over the following three years <a class="reference external" href="https://doi.org/10.1126/science.259.5100.1411">[32]</a>. There is no information available on the localised short-term effects of the eruption; however, due to the temporal availability of the data (monthly), the short-term effects would not be visible in Pulse.</p>
+<p>Figure 10 shows lower global average temperatures for 1992 and 1993 compared with 1991. These years are known to have experienced cooling influenced by the volcanic eruption; however, further analysis is needed to distinguish the impact of the eruption from other contributing factors, such as ENSO events. Therefore, it is not possible to directly identify the temperature impact of the volcanic eruption based solely on Figure 10.</p>
+<figure class="align-default" id="id14">
+<a class="reference internal image-reference" href="../_images/application_pulse_pinatubo_timeseries.png"><img alt="../_images/application_pulse_pinatubo_timeseries.png" src="../_images/application_pulse_pinatubo_timeseries.png" style="height: 500px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 8.1.10 </span><span class="caption-text">Screenshot of the Pulse dashboard showing global average surface air temperature anomalies for 1990–1993. Mount Pinatubo erupted in June 1991.</span><a class="headerlink" href="#id14" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="example-2022-hunga-tongahunga-haapai-eruption">
+<h4>Example: 2022 Hunga Tonga–Hunga Haʻapai eruption<a class="headerlink" href="#example-2022-hunga-tongahunga-haapai-eruption" title="Link to this heading">#</a></h4>
+<p>On 15 January 2022, the <a class="reference external" href="https://www.ncei.noaa.gov/news/january-15-2022-tonga-volcanic-eruption-and-tsunami">Hunga Tonga–Hunga Haʻapai volcano</a> erupted explosively after weeks of activity, injecting volcanic gases and materials into the stratosphere and generating atmospheric shock waves and tsunami waves across multiple ocean basins. Unlike the Mount Pinatubo eruption, the Hunga eruption led to a cooling of global stratospheric temperatures by 0.5 to 1.0 °C from 2022 to mid-2023 due to the injection of large amounts of water vapour and minimal sulfur dioxide <a class="reference external" href="https://doi.org/10.1029/2024GL111500">[33]</a>. While this excess water vapour is believed to have contributed to global warming through enhanced radiative forcing, its precise impact remains uncertain due to the influence of other factors like ongoing climate change and ENSO events <a class="reference external" href="https://doi.org/10.1038/s43247-025-02181-9">[34]</a>. Whether the eruption caused surface temperature warming or cooling is still being debated in the scientific literature <a class="reference external" href="https://doi.org/10.1038/s43247-025-02181-9">[34]</a>, <a class="reference external" href="https://doi.org/10.1038/s41558-022-01568-2">[35]</a>.</p>
+<p>Localised monthly maps (Figure 11) do not show any surface air temperature effect of the eruption, as the local effects are very short-term; daily or higher spatial resolution maps would be required to visualise such an effect.  Figure 12 shows the global average surface air temperature time series. Any potential warming or cooling effects of the eruption cannot be disentangled from the other contributing factors to global temperatures, such as ENSO events. Hence, overall Pulse is not suitable for visualising the air temperature impacts of this event.</p>
+<figure class="align-default" id="id15">
+<a class="reference internal image-reference" href="../_images/application_pulse_tonga_map.png"><img alt="../_images/application_pulse_tonga_map.png" src="../_images/application_pulse_tonga_map.png" style="height: 500px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 8.1.11 </span><span class="caption-text">Magnified region of interest of the global surface air temperature anomaly for the months before (December 2021), during (January 2022), and after (February and March 2022) the eruption. Note: these are screenshots of the Pulse dashboard.</span><a class="headerlink" href="#id15" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id16">
+<a class="reference internal image-reference" href="../_images/application_pulse_tonga_timeseries.png"><img alt="../_images/application_pulse_tonga_timeseries.png" src="../_images/application_pulse_tonga_timeseries.png" style="height: 500px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 8.1.12 </span><span class="caption-text">Screenshot of the Pulse dashboard of average surface air temperature anomaly, for 2021: the year before the eruption for comparison, 2022: the year of the eruption, 2023: the year after the eruption.</span><a class="headerlink" href="#id16" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+</section>
+<section id="i-if-you-want-to-know-more">
+<h2>ℹ️ If you want to know more<a class="headerlink" href="#i-if-you-want-to-know-more" title="Link to this heading">#</a></h2>
+<section id="key-resources">
+<h3>Key resources<a class="headerlink" href="#key-resources" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://community.wmo.int/en/activity-areas/climate-services/climate-products-and-initiatives/wmo-climatological-normals">WMO’s long-term climate averages (baselines)</a></p></li>
+<li><p>More about ERA5 climate reanalysis dataset: <a class="reference external" href="https://doi.org/10.1002/qj.3803">[3]</a></p></li>
+<li><p>More about ENSO: <a class="reference external" href="https://doi.org/10.1126/science.1132588">[4]</a>, <a class="reference external" href="https://oceanservice.noaa.gov/facts/ninonina.html">[5]</a></p></li>
+<li><p>More information about heatwaves: <a class="reference external" href="https://climate.copernicus.eu/heatwaves-brief-introduction">Copernicus</a></p></li>
+<li><p>More information about volcanoes: <a class="reference external" href="https://www.ecmwf.int/en/about/media-centre/news/2022/hunga-tonga-eruption-seen-ecmwf">ECMWF</a>, <a class="reference external" href="https://doi.org/10.1029/1998RG000054">[27]</a></p></li>
+</ul>
+</section>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://doi.org/10.1080/10962247.2017.1401017">[1]</a> J. E. Bell et al., ‘Changes in extreme events and the potential impacts on human health’, Journal of the Air &amp; Waste Management Association, vol. 68, no. 4, pp. 265–287, Apr. 2018, doi: 10.1080/10962247.2017.1401017.</p>
+<p><a class="reference external" href="https://doi.org/10.1515/igbp-2016-0005">[2]</a> Z. W. Kundzewicz, ‘Extreme Weather Events and their Consequences’, Papers on Global Change IGBP, vol. 23, no. 1, pp. 59–69, Jan. 2016, doi: 10.1515/igbp-2016-0005.</p>
+<p><a class="reference external" href="https://doi.org/10.1002/qj.3803">[3]</a> H. Hersbach et al., ‘The ERA5 global reanalysis’, Quarterly Journal of the Royal Meteorological Society, vol. 146, no. 730, pp. 1999–2049, Jul. 2020, doi: 10.1002/qj.3803.</p>
+<p><a class="reference external" href="https://doi.org/10.1126/science.1132588">[4]</a> M. J. McPhaden, S. E. Zebiak, and M. H. Glantz, ‘ENSO as an Integrating Concept in Earth Science’, Science, vol. 314, no. 5806, pp. 1740–1745, Dec. 2006, doi: 10.1126/science.1132588.</p>
+<p><a class="reference external" href="https://oceanservice.noaa.gov/facts/ninonina.html#:~:text=Episodes%20of%20El%20Ni%C3%B1o%20and,more%20frequently%20than%20La%20Ni%C3%B1a">[5]</a>	NOAA, ‘What are El Niño and La Niña?’, National Ocean Service. Accessed: Jun. 11, 2025. [Online]. Available: <a class="reference external" href="https://oceanservice.noaa.gov/facts/ninonina.html#:~:text=Episodes%20of%20El%20Ni%C3%B1o%20and,more%20frequently%20than%20La%20Ni%C3%B1a">https://oceanservice.noaa.gov/facts/ninonina.html#:~:text=Episodes of El Niño and,more frequently than La Niña</a>.</p>
+<p><a class="reference external" href="http://doi.org/10.1007/978-94-017-7499-4_4">[6]</a> C. Wang, C. Deser, J.-Y. Yu, P. DiNezio, and A. Clement, ‘El Niño and Southern Oscillation (ENSO): A Review’, in Coral Reefs of the Eastern Tropical Pacific, vol. 8, P. W. Glynn, D. P. Manzello, and I. C. Enochs, Eds., in Coral Reefs of the World, vol. 8. , Dordrecht: Springer Netherlands, 2017, pp. 85–106. doi: 10.1007/978-94-017-7499-4_4.</p>
+<p><a class="reference external" href="https://doi.org/10.1175/1520-0469%281985%29042%3C2652:ENALN%3E2.0.CO;2">[7]</a> S. G. H. Philander, ‘El Niño and La Niña’, J. Atmos. Sci., vol. 42, no. 23, pp. 2652–2662, Dec. 1985, doi: 10.1175/1520-0469(1985)042&lt;2652:ENALN&gt;<a class="reference external" href="http://2.0.CO">2.0.CO</a>;2.</p>
+<p><a class="reference external" href="https://doi.org/10.1007/s44195-023-00051-5">[8]</a> M.-H. Shen and J.-Y. Yu, ‘Changes in El Niño characteristics and air–sea feedback mechanisms under progressive global warming’, Terr Atmos Ocean Sci, vol. 34, no. 1, p. 19, Dec. 2023, doi: 10.1007/s44195-023-00051-5.</p>
+<p><a class="reference external" href="https://www.dailymail.co.uk/wires/afp/article-13167091/February-marks-9th-straight-month-record-smashing-global-heat-climate-monitor.html">[9]</a> AFP, ‘February marks 9th straight month of record-smashing global heat: climate monitor’, Daily Mail, Mar. 07, 2024. Accessed: Jun. 16, 2025. [Online]. Available: <a class="reference external" href="https://www.dailymail.co.uk/wires/afp/article-13167091/February-marks-9th-straight-month-record-smashing-global-heat-climate-monitor.html">https://www.dailymail.co.uk/wires/afp/article-13167091/February-marks-9th-straight-month-record-smashing-global-heat-climate-monitor.html</a></p>
+<p><a class="reference external" href="https://www.bbc.co.uk/news/science-environment-66143682">[10]</a>	J. Rowlatt, ‘Excessive heat: Why this summer has been so hot’, BBC, Jul. 13, 2023. Accessed: Jun. 16, 2025. [Online]. Available: <a class="reference external" href="https://www.bbc.co.uk/news/science-environment-66143682">https://www.bbc.co.uk/news/science-environment-66143682</a></p>
+<p><a class="reference external" href="https://www.dw.com/en/el-nino-climate-pattern-intensifies-in-east-africa/a-68932184">[11]</a> M. Mefo Newuh, ‘El Nino climate pattern intensifies in East Africa’, DW, Apr. 26, 2024. Accessed: Jul. 07, 2025. [Online]. Available: <a class="reference external" href="https://www.dw.com/en/el-nino-climate-pattern-intensifies-in-east-africa/a-68932184">https://www.dw.com/en/el-nino-climate-pattern-intensifies-in-east-africa/a-68932184</a></p>
+<p><a class="reference external" href="https://eu.usatoday.com/story/news/nation/2023/05/18/el-nino-weather-event-cost/70228835007/">[12]</a> D. Rice, ‘Where El Niño hits, catastrophe can follow. Report shows weather event’s devastating effects.’, USA Today, May 18, 2023. Accessed: Jun. 16, 2025. [Online]. Available: <a class="reference external" href="https://eu.usatoday.com/story/news/nation/2023/05/18/el-nino-weather-event-cost/70228835007/">https://eu.usatoday.com/story/news/nation/2023/05/18/el-nino-weather-event-cost/70228835007/</a></p>
+<p><a class="reference external" href="https://www.dailymail.co.uk/news/article-8784073/How-La-Nina-weather-event-decade-bring-wet-summer.html">[13]</a>	S. Johnson, ‘La Niña forms off Australia’s coast sparking warnings of dangerous weather and cyclones - here’s how the weather pattern will affect your city’, Mail Online, Sep. 29, 2020. Accessed: Jun. 16, 2025. [Online]. Available: <a class="reference external" href="https://www.dailymail.co.uk/news/article-8784073/How-La-Nina-weather-event-decade-bring-wet-summer.html">https://www.dailymail.co.uk/news/article-8784073/How-La-Nina-weather-event-decade-bring-wet-summer.html</a></p>
+<p><a class="reference external" href="https://www.bbc.co.uk/news/science-environment-54725970">[14]</a> M. McGrath, ‘“Moderate to strong” La Niña weather event develops in the Pacific’, Oct. 29, 2020. [Online]. Available: <a class="reference external" href="https://www.bbc.co.uk/news/science-environment-54725970">https://www.bbc.co.uk/news/science-environment-54725970</a></p>
+<p><a class="reference external" href="https://wmo.int/news/media-centre/el-nino-forecast-swing-la-nina-later-year">[15]</a> C. Nullis, ‘El Niño is forecast to swing to La Niña later this year’, World Meteorological Organization. Accessed: Jun. 16, 2025. [Online]. Available: <a class="reference external" href="https://wmo.int/news/media-centre/el-nino-forecast-swing-la-nina-later-year">https://wmo.int/news/media-centre/el-nino-forecast-swing-la-nina-later-year</a></p>
+<p><a class="reference external" href="https://wmo.int/news/media-centre/world-meteorological-organization-declares-onset-of-el-nino-conditions">[16]</a> C. Nullis, ‘World Meteorological Organization declares onset of El Niño conditions’, World Meteorological Organization. Accessed: Jun. 16, 2025. [Online]. Available: <a class="reference external" href="https://wmo.int/news/media-centre/world-meteorological-organization-declares-onset-of-el-nino-conditions">https://wmo.int/news/media-centre/world-meteorological-organization-declares-onset-of-el-nino-conditions</a></p>
+<p><a class="reference external" href="https://doi.org/10.1029/2021JD035546">[17]</a> X. Li, Z. Hu, Y. Tseng, Y. Liu, and P. Liang, ‘A Historical Perspective of the La Niña Event in 2020/2021’, JGR Atmospheres, vol. 127, no. 7, p. e2021JD035546, Apr. 2022, doi: 10.1029/2021JD035546.</p>
+<p><a class="reference external" href="https://doi.org/10.1016/j.atmosres.2023.106937">[18]</a>	L. Shi, R. Ding, S. Hu, X. Li, and J. Li, ‘Extratropical impacts on the 2020–2023 Triple-Dip La Niña event’, Atmospheric Research, vol. 294, p. 106937, Oct. 2023, doi: 10.1016/j.atmosres.2023.106937.</p>
+<p><a class="reference external" href="https://doi.org/10.1029/2022EA002567">[19]</a> O. Lhotka and J. Kyselý, ‘The 2021 European Heat Wave in the Context of Past Major Heat Waves’, Earth and Space Science, vol. 9, no. 11, p. e2022EA002567, Nov. 2022, doi: 10.1029/2022EA002567.</p>
+<p><a class="reference external" href="https://doi.org/10.1088/1748-9326/7/1/014023">[20]</a> M. Stefanon, F. D’Andrea, and P. Drobinski, ‘Heatwave classification over Europe and the Mediterranean region’, Environ. Res. Lett., vol. 7, no. 1, p. 014023, Mar. 2012, doi: 10.1088/1748-9326/7/1/014023.</p>
+<p><a class="reference external" href="https://doi.org/10.1038/s41591-023-02419-z">[21]</a> J. Ballester et al., ‘Heat-related mortality in Europe during the summer of 2022’, Nat Med, vol. 29, no. 7, pp. 1857–1866, Jul. 2023, doi: 10.1038/s41591-023-02419-z.</p>
+<p><a class="reference external" href="https://www.worldweatherattribution.org/deadly-mediterranean-heatwave-would-not-have-occurred-without-human-induced-climate-change/">[22]</a> World Weather Attribution, ‘Deadly Mediterranean heatwave would not have occurred without human induced climate change’, World Weather Attribution, Jul. 31, 2024. Accessed: Jun. 16, 2025. [Online]. Available: <a class="reference external" href="https://www.worldweatherattribution.org/deadly-mediterranean-heatwave-would-not-have-occurred-without-human-induced-climate-change/">https://www.worldweatherattribution.org/deadly-mediterranean-heatwave-would-not-have-occurred-without-human-induced-climate-change/</a></p>
+<p><a class="reference external" href="https://www.euronews.com/green/2024/06/17/death-toll-rises-as-heatwaves-hit-cyprus-greece-and-turkiye-will-this-be-europes-hottest-s">[23]</a> Euronews Green, ‘Death toll rises as heatwaves hit Cyprus, Greece and Türkiye: Will this be Europe’s hottest summer?’, Jun. 17, 2025. Accessed: Jun. 16, 2025. [Online]. Available: <a class="reference external" href="https://www.euronews.com/green/2024/06/17/death-toll-rises-as-heatwaves-hit-cyprus-greece-and-turkiye-will-this-be-europes-hottest-s">https://www.euronews.com/green/2024/06/17/death-toll-rises-as-heatwaves-hit-cyprus-greece-and-turkiye-will-this-be-europes-hottest-s</a></p>
+<p><a class="reference external" href="https://doi.org/10.1029/2020GL087809">[24]</a> F. Ma, X. Yuan, Y. Jiao, and P. Ji, ‘Unprecedented Europe Heat in June–July 2019: Risk in the Historical and Future Context’, Geophysical Research Letters, vol. 47, no. 11, p. e2020GL087809, Jun. 2020, doi: 10.1029/2020GL087809.</p>
+<p><a class="reference external" href="https://www.climameter.org/20240611-14-june-eastern-mediterranean-heatwave">[25]</a> S. Daﬁs and D. Faranda, ‘The June 2024 Eastern Mediterranean Heatwave likely exacerbated by human-driven Climate Change and Natural Variability’, 2024, doi: <a class="reference external" href="http://doi.org/10.5281/zenodo.14103941">doi.org/10.5281/zenodo.14103941</a>.</p>
+<p><a class="reference external" href="https://doi.org/10.1002/wcc.76">[26]</a> J. Cole‐Dai, ‘Volcanoes and climate’, WIREs Climate Change, vol. 1, no. 6, pp. 824–839, Nov. 2010, doi: 10.1002/wcc.76.</p>
+<p><a class="reference external" href="https://doi.org/10.1029/1998RG000054">[27]</a> A. Robock, ‘Volcanic eruptions and climate’, Reviews of Geophysics, vol. 38, no. 2, pp. 191–219, May 2000, doi: 10.1029/1998RG000054.</p>
+<p><a class="reference external" href="https://doi.org/10.1002/2013EO350001">[28]</a> A. Robock, ‘The Latest on Volcanic Eruptions and Climate’, EoS Transactions, vol. 94, no. 35, pp. 305–306, Aug. 2013, doi: 10.1002/2013EO350001.</p>
+<p><a class="reference external" href="https://doi.org/10.1016/j.jastp.2024.106187">[29]</a> A. Boretti, ‘Reassessing the cooling that followed the 1991 volcanic eruption of Mt. Pinatubo’, Journal of Atmospheric and Solar-Terrestrial Physics, vol. 256, p. 106187, Mar. 2024, doi: 10.1016/j.jastp.2024.106187.</p>
+<p><a class="reference external" href="https://www.bbc.co.uk/news/articles/c98qp79gj4no">[30]</a> S. King, ‘Conspiracy theories swirl about geo-engineering, but could it help save the planet?’, BBC, Jul. 21, 2024. Accessed: Jun. 16, 2025. [Online]. Available: <a class="reference external" href="https://www.bbc.co.uk/news/articles/c98qp79gj4no">https://www.bbc.co.uk/news/articles/c98qp79gj4no</a></p>
+<p><a class="reference external" href="https://cosmosmagazine.com/news/implications-of-hunga-tonga-eruption">[31]</a> R. Musgrove, ‘The implications of the Hunga Tonga volcanic eruption’, Cosmos, Apr. 04, 2025. Accessed: Jun. 16, 2025. [Online]. Available: <a class="reference external" href="https://cosmosmagazine.com/news/implications-of-hunga-tonga-eruption/">https://cosmosmagazine.com/news/implications-of-hunga-tonga-eruption/</a></p>
+<p><a class="reference external" href="https://doi.org/10.1126/science.259.5100.1411">[32]</a> P. Minnis et al., ‘Radiative Climate Forcing by the Mount Pinatubo Eruption’, Science, vol. 259, no. 5100, pp. 1411–1415, Mar. 1993, doi: 10.1126/science.259.5100.1411.</p>
+<p><a class="reference external" href="https://doi.org/10.1029/2024GL111500">[33]</a> W. J. Randel, X. Wang, J. Starr, R. R. Garcia, and D. Kinnison, ‘Long‐Term Temperature Impacts of the Hunga Volcanic Eruption in the Stratosphere and Above’, Geophysical Research Letters, vol. 51, no. 21, p. e2024GL111500, Nov. 2024, doi: 10.1029/2024GL111500.</p>
+<p><a class="reference external" href="https://doi.org/10.1038/s43247-025-02181-9">[34]</a> A. K. Gupta, T. Mittal, K. E. Fauria, R. Bennartz, and J. F. Kok, ‘The January 2022 Hunga eruption cooled the southern hemisphere in 2022 and 2023’, Commun Earth Environ, vol. 6, no. 1, p. 240, Mar. 2025, doi: 10.1038/s43247-025-02181-9.</p>
+<p><a class="reference external" href="https://doi.org/10.1038/s41558-022-01568-2">[35]</a> S. Jenkins, C. Smith, M. Allen, and R. Grainger, ‘Tonga eruption increases chance of temporary surface temperature anomaly above 1.5 °C’, Nat. Clim. Chang., vol. 13, no. 2, pp. 127–129, Feb. 2023, doi: 10.1038/s41558-022-01568-2.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Applications"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="application.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">8. </span>Applications</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../templates/template_instructions.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Template instructions</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-visualising-extreme-temperature-events">🌍 Use case: Visualising extreme temperature events</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#el-ninosouthern-oscillation-enso">1. El Niño–Southern Oscillation (ENSO)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#assessment-of-pulse">Assessment of Pulse</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-20232024-el-nino-event-and-20202021-la-nina-event">Example: 2023–2024 El Niño event and 2020–2021 La Niña event</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#heatwaves">2. Heatwaves</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Introduction</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Assessment of Pulse</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-southeastern-europe-june-2024-heatwave">Example: Southeastern Europe June 2024 Heatwave</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#volcanic-eruptions">3. Volcanic Eruptions</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Introduction</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Assessment of Pulse</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-mount-pinatubo-june-1991">Example: Mount Pinatubo (June 1991)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2022-hunga-tongahunga-haapai-eruption">Example: 2022 Hunga Tonga–Hunga Haʻapai eruption</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-resources">Key resources</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By the Copernicus Climate Change Service (C3S), entrusted to ECMWF (European Centre for Medium-Range Weather Forecasts)
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
