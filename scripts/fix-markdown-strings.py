@@ -32,6 +32,8 @@ STRING_MAPPER = {
     "http://ewds-beta.climate.copernicus.eu": "https://ewds.climate.copernicus.eu",
     "https://datastore.copernicus-climate.eu": "https://dast.copernicus-climate.eu",
     "http://datastore.copernicus-climate.eu": "https://dast.copernicus-climate.eu",
+    "https://dast.data.compute.cci2.ecmwf.int": "https://dast.copernicus-climate.eu",
+    "http://dast.data.compute.cci2.ecmwf.int": "https://dast.copernicus-climate.eu",
     # DOIs
     "/agupubs.onlinelibrary.wiley.com/doi/": "/doi.org/",
     "/aslopubs.onlinelibrary.wiley.com/doi/pdf/": "/doi.org/",
