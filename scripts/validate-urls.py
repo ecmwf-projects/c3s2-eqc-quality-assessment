@@ -55,7 +55,7 @@ def validate_urls(path: Path) -> None:
     if exceptions:
         raise RuntimeError(
             "\n\n".join(
-                ["Invalid URLs"]
+                [f"Invalid URLs in {path=!s}"]
                 + [f"{url=}\n{exc!s}" for url, exc in exceptions.items()]
             )
         )
