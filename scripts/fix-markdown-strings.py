@@ -1,10 +1,11 @@
 import argparse
+import re
 from pathlib import Path
 
 import nbformat
 
 STRING_MAPPER = {
-    "/cdsapp#!/dataset/": "/datasets/",
+    # Template
     "## Use case:": "## 🌍 Use case:",
     "## Use Case:": "## 🌍 Use case:",
     "## 🌍 Use Case:": "## 🌍 Use case:",
@@ -21,7 +22,8 @@ STRING_MAPPER = {
     "## 📈 Analysis and Results": "## 📈 Analysis and results",
     "## If you want to know more": "## ℹ️ If you want to know more",
     "BOpen": "B-Open",
-    "http://doi.org": "https://doi.org",
+    # CADS
+    "/cdsapp#!/dataset/": "/datasets/",
     "https://ads-beta.atmosphere.copernicus.eu": "https://ads.atmosphere.copernicus.eu",
     "http://ads-beta.atmosphere.copernicus.eu": "https://ads.atmosphere.copernicus.eu",
     "https://cds-beta.climate.copernicus.eu": "https://cds.climate.copernicus.eu",
@@ -30,11 +32,29 @@ STRING_MAPPER = {
     "http://ewds-beta.climate.copernicus.eu": "https://ewds.climate.copernicus.eu",
     "https://datastore.copernicus-climate.eu": "https://dast.copernicus-climate.eu",
     "http://datastore.copernicus-climate.eu": "https://dast.copernicus-climate.eu",
+    "https://dast.data.compute.cci2.ecmwf.int": "https://dast.copernicus-climate.eu",
+    "http://dast.data.compute.cci2.ecmwf.int": "https://dast.copernicus-climate.eu",
+    # DOIs
+    "/agupubs.onlinelibrary.wiley.com/doi/": "/doi.org/",
+    "/aslopubs.onlinelibrary.wiley.com/doi/pdf/": "/doi.org/",
+    "/rmets.onlinelibrary.wiley.com/doi/full/": "/doi.org/",
+    "/rmets.onlinelibrary.wiley.com/doi/": "/doi.org/",
+    "/dx.doi.org/": "/doi.org/",
+    "/link.springer.com/article/": "/doi.org/",
+    "www.science.org/doi/": "doi.org/",
+    "www.nature.com/articles/": "doi.org/10.1038/",
+    "http://doi.org": "https://doi.org",
+    # URLs
+    (
+        "https://ec.europa.eu/eurostat/web/gisco/geodata/reference-data"
+        "/administrative-units-statistical-units/nuts"
+    ): "https://ec.europa.eu/eurostat/web/nuts",
 }
 
 ADMONITION_TITLE = "These are the key outcomes of this assessment"
 
 CLASS_NOTE = ":class: note"
+URL_PATTERN = r"https?://[^\s)]+"
 
 
 def fix_template_divergences(path: Path) -> None:
@@ -44,6 +64,11 @@ def fix_template_divergences(path: Path) -> None:
     for cell in notebook.cells:
         if cell["cell_type"] != "markdown":
             continue
+
+        for url in set(re.findall(URL_PATTERN, cell["source"])):
+            if url.endswith("."):
+                cell["source"] = cell["source"].replace(url, url.rstrip("."))
+                write = True
 
         if ")=\n\n" in (source := cell["source"]):
             cell["source"] = source.replace(")=\n\n", ")=\n")
