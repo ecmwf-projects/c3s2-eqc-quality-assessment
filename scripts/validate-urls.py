@@ -25,6 +25,7 @@ URL_PATTERN = r"https?://[^\s)]+"
 def validate_urls(path: Path) -> None:
     notebook = nbformat.read(path, nbformat.NO_CONVERT)
 
+    exceptions: dict[str, Exception] = {}
     for cell in notebook.cells:
         if cell["cell_type"] != "markdown":
             continue
@@ -46,11 +47,19 @@ def validate_urls(path: Path) -> None:
                             url = url.rstrip("/") + "/agency"
                         response = requests.get(url, allow_redirects=True)
                 response.raise_for_status()
-            except requests.exceptions.SSLError:
+            except requests.exceptions.SSLError as exc:
                 if not url.startswith(KNOWN_SSL_ISSUES):
-                    raise RuntimeError(f"{path=!s}: Invalid {url=}")
-            except Exception:
-                raise RuntimeError(f"{path=!s}: Invalid {url=}")
+                    exceptions[url] = exc
+            except Exception as exc:
+                exceptions[url] = exc
+
+    if exceptions:
+        raise RuntimeError(
+            "\n\n".join(
+                [f"Invalid URLs in {path=!s}"]
+                + [f"{url=}\n{exc!s}" for url, exc in exceptions.items()]
+            )
+        )
 
 
 def main(paths: list[Path]) -> None:
