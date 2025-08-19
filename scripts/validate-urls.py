@@ -45,6 +45,8 @@ def validate_urls(path: Path) -> None:
                         if url.startswith(CROSSREF_URL):
                             url = url.rstrip("/") + "/agency"
                         response = requests.get(url, allow_redirects=True)
+                    case 429:
+                        continue
                 response.raise_for_status()
             except requests.exceptions.SSLError as exc:
                 if not url.startswith(KNOWN_SSL_ISSUES):
