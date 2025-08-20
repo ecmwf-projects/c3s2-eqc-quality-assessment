@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>4.1. The impact of scale and temporal trends in seasonal forecasts &#8212; eqcbook</title>
+    <title>4.1. Assessing the impact of scale and temporal trends for seasonal forecast quality &#8212; eqcbook</title>
   
   
   
@@ -222,7 +222,7 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Seasonal Forecasts</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="seasonal.html">4. Quality assessments for Seasonal Forecasts</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.1. The impact of scale and temporal trends in seasonal forecasts</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.1. Assessing the impact of scale and temporal trends for seasonal forecast quality</a></li>
 </ul>
 </details></li>
 </ul>
@@ -445,7 +445,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>The impact of scale and temporal trends in seasonal forecasts</h1>
+    <h1>Assessing the impact of scale and temporal trends for seasonal forecast quality</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -470,7 +470,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-and-describe-results">4. Plot and describe results</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-read-the-results">How to read the results</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">Discussion</a></li>
 </ul>
 </li>
 </ul>
@@ -495,8 +495,8 @@ document.write(`
   <p><img alt="logo" src="../_images/LogoLine_horizon_C3S1.png" /></p>
 <div class="alert alert-block alert-warning">
 Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
-</div><section class="tex2jax_ignore mathjax_ignore" id="the-impact-of-scale-and-temporal-trends-in-seasonal-forecasts">
-<h1><span class="section-number">4.1. </span>The impact of scale and temporal trends in seasonal forecasts<a class="headerlink" href="#the-impact-of-scale-and-temporal-trends-in-seasonal-forecasts" title="Link to this heading">#</a></h1>
+</div><section class="tex2jax_ignore mathjax_ignore" id="assessing-the-impact-of-scale-and-temporal-trends-for-seasonal-forecast-quality">
+<h1><span class="section-number">4.1. </span>Assessing the impact of scale and temporal trends for seasonal forecast quality<a class="headerlink" href="#assessing-the-impact-of-scale-and-temporal-trends-for-seasonal-forecast-quality" title="Link to this heading">#</a></h1>
 <p>Production date: 30.04.2025</p>
 <p>Produced by: Johannes Langvatn (METNorway), Johanna Tjernström (METNorway)</p>
 <section id="use-case-how-effectively-can-seasonal-forecasts-predict-the-development-of-key-global-climate-variables-across-varying-spatial-scales">
@@ -505,44 +505,46 @@ Please note that this repository is used for development and review, so quality 
 <section id="quality-assessment-question">
 <h2>❓ Quality assessment question<a class="headerlink" href="#quality-assessment-question" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>How does skill in seasonal forecasts vary for different spatial-scales and regions of interest?</p></li>
-<li><p>How does the quality in seasonal forecasts depend on temporal trends in the data?</p></li>
+<li><p>How does the quality of seasonal forecasts change when looking at different sized areas? What are the associated limitations?</p></li>
+<li><p>How do long term temporal trends impact the quality of seasonal forecasts?</p></li>
 </ul>
-<p>The effectiveness of seasonal forecasts in predicting the development of key global climate variables—such as temperature, precipitation and sea surface temperatures (SSTs)—varies considerably by variable, region, season, lead time and the state of large-scale climate drivers like ENSO (El Niño–Southern Oscillation). This notebook investigates how a potential trend in the data (e.g. as discussed in <a class="reference external" href="https://doi.org/10.5194/hess-23-371-2019" rel="noreferrer" target="_blank">Greuell et al. (2019) [1]</a>) along with selection of regions at various spatial scales (e.g. as discussed in <a class="reference external" href="https://doi.org/10.1007/s00382-021-05828-3" rel="noreferrer" target="_blank">Prodhomme et al. (2021) [2]</a>, <a class="reference external" href="https://doi.org/10.1175/WAF-D-19-0106.1" rel="noreferrer" target="_blank">Gubler et al. (2020) [3]</a> <a class="reference external" href="https://doi.org/10.1007/s00382-021-05895-6" rel="noreferrer" target="_blank">Quaglia et al. (2021) [4]</a>) affect forecasting quality</p>
+<p>The effectiveness of seasonal forecasts in predicting the development of key climate variables—such as temperature, precipitation and sea surface temperatures (SSTs)—varies considerably by variable, region, season, lead time and the state of large-scale climate drivers like ENSO (El Niño–Southern Oscillation). This notebook investigates how a potential trend in the data (e.g. as discussed in <a class="reference external" href="https://doi.org/10.5194/hess-23-371-2019" rel="noreferrer" target="_blank">Greuell et al. (2019) [1]</a>) along with selection of regions at various spatial scales (e.g. as discussed in <a class="reference external" href="https://doi.org/10.1007/s00382-021-05828-3" rel="noreferrer" target="_blank">Prodhomme et al. (2021) [2]</a>, <a class="reference external" href="https://doi.org/10.1175/WAF-D-19-0106.1" rel="noreferrer" target="_blank">Gubler et al. (2020) [3]</a> <a class="reference external" href="https://doi.org/10.1007/s00382-021-05895-6" rel="noreferrer" target="_blank">Quaglia et al. (2021) [4]</a>) affect forecasting quality</p>
 </section>
 <section id="quality-assessment-statement">
 <h2>📢 Quality assessment statement<a class="headerlink" href="#quality-assessment-statement" title="Link to this heading">#</a></h2>
 <div class="note admonition">
 <p class="admonition-title">These are the key outcomes of this assessment</p>
 <ul class="simple">
+<li><p>The forecast quality (ensemble mean correlation) of t2m varies depending on the selected spatial scale and the choice of the regions or locations.</p>
+<ul>
+<li><p>There is a clear drop in forecast quality when moving from the global scale to continental scale (Europe), to a national scale (Germany), and finally to a city scale (Bonn).</p></li>
+<li><p>This is not the case when comparing the global scale, to the Pacific and NINO region, where the forecast quality remains largely constant, or even better, the smaller the selected region.</p></li>
+<li><p>The regional mean for NINO3.4 is better correlated to the reanalysis than the global regional mean</p></li>
+<li><p>The nearest grid cell to Bonn (an example city in Germany) has low correlation and most of the quality can be attributed to the underlying trend in the dataset</p></li>
+<li><p>In contrast, the nearest grid cell to Addis Ababa (an example city in Eastern Africa) has some correlation which is retained even after detrending</p></li>
+</ul>
+</li>
 <li><p>For regions and locations which have a visible trend in t2m, the trend inflates the correlation of t2m compared to reanalysis.</p>
 <ul>
-<li><p>For Europe, most of the visible correlation can be attributed to the underlying trend.</p></li>
-<li><p>Compared with the region of greater horn of Africa, where less of the visible correlation can be attributed to the underlying trend</p></li>
+<li><p>For Europe, most of the visible correlation can be attributed to the underlying trend</p></li>
+<li><p>This contrasts with the region of greater horn of Africa, where less of the visible correlation can be attributed to the underlying trend</p></li>
 </ul>
 </li>
-<li><p>There is a variation in forecast quality depending  on selection of spatial scale and region.</p></li>
-<li><p>The forecast quality of t2m varies depending on the choice of the regions or locations</p>
-<ul>
-<li><p>The regional mean for NINO3.4 is better correlated to the reanalysis than the global regional mean</p></li>
-<li><p>Bonn has low correlation and most of the quality can be attributed to the underlying trend in the dataset</p></li>
-<li><p>Addis Ababa has some correlation which is retained even after detrending</p></li>
-</ul>
-</li>
+<li><p>Users are generally advised to avoid selecting small regions or single grid cells when using seasonal forecasts as they are only expected to be skillful in predicting large scale variations in monthly or seasonal deviations. Selecting larger regions based on a common climatology generally results in increased robustness and signal to noise</p></li>
 </ul>
 </div>
 </section>
 <section id="methodology">
 <h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
-<p>This notebook provides a comprehensive assessment of the quality of seasonal monthly forecast anomalies (<a class="reference external" href="https://cds.climate.copernicus.eu/datasets/seasonal-monthly-single-levels" rel="noreferrer" target="_blank">https://cds.climate.copernicus.eu/datasets/seasonal-monthly-single-levels</a>) through comparison with the ERA5 reanalysis (<a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-monthly-means" rel="noreferrer" target="_blank">https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-monthly-means</a>). The analysis is carried out globally and for three regions chosen based on effects of trend on the correlation. Data were accessed from the CDS.
-Using this data the anomaly was calculated, and was determined assuming a linear trend. A dataset was then generated containing both the original anomaly and the detrended.</p>
+<p>This notebook provides an assessment of the quality of seasonal monthly forecast temperature anomalies derived from the monthly means (<a class="reference external" href="https://cds.climate.copernicus.eu/datasets/seasonal-monthly-single-levels" rel="noreferrer" target="_blank">https://cds.climate.copernicus.eu/datasets/seasonal-monthly-single-levels</a>) through comparison with the ERA5 reanalysis (<a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-monthly-means" rel="noreferrer" target="_blank">https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-monthly-means</a>). The hindcast anomalies are calculated from the monthly means as the anomalies catalogue entry only provides the real time forecasts. Data were accessed from the CDS.</p>
+<p>Using this data the anomaly was calculated for the two meter temperature (t2m), against the period 1993-2024, and was detrended assuming a linear trend. A dataset was then generated containing both the original anomaly and the detrended. The analysis was then carried out globally and for three regions chosen based on effects of trend on the correlation.</p>
 <p>First, the global case was considered both including and excluding trend, plotting anomaly for the ensemble members, ensemble mean, and ERA5. The correlation was also calculated.</p>
-<p>To further consider the correlation, maps were generated to more clearly view the spatial variations of correlation in anomaly (ref?) between the seasonal forecast and ERA5. Based on these maps, a set of regions were selected for further study, based on the magnitude of the correlation.
+<p>To further consider the correlation, maps were generated to more clearly view the spatial variations of correlation in anomaly (as can seen on the <a class="reference external" href="https://confluence.ecmwf.int/display/CKB/C3S+seasonal+forecasts+verification+plots" rel="noreferrer" target="_blank">C3S verification page</a>) between the seasonal forecast and ERA5. Based on these maps, a set of regions were selected for further study, based on the magnitude of the correlation.
 Plots were then generated for nested domains. Three spatial scales were considered, a larger, continental scale, a smaller country scale and a much smaller city scale. Data were selected for each domain based on a lat/lon box.</p>
 <p>The resulting plots, displaying the ensemble members, ensemble mean, and ERA5, aim to visualise the variation in quality based on the selected regions of interest. This was also done for the detrended anomaly, and correlation was also calculated for each of the domains.</p>
 <p><strong><a class="reference internal" href="#seasonal-seasonal-monthly-single-levels-resolution-q06-section-1"><span class="std std-ref">1. Choose data to use and setup code</span></a></strong></p>
 <ul class="simple">
-<li><p>Choose a selection of forecast systems and model versions, hindcast period (normally 1993-2016), forecast and leadtime months</p></li>
+<li><p>Choose a selection of forecast systems and model versions, hindcast period (normally 1993-2016 to align with the C3S common hindcast period), forecast and leadtime months</p></li>
 <li><p>Compute the anomaly of the forecast and reanalysis data</p></li>
 <li><p>The data is detrended assuming a linear trend in the data from start year to end year</p></li>
 <li><p>Both the original and detrended data is saved for the following analysis</p></li>
@@ -637,7 +639,7 @@ Plots were then generated for nested domains. Three spatial scales were consider
             
             <span class="n">fig</span><span class="p">,</span><span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">num_rows</span><span class="p">,</span><span class="n">num_cols</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
             <span class="n">dtrnd</span> <span class="o">=</span> <span class="s2">&quot;(Detrended)&quot;</span> <span class="k">if</span> <span class="n">detrend</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
-            <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Figure </span><span class="si">{</span><span class="n">fignums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">: Different regions - t2m, Leadtime: </span><span class="si">{</span><span class="n">leadtime</span><span class="o">+</span><span class="mi">2</span><span class="si">}</span><span class="s2">, Valid for: </span><span class="si">{</span><span class="n">months</span><span class="p">[</span><span class="n">leadtime</span><span class="p">]</span><span class="si">}</span><span class="s2"> &quot;</span><span class="o">+</span> <span class="n">dtrnd</span><span class="p">)</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Figure </span><span class="si">{</span><span class="n">fignums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">: Different regions - t2m &quot;</span><span class="o">+</span> <span class="n">dtrnd</span> <span class="o">+</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">month_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">fignums</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
             <span class="n">count_row</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">count_col</span> <span class="o">=</span> <span class="mi">0</span>
@@ -658,7 +660,6 @@ Plots were then generated for nested domains. Three spatial scales were consider
                 <span class="n">data</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">detrend</span><span class="o">=</span><span class="n">detrend</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span><span class="n">hue_style</span><span class="o">=</span><span class="s2">&quot;bo&quot;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span><span class="s2">&quot;Realization&quot;</span><span class="p">)</span>
                 <span class="n">mean_ens</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">detrend</span><span class="o">=</span><span class="n">detrend</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Realization Mean&quot;</span><span class="p">)</span>
                 <span class="n">da_reanalysis_mean</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">detrend</span><span class="o">=</span><span class="n">detrend</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;ERA5&quot;</span><span class="p">)</span>
-                <span class="c1"># ax.set_title(region_name + f&quot; lat: [{lat.stop}, {lat.start}] lon: [{lon.start}, {lon.stop}], Corr = {corr:.3}&quot;)</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">region_name</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Corr = </span><span class="si">{</span><span class="n">corr</span><span class="si">:</span><span class="s2">.3</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="k">with</span> <span class="n">mpl</span><span class="o">.</span><span class="n">rc_context</span><span class="p">({</span><span class="s2">&quot;legend.fontsize&quot;</span><span class="p">:</span> <span class="s2">&quot;small&quot;</span><span class="p">,</span> <span class="s2">&quot;legend.framealpha&quot;</span> <span class="p">:</span> <span class="mf">0.3</span><span class="p">}):</span>
                     <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
@@ -712,12 +713,14 @@ Plots were then generated for nested domains. Three spatial scales were consider
 <span class="n">collection_id_reanalysis</span> <span class="o">=</span> <span class="s2">&quot;reanalysis-era5-single-levels-monthly-means&quot;</span>
 <span class="n">collection_id_seasonal</span> <span class="o">=</span> <span class="s2">&quot;seasonal-monthly-single-levels&quot;</span>
 
+
 <span class="n">months</span> <span class="o">=</span> <span class="p">{</span>
     <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;June&quot;</span><span class="p">,</span>
     <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;July&quot;</span><span class="p">,</span>
     <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;August&quot;</span>
 <span class="p">}</span>
 
+<span class="n">month_string</span> <span class="o">=</span> <span class="s2">&quot;Start month: MAY - Valid month: JUNE&quot;</span>
 <span class="n">common_request</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;grib&quot;</span><span class="p">,</span>
     <span class="s2">&quot;area&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">89.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">179.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">89.5</span><span class="p">,</span> <span class="mf">179.5</span><span class="p">],</span>
@@ -776,7 +779,6 @@ Plots were then generated for nested domains. Three spatial scales were consider
 <span id="seasonal-seasonal-monthly-single-levels-resolution-q06-section-2"></span><h3>2. Comparing global correlation<a class="headerlink" href="#comparing-global-correlation" title="Link to this heading">#</a></h3>
 <p>Compute the ensemble mean of the seasonal forecast anomaly data</p>
 <p>Plot the original anomaly data for each ensemble member, the ensemble mean, and the reanalysis anomaly.</p>
-<p>Plot the detrended anomaly data for each ensemble member, the ensemble mean, and the reanalysis anomaly.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -795,6 +797,7 @@ Plots were then generated for nested domains. Three spatial scales were consider
 </div>
 </details>
 </div>
+<p>Plot the detrended anomaly data for each ensemble member, the ensemble mean, and the reanalysis anomaly.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -808,7 +811,7 @@ Plots were then generated for nested domains. Three spatial scales were consider
 <span class="n">da_reanalysis_mean</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">detrend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="o">+</span><span class="n">leadtime</span><span class="p">,</span><span class="mi">96</span><span class="o">+</span><span class="n">leadtime</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;ERA5 monthly mean&quot;</span><span class="p">)</span>
 <span class="n">mean_ens</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">detrend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Ensemble mean&quot;</span><span class="p">)</span>
 <span class="n">fignum</span><span class="o">=</span><span class="s2">&quot;2.1&quot;</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Figure </span><span class="si">{</span><span class="n">fignum</span><span class="si">}</span><span class="s2">: Global seasonal forecast t2m anomaly, leadtime month: </span><span class="si">{</span><span class="n">leadtime</span><span class="o">+</span><span class="mi">2</span><span class="si">}</span><span class="s2">. Corr </span><span class="si">{</span><span class="n">correlation</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">. Valid for: </span><span class="si">{</span><span class="n">months</span><span class="p">[</span><span class="n">leadtime</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Figure </span><span class="si">{</span><span class="n">fignum</span><span class="si">}</span><span class="s2">: Global seasonal forecast t2m anomaly. Corr </span><span class="si">{</span><span class="n">correlation</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="si">{</span><span class="n">month_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -816,7 +819,7 @@ Plots were then generated for nested domains. Three spatial scales were consider
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/3cf254738274e47e1cac7a6166ab9ef6b89e7f5395e25cb6006f20816d32d639.png" src="../_images/3cf254738274e47e1cac7a6166ab9ef6b89e7f5395e25cb6006f20816d32d639.png" />
+<img alt="../_images/ce6f4a61794d7711067fc75d1e06c237980a04284029cfdc207152bdbcd4402f.png" src="../_images/ce6f4a61794d7711067fc75d1e06c237980a04284029cfdc207152bdbcd4402f.png" />
 </div>
 </div>
 <section id="plot-after-detrending">
@@ -834,7 +837,7 @@ Plots were then generated for nested domains. Three spatial scales were consider
 <span class="n">da_reanalysis_mean</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">detrend</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="o">+</span><span class="n">leadtime</span><span class="p">,</span><span class="mi">96</span><span class="o">+</span><span class="n">leadtime</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;ERA5 monthly mean&quot;</span><span class="p">)</span>
 <span class="n">mean_ens</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">detrend</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Ensemble mean&quot;</span><span class="p">)</span>
 <span class="n">fignum</span><span class="o">=</span><span class="s2">&quot;2.2&quot;</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Figure </span><span class="si">{</span><span class="n">fignum</span><span class="si">}</span><span class="s2">: Global seasonal forecast t2m anomaly, leadtime month: </span><span class="si">{</span><span class="n">leadtime</span><span class="o">+</span><span class="mi">2</span><span class="si">}</span><span class="s2">. Corr </span><span class="si">{</span><span class="n">correlation</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">. Valid for: </span><span class="si">{</span><span class="n">months</span><span class="p">[</span><span class="n">leadtime</span><span class="p">]</span><span class="si">}</span><span class="s2"> (Detrended)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Figure </span><span class="si">{</span><span class="n">fignum</span><span class="si">}</span><span class="s2">: Global seasonal forecast t2m anomaly. Corr </span><span class="si">{</span><span class="n">correlation</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">. (Detrended) </span><span class="se">\n</span><span class="si">{</span><span class="n">month_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -842,7 +845,7 @@ Plots were then generated for nested domains. Three spatial scales were consider
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/08578997a2ad2c3926c66d8304a73f21aaf356e2d044a072658d313f4073ad92.png" src="../_images/08578997a2ad2c3926c66d8304a73f21aaf356e2d044a072658d313f4073ad92.png" />
+<img alt="../_images/a51e833df29aae2d5529c95d005df26e42e706ec95c220c6791ab2cd5930561d.png" src="../_images/a51e833df29aae2d5529c95d005df26e42e706ec95c220c6791ab2cd5930561d.png" />
 </div>
 </div>
 </section>
@@ -864,7 +867,7 @@ Plots were then generated for nested domains. Three spatial scales were consider
     <span class="n">corr</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;Correlation&quot;</span><span class="p">})</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="s2">&quot;110m&quot;</span><span class="p">)</span>
     <span class="n">fignum</span><span class="o">=</span><span class="s2">&quot;3.1&quot;</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Figure </span><span class="si">{</span><span class="n">fignum</span><span class="si">}</span><span class="s2">: Correlation of t2m anomaly, leadtime month = 2. Valid for: </span><span class="si">{</span><span class="n">months</span><span class="p">[</span><span class="n">leadtime</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Figure </span><span class="si">{</span><span class="n">fignum</span><span class="si">}</span><span class="s2">: Correlation of t2m anomaly </span><span class="se">\n</span><span class="si">{</span><span class="n">month_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="n">subplot_kw</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()))</span>
@@ -872,23 +875,23 @@ Plots were then generated for nested domains. Three spatial scales were consider
     <span class="n">corr_detrend</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;Correlation&quot;</span><span class="p">})</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="s2">&quot;110m&quot;</span><span class="p">)</span>
     <span class="n">fignum</span><span class="o">=</span><span class="s2">&quot;3.2&quot;</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Figure </span><span class="si">{</span><span class="n">fignum</span><span class="si">}</span><span class="s2">: Correlation of t2m anomaly, leadtime month = 2. Valid for: </span><span class="si">{</span><span class="n">months</span><span class="p">[</span><span class="n">leadtime</span><span class="p">]</span><span class="si">}</span><span class="s2"> (Detrended)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Figure </span><span class="si">{</span><span class="n">fignum</span><span class="si">}</span><span class="s2">: Correlation of t2m anomaly (Detrended) </span><span class="se">\n</span><span class="si">{</span><span class="n">month_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="n">subplot_kw</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()))</span>
     <span class="p">(</span><span class="n">corr</span><span class="o">-</span><span class="n">corr_detrend</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\Delta$ Correlation&quot;</span><span class="p">})</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="s2">&quot;110m&quot;</span><span class="p">)</span>
     <span class="n">fignum</span><span class="o">=</span><span class="s2">&quot;3.3&quot;</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Figure </span><span class="si">{</span><span class="n">fignum</span><span class="si">}</span><span class="s2">: Difference in correlation of t2m anomaly, leadtime month = 2. Valid for: </span><span class="si">{</span><span class="n">months</span><span class="p">[</span><span class="n">leadtime</span><span class="p">]</span><span class="si">}</span><span class="s2"> (Trended - Detrended)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Figure </span><span class="si">{</span><span class="n">fignum</span><span class="si">}</span><span class="s2">: Difference in correlation of t2m anomaly (Trended - Detrended) </span><span class="se">\n</span><span class="si">{</span><span class="n">month_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/a5d31cc5db7694fbffd04efe679306f5187fe21ee833d2d1cf7147cb9012f7f9.png" src="../_images/a5d31cc5db7694fbffd04efe679306f5187fe21ee833d2d1cf7147cb9012f7f9.png" />
-<img alt="../_images/870edb3a25e0961a4ff2764f00bc411af3c2a921a0f15f44640722ef5f9f2598.png" src="../_images/870edb3a25e0961a4ff2764f00bc411af3c2a921a0f15f44640722ef5f9f2598.png" />
-<img alt="../_images/006d630753f654e66c0f952751cbc4abe39f86e45a79e622c8d847faa8044980.png" src="../_images/006d630753f654e66c0f952751cbc4abe39f86e45a79e622c8d847faa8044980.png" />
+<img alt="../_images/3040a534cfecc68a5620cfc99576c97fac7ec41e9b01d6302481fe3ac4d0e37f.png" src="../_images/3040a534cfecc68a5620cfc99576c97fac7ec41e9b01d6302481fe3ac4d0e37f.png" />
+<img alt="../_images/24f2c4cc601ec8f0ec2aaebd7294cc51848b9a7fcc177faad1832a44789f0e37.png" src="../_images/24f2c4cc601ec8f0ec2aaebd7294cc51848b9a7fcc177faad1832a44789f0e37.png" />
+<img alt="../_images/9abf98b9c112adf7664606196448618710ae3b1cc51d48bcf41aefb742da9986.png" src="../_images/9abf98b9c112adf7664606196448618710ae3b1cc51d48bcf41aefb742da9986.png" />
 </div>
 </div>
 <section id="selecting-regions">
@@ -956,7 +959,7 @@ Plots were then generated for nested domains. Three spatial scales were consider
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/bb2f225ca0221ff4e7b00eb3cd5463c45fa6f3d719257aebbf745b9369f9c685.png" src="../_images/bb2f225ca0221ff4e7b00eb3cd5463c45fa6f3d719257aebbf745b9369f9c685.png" />
+<img alt="../_images/6f820ce14bbdabec4014ebd1f5c1eee11e1ec773687a39c436661e6927d6e6b0.png" src="../_images/6f820ce14bbdabec4014ebd1f5c1eee11e1ec773687a39c436661e6927d6e6b0.png" />
 </div>
 </div>
 </section>
@@ -1018,9 +1021,9 @@ Plots were then generated for nested domains. Three spatial scales were consider
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/17dc8b373457db0c6e4409c07328ff596c06b2b9c85ed3a69ffe947db7bbb391.png" src="../_images/17dc8b373457db0c6e4409c07328ff596c06b2b9c85ed3a69ffe947db7bbb391.png" />
-<img alt="../_images/47e9f60108c0357376462d2f55cefe97e6fb2f59442ed89eb81e25770a47d36e.png" src="../_images/47e9f60108c0357376462d2f55cefe97e6fb2f59442ed89eb81e25770a47d36e.png" />
-<img alt="../_images/f2cd64322975daca5a65d564c6e1138e247e5328cd5dc5fd20bd317f561aeae3.png" src="../_images/f2cd64322975daca5a65d564c6e1138e247e5328cd5dc5fd20bd317f561aeae3.png" />
+<img alt="../_images/2a49ac9b4ef48654e8f55fef1849ffbe767aeec7e4bf7255d2bce713c0b365fb.png" src="../_images/2a49ac9b4ef48654e8f55fef1849ffbe767aeec7e4bf7255d2bce713c0b365fb.png" />
+<img alt="../_images/f87b4f0be2f7e7b7376e5aea24eb60da9dd5c0564e1cc3855c08406e4a13d1c0.png" src="../_images/f87b4f0be2f7e7b7376e5aea24eb60da9dd5c0564e1cc3855c08406e4a13d1c0.png" />
+<img alt="../_images/94feec1571b3794767b86b3ded7f8c53bce5806f49fbb8432df4d89dae6d5369.png" src="../_images/94feec1571b3794767b86b3ded7f8c53bce5806f49fbb8432df4d89dae6d5369.png" />
 </div>
 </div>
 <div class="cell tag_hide-input docutils container">
@@ -1037,9 +1040,9 @@ Plots were then generated for nested domains. Three spatial scales were consider
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/d83b6c83d0ffcc2aa9bcda580e3f22d7a45ec27f1aca6d92dd01934a8b3d042e.png" src="../_images/d83b6c83d0ffcc2aa9bcda580e3f22d7a45ec27f1aca6d92dd01934a8b3d042e.png" />
-<img alt="../_images/0db0b7d5a794482a5326f321872f8f1c359908cfde9247fd5fef341787cf8c73.png" src="../_images/0db0b7d5a794482a5326f321872f8f1c359908cfde9247fd5fef341787cf8c73.png" />
-<img alt="../_images/f63a0a4c498dd7a4cbb531c9cfccaf8b5555fcf387bfdd9273222826b6fbae48.png" src="../_images/f63a0a4c498dd7a4cbb531c9cfccaf8b5555fcf387bfdd9273222826b6fbae48.png" />
+<img alt="../_images/b1003247cc6aa96c41e1528357bad14be490d9287ef3b519d6b31cf27ecff286.png" src="../_images/b1003247cc6aa96c41e1528357bad14be490d9287ef3b519d6b31cf27ecff286.png" />
+<img alt="../_images/e26bef2fe6e9cc9dede7895c6ef8f92352a77c3be9bbac7b78cceac7abb9afd5.png" src="../_images/e26bef2fe6e9cc9dede7895c6ef8f92352a77c3be9bbac7b78cceac7abb9afd5.png" />
+<img alt="../_images/af6b80b5a398575b7bd83b7d7b4c230a883218729dc2474e2b2446c599cbeace.png" src="../_images/af6b80b5a398575b7bd83b7d7b4c230a883218729dc2474e2b2446c599cbeace.png" />
 </div>
 </div>
 <div class="cell tag_hide-input docutils container">
@@ -1056,17 +1059,17 @@ Plots were then generated for nested domains. Three spatial scales were consider
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/b20baf2c838407e7b316963a834f9d8e0a7c9dd9132b04c60bae862a668834b0.png" src="../_images/b20baf2c838407e7b316963a834f9d8e0a7c9dd9132b04c60bae862a668834b0.png" />
-<img alt="../_images/15b31af099360191eb4460f527de3fd1f455ae86a35d8a798583ddee30cb1f01.png" src="../_images/15b31af099360191eb4460f527de3fd1f455ae86a35d8a798583ddee30cb1f01.png" />
-<img alt="../_images/24f5052fceba7dd632b8274a591c87831275290df1153232ec82dc3149507afc.png" src="../_images/24f5052fceba7dd632b8274a591c87831275290df1153232ec82dc3149507afc.png" />
+<img alt="../_images/d45005f0bbfde0bb333eefad9eb779b576f11c05fdafe0918dcfd0e9227939b8.png" src="../_images/d45005f0bbfde0bb333eefad9eb779b576f11c05fdafe0918dcfd0e9227939b8.png" />
+<img alt="../_images/5242e3fab81557aa41d7076130ea49e1d5e985ba66090b066ca4721a1f5333d3.png" src="../_images/5242e3fab81557aa41d7076130ea49e1d5e985ba66090b066ca4721a1f5333d3.png" />
+<img alt="../_images/40fb2f71286949dbc8454684b68cf2e54f47985f127811f9195e423a87c41bd6.png" src="../_images/40fb2f71286949dbc8454684b68cf2e54f47985f127811f9195e423a87c41bd6.png" />
 </div>
 </div>
-<section id="how-to-read-the-results">
-<h4>How to read the results<a class="headerlink" href="#how-to-read-the-results" title="Link to this heading">#</a></h4>
+<section id="discussion">
+<h4>Discussion<a class="headerlink" href="#discussion" title="Link to this heading">#</a></h4>
 <p>Looking at the comparison of different regions at different scales a few conclusions can be drawn. Firstly, for regions with a visible trend, that trend inflates the correlation for t2m compared against analysis. This can be seen for Europe, where comparing the detrended and trended plots, the correlation is greater for the data with trend in Europe. Hence, for Europe, most of the visible correlation can be attributed to the underlying trend.</p>
 <p>This can be compared with the region of greater horn of Africa. Where comparing the trended and detrended case indicates that less of the visible correlation can be attributed to the underlying trend.</p>
 <p>For the selected regions, forecast quality depending on scale varies. Looking at the Europe, Germany, Bonn case, there is a drop in forecast quality as the scale decreases. This cannot be observed in the NINO3.4 where the quality remains more or less constant, despite the decrease in region. The Greater Horn of Africa, where the drop off in quality with scale can be seen somewhat in the case of Addis Ababa, but not on the same scale as can be seen in the Europe case.</p>
-<p>Considering this, and the anomalies for the different regions at different scales, it can be seen that the region of NINO3.4 has a better correlation with the reanalysis than the global regional mean, while Bonn has a low correlation where most of the quality can be attributed to the underlying trend. Addis Ababa has some correlation, which is retained even after detrending.</p>
+<p>Considering this, and the anomalies for the different regions at different scales, it can be seen that the region of NINO3.4 has a better correlation with the reanalysis than the global regional mean, while Bonn has a low correlation where most of the quality can be attributed to the underlying trend. Addis Ababa has some correlation, which is retained even after detrending. However, the high correlations for the NINO3.4 region are partially dependent on the start date and forecast length, which can be seen in the <a class="reference external" href="https://confluence.ecmwf.int/display/CKB/C3S+seasonal+forecasts+verification+plots" rel="noreferrer" target="_blank">SST indices plots on the C3S verification page</a>), though it should be noted that these plots use sea surface temperature and not t2m.</p>
 </section>
 </section>
 </section>
@@ -1179,7 +1182,7 @@ Plots were then generated for nested domains. Three spatial scales were consider
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-and-describe-results">4. Plot and describe results</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-read-the-results">How to read the results</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">Discussion</a></li>
 </ul>
 </li>
 </ul>
