@@ -18,21 +18,19 @@ KNOWN_SSL_ISSUES = (
 )
 
 CROSSREF_URL = "https://api.crossref.org/works/"
+URL_PATTERN = r"https?://[^\s)]+"
 
 
 def validate_urls(path: Path) -> None:
     notebook = nbformat.read(path, nbformat.NO_CONVERT)
 
+    exceptions: dict[str, Exception] = {}
     for cell in notebook.cells:
         if cell["cell_type"] != "markdown":
             continue
 
         source = cell.get("source", "")
-        for url in set(
-            re.findall(
-                r"\(\s*(https?://[^\s()]+(?:\([^\s()]*\)[^\s()]*)*)\s*\)", source
-            )
-        ):
+        for url in set(re.findall(URL_PATTERN, source)):
             url = url.replace("https://doi.org/", CROSSREF_URL)
             try:
                 response = requests.head(url, allow_redirects=True)
@@ -47,12 +45,22 @@ def validate_urls(path: Path) -> None:
                         if url.startswith(CROSSREF_URL):
                             url = url.rstrip("/") + "/agency"
                         response = requests.get(url, allow_redirects=True)
+                if response.status_code == 429:
+                    continue
                 response.raise_for_status()
-            except requests.exceptions.SSLError:
+            except requests.exceptions.SSLError as exc:
                 if not url.startswith(KNOWN_SSL_ISSUES):
-                    raise RuntimeError(f"{path=!s}: Invalid {url=}")
-            except Exception:
-                raise RuntimeError(f"{path=!s}: Invalid {url=}")
+                    exceptions[url] = exc
+            except Exception as exc:
+                exceptions[url] = exc
+
+    if exceptions:
+        raise RuntimeError(
+            "\n\n".join(
+                [f"Invalid URLs in {path=!s}"]
+                + [f"{url=}\n{exc!s}" for url, exc in exceptions.items()]
+            )
+        )
 
 
 def main(paths: list[Path]) -> None:
