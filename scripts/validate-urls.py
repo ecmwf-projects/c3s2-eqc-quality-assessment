@@ -14,6 +14,12 @@ USER_AGENT = (
     " Chrome/131.0.0.0 Safari/537.36"
 )
 
+KNOWN_SSL_ISSUES = (
+    "https://www.cnr.it",
+    "https://hermes.acri.fr",
+    "https://alt-perubolivia.org",
+)
+
 KNOWN_403_ISSUES = ("https://www.iea.org",)
 
 CROSSREF_URL = "https://api.crossref.org/works/"
@@ -49,6 +55,9 @@ def validate_urls(path: Path) -> None:
                 ):
                     continue
                 response.raise_for_status()
+            except requests.exceptions.SSLError as exc:
+                if not url.startswith(KNOWN_SSL_ISSUES):
+                    exceptions[url] = exc
             except Exception as exc:
                 exceptions[url] = exc
 
