@@ -4,6 +4,9 @@ from pathlib import Path
 
 import nbformat
 import requests
+import truststore
+
+truststore.inject_into_ssl()
 
 USER_AGENT = (
     "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36"
@@ -17,6 +20,8 @@ KNOWN_SSL_ISSUES = (
     "https://alt-perubolivia.org",
     "https://apps.climate.copernicus.eu",
 )
+
+KNOWN_403_ISSUES = ("https://www.iea.org",)
 
 CROSSREF_URL = "https://api.crossref.org/works/"
 URL_PATTERN = r"https?://[^\s)]+"
@@ -46,6 +51,10 @@ def validate_urls(path: Path) -> None:
                         if url.startswith(CROSSREF_URL):
                             url = url.rstrip("/") + "/agency"
                         response = requests.get(url, allow_redirects=True)
+                if response.status_code == 429 or (
+                    response.status_code == 403 and url.startswith(KNOWN_403_ISSUES)
+                ):
+                    continue
                 response.raise_for_status()
             except requests.exceptions.SSLError as exc:
                 if not url.startswith(KNOWN_SSL_ISSUES):
