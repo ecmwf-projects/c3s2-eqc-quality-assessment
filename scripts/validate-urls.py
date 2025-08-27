@@ -4,17 +4,14 @@ from pathlib import Path
 
 import nbformat
 import requests
+import truststore
+
+truststore.inject_into_ssl()
 
 USER_AGENT = (
     "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36"
     " (KHTML, like Gecko)"
     " Chrome/131.0.0.0 Safari/537.36"
-)
-
-KNOWN_SSL_ISSUES = (
-    "https://www.cnr.it",
-    "https://hermes.acri.fr",
-    "https://alt-perubolivia.org",
 )
 
 KNOWN_403_ISSUES = ("https://www.iea.org",)
@@ -52,9 +49,6 @@ def validate_urls(path: Path) -> None:
                 ):
                     continue
                 response.raise_for_status()
-            except requests.exceptions.SSLError as exc:
-                if not url.startswith(KNOWN_SSL_ISSUES):
-                    exceptions[url] = exc
             except Exception as exc:
                 exceptions[url] = exc
 
