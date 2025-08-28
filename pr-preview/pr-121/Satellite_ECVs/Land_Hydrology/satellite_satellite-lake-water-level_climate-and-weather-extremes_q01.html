@@ -468,7 +468,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#download-data">Download data</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c3s-comparison-dahiti">2. C3S comparison DAHITI</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-of-c3s-lwl-with-the-dahiti-dataset">2. Comparison of C3S LWL with the DAHITI dataset</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#load-and-preprocess-dahiti-data">Load and preprocess DAHITI data</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#monthly-temporal-completeness">Monthly temporal completeness</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-c3s-and-dahiti-s-water-level">Plot C3S and DAHITI’s Water Level</a></li>
@@ -506,7 +506,7 @@ document.write(`
 Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
 </div><section class="tex2jax_ignore mathjax_ignore" id="lake-victorias-2020-flood-event-analysis">
 <h1><span class="section-number">1.5.1. </span>Lake Victoria’s 2020 Flood Event Analysis<a class="headerlink" href="#lake-victorias-2020-flood-event-analysis" title="Link to this heading">#</a></h1>
-<p>Production date: 19-08-2025</p>
+<p>Production date: 28-08-2025</p>
 <p>Produced by: Amaya Camila Trigoso Barrientos (VUB)</p>
 <section id="use-case-detection-and-quantification-of-the-2020-lake-victoria-flood-event-through-statistical-analysis">
 <h2>🌍 Use case: Detection and quantification of the 2020 Lake Victoria flood event through statistical analysis<a class="headerlink" href="#use-case-detection-and-quantification-of-the-2020-lake-victoria-flood-event-through-statistical-analysis" title="Link to this heading">#</a></h2>
@@ -517,7 +517,7 @@ Please note that this repository is used for development and review, so quality 
 <li><p><strong>Can the C3S Lake Water Levels dataset be used to conduct extreme value analyses to detect and quantify flood events?</strong></p></li>
 </ul>
 <p>In 2020, Lake Victoria experienced an extreme flood event with significant regional impacts. Accurate definition and characterization of such events are essential for understanding their causes and informing adaptation strategies. This notebook explores whether the <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/satellite-lake-water-level?tab=overview" rel="noreferrer" target="_blank">Lake water levels from 1992 to present derived from satellite observations</a> (C3S-LWL v5.0) dataset, a freely available and harmonized satellite-derived product, is suitable for defining high-impact flood events through statistical analysis.</p>
-<p>Inspired by methodologies such as those applied by Pietrosanti et al. using the DAHITI dataset, this analysis applies extreme value analysis (EVA) to assess the 2020 flood event. The goal is to evaluate whether C3S-LWL v5.0 can serve as a reliable resource for event definition in impact attribution workflows, particularly in data-scarce regions like the Lake Victoria basin.</p>
+<p>Inspired by methodologies such as those applied by Pietroiusti et al. (2024) <a class="reference external" href="https://esd.copernicus.org/articles/15/225/2024/" rel="noreferrer" target="_blank">[1]</a> using the DAHITI dataset, this analysis applies extreme value analysis (EVA) to assess the 2020 flood event. The goal is to evaluate whether C3S-LWL v5.0 can serve as a reliable resource for event definition in impact attribution workflows, particularly in data-scarce regions like the Lake Victoria basin.</p>
 </section>
 <section id="quality-assessment-statement">
 <h2>📢 Quality assessment statement<a class="headerlink" href="#quality-assessment-statement" title="Link to this heading">#</a></h2>
@@ -531,12 +531,13 @@ Please note that this repository is used for development and review, so quality 
 </section>
 <section id="methodology">
 <h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
+<p>First, the C3S LWL and the DAHITI datasets of Lake Victoria’s water levels were compared. Both datasets are based on satellite altimetry but differ in their processing algorithms. We evaluated the two datasets in terms of temporal completeness and analysed the causes of their discrepancies. This comparison was motivated by the fact that DAHITI was used in Pietroiusti et al. (2024) <a class="reference external" href="https://esd.copernicus.org/articles/15/225/2024/" rel="noreferrer" target="_blank">[1]</a> for extreme event attribution (EEA) of the 2020 Lake Victoria flood. Our goal was to assess whether the C3S LWL dataset could serve as a suitable alternative to DAHITI for this type of application. To extend the record, a reconstructed lake level dataset was also built using HYDROMET data, which covers a period prior to satellite-based products. Finally, since lake level data is primarily required during the event definition step of the EEA process, we focused on this first step and tested its implementation using the C3S LWL dataset. The same procedure as on Pietroiusti et al. (2024) <a class="reference external" href="https://esd.copernicus.org/articles/15/225/2024/" rel="noreferrer" target="_blank">[1]</a> was followed for the event definition, which involved the calculation and ranking of the annual block maximum of the chosen variable, which was the rate of change in water levels over a time window.</p>
 <p>The analysis and results are organised in the following steps, which are detailed in the sections below:</p>
 <p><strong><a class="reference internal" href="#satellite-satellite-lake-water-level-climate-and-weather-extremes-q01-section-1"><span class="std std-ref">1. Data request and download</span></a></strong></p>
 <ul class="simple">
 <li><p>Download C3S–LWL v5.0 satellite-lake-water-level data for Lake Victoria.</p></li>
 </ul>
-<p><strong><a class="reference internal" href="#satellite-satellite-lake-water-level-climate-and-weather-extremes-q01-section-2"><span class="std std-ref">2. C3S comparison DAHITI</span></a></strong></p>
+<p><strong><a class="reference internal" href="#satellite-satellite-lake-water-level-climate-and-weather-extremes-q01-section-2"><span class="std std-ref">2. Comparison of C3S LWL with the DAHITI dataset</span></a></strong></p>
 <ul class="simple">
 <li><p>Load and preprocess DAHITI data.</p></li>
 <li><p>Plot monthly count of data recorded for both the DAHITI and C3S data.</p></li>
@@ -619,7 +620,7 @@ Please note that this repository is used for development and review, so quality 
 </section>
 <section id="download-data">
 <h4>Download data<a class="headerlink" href="#download-data" title="Link to this heading">#</a></h4>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -637,7 +638,7 @@ Please note that this repository is used for development and review, so quality 
 <p class="expanded admonition-title">Hide code cell output</p>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 [00:00&lt;00:00,  8.90it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 [00:00&lt;00:00, 20.35it/s]
 </pre></div>
 </div>
 </div>
@@ -645,8 +646,8 @@ Please note that this repository is used for development and review, so quality 
 </div>
 </section>
 </section>
-<section id="c3s-comparison-dahiti">
-<span id="satellite-satellite-lake-water-level-climate-and-weather-extremes-q01-section-2"></span><h3>2. C3S comparison DAHITI<a class="headerlink" href="#c3s-comparison-dahiti" title="Link to this heading">#</a></h3>
+<section id="comparison-of-c3s-lwl-with-the-dahiti-dataset">
+<span id="satellite-satellite-lake-water-level-climate-and-weather-extremes-q01-section-2"></span><h3>2. Comparison of C3S LWL with the DAHITI dataset<a class="headerlink" href="#comparison-of-c3s-lwl-with-the-dahiti-dataset" title="Link to this heading">#</a></h3>
 <section id="load-and-preprocess-dahiti-data">
 <h4>Load and preprocess DAHITI data<a class="headerlink" href="#load-and-preprocess-dahiti-data" title="Link to this heading">#</a></h4>
 <p>This assessment applies the methods developed by Pietroiusti et al. (2024) <a class="reference external" href="https://esd.copernicus.org/articles/15/225/2024/" rel="noreferrer" target="_blank">[1]</a>, whose data are openly available via <a class="reference external" href="https://zenodo.org/records/10793917" rel="noreferrer" target="_blank">Zenodo</a>. In that study, the DAHITI dataset <a class="reference external" href="https://hess.copernicus.org/articles/19/4345/2015/hess-19-4345-2015.html" rel="noreferrer" target="_blank">[2]</a> was employed. Accordingly, a comparison of Lake Victoria’s water level time series from C3S-LWL v5.0 and DAHITI will be carried out. The DAHITI time series for Lake Victoria can be accessed and downloaded from the <a class="reference external" href="https://dahiti.dgfi.tum.de/en/2/water-level-altimetry/" rel="noreferrer" target="_blank">DAHITI portal</a>.</p>
@@ -684,21 +685,21 @@ Please note that this repository is used for development and review, so quality 
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- 1. Convert date column to datetime and set as index ---</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert date column to datetime and set as index</span>
 <span class="n">dahiti_raw</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">dahiti_raw</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span>
 <span class="n">dahiti_raw</span> <span class="o">=</span> <span class="n">dahiti_raw</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">)</span>
 <span class="n">dahiti_raw</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;datetime&#39;</span>
 
-<span class="c1"># --- 2. Create scaled integer water level ---</span>
+<span class="c1"># Create scaled integer water level</span>
 <span class="n">dahiti_raw</span><span class="p">[</span><span class="s1">&#39;water_level&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">dahiti_raw</span><span class="p">[</span><span class="s1">&#39;water level&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 
-<span class="c1"># --- 3. Keep original as meters ---</span>
+<span class="c1"># Keep original as meters</span>
 <span class="n">dahiti_raw</span><span class="p">[</span><span class="s1">&#39;water_level_m&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dahiti_raw</span><span class="p">[</span><span class="s1">&#39;water level&#39;</span><span class="p">]</span>
 
-<span class="c1"># --- 4. Error as integer ---</span>
+<span class="c1"># Error as integer</span>
 <span class="n">dahiti_raw</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dahiti_raw</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 
-<span class="c1"># --- 5. Reorder columns ---</span>
+<span class="c1"># Reorder columns</span>
 <span class="n">df_dahiti</span> <span class="o">=</span> <span class="n">dahiti_raw</span><span class="p">[[</span><span class="s1">&#39;water_level&#39;</span><span class="p">,</span><span class="s1">&#39;error&#39;</span><span class="p">,</span><span class="s1">&#39;water_level_m&#39;</span><span class="p">]]</span>
 <span class="n">df_dahiti</span>
 </pre></div>
@@ -872,7 +873,7 @@ Up until the end of 2010, only one value per month was recorded. From 2011 to 20
 <span class="n">da_df</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;water_level&#39;</span><span class="p">)</span>
 <span class="c1"># Plotting</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
-<span class="n">df_dahiti_o</span><span class="p">[</span><span class="s1">&#39;water_level_m&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;DAHITI&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">df_dahiti</span><span class="p">[</span><span class="s1">&#39;water_level_m&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;DAHITI&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
 <span class="n">da_df</span><span class="p">[</span><span class="s1">&#39;water_level&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;C3S-LWL v5.0&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
 
 <span class="c1"># Final touches</span>
@@ -888,7 +889,7 @@ Up until the end of 2010, only one value per month was recorded. From 2011 to 20
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/00d4489074439d16c5489ab2bd8a19e2523a1cbc7b155713928169ef84bd6085.png" src="../../_images/00d4489074439d16c5489ab2bd8a19e2523a1cbc7b155713928169ef84bd6085.png" />
+<img alt="../../_images/cc4fcac22ea7e86d6d54831c70df5bd963120e7db36eaa0bf32d3a911737bd26.png" src="../../_images/cc4fcac22ea7e86d6d54831c70df5bd963120e7db36eaa0bf32d3a911737bd26.png" />
 </div>
 </div>
 <p><em>Figure 2. Lake Victoria’s water level from 1992 to present from C3S-LWL v5.0 and DAHITI.</em></p>
@@ -1200,17 +1201,13 @@ Average difference for 2016-2023: 0.002 m
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">avg_diff</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_overlap</span><span class="p">[</span><span class="s1">&#39;C3S&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df_overlap</span><span class="p">[</span><span class="s1">&#39;HYDROMET&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="c1"># C3S overestimates vs. HYDROMET</span>
 <span class="n">n_diff</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_overlap</span><span class="p">)</span>
 <span class="n">std_diff</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_overlap</span><span class="p">[</span><span class="s1">&#39;C3S&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df_overlap</span><span class="p">[</span><span class="s1">&#39;HYDROMET&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;avg_diff =&#39;</span><span class="p">,</span> <span class="n">avg_diff</span><span class="p">,</span>  <span class="s1">&#39;n_diff =&#39;</span><span class="p">,</span> <span class="n">n_diff</span><span class="p">,</span> <span class="s1">&#39;std_diff =&#39;</span><span class="p">,</span> <span class="n">std_diff</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;avg_diff_r =&#39;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">avg_diff</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;std_diff_r =&#39;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">std_diff</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="p">)</span>
-<span class="c1"># DATHI2022 data: Avg diff is 43.2 cm +/- 5.24 cm (one std)</span>
-<span class="c1"># C3S2023 data: Avg diff is 77.8 cm +/- 3 cm (one std)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Average Difference (C3S - HYDROMET) =&#39;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">avg_diff</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="s1">&#39; ± &#39;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">std_diff</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="s1">&#39; cm&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>avg_diff = 0.7777871747927428 n_diff = 47 std_diff = 0.02967133397421761
-avg_diff_r = 0.778 std_diff_r = 0.03
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Average Difference (C3S - HYDROMET) = 77.8  ±  3.0  cm
 </pre></div>
 </div>
 </div>
@@ -1239,7 +1236,7 @@ avg_diff_r = 0.778 std_diff_r = 0.03
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span>
 
-<span class="c1"># === Left Plot: Full time series ===</span>
+<span class="c1"># Left Plot: Full time series</span>
 <span class="n">HYDROMET_corr</span><span class="p">[</span><span class="s1">&#39;water_level&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;HYDROMET&quot;</span><span class="p">)</span>
 <span class="n">C3S</span><span class="p">[</span><span class="s1">&#39;water_level&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;C3S&quot;</span><span class="p">)</span>
 
@@ -1252,7 +1249,7 @@ avg_diff_r = 0.778 std_diff_r = 0.03
 <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="c1"># === Right Plot: Zoomed section ===</span>
+<span class="c1"># Right Plot: Zoomed section</span>
 <span class="n">C3S</span><span class="p">[</span><span class="s1">&#39;water_level&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;C3S&quot;</span><span class="p">)</span>
 <span class="n">HYDROMET_corr</span><span class="p">[</span><span class="s1">&#39;water_level&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;HYDROMET&quot;</span><span class="p">)</span>
 
@@ -1265,7 +1262,7 @@ avg_diff_r = 0.778 std_diff_r = 0.03
              <span class="n">transform</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span>
              <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
 
-<span class="c1"># === Layout &amp; Save ===</span>
+<span class="c1"># Layout</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -1285,7 +1282,7 @@ avg_diff_r = 0.778 std_diff_r = 0.03
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#CORRECT FOR DIFFERENCE</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Correct for difference</span>
 <span class="n">startHYDROMET</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;1948-01-01&#39;</span><span class="p">)</span>
 <span class="n">endHYDROMET</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;1996-08-01&#39;</span><span class="p">)</span>
 
@@ -1428,11 +1425,11 @@ avg_diff_r = 0.778 std_diff_r = 0.03
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># === Step 1: Set the time window (dt) ===</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the time window (dt)</span>
 <span class="n">dt</span> <span class="o">=</span> <span class="mi">180</span>  <span class="c1"># days</span>
 <span class="n">lakelevels_intr</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;dLdt_</span><span class="si">{</span><span class="n">dt</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lakelevels_intr</span><span class="p">[</span><span class="s1">&#39;water_level&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">lakelevels_intr</span><span class="p">[</span><span class="s1">&#39;water_level&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
 
-<span class="c1"># === Step 2: Extract annual block maxima ===</span>
+<span class="c1"># Extract annual block maxima</span>
 <span class="n">df_block</span> <span class="o">=</span> <span class="n">lakelevels_intr</span><span class="p">[[</span><span class="sa">f</span><span class="s1">&#39;dLdt_</span><span class="si">{</span><span class="n">dt</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">df_block</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_block</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span>
 
@@ -1452,10 +1449,10 @@ avg_diff_r = 0.778 std_diff_r = 0.03
 
 <span class="n">df_max</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">records</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;dLdt_</span><span class="si">{</span><span class="n">dt</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;year&#39;</span><span class="p">)</span>
 
-<span class="c1"># === Step 3: Calculate rank of each year ===</span>
+<span class="c1"># Calculate rank of each year</span>
 <span class="n">df_max</span><span class="p">[</span><span class="s1">&#39;rank&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_max</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;dLdt_</span><span class="si">{</span><span class="n">dt</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 
-<span class="c1"># === Step 4: Print 2020 event details ===</span>
+<span class="c1"># Print 2020 event details</span>
 <span class="k">if</span> <span class="mi">2020</span> <span class="ow">in</span> <span class="n">df_max</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
     <span class="n">val</span> <span class="o">=</span> <span class="n">df_max</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">2020</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;dLdt_</span><span class="si">{</span><span class="n">dt</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span>
     <span class="n">rank</span> <span class="o">=</span> <span class="n">df_max</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">2020</span><span class="p">,</span> <span class="s1">&#39;rank&#39;</span><span class="p">]</span>
@@ -1487,7 +1484,7 @@ avg_diff_r = 0.778 std_diff_r = 0.03
 <span class="c1"># Get top 3 values</span>
 <span class="n">top3</span> <span class="o">=</span> <span class="n">df_max</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;dLdt_</span><span class="si">{</span><span class="n">dt</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 
-<span class="c1"># === Plot ===</span>
+<span class="c1"># Plot</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span>
 
 <span class="c1"># Step plot for annual maxima (red)</span>
@@ -1524,7 +1521,7 @@ avg_diff_r = 0.778 std_diff_r = 0.03
 <p><em>Figure 7. Annual block maxima time series <span class="math notranslate nohighlight">\((\Delta L / \Delta t)_{\text{max}}\)</span> with Δt=180 d for the period 1897–2021 and 10-year rolling mean of the time series (using DAHITI data). Source: Pietroiusti et al. (2022) <a class="reference external" href="https://cris.vub.be/ws/portalfiles/portal/95073120/Geography_MSc_thesis_Rosa_Pietroiusti_final.pdf" rel="noreferrer" target="_blank">[7]</a></em></p>
 <p>The results of this analysis are consistent with those reported by Pietroiusti et al. (2024) <a class="reference external" href="https://esd.copernicus.org/articles/15/225/2024/" rel="noreferrer" target="_blank">[1]</a>. According to the C3S-LWL v5.0 dataset, the year 2020 recorded the third-largest 180-day lake level rise, surpassed only by 1962 and 1998. The magnitude of the 2020 rise was 1.21 meters, which matches the value obtained by Pietroiusti et al. using the DAHITI dataset.</p>
 <p>However, some discrepancies emerge when comparing other years. For instance, in 2000, the C3S-LWL v5.0 data shows a negative value, indicating a consistent decrease in lake levels throughout the year (see <em>Figure 6</em>). Conversely, the corresponding figure in Pietroiusti et al. (2022) <a class="reference external" href="https://cris.vub.be/ws/portalfiles/portal/95073120/Geography_MSc_thesis_Rosa_Pietroiusti_final.pdf" rel="noreferrer" target="_blank">[7]</a> (see <em>Figure 7</em>) shows a slightly positive value.</p>
-<p>These differences likely stem from variations in the underlying datasets, as discussed in <a class="reference internal" href="#satellite-satellite-lake-water-level-climate-and-weather-extremes-q01-section-2"><span class="std std-ref">2. C3S comparison DAHITI</span></a>. In 2000, TOPEX/Poseidon was still the only mission providing data for the C3S-LWL, with only one value per month. Meanwhile, DAHITI applied Kalman-filtered interpolation, resulting in a denser time series. Because no reliable in situ data are available for this period, it is difficult to determine which dataset more accurately reflects reality.</p>
+<p>These differences likely stem from variations in the underlying datasets, as discussed in <a class="reference internal" href="#satellite-satellite-lake-water-level-climate-and-weather-extremes-q01-section-2"><span class="std std-ref">2. Comparison of C3S LWL with the DAHITI dataset</span></a>. In 2000, TOPEX/Poseidon was still the only mission providing data for the C3S-LWL, with only one value per month. Meanwhile, DAHITI applied Kalman-filtered interpolation, resulting in a denser time series. Because no reliable in situ data are available for this period, it is difficult to determine which dataset more accurately reflects reality.</p>
 <p>Nevertheless, the agreement between both datasets on the 2020 block maximum strengthens confidence in the reliability of this result. Although C3S-LWL and DAHITI use different processing algorithms, the increased availability of satellite observations in recent years (particularly after 2016) has resulted in greater similarity between their outputs. With more frequent and higher-quality measurements from multiple missions, the differences between the datasets diminish, making the 1.21 meter increase observed in 2020 not only consistent across sources, but also giving more confidence in the result.</p>
 <p>This assessment supports the suitability of the C3S-LWL v5.0 dataset for extreme event attribution applications, as the event-definition results closely match those from Pietroiusti et al. (2024) <a class="reference external" href="https://esd.copernicus.org/articles/15/225/2024/" rel="noreferrer" target="_blank">[1]</a>. Since this step feeds directly into the rest of the workflow, similar outcomes would be expected in a full attribution analysis.</p>
 </section>
@@ -1639,7 +1636,7 @@ and Albert: Vol 1 Meteorology and Hydrology of the Basin.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#download-data">Download data</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c3s-comparison-dahiti">2. C3S comparison DAHITI</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-of-c3s-lwl-with-the-dahiti-dataset">2. Comparison of C3S LWL with the DAHITI dataset</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#load-and-preprocess-dahiti-data">Load and preprocess DAHITI data</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#monthly-temporal-completeness">Monthly temporal completeness</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-c3s-and-dahiti-s-water-level">Plot C3S and DAHITI’s Water Level</a></li>
