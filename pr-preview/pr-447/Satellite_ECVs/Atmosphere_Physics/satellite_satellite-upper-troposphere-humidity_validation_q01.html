@@ -470,7 +470,7 @@ document.write(`
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-the-datasets-and-perform-space-time-aggregation">Download the datasets and perform space-time aggregation</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#temporal-and-spatial-aggregation"><strong>Temporal and spatial aggregation</strong></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#conversion-of-unit-for-vertical-velocity"><strong>Conversion of unit for vertical velocity</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#change-of-unit-for-vertical-velocity"><strong>Change of unit for vertical velocity</strong></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-geophysical-variables-of-interest">Overview of the geophysical variables of interest</a><ul class="nav section-nav flex-column">
@@ -516,7 +516,7 @@ Please note that this repository is used for development and review, so quality 
 <li><p><strong>Can satellite measurements reproduce the known relationship between large-scale circulation and upper tropospheric humidity (UTH)?</strong></p></li>
 </ul>
 <p>Water vapor in the mid- to upper troposphere, while representing a small fraction of the total column, has
-a significant impact on the Earth’s radiative budget thanks to its radiative and thermodynamical properties.  In the tropics, the distribution of upper tropospheric humidity (UTH) is primarily controlled by large-scale transport, with influences by storm systems in the deep tropics [[1]]</p>
+a significant impact on the Earth’s radiative budget thanks to its radiative and thermodynamical properties.  In the tropics, the distribution of upper tropospheric humidity (UTH) is primarily controlled by large-scale transport, with influences by storm systems in the deep tropics <a class="reference external" href="https://doi.org/abs/10.1029/97GL03563" rel="noreferrer" target="_blank">[1]</a></p>
 <p>The atmospheric circulation is the large-scale movement of air through the Earth’s atmosphere, driven by the uneven heating of the planet’s surface by the sun. This circulation is responsible for distributing heat and moisture around the globe, shaping weather patterns and climate.
 The movement of the air masses influences the distribution of humidity in the upper troposphere. In regions where air rises, such as the  Inter Tropical Convergence Zone, moisture from the lower atmosphere is transported upward, increasing humidity in the upper troposphere.
 Conversely, in regions where air sinks, the upper troposphere becomes drier.</p>
@@ -531,21 +531,12 @@ Conversely, in regions where air sinks, the upper troposphere becomes drier.</p>
 <li><p>The spatial distribution of Upper Tropospheric Humidity is strongly tied to the large-scale atmospheric circulation: ascending motions moisten the upper troposphere, whereas subsiding motions dry it.</p></li>
 <li><p>The analysis is done with one year of monthly data. Over this year, the transition between regimes of large-scale ascent and regimes of large-scale subsidence is consistent with the literature <a class="reference external" href="https://doi.org/10.1029/2006GL029118" rel="noreferrer" target="_blank">[2]</a>.</p></li>
 <li><p>The month-to-month variability is small for every regime of circulation, showing the robustness of the link between circulation regimes and UTH.</p></li>
-<li><p>Some discrepancies with the literature arise and are explained by (i) the sampling time of the UTH dataset (9:30 for MetOp-A satellite), while the diurnal cycle of UTH is strong in convective areas, and by (ii) the retrieval method of the UTH of the CDS data record which is not identical to the reference papers.</p></li>
-<li><p>The combination of</p></li>
+<li><p>Some discrepancies with the literature arise and are explained by (i) the sampling time of the UTH dataset (9:30 for MetOp-A satellite), while the diurnal cycle of UTH is strong in convective areas, by (ii) the length of the data sets used in the analysis (12 months) compared to the reference article <a class="reference external" href="https://doi.org/10.1029/2006GL029118" rel="noreferrer" target="_blank">[2]</a> (2 months) and by (iii) the retrieval method of the UTH of the CDS data record which is not identical to the reference papers.</p></li>
 </ul>
 </div>
-<p>The retrieval method for UTH is similar, based on a simple linear equation ([2], [4]):
-ln(UTH) = a+b⋅TB
-ln(UTH) = a+b⋅TB​
-however, the regression coefficients aa and bb are not identical, which may explain part of the differences. Indeed, those parameters are computed using offline radiative transfer codes that have some discrepancies in the water vapor absorption channels (see for instance [6], [7] and [8]).
-The results in [2] are based on only two months of data, which could lead to discrepancies when compared to our more comprehensive dataset, even if limited to only one year.
-Finally, in this notebook, UTH is observed by the Metop-A satellite at 9:30, while the reference shows UTH data at 15:30. UTH does exhibit a strong diurnal cycle induced by the convective activity such as the growth and decay of storms ([9], [10]), this time difference could potentially affect the comparability of the two datasets.</p>
 </section>
 <section id="methodology">
 <h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
-<p>The relationship between clear sky geenhouse effect and total column of water vapour is examined using the available datasets from the Climate Data Record (CDR) for sea surface temperature, clouds, and outgoing longwave radiation, detailed below.</p>
-<p>These datasets are daily and the analysis focuses on the <strong>tropical ocean</strong> over February 2007.</p>
 <p>The link between upper tropospheric humidity and large-scale circulation is examined using only the vertical atmospheric motion in the mid-troposphere, at 500hPa (noted <span class="math notranslate nohighlight">\(\omega_{500}\)</span>) available from the Climate Data Store an detailed below.</p>
 <p>The upper tropospheric humidity (UTH) data over the <strong>tropics</strong> is downloaded for the full year 2007.</p>
 <p>Both variables are averaged monthly to smooth out short-term fluctuations caused by convection. The ERA5 data resolution is then reduced to 1 degree to match the resolution of the UTH data. After collocating the monthly values at this resolution, the UTH values are categorized into bins based on the vertical velocities. The distribution of UTH within each bin is presented as a boxplot profile, providing a clear visualization of how UTH varies with changes in vertical velocity.</p>
@@ -564,11 +555,11 @@ Finally, in this notebook, UTH is observed by the Metop-A satellite at 9:30, whi
 </ul>
 <p><strong>3. <a class="reference internal" href="#satellite-satellite-upper-troposphere-humidity-validation-q01-analysis-section-1"><span class="std std-ref">Overview of the geophysical variables of interest</span></a></strong></p>
 <ul class="simple">
-<li><p>Maps and histograms of UTH and <span class="math notranslate nohighlight">\(\omega_{500}\)</span> are described.</p></li>
+<li><p>Maps and histograms of UTH and <span class="math notranslate nohighlight">\(\omega_{500}\)</span> are described at the monthly scale for the whole year 2007.</p></li>
 </ul>
 <p><strong>4. <a class="reference internal" href="#satellite-satellite-upper-troposphere-humidity-validation-q01-plot-and-results"><span class="std std-ref">Plot and description of the results</span></a></strong></p>
 <ul class="simple">
-<li><p>The composite of UTH is shown as a function of <span class="math notranslate nohighlight">\(\omega_{500}\)</span>. The final results are compared with the appropriate references.</p></li>
+<li><p>The composite of UTH is shown as a function of <span class="math notranslate nohighlight">\(\omega_{500}\)</span>. The final results are compared with the appropriate references and the sources of differences are discussed.</p></li>
 </ul>
 </section>
 <section id="analysis-and-results">
@@ -745,8 +736,8 @@ Finally, in this notebook, UTH is observed by the Metop-A satellite at 9:30, whi
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 12/12 [00:01&lt;00:00, 10.25it/s]
-100%|██████████| 12/12 [00:00&lt;00:00, 107.70it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 12/12 [00:05&lt;00:00,  2.36it/s]
+100%|██████████| 12/12 [00:00&lt;00:00, 14.81it/s]
 </pre></div>
 </div>
 </div>
@@ -782,8 +773,8 @@ Finally, in this notebook, UTH is observed by the Metop-A satellite at 9:30, whi
 </details>
 </div>
 </section>
-<section id="conversion-of-unit-for-vertical-velocity">
-<h4><strong>Conversion of unit for vertical velocity</strong><a class="headerlink" href="#conversion-of-unit-for-vertical-velocity" title="Link to this heading">#</a></h4>
+<section id="change-of-unit-for-vertical-velocity">
+<h4><strong>Change of unit for vertical velocity</strong><a class="headerlink" href="#change-of-unit-for-vertical-velocity" title="Link to this heading">#</a></h4>
 <p>Most scientific studies focusing on the large-scale atmospheric circulation use <strong>hPa/day</strong> as the unit for the upward atmospheric wind (see <a class="reference external" href="https://doi.org/10.1007/s00382-003-0369-6" rel="noreferrer" target="_blank">[3]</a>), since it offers a more meaningful unit at the considered time scale.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
@@ -810,7 +801,7 @@ Finally, in this notebook, UTH is observed by the Metop-A satellite at 9:30, whi
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Creation of a dataframe that keeps also the information of the month to study the month-to-month variability</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Creation of a dataframe that keeps also the information of each month to study the month-to-month variability</span>
 <span class="n">series</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="n">months</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="n">datasets</span> <span class="o">=</span> <span class="p">[</span>
@@ -846,9 +837,9 @@ Finally, in this notebook, UTH is observed by the Metop-A satellite at 9:30, whi
 <span id="satellite-satellite-upper-troposphere-humidity-validation-q01-analysis-section-1"></span><h3>Overview of the geophysical variables of interest<a class="headerlink" href="#overview-of-the-geophysical-variables-of-interest" title="Link to this heading">#</a></h3>
 <section id="upper-tropospheric-humidity">
 <h4><strong>Upper Tropospheric Humidity</strong><a class="headerlink" href="#upper-tropospheric-humidity" title="Link to this heading">#</a></h4>
-<p>The Upper Tropospheric Humidity (UTH, in %) is a single-layer geophysical variable provided by EUMETSAT on a 1° regular grid. In general the UTH geophysical variable can be estimated thanks to water vapor absorption channels, both in the microwave (in the 183GHz line) and in the infra-red (in the 6.3 <span class="math notranslate nohighlight">\(\mu\)</span>m band).
+<p>The Upper Tropospheric Humidity (UTH, in %) is a single-layer geophysical variable provided by EUMETSAT on a 1°<span class="math notranslate nohighlight">\(\times\)</span>1° regular grid. The UTH can be estimated thanks to water vapor absorption channels, both in the microwave (in the 183GHz line) and in the infra-red (in the 6.3 <span class="math notranslate nohighlight">\(\mu\)</span>m band).
 For the 183GHz microwave channel the UTH is retrieved under all situations, except where measurements are influenced by surface (high orography or extremely dry atmospheric conditions), or when there is a deep convective storm with large ice particules (see <a class="reference external" href="https://doi.org/10.1029/2006GL029118" rel="noreferrer" target="_blank">[2]</a>, <a class="reference external" href="https://doi.org/10.1029/2007JD009314" rel="noreferrer" target="_blank">[4]</a>).</p>
-<p>The UTH data record of the CDS relies on measurements from the 183.31±1 GHz channels of the Advanced Microwave Sounding Unit-B (AMSU-B) and the Microwave Humidity Sounder (MHS) on board the NOAA- and MetOp- satellite series, and the present use case analyses the MHS data of the MetOp-A satellite.</p>
+<p>The UTH data record of the CDS relies on measurements from the 183.31±1 GHz channels of the Advanced Microwave Sounding Unit-B (AMSU-B) and the Microwave Humidity Sounder (MHS) on board the NOAA- and MetOp- satellite series. The present use case analyses the MHS data of the MetOp-A satellite.</p>
 <p>The map below shows the UTH for July 2007.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
@@ -935,11 +926,11 @@ On the other side of the UTH range, a drier atmosphere is visible in the contine
 <img alt="../../_images/be6b34a3608f10e34bfa805339d37eb0a5f83bc6412650690e45cccc3683848c.png" src="../../_images/be6b34a3608f10e34bfa805339d37eb0a5f83bc6412650690e45cccc3683848c.png" />
 </div>
 </div>
-<p>Negative values of <span class="math notranslate nohighlight">\(\omega_{500}\)</span> are ascending motion, while positive values indicate descending motion.</p>
+<p>Negative values of <span class="math notranslate nohighlight">\(\omega_{500}\)</span> are ascending motions, while positive values indicate descending motions.</p>
 <p>The contours of UTH, overlayed on the map helps to interpret the structures.</p>
-<p>Therefore, and as known by the atmospheric general circulation, ascending motions (<span class="math notranslate nohighlight">\(\omega_{500}\)</span> &lt; 0) are regions where storms form by convection. These regions form the moist Inter-Tropical Convergence Zone (ITCZ), a region of strong convergence of the surface winds of the Hadley cells. The convective storms moisten the troposphere by bringing upward the moisture from the boundary layer.</p>
+<p>Therefore, from the general atmospheric circulation, ascending motions (<span class="math notranslate nohighlight">\(\omega_{500}\)</span> &lt; 0) are regions where storms form by convection. These regions form the moist Inter-Tropical Convergence Zone (ITCZ), a region of strong convergence of the surface winds of the Hadley cells. The convective storms moisten the troposphere by bringing upward the moisture from the boundary layer.</p>
 <p>Descending motions (<span class="math notranslate nohighlight">\(\omega_{500}\)</span> &gt; 0) are dry regions that are free of storm clouds that are mainly located over the subtropics (near 20°S - 20°S). In these subsidence regions, the air sinks and warms adiabatically without changing its water vapour content, thus decreasing the rate of relative humidity.
-Therefore, <span class="math notranslate nohighlight">\(\omega_{500}\)</span> serves to define <em>large-scale circulation regimes</em>, as stated in <a class="reference external" href="https://doi.org/10.1007/s00382-003-0369-6" rel="noreferrer" target="_blank">[3]</a>, extremely useful to decompose the dynamical structure of the tropical atmosphere.</p>
+Therefore, <span class="math notranslate nohighlight">\(\omega_{500}\)</span> serves to define <strong>large-scale circulation regimes</strong>, as stated in <a class="reference external" href="https://doi.org/10.1007/s00382-003-0369-6" rel="noreferrer" target="_blank">[3]</a>, extremely useful to decompose the dynamical structure of the tropical atmosphere.</p>
 <p>The following density histogram illustrates the probability density function (PDF) of <span class="math notranslate nohighlight">\(\omega_{500}\)</span> for the full year 2007.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
@@ -964,7 +955,7 @@ Therefore, <span class="math notranslate nohighlight">\(\omega_{500}\)</span> se
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bin_centers</span><span class="p">,</span> <span class="n">mean_pdf</span><span class="p">[</span><span class="mi">0</span><span class="p">,],</span> <span class="s2">&quot;o&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">bin_centers</span><span class="p">,</span> <span class="n">mean_pdf</span><span class="p">[</span><span class="mi">0</span><span class="p">,],</span> <span class="n">yerr</span> <span class="o">=</span> <span class="n">std_pdf</span><span class="p">,</span> <span class="n">fmt</span> <span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;counts&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;normalized density&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;circulation regimes - $\omega_</span><span class="si">{500}</span><span class="s1">$ [hPa/day]&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -974,14 +965,14 @@ Therefore, <span class="math notranslate nohighlight">\(\omega_{500}\)</span> se
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:18: SyntaxWarning: invalid escape sequence &#39;\o&#39;
 &lt;&gt;:18: SyntaxWarning: invalid escape sequence &#39;\o&#39;
-/data/wp5/.tmp/ipykernel_3798047/2564806717.py:18: SyntaxWarning: invalid escape sequence &#39;\o&#39;
+/data/wp5/.tmp/ipykernel_3833469/3351234774.py:18: SyntaxWarning: invalid escape sequence &#39;\o&#39;
   plt.xlabel(&#39;circulation regimes - $\omega_{500}$ [hPa/day]&#39;)
 </pre></div>
 </div>
-<img alt="../../_images/c425776c6fa0c7a6ab4ba7c3a1ba8e717a5576f16bdd3938a60c9e7b7bc26e93.png" src="../../_images/c425776c6fa0c7a6ab4ba7c3a1ba8e717a5576f16bdd3938a60c9e7b7bc26e93.png" />
+<img alt="../../_images/e99599790d1966a0421aa5bd3aa9a465b68bbaba872df8f4a43550a3b869eb74.png" src="../../_images/e99599790d1966a0421aa5bd3aa9a465b68bbaba872df8f4a43550a3b869eb74.png" />
 </div>
 </div>
-<p><em>Figure 1: Probability density function (PDF) of the <span class="math notranslate nohighlight">\(\omega_{500}\)</span> for the year 2007 in the tropics (30°N - 30°S). Each PDF is for one month. The red marks and vertical bars show the average PDF and the standard deviation, considered as the uncertainty, within each 10-hPa bin.</em></p>
+<p><em>Figure 1: Probability density functions (PDF) of the monthly <span class="math notranslate nohighlight">\(\omega_{500}\)</span> for the year 2007 in the tropics (30°N - 30°S). Each PDF is for one given month. The red marks and vertical bars show the average PDF and the standard deviation, considered as the uncertainty, within each 10-hPa bin.</em></p>
 <p>Overall the distribution of <span class="math notranslate nohighlight">\(\omega_{500}\)</span> is negatively skewed, with a peak around 20 hPa/day. This peak, compliant with <a class="reference external" href="https://doi.org/10.1007/s00382-003-0369-6" rel="noreferrer" target="_blank">[3]</a>, shows that the tropics are dominated by a weak subsiding motion found in the subtropics and in the western parts of the ocean basins.
 The negative tail reflects the magnitude of vertical motions within clouds.
 The small error bars highlight the small temporal variability in the occurrence of each bins of <span class="math notranslate nohighlight">\(\omega_{500}\)</span> throughout the year.</p>
@@ -991,9 +982,9 @@ The small error bars highlight the small temporal variability in the occurrence 
 <span id="satellite-satellite-upper-troposphere-humidity-validation-q01-plot-and-results"></span><h3>Plot and description of the results<a class="headerlink" href="#plot-and-description-of-the-results" title="Link to this heading">#</a></h3>
 <section id="variation-of-uth-with-the-vertical-velocity-at-500hpa">
 <h4>Variation of UTH with the vertical velocity at 500hPa<a class="headerlink" href="#variation-of-uth-with-the-vertical-velocity-at-500hpa" title="Link to this heading">#</a></h4>
-<p>The decomposition of the tropical atmosphere into bins of <span class="math notranslate nohighlight">\(\omega_{500}\)</span> gives a framework to look at the variability of the tropical atmosphere upon purely dynamical characteristics.
-Then, for a given latitude<span class="math notranslate nohighlight">\(\times\)</span>longitude<span class="math notranslate nohighlight">\(\times\)</span>month the UTH is associated to a value of <span class="math notranslate nohighlight">\(\omega_{500}\)</span>. This framework allows to study the distribution of UTH upon dynamical condiseration only.</p>
-<p>The entire year 2007 is considered as a whole.</p>
+<p>The decomposition of the tropical atmosphere into bins of <span class="math notranslate nohighlight">\(\omega_{500}\)</span> defines <strong>circulation regimes</strong> to look at the variability of the tropical atmosphere upon purely dynamical characteristics.
+Then, for a given latitude<span class="math notranslate nohighlight">\(\times\)</span>longitude<span class="math notranslate nohighlight">\(\times\)</span>month the UTH is associated to a value of <span class="math notranslate nohighlight">\(\omega_{500}\)</span>, and each bin of <span class="math notranslate nohighlight">\(\omega_{500}\)</span> groups all UTH of this regime.</p>
+<p>The entire year 2007 is considered, and month-to-month variability is presented.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1047,21 +1038,25 @@ Then, for a given latitude<span class="math notranslate nohighlight">\(\times\)<
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:25: SyntaxWarning: invalid escape sequence &#39;\o&#39;
 &lt;&gt;:25: SyntaxWarning: invalid escape sequence &#39;\o&#39;
-/data/wp5/.tmp/ipykernel_3798047/2936937811.py:25: SyntaxWarning: invalid escape sequence &#39;\o&#39;
+/data/wp5/.tmp/ipykernel_3833469/2936937811.py:25: SyntaxWarning: invalid escape sequence &#39;\o&#39;
   xlabel=&quot;circulation regimes - $\omega_{500}$ [hPa/day]&quot;,
 </pre></div>
 </div>
 <img alt="../../_images/f7c764755bfd2e0d7a42ec546dccca2b44891ff34ebfbbfa127886777c5b476b.png" src="../../_images/f7c764755bfd2e0d7a42ec546dccca2b44891ff34ebfbbfa127886777c5b476b.png" />
 </div>
 </div>
-<p><em>Figure 2: Distribution of UTH for different circulation regimes defined by 10-hPa bins of <span class="math notranslate nohighlight">\(\omega_{500}\)</span>, for each month of year 2007. The gray boxes represent the interquartiles, the median are in grey. The green symbols represent the mean of the UTH of each bin of the given months. The red circles are the mean of the means within each bin.</em></p>
+<p><em>Figure 2: Evolution of UTH upon different circulation regimes of the tropics, defined by 10-hPa bins of <span class="math notranslate nohighlight">\(\omega_{500}\)</span>, for each month of year 2007. For each bin of <span class="math notranslate nohighlight">\(\omega_{500}\)</span>, a box-and-whiskers diagram is used : the gray boxes are the interquartiles and the median are in grey. The green symbols represent the mean of the UTH of each bin of the given months. The red circles are the mean of the means within each bin.</em></p>
 <p>Overall the results are in agreement with Figure 2 of <a class="reference external" href="https://doi.org/10.1029/2006GL029118" rel="noreferrer" target="_blank">[2]</a>, which compare the retrieved monthly UTH from NOAA-16 to the vertical velocity.
 In agreement with this study, the UTH shows a sharp transition from convergence regions to subsidence regions. The UTH value remains stable at around 20% over regions where <span class="math notranslate nohighlight">\(\omega_{500}\)</span> exceeds 30 hPa/day.
 Figure 2 shows that there is little month-to-month variability within a given circulation regime, the largest variability being observed in the extreme ascending regimes, for <span class="math notranslate nohighlight">\(\omega_{500}\)</span> &gt; 55 hPa/day. This is essentially explained by the small occurrence of such regimes, as visible on Figure 1.</p>
-<p>The discrepancy between the present results and the reference study lies within the UTH distribution and can be explained by the factors outlined below.</p>
+<p>The discrepancies between the present results and the reference study  within the UTH distribution and can be explained by the factors outlined below.</p>
 <p>The UTH reaches a plateau of maximum value of approximately 45-50% when upward motions reach -70 hPa/day. The reference reports slightly lower values, which still fall within the UTH distribution observed in this study. The discrepancies between these results and those presented in <a class="reference external" href="https://doi.org/10.1029/2006GL029118" rel="noreferrer" target="_blank">[2]</a> can arise from the following reasons:</p>
 <ul class="simple">
-<li><p>The retrieval method for UTH is similar, based on a simple linear equation (<a class="reference external" href="https://doi.org/10.1029/2006GL029118" rel="noreferrer" target="_blank">[2]</a>, <a class="reference external" href="https://doi.org/10.1029/2007JD009314" rel="noreferrer" target="_blank">[4]</a>): $<span class="math notranslate nohighlight">\(\text{ln}(UTH) = a + b \cdot T_B\)</span><span class="math notranslate nohighlight">\( however, the regression coefficients \)</span>a<span class="math notranslate nohighlight">\( and \)</span>b$ are not identical, which may explain part of the differences. Indeed, those parameters are computed using offline radiative transfer codes that have some discrepancies in the water vapor absorption channels (see for instance <a class="reference external" href="https://acp.copernicus.org/articles/14/11129/2014/" rel="noreferrer" target="_blank">[6]</a>, <a class="reference external" href="https://www.wcrp-climate.org/resources/wcrp-publications/1095-pub-2017" rel="noreferrer" target="_blank">[7]</a> and <a class="reference external" href="https://journals.ametsoc.org/view/journals/bams/81/4/1520-0477_2000_081_0797_aiorcf_2_3_co_2.xml" rel="noreferrer" target="_blank">[8]</a>).</p></li>
+<li><p>The retrieval method for UTH is similar, based on a simple linear equation (<a class="reference external" href="https://doi.org/10.1029/2006GL029118" rel="noreferrer" target="_blank">[2]</a>, <a class="reference external" href="https://doi.org/10.1029/2007JD009314" rel="noreferrer" target="_blank">[4]</a>):
+$<span class="math notranslate nohighlight">\(
+\text{ln}(UTH) = a + b \cdot T_B
+\)</span><span class="math notranslate nohighlight">\(
+however, the regression coefficients \)</span>a<span class="math notranslate nohighlight">\( and \)</span>b$ are not identical, which may explain part of the differences. Indeed, those parameters are computed using offline radiative transfer codes that have some discrepancies in the water vapor absorption channels (see for instance <a class="reference external" href="https://acp.copernicus.org/articles/14/11129/2014/" rel="noreferrer" target="_blank">[6]</a>, <a class="reference external" href="https://www.wcrp-climate.org/resources/wcrp-publications/1095-pub-2017" rel="noreferrer" target="_blank">[7]</a> and <a class="reference external" href="https://journals.ametsoc.org/view/journals/bams/81/4/1520-0477_2000_081_0797_aiorcf_2_3_co_2.xml" rel="noreferrer" target="_blank">[8]</a>).</p></li>
 <li><p>The results in <a class="reference external" href="https://doi.org/10.1029/2006GL029118" rel="noreferrer" target="_blank">[2]</a> are based on only two months of data, which could lead to discrepancies when compared to our more comprehensive dataset, even if limited to only one year.</p></li>
 <li><p>Finally, in this notebook, UTH is observed by the Metop-A satellite at 9:30, while the reference shows UTH data at 15:30. UTH does exhibit a strong diurnal cycle induced by the convective activity such as the growth and decay of storms (<a class="reference external" href="https://acp.copernicus.org/articles/7/2489/2007/acp-7-2489-2007-discussion.html" rel="noreferrer" target="_blank">[9]</a>, <a class="reference external" href="https://doi.org/10.3390/rs8040325" rel="noreferrer" target="_blank">[10]</a>), this time difference could potentially affect the comparability of the two datasets.</p></li>
 </ul>
@@ -1189,7 +1184,7 @@ Figure 2 shows that there is little month-to-month variability within a given ci
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-the-datasets-and-perform-space-time-aggregation">Download the datasets and perform space-time aggregation</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#temporal-and-spatial-aggregation"><strong>Temporal and spatial aggregation</strong></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#conversion-of-unit-for-vertical-velocity"><strong>Conversion of unit for vertical velocity</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#change-of-unit-for-vertical-velocity"><strong>Change of unit for vertical velocity</strong></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-geophysical-variables-of-interest">Overview of the geophysical variables of interest</a><ul class="nav section-nav flex-column">
