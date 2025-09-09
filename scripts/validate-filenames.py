@@ -4,7 +4,10 @@ from pathlib import Path
 import requests
 
 DATA_TYPES = {
+    "application": "Applications",
     "climate": "Climate_Projections",
+    "derived": "Derived_Datasets",
+    "indicator": "Indicators",
     "insitu": "In_Situ",
     "reanalysis": "Reanalyses",
     "satellite": "Satellite_ECVs",
