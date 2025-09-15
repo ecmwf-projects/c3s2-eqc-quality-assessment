@@ -4,6 +4,9 @@ from pathlib import Path
 
 import nbformat
 import requests
+import truststore
+
+truststore.inject_into_ssl()
 
 USER_AGENT = (
     "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36"
