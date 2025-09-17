@@ -455,7 +455,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-how-effectively-can-seasonal-forecasts-predict-the-development-of-key-global-climate-variables-across-varying-spatial-scales">🌍 Use case: How effectively can seasonal forecasts predict the development of key global climate variables across varying spatial scales?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-investigating-key-climate-variables-across-varying-spatial-scales-using-seasonal-forecasts-for-regional-climate-monitoring-and-prediction">🌍 Use case: Investigating key climate variables across varying spatial scales using seasonal forecasts for regional climate monitoring and prediction.</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
@@ -499,8 +499,8 @@ Please note that this repository is used for development and review, so quality 
 <h1><span class="section-number">4.1. </span>Assessing the impact of scale and temporal trends for seasonal forecast quality<a class="headerlink" href="#assessing-the-impact-of-scale-and-temporal-trends-for-seasonal-forecast-quality" title="Link to this heading">#</a></h1>
 <p>Production date: 30.04.2025</p>
 <p>Produced by: Johannes Langvatn (METNorway), Johanna Tjernström (METNorway)</p>
-<section id="use-case-how-effectively-can-seasonal-forecasts-predict-the-development-of-key-global-climate-variables-across-varying-spatial-scales">
-<h2>🌍 Use case: How effectively can seasonal forecasts predict the development of key global climate variables across varying spatial scales?<a class="headerlink" href="#use-case-how-effectively-can-seasonal-forecasts-predict-the-development-of-key-global-climate-variables-across-varying-spatial-scales" title="Link to this heading">#</a></h2>
+<section id="use-case-investigating-key-climate-variables-across-varying-spatial-scales-using-seasonal-forecasts-for-regional-climate-monitoring-and-prediction">
+<h2>🌍 Use case: Investigating key climate variables across varying spatial scales using seasonal forecasts for regional climate monitoring and prediction.<a class="headerlink" href="#use-case-investigating-key-climate-variables-across-varying-spatial-scales-using-seasonal-forecasts-for-regional-climate-monitoring-and-prediction" title="Link to this heading">#</a></h2>
 </section>
 <section id="quality-assessment-question">
 <h2>❓ Quality assessment question<a class="headerlink" href="#quality-assessment-question" title="Link to this heading">#</a></h2>
@@ -537,14 +537,18 @@ Please note that this repository is used for development and review, so quality 
 <section id="methodology">
 <h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
 <p>This notebook provides an assessment of the quality of seasonal monthly forecast temperature anomalies derived from the monthly means (<a class="reference external" href="https://cds.climate.copernicus.eu/datasets/seasonal-monthly-single-levels" rel="noreferrer" target="_blank">https://cds.climate.copernicus.eu/datasets/seasonal-monthly-single-levels</a>) through comparison with the ERA5 reanalysis (<a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-monthly-means" rel="noreferrer" target="_blank">https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-monthly-means</a>). The hindcast anomalies are calculated from the monthly means as the anomalies catalogue entry only provides the real time forecasts. Data were accessed from the CDS.</p>
-<p>Using this data the anomaly was calculated for the two meter temperature (t2m), against the period 1993-2024, and was detrended assuming a linear trend. A dataset was then generated containing both the original anomaly and the detrended. The analysis was then carried out globally and for three regions chosen based on effects of trend on the correlation.</p>
+<p>Using this data the anomaly was calculated for the two meter temperature (t2m), against the period 1993-2024, and was detrended assuming a linear trend. Note that this period contains both hindcast and forecast, which are not entirely equivalent with respect to initialization, and contain 25 and 51 ensemble members respectively. A dataset was then generated containing both the original anomaly and the detrended. The analysis was then carried out globally and for three regions chosen based on effects of trend on the correlation.</p>
 <p>First, the global case was considered both including and excluding trend, plotting anomaly for the ensemble members, ensemble mean, and ERA5. The correlation was also calculated.</p>
 <p>To further consider the correlation, maps were generated to more clearly view the spatial variations of correlation in anomaly (as can seen on the <a class="reference external" href="https://confluence.ecmwf.int/display/CKB/C3S+seasonal+forecasts+verification+plots" rel="noreferrer" target="_blank">C3S verification page</a>) between the seasonal forecast and ERA5. Based on these maps, a set of regions were selected for further study, based on the magnitude of the correlation.
 Plots were then generated for nested domains. Three spatial scales were considered, a larger, continental scale, a smaller country scale and a much smaller city scale. Data were selected for each domain based on a lat/lon box.</p>
 <p>The resulting plots, displaying the ensemble members, ensemble mean, and ERA5, aim to visualise the variation in quality based on the selected regions of interest. This was also done for the detrended anomaly, and correlation was also calculated for each of the domains.</p>
 <p><strong><a class="reference internal" href="#seasonal-seasonal-monthly-single-levels-resolution-q06-section-1"><span class="std std-ref">1. Choose data to use and setup code</span></a></strong></p>
 <ul class="simple">
-<li><p>Choose a selection of forecast systems and model versions, hindcast period (normally 1993-2016 to align with the C3S common hindcast period), forecast and leadtime months</p></li>
+<li><p>Choose a selection of forecast systems and model versions, hindcast period (normally 1993-2016 to align with the C3S common hindcast period), forecast and leadtime months</p>
+<ul>
+<li><p>Ensure that the ERA5 and Seasonal forecast data are regridded to the same grid by using the grid-keyword to the cdsapi.</p></li>
+</ul>
+</li>
 <li><p>Compute the anomaly of the forecast and reanalysis data</p></li>
 <li><p>The data is detrended assuming a linear trend in the data from start year to end year</p></li>
 <li><p>Both the original and detrended data is saved for the following analysis</p></li>
@@ -562,6 +566,14 @@ Plots were then generated for nested domains. Three spatial scales were consider
 <p><strong><a class="reference internal" href="#seasonal-seasonal-monthly-single-levels-resolution-q06-section-4"><span class="std std-ref">4. Plot and describe results</span></a></strong></p>
 <ul class="simple">
 <li><p>Plots are generated for the regions chosen in the previous section</p></li>
+</ul>
+<p><strong>Key limitations:</strong></p>
+<ul class="simple">
+<li><p>This assessment primarily considers the correlation between the ensemble mean and ERA5, while the full ensemble spread is visualized in some of the plots, the maps of correlation only use the ensemble mean.</p></li>
+<li><p>The method used to detrend the data is very simple, and thus may impact the quality of the detrended data.</p></li>
+<li><p>The usage of ERA5 as ground truth, while convenient, may be considered a limitation as it is a reanalysis and not observation.</p></li>
+<li><p>The region plots use data at scales that may consider only one or a few grid cells, this is generally not a large enough domain to expect skillful prediction of large scale variations in monthly or seasonal deviations.</p></li>
+<li><p>The assessment in this notebook only makes use of one forecasting system, considering one lead time. While the code should work for other models, and lead times this has not been shown explicitly in this assessment. Therefore, the results outlined here are specific to this forecasting system, period and lead time, further study would need to be conducted to see if the conclusions are general.</p></li>
 </ul>
 </section>
 <section id="analysis-and-results">
@@ -632,7 +644,7 @@ Plots were then generated for nested domains. Three spatial scales were consider
             <span class="n">region_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span> <span class="p">:</span> <span class="n">master_dict</span><span class="p">[</span><span class="n">leadtime</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">list_of_region_keys</span><span class="p">}</span>
             
             <span class="n">num_plots</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_of_region_keys</span><span class="p">)</span>
-            <span class="n">num_cols</span> <span class="o">=</span> <span class="mi">4</span><span class="c1">#int(np.ceil(num_plots/plot_scale))</span>
+            <span class="n">num_cols</span> <span class="o">=</span> <span class="mi">4</span>
             <span class="n">num_rows</span> <span class="o">=</span> <span class="n">num_plots</span> <span class="o">//</span> <span class="n">num_cols</span> 
             <span class="k">if</span> <span class="n">num_plots</span> <span class="o">%</span> <span class="n">num_cols</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">num_rows</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -697,6 +709,7 @@ Plots were then generated for nested domains. Three spatial scales were consider
 </div>
 </details>
 </div>
+<p>This notebook uses the t2m monthly means from one forecasting system, in this case from ECMWF (system code 51), for a forecast produced in May for leadtime months June, July and August. This was requested for both forecast and hindcast periods, thus there is a difference in the number of ensemble members before and after 2016</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -778,7 +791,6 @@ Plots were then generated for nested domains. Three spatial scales were consider
 <section id="comparing-global-correlation">
 <span id="seasonal-seasonal-monthly-single-levels-resolution-q06-section-2"></span><h3>2. Comparing global correlation<a class="headerlink" href="#comparing-global-correlation" title="Link to this heading">#</a></h3>
 <p>Compute the ensemble mean of the seasonal forecast anomaly data</p>
-<p>Plot the original anomaly data for each ensemble member, the ensemble mean, and the reanalysis anomaly.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -797,7 +809,8 @@ Plots were then generated for nested domains. Three spatial scales were consider
 </div>
 </details>
 </div>
-<p>Plot the detrended anomaly data for each ensemble member, the ensemble mean, and the reanalysis anomaly.</p>
+<p>Plot the original anomaly data for each ensemble member, the ensemble mean, and the reanalysis anomaly.
+Please note that the ensemble member points are coloured by number to highlight the switch from the hindcast configuration (25 members) to the forecasts (51 members).’</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -824,6 +837,7 @@ Plots were then generated for nested domains. Three spatial scales were consider
 </div>
 <section id="plot-after-detrending">
 <h4>Plot after detrending<a class="headerlink" href="#plot-after-detrending" title="Link to this heading">#</a></h4>
+<p>Plot the detrended anomaly data for each ensemble member, the ensemble mean, and the reanalysis anomaly.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -860,6 +874,29 @@ Plots were then generated for nested domains. Three spatial scales were consider
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">add_hatches</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">corr_ds</span><span class="p">,</span> <span class="n">corr_critical_val</span><span class="o">=</span><span class="mf">0.36</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+    <span class="n">corr_ds</span><span class="p">[</span><span class="s1">&#39;longitude&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="n">corr_ds</span><span class="p">[</span><span class="s1">&#39;latitude&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>  
+    <span class="n">corr_ds</span><span class="p">,</span> <span class="n">hatches</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;.&quot;</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span> <span class="n">levels</span> <span class="o">=</span><span class="p">[</span><span class="n">corr_critical_val</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+    <span class="n">corr_ds</span><span class="p">[</span><span class="s1">&#39;longitude&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="n">corr_ds</span><span class="p">[</span><span class="s1">&#39;latitude&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>  
+    <span class="n">corr_ds</span><span class="p">,</span> <span class="n">hatches</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;.&quot;</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span> <span class="n">levels</span> <span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="n">corr_critical_val</span><span class="p">]</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">leadtime</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span>
     <span class="n">mean_ens</span> <span class="o">=</span> <span class="n">dataarrays</span><span class="p">[</span><span class="n">leadtime</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;realization&quot;</span><span class="p">)</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="n">subplot_kw</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()))</span>
@@ -868,14 +905,18 @@ Plots were then generated for nested domains. Three spatial scales were consider
     <span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="s2">&quot;110m&quot;</span><span class="p">)</span>
     <span class="n">fignum</span><span class="o">=</span><span class="s2">&quot;3.1&quot;</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Figure </span><span class="si">{</span><span class="n">fignum</span><span class="si">}</span><span class="s2">: Correlation of t2m anomaly </span><span class="se">\n</span><span class="si">{</span><span class="n">month_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="n">add_hatches</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">corr</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
+    
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="n">subplot_kw</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()))</span>
     <span class="n">corr_detrend</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">mean_ens</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">detrend</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">leadtime_month</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span><span class="n">da_reanalysis</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">detrend</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="o">+</span><span class="n">leadtime</span><span class="p">,</span><span class="mi">96</span><span class="o">+</span><span class="n">leadtime</span><span class="p">,</span><span class="mi">3</span><span class="p">)),</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
     <span class="n">corr_detrend</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;Correlation&quot;</span><span class="p">})</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="s2">&quot;110m&quot;</span><span class="p">)</span>
     <span class="n">fignum</span><span class="o">=</span><span class="s2">&quot;3.2&quot;</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Figure </span><span class="si">{</span><span class="n">fignum</span><span class="si">}</span><span class="s2">: Correlation of t2m anomaly (Detrended) </span><span class="se">\n</span><span class="si">{</span><span class="n">month_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">add_hatches</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">corr_detrend</span><span class="p">)</span>
+
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="n">subplot_kw</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()))</span>
@@ -889,11 +930,13 @@ Plots were then generated for nested domains. Three spatial scales were consider
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/3040a534cfecc68a5620cfc99576c97fac7ec41e9b01d6302481fe3ac4d0e37f.png" src="../_images/3040a534cfecc68a5620cfc99576c97fac7ec41e9b01d6302481fe3ac4d0e37f.png" />
-<img alt="../_images/24f2c4cc601ec8f0ec2aaebd7294cc51848b9a7fcc177faad1832a44789f0e37.png" src="../_images/24f2c4cc601ec8f0ec2aaebd7294cc51848b9a7fcc177faad1832a44789f0e37.png" />
+<img alt="../_images/d204da3812802cffe0c93f6f4100732ca63f70eee428c7a0f6de3f33d05fccfd.png" src="../_images/d204da3812802cffe0c93f6f4100732ca63f70eee428c7a0f6de3f33d05fccfd.png" />
+<img alt="../_images/f67345846a4cf4ca308904bf0f95ac9642abc7bacbcab59890a9f41cc6002790.png" src="../_images/f67345846a4cf4ca308904bf0f95ac9642abc7bacbcab59890a9f41cc6002790.png" />
 <img alt="../_images/9abf98b9c112adf7664606196448618710ae3b1cc51d48bcf41aefb742da9986.png" src="../_images/9abf98b9c112adf7664606196448618710ae3b1cc51d48bcf41aefb742da9986.png" />
 </div>
 </div>
+<p>The hatched area is where the correlation exceeds the critical value.</p>
+<p>It can be seen in the above plots that there is a high correlation over the North American Great Lakes. This is likely due to the fact that they are large enough that the heat retention impacts correlation skill at one month lead time.</p>
 <section id="selecting-regions">
 <h4>Selecting regions<a class="headerlink" href="#selecting-regions" title="Link to this heading">#</a></h4>
 <p>Based on the correlation maps, regions are selected to investigate further; Addis Ababa, Bonn, NINO3.4.</p>
@@ -1167,7 +1210,7 @@ Plots were then generated for nested domains. Three spatial scales were consider
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-how-effectively-can-seasonal-forecasts-predict-the-development-of-key-global-climate-variables-across-varying-spatial-scales">🌍 Use case: How effectively can seasonal forecasts predict the development of key global climate variables across varying spatial scales?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-investigating-key-climate-variables-across-varying-spatial-scales-using-seasonal-forecasts-for-regional-climate-monitoring-and-prediction">🌍 Use case: Investigating key climate variables across varying spatial scales using seasonal forecasts for regional climate monitoring and prediction.</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
