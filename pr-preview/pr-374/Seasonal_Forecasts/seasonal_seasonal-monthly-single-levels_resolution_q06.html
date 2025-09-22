@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>4.1. Assessing the impact of scale and temporal trends for seasonal forecast quality &#8212; eqcbook</title>
+    <title>4.1. Assessing the impact of spatial scale and temporal trends on seasonal forecast quality &#8212; eqcbook</title>
   
   
   
@@ -222,7 +222,7 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Seasonal Forecasts</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="seasonal.html">4. Quality assessments for Seasonal Forecasts</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.1. Assessing the impact of scale and temporal trends for seasonal forecast quality</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.1. Assessing the impact of spatial scale and temporal trends on seasonal forecast quality</a></li>
 </ul>
 </details></li>
 </ul>
@@ -445,7 +445,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Assessing the impact of scale and temporal trends for seasonal forecast quality</h1>
+    <h1>Assessing the impact of spatial scale and temporal trends on seasonal forecast quality</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -455,7 +455,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-investigating-key-climate-variables-across-varying-spatial-scales-using-seasonal-forecasts-for-regional-climate-monitoring-and-prediction">🌍 Use case: Investigating key climate variables across varying spatial scales using seasonal forecasts for regional climate monitoring and prediction.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-using-seasonal-forecasts-for-regional-climate-monitoring-and-prediction">🌍 Use case: Using seasonal forecasts for regional climate monitoring and prediction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
@@ -495,12 +495,12 @@ document.write(`
   <p><img alt="logo" src="../_images/LogoLine_horizon_C3S1.png" /></p>
 <div class="alert alert-block alert-warning">
 Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
-</div><section class="tex2jax_ignore mathjax_ignore" id="assessing-the-impact-of-scale-and-temporal-trends-for-seasonal-forecast-quality">
-<h1><span class="section-number">4.1. </span>Assessing the impact of scale and temporal trends for seasonal forecast quality<a class="headerlink" href="#assessing-the-impact-of-scale-and-temporal-trends-for-seasonal-forecast-quality" title="Link to this heading">#</a></h1>
+</div><section class="tex2jax_ignore mathjax_ignore" id="assessing-the-impact-of-spatial-scale-and-temporal-trends-on-seasonal-forecast-quality">
+<h1><span class="section-number">4.1. </span>Assessing the impact of spatial scale and temporal trends on seasonal forecast quality<a class="headerlink" href="#assessing-the-impact-of-spatial-scale-and-temporal-trends-on-seasonal-forecast-quality" title="Link to this heading">#</a></h1>
 <p>Production date: 30.04.2025</p>
 <p>Produced by: Johannes Langvatn (METNorway), Johanna Tjernström (METNorway)</p>
-<section id="use-case-investigating-key-climate-variables-across-varying-spatial-scales-using-seasonal-forecasts-for-regional-climate-monitoring-and-prediction">
-<h2>🌍 Use case: Investigating key climate variables across varying spatial scales using seasonal forecasts for regional climate monitoring and prediction.<a class="headerlink" href="#use-case-investigating-key-climate-variables-across-varying-spatial-scales-using-seasonal-forecasts-for-regional-climate-monitoring-and-prediction" title="Link to this heading">#</a></h2>
+<section id="use-case-using-seasonal-forecasts-for-regional-climate-monitoring-and-prediction">
+<h2>🌍 Use case: Using seasonal forecasts for regional climate monitoring and prediction<a class="headerlink" href="#use-case-using-seasonal-forecasts-for-regional-climate-monitoring-and-prediction" title="Link to this heading">#</a></h2>
 </section>
 <section id="quality-assessment-question">
 <h2>❓ Quality assessment question<a class="headerlink" href="#quality-assessment-question" title="Link to this heading">#</a></h2>
@@ -508,7 +508,7 @@ Please note that this repository is used for development and review, so quality 
 <li><p>How does the quality of seasonal forecasts change when looking at different sized areas? What are the associated limitations?</p></li>
 <li><p>How do long term temporal trends impact the quality of seasonal forecasts?</p></li>
 </ul>
-<p>The effectiveness of seasonal forecasts in predicting the development of key climate variables—such as temperature, precipitation and sea surface temperatures (SSTs)—varies considerably by variable, region, season, lead time and the state of large-scale climate drivers like ENSO (El Niño–Southern Oscillation). This notebook investigates how a potential trend in the data (e.g. as discussed in <a class="reference external" href="https://doi.org/10.5194/hess-23-371-2019" rel="noreferrer" target="_blank">Greuell et al. (2019) [1]</a>) along with selection of regions at various spatial scales (e.g. as discussed in <a class="reference external" href="https://doi.org/10.1007/s00382-021-05828-3" rel="noreferrer" target="_blank">Prodhomme et al. (2021) [2]</a>, <a class="reference external" href="https://doi.org/10.1175/WAF-D-19-0106.1" rel="noreferrer" target="_blank">Gubler et al. (2020) [3]</a> <a class="reference external" href="https://doi.org/10.1007/s00382-021-05895-6" rel="noreferrer" target="_blank">Quaglia et al. (2021) [4]</a>) affect forecasting quality</p>
+<p>The effectiveness of seasonal forecasts in predicting the development of key climate variables—such as temperature, precipitation and sea surface temperatures (SSTs)—varies considerably by variable, region, season, lead time and the state of large-scale climate drivers like ENSO (El Niño–Southern Oscillation). This notebook investigates how a potential trend in the data (e.g. as discussed in <a class="reference external" href="https://doi.org/10.5194/hess-23-371-2019" rel="noreferrer" target="_blank">Greuell et al. (2019) [1]</a>) along with selection of regions at various spatial scales (e.g. as discussed in <a class="reference external" href="https://doi.org/10.1007/s00382-021-05828-3" rel="noreferrer" target="_blank">Prodhomme et al. (2021) [2]</a>, <a class="reference external" href="https://doi.org/10.1175/WAF-D-19-0106.1" rel="noreferrer" target="_blank">Gubler et al. (2020) [3]</a> <a class="reference external" href="https://doi.org/10.1007/s00382-021-05895-6" rel="noreferrer" target="_blank">Quaglia et al. (2021) [4]</a>) affect forecasting quality. For the purpose of this assessment, seasonal forecast quality is measured by the temporal correlation of the ensemble mean with ERA5 reanalysis.</p>
 </section>
 <section id="quality-assessment-statement">
 <h2>📢 Quality assessment statement<a class="headerlink" href="#quality-assessment-statement" title="Link to this heading">#</a></h2>
@@ -519,18 +519,18 @@ Please note that this repository is used for development and review, so quality 
 <ul>
 <li><p>There is a clear drop in forecast quality when moving from the global scale to continental scale (Europe), to a national scale (Germany), and finally to a city scale (Bonn).</p></li>
 <li><p>This is not the case when comparing the global scale, to the Pacific and NINO region, where the forecast quality remains largely constant, or even better, the smaller the selected region.</p></li>
-<li><p>The regional mean for NINO3.4 is better correlated to the reanalysis than the global regional mean</p></li>
-<li><p>The nearest grid cell to Bonn (an example city in Germany) has low correlation and most of the quality can be attributed to the underlying trend in the dataset</p></li>
-<li><p>In contrast, the nearest grid cell to Addis Ababa (an example city in Eastern Africa) has some correlation which is retained even after detrending</p></li>
+<li><p>The regional mean for NINO3.4 is better correlated to the reanalysis than the global mean.</p></li>
+<li><p>The nearest grid cell to Bonn (an example city in Germany) has low correlation and most of the quality can be attributed to the underlying trend in the dataset.</p></li>
+<li><p>In contrast, the nearest grid cell to Addis Ababa (an example city in Eastern Africa) has some correlation which is retained even after detrending.</p></li>
 </ul>
 </li>
 <li><p>For regions and locations which have a visible trend in t2m, the trend inflates the correlation of t2m compared to reanalysis.</p>
 <ul>
-<li><p>For Europe, most of the visible correlation can be attributed to the underlying trend</p></li>
-<li><p>This contrasts with the region of greater horn of Africa, where less of the visible correlation can be attributed to the underlying trend</p></li>
+<li><p>For Europe, most of the visible correlation can be attributed to the underlying trend.</p></li>
+<li><p>This contrasts with the region of greater horn of Africa, where less of the visible correlation can be attributed to the underlying trend.</p></li>
 </ul>
 </li>
-<li><p>Users are generally advised to avoid selecting small regions or single grid cells when using seasonal forecasts as they are only expected to be skillful in predicting large scale variations in monthly or seasonal deviations. Selecting larger regions based on a common climatology generally results in increased robustness and signal to noise</p></li>
+<li><p>Users are generally advised to avoid selecting small regions or single grid cells when using seasonal forecasts as they are only expected to be skillful in predicting large scale variations in monthly or seasonal deviations. Selecting larger regions based on a common climatology generally results in increased robustness and signal to noise.</p></li>
 </ul>
 </div>
 </section>
@@ -540,7 +540,7 @@ Please note that this repository is used for development and review, so quality 
 <p>Using this data the anomaly was calculated for the two meter temperature (t2m), against the period 1993-2024, and was detrended assuming a linear trend. Note that this period contains both hindcast and forecast, which are not entirely equivalent with respect to initialization, and contain 25 and 51 ensemble members respectively. A dataset was then generated containing both the original anomaly and the detrended. The analysis was then carried out globally and for three regions chosen based on effects of trend on the correlation.</p>
 <p>First, the global case was considered both including and excluding trend, plotting anomaly for the ensemble members, ensemble mean, and ERA5. The correlation was also calculated.</p>
 <p>To further consider the correlation, maps were generated to more clearly view the spatial variations of correlation in anomaly (as can seen on the <a class="reference external" href="https://confluence.ecmwf.int/display/CKB/C3S+seasonal+forecasts+verification+plots" rel="noreferrer" target="_blank">C3S verification page</a>) between the seasonal forecast and ERA5. Based on these maps, a set of regions were selected for further study, based on the magnitude of the correlation.
-Plots were then generated for nested domains. Three spatial scales were considered, a larger, continental scale, a smaller country scale and a much smaller city scale. Data were selected for each domain based on a lat/lon box.</p>
+Plots were then generated for nested domains. Three spatial scales were considered, a larger, continental scale, a smaller country scale and a much smaller city scale (a single grid box in the 1x1 degree grid). Data were selected for each domain based on a lat/lon box.</p>
 <p>The resulting plots, displaying the ensemble members, ensemble mean, and ERA5, aim to visualise the variation in quality based on the selected regions of interest. This was also done for the detrended anomaly, and correlation was also calculated for each of the domains.</p>
 <p><strong><a class="reference internal" href="#seasonal-seasonal-monthly-single-levels-resolution-q06-section-1"><span class="std std-ref">1. Choose data to use and setup code</span></a></strong></p>
 <ul class="simple">
@@ -561,7 +561,7 @@ Plots were then generated for nested domains. Three spatial scales were consider
 <p><strong><a class="reference internal" href="#seasonal-seasonal-monthly-single-levels-resolution-q06-section-3"><span class="std std-ref">3. Map of correlation for detrended data</span></a></strong></p>
 <ul class="simple">
 <li><p>Correlation is plotted for each grid point on a map</p></li>
-<li><p>Based on this, regions are selected to investigate further; Addis Ababa, Bonn, NINO3.4.</p></li>
+<li><p>Based on this, regions are selected to investigate further; Addis Ababa, Bonn, NINO3.4</p></li>
 </ul>
 <p><strong><a class="reference internal" href="#seasonal-seasonal-monthly-single-levels-resolution-q06-section-4"><span class="std std-ref">4. Plot and describe results</span></a></strong></p>
 <ul class="simple">
@@ -580,8 +580,8 @@ Plots were then generated for nested domains. Three spatial scales were consider
 <h2>📈 Analysis and results<a class="headerlink" href="#analysis-and-results" title="Link to this heading">#</a></h2>
 <section id="choose-data-to-use-and-setup-code">
 <span id="seasonal-seasonal-monthly-single-levels-resolution-q06-section-1"></span><h3>1. Choose data to use and setup code<a class="headerlink" href="#choose-data-to-use-and-setup-code" title="Link to this heading">#</a></h3>
-<p>This section contains the setup and data processing needed for performing the analysis</p>
-<p>Import external code libraries needed</p>
+<p>This section contains the setup and data processing needed for performing the analysis.</p>
+<p>Import external code libraries needed.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -604,7 +604,7 @@ Plots were then generated for nested domains. Three spatial scales were consider
 </div>
 </details>
 </div>
-<p>Define functions to be used throughout the notebook</p>
+<p>Define functions to be used throughout the notebook.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -709,7 +709,7 @@ Plots were then generated for nested domains. Three spatial scales were consider
 </div>
 </details>
 </div>
-<p>This notebook uses the t2m monthly means from one forecasting system, in this case from ECMWF (system code 51), for a forecast produced in May for leadtime months June, July and August. This was requested for both forecast and hindcast periods, thus there is a difference in the number of ensemble members before and after 2016</p>
+<p>This notebook uses the t2m monthly means from one forecasting system, in this case from ECMWF (system code 51), for a forecast produced in May for leadtime months June, July and August. This was requested for both forecast and hindcast periods, thus there is a difference in the number of ensemble members before and after 2016.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -790,7 +790,7 @@ Plots were then generated for nested domains. Three spatial scales were consider
 </section>
 <section id="comparing-global-correlation">
 <span id="seasonal-seasonal-monthly-single-levels-resolution-q06-section-2"></span><h3>2. Comparing global correlation<a class="headerlink" href="#comparing-global-correlation" title="Link to this heading">#</a></h3>
-<p>Compute the ensemble mean of the seasonal forecast anomaly data</p>
+<p>Compute the ensemble mean of the seasonal forecast anomaly data.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -810,7 +810,7 @@ Plots were then generated for nested domains. Three spatial scales were consider
 </details>
 </div>
 <p>Plot the original anomaly data for each ensemble member, the ensemble mean, and the reanalysis anomaly.
-Please note that the ensemble member points are coloured by number to highlight the switch from the hindcast configuration (25 members) to the forecasts (51 members).’</p>
+Please note that the ensemble member points are coloured by number to highlight the switch from the hindcast configuration (25 members) to the forecasts (51 members).</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -866,7 +866,7 @@ Please note that the ensemble member points are coloured by number to highlight 
 </section>
 <section id="map-of-correlation-for-detrended-data">
 <span id="seasonal-seasonal-monthly-single-levels-resolution-q06-section-3"></span><h3>3. Map of correlation for detrended data<a class="headerlink" href="#map-of-correlation-for-detrended-data" title="Link to this heading">#</a></h3>
-<p>The correlation of the detrended data is plotted compared to reanalysis data for each grid cell on a map</p>
+<p>The correlation of the detrended data is plotted compared to reanalysis data for each grid cell on a map.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1009,7 +1009,7 @@ Please note that the ensemble member points are coloured by number to highlight 
 </section>
 <section id="plot-and-describe-results">
 <span id="seasonal-seasonal-monthly-single-levels-resolution-q06-section-4"></span><h3>4. Plot and describe results<a class="headerlink" href="#plot-and-describe-results" title="Link to this heading">#</a></h3>
-<p>In this section the regional means are computed and plots generated to illustrate scale variations for the selected regions</p>
+<p>In this section the regional means are computed and plots generated to illustrate scale variations for the selected regions.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1109,10 +1109,10 @@ Please note that the ensemble member points are coloured by number to highlight 
 </div>
 <section id="discussion">
 <h4>Discussion<a class="headerlink" href="#discussion" title="Link to this heading">#</a></h4>
-<p>Looking at the comparison of different regions at different scales a few conclusions can be drawn. Firstly, for regions with a visible trend, that trend inflates the correlation for t2m compared against analysis. This can be seen for Europe, where comparing the detrended and trended plots, the correlation is greater for the data with trend in Europe. Hence, for Europe, most of the visible correlation can be attributed to the underlying trend.</p>
-<p>This can be compared with the region of greater horn of Africa. Where comparing the trended and detrended case indicates that less of the visible correlation can be attributed to the underlying trend.</p>
+<p>Looking at the comparison of different regions at different spatial scales a few conclusions can be drawn.</p>
+<p>For regions with a visible trend, that trend inflates the correlation for t2m compared against analysis. This can be seen for Europe, where comparing the detrended and trended plots, the correlation is greater for the data with trend in Europe. Hence, for Europe, most of the visible correlation can be attributed to the underlying trend. This can be compared with the region of greater horn of Africa. Where comparing the trended and detrended case indicates that less of the visible correlation can be attributed to the underlying trend.</p>
 <p>For the selected regions, forecast quality depending on scale varies. Looking at the Europe, Germany, Bonn case, there is a drop in forecast quality as the scale decreases. This cannot be observed in the NINO3.4 where the quality remains more or less constant, despite the decrease in region. The Greater Horn of Africa, where the drop off in quality with scale can be seen somewhat in the case of Addis Ababa, but not on the same scale as can be seen in the Europe case.</p>
-<p>Considering this, and the anomalies for the different regions at different scales, it can be seen that the region of NINO3.4 has a better correlation with the reanalysis than the global regional mean, while Bonn has a low correlation where most of the quality can be attributed to the underlying trend. Addis Ababa has some correlation, which is retained even after detrending. However, the high correlations for the NINO3.4 region are partially dependent on the start date and forecast length, which can be seen in the <a class="reference external" href="https://confluence.ecmwf.int/display/CKB/C3S+seasonal+forecasts+verification+plots" rel="noreferrer" target="_blank">SST indices plots on the C3S verification page</a>), though it should be noted that these plots use sea surface temperature and not t2m.</p>
+<p>Considering this, and the anomalies for the different regions at different scales, it can be seen that the region of NINO3.4 has a better correlation with the reanalysis than the global regional mean, while Bonn has a low correlation where most of the quality can be attributed to the underlying trend. Addis Ababa has some correlation, which is retained even after detrending. The high correlations for the NINO3.4 region are partially dependent on the start date and forecast length, which can be seen in the <a class="reference external" href="https://confluence.ecmwf.int/display/CKB/C3S+seasonal+forecasts+verification+plots" rel="noreferrer" target="_blank">SST indices plots on the C3S verification page</a>), though it should be noted that these plots use sea surface temperature and not t2m. Forecast quality, and seasonal forecast biases, generally vary with start date and lead time, as seen in some of the other assessments.</p>
 </section>
 </section>
 </section>
@@ -1210,7 +1210,7 @@ Please note that the ensemble member points are coloured by number to highlight 
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-investigating-key-climate-variables-across-varying-spatial-scales-using-seasonal-forecasts-for-regional-climate-monitoring-and-prediction">🌍 Use case: Investigating key climate variables across varying spatial scales using seasonal forecasts for regional climate monitoring and prediction.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-using-seasonal-forecasts-for-regional-climate-monitoring-and-prediction">🌍 Use case: Using seasonal forecasts for regional climate monitoring and prediction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
