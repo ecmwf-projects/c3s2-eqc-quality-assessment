@@ -1,0 +1,38 @@
+name: weekly
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash -l {0}
+
+on:
+  schedule:
+  - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v5
+    - uses: actions/setup-python@v6
+      with:
+        python-version: '3.x'
+    - name: Install pre-commit
+      run: pip install pre-commit
+    - name: Run autoupdate
+      run: |
+        pre-commit autoupdate
+        pre-commit autoupdate -c .pre-commit-config-weekly.yaml
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v7
+      with:
+        title: pre-commit autoupdate
+    - name: Run weekly checks
+      run: |
+        pre-commit run --all
+        pre-commit run -c .pre-commit-config-weekly.yaml --all
+
