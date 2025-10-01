@@ -2,7 +2,7 @@
 
 # C3S EQC quality assessments
 
-This Jupyter Book contains a collection of quality assessments of C3S data produced by external evaluators under the C3S2_520 contract, which provides an **evaluation and quality control (EQC)** function for selected datasets on the climate data store (CDS).
+This Jupyter Book contains a collection of quality assessments of C3S data and applications produced by external evaluators under the C3S2_520 and C3S2_521 contracts, which provide an **evaluation and quality control (EQC)** function for selected datasets on the climate data store (CDS) and C3S applications.
 
 C3S has established an EQC framework for all its products and services to ensure that users are served well and that this will continue to be the case as their needs evolve. The main goal of the EQC for CDS datasets function is to develop precise statements about data quality that pertain to well-identified use cases. Those statements, in combination with other documented information about the datasets, constitute a knowledge base that can help users to assess fitness for purpose, given their needs and requirements.
 
@@ -51,11 +51,14 @@ These assessments are organised by the type of data they address. Note that whil
 1. [Reanalysis](Reanalyses/reanalysis.md)
 1. [Seasonal forecasts](Seasonal_Forecasts/seasonal.md)
 1. [Climate projections](Climate_Projections/climate.md)
+1. [Climate indicators](Indicators/indicator.md)
+1. [Derived datasets](Derived_Datasets/derived.md)
+1. [C3S applications](Applications/application.md)
 
 ## Running the Notebooks
 
 Most of these quality assessments include Python code to produce data and figures which help answer the user question. This code is included primarily for transparency and traceability, as the software was designed to support evaluators running the assessments on EQC infrastructure, rather than to be easily reproducible. However, sections of it may also be directly applicable to your application and can be adapted or adjusted to your needs.
 
-Most code in the Notebooks is self contained (but does make use of the [custom software](https://github.com/bopen/c3s-eqc-automatic-quality-control/tree/main/c3s_eqc_automatic_quality_control) prepared by [BOpen](https://www.bopen.eu/) for EQC evaluators). Some quality assessments may rely on the outcomes and code of previous assessments, or offline computations.
+Most code in the Notebooks is self contained (but may make use of the [custom software](https://github.com/bopen/c3s-eqc-automatic-quality-control/tree/main/c3s_eqc_automatic_quality_control) prepared by [BOpen](https://www.bopen.eu/) for EQC evaluators). Some quality assessments may rely on the outcomes and code of previous assessments, or offline computations.
 
 Some of the analysis in the quality assessments is not compute or data intensive, and so the Notebooks (.ipynb files) can be downloaded, adapted, and run on freely available cloud platforms, or on your own computing resources.

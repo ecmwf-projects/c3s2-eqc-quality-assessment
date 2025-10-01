@@ -23,11 +23,15 @@ jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-python@v5
+    - uses: actions/checkout@v5
+    - run: git fetch origin main
+    - uses: actions/setup-python@v6
       with:
         python-version: '3.x'
     - uses: pre-commit/action@v3.0.1
+    - uses: pre-commit/action@v3.0.1
+      with:
+        extra_args: '-c .pre-commit-config-weekly.yaml --from-ref origin/main --to-ref HEAD'
 
   deploy-preview:
     runs-on: ubuntu-latest
@@ -35,16 +39,16 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - run: git fetch origin gh-pages
-    - uses: actions/setup-python@v5
+    - uses: actions/setup-python@v6
       with:
         python-version: '3.x'
         cache: 'pip'
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: Get changed notebooks
       id: changed-files
-      uses: tj-actions/changed-files@v45
+      uses: tj-actions/changed-files@v47
       with:
         files: |
           **.ipynb
@@ -72,10 +76,10 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: Get changed notebooks
       id: changed-files
-      uses: tj-actions/changed-files@v45
+      uses: tj-actions/changed-files@v47
       with:
         files: |
           **.ipynb
