@@ -19,6 +19,7 @@ KNOWN_SSL_ISSUES = (
     "https://hermes.acri.fr",
     "https://alt-perubolivia.org",
     "https://pulse.climate.copernicus.eu",
+    "https://thermaltrace.climate.copernicus.eu/",
 )
 
 KNOWN_403_ISSUES = ("https://www.iea.org",)
