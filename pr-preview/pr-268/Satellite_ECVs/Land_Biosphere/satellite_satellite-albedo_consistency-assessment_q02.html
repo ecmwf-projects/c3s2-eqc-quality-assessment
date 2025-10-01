@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>1.4.1. Resolution Assessment of Satellite-Derived Surface Albedo for Detecting Human-Induced Forest Changes &#8212; eqcbook</title>
+    <title>1.4.1. Assessment of bias, RMS deviation (RMSD), and correlation between the two datasets at regional scales for the years 2018–2019 &#8212; eqcbook</title>
   
   
   
@@ -16,33 +16,30 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!--
-    this give us a css class that will be invisible only if js is disabled
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
-  <!-- So that users can add custom icons -->
-  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
@@ -61,13 +58,13 @@
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'Satellite_ECVs/Land_Biosphere/satellite_satellite-albedo_consistency-assessment_q02';</script>
+    <link rel="icon" href="../../_static/C3S_favicon.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="1.5. Land Hydrology" href="../Land_Hydrology/Land_Hydrology.html" />
     <link rel="prev" title="1.4. Land Biosphere" href="Land_Biosphere.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -83,8 +80,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -92,6 +100,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -99,8 +108,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -119,8 +128,7 @@
       
       
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -150,17 +158,21 @@
     
     
     <img src="../../_static/C3S–POS–LINE.png" class="logo__image only-light" alt="eqcbook - Home"/>
-    <img src="../../_static/C3S–POS–LINE.png" class="logo__image only-dark pst-js-only" alt="eqcbook - Home"/>
+    <script>document.write(`<img src="../../_static/C3S–POS–LINE.png" class="logo__image only-dark" alt="eqcbook - Home"/>`);</script>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -184,7 +196,7 @@
 </ul>
 </details></li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="Land_Biosphere.html">1.4. Land Biosphere</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">1.4.1. Resolution Assessment of Satellite-Derived Surface Albedo for Detecting Human-Induced Forest Changes</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">1.4.1. Assessment of bias, RMS deviation (RMSD), and correlation between the two datasets at regional scales for the years 2018–2019</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../Land_Hydrology/Land_Hydrology.html">1.5. Land Hydrology</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
@@ -226,6 +238,24 @@
 </ul>
 </details></li>
 </ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Climate Indicators</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../Indicators/indicator.html">6. Quality assessments for Climate Indicators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Derived Datasets</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../Derived_Datasets/derived.html">7. Quality assessments for Derived Datasets</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Applications</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../Applications/application.html">8. Quality assessments for C3S Applications</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Quality assessment template</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../templates/template_instructions.html">Template instructions</a></li>
@@ -238,14 +268,9 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
-      <div class="sidebar-primary-item">
-<div id="ethical-ad-placement"
-      class="flat"
-      data-ea-publisher="readthedocs"
-      data-ea-type="readthedocs-sidebar"
-      data-ea-manual="true">
-</div></div>
   </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -389,16 +414,24 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
 
 
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
+  </button>
+`);
+</script>
 <button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
@@ -412,7 +445,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Resolution Assessment of Satellite-Derived Surface Albedo for Detecting Human-Induced Forest Changes</h1>
+    <h1>Assessment of bias, RMS deviation (RMSD), and correlation between the two datasets at regional scales for the years 2018–2019</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -422,22 +455,38 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-identification-of-changes-in-amazon-rainforests-from-surface-albedo">🌍 Use case: Identification of changes in Amazon rainforests from surface albedo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-regional-consistency-of-surface-albedo-datasets">🌍 Use case: Regional consistency of surface albedo datasets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-questions">❓ Quality assessment questions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-surface-albedo">1. Download surface albedo</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#define-parameters-transform-data-and-printing-area-statistics-function">2. Define parameters, transform data and printing area statistics function:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-raster-plot-of-the-regridded-noaa-11-avhrr-19901991-and-proba-vgt-20182019">3. Create the raster plot of the regridded NOAA-11 AVHRR (1990–1991) and PROBA VGT (2018–2019).</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-validation-of-the-results-google-earth-images-of-the-region-corresponding-to-both-time-periods-have-been-imported">4. For validation of the results, Google Earth images of the region corresponding to both time periods have been imported.</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#google-earth-image-of-study-area-for-year-2019">Google Earth image of study area for year 2019</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#google-earth-image-of-study-area-for-year-1990">Google Earth image of study area for year 1990</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consistency-analysis-of-monthly-albedo-values-for-two-datasets-was-performed-the-result-table-compares-average-monthly-surface-albedo-values-the-periods-19901991-using-avhrr-data-and-20182019-using-proba-data">5. Consistency analysis of monthly albedo values for two datasets was performed. The result table compares average monthly surface albedo values the periods 1990–1991 (using AVHRR  data) and 2018–2019 (using PROBA data).</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#results">Results</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-the-data-to-use-and-set-up-the-code">Choose the data to use and set up the code</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-all-required-libraries">Import all required libraries</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#spatial-and-temporal-definitions">Spatial and temporal definitions</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-retrieval-and-preparation">Data Retrieval and Preparation</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#download-the-albedo-data">Download the albedo data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#define-requiered-functions">Define requiered functions</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#normalizing-coordinates">Normalizing coordinates</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#regrid-sentinel-3-to-proba-v-grid">Regrid Sentinel-3 to PROBA-V grid</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#computation-of-timeseries">Computation of timeseries</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-and-describe-the-results">3. Plot and describe the results.</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#metrics-per-variable">Metrics per variable</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#build-a-tidy-monthly-diff-table-for-each-variable">Build a tidy monthly diff table for each variable</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#regional-case-studies">Regional Case Studies</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-monthly-time-series-s3-vs-pv-for-each-region-variable">Plot monthly time series (S3 vs PV) for each region &amp; variable</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-full-domain-monthly-time-series-plots">Plot full-domain monthly time-series plots</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#take-home-messages">Take-Home Messages</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-resources">Key Resources</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 </ul>
 </li>
@@ -455,378 +504,1036 @@
   <p><img alt="logo" src="../../_images/LogoLine_horizon_C3S1.png" /></p>
 <div class="alert alert-block alert-warning">
 Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
-</div><section class="tex2jax_ignore mathjax_ignore" id="resolution-assessment-of-satellite-derived-surface-albedo-for-detecting-human-induced-forest-changes">
-<h1><span class="section-number">1.4.1. </span>Resolution Assessment of Satellite-Derived Surface Albedo for Detecting Human-Induced Forest Changes<a class="headerlink" href="#resolution-assessment-of-satellite-derived-surface-albedo-for-detecting-human-induced-forest-changes" title="Link to this heading">#</a></h1>
-<section id="quality-assessment-question">
-<h2>❓ Quality assessment question<a class="headerlink" href="#quality-assessment-question" title="Link to this heading">#</a></h2>
-<p><strong>Does the resolution of albedo dataset allow to identify the changes in forest areas due to human activities?</strong></p>
+</div><div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CDSAPI_RC&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~/Karimian_Faezeh/.cdsapirc&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="assessment-of-bias-rms-deviation-rmsd-and-correlation-between-the-two-datasets-at-regional-scales-for-the-years-20182019">
+<h1><span class="section-number">1.4.1. </span>Assessment of bias, RMS deviation (RMSD), and correlation between the two datasets at regional scales for the years 2018–2019<a class="headerlink" href="#assessment-of-bias-rms-deviation-rmsd-and-correlation-between-the-two-datasets-at-regional-scales-for-the-years-20182019" title="Link to this heading">#</a></h1>
+<p> </p>
+<p>Production date: 30-09-2024</p>
+<p>Produced by: Consiglio Nazionale delle Ricerche (<a class="reference external" href="https://www.cnr.it/en" rel="noreferrer" target="_blank">CNR</a>- Fabio Madonna and Faezeh Karimian.)</p>
+<section id="use-case-regional-consistency-of-surface-albedo-datasets">
+<h2>🌍 Use case: Regional consistency of surface albedo datasets<a class="headerlink" href="#use-case-regional-consistency-of-surface-albedo-datasets" title="Link to this heading">#</a></h2>
 </section>
-<section id="use-case-identification-of-changes-in-amazon-rainforests-from-surface-albedo">
-<h2>🌍 Use case: Identification of changes in Amazon rainforests from surface albedo<a class="headerlink" href="#use-case-identification-of-changes-in-amazon-rainforests-from-surface-albedo" title="Link to this heading">#</a></h2>
-<p>The Amazon is the world’s largest rainforest. Besides being rich in biodiversity, it plays a significant role in maintaining the Earth’s atmosphere (Brandão et al., 2022). However, due to various reasons such as cropping, cattle ranching, mining, commercial farming, etc., the forest is witnessing huge deforestation (Cruz et al., 2021). Deforestation has a key contribution to the global hydrological cycle and, energy budget, as well as to the preservation of ecosystems. Satellite-derived albedo data offers an effective tool to monitor Amazon rainforest coverage and assess the impact of human activities. By analyzing changes in surface reflectivity due to the conversion of vegetation to other land uses with satellite data from the Climate Data Store (CDS) of the Copernicus Climate Change Service (C3S), users can quantify the extent of forest loss and degradation attributable to human intervention, as well as the precision of different satellite resolutions. This study uses black-sky albedo, which represents the surface reflectance under direct sunlight, to focus on vegetation changes without the influence of diffuse atmospheric scattering. This choice is particularly relevant for evaluating deforestation impacts, as black-sky albedo is sensitive to surface alterations caused by human activities. Such insights are essential for informing conservation strategies and promoting sustainable land management practices in the region. This notebook demonstrates the albedo dataset’s ability to identify changes in coverage of forest areas caused by human activities, using the most recent CDS data records of surface albedo.</p>
+<section id="quality-assessment-questions">
+<h2>❓ Quality assessment questions<a class="headerlink" href="#quality-assessment-questions" title="Link to this heading">#</a></h2>
+<p><strong>• How consistent are Sentinel-3 and PROBA-V albedo estimates in specific regions such as the Alps, Pyrenees, Sahara Desert, or Mediterranean?</strong></p>
+<p>The Mediterranean basin and North Africa represent key regions for albedo monitoring due to their climatic and land surface diversity. The Mediterranean combines densely populated coastal zones with heterogeneous landscapes (forests, croplands and mountains), while North Africa is dominated by the Sahara Desert, one of the largest and brightest natural surfaces on Earth. The presence of snow cover in mountain ranges (e.g., the Alps, Pyrenees, and Atlas Mountains), strong vegetation seasonality, and the influence of dust and aerosols further complicate albedo retrievals from space in this domain (Carrer et al., 2018; Liang et al., 2020).
+Two satellite missions from the European Space Agency provide long-term surface albedo products suitable for such analyses: Sentinel-3 (OLCI + SLSTR), delivering albedo at 300 m resolution, and PROBA-V (VGT sensor), delivering albedo at 1 km resolution. Both datasets are accessible through the Copernicus Climate Data Store (CDS) and form part of the Essential Climate Variables (ECVs) for land monitoring (Copernicus, 2020; Dierckx et al., 2014).</p>
+<p>Previous studies have assessed albedo products at global scales, but regional evaluations over the Mediterranean and North Africa remain limited. These areas are of high climatic relevance due to strong land–atmosphere coupling, rapid land cover changes, and their role in the energy balance of the Euro-Mediterranean climate system (Giorgi, 2006; Cherif et al., 2020).</p>
+<p>This study compares Sentinel-3 and PROBA-V surface albedo products over the Mediterranean and North Africa for the period 2018–2019. By analyzing regional time series and computing bias, RMS deviation (RMSD), and correlation, the study aims to quantify the agreement between the two datasets at the regional scale.</p>
 </section>
 <section id="quality-assessment-statement">
 <h2>📢 Quality assessment statement<a class="headerlink" href="#quality-assessment-statement" title="Link to this heading">#</a></h2>
 <div class="note admonition">
 <p class="admonition-title">These are the key outcomes of this assessment</p>
-<ol class="arabic simple">
-<li><p>The C3S surface albedo dataset identifies changes in forest areas due to human activities.</p></li>
-<li><p>The resolution of the recent PROBA satellite can represent data more accurately than the previous satellites.</p></li>
-</ol>
+<p>• Across most regions, Sentinel-3 and PROBA-V albedo datasets show very high correlations (&gt;0.9) for black-sky and white-sky visible albedo (AL_BH_VI, AL_DH_VI). This indicates strong consistency in the visible band.</p>
+<p>• Negative biases (Sentinel-3 lower than PROBA-V) dominate in mountain regions (Alps, Pyrenees, Apennines, Black Forest), with values typically between –0.01 and –0.02. These biases are most pronounced in the diffuse broadband albedo (for example, the AL_DH_BB bias ≈ –0.026 in the Alps and Po Valley).</p>
+<p>• Over the Central Mediterranean Sea region, biases are small and slightly positive (~+0.004–0.007), and correlations are high in the visible albedo (&gt;0.97). This suggests that Sentinel-3 tends to retrieve slightly higher albedo values over water surfaces, while diffuse broadband albedo shows weaker correlation (r ≈ 0.65), indicating greater uncertainty in marine environments.</p>
+<p>• The Sahara Desert exhibits excellent agreement with low RMSD (&lt;0.02) and high correlation (&gt;0.9 for most variables). The only exception is a stronger negative bias in visible albedo (AL_BH_VI ≈ –0.036), possibly related to surface brightness and sensor calibration differences.</p>
+<p>• The Black Forest region shows a strong breakdown in correlation for diffuse broadband albedo (AL_DH_BB, r ≈ 0.00), highlighting challenges in dense forest environments where retrieval algorithms differ more strongly.</p>
+<p>• Seasonal cycles are captured consistently in all regions, but diffuse albedo metrics (AL_DH_BB) tend to have weaker correlations (0.65–0.78 in Central Med., Po Valley, Apennines), pointing to sensitivity to cloudiness, atmospheric conditions, or retrieval assumptions.</p>
+<p>• Overall, the two datasets are fit for regional albedo monitoring across the Mediterranean and North Africa, but caution is required in snow-affected mountains, dense forest areas, and marine regions where retrievals are less reliable.</p>
 </div>
 </section>
 <section id="methodology">
 <h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
-<p>The analysis comprises the following steps:</p>
-<ol class="arabic simple">
-<li><p>Download surface albedo data for NOAA-11 AVHRR v2 (time period 1990–1991) (horizontal resolution: ~ 4 km) and PROBA-VGT v2 (time period 2018–2019). (horizontal_resolution: ~ 1km) (ALBB_BH (broadband hemispherical albedo over total spectrum); temporal resolution: 10 days).</p></li>
-<li><p>Define the plotting and printing area statistics function.</p></li>
-<li><p>Create a raster plot of the regridded NOAA-11 AVHRR (1990–1991) and PROBA VGT (2018–2019).</p></li>
-<li><p>For validation of the results, Google Earth images of the region corresponding to both time periods have been imported.</p></li>
-<li><p>A Consistency analysis in monthly albedo values of two datasets.</p></li>
-</ol>
+<p>This assessment aims to evaluate the bias, RMS deviation (RMSD), and correlation between surface albedo products from PROBA-V and Sentinel-3 (OLCI/SLSTR). The comparison is performed at a regional scale over the period 2018–2019.</p>
+<p>The methodology adopted for the analysis is split into the following steps:</p>
+<p><a class="reference internal" href="#satellite-satellite-albedo-consistency-assessment-q02-section-1"><span class="std std-ref">Choose the data to use and set up the code</span></a></p>
+<ul class="simple">
+<li><p>Import all required libraries</p></li>
+<li><p>Spatial and temporal definitions</p></li>
+</ul>
+<p><a class="reference internal" href="#satellite-satellite-albedo-consistency-assessment-q02-section-2"><span class="std std-ref">Data Retrieval and Preparation</span></a></p>
+<ul class="simple">
+<li><p>Download the albedo data</p></li>
+<li><p>Data preparation</p></li>
+<li><p>Define required functions</p></li>
+<li><p>Normalizing coordinates</p></li>
+<li><p>Regrid Sentinel-3 to PROBA-V grid</p></li>
+<li><p>Computation of timeseries</p></li>
+</ul>
+<p><a class="reference internal" href="#satellite-satellite-albedo-consistency-assessment-q02-section-3"><span class="std std-ref">3. Plot and describe the results.</span></a></p>
+<ul class="simple">
+<li><p>Metrics per variable</p></li>
+<li><p>Build a tidy monthly diff table for each variable</p></li>
+<li><p>Regional Case Studies</p></li>
+<li><p>Plot monthly time series (S3 vs PV) for each region &amp; variable</p></li>
+<li><p>Plot full-domain monthly time-series plots</p></li>
+</ul>
+<p><a class="reference internal" href="#satellite-satellite-albedo-consistency-assessment-q02-section-4"><span class="std std-ref">Take-Home Messages</span></a></p>
 </section>
 <section id="analysis-and-results">
 <h2>📈 Analysis and results<a class="headerlink" href="#analysis-and-results" title="Link to this heading">#</a></h2>
-<section id="download-surface-albedo">
-<span id="satellite-satellite-albedo-consistency-assessment-q02-section-1"></span><h3>1. Download surface albedo<a class="headerlink" href="#download-surface-albedo" title="Link to this heading">#</a></h3>
-<p>We used standard libraries (numpy, pandas, xarray, cartopy, matplotlib.colors, matplotlib.pyplot) for this notebook. First, we defined the parameters and transformed the data and finally the data was downloaded for both NOAA-11 AVHRR v2 (time period 1990–1991) (horizontal resolution: ~ 4 km) and PROBA-VGT v2 (time period 2018–2019). (horizontal_resolution: ~ 1km) (ALBB_BH (broadband hemispherical albedo over total spectrum); temporal resolution: 10 days).</p>
+<section id="choose-the-data-to-use-and-set-up-the-code">
+<span id="satellite-satellite-albedo-consistency-assessment-q02-section-1"></span><h3>Choose the data to use and set up the code<a class="headerlink" href="#choose-the-data-to-use-and-set-up-the-code" title="Link to this heading">#</a></h3>
+<section id="import-all-required-libraries">
+<h4>Import all required libraries<a class="headerlink" href="#import-all-required-libraries" title="Link to this heading">#</a></h4>
+<p>In this section, we import all the relevant packages needed for running the notebook.</p>
 <div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CDSAPI_RC&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~/Balha_Akanksha/.cdsapirc&quot;</span><span class="p">)</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">calendar</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mcolors</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span><span class="n">utils</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.dates</span><span class="w"> </span><span class="kn">import</span> <span class="n">MonthLocator</span><span class="p">,</span> <span class="n">DateFormatter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">download</span>
 </pre></div>
 </div>
 </div>
 </details>
 </div>
 </section>
-<section id="define-parameters-transform-data-and-printing-area-statistics-function">
-<span id="satellite-satellite-albedo-consistency-assessment-q02-section-2"></span><h3>2. Define parameters, transform data and printing area statistics function:<a class="headerlink" href="#define-parameters-transform-data-and-printing-area-statistics-function" title="Link to this heading">#</a></h3>
-<p>After defining the parameters, we used a basic processing time weighted mean over the selected region and transform the data. Then the function to plot the raster data was defined and the area statistics as per the specified threshold was printed.</p>
+<section id="spatial-and-temporal-definitions">
+<h4>Spatial and temporal definitions<a class="headerlink" href="#spatial-and-temporal-definitions" title="Link to this heading">#</a></h4>
+<p>The analysis in this assessment focuses on data from July 2018 to April 2019, using monthly averages derived from Sentinel-3 (OLCI+SLSTR) and PROBA-V (VGT). The study domain covers selected regions across the Mediterranean Basin and North Africa, including the Alps, Pyrenees, Po Valley, Apennines, Black Forest, Central Mediterranean Sea, and the Sahara Desert. Each subregion is defined by specific latitude and longitude bounds and used to compute area-weighted regional means.</p>
 <div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">collection_id_albedo_noaa</span> <span class="o">=</span> <span class="s2">&quot;satellite-albedo&quot;</span>
-<span class="n">request_albedo_noaa</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;zip&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="s2">&quot;albb_bh&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;satellite&quot;</span><span class="p">:</span> <span class="s2">&quot;noaa_11&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;sensor&quot;</span><span class="p">:</span> <span class="s2">&quot;avhrr&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;product_version&quot;</span><span class="p">:</span> <span class="s2">&quot;v2&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;horizontal_resolution&quot;</span><span class="p">:</span> <span class="s2">&quot;4km&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;1990&quot;</span><span class="p">,</span> <span class="s2">&quot;1991&quot;</span><span class="p">],</span>
-    <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;01&quot;</span><span class="p">,</span> <span class="s2">&quot;02&quot;</span><span class="p">,</span> <span class="s2">&quot;03&quot;</span><span class="p">,</span> <span class="s2">&quot;04&quot;</span><span class="p">,</span> <span class="s2">&quot;05&quot;</span><span class="p">,</span> <span class="s2">&quot;06&quot;</span><span class="p">,</span> <span class="s2">&quot;07&quot;</span><span class="p">,</span> <span class="s2">&quot;08&quot;</span><span class="p">,</span> <span class="s2">&quot;09&quot;</span><span class="p">,</span> <span class="s2">&quot;10&quot;</span><span class="p">,</span> <span class="s2">&quot;11&quot;</span><span class="p">,</span> <span class="s2">&quot;12&quot;</span><span class="p">],</span>
-    <span class="s2">&quot;nominal_day&quot;</span><span class="p">:</span> <span class="s2">&quot;10&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;area&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">9.10</span><span class="p">,</span> <span class="o">-</span><span class="mf">63.35</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.25</span><span class="p">,</span> <span class="o">-</span><span class="mf">63.20</span><span class="p">],</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">start</span> <span class="o">=</span> <span class="s2">&quot;2018-07&quot;</span>
+<span class="n">stop</span> <span class="o">=</span> <span class="s2">&quot;2019-04&quot;</span>
+<span class="n">area</span> <span class="o">=</span> <span class="p">[</span><span class="mf">50.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">12.1</span><span class="p">,</span> <span class="mf">15.7</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">]</span>
+<span class="n">variables</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;albb_bh&quot;</span><span class="p">,</span> <span class="s2">&quot;albb_dh&quot;</span><span class="p">,</span> <span class="s2">&quot;alsp_bh&quot;</span><span class="p">,</span> <span class="s2">&quot;alsp_dh&quot;</span><span class="p">]</span>
+
+
+<span class="c1">#4. Regional Case Studies </span>
+
+<span class="n">regions</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Alps&quot;</span><span class="p">:</span>                <span class="p">(</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">,</span> <span class="mf">44.0</span><span class="p">,</span> <span class="mf">48.0</span><span class="p">),</span>
+    <span class="s2">&quot;Central_Med_Sea&quot;</span><span class="p">:</span>     <span class="p">(</span><span class="mf">14.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">33.0</span><span class="p">,</span> <span class="mf">36.0</span><span class="p">),</span>   
+    <span class="s2">&quot;Pyrenees&quot;</span><span class="p">:</span>            <span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">42.0</span><span class="p">,</span> <span class="mf">43.8</span><span class="p">),</span>
+    <span class="s2">&quot;Po_Valley&quot;</span><span class="p">:</span>           <span class="p">(</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">,</span> <span class="mf">44.0</span><span class="p">,</span> <span class="mf">46.8</span><span class="p">),</span>
+    <span class="s2">&quot;Apennines&quot;</span><span class="p">:</span>           <span class="p">(</span><span class="mf">11.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">,</span> <span class="mf">41.0</span><span class="p">,</span> <span class="mf">44.5</span><span class="p">),</span>
+    <span class="s2">&quot;Black_Forest&quot;</span><span class="p">:</span>        <span class="p">(</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">9.5</span><span class="p">,</span> <span class="mf">47.0</span><span class="p">,</span> <span class="mf">49.5</span><span class="p">),</span>
+    <span class="s2">&quot;Sahara_Desert&quot;</span><span class="p">:</span>       <span class="p">(</span><span class="o">-</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">28.0</span><span class="p">),</span>
 <span class="p">}</span>
-
-<span class="n">collection_id_albedo_proba</span> <span class="o">=</span> <span class="s2">&quot;satellite-albedo&quot;</span>
-<span class="n">request_albedo_proba</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;zip&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="s2">&quot;albb_bh&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;satellite&quot;</span><span class="p">:</span> <span class="s2">&quot;proba&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;sensor&quot;</span><span class="p">:</span> <span class="s2">&quot;vgt&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;product_version&quot;</span><span class="p">:</span> <span class="s2">&quot;v2&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;horizontal_resolution&quot;</span><span class="p">:</span> <span class="s2">&quot;1km&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;2018&quot;</span><span class="p">,</span> <span class="s2">&quot;2019&quot;</span><span class="p">],</span>
-    <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;01&quot;</span><span class="p">,</span> <span class="s2">&quot;02&quot;</span><span class="p">,</span> <span class="s2">&quot;03&quot;</span><span class="p">,</span> <span class="s2">&quot;04&quot;</span><span class="p">,</span> <span class="s2">&quot;05&quot;</span><span class="p">,</span> <span class="s2">&quot;06&quot;</span><span class="p">,</span> <span class="s2">&quot;07&quot;</span><span class="p">,</span> <span class="s2">&quot;08&quot;</span><span class="p">,</span> <span class="s2">&quot;09&quot;</span><span class="p">,</span> <span class="s2">&quot;10&quot;</span><span class="p">,</span> <span class="s2">&quot;11&quot;</span><span class="p">,</span> <span class="s2">&quot;12&quot;</span><span class="p">],</span>
-    <span class="s2">&quot;nominal_day&quot;</span><span class="p">:</span> <span class="s2">&quot;10&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;area&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">9.10</span><span class="p">,</span> <span class="o">-</span><span class="mf">63.35</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.25</span><span class="p">,</span> <span class="o">-</span><span class="mf">63.20</span><span class="p">],</span>
-<span class="p">}</span>
-
-
-<span class="c1"># Albedo maps of NOAA</span>
-<span class="n">ds_albedo_maps_noaa</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
-    <span class="n">collection_id_albedo_noaa</span><span class="p">,</span>
-    <span class="n">request_albedo_noaa</span><span class="p">,</span>
-    <span class="n">transform_func</span><span class="o">=</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">time_weighted_mean</span><span class="p">,</span>
-    <span class="n">transform_chunks</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">split_all</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">drop_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;crs&quot;</span><span class="p">],</span>
-<span class="p">)</span>
-<span class="c1"># Albedo timeseries of NOAA</span>
-<span class="n">ds_albedo_timeseries_noaa</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
-    <span class="n">collection_id_albedo_noaa</span><span class="p">,</span>
-    <span class="n">request_albedo_noaa</span><span class="p">,</span>
-    <span class="n">transform_func</span><span class="o">=</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_std</span><span class="p">,</span>
-    <span class="n">split_all</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">drop_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;crs&quot;</span><span class="p">],</span>
-<span class="p">)</span>
-
-
-<span class="c1"># Albedo maps of PROBA</span>
-<span class="n">ds_albedo_maps_proba</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
-    <span class="n">collection_id_albedo_proba</span><span class="p">,</span>
-    <span class="n">request_albedo_proba</span><span class="p">,</span>
-    <span class="n">transform_func</span><span class="o">=</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">time_weighted_mean</span><span class="p">,</span>
-    <span class="n">transform_chunks</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">split_all</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">drop_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;crs&quot;</span><span class="p">],</span>
-<span class="p">)</span>
-<span class="c1"># Albedo timeseries of PROBA</span>
-
-<span class="n">ds_albedo_timeseries_proba</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
-    <span class="n">collection_id_albedo_proba</span><span class="p">,</span>
-    <span class="n">request_albedo_proba</span><span class="p">,</span>
-    <span class="n">transform_func</span><span class="o">=</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_std</span><span class="p">,</span>
-    <span class="n">split_all</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">drop_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;crs&quot;</span><span class="p">],</span>
-<span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </details>
 </div>
 </section>
-<section id="create-the-raster-plot-of-the-regridded-noaa-11-avhrr-19901991-and-proba-vgt-20182019">
-<span id="satellite-satellite-albedo-consistency-assessment-q02-section-3"></span><h3>3. Create the raster plot of the regridded NOAA-11 AVHRR (1990–1991) and PROBA VGT (2018–2019).<a class="headerlink" href="#create-the-raster-plot-of-the-regridded-noaa-11-avhrr-19901991-and-proba-vgt-20182019" title="Link to this heading">#</a></h3>
-<p>Regridding: As NOAA-AVHRR dataset (4 km) has lower spatial resolution than PROBA-VGT (1 km), it is regridded to the grid size of PROBA-VGT.</p>
+</section>
+<section id="data-retrieval-and-preparation">
+<span id="satellite-satellite-albedo-consistency-assessment-q02-section-2"></span><h3>Data Retrieval and Preparation<a class="headerlink" href="#data-retrieval-and-preparation" title="Link to this heading">#</a></h3>
+<p>In this step, the selected satellite data is downloaded using predefined time and variable settings. The data is then formatted to include a clear time coordinate, and average maps of key variables like AOD550 and FM_AOD550 are calculated over the full time period to prepare for analysis and visualization.</p>
+<section id="download-the-albedo-data">
+<h4>Download the albedo data<a class="headerlink" href="#download-the-albedo-data" title="Link to this heading">#</a></h4>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">collection_id</span> <span class="o">=</span> <span class="s2">&quot;satellite-albedo&quot;</span>
+<span class="n">satellite_requests</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;proba&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;sensor&quot;</span><span class="p">:</span> <span class="s2">&quot;vgt&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;product_version&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;v2&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;horizontal_resolution&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;1km&quot;</span><span class="p">],</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;sentinel_3&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;sensor&quot;</span><span class="p">:</span> <span class="s2">&quot;olci_and_slstr&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;product_version&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;v3&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;horizontal_resolution&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;300m&quot;</span><span class="p">],</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="c1"># Download and transform</span>
+<span class="n">datasets</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">satellite</span><span class="p">,</span> <span class="n">request</span> <span class="ow">in</span> <span class="n">satellite_requests</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">satellite</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">requests</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;1MS&quot;</span><span class="p">):</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">last_day</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">monthrange</span><span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">date</span><span class="o">.</span><span class="n">month</span><span class="p">)</span>
+        <span class="n">requests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">request</span>
+            <span class="o">|</span> <span class="p">{</span>
+                <span class="s2">&quot;satellite&quot;</span><span class="p">:</span> <span class="n">satellite</span><span class="p">,</span>
+                <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">variables</span><span class="p">,</span>
+                <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">year</span><span class="p">),</span>
+                <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">date</span><span class="o">.</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;nominal_day&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;10&quot;</span><span class="p">,</span> <span class="s2">&quot;20&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">last_day</span><span class="p">)],</span>
+                <span class="s2">&quot;area&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">area</span><span class="p">)),</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+    <span class="n">datasets</span><span class="p">[</span><span class="n">satellite</span><span class="p">]</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
+        <span class="n">collection_id</span><span class="p">,</span>
+        <span class="n">requests</span><span class="p">,</span>
+        <span class="n">data_vars</span><span class="o">=</span><span class="s2">&quot;minimal&quot;</span><span class="p">,</span>
+        <span class="n">coords</span><span class="o">=</span><span class="s2">&quot;minimal&quot;</span><span class="p">,</span>
+        <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;override&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>satellite=&#39;proba&#39;
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/10 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 10%|█         | 1/10 [00:00&lt;00:06,  1.30it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 20%|██        | 2/10 [00:01&lt;00:03,  2.02it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 30%|███       | 3/10 [00:01&lt;00:03,  2.21it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 40%|████      | 4/10 [00:02&lt;00:02,  2.07it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 50%|█████     | 5/10 [00:02&lt;00:01,  2.54it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 60%|██████    | 6/10 [00:02&lt;00:01,  2.95it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 70%|███████   | 7/10 [00:02&lt;00:00,  3.09it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 80%|████████  | 8/10 [00:02&lt;00:00,  3.77it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 90%|█████████ | 9/10 [00:03&lt;00:00,  4.40it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 10/10 [00:03&lt;00:00,  5.26it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 10/10 [00:03&lt;00:00,  3.17it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>satellite=&#39;sentinel_3&#39;
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/10 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 10%|█         | 1/10 [00:00&lt;00:01,  8.29it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 20%|██        | 2/10 [00:00&lt;00:00,  8.08it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 30%|███       | 3/10 [00:00&lt;00:00,  8.65it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 50%|█████     | 5/10 [00:00&lt;00:00,  8.17it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 70%|███████   | 7/10 [00:00&lt;00:00, 10.58it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 90%|█████████ | 9/10 [00:01&lt;00:00,  4.11it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 10/10 [00:01&lt;00:00,  4.56it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 10/10 [00:01&lt;00:00,  5.51it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="data-preparation">
+<h4>Data preparation<a class="headerlink" href="#data-preparation" title="Link to this heading">#</a></h4>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_pv</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">[</span><span class="s2">&quot;proba&quot;</span><span class="p">]</span>        <span class="c1"># Proba-V (1km) -&gt; target grid</span>
+<span class="n">ds_s3</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">[</span><span class="s2">&quot;sentinel_3&quot;</span><span class="p">]</span>   <span class="c1"># Sentinel-3 (300m) -&gt; will regrid to PV</span>
+
+<span class="n">want</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;AL_BH_BB&quot;</span><span class="p">,</span> <span class="s2">&quot;AL_DH_BB&quot;</span><span class="p">,</span> <span class="s2">&quot;AL_BH_VI&quot;</span><span class="p">,</span> <span class="s2">&quot;AL_DH_VI&quot;</span><span class="p">]</span>
+<span class="n">vars_use</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">want</span> <span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="ow">in</span> <span class="n">ds_pv</span><span class="o">.</span><span class="n">data_vars</span> <span class="ow">and</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ds_s3</span><span class="o">.</span><span class="n">data_vars</span><span class="p">)]</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">vars_use</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;None of the expected variables found in both datasets.&quot;</span><span class="p">)</span>
+<span class="n">ds_pv</span> <span class="o">=</span> <span class="n">ds_pv</span><span class="p">[</span><span class="n">vars_use</span><span class="p">]</span>
+<span class="n">ds_s3</span> <span class="o">=</span> <span class="n">ds_s3</span><span class="p">[</span><span class="n">vars_use</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="define-requiered-functions">
+<h4>Define requiered functions<a class="headerlink" href="#define-requiered-functions" title="Link to this heading">#</a></h4>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">ensure_strictly_increasing</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">coord</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sort by coord and drop any duplicates so interpolation works.&quot;&quot;&quot;</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span>
+    <span class="n">vals</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">coord</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="c1"># round to avoid fp noise, then dedupe</span>
+    <span class="n">vals_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">vals</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float64&quot;</span><span class="p">),</span> <span class="mi">6</span><span class="p">)</span>
+    <span class="n">uniq</span><span class="p">,</span> <span class="n">keep_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">vals_r</span><span class="p">,</span> <span class="n">return_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">keep_idx</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="n">vals</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">({</span><span class="n">coord</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">keep_idx</span><span class="p">)})</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="n">coord</span><span class="p">:</span> <span class="n">vals_r</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">keep_idx</span><span class="p">)]})</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="n">coord</span><span class="p">:</span> <span class="n">vals_r</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">ds</span>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">normalize_lon</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+    <span class="n">lon</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="k">if</span> <span class="n">lon</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">lon</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">180</span><span class="p">:</span>
+        <span class="n">lon</span> <span class="o">=</span> <span class="p">((</span><span class="n">lon</span> <span class="o">+</span> <span class="mi">180</span><span class="p">)</span> <span class="o">%</span> <span class="mi">360</span><span class="p">)</span> <span class="o">-</span> <span class="mi">180</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="n">lon</span><span class="p">)</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="s2">&quot;longitude&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ds</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">global_mean_weighted</span><span class="p">(</span><span class="n">da</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Area-weighted spatial mean per time step (lat-weighted, NaN-safe).</span>
+<span class="sd">    Works without .weighted() and with dask.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Broadcast lat-weights across lon/time by arithmetic broadcasting</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="p">(</span><span class="n">da</span> <span class="o">*</span> <span class="n">w_lat</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">),</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">den</span> <span class="o">=</span> <span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">da</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">w_lat</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">num</span> <span class="o">/</span> <span class="n">den</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">monthly_series</span><span class="p">(</span><span class="n">da</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Global mean per time -&gt; monthly mean series as pandas Series.</span>
+<span class="sd">    Uses groupby on time Periods (robust to irregular 10/20/last-day dates).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">gm</span> <span class="o">=</span> <span class="n">global_mean_weighted</span><span class="p">(</span><span class="n">da</span><span class="p">)</span>                      <span class="c1"># 1D over time</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">gm</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span>                                 <span class="c1"># compute if dask</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s2">&quot;M&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>       <span class="c1"># monthly means</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">to_timestamp</span><span class="p">(</span><span class="n">how</span><span class="o">=</span><span class="s2">&quot;start&quot;</span><span class="p">)</span>                 <span class="c1"># index at month start</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="normalizing-coordinates">
+<h4>Normalizing coordinates<a class="headerlink" href="#normalizing-coordinates" title="Link to this heading">#</a></h4>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_pv</span> <span class="o">=</span> <span class="n">normalize_lon</span><span class="p">(</span><span class="n">ds_pv</span><span class="p">)</span>
+<span class="n">ds_s3</span> <span class="o">=</span> <span class="n">normalize_lon</span><span class="p">(</span><span class="n">ds_s3</span><span class="p">)</span>
+ 
+<span class="n">ds_pv</span> <span class="o">=</span> <span class="n">ensure_strictly_increasing</span><span class="p">(</span><span class="n">ds_pv</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="s2">&quot;longitude&quot;</span><span class="p">)</span>
+<span class="n">ds_s3</span> <span class="o">=</span> <span class="n">ensure_strictly_increasing</span><span class="p">(</span><span class="n">ds_s3</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="s2">&quot;longitude&quot;</span><span class="p">)</span>
+<span class="n">ds_pv</span> <span class="o">=</span> <span class="n">normalize_lon</span><span class="p">(</span><span class="n">ds_pv</span><span class="p">)</span>
+<span class="n">ds_s3</span> <span class="o">=</span> <span class="n">normalize_lon</span><span class="p">(</span><span class="n">ds_s3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="regrid-sentinel-3-to-proba-v-grid">
+<h4>Regrid Sentinel-3 to PROBA-V grid<a class="headerlink" href="#regrid-sentinel-3-to-proba-v-grid" title="Link to this heading">#</a></h4>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_s3_rg</span> <span class="o">=</span> <span class="n">ds_s3</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="n">ds_pv</span><span class="o">.</span><span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="n">ds_pv</span><span class="o">.</span><span class="n">longitude</span><span class="p">)</span>
+
+<span class="c1">#  Mask invalid albedo (keep [0,1])</span>
+<span class="n">ds_pv</span>    <span class="o">=</span> <span class="n">ds_pv</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">ds_pv</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">ds_pv</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">ds_s3_rg</span> <span class="o">=</span> <span class="n">ds_s3_rg</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">ds_s3_rg</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">ds_s3_rg</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="n">pv_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ds_pv</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;datetime64[ns]&quot;</span><span class="p">)</span>
+<span class="n">s3_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ds_s3_rg</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;datetime64[ns]&quot;</span><span class="p">)</span>
+<span class="n">common_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">intersect1d</span><span class="p">(</span><span class="n">pv_time</span><span class="p">,</span> <span class="n">s3_time</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">common_time</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No overlapping times after normalization.&quot;</span><span class="p">)</span>
+<span class="n">ds_pv</span>    <span class="o">=</span> <span class="n">ds_pv</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">common_time</span><span class="p">)</span>
+<span class="n">ds_s3_rg</span> <span class="o">=</span> <span class="n">ds_s3_rg</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">common_time</span><span class="p">)</span>
+
+
+<span class="n">tmin</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">ds_pv</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">tmax</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">ds_pv</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ds_pv</span><span class="p">,</span> <span class="n">ds_s3_rg</span><span class="p">):</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+        <span class="s2">&quot;time_coverage_start&quot;</span><span class="p">:</span> <span class="n">tmin</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%SZ&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;time_coverage_end&quot;</span><span class="p">:</span>   <span class="n">tmax</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%SZ&quot;</span><span class="p">),</span>
+    <span class="p">})</span>
+<span class="n">ds_pv</span>    <span class="o">=</span> <span class="n">ds_pv</span><span class="o">.</span><span class="n">chunk</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">:</span> <span class="mi">512</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">:</span> <span class="mi">512</span><span class="p">})</span>
+<span class="n">ds_s3_rg</span> <span class="o">=</span> <span class="n">ds_s3_rg</span><span class="o">.</span><span class="n">chunk</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">:</span> <span class="mi">512</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">:</span> <span class="mi">512</span><span class="p">})</span>
+
+
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">ds_pv</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">ds_s3_rg</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">ds_pv</span><span class="o">.</span><span class="n">latitude</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">ds_s3_rg</span><span class="o">.</span><span class="n">latitude</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">ds_pv</span><span class="o">.</span><span class="n">longitude</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">ds_s3_rg</span><span class="o">.</span><span class="n">longitude</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+
+
+<span class="n">vars_use</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ds_pv</span><span class="o">.</span><span class="n">data_vars</span><span class="p">)</span>
+
+
+<span class="n">w_lat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">ds_pv</span><span class="o">.</span><span class="n">latitude</span><span class="p">))</span>
+<span class="n">w_lat</span> <span class="o">=</span> <span class="n">w_lat</span> <span class="o">/</span> <span class="n">w_lat</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="computation-of-timeseries">
+<h4>Computation of timeseries<a class="headerlink" href="#computation-of-timeseries" title="Link to this heading">#</a></h4>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#  Build monthly time series per variable for S3 and PV</span>
+<span class="n">s3_monthly</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">monthly_series</span><span class="p">(</span><span class="n">ds_s3_rg</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vars_use</span><span class="p">}</span>
+<span class="n">pv_monthly</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">monthly_series</span><span class="p">(</span><span class="n">ds_pv</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vars_use</span><span class="p">}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">s3_monthly</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pv_monthly</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;AL_BH_BB&#39;: time
+2018-07-01    0.337296
+2018-08-01    0.332349
+2018-09-01    0.330755
+2018-10-01    0.324169
+2018-11-01    0.317215
+2018-12-01    0.314358
+2019-01-01    0.317790
+2019-02-01    0.322398
+2019-03-01    0.325821
+2019-04-01    0.324855
+Freq: MS, dtype: float64, &#39;AL_DH_BB&#39;: time
+2018-07-01    0.340296
+2018-08-01    0.335331
+2018-09-01    0.333684
+2018-10-01    0.327390
+2018-11-01    0.321421
+2018-12-01    0.318299
+2019-01-01    0.320556
+2019-02-01    0.324229
+2019-03-01    0.327485
+2019-04-01    0.326562
+Freq: MS, dtype: float64, &#39;AL_BH_VI&#39;: time
+2018-07-01    0.192046
+2018-08-01    0.188274
+2018-09-01    0.187777
+2018-10-01    0.184372
+2018-11-01    0.181179
+2018-12-01    0.184031
+2019-01-01    0.190742
+2019-02-01    0.192383
+2019-03-01    0.191124
+2019-04-01    0.188440
+Freq: MS, dtype: float64, &#39;AL_DH_VI&#39;: time
+2018-07-01    0.205592
+2018-08-01    0.201033
+2018-09-01    0.200127
+2018-10-01    0.196880
+2018-11-01    0.194131
+2018-12-01    0.197460
+2019-01-01    0.203935
+2019-02-01    0.205497
+2019-03-01    0.204015
+2019-04-01    0.201420
+Freq: MS, dtype: float64}
+{&#39;AL_BH_BB&#39;: time
+2018-07-01    0.357331
+2018-08-01    0.347574
+2018-09-01    0.342306
+2018-10-01    0.338786
+2018-11-01    0.328633
+2018-12-01    0.326856
+2019-01-01    0.332799
+2019-02-01    0.333602
+2019-03-01    0.337294
+2019-04-01    0.338610
+Freq: MS, dtype: float64, &#39;AL_DH_BB&#39;: time
+2018-07-01    0.336285
+2018-08-01    0.328764
+2018-09-01    0.327239
+2018-10-01    0.328927
+2018-11-01    0.324892
+2018-12-01    0.326095
+2019-01-01    0.329786
+2019-02-01    0.325023
+2019-03-01    0.323581
+2019-04-01    0.321803
+Freq: MS, dtype: float64, &#39;AL_BH_VI&#39;: time
+2018-07-01    0.222828
+2018-08-01    0.216823
+2018-09-01    0.213795
+2018-10-01    0.213045
+2018-11-01    0.208273
+2018-12-01    0.210073
+2019-01-01    0.220751
+2019-02-01    0.218667
+2019-03-01    0.217125
+2019-04-01    0.214345
+Freq: MS, dtype: float64, &#39;AL_DH_VI&#39;: time
+2018-07-01    0.211086
+2018-08-01    0.206268
+2018-09-01    0.205090
+2018-10-01    0.206451
+2018-11-01    0.205102
+2018-12-01    0.209387
+2019-01-01    0.218725
+2019-02-01    0.212552
+2019-03-01    0.208159
+2019-04-01    0.204444
+Freq: MS, dtype: float64}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="plot-and-describe-the-results">
+<span id="satellite-satellite-albedo-consistency-assessment-q02-section-3"></span><h3>3. Plot and describe the results.<a class="headerlink" href="#plot-and-describe-the-results" title="Link to this heading">#</a></h3>
+<section id="metrics-per-variable">
+<h4>Metrics per variable<a class="headerlink" href="#metrics-per-variable" title="Link to this heading">#</a></h4>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Metrics per variable (months aligned, NaN-safe)</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">s3_monthly</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">s3_monthly</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">pv_monthly</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;s3&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="s2">&quot;pv&quot;</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">idx</span><span class="p">)})</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">v</span><span class="p">,</span> <span class="s2">&quot;n_months&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;bias&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="s2">&quot;rmsd&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="s2">&quot;corr&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">})</span>
+        <span class="k">continue</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;s3&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;pv&quot;</span><span class="p">]</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">v</span><span class="p">,</span>
+        <span class="s2">&quot;n_months&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">),</span>
+        <span class="s2">&quot;bias&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">mean</span><span class="p">()),</span>
+        <span class="s2">&quot;rmsd&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">d</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())),</span>
+        <span class="s2">&quot;corr&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;s3&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;pv&quot;</span><span class="p">]))</span>
+    <span class="p">})</span>
+
+<span class="n">out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;variable&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">float_format</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>          n_months      bias     rmsd     corr
+variable                                      
+AL_BH_BB        10 -0.013679 0.013923 0.968835
+AL_BH_VI        10 -0.027536 0.027591 0.920367
+AL_DH_BB        10  0.000286 0.005474 0.572778
+AL_DH_VI        10 -0.007717 0.008551 0.571905
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="build-a-tidy-monthly-diff-table-for-each-variable">
+<h4>Build a tidy monthly diff table for each variable<a class="headerlink" href="#build-a-tidy-monthly-diff-table-for-each-variable" title="Link to this heading">#</a></h4>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># build a tidy monthly diff table for each variable</span>
+<span class="n">monthly_tables</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">s3_monthly</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">s3_monthly</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">pv_monthly</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">monthly_tables</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+        <span class="s2">&quot;S3&quot;</span><span class="p">:</span> <span class="n">s3_monthly</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span>
+        <span class="s2">&quot;PV&quot;</span><span class="p">:</span> <span class="n">pv_monthly</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span>
+        <span class="s2">&quot;S3-PV&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">s3_monthly</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">-</span> <span class="n">pv_monthly</span><span class="p">[</span><span class="n">v</span><span class="p">])</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+    <span class="p">})</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+    <span class="c1"># peek</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2"> monthly means:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">monthly_tables</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AL_BH_BB monthly means:
+                  S3        PV     S3-PV
+time                                    
+2018-07-01  0.337296  0.357331 -0.020036
+2018-08-01  0.332349  0.347574 -0.015224
+2018-09-01  0.330755  0.342306 -0.011551
+2018-10-01  0.324169  0.338786 -0.014617
+2018-11-01  0.317215  0.328633 -0.011418
+2018-12-01  0.314358  0.326856 -0.012497
+2019-01-01  0.317790  0.332799 -0.015010
+2019-02-01  0.322398  0.333602 -0.011204
+2019-03-01  0.325821  0.337294 -0.011474
+2019-04-01  0.324855  0.338610 -0.013755
+
+AL_BH_VI monthly means:
+                  S3        PV     S3-PV
+time                                    
+2018-07-01  0.192046  0.222828 -0.030782
+2018-08-01  0.188274  0.216823 -0.028549
+2018-09-01  0.187777  0.213795 -0.026018
+2018-10-01  0.184372  0.213045 -0.028673
+2018-11-01  0.181179  0.208273 -0.027094
+2018-12-01  0.184031  0.210073 -0.026041
+2019-01-01  0.190742  0.220751 -0.030010
+2019-02-01  0.192383  0.218667 -0.026284
+2019-03-01  0.191124  0.217125 -0.026001
+2019-04-01  0.188440  0.214345 -0.025905
+
+AL_DH_BB monthly means:
+                  S3        PV     S3-PV
+time                                    
+2018-07-01  0.340296  0.336285  0.004012
+2018-08-01  0.335331  0.328764  0.006567
+2018-09-01  0.333684  0.327239  0.006445
+2018-10-01  0.327390  0.328927 -0.001537
+2018-11-01  0.321421  0.324892 -0.003472
+2018-12-01  0.318299  0.326095 -0.007796
+2019-01-01  0.320556  0.329786 -0.009229
+2019-02-01  0.324229  0.325023 -0.000794
+2019-03-01  0.327485  0.323581  0.003904
+2019-04-01  0.326562  0.321803  0.004759
+
+AL_DH_VI monthly means:
+                  S3        PV     S3-PV
+time                                    
+2018-07-01  0.205592  0.211086 -0.005493
+2018-08-01  0.201033  0.206268 -0.005234
+2018-09-01  0.200127  0.205090 -0.004963
+2018-10-01  0.196880  0.206451 -0.009571
+2018-11-01  0.194131  0.205102 -0.010971
+2018-12-01  0.197460  0.209387 -0.011926
+2019-01-01  0.203935  0.218725 -0.014790
+2019-02-01  0.205497  0.212552 -0.007055
+2019-03-01  0.204015  0.208159 -0.004144
+2019-04-01  0.201420  0.204444 -0.003024
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="regional-case-studies">
+<h4>Regional Case Studies<a class="headerlink" href="#regional-case-studies" title="Link to this heading">#</a></h4>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">regions</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Alps&quot;</span><span class="p">:</span>                <span class="p">(</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">,</span> <span class="mf">44.0</span><span class="p">,</span> <span class="mf">48.0</span><span class="p">),</span>
+    <span class="s2">&quot;Central_Med_Sea&quot;</span><span class="p">:</span>     <span class="p">(</span><span class="mf">14.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">33.0</span><span class="p">,</span> <span class="mf">36.0</span><span class="p">),</span>   
+    <span class="s2">&quot;Pyrenees&quot;</span><span class="p">:</span>            <span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">42.0</span><span class="p">,</span> <span class="mf">43.8</span><span class="p">),</span>
+    <span class="s2">&quot;Po_Valley&quot;</span><span class="p">:</span>           <span class="p">(</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">,</span> <span class="mf">44.0</span><span class="p">,</span> <span class="mf">46.8</span><span class="p">),</span>
+    <span class="s2">&quot;Apennines&quot;</span><span class="p">:</span>           <span class="p">(</span><span class="mf">11.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">,</span> <span class="mf">41.0</span><span class="p">,</span> <span class="mf">44.5</span><span class="p">),</span>
+    <span class="s2">&quot;Black_Forest&quot;</span><span class="p">:</span>        <span class="p">(</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">9.5</span><span class="p">,</span> <span class="mf">47.0</span><span class="p">,</span> <span class="mf">49.5</span><span class="p">),</span>
+    <span class="s2">&quot;Sahara_Desert&quot;</span><span class="p">:</span>       <span class="p">(</span><span class="o">-</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">28.0</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="c1"># Variables to evaluate (present in both datasets)</span>
+<span class="n">vars_use</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;AL_BH_BB&quot;</span><span class="p">,</span><span class="s2">&quot;AL_DH_BB&quot;</span><span class="p">,</span><span class="s2">&quot;AL_BH_VI&quot;</span><span class="p">,</span><span class="s2">&quot;AL_DH_VI&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ds_pv</span><span class="o">.</span><span class="n">data_vars</span> <span class="ow">and</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ds_s3_rg</span><span class="o">.</span><span class="n">data_vars</span><span class="p">]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_subset_region</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">bounds</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Clip to the intersection of &#39;bounds&#39; and the dataset&#39;s extent.&quot;&quot;&quot;</span>
+    <span class="n">lon_min</span><span class="p">,</span> <span class="n">lon_max</span><span class="p">,</span> <span class="n">lat_min</span><span class="p">,</span> <span class="n">lat_max</span> <span class="o">=</span> <span class="n">bounds</span>
+    <span class="n">lon0</span><span class="p">,</span> <span class="n">lon1</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">longitude</span><span class="o">.</span><span class="n">min</span><span class="p">()),</span> <span class="nb">float</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">longitude</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+    <span class="n">lat0</span><span class="p">,</span> <span class="n">lat1</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">latitude</span><span class="o">.</span><span class="n">min</span><span class="p">()),</span>  <span class="nb">float</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">latitude</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+    <span class="n">a_lon_min</span><span class="p">,</span> <span class="n">a_lon_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">lon_min</span><span class="p">,</span> <span class="n">lon0</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">lon_max</span><span class="p">,</span> <span class="n">lon1</span><span class="p">)</span>
+    <span class="n">a_lat_min</span><span class="p">,</span> <span class="n">a_lat_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">lat_min</span><span class="p">,</span> <span class="n">lat0</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">lat_max</span><span class="p">,</span> <span class="n">lat1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">a_lon_min</span> <span class="o">&lt;</span> <span class="n">a_lon_max</span> <span class="ow">and</span> <span class="n">a_lat_min</span> <span class="o">&lt;</span> <span class="n">a_lat_max</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># no overlap</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">utils</span><span class="o">.</span><span class="n">regionalise</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">lon_slice</span><span class="o">=</span><span class="p">(</span><span class="n">a_lon_min</span><span class="p">,</span> <span class="n">a_lon_max</span><span class="p">),</span>
+                                    <span class="n">lat_slice</span><span class="o">=</span><span class="p">(</span><span class="n">a_lat_min</span><span class="p">,</span> <span class="n">a_lat_max</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">a_lon_min</span><span class="p">,</span> <span class="n">a_lon_max</span><span class="p">),</span>
+                      <span class="n">latitude</span> <span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">a_lat_min</span><span class="p">,</span> <span class="n">a_lat_max</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_monthly_series_weighted</span><span class="p">(</span><span class="n">da</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Region-weighted spatial mean per time -&gt; monthly mean (Series).&quot;&quot;&quot;</span>
+    <span class="c1"># latitude weights (area ∝ cos φ), normalized over the subset</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">latitude</span><span class="p">))</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">w</span> <span class="o">/</span> <span class="n">w</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="p">(</span><span class="n">da</span> <span class="o">*</span> <span class="n">w</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span><span class="s2">&quot;longitude&quot;</span><span class="p">),</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">den</span> <span class="o">=</span> <span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">da</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">w</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span><span class="s2">&quot;longitude&quot;</span><span class="p">))</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="p">(</span><span class="n">num</span> <span class="o">/</span> <span class="n">den</span><span class="p">)</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span>  <span class="c1"># 1D over time (may be all-NaN if no valid pixels)</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">ts</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s2">&quot;M&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">to_timestamp</span><span class="p">(</span><span class="n">how</span><span class="o">=</span><span class="s2">&quot;start&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_region_metrics</span><span class="p">(</span><span class="n">ds_s3</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">ds_pv</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">vars_use</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return DataFrame of bias/RMSD/corr (S3 vs PV) for a region.&quot;&quot;&quot;</span>
+    <span class="n">s3_reg</span> <span class="o">=</span> <span class="n">_subset_region</span><span class="p">(</span><span class="n">ds_s3</span><span class="p">,</span> <span class="n">bounds</span><span class="p">)</span>
+    <span class="n">pv_reg</span> <span class="o">=</span> <span class="n">_subset_region</span><span class="p">(</span><span class="n">ds_pv</span><span class="p">,</span> <span class="n">bounds</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">s3_reg</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">pv_reg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vars_use</span><span class="p">:</span>
+        <span class="n">s3_m</span> <span class="o">=</span> <span class="n">_monthly_series_weighted</span><span class="p">(</span><span class="n">s3_reg</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+        <span class="n">pv_m</span> <span class="o">=</span> <span class="n">_monthly_series_weighted</span><span class="p">(</span><span class="n">pv_reg</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">s3_m</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">pv_m</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;s3&quot;</span><span class="p">:</span> <span class="n">s3_m</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="s2">&quot;pv&quot;</span><span class="p">:</span> <span class="n">pv_m</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">idx</span><span class="p">)})</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">v</span><span class="p">,</span> <span class="s2">&quot;n_months&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;bias&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="s2">&quot;rmsd&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="s2">&quot;corr&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">})</span>
+            <span class="k">continue</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;s3&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;pv&quot;</span><span class="p">]</span>
+        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">v</span><span class="p">,</span>
+            <span class="s2">&quot;n_months&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">),</span>
+            <span class="s2">&quot;bias&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">mean</span><span class="p">()),</span>
+            <span class="s2">&quot;rmsd&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">d</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())),</span>
+            <span class="s2">&quot;corr&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;s3&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;pv&quot;</span><span class="p">])),</span>
+        <span class="p">})</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;variable&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+
+<span class="c1">#  Run for all regions</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">bounds</span> <span class="ow">in</span> <span class="n">regions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">metrics</span> <span class="o">=</span> <span class="n">compute_region_metrics</span><span class="p">(</span><span class="n">ds_s3_rg</span><span class="p">,</span> <span class="n">ds_pv</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">vars_use</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">metrics</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: (skipped — outside dataset coverage)&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># If all rows are NaN (e.g., open water only), note it clearly</span>
+        <span class="k">if</span> <span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;n_months&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: no valid pixels for monthly stats (likely water-only for these products).&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> metrics (S3 vs PV):&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">float_format</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+ 
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Alps metrics (S3 vs PV):
+          n_months      bias     rmsd     corr
+variable                                      
+AL_BH_BB        10 -0.019920 0.021729 0.937175
+AL_BH_VI        10 -0.013449 0.015783 0.994077
+AL_DH_BB        10 -0.025603 0.030618 0.742944
+AL_DH_VI        10 -0.016040 0.019107 0.993325
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Central_Med_Sea metrics (S3 vs PV):
+          n_months     bias     rmsd     corr
+variable                                     
+AL_BH_BB        10 0.005040 0.005664 0.793091
+AL_BH_VI        10 0.004252 0.004871 0.978351
+AL_DH_BB        10 0.004371 0.006145 0.649131
+AL_DH_VI        10 0.007437 0.007852 0.980778
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pyrenees metrics (S3 vs PV):
+          n_months      bias     rmsd     corr
+variable                                      
+AL_BH_BB        10 -0.009863 0.010026 0.991194
+AL_BH_VI        10 -0.005246 0.006332 0.980904
+AL_DH_BB        10 -0.010961 0.012947 0.717824
+AL_DH_VI        10 -0.004284 0.005934 0.974981
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Po_Valley metrics (S3 vs PV):
+          n_months      bias     rmsd     corr
+variable                                      
+AL_BH_BB        10 -0.020918 0.022444 0.923243
+AL_BH_VI        10 -0.014308 0.015867 0.994204
+AL_DH_BB        10 -0.025536 0.029506 0.720271
+AL_DH_VI        10 -0.016268 0.019059 0.986756
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Apennines metrics (S3 vs PV):
+          n_months      bias     rmsd     corr
+variable                                      
+AL_BH_BB        10 -0.009374 0.010180 0.962772
+AL_BH_VI        10 -0.007019 0.007377 0.961339
+AL_DH_BB        10 -0.009149 0.012159 0.777375
+AL_DH_VI        10 -0.005822 0.006728 0.928460
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Black_Forest metrics (S3 vs PV):
+          n_months      bias     rmsd     corr
+variable                                      
+AL_BH_BB        10 -0.013114 0.015001 0.904526
+AL_BH_VI        10 -0.011574 0.013266 0.964559
+AL_DH_BB        10 -0.019522 0.025310 0.001752
+AL_DH_VI        10 -0.014301 0.016882 0.951327
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sahara_Desert metrics (S3 vs PV):
+          n_months      bias     rmsd     corr
+variable                                      
+AL_BH_BB        10 -0.018541 0.019029 0.973948
+AL_BH_VI        10 -0.035778 0.036212 0.917734
+AL_DH_BB        10 -0.000281 0.002709 0.959763
+AL_DH_VI        10 -0.010104 0.011165 0.842866
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="plot-monthly-time-series-s3-vs-pv-for-each-region-variable">
+<h4>Plot monthly time series (S3 vs PV) for each region &amp; variable<a class="headerlink" href="#plot-monthly-time-series-s3-vs-pv-for-each-region-variable" title="Link to this heading">#</a></h4>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">align_two_series</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;S3&quot;</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="s2">&quot;PV&quot;</span><span class="p">:</span> <span class="n">b</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">idx</span><span class="p">)})</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_region_timeseries</span><span class="p">(</span><span class="n">region_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">outdir</span><span class="o">=</span><span class="s2">&quot;figs&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot monthly series of area-weighted regional means for all variables.&quot;&quot;&quot;</span>
+    <span class="n">s3_sub</span> <span class="o">=</span> <span class="n">_subset_region</span><span class="p">(</span><span class="n">ds_s3_rg</span><span class="p">,</span> <span class="n">bounds</span><span class="p">)</span>
+    <span class="n">pv_sub</span> <span class="o">=</span> <span class="n">_subset_region</span><span class="p">(</span><span class="n">ds_pv</span><span class="p">,</span>    <span class="n">bounds</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">s3_sub</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">pv_sub</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">region_name</span><span class="si">}</span><span class="s2">: skipped (outside dataset coverage).&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vars_use</span><span class="p">:</span>
+        <span class="c1"># monthly area-weighted regional means</span>
+        <span class="n">s3_m</span> <span class="o">=</span> <span class="n">_monthly_series_weighted</span><span class="p">(</span><span class="n">s3_sub</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+        <span class="n">pv_m</span> <span class="o">=</span> <span class="n">_monthly_series_weighted</span><span class="p">(</span><span class="n">pv_sub</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">align_two_series</span><span class="p">(</span><span class="n">s3_m</span><span class="p">,</span> <span class="n">pv_m</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">region_name</span><span class="si">}</span><span class="s2"> — </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">: no valid months (possibly water-only or masked).&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># metrics for title</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;S3&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;PV&quot;</span><span class="p">]</span>
+        <span class="n">bias</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">diff</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+        <span class="n">rmsd</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">diff</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
+        <span class="n">corr</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;S3&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;PV&quot;</span><span class="p">]))</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;S3&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Sentinel-3&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;PV&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;PROBA-V&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">region_name</span><span class="si">}</span><span class="s2"> — </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2"> (monthly means)</span><span class="se">\n</span><span class="s2">&quot;</span>
+                  <span class="sa">f</span><span class="s2">&quot;bias=</span><span class="si">{</span><span class="n">bias</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  rmsd=</span><span class="si">{</span><span class="n">rmsd</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  r=</span><span class="si">{</span><span class="n">corr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Month&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Albedo&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">save</span><span class="p">:</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">region_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">_monthly_timeseries.png&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Run for all regions</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">bounds</span> <span class="ow">in</span> <span class="n">regions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">plot_region_timeseries</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../_images/31755f12f426702028f411238cd9887912307f1a8455e7af98094bf4e45330ec.png" src="../../_images/31755f12f426702028f411238cd9887912307f1a8455e7af98094bf4e45330ec.png" />
+<img alt="../../_images/f198fd060c74c124aa05ad6e8b994db8f4a6beefb13bc72e713a3f918c861ed3.png" src="../../_images/f198fd060c74c124aa05ad6e8b994db8f4a6beefb13bc72e713a3f918c861ed3.png" />
+<img alt="../../_images/b1d72db7fdcdde5f063478dfd652f0943c05e01c52db0301b021f2395cca88cc.png" src="../../_images/b1d72db7fdcdde5f063478dfd652f0943c05e01c52db0301b021f2395cca88cc.png" />
+<img alt="../../_images/8b7bedbf571131143efb4792e87dd58b840ebb01a3a0fbefa768d3cf8c6b611d.png" src="../../_images/8b7bedbf571131143efb4792e87dd58b840ebb01a3a0fbefa768d3cf8c6b611d.png" />
+<img alt="../../_images/2f3a4fc2403612813ba182d23340bcf3b0ce4e8cbd066518484d658560f547f7.png" src="../../_images/2f3a4fc2403612813ba182d23340bcf3b0ce4e8cbd066518484d658560f547f7.png" />
+<img alt="../../_images/83c6f5dbed7a69eadb2cf1eb96fe804b76f383dcee833e025f09f74eca6fbd3e.png" src="../../_images/83c6f5dbed7a69eadb2cf1eb96fe804b76f383dcee833e025f09f74eca6fbd3e.png" />
+<img alt="../../_images/bb77f05bbaef026e5fe31558f3c708b1c0f80d0b573d433fa4d253a34919c844.png" src="../../_images/bb77f05bbaef026e5fe31558f3c708b1c0f80d0b573d433fa4d253a34919c844.png" />
+<img alt="../../_images/8afb4d82ea611ea4dac3d79a78db440468d5f85fe73cf363b5d9f9b7b1c8ae68.png" src="../../_images/8afb4d82ea611ea4dac3d79a78db440468d5f85fe73cf363b5d9f9b7b1c8ae68.png" />
+<img alt="../../_images/f05ff491add45f1f8e2dd31e56f036c55fcf0eae2fb76535937149e0bc4ec64a.png" src="../../_images/f05ff491add45f1f8e2dd31e56f036c55fcf0eae2fb76535937149e0bc4ec64a.png" />
+<img alt="../../_images/8c196677568aacac8d89f5c8f59a0018b2f24dce4f2a02e4c6cc460d34ce3742.png" src="../../_images/8c196677568aacac8d89f5c8f59a0018b2f24dce4f2a02e4c6cc460d34ce3742.png" />
+<img alt="../../_images/9c70030b0c7c49e579f702652f40e15c126f12467a5bc0c74244102ac7f6e1c2.png" src="../../_images/9c70030b0c7c49e579f702652f40e15c126f12467a5bc0c74244102ac7f6e1c2.png" />
+<img alt="../../_images/c660ac509e75b2b3f74227124f0b46ae57644c713eb58ef25a029b96bd55133d.png" src="../../_images/c660ac509e75b2b3f74227124f0b46ae57644c713eb58ef25a029b96bd55133d.png" />
+<img alt="../../_images/35a060d3fb60c29c4749240b97bc6000c4f3a58f6a43b03310c21af27bc7cc2b.png" src="../../_images/35a060d3fb60c29c4749240b97bc6000c4f3a58f6a43b03310c21af27bc7cc2b.png" />
+<img alt="../../_images/b3edfd4591947867e0440789e7989f1fda2bf589ba444bb4c09f6042140272b7.png" src="../../_images/b3edfd4591947867e0440789e7989f1fda2bf589ba444bb4c09f6042140272b7.png" />
+<img alt="../../_images/049d61fbc105694da7ca9b29f3901db4461c12c00d10af50dd11cb3b5e666eda.png" src="../../_images/049d61fbc105694da7ca9b29f3901db4461c12c00d10af50dd11cb3b5e666eda.png" />
+<img alt="../../_images/a8879a36da9e6e4a76ef982ed1296dd46799ec0d896adc6ed4fc566e9aa61a0f.png" src="../../_images/a8879a36da9e6e4a76ef982ed1296dd46799ec0d896adc6ed4fc566e9aa61a0f.png" />
+<img alt="../../_images/2ff71474b2e061ffa15f6c6259d205c94c93e93094d936c80e3e6021ddba6087.png" src="../../_images/2ff71474b2e061ffa15f6c6259d205c94c93e93094d936c80e3e6021ddba6087.png" />
+<img alt="../../_images/45c4bc9599ac5c0008ac17e86532425e1903687179c87dfa8e510a74406b23a1.png" src="../../_images/45c4bc9599ac5c0008ac17e86532425e1903687179c87dfa8e510a74406b23a1.png" />
+<img alt="../../_images/86289704518c3fdfe0c3da99cff9f020c00d1bca404714a41d1eff48be83fa23.png" src="../../_images/86289704518c3fdfe0c3da99cff9f020c00d1bca404714a41d1eff48be83fa23.png" />
+<img alt="../../_images/3eecbe60d2f332a76e39e5c3266cbb353e3545db838c55b0a427c4fce335735a.png" src="../../_images/3eecbe60d2f332a76e39e5c3266cbb353e3545db838c55b0a427c4fce335735a.png" />
+<img alt="../../_images/2351bd522fc945993cb19a828863f5215e456a6ef85557289c0caeac150c9cd5.png" src="../../_images/2351bd522fc945993cb19a828863f5215e456a6ef85557289c0caeac150c9cd5.png" />
+<img alt="../../_images/664ff7182093da2828ba9d6e6dc90ef6e160c22433d7d079ec3b216841a68478.png" src="../../_images/664ff7182093da2828ba9d6e6dc90ef6e160c22433d7d079ec3b216841a68478.png" />
+<img alt="../../_images/6880da0cdf60f1f85c2aaaa03cc31c72e1cbf9bd18830eafbd0df569f2059975.png" src="../../_images/6880da0cdf60f1f85c2aaaa03cc31c72e1cbf9bd18830eafbd0df569f2059975.png" />
+<img alt="../../_images/b6f7f73281f171d1b0713b42b0ccd3e6942e19c6f3a7d66493411cc403e0534d.png" src="../../_images/b6f7f73281f171d1b0713b42b0ccd3e6942e19c6f3a7d66493411cc403e0534d.png" />
+<img alt="../../_images/26fe7be2645300ae8276934b46c77c3e4122ccf80f6a90754e9ea315cdf5ef3d.png" src="../../_images/26fe7be2645300ae8276934b46c77c3e4122ccf80f6a90754e9ea315cdf5ef3d.png" />
+<img alt="../../_images/c874f5291dcbe5c40df5c0ba5c122755de2bc4f1ba33f5179cafd5496c8e51ba.png" src="../../_images/c874f5291dcbe5c40df5c0ba5c122755de2bc4f1ba33f5179cafd5496c8e51ba.png" />
+<img alt="../../_images/f599b56bd8543e6a2de29a16a6f816db8ca9dbb7ccb7876ad0be4ae8c372e30d.png" src="../../_images/f599b56bd8543e6a2de29a16a6f816db8ca9dbb7ccb7876ad0be4ae8c372e30d.png" />
+<img alt="../../_images/79ac50657a059814be5a621f20db511826e559ca8752b3c804ad0931d74d38a7.png" src="../../_images/79ac50657a059814be5a621f20db511826e559ca8752b3c804ad0931d74d38a7.png" />
+</div>
+</div>
+<p><em>Figure 1.</em> Monthly time series (S3 vs PV) for each region &amp; variable.</p>
+</section>
+<section id="plot-full-domain-monthly-time-series-plots">
+<h4>Plot full-domain monthly time-series plots<a class="headerlink" href="#plot-full-domain-monthly-time-series-plots" title="Link to this heading">#</a></h4>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">monthly_weighted_series</span><span class="p">(</span><span class="n">da</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Area-weighted (cosφ) spatial mean per time → monthly mean Series.&quot;&quot;&quot;</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">latitude</span><span class="p">))</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">w</span> <span class="o">/</span> <span class="n">w</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="p">(</span><span class="n">da</span> <span class="o">*</span> <span class="n">w</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span><span class="s2">&quot;longitude&quot;</span><span class="p">),</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">den</span> <span class="o">=</span> <span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">da</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">w</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span><span class="s2">&quot;longitude&quot;</span><span class="p">))</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="p">(</span><span class="n">num</span> <span class="o">/</span> <span class="n">den</span><span class="p">)</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">ts</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s2">&quot;M&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">to_timestamp</span><span class="p">(</span><span class="n">how</span><span class="o">=</span><span class="s2">&quot;start&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_global_timeseries</span><span class="p">(</span><span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">outdir</span><span class="o">=</span><span class="s2">&quot;figs&quot;</span><span class="p">,</span> <span class="n">ylims</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_diff</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vars_use</span><span class="p">:</span>
+        <span class="n">s3_m</span> <span class="o">=</span> <span class="n">monthly_weighted_series</span><span class="p">(</span><span class="n">ds_s3_rg</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+        <span class="n">pv_m</span> <span class="o">=</span> <span class="n">monthly_weighted_series</span><span class="p">(</span><span class="n">ds_pv</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+        <span class="n">idx</span>  <span class="o">=</span> <span class="n">s3_m</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">pv_m</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+        <span class="n">df</span>   <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;S3&quot;</span><span class="p">:</span> <span class="n">s3_m</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="s2">&quot;PV&quot;</span><span class="p">:</span> <span class="n">pv_m</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">idx</span><span class="p">)})</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Global] </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">: no overlapping months.&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;S3&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;PV&quot;</span><span class="p">]</span>
+        <span class="n">bias</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">diff</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+        <span class="n">rmsd</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">diff</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
+        <span class="n">corr</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;S3&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;PV&quot;</span><span class="p">]))</span>
+
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;S3&quot;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Sentinel-3&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;PV&quot;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;PROBA-V&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Global] </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2"> (monthly means)</span><span class="se">\n</span><span class="s2">&quot;</span>
+                     <span class="sa">f</span><span class="s2">&quot;bias=</span><span class="si">{</span><span class="n">bias</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  rmsd=</span><span class="si">{</span><span class="n">rmsd</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  r=</span><span class="si">{</span><span class="n">corr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Month&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Albedo&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ylims</span><span class="p">:</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">*</span><span class="n">ylims</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">MonthLocator</span><span class="p">())</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">DateFormatter</span><span class="p">(</span><span class="s2">&quot;%Y-%m&quot;</span><span class="p">))</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">autofmt_xdate</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">show_diff</span><span class="p">:</span>
+            <span class="n">ax2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+            <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">diff</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;S3 − PV&quot;</span><span class="p">)</span>
+            <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Δ Albedo (S3 − PV)&quot;</span><span class="p">)</span>
+            <span class="n">lines1</span><span class="p">,</span> <span class="n">labels1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+            <span class="n">lines2</span><span class="p">,</span> <span class="n">labels2</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">lines1</span> <span class="o">+</span> <span class="n">lines2</span><span class="p">,</span> <span class="n">labels1</span> <span class="o">+</span> <span class="n">labels2</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">save</span><span class="p">:</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s2">/Full-domain_</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">_monthly_timeseries.png&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Call it</span>
+<span class="n">plot_global_timeseries</span><span class="p">(</span><span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../_images/98f3ee2cf22bb1754e3ebb60a661743e7cd40b048d3e69eafeb72202a22b5371.png" src="../../_images/98f3ee2cf22bb1754e3ebb60a661743e7cd40b048d3e69eafeb72202a22b5371.png" />
+<img alt="../../_images/632172ccc23433ba151cd2d48fd8451c81deff93b1f7b8bc06f636088c9cfd5c.png" src="../../_images/632172ccc23433ba151cd2d48fd8451c81deff93b1f7b8bc06f636088c9cfd5c.png" />
+<img alt="../../_images/6a099a4afaf29e920b8325ea9531458665d14575bb24472f80164e1f9a58bdd5.png" src="../../_images/6a099a4afaf29e920b8325ea9531458665d14575bb24472f80164e1f9a58bdd5.png" />
+<img alt="../../_images/2384ab2552b3a091bbbd745efbcea20702d2ce39b0ac87c40aeb4b25c4b39809.png" src="../../_images/2384ab2552b3a091bbbd745efbcea20702d2ce39b0ac87c40aeb4b25c4b39809.png" />
+</div>
+</div>
+<p><em>Figure 2.</em> Full-domain monthly time-series plots.</p>
+</section>
+</section>
+<section id="take-home-messages">
+<span id="satellite-satellite-albedo-consistency-assessment-q02-section-4"></span><h3>Take-Home Messages<a class="headerlink" href="#take-home-messages" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>Raster plot and area calculation: Using the function defined above, we created raster plot of the region for NOAA-11 AVHRR (1990–1991) and the PROBA VGT (2018–2019) albedo data.</p></li>
+<li><p>Sentinel-3 and PROBA-V show consistent surface albedo patterns globally.</p></li>
+<li><p>The bias highlights systematic differences, possibly due to calibration and angular effects.</p></li>
+<li><p>The RMSD quantifies the magnitude of deviations.</p></li>
+<li><p>The correlation confirms the ability of both sensors to track temporal variability.</p></li>
 </ul>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_albedo_maps_noaa_regrid</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">regrid</span><span class="p">(</span>
-    <span class="n">ds_albedo_maps_noaa</span><span class="p">,</span> <span class="n">grid_out</span><span class="o">=</span><span class="n">ds_albedo_maps_proba</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest_s2d&quot;</span>
-<span class="p">)</span>
-
-
-<span class="c1"># Creating raster plot</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-
-<span class="c1"># Plot the first dataset</span>
-<span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
-<span class="n">ds_albedo_maps_noaa_regrid</span><span class="o">.</span><span class="n">AL_BH_BB</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;rainbow&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
-<span class="c1"># Set the tick labels for longitude and latitude</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([</span><span class="o">-</span><span class="mf">63.34</span><span class="p">,</span> <span class="o">-</span><span class="mf">63.32</span><span class="p">,</span> <span class="o">-</span><span class="mf">63.30</span><span class="p">,</span> <span class="o">-</span><span class="mf">63.28</span><span class="p">,</span> <span class="o">-</span><span class="mf">63.26</span><span class="p">,</span><span class="o">-</span><span class="mf">63.24</span><span class="p">,</span> <span class="o">-</span><span class="mf">63.22</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;63.34°W&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;63.30°W&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;63.26°W&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;63.22°W&#39;</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([</span><span class="o">-</span><span class="mf">9.24</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.22</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.20</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.18</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.16</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.14</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.12</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;9.24°S&#39;</span><span class="p">,</span> <span class="s1">&#39;9.22°S&#39;</span><span class="p">,</span> <span class="s1">&#39;9.20°S&#39;</span><span class="p">,</span> <span class="s1">&#39;9.18°S&#39;</span><span class="p">,</span> <span class="s1">&#39;9.16°S&#39;</span><span class="p">,</span> <span class="s1">&#39;9.14°S&#39;</span><span class="p">,</span> <span class="s1">&#39;9.12°S&#39;</span><span class="p">])</span>
-
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Albedo from NOAA Dataset (regridded) (1990-1991)&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">coastlines</span><span class="p">()</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">gridlines</span><span class="p">()</span>
-
-<span class="c1"># Plot the second dataset</span>
-<span class="n">ax2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
-<span class="n">ds_albedo_maps_proba</span><span class="o">.</span><span class="n">AL_BH_BB</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;rainbow&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
-<span class="c1"># Set the tick labels for longitude and latitude</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([</span><span class="o">-</span><span class="mf">63.34</span><span class="p">,</span> <span class="o">-</span><span class="mf">63.32</span><span class="p">,</span> <span class="o">-</span><span class="mf">63.30</span><span class="p">,</span> <span class="o">-</span><span class="mf">63.28</span><span class="p">,</span> <span class="o">-</span><span class="mf">63.26</span><span class="p">,</span><span class="o">-</span><span class="mf">63.24</span><span class="p">,</span> <span class="o">-</span><span class="mf">63.22</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;63.34°W&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;63.30°W&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;63.26°W&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;63.22°W&#39;</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([</span><span class="o">-</span><span class="mf">9.24</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.22</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.20</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.18</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.16</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.14</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.12</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;9.24°S&#39;</span><span class="p">,</span> <span class="s1">&#39;9.22°S&#39;</span><span class="p">,</span> <span class="s1">&#39;9.20°S&#39;</span><span class="p">,</span> <span class="s1">&#39;9.18°S&#39;</span><span class="p">,</span> <span class="s1">&#39;9.16°S&#39;</span><span class="p">,</span> <span class="s1">&#39;9.14°S&#39;</span><span class="p">,</span> <span class="s1">&#39;9.12°S&#39;</span><span class="p">])</span>
-
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Albedo plot from PROBA Dataset (2018-2019)&#39;</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">coastlines</span><span class="p">()</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">gridlines</span><span class="p">()</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-
-<span class="c1"># Creating raster plot</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</details>
-<div class="cell_output docutils container">
-<img alt="../../_images/7f98291a67dbd526c83ae4eb84e6ac16f4c24b5293b8c3c650310c839249e10f.png" src="../../_images/7f98291a67dbd526c83ae4eb84e6ac16f4c24b5293b8c3c650310c839249e10f.png" />
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure size 1200x600 with 0 Axes&gt;
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure size 1200x600 with 0 Axes&gt;
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="for-validation-of-the-results-google-earth-images-of-the-region-corresponding-to-both-time-periods-have-been-imported">
-<span id="satellite-satellite-albedo-consistency-assessment-q02-section-4"></span><h3>4. For validation of the results, Google Earth images of the region corresponding to both time periods have been imported.<a class="headerlink" href="#for-validation-of-the-results-google-earth-images-of-the-region-corresponding-to-both-time-periods-have-been-imported" title="Link to this heading">#</a></h3>
-<p>We imported the Google Earth images of the region for both time-periods to visually compare with the results obtained from the analysis of the surface albedo.</p>
-</section>
-<section id="google-earth-image-of-study-area-for-year-2019">
-<h3>Google Earth image of study area for year 2019<a class="headerlink" href="#google-earth-image-of-study-area-for-year-2019" title="Link to this heading">#</a></h3>
-<p><img alt="Amazon_2019.png" src="../../_images/94a2855a-a51b-437e-ba0e-9062b5411d51.png" /></p>
-</section>
-<section id="google-earth-image-of-study-area-for-year-1990">
-<h3>Google Earth image of study area for year 1990<a class="headerlink" href="#google-earth-image-of-study-area-for-year-1990" title="Link to this heading">#</a></h3>
-<p><img alt="Amazon_1990.png" src="../../_images/bfa9a37e-cc8d-4d2e-8806-5c18741bc724.png" /></p>
-</section>
-<section id="consistency-analysis-of-monthly-albedo-values-for-two-datasets-was-performed-the-result-table-compares-average-monthly-surface-albedo-values-the-periods-19901991-using-avhrr-data-and-20182019-using-proba-data">
-<span id="satellite-satellite-albedo-consistency-assessment-q02-section-5"></span><h3>5. Consistency analysis of monthly albedo values for two datasets was performed. The result table compares average monthly surface albedo values the periods 1990–1991 (using AVHRR  data) and 2018–2019 (using PROBA data).<a class="headerlink" href="#consistency-analysis-of-monthly-albedo-values-for-two-datasets-was-performed-the-result-table-compares-average-monthly-surface-albedo-values-the-periods-19901991-using-avhrr-data-and-20182019-using-proba-data" title="Link to this heading">#</a></h3>
-<p>2018-2019 Data_PROBA: The albedo values ranges  between 0.010 and 0.025. The dataset variations are within a relatively narrow range and are coherent.</p>
-<p>• 1990-1991 Data_NOAA: The albedo values are higher than those provided by PROBA, on average, ranging from about 0.015 to 0.040. There are noticeable fluctuations, including some sharp peaks, indicating possible changes either in the surface conditions or instabilities in the retrieval algorithm.</p>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-
-
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;Month&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;January&quot;</span><span class="p">,</span> <span class="s2">&quot;February&quot;</span><span class="p">,</span> <span class="s2">&quot;March&quot;</span><span class="p">,</span> <span class="s2">&quot;April&quot;</span><span class="p">,</span> <span class="s2">&quot;May&quot;</span><span class="p">,</span> <span class="s2">&quot;June&quot;</span><span class="p">,</span> 
-              <span class="s2">&quot;July&quot;</span><span class="p">,</span> <span class="s2">&quot;August&quot;</span><span class="p">,</span> <span class="s2">&quot;September&quot;</span><span class="p">,</span> <span class="s2">&quot;October&quot;</span><span class="p">,</span> <span class="s2">&quot;November&quot;</span><span class="p">,</span> <span class="s2">&quot;December&quot;</span><span class="p">],</span>
-    <span class="s2">&quot;Dataset 1 (2018-2019, PROBA)&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.015</span><span class="p">,</span> <span class="mf">0.014</span><span class="p">,</span> <span class="mf">0.013</span><span class="p">,</span> <span class="mf">0.012</span><span class="p">,</span> <span class="mf">0.016</span><span class="p">,</span> <span class="mf">0.018</span><span class="p">,</span> 
-                                   <span class="mf">0.017</span><span class="p">,</span> <span class="mf">0.015</span><span class="p">,</span> <span class="mf">0.014</span><span class="p">,</span> <span class="mf">0.013</span><span class="p">,</span> <span class="mf">0.012</span><span class="p">,</span> <span class="mf">0.011</span><span class="p">],</span>
-    <span class="s2">&quot;Dataset 2 (1990-1991, NOAA)&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.025</span><span class="p">,</span> <span class="mf">0.028</span><span class="p">,</span> <span class="mf">0.030</span><span class="p">,</span> <span class="mf">0.032</span><span class="p">,</span> <span class="mf">0.035</span><span class="p">,</span> <span class="mf">0.038</span><span class="p">,</span> 
-                                   <span class="mf">0.036</span><span class="p">,</span> <span class="mf">0.033</span><span class="p">,</span> <span class="mf">0.031</span><span class="p">,</span> <span class="mf">0.029</span><span class="p">,</span> <span class="mf">0.027</span><span class="p">,</span> <span class="mf">0.026</span><span class="p">]</span>
-<span class="p">}</span>
-
-
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-<span class="n">df</span>
-</pre></div>
-</div>
-</div>
-</details>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Month</th>
-      <th>Dataset 1 (2018-2019, PROBA)</th>
-      <th>Dataset 2 (1990-1991, NOAA)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>January</td>
-      <td>0.015</td>
-      <td>0.025</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>February</td>
-      <td>0.014</td>
-      <td>0.028</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>March</td>
-      <td>0.013</td>
-      <td>0.030</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>April</td>
-      <td>0.012</td>
-      <td>0.032</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>May</td>
-      <td>0.016</td>
-      <td>0.035</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>June</td>
-      <td>0.018</td>
-      <td>0.038</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>July</td>
-      <td>0.017</td>
-      <td>0.036</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>August</td>
-      <td>0.015</td>
-      <td>0.033</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>September</td>
-      <td>0.014</td>
-      <td>0.031</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>October</td>
-      <td>0.013</td>
-      <td>0.029</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>November</td>
-      <td>0.012</td>
-      <td>0.027</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>December</td>
-      <td>0.011</td>
-      <td>0.026</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
-</section>
-<section id="results">
-<h3>Results<a class="headerlink" href="#results" title="Link to this heading">#</a></h3>
-<ol class="arabic simple">
-<li><p>The resolution of the CDS surface albedo 10-daily gridded dataset is sufficient for identifying the changes in forest areas due to anthropogenic activities.</p></li>
-<li><p>Comparison of plots of the surface albedo from the NOAA dataset for 1990–1991 and the PROBA dataset for 2018–2019 with the extracted pictures from Google Earth for the same region and period shows an overall good agreement. The higher resolution of the most recent instruments, such as PROBA, can more accurately capture the anthropogenic effects.</p></li>
-<li><p>It is important to note that the albedo dataset is cloud-free (Copernicus PUG, 2021), ensuring the results remain unaffected by cloud contamination.</p></li>
-<li><p>Cruz et al. (2021) reported that in the last four decades, 20% of Brazilian Amazon forests had been deforested by 2018. These findings align with those of Brandão et al. (2022), which state that the entire Amazonian forest region experienced 17% deforestation during 1995-2017. Moreover, the study highlights that the current rate of forest degradation is even higher, with 60% associated with fragmentation and edge effects and 40% linked to selective logging and forest fires.</p></li>
-</ol>
 </section>
 </section>
 <section id="i-if-you-want-to-know-more">
 <h2>ℹ️ If you want to know more<a class="headerlink" href="#i-if-you-want-to-know-more" title="Link to this heading">#</a></h2>
+<section id="key-resources">
+<h3>Key Resources<a class="headerlink" href="#key-resources" title="Link to this heading">#</a></h3>
+<p>• Surface albedo 10-daily gridded data from 1981 to present</p>
+<p><a class="reference external" href="https://cds.climate.copernicus.eu/datasets?q=albedo&amp;amp;limit=30" rel="noreferrer" target="_blank">https://cds.climate.copernicus.eu/datasets?q=albedo&amp;limit=30</a></p>
+<p>Code libraries used:</p>
+<p>• C3S EQC custom function, c3s_eqc_automatic_quality_control, prepared by B-Open</p>
+</section>
 <section id="references">
 <h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
-<ol class="arabic simple">
-<li><p>Brandão, D. O., Barata, L. E. S., &amp; Nobre, C. A. (2022). The effects of environmental changes on plant species and forest dependent communities in the Amazon region. Forests, 13(3), 466.</p></li>
-<li><p>Copernicus PUG (Product User Guide and Specification), CDR Multi-Sensor Surface Albedo v2.0. (2021) <a class="reference external" href="https://datastore.copernicus-climate.eu/">https://datastore.copernicus-climate.eu/</a> (Retrieved on Mar 11, 2024)</p></li>
-<li><p>Cruz, D. C., Benayas, J. M. R., Ferreira, G. C., Santos, S. R., &amp; Schwartz, G. (2021). An overview of forest loss and restoration in the Brazilian Amazon. New Forests, 52, 1-16.</p></li>
-<li><p>Harvey, C. &amp; E&amp;E News. (2023) One Third of the Amazon Has Been Degraded by Human Activities. SCIAMI. <a class="reference external" href="https://www.scientificamerican.com">https://www.scientificamerican.com</a> (Retrieved on Feb 16, 2024).</p></li>
-</ol>
-<p>Imagery for the analysis of deforestation patterns in the Amazon was obtained from Google Earth Timelapse, © 2023 Google, with data provided by Landsat/Copernicus.</p>
+<p><strong><a class="reference external" href="https://doi.org/10.1016/S0034-4257(00)00130-2" rel="noreferrer" target="_blank">[1]</a></strong> Lucht, W., et al. (2000). <em>Retrieval of land surface albedo from satellite observations: A simulation study.</em> Remote Sensing of Environment, 64(3), 214–231.</p>
+<p><strong><a class="reference external" href="https://doi.org/10.1016/S0034-4257(02)00091-3" rel="noreferrer" target="_blank">[2]</a></strong> Schaaf, C. B., et al. (2002). <em>First operational BRDF, albedo and nadir reflectance products from MODIS.</em> Remote Sensing of Environment, 83(1–2), 135–148.</p>
+<p><strong><a class="reference external" href="https://doi.org/10.1080/01431163.2014.883097" rel="noreferrer" target="_blank">[3]</a></strong> Dierckx, W., et al. (2014). <em>PROBA-V mission for global vegetation monitoring: Standard products and image quality.</em> International Journal of Remote Sensing, 35(7), 2589–2614.</p>
+<p><strong><a class="reference external" href="https://doi.org/10.1016/j.rse.2018.06.038" rel="noreferrer" target="_blank">[4]</a></strong> Carrer, D., et al. (2018). <em>Evaluation of satellite albedo products over land.</em> Remote Sensing of Environment, 216, 453–470.</p>
+<p><strong><a class="reference external" href="https://doi.org/10.1016/j.isprsjprs.2020.03.021" rel="noreferrer" target="_blank">[5]</a></strong> Liang, S., et al. (2020). <em>Remote sensing of land surface albedo: Progress and perspectives.</em> ISPRS Journal of Photogrammetry and Remote Sensing, 163, 101–122.</p>
+<p><strong><a class="reference external" href="https://cds.climate.copernicus.eu/datasets/satellite-albedo?tab=overview" rel="noreferrer" target="_blank">[6]</a></strong> Copernicus Climate Change Service (C3S). (2020). <em>Surface albedo from satellite observations.</em> Climate Data Store.</p>
+<p><strong><a class="reference external" href="https://doi.org/10.1029/2006GL025734" rel="noreferrer" target="_blank">[7]</a></strong> Giorgi, F. (2006). <em>Climate change hot-spots.</em> Geophysical Research Letters, 33(8).</p>
+<p><strong><a class="reference external" href="https://doi.org/10.1007/s00382-020-05261-y" rel="noreferrer" target="_blank">[8]</a></strong> Cherif, C., et al. (2020). <em>Climate change in the Mediterranean: Analysis and projections.</em> Climate Dynamics, 54, 3711–3730.</p>
 </section>
 </section>
 </section>
@@ -886,8 +1593,7 @@ Please note that this repository is used for development and review, so quality 
             
             
               
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -896,22 +1602,38 @@ Please note that this repository is used for development and review, so quality 
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-identification-of-changes-in-amazon-rainforests-from-surface-albedo">🌍 Use case: Identification of changes in Amazon rainforests from surface albedo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-regional-consistency-of-surface-albedo-datasets">🌍 Use case: Regional consistency of surface albedo datasets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-questions">❓ Quality assessment questions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-surface-albedo">1. Download surface albedo</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#define-parameters-transform-data-and-printing-area-statistics-function">2. Define parameters, transform data and printing area statistics function:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-raster-plot-of-the-regridded-noaa-11-avhrr-19901991-and-proba-vgt-20182019">3. Create the raster plot of the regridded NOAA-11 AVHRR (1990–1991) and PROBA VGT (2018–2019).</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-validation-of-the-results-google-earth-images-of-the-region-corresponding-to-both-time-periods-have-been-imported">4. For validation of the results, Google Earth images of the region corresponding to both time periods have been imported.</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#google-earth-image-of-study-area-for-year-2019">Google Earth image of study area for year 2019</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#google-earth-image-of-study-area-for-year-1990">Google Earth image of study area for year 1990</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consistency-analysis-of-monthly-albedo-values-for-two-datasets-was-performed-the-result-table-compares-average-monthly-surface-albedo-values-the-periods-19901991-using-avhrr-data-and-20182019-using-proba-data">5. Consistency analysis of monthly albedo values for two datasets was performed. The result table compares average monthly surface albedo values the periods 1990–1991 (using AVHRR  data) and 2018–2019 (using PROBA data).</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#results">Results</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-the-data-to-use-and-set-up-the-code">Choose the data to use and set up the code</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-all-required-libraries">Import all required libraries</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#spatial-and-temporal-definitions">Spatial and temporal definitions</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-retrieval-and-preparation">Data Retrieval and Preparation</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#download-the-albedo-data">Download the albedo data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#define-requiered-functions">Define requiered functions</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#normalizing-coordinates">Normalizing coordinates</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#regrid-sentinel-3-to-proba-v-grid">Regrid Sentinel-3 to PROBA-V grid</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#computation-of-timeseries">Computation of timeseries</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-and-describe-the-results">3. Plot and describe the results.</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#metrics-per-variable">Metrics per variable</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#build-a-tidy-monthly-diff-table-for-each-variable">Build a tidy monthly diff table for each variable</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#regional-case-studies">Regional Case Studies</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-monthly-time-series-s3-vs-pv-for-each-region-variable">Plot monthly time series (S3 vs PV) for each region &amp; variable</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-full-domain-monthly-time-series-plots">Plot full-domain monthly time-series plots</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#take-home-messages">Take-Home Messages</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-resources">Key Resources</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 </ul>
 </li>
@@ -963,8 +1685,8 @@ By the Copernicus Climate Change Service (C3S), entrusted to ECMWF (European Cen
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>
