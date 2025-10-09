@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>3.1. Analyzing Monthly Temperature Data to Detect Extreme Events &#8212; eqcbook</title>
+    <title>3.1. Monitoring Extreme U.S. Temperatures: July 2022 Heatwave &#8212; eqcbook</title>
   
   
   
@@ -16,33 +16,30 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
-  <!-- So that users can add custom icons -->
-  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
@@ -61,13 +58,13 @@
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'Reanalyses/reanalysis_reanalysis-era5-land-monthly-means_extremes-detection_q02';</script>
+    <link rel="icon" href="../_static/C3S_favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="4. Seasonal forecasts" href="../Seasonal_Forecasts/seasonal.html" />
     <link rel="prev" title="3. Reanalysis" href="reanalysis.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -83,8 +80,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -92,6 +100,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -99,8 +108,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -119,8 +128,7 @@
       
       
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -150,17 +158,21 @@
     
     
     <img src="../_static/C3S–POS–LINE.png" class="logo__image only-light" alt="eqcbook - Home"/>
-    <img src="../_static/C3S–POS–LINE.png" class="logo__image only-dark pst-js-only" alt="eqcbook - Home"/>
+    <script>document.write(`<img src="../_static/C3S–POS–LINE.png" class="logo__image only-dark" alt="eqcbook - Home"/>`);</script>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -204,7 +216,7 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Reanalysis</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="reanalysis.html">3. Quality assessments for Reanalysis</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.1. Analyzing Monthly Temperature Data to Detect Extreme Events</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.1. Monitoring Extreme U.S. Temperatures: July 2022 Heatwave</a></li>
 </ul>
 </details></li>
 </ul>
@@ -223,6 +235,24 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="../Climate_Projections/CORDEX/CORDEX.html">5.2. CORDEX</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Climate Indicators</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Indicators/indicator.html">6. Quality assessments for Climate Indicators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Derived Datasets</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Derived_Datasets/derived.html">7. Quality assessments for Derived Datasets</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Applications</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Applications/application.html">8. Quality assessments for C3S Applications</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
 </ul>
@@ -384,16 +414,24 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
 
 
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
+  </button>
+`);
+</script>
 <button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
@@ -407,7 +445,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Analyzing Monthly Temperature Data to Detect Extreme Events</h1>
+    <h1>Monitoring Extreme U.S. Temperatures: July 2022 Heatwave</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -417,7 +455,7 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-monthly-temperature-anomalies-to-detect-extreme-temperature-events">🌍 Use case: Monthly temperature anomalies to detect extreme temperature events</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-using-monthly-temperature-anomalies-to-detect-and-monitor-heatwave-conditions-in-the-united-states">🌍 Use case: Using monthly temperature anomalies to detect and monitor heatwave conditions in the United States.</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
@@ -429,28 +467,11 @@
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#temperature-anomalies-nationwide">2. Temperature anomalies nationwide</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#calculation">Calculation</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-anomalies-nationwide">Plot anomalies nationwide</a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#figure-1">Figure 1</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#anomalies-calculation">Anomalies calculation</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-anomalies-nationwide">Plot anomalies nationwide</a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#figure-2">Figure 2</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#anomalies-inside-roi">Anomalies inside ROI</a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#figure-3">Figure 3</a></li>
-</ul>
-</li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison">Comparison</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#temperature-record-in-texas">3. Temperature record in Texas</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Figure 3</a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#table-1">Table 1</a></li>
-</ul>
-</li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Comparison</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis">Analysis</a></li>
-</ul>
-</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spatial-mean-temperatures-comparison">3. Spatial mean temperatures comparison</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
@@ -472,48 +493,50 @@
   <p><img alt="logo" src="../_images/LogoLine_horizon_C3S1.png" /></p>
 <div class="alert alert-block alert-warning">
 Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
-</div><section class="tex2jax_ignore mathjax_ignore" id="analyzing-monthly-temperature-data-to-detect-extreme-events">
-<h1><span class="section-number">3.1. </span>Analyzing Monthly Temperature Data to Detect Extreme Events<a class="headerlink" href="#analyzing-monthly-temperature-data-to-detect-extreme-events" title="Link to this heading">#</a></h1>
-<p>Production date: 16-Dec-2024</p>
-<p>Produced by: Camila Trigoso (VUB)</p>
-<section id="use-case-monthly-temperature-anomalies-to-detect-extreme-temperature-events">
-<h2>🌍 Use case: Monthly temperature anomalies to detect extreme temperature events<a class="headerlink" href="#use-case-monthly-temperature-anomalies-to-detect-extreme-temperature-events" title="Link to this heading">#</a></h2>
+</div><section class="tex2jax_ignore mathjax_ignore" id="monitoring-extreme-u-s-temperatures-july-2022-heatwave">
+<h1><span class="section-number">3.1. </span>Monitoring Extreme U.S. Temperatures: July 2022 Heatwave<a class="headerlink" href="#monitoring-extreme-u-s-temperatures-july-2022-heatwave" title="Link to this heading">#</a></h1>
+<p>Production date: 09-10-2025</p>
+<p>Produced by: Amaya Camila Trigoso Barrientos (VUB)</p>
+<section id="use-case-using-monthly-temperature-anomalies-to-detect-and-monitor-heatwave-conditions-in-the-united-states">
+<h2>🌍 Use case: Using monthly temperature anomalies to detect and monitor heatwave conditions in the United States.<a class="headerlink" href="#use-case-using-monthly-temperature-anomalies-to-detect-and-monitor-heatwave-conditions-in-the-united-states" title="Link to this heading">#</a></h2>
 </section>
 <section id="quality-assessment-question">
 <h2>❓ Quality assessment question<a class="headerlink" href="#quality-assessment-question" title="Link to this heading">#</a></h2>
-<p><strong>Can ERA5-Land monthly averaged data effectively detect specific extreme temperature events documented in the literature?</strong></p>
-<p><a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land-monthly-means?tab=overview">ERA5-Land monthly averaged data (1950–present)</a> is a reanalysis dataset available from the Climate Data Store (CDS). It features a regular spatial resolution on a latitude/longitude grid of 0.1° x 0.1° (native resolution: 9 km). The dataset provides monthly averaged and hourly averaged by month data for various parameters. It includes 31 instantaneous parameters, one of which is the 2-meter air temperature, often called air temperature. This parameter is particularly valuable for climate monitoring, including the tracking of extreme temperature events such as heatwaves <a class="reference external" href="https://confluence.ecmwf.int/display/CKB/ERA5-Land%3A+data+documentation">[1]</a>.</p>
-<p>The goal of this quality assessment is to evaluate whether the ERA5-Land dataset can effectively detect specific extreme temperature events documented in literature. As a case study, we chose the July 2022 heatwave in the United States. It was analyzed by comparing ERA5-Land data to the National Oceanic and Atmospheric Administration’s (NOAA) Monthly National Analysis <a class="reference external" href="https://www.ncei.noaa.gov/access/monitoring/monthly-report/national/202207">[2]</a>. Although the heatwave spanned multiple months, July was chosen for this analysis to maintain focus and brevity, particularly as Texas recorded notable temperature extremes during this period.</p>
+<p><strong>Can ERA5-Land monthly-averaged 2 m temperature data reliably detect extreme temperature events documented in the literature, such as the July 2022 U.S. heatwave, and are these results consistent with observation-based datasets like NOAA’s NClimGrid?</strong></p>
+<p><a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land-monthly-means?tab=overview" rel="noreferrer" target="_blank">ERA5-Land monthly averaged data (1950–present)</a> is a reanalysis dataset available from the Climate Data Store (CDS). It features a regular spatial resolution on a latitude/longitude grid of 0.1° x 0.1° (native resolution: 9 km). The dataset provides monthly averaged and hourly averaged by month data for various parameters. It includes 31 instantaneous parameters, one of which is the 2-meter air temperature, often called air temperature. This parameter is particularly valuable for climate monitoring, including the tracking of extreme temperature events such as heatwaves.</p>
+<p>The summer of 2022 witnessed a significant heatwave across the United States, characterized by a prolonged period of elevated temperatures and intensified drought conditions. This compound drought-heatwave event was notably pronounced in the western and central regions, including Texas, and was influenced by varying land-atmosphere coupling mechanisms <a class="reference external" href="https://doi.org/10.1016/j.wace.2024.100722" rel="noreferrer" target="_blank">[1]</a>.</p>
+<p>The goal of this quality assessment is to evaluate whether the ERA5-Land dataset can effectively capture extreme temperature events documented in the literature. As a case study, we focused on the July 2022 heatwave in the United States. To validate ERA5-Land 2 m temperature results, we compared them with observations from the NOAA Monthly U.S. Climate Gridded Dataset (NClimGrid). Although the heatwave persisted across multiple months, July was selected for this analysis to maintain focus and brevity, particularly since Texas experienced pronounced temperature extremes during this period.</p>
 </section>
 <section id="quality-assessment-statement">
 <h2>📢 Quality assessment statement<a class="headerlink" href="#quality-assessment-statement" title="Link to this heading">#</a></h2>
 <div class="note admonition">
 <p class="admonition-title">These are the key outcomes of this assessment</p>
 <ul class="simple">
-<li><p>The ERA5-Land dataset can effectively detect extreme temperature anomalies in specific regions when compared to a baseline period.</p></li>
-<li><p>Discrepancies between ERA5-Land and NOAA information where found for the case study of July 2022 in the USA. However, these differences were relatively small and can be expacted because different modells were used.</p></li>
-<li><p>ERA5-Land allows for easy analysis of temperature anomalies over long periods of time for any chosen area worldwide, making it a versatile tool for global climate studies.</p></li>
+<li><p>ERA5-Land monthly-averaged 2 m temperature data captured the extreme temperature event of July 2022 in the U.S., as evidenced by strong spatial agreement with NOAA’s NClimGrid anomalies.</p></li>
+<li><p>During heatwave events, average temperatures across the contiguous United States and in Texas show that ERA5-Land values are slightly higher than those of NClimGrid, likely because ERA5-Land accounts for all hours of the day, whereas NClimGrid computes averages only from daily maximum and minimum temperatures.</p></li>
 </ul>
 </div>
 </section>
 <section id="methodology">
 <h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
-<p>The analysis and results are organised in the following steps, which are detailed in the sections below:</p>
+<p>Monthly 2-meter temperature data from ERA5-Land were downloaded for 1991–2024 and spatially clipped to the contiguous United States. Temperature anomalies for July 2022 were calculated relative to the 1991–2020 climatological mean. The anomalies were mapped and visually compared to the NOAA NClimGrid dataset to assess consistency. Spatial mean temperatures were also computed for the contiguous U.S. and Texas for selected months and compared to values published in NOAA’s Montly Climate to validate the results.</p>
 <p><strong><a class="reference internal" href="#reanalysis-reanalysis-era5-land-monthly-means-extremes-detection-q02-section-1"><span class="std std-ref">1. Request and download data</span></a></strong></p>
 <ul class="simple">
-<li><p>Download the monthly averaged 2 meter temperature from the reanalysis-era5-land-monthly-means dataset for the period from 1961 to 2024. Choose the area encompassing the contiguous United States.</p></li>
+<li><p>Download monthly averaged 2-meter temperature from the ERA5-Land monthly means dataset for the period 1991–2024.</p></li>
+<li><p>Select the spatial domain covering the contiguous United States.</p></li>
 </ul>
 <p><strong><a class="reference internal" href="#reanalysis-reanalysis-era5-land-monthly-means-extremes-detection-q02-section-2"><span class="std std-ref">2. Temperature anomalies nationwide</span></a></strong></p>
 <ul class="simple">
-<li><p>Calculate the temperature anomalies for July 2022 compared to the average July temperature for the baseline period 1991-2020.</p></li>
-<li><p>Plot the anomalies on a map of the contiguous United States.</p></li>
-<li><p>Calculate the anomalies for an area in which the results of the previous map differ from those of a reference source (NOAA).</p></li>
-<li><p>Analyze the results for this area over time.</p></li>
+<li><p>Clip the ERA5-Land data to the U.S. boundary.</p></li>
+<li><p>Calculate temperature anomalies for July 2022 relative to the 1991–2020 July climatological mean.</p></li>
+<li><p>Visualize the anomalies on a map of the contiguous United States.</p></li>
+<li><p>Compare the anomaly patterns visually with the corresponding NClimGrid dataset.</p></li>
 </ul>
-<p><strong><a class="reference internal" href="#reanalysis-reanalysis-era5-land-monthly-means-extremes-detection-q02-section-3"><span class="std std-ref">3. Temperature record in Texas</span></a></strong></p>
+<p><strong><a class="reference internal" href="#reanalysis-reanalysis-era5-land-monthly-means-extremes-detection-q02-section-3"><span class="std std-ref">3. Spatial mean temperatures comparison</span></a></strong></p>
 <ul class="simple">
-<li><p>Calculate and plot the temperature anomalies for the month of July for the state of Texas (average for the whole state) over time.</p></li>
-<li><p>Compare the value for 2022 with the literature.</p></li>
+<li><p>Compute the mean spatial temperature for: July 2022 across the contiguous United States, July 2022 in Texas and August 2011 in Texas.</p></li>
+<li><p>Compare the results to official NOAA values.</p></li>
+<li><p>Analyse the results.</p></li>
 </ul>
 </section>
 <section id="analysis-and-results">
@@ -523,26 +546,29 @@ Please note that this repository is used for development and review, so quality 
 <section id="import-packages">
 <h4>Import packages<a class="headerlink" href="#import-packages" title="Link to this heading">#</a></h4>
 <div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
-<span class="kn">import</span> <span class="nn">cartopy.feature</span> <span class="k">as</span> <span class="nn">cfeature</span>
-<span class="kn">import</span> <span class="nn">fsspec</span>
-<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">matplotlib.colors</span> <span class="k">as</span> <span class="nn">mcolors</span>
-<span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">LinearSegmentedColormap</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">pymannkendall</span> <span class="k">as</span> <span class="nn">mk</span>
-<span class="kn">import</span> <span class="nn">shapely.geometry</span>
-<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
-<span class="kn">from</span> <span class="nn">c3s_eqc_automatic_quality_control</span> <span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.feature</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cfeature</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">fsspec</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mcolors</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearSegmentedColormap</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pymannkendall</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mk</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shapely.geometry</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">shapely.ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">unary_union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.io.shapereader</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">shpreader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">shapely.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">Polygon</span>
 <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CDSAPI_RC&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~/trigoso_camila/.cdsapirc&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;seaborn-v0_8-notebook&quot;</span><span class="p">)</span>
 </pre></div>
@@ -554,18 +580,14 @@ Please note that this repository is used for development and review, so quality 
 <section id="set-the-data-request">
 <h4>Set the data request<a class="headerlink" href="#set-the-data-request" title="Link to this heading">#</a></h4>
 <div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">year_start</span> <span class="o">=</span> <span class="mi">1961</span>  <span class="c1"># Example start year</span>
-<span class="n">year_stop</span> <span class="o">=</span> <span class="mi">2024</span>   <span class="c1"># Example stop year</span>
-
-<span class="c1"># Adjust the months for 2024</span>
-<span class="n">months_2024</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)]</span>  <span class="c1"># Months 1-10 for 2024</span>
-<span class="n">months_other_years</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">)]</span>  <span class="c1"># Full months (1-12) for other years</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">year_start</span> <span class="o">=</span> <span class="mi">1991</span>
+<span class="n">year_stop</span> <span class="o">=</span> <span class="mi">2024</span>
 
 <span class="n">collection_id</span> <span class="o">=</span> <span class="s2">&quot;reanalysis-era5-land-monthly-means&quot;</span>
 
@@ -573,19 +595,12 @@ Please note that this repository is used for development and review, so quality 
     <span class="s2">&quot;product_type&quot;</span><span class="p">:</span> <span class="s2">&quot;monthly_averaged_reanalysis&quot;</span><span class="p">,</span>
     <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="s2">&quot;2m_temperature&quot;</span><span class="p">,</span>
     <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span>
-    <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">)],</span>
     <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;00:00&quot;</span><span class="p">,</span>
     <span class="s2">&quot;data_format&quot;</span><span class="p">:</span> <span class="s2">&quot;grib&quot;</span><span class="p">,</span>
     <span class="s2">&quot;download_format&quot;</span><span class="p">:</span> <span class="s2">&quot;zip&quot;</span><span class="p">,</span>
     <span class="s2">&quot;area&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">49</span><span class="p">,</span> <span class="o">-</span><span class="mi">125</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="o">-</span><span class="mi">66</span><span class="p">],</span>
 <span class="p">}</span>
-
-<span class="c1"># Adjust months for the request</span>
-<span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">year</span> <span class="o">==</span> <span class="mi">2024</span><span class="p">:</span>
-        <span class="n">request</span><span class="p">[</span><span class="s2">&quot;month&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">months_2024</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">request</span><span class="p">[</span><span class="s2">&quot;month&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">months_other_years</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -595,10 +610,10 @@ Please note that this repository is used for development and review, so quality 
 <section id="download-data">
 <h4>Download data<a class="headerlink" href="#download-data" title="Link to this heading">#</a></h4>
 <div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span><span class="n">collection_id</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
@@ -607,17 +622,17 @@ Please note that this repository is used for development and review, so quality 
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 64/64 [00:01&lt;00:00, 48.75it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 34/34 [00:01&lt;00:00, 17.01it/s]
 </pre></div>
 </div>
 </div>
 </div>
 <p>Convert temperature to °F.</p>
 <div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">da</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;t2m&quot;</span><span class="p">]</span>
@@ -635,52 +650,57 @@ Please note that this repository is used for development and review, so quality 
 <span id="reanalysis-reanalysis-era5-land-monthly-means-extremes-detection-q02-section-2"></span><h3>2. Temperature anomalies nationwide<a class="headerlink" href="#temperature-anomalies-nationwide" title="Link to this heading">#</a></h3>
 <p>Clip data to the contiguous USA area.</p>
 <div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Clip to USA</span>
-<span class="k">def</span> <span class="nf">clip_shapefile</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">shapefile_path</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- Load U.S. states shapefile (TIGER 2023) ---</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://www2.census.gov/geo/tiger/TIGER2023/STATE/tl_2023_us_state.zip&quot;</span>
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="o">~</span><span class="n">gdf</span><span class="p">[</span><span class="s1">&#39;STUSPS&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;AK&#39;</span><span class="p">,</span> <span class="s1">&#39;HI&#39;</span><span class="p">,</span> <span class="s1">&#39;PR&#39;</span><span class="p">,</span> <span class="s1">&#39;GU&#39;</span><span class="p">,</span> <span class="s1">&#39;VI&#39;</span><span class="p">,</span> <span class="s1">&#39;MP&#39;</span><span class="p">,</span> <span class="s1">&#39;AS&#39;</span><span class="p">])]</span>
 
-    <span class="n">shapefile_crs</span> <span class="o">=</span> <span class="s2">&quot;EPSG:4326&quot;</span>  <span class="c1"># Ensure the CRS matches the raster data</span>
-    <span class="c1"># Load the shapefile</span>
-    <span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">shapefile_path</span><span class="p">)</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">shapefile_crs</span><span class="p">)</span>
+<span class="c1"># --- Load Natural Earth lake polygons ---</span>
+<span class="n">lakes_shp</span> <span class="o">=</span> <span class="n">shpreader</span><span class="o">.</span><span class="n">natural_earth</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="s1">&#39;10m&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="s1">&#39;physical&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;lakes&#39;</span><span class="p">)</span>
+<span class="n">lakes</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">lakes_shp</span><span class="p">)</span>
 
-    <span class="c1"># Set CRS and spatial dimensions for the data</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">set_spatial_dims</span><span class="p">(</span><span class="n">x_dim</span><span class="o">=</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="n">y_dim</span><span class="o">=</span><span class="s2">&quot;latitude&quot;</span><span class="p">)</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">write_crs</span><span class="p">(</span><span class="n">shapefile_crs</span><span class="p">)</span>
+<span class="c1"># --- Filter only the Great Lakes ---</span>
+<span class="n">great_lakes_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Lake Superior&#39;</span><span class="p">,</span> <span class="s1">&#39;Lake Michigan&#39;</span><span class="p">,</span> <span class="s1">&#39;Lake Huron&#39;</span><span class="p">,</span> <span class="s1">&#39;Lake Erie&#39;</span><span class="p">,</span> <span class="s1">&#39;Lake Ontario&#39;</span><span class="p">]</span>
+<span class="n">great_lakes</span> <span class="o">=</span> <span class="n">lakes</span><span class="p">[</span><span class="n">lakes</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">great_lakes_names</span><span class="p">)]</span>
+<span class="n">great_lakes_union</span> <span class="o">=</span> <span class="n">unary_union</span><span class="p">(</span><span class="n">great_lakes</span><span class="o">.</span><span class="n">geometry</span><span class="p">)</span>
 
-    <span class="c1"># Clip the data using the shapefile geometry</span>
-    <span class="n">data_clip</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
-        <span class="n">gdf</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">mapping</span><span class="p">),</span> <span class="n">gdf</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">False</span>
-    <span class="p">)</span>
-    <span class="k">return</span> <span class="n">data_clip</span>
+<span class="c1"># --- Subtract Great Lakes from state polygons ---</span>
+<span class="n">gdf</span><span class="p">[</span><span class="s1">&#39;geometry&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="s1">&#39;geometry&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">geom</span><span class="p">:</span> <span class="n">geom</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">great_lakes_union</span><span class="p">))</span>
 
-<span class="c1"># Example usage</span>
-<span class="n">shapefile_path</span> <span class="o">=</span> <span class="s2">&quot;/data/wp5/trigoso_camila/ERA5land/US_states/usa.shp&quot;</span> <span class="c1">#Obtained from the US Census Bureau</span>
-<span class="n">da_clipped</span> <span class="o">=</span> <span class="n">clip_shapefile</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">shapefile_path</span><span class="p">)</span>
+<span class="c1"># Ensure your DataArray has a CRS</span>
+<span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">write_crs</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Convert GeoDataFrame geometries to a list</span>
+<span class="n">state_geoms</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="c1"># Mask the raster using the states without lakes</span>
+<span class="n">da_clipped</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">state_geoms</span><span class="p">,</span> <span class="n">gdf</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">invert</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </details>
 </div>
-<section id="calculation">
-<h4>Calculation<a class="headerlink" href="#calculation" title="Link to this heading">#</a></h4>
+<section id="anomalies-calculation">
+<h4>Anomalies calculation<a class="headerlink" href="#anomalies-calculation" title="Link to this heading">#</a></h4>
 <p>Calculate temperature anomalies for July 2022 in relation to the baseline 1991-2020.</p>
 <div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract July 2022</span>
 <span class="n">da_july_2022</span> <span class="o">=</span> <span class="n">da_clipped</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">forecast_reference_time</span><span class="o">=</span><span class="s2">&quot;2022-07-01&quot;</span><span class="p">)</span>
 
 <span class="c1"># Baseline calculation </span>
-<span class="k">def</span> <span class="nf">compute_time_weighted_mean</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_time_weighted_mean</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span><span class="p">):</span>
     
     <span class="c1"># Filter the data by the specified month and year range</span>
     <span class="n">da_filtered</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span>
@@ -707,374 +727,196 @@ Please note that this repository is used for development and review, so quality 
 <section id="plot-anomalies-nationwide">
 <h4>Plot anomalies nationwide<a class="headerlink" href="#plot-anomalies-nationwide" title="Link to this heading">#</a></h4>
 <div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Shapefile of states</span>
-<span class="n">shapefile_path</span> <span class="o">=</span> <span class="s2">&quot;/data/wp5/trigoso_camila/ERA5land/US_states/usa48.shp&quot;</span>  <span class="c1"># Obtained from the US Census Bureau</span>
-<span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">shapefile_path</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Define your custom color map exactly as before</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="o">-</span><span class="mi">11</span><span class="p">:</span> <span class="s2">&quot;#142660&quot;</span><span class="p">,</span>
+    <span class="o">-</span><span class="mi">10</span><span class="p">:</span> <span class="s2">&quot;#132B63&quot;</span><span class="p">,</span>
+    <span class="o">-</span><span class="mi">9</span><span class="p">:</span>  <span class="s2">&quot;#0E3669&quot;</span><span class="p">,</span>
+    <span class="o">-</span><span class="mi">8</span><span class="p">:</span>  <span class="s2">&quot;#0D4473&quot;</span><span class="p">,</span>
+    <span class="o">-</span><span class="mi">7</span><span class="p">:</span>  <span class="s2">&quot;#0D537C&quot;</span><span class="p">,</span>
+    <span class="o">-</span><span class="mi">6</span><span class="p">:</span>  <span class="s2">&quot;#0C607E&quot;</span><span class="p">,</span>
+    <span class="o">-</span><span class="mi">5</span><span class="p">:</span>  <span class="s2">&quot;#0D809A&quot;</span><span class="p">,</span>
+    <span class="o">-</span><span class="mi">4</span><span class="p">:</span>  <span class="s2">&quot;#1F97AC&quot;</span><span class="p">,</span>
+    <span class="o">-</span><span class="mi">3</span><span class="p">:</span>  <span class="s2">&quot;#5BBCCB&quot;</span><span class="p">,</span>
+    <span class="o">-</span><span class="mi">2</span><span class="p">:</span>  <span class="s2">&quot;#9ADDE6&quot;</span><span class="p">,</span>
+    <span class="o">-</span><span class="mi">1</span><span class="p">:</span>  <span class="s2">&quot;#D9F8FB&quot;</span><span class="p">,</span>
+     <span class="mi">0</span><span class="p">:</span>  <span class="s2">&quot;#FFFFFF&quot;</span><span class="p">,</span>
+     <span class="mi">1</span><span class="p">:</span>  <span class="s2">&quot;#FFE8E5&quot;</span><span class="p">,</span>
+     <span class="mi">2</span><span class="p">:</span>  <span class="s2">&quot;#FCBFB9&quot;</span><span class="p">,</span>
+     <span class="mi">3</span><span class="p">:</span>  <span class="s2">&quot;#E88F88&quot;</span><span class="p">,</span>
+     <span class="mi">4</span><span class="p">:</span>  <span class="s2">&quot;#D26960&quot;</span><span class="p">,</span>
+     <span class="mi">5</span><span class="p">:</span>  <span class="s2">&quot;#BC4C43&quot;</span><span class="p">,</span>
+     <span class="mi">6</span><span class="p">:</span>  <span class="s2">&quot;#A2352E&quot;</span><span class="p">,</span>
+     <span class="mi">7</span><span class="p">:</span>  <span class="s2">&quot;#86241E&quot;</span><span class="p">,</span>
+     <span class="mi">8</span><span class="p">:</span>  <span class="s2">&quot;#6F1814&quot;</span><span class="p">,</span>
+     <span class="mi">9</span><span class="p">:</span>  <span class="s2">&quot;#5A0D0A&quot;</span><span class="p">,</span>
+    <span class="mi">10</span><span class="p">:</span>  <span class="s2">&quot;#4C0604&quot;</span><span class="p">,</span>
+    <span class="mi">11</span><span class="p">:</span>  <span class="s2">&quot;#512B2B&quot;</span>
+<span class="p">}</span>
+<span class="n">norm</span> <span class="o">=</span> <span class="n">mcolors</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=-</span><span class="mi">11</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">color_positions</span> <span class="o">=</span> <span class="p">[(</span><span class="n">norm</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">colors</span><span class="o">.</span><span class="n">items</span><span class="p">())]</span>
+<span class="n">custom_cmap</span> <span class="o">=</span> <span class="n">mcolors</span><span class="o">.</span><span class="n">LinearSegmentedColormap</span><span class="o">.</span><span class="n">from_list</span><span class="p">(</span><span class="s2">&quot;custom_diverging&quot;</span><span class="p">,</span> <span class="n">color_positions</span><span class="p">)</span>
 
-<span class="c1"># Define the rectangular ROI coordinates (minimum and maximum latitudes and longitudes)</span>
-<span class="n">min_lon</span><span class="p">,</span> <span class="n">min_lat</span> <span class="o">=</span> <span class="o">-</span><span class="mf">97.21110</span><span class="p">,</span> <span class="mf">39.56304</span>  <span class="c1"># Bottom-left corner</span>
-<span class="n">max_lon</span><span class="p">,</span> <span class="n">max_lat</span> <span class="o">=</span> <span class="o">-</span><span class="mf">96.23873</span><span class="p">,</span> <span class="mf">40.25180</span>  <span class="c1"># Top-right corner</span>
-
-<span class="c1"># Create a rectangle using the coordinates (define corners)</span>
-<span class="n">roi_coords</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">(</span><span class="n">min_lon</span><span class="p">,</span> <span class="n">min_lat</span><span class="p">),</span>  <span class="c1"># Bottom-left corner</span>
-    <span class="p">(</span><span class="n">min_lon</span><span class="p">,</span> <span class="n">max_lat</span><span class="p">),</span>  <span class="c1"># Top-left corner</span>
-    <span class="p">(</span><span class="n">max_lon</span><span class="p">,</span> <span class="n">max_lat</span><span class="p">),</span>  <span class="c1"># Top-right corner</span>
-    <span class="p">(</span><span class="n">max_lon</span><span class="p">,</span> <span class="n">min_lat</span><span class="p">),</span>  <span class="c1"># Bottom-right corner</span>
-    <span class="p">(</span><span class="n">min_lon</span><span class="p">,</span> <span class="n">min_lat</span><span class="p">)</span>   <span class="c1"># Closing the polygon</span>
-<span class="p">]</span>
-
-<span class="c1"># Create a Polygon from the coordinates</span>
-<span class="n">roi_polygon</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">Polygon</span><span class="p">(</span><span class="n">roi_coords</span><span class="p">)</span>
-
-<span class="c1"># Create a GeoDataFrame for the ROI</span>
-<span class="n">roi_gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">({</span><span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">roi_polygon</span><span class="p">]},</span> <span class="n">crs</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span>
-
-<span class="c1"># Update the plot with the converted data</span>
+<span class="c1">#Plot</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;projection&#39;</span><span class="p">:</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()})</span>
 
-<span class="c1"># Plot the Fahrenheit temperature anomalies</span>
+<span class="c1"># Plot the temperature anomalies DataArray (replace this with your actual xarray DataArray)</span>
 <span class="n">temperature_plot</span> <span class="o">=</span> <span class="n">da_anomalies_91_20</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
-    <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;bwr&#39;</span><span class="p">,</span> <span class="n">add_colorbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">11</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">11</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">custom_cmap</span><span class="p">,</span> <span class="n">add_colorbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">11</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">11</span>
 <span class="p">)</span>
 
-<span class="c1"># Set the extent to focus on the USA</span>
+<span class="c1"># Focus on CONUS</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">([</span><span class="o">-</span><span class="mi">125</span><span class="p">,</span> <span class="o">-</span><span class="mi">66</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
 
-<span class="c1"># Plot the shapefile (state borders)</span>
+<span class="c1"># Plot shapefile outlines</span>
 <span class="n">gdf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
 
-<span class="c1"># Add labels for each state from the &#39;STUSPS&#39; column</span>
+<span class="c1"># Add state abbreviations</span>
 <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-    <span class="n">state_geom</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;geometry&#39;</span><span class="p">]</span>
-    <span class="n">state_centroid</span> <span class="o">=</span> <span class="n">state_geom</span><span class="o">.</span><span class="n">centroid</span>
-    <span class="n">state_name</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;STUSPS&#39;</span><span class="p">]</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">state_centroid</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">state_centroid</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">state_name</span><span class="p">,</span>
-            <span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+    <span class="n">centroid</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">centroid</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+        <span class="n">centroid</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">centroid</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;STUSPS&#39;</span><span class="p">],</span>
+        <span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
+    <span class="p">)</span>
 
-<span class="c1"># Plot the ROI on top of the temperature anomalies map</span>
-<span class="n">roi_gdf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;yellow&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
-
-<span class="c1"># Add title and labels</span>
+<span class="c1"># Title and labels</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;July 2022 Temperature Anomaly Relative to 1991–2020 Baseline Average&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Longitude&quot;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Latitude&quot;</span><span class="p">)</span>
 
-<span class="c1"># Customize the colorbar</span>
+<span class="c1"># Colorbar</span>
 <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">temperature_plot</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">,</span> <span class="n">fraction</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.06</span><span class="p">)</span>
 <span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;Temperature Anomaly (°F)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 <span class="n">cbar</span><span class="o">.</span><span class="n">outline</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-
-<span class="c1"># Set colorbar ticks in Fahrenheit</span>
 <span class="n">cbar</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">([</span><span class="o">-</span><span class="mi">11</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">11</span><span class="p">])</span>
 <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
 <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_label_position</span><span class="p">(</span><span class="s1">&#39;top&#39;</span><span class="p">)</span>
 
-<span class="c1"># Show the plot</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/16b243a3f18f206850a8fbee410f744a0740989eaf928fd821f9d2a1064f9e94.png" src="../_images/16b243a3f18f206850a8fbee410f744a0740989eaf928fd821f9d2a1064f9e94.png" />
+<img alt="../_images/f9b12d2aee37bb92238307a2705d5731e7a7d6b4d6ec9ab8d6a7ee42741db612.png" src="../_images/f9b12d2aee37bb92238307a2705d5731e7a7d6b4d6ec9ab8d6a7ee42741db612.png" />
 </div>
 </div>
-<section id="figure-1">
-<h5>Figure 1<a class="headerlink" href="#figure-1" title="Link to this heading">#</a></h5>
-<p>July 2022 Temperature Anomaly Relative to 1991–2020 Baseline Average (°F) using the <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land-monthly-means?tab=overview">reanalysis-era5-land-monthly-means</a> dataset from the CDS. The yellow rectangle is marked for comparison purposes that will be used in the next subtitle.</p>
+<p><em>Figure 1. July 2022 2-meter temperature anomaly (°F) relative to 1991–2020 baseline, calculated using the ERA5-Land dataset.</em></p>
 <p><img alt="Temperature--Monthly--Difference-from-average--CONUS--2022-07-00--small.png" src="../_images/a6d0c358-1287-4042-9cb0-5f5dd7aa2c6b.png" /></p>
+<p><em>Figure 2. July 2022 average temperature anomaly (°F) relative to 1991–2020 baseline produced by NOAA using NClimGrid. Source: NOAA (Download Directories), 2022 <a class="reference external" href="https://www.climate.gov/data/Temperature--Monthly--Difference-from-average--CONUS/01-small/Temperature--Monthly--Difference-from-average--CONUS--2022-07-00--small.png" rel="noreferrer" target="_blank">[2]</a>.</em></p>
+<p>In general, the temperature anomalies shown in Figures 1 and 2 are quite similar. Both indicate a major positive anomaly in average temperature across Texas, Oklahoma, and parts of Arkansas, Missouri, and Kansas during July 2022. Most of the rest of the country also experienced positive anomalies, though of smaller magnitude than in those states.</p>
+<p>Some regional differences appear between Figures 1 and 2, particularly in areas with slight negative anomalies. In South Carolina, Georgia, and Alabama, ERA5-Land shows a slight negative anomaly, while NClimGrid depicts near-normal conditions (white). The negative anomalies along the California coast and around the Great Lakes are more pronounced with ERA5-Land than with NClimGrid. Conversely, northern Kansas, Missouri, and Illinois display a negative anomaly in Figure 2 (NClimGrid), whereas Figure 2 (ERA5-Land) shows temperatures closer to normal in those areas.</p>
+<p>Differences between the two datasets are expected, as ERA5-Land and NClimGrid obtain temperature information in fundamentally different ways. ERA5-Land is a reanalysis product that uses ERA5 atmospheric data as forcing but runs the land surface model at a higher spatial resolution. It does not assimilate observations directly, yet it benefits indirectly from ERA5’s data assimilation of various atmospheric variables used in the forcing fields.</p>
+<p>In contrast, the NOAA Monthly U.S. Climate Gridded Dataset (NClimGrid) is an observational product derived from temperature and precipitation measurements in the Global Historical Climatology Network–Daily (GHCN-D). The second version of NClimGrid incorporates data from 10,325 temperature and 14,702 precipitation stations across the contiguous United States. The dataset is produced on a 5 × 5 km grid, where missing grid cells are filled using a climatologically aided interpolation.</p>
+<p>The climatologically aided interpolation requires the calculation of three main grids:</p>
+<p>i) Normal grid: A baseline grid of climate normals (long-term averages) is generated for each station, month, and variable. These normals are then interpolated to the 5 km grid using a thin-plate smoothing spline method.</p>
+<p>ii) Anomaly grid: Anomalies are calculated for each station, year, and month relative to the corresponding climate normal. The resulting anomalies are interpolated to the grid using inverse-distance weighting.</p>
+<p>iii) Composite grid: Obtained by combining the anomaly and normal grids.</p>
+<p>It is important to note that the temperature data collected from weather stations consist of daily maximum and minimum temperatures. The average temperature is estimated as the mean of the minimum and the maximum <a class="reference external" href="https://www.climate.gov/maps-data/data-snapshots/data-source/temperature-us-monthly-difference-average" rel="noreferrer" target="_blank">[3]</a> <a class="reference external" href="https://doi.org/10.1175/JAMC-D-13-0248.1" rel="noreferrer" target="_blank">[4]</a>.</p>
 </section>
 </section>
-<section id="figure-2">
-<h4>Figure 2<a class="headerlink" href="#figure-2" title="Link to this heading">#</a></h4>
-<p>July 2022 Temperature Anomaly Relative to 1991–2020 Baseline Average (°F) downloaded from the NOAA (Download Directories) <a class="reference external" href="https://www.climate.gov/data/Temperature--Monthly--Difference-from-average--CONUS/01-small/Temperature--Monthly--Difference-from-average--CONUS--2022-07-00--small.png">[3]</a>.</p>
-<p>The data used to create Figure 2 were sourced from the NOAA Monthly U.S. Climate Gridded Dataset (NClimGrid) product. This dataset is based on daily temperature readings from the Global Historical Climatology Network (GHCN-D). Volunteers or automated instruments collect record the highest and lowest temperatures of the day throughout the month. After quality control checks, scientists calculate monthly averages for each station and plot them on a 5x5 km grid. Missing grid values are estimated through interpolation, considering station distribution and physical factors like elevation <a class="reference external" href="https://www.climate.gov/maps-data/data-snapshots/data-source/temperature-us-monthly-difference-average">[4]</a>.</p>
-</section>
-<section id="anomalies-inside-roi">
-<h4>Anomalies inside ROI<a class="headerlink" href="#anomalies-inside-roi" title="Link to this heading">#</a></h4>
-<p>The anomalies over time will be plotted for the 2 meter temperature in the yellow rectangle in Figure 1. This poligon was chosen because this area heve negative values in the reference map from NOAA (Figure 2).</p>
+<section id="spatial-mean-temperatures-comparison">
+<span id="reanalysis-reanalysis-era5-land-monthly-means-extremes-detection-q02-section-3"></span><h3>3. Spatial mean temperatures comparison<a class="headerlink" href="#spatial-mean-temperatures-comparison" title="Link to this heading">#</a></h3>
+<p>The NOAA National Centers for Environmental Information (NCEI) publishes monthly National Climate Reports. According to the report for July 2022, that month ranked as the third warmest July (up to 2022) for the contiguous United States, with an average temperature of 76.4°F. In Texas, the average temperature reached 87.3°F, making it the second warmest month in the state’s history, surpassed only by August 2011, which averaged 89.5°F (also up to 2022) <a class="reference external" href="https://www.ncei.noaa.gov/access/monitoring/monthly-report/national/202207" rel="noreferrer" target="_blank">[5]</a>.</p>
+<p>For comparison, the following averages were calculated using ERA5-Land reanalysis data:</p>
 <div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the fixed rectangular ROI coordinates (bottom-left and top-right corners)</span>
-<span class="n">min_lon</span><span class="p">,</span> <span class="n">min_lat</span> <span class="o">=</span> <span class="o">-</span><span class="mf">97.21110</span><span class="p">,</span> <span class="mf">39.56304</span>  <span class="c1"># Bottom-left corner</span>
-<span class="n">max_lon</span><span class="p">,</span> <span class="n">max_lat</span> <span class="o">=</span> <span class="o">-</span><span class="mf">96.23873</span><span class="p">,</span> <span class="mf">40.25180</span>  <span class="c1"># Top-right corner</span>
-
-<span class="c1"># Create a rectangle using the coordinates (define corners)</span>
-<span class="n">roi_coords</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">(</span><span class="n">min_lon</span><span class="p">,</span> <span class="n">min_lat</span><span class="p">),</span>  <span class="c1"># Bottom-left corner</span>
-    <span class="p">(</span><span class="n">min_lon</span><span class="p">,</span> <span class="n">max_lat</span><span class="p">),</span>  <span class="c1"># Top-left corner</span>
-    <span class="p">(</span><span class="n">max_lon</span><span class="p">,</span> <span class="n">max_lat</span><span class="p">),</span>  <span class="c1"># Top-right corner</span>
-    <span class="p">(</span><span class="n">max_lon</span><span class="p">,</span> <span class="n">min_lat</span><span class="p">),</span>  <span class="c1"># Bottom-right corner</span>
-    <span class="p">(</span><span class="n">min_lon</span><span class="p">,</span> <span class="n">min_lat</span><span class="p">)</span>   <span class="c1"># Closing the polygon</span>
-<span class="p">]</span>
-
-<span class="c1"># Create a Polygon from the coordinates</span>
-<span class="n">roi_polygon</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">Polygon</span><span class="p">(</span><span class="n">roi_coords</span><span class="p">)</span>
-
-<span class="c1"># Create a GeoDataFrame for the ROI</span>
-<span class="n">roi_gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span>
-    <span class="p">{</span><span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">roi_polygon</span><span class="p">]},</span> <span class="n">crs</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span>
-<span class="p">)</span>
-
-<span class="c1"># Clip function modification to accept GeoDataFrame</span>
-<span class="k">def</span> <span class="nf">clip_data_with_roi</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">roi_gdf</span><span class="p">):</span>
-    <span class="c1"># Ensure CRS consistency</span>
-    <span class="n">roi_crs</span> <span class="o">=</span> <span class="s2">&quot;EPSG:4326&quot;</span>
-    <span class="n">roi_gdf</span> <span class="o">=</span> <span class="n">roi_gdf</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">roi_crs</span><span class="p">)</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">set_spatial_dims</span><span class="p">(</span><span class="n">x_dim</span><span class="o">=</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="n">y_dim</span><span class="o">=</span><span class="s2">&quot;latitude&quot;</span><span class="p">)</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">write_crs</span><span class="p">(</span><span class="n">roi_crs</span><span class="p">)</span>
-
-    <span class="c1"># Clip the data using the ROI geometry</span>
-    <span class="n">data_clip</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
-        <span class="n">roi_gdf</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">mapping</span><span class="p">),</span> <span class="n">roi_gdf</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">False</span>
-    <span class="p">)</span>
-    <span class="k">return</span> <span class="n">data_clip</span>
-
-<span class="c1"># Example usage with ROI GeoDataFrame</span>
-<span class="n">da_roi</span> <span class="o">=</span> <span class="n">clip_data_with_roi</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">roi_gdf</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">da_july_2022_spatial_mean_usa</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">da_july_2022</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </details>
 </div>
 <div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Baseline 1991-2020</span>
-<span class="n">da_roi_july_baseline</span> <span class="o">=</span> <span class="n">compute_time_weighted_mean</span><span class="p">(</span><span class="n">da_roi</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">1991</span><span class="p">,</span> <span class="mi">2020</span><span class="p">)</span>
-<span class="n">da_roi_july_baseline_mean_time</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">time_weighted_mean</span><span class="p">(</span><span class="n">da_roi_july_baseline</span><span class="p">)</span>
-<span class="n">da_roi_july_baseline_mean_time_space</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">da_roi_july_baseline_mean_time</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert baseline mean to a scalar (assuming it&#39;s spatially uniform for simplicity)</span>
-<span class="n">baseline_mean</span> <span class="o">=</span> <span class="n">da_roi_july_baseline_mean_time_space</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-
-<span class="c1"># Define the range of years</span>
-<span class="n">start_year</span> <span class="o">=</span> <span class="mi">1961</span>
-<span class="n">end_year</span> <span class="o">=</span> <span class="mi">2024</span>
-<span class="n">years</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-
-<span class="c1"># Compute differences for July of each year</span>
-<span class="n">differences</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
-    <span class="c1"># Extract the first day of July for the given year</span>
-    <span class="n">da_july</span> <span class="o">=</span> <span class="n">da_roi</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">forecast_reference_time</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">-07-01&quot;</span><span class="p">)</span>
-    <span class="n">da_july_space</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">da_july</span><span class="p">)</span>
-    <span class="c1"># Calculate the spatial mean for the selected day&#39;s data</span>
-    <span class="n">da_july_mean</span> <span class="o">=</span> <span class="n">da_july_space</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>  <span class="c1"># Assuming it reduces to a single value</span>
-    <span class="c1"># Calculate the difference with the baseline mean</span>
-    <span class="n">diff</span> <span class="o">=</span> <span class="n">da_july_mean</span> <span class="o">-</span> <span class="n">baseline_mean</span>
-    <span class="n">differences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the differences</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">differences</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Difference from Baseline&#39;</span><span class="p">)</span>
-
-<span class="c1"># Highlight the 2022 value in red</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">2022</span><span class="p">,</span> <span class="n">differences</span><span class="p">[</span><span class="mi">2022</span> <span class="o">-</span> <span class="n">start_year</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;2022 Difference: </span><span class="si">{</span><span class="n">differences</span><span class="p">[</span><span class="mi">2022</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_year</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> °F&quot;</span><span class="p">)</span>
-
-<span class="c1"># Baseline (horizontal line at y=0)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Baseline (1991-2020)&#39;</span><span class="p">)</span>
-
-<span class="c1"># Title and labels</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;July Temperature Differences from Baseline (1991-2020) in ROI&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Year&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Temperature Difference (°F)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-
-<span class="c1"># Grid and legend</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-
-<span class="c1"># Adjust layout</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-
-<span class="c1"># Show plot</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Contiguous U.S. average temperature during July, 2022: </span><span class="si">{</span><span class="n">da_july_2022_spatial_mean_usa</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> °F&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/a735fb0676f575acd74d935322790e7954d8a2fb4ac3eb5baad8a38286b49909.png" src="../_images/a735fb0676f575acd74d935322790e7954d8a2fb4ac3eb5baad8a38286b49909.png" />
-</div>
-</div>
-<section id="figure-3">
-<h5>Figure 3<a class="headerlink" href="#figure-3" title="Link to this heading">#</a></h5>
-<p>July 2022 Temperature Anomaly Relative to 1991–2020 Baseline Average (°F) inside the ROI marked in yellow in Figure 1.</p>
-</section>
-</section>
-<section id="comparison">
-<h4>Comparison<a class="headerlink" href="#comparison" title="Link to this heading">#</a></h4>
-<p>When comparing the CDS data (Figure 1) and NOAA data (Figure 2), the results are largely consistent, particularly in the red zones (indicating warmer-than-normal areas), where the shapes and intensities of the darkest red regions align closely. However, some differences are noticeable in the blue zones (cooler-than-normal areas), which are fewer and more scattered. For instance, in the yellow-highlighted region in Figure 1, between of Nebraska and Kansas, the NOAA data shows this area as cooler than the 1991–2020 average. In contrast, the ERA5-Land data indicates that the average temperature inside the ROI was slightly above the baseline, specifically by 1.29 °F (Figure 3).</p>
-</section>
-</section>
-<section id="temperature-record-in-texas">
-<span id="reanalysis-reanalysis-era5-land-monthly-means-extremes-detection-q02-section-3"></span><h3>3. Temperature record in Texas<a class="headerlink" href="#temperature-record-in-texas" title="Link to this heading">#</a></h3>
-<p>Clip data to the state of Texas and plot the average temperature in this state in July over from 1961.</p>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">shapefile_path_tx</span> <span class="o">=</span> <span class="s2">&quot;/data/wp5/trigoso_camila/ERA5land/US_states/texas.shp&quot;</span> <span class="c1">#Obtained from the US Census Bureau</span>
-<span class="n">da_clipped_tx</span> <span class="o">=</span> <span class="n">clip_shapefile</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">shapefile_path_tx</span><span class="p">)</span>
-
-<span class="c1"># Spatial weighted mean</span>
-<span class="n">da_spatial_mean_tx</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">da_clipped_tx</span><span class="p">)</span>
-
-<span class="c1"># Convert the xarray DataArray to a DataFrame, keeping only &#39;forecast_reference_time&#39; and &#39;t2m&#39;</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">da_spatial_mean_tx</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;t2m&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-
-<span class="c1"># Keep only the necessary columns</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;forecast_reference_time&#39;</span><span class="p">,</span> <span class="s1">&#39;t2m&#39;</span><span class="p">]]</span>
-
-<span class="c1"># Convert &#39;forecast_reference_time&#39; to datetime if it&#39;s not already</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;forecast_reference_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;forecast_reference_time&#39;</span><span class="p">])</span>
-
-<span class="c1"># Filter for July in both periods</span>
-<span class="n">df_july</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;forecast_reference_time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="mi">7</span><span class="p">])]</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Contiguous U.S. average temperature during July, 2022: 77.8 °F
 </pre></div>
 </div>
 </div>
-</details>
 </div>
 <div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate the 99th percentile of &#39;t2m&#39; in df_baseline_summer</span>
-<span class="n">percentile_95</span> <span class="o">=</span> <span class="n">df_july</span><span class="p">[</span><span class="s1">&#39;t2m&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.95</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select only Texas</span>
+<span class="n">texas</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="n">gdf</span><span class="p">[</span><span class="s2">&quot;NAME&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Texas&quot;</span><span class="p">]</span>
+<span class="n">da_clipped</span> <span class="o">=</span> <span class="n">da_clipped</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">write_crs</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-<span class="c1"># Plot the temperature data</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span><span class="n">dpi</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_july</span><span class="p">[</span><span class="s1">&#39;forecast_reference_time&#39;</span><span class="p">],</span> <span class="n">df_july</span><span class="p">[</span><span class="s1">&#39;t2m&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Temperature (t2m)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="c1"># Convert GeoSeries -&gt; list of Shapely geometries</span>
+<span class="n">texas_geom</span> <span class="o">=</span> <span class="n">texas</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">values</span>  <span class="c1"># or list(texas.geometry)</span>
 
-<span class="c1"># Add the horizontal line at the 95th percentile of t2m</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">percentile_95</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;95th Percentile (</span><span class="si">{</span><span class="n">percentile_95</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">°C)&#39;</span><span class="p">)</span>
+<span class="c1"># Clip</span>
+<span class="n">da_texas</span> <span class="o">=</span> <span class="n">da_clipped</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">texas_geom</span><span class="p">,</span> <span class="n">texas</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="c1"># Find the points where temperature is above the 99th percentile</span>
-<span class="n">above_percentile</span> <span class="o">=</span> <span class="n">df_july</span><span class="p">[</span><span class="n">df_july</span><span class="p">[</span><span class="s1">&#39;t2m&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">percentile_95</span><span class="p">]</span>
+<span class="n">da_tx_jul_2022</span> <span class="o">=</span> <span class="n">da_texas</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">forecast_reference_time</span><span class="o">=</span><span class="s2">&quot;2022-07-01&quot;</span><span class="p">)</span>
+<span class="n">da_tx_jul_2022_spatial_mean</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">da_tx_jul_2022</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Texas average temperature during July, 2022: </span><span class="si">{</span><span class="n">da_tx_jul_2022_spatial_mean</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> °F&quot;</span><span class="p">)</span>
 
-<span class="c1"># Annotate those points on the plot</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">above_percentile</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;forecast_reference_time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> 
-                 <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;forecast_reference_time&#39;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;t2m&#39;</span><span class="p">]),</span>
-                 <span class="n">textcoords</span><span class="o">=</span><span class="s2">&quot;offset points&quot;</span><span class="p">,</span>
-                 <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>  <span class="c1"># 5 points vertical offset</span>
-                 <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
-
-<span class="c1"># Labels and title</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Temperature (°F)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;July Temperature (1961-2024) in Texas&#39;</span><span class="p">)</span>
-
-<span class="c1"># Show legend</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-
-<span class="c1"># Rotate x-axis labels for readability</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
-
-<span class="c1"># Display the plot</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">da_tx_aug_2011</span> <span class="o">=</span> <span class="n">da_texas</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">forecast_reference_time</span><span class="o">=</span><span class="s2">&quot;2011-08-01&quot;</span><span class="p">)</span>
+<span class="n">da_tx_aug_2011_spatial_mean</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">da_tx_aug_2011</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Texas average temperature during August, 2011: </span><span class="si">{</span><span class="n">da_tx_aug_2011_spatial_mean</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> °F&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/754272be8a6219d71a358e4fec22d4014190eb07a29c4926fb385e301afcf47c.png" src="../_images/754272be8a6219d71a358e4fec22d4014190eb07a29c4926fb385e301afcf47c.png" />
-</div>
-</div>
-<section id="id1">
-<h4>Figure 3<a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
-<p>Historical July Average Temperatures in Texas (°F), 1961–2024</p>
-<p>Figure 3 shows that 2022 recorded the highest July temperature in Texas. Other instances of extreme temperatures in July in Texas occurred in 1980, 2011 and 2023. These other three extreme temperature events can also be found in literature <a class="reference external" href="https://www.twdb.texas.gov/publications/reports/limited_printing/doc/LP-187.pdf">[5]</a>, <a class="reference external" href="https://www.weather.gov/sjt/climate-heatdrought2011">[6]</a>, <a class="reference external" href="https://www.weather.gov/lub/events-2023-2023summer-heat">[7]</a>.</p>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">val2022</span> <span class="o">=</span> <span class="n">da_spatial_mean_tx</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">forecast_reference_time</span><span class="o">=</span><span class="s2">&quot;2022-07-01&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Texas average 2m temperature in July, 2022: </span><span class="se">\n</span><span class="si">{</span><span class="n">val2022</span><span class="o">.</span><span class="n">values</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> °F&quot;</span><span class="p">)</span>
-
-<span class="n">val2011</span> <span class="o">=</span> <span class="n">da_spatial_mean_tx</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">forecast_reference_time</span><span class="o">=</span><span class="s2">&quot;2011-08-01&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Texas average 2m temperature in August, 2011: </span><span class="se">\n</span><span class="si">{</span><span class="n">val2011</span><span class="o">.</span><span class="n">values</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> °F&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Texas average 2m temperature in July, 2022: 
-88.1 °F
-Texas average 2m temperature in August, 2011: 
-89.5 °F
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Texas average temperature during July, 2022: 88.1 °F
+Texas average temperature during August, 2011: 89.5 °F
 </pre></div>
 </div>
 </div>
 </div>
-<section id="table-1">
-<h5>Table 1<a class="headerlink" href="#table-1" title="Link to this heading">#</a></h5>
-<p>Average Temperatures in Texas (°F) comparison</p>
+<p><em>Table 1. Average Temperatures comparison</em></p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head"><p>Date</p></th>
-<th class="head"><p>CDS dataset T(°F)</p></th>
-<th class="head"><p>NOAA T(°F) <a class="reference external" href="https://www.ncei.noaa.gov/access/monitoring/monthly-report/national/202207">[2]</a></p></th>
+<tr class="row-odd"><th class="head"><p>Area</p></th>
+<th class="head"><p>Date</p></th>
+<th class="head"><p>ERA5-Land 2m T(°F)</p></th>
+<th class="head"><p>NOAA T(°F) <a class="reference external" href="https://www.ncei.noaa.gov/access/monitoring/monthly-report/national/202207" rel="noreferrer" target="_blank">[5]</a></p></th>
 <th class="head"><p>Difference T(°F)</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>July, 2022</p></td>
+<tr class="row-even"><td><p>Contiguous USA</p></td>
+<td><p>July, 2022</p></td>
+<td><p>77.8</p></td>
+<td><p>76.4</p></td>
+<td><p>1.4</p></td>
+</tr>
+<tr class="row-odd"><td><p>Texas</p></td>
+<td><p>July, 2022</p></td>
 <td><p>88.1</p></td>
 <td><p>87.3</p></td>
 <td><p>0.8</p></td>
 </tr>
-<tr class="row-odd"><td><p>August, 2011</p></td>
+<tr class="row-even"><td><p>Texas</p></td>
+<td><p>August, 2011</p></td>
 <td><p>89.5</p></td>
 <td><p>88.2</p></td>
 <td><p>1.3</p></td>
@@ -1082,37 +924,33 @@ Texas average 2m temperature in August, 2011:
 </tbody>
 </table>
 </div>
-</section>
-</section>
-<section id="id2">
-<h4>Comparison<a class="headerlink" href="#id2" title="Link to this heading">#</a></h4>
-<p>According to NOAA’s national monthly report for July 2022 <a class="reference external" href="https://www.ncei.noaa.gov/access/monitoring/monthly-report/national/202207">[2]</a>, July 2022 was the second warmest month recorded, with an average temperature of 87.3 °F, surpassed only by August 2011, when the temperature reached 88.2 °F. In contrast, according to the CDS data, the average July temperature in 2022 in the state of Texas was 88.1 °F, 0.8 °F higher than the NOAA-reported value. As presented in Table 1, the temperature in August 2011 is also different by 1.3 °F.</p>
-</section>
-<section id="analysis">
-<h4>Analysis<a class="headerlink" href="#analysis" title="Link to this heading">#</a></h4>
-<p>ERA5-Land provides valuable insights into temperature anomalies, especially for periods or regions with limited or no data available. In this study, we focused on the USA, where we could compare ERA5-Land data with official sources like NOAA. The results show some discrepancies between the ERA5-Land data and the NOAA’s published information. However, these differences are generally small, as shown in Table 1. It is important to note that, as explained under Figure 2, NOAA uses in situ measurements and interpolates for regions without data. This interpolation process could introduce its own errors. Given these uncertainties, the relatively small discrepancies between ERA5-Land and NOAA data serve as a positive indicator of ERA5-Land’s effectiveness. Overall, ERA5-Land proves to be a reliable resource for monitoring and analyzing temperature extremes, despite the small errors when compared to official sources.</p>
-<p>The ERA5-Land documentation mentions that the dataset is primarily based on the Tiled ECMWF Scheme for Surface Exchanges over Land (H-TESSEL), which uses version CY45R1 of the ECMWF Integrated Forecasting System (IFS). Including a brief explanation of how this system works in the documentation would be helpful for users to make a quick comparison with other datasets.</p>
-</section>
+<p>The results in the table show that the ERA5-Land 2m temperature tends to be slightly higher than the average temperature reported by NOAA. The differences range from 0.8 to 1.4 °F, indicating good overall agreement between the datasets.</p>
+<p>This discrepancy can be explained by the different methods used to calculate the averages. NOAA’s product computes the mean as the average of the daily maximum and minimum temperatures, whereas ERA5-Land provides hourly temperature data, which are averaged to produce daily and monthly means. Consequently, since probably more hours of the day during a heatwave event are closer to the daily maximum than to the minimum, the ERA5-Land averages tend to be slightly higher than NOAA’s mean of the daily extremes.</p>
+<p>The agreement between the anomalies shown in Figures 1 and 2, along with the close correspondence of the averages over large areas, provides confidence in the ERA5-Land results. It is also possible that the ERA5-Land averages better represent the true mean temperature, since they incorporate data from all hours of the day.</p>
 </section>
 </section>
 <section id="i-if-you-want-to-know-more">
 <h2>ℹ️ If you want to know more<a class="headerlink" href="#i-if-you-want-to-know-more" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>J. Muñoz-Sabater, Dutra, E., Agustí-Panareda, A., Albergel, C., Arduini, G., Balsamo, G., Boussetta, S., Choulga, M., Harrigan, S., Hersbach, H., Martens, B., Miralles, D. G., Piles, M., Rodríguez-Fernández, N. J., Zsoter, E., Buontempo, C., &amp; Thépaut, J.-N. (2021) ERA5-Land: A state-of-the-art global reanalysis dataset for land applications, Earth Syst. Sci. Data,13, 4349–4383. <a class="reference external" href="https://doi.org/10.5194/essd-13-4349-2021" rel="noreferrer" target="_blank"></a>.</p></li>
+<li><p>ECMWF (2025) ERA5-Land: data documentation. <a class="reference external" href="https://confluence.ecmwf.int/display/CKB/ERA5-Land%3A+data+documentation" rel="noreferrer" target="_blank"></a></p></li>
+<li><p>Xie, J., Tang, Q., Golaz, J.-C., &amp; Lin, W. (2024) Record High 2022 September-Mean Temperature in Western North America. Bull. Amer. Meteor. Soc. 105, E306–E312. <a class="reference external" href="https://doi.org/10.1175/BAMS-D-23-0148.1" rel="noreferrer" target="_blank"></a></p></li>
+<li><p>Meng, Y., Hao, Z., Zhang, Y., &amp; Feng, S. (2023) The 2022-like compound dry and hot extreme in the Northern Hemisphere: Extremeness, attribution, and projection. Atmos. Res. 295, 107009. <a class="reference external" href="https://doi.org/10.1016/j.atmosres.2023.107009" rel="noreferrer" target="_blank"></a></p></li>
+</ul>
 <section id="key-resources">
 <h3>Key resources<a class="headerlink" href="#key-resources" title="Link to this heading">#</a></h3>
 <p>Code libraries used:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://github.com/bopen/c3s-eqc-automatic-quality-control/tree/main/c3s_eqc_automatic_quality_control">C3S EQC custom functions</a>, <code class="docutils literal notranslate"><span class="pre">c3s_eqc_automatic_quality_control</span></code>,  prepared by <a class="reference external" href="https://www.bopen.eu/">BOpen</a></p></li>
+<li><p><a class="reference external" href="https://github.com/bopen/c3s-eqc-automatic-quality-control/tree/main/c3s_eqc_automatic_quality_control" rel="noreferrer" target="_blank">C3S EQC custom functions</a>, <code class="docutils literal notranslate"><span class="pre">c3s_eqc_automatic_quality_control</span></code>,  prepared by <a class="reference external" href="https://www.bopen.eu/" rel="noreferrer" target="_blank">B-Open</a></p></li>
 </ul>
 </section>
 <section id="references">
 <h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
-<p><a class="reference external" href="https://confluence.ecmwf.int/display/CKB/ERA5-Land%3A+data+documentation">[1]</a> CDS (2024). ERA5-Land: data documentation. CDS.</p>
-<p><a class="reference external" href="https://www.ncei.noaa.gov/access/monitoring/monthly-report/national/202207">[2]</a> National Centers for Environmental Information (2022). July 2022 National Climate Report. NOAA</p>
-<p><a class="reference external" href="https://www.climate.gov/data/Temperature--Monthly--Difference-from-average--CONUS/01-small/Temperature--Monthly--Difference-from-average--CONUS--2022-07-00--small.png">[3]</a> NOAA Climate (2023). Temperature–Monthly–Difference-from-average–CONUS–2022-07-00–small.png.</p>
-<p><a class="reference external" href="https://www.climate.gov/maps-data/data-snapshots/data-source/temperature-us-monthly-difference-average">[4]</a> NOAA Climate (2024). Temperature - US Monthly, Difference from Average.</p>
-<p><a class="reference external" href="https://www.twdb.texas.gov/publications/reports/limited_printing/doc/LP-187.pdf">[5]</a> Bomar, G. (1983). 1980: When scorching heat gripped Texas. Texas Department of Water Resources.</p>
-<p><a class="reference external" href="https://www.weather.gov/sjt/climate-heatdrought2011">[6]</a> National Weather Service (2011). The Heat and Drought of 2011.</p>
-<p><a class="reference external" href="https://www.weather.gov/lub/events-2023-2023summer-heat">[7]</a> National Weather Service (2023). Exceptional Heat of Summer 2023.</p>
+<p><a class="reference external" href="https://doi.org/10.1016/j.wace.2024.100722" rel="noreferrer" target="_blank">[1]</a> Yoon, D., Chen, J.-H., &amp; Seo, E. (2024). Contribution of land-atmosphere coupling in 2022 CONUS compound drought-heatwave events and implications for forecasting. Weather and Climate Extremes, 46, 100722.</p>
+<p><a class="reference external" href="https://www.climate.gov/data/Temperature--Monthly--Difference-from-average--CONUS/01-small/Temperature--Monthly--Difference-from-average--CONUS--2022-07-00--small.png" rel="noreferrer" target="_blank">[2]</a> NOAA Climate (2023). Temperature–Monthly–Difference-from-average–CONUS–2022-07-00–small.png.</p>
+<p><a class="reference external" href="https://www.climate.gov/maps-data/data-snapshots/data-source/temperature-us-monthly-difference-average" rel="noreferrer" target="_blank">[3]</a> NOAA Climate (2024). Temperature - US Monthly, Difference from Average.</p>
+<p><a class="reference external" href="https://doi.org/10.1175/JAMC-D-13-0248.1" rel="noreferrer" target="_blank">[4]</a> Vose, R. S., Applequist, S., Squires, M., Durre, I., Menne, M. J., Williams, C. N. Jr., Fenimore, C., Gleason, K., &amp; Arndt, D. (2014) Improved Historical Temperature and Precipitation Time Series for U.S. Climate Divisions. J. Appl. Meteor. Climatol. 53, 1232–1251.</p>
+<p><a class="reference external" href="https://www.ncei.noaa.gov/access/monitoring/monthly-report/national/202207" rel="noreferrer" target="_blank">[5]</a> National Centers for Environmental Information (2022). July 2022 National Climate Report. NOAA</p>
 </section>
 </section>
 </section>
@@ -1172,8 +1010,7 @@ Texas average 2m temperature in August, 2011:
             
             
               
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -1182,7 +1019,7 @@ Texas average 2m temperature in August, 2011:
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-monthly-temperature-anomalies-to-detect-extreme-temperature-events">🌍 Use case: Monthly temperature anomalies to detect extreme temperature events</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-using-monthly-temperature-anomalies-to-detect-and-monitor-heatwave-conditions-in-the-united-states">🌍 Use case: Using monthly temperature anomalies to detect and monitor heatwave conditions in the United States.</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
@@ -1194,28 +1031,11 @@ Texas average 2m temperature in August, 2011:
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#temperature-anomalies-nationwide">2. Temperature anomalies nationwide</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#calculation">Calculation</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-anomalies-nationwide">Plot anomalies nationwide</a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#figure-1">Figure 1</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#anomalies-calculation">Anomalies calculation</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-anomalies-nationwide">Plot anomalies nationwide</a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#figure-2">Figure 2</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#anomalies-inside-roi">Anomalies inside ROI</a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#figure-3">Figure 3</a></li>
-</ul>
-</li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison">Comparison</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#temperature-record-in-texas">3. Temperature record in Texas</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Figure 3</a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#table-1">Table 1</a></li>
-</ul>
-</li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Comparison</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis">Analysis</a></li>
-</ul>
-</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spatial-mean-temperatures-comparison">3. Spatial mean temperatures comparison</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
@@ -1271,8 +1091,8 @@ By the Copernicus Climate Change Service (C3S), entrusted to ECMWF (European Cen
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>
