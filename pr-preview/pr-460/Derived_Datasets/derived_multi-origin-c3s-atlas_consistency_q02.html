@@ -467,10 +467,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-required-libraries">Import required libraries</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#define-indicators">Define indicators</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#helper-functions">Helper functions</a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#general">General</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#downloading-data">Downloading data</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#calculation-of-indicators">Calculation of indicators</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#data-pre-processing">Data (pre-)processing</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#data-downloading-pre-processing">Data downloading &amp; (pre-)processing</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#statistics">Statistics</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisation">Visualisation</a></li>
 </ul>
@@ -795,7 +792,7 @@ If any part of the code stops functioning, please raise an issue on our GitHub r
 <p>This notebook uses the <a class="reference external" href="https://github.com/ecmwf-projects/c3s-atlas" rel="noreferrer" target="_blank">User-tools for the C3S Atlas</a>, which can be installed from GitHub using <code class="docutils literal notranslate"><span class="pre">pip</span></code>.
 For convenience, the following cell can do this from within the notebook.
 Further details and alternative options for installing this library are available in its <a class="reference external" href="https://github.com/ecmwf-projects/c3s-atlas?tab=readme-ov-file#requirements" rel="noreferrer" target="_blank">documentation</a>.</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -812,7 +809,7 @@ Further details and alternative options for installing this library are availabl
 <section id="import-required-libraries">
 <h4>Import required libraries<a class="headerlink" href="#import-required-libraries" title="Link to this heading">#</a></h4>
 <p>In this section, we import all the relevant packages needed for running the notebook.</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -858,6 +855,11 @@ Further details and alternative options for installing this library are availabl
     <span class="kn">from</span><span class="w"> </span><span class="nn">myst_nb</span><span class="w"> </span><span class="kn">import</span> <span class="n">glue</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="n">glue</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="c1"># Type hints</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">earthkit.plots.geo.domains</span><span class="w"> </span><span class="kn">import</span> <span class="n">Domain</span>
+<span class="n">AnyDomain</span> <span class="o">=</span> <span class="p">(</span><span class="n">Domain</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -866,6 +868,9 @@ Further details and alternative options for installing this library are availabl
 </section>
 <section id="define-indicators">
 <h4>Define indicators<a class="headerlink" href="#define-indicators" title="Link to this heading">#</a></h4>
+<p>This section defines functions and variables for calculating and using the climate indicators.
+These are split into three cells, corresponding to their input and output data types.</p>
+<p>Daily data → Monthly indicators:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -875,100 +880,100 @@ Further details and alternative options for installing this library are availabl
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Daily data -&gt; Monthly indicators</span>
 <span class="c1"># Input: tas</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_t</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_t</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly mean of daily mean near-surface (2-metre) air temperature &quot;&quot;&quot;</span>
     <span class="n">ds_t</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;t&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_t</span>
 
 <span class="c1"># Input: tasmin</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_tn</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_tn</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly mean of daily minimum near-surface (2-metre) air temperature &quot;&quot;&quot;</span>
     <span class="n">ds_tn</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;tasmin&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;tn&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_tn</span> 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_tnn</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_tnn</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly minimum of daily minimum near-surface (2-metre) air temperature &quot;&quot;&quot;</span>
     <span class="n">ds_tnn</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;tasmin&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;tnn&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_tnn</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_tr</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_tr</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly count of tropical nights (days with minimum temperature above 20 degC) &quot;&quot;&quot;</span>
     <span class="n">ds_tr</span> <span class="o">=</span> <span class="n">xclim</span><span class="o">.</span><span class="n">indicators</span><span class="o">.</span><span class="n">atmos</span><span class="o">.</span><span class="n">tropical_nights</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;tasmin&#39;</span><span class="p">],</span> <span class="n">thresh</span><span class="o">=</span><span class="s1">&#39;20.0 degC&#39;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">,</span> <span class="n">op</span><span class="o">=</span><span class="s1">&#39;&gt;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;tr&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_tr</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_fd</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_fd</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly count of days with minimum near-surface (2-metre) temperature below 0 °C &quot;&quot;&quot;</span>
     <span class="n">ds_fd</span> <span class="o">=</span> <span class="n">xclim</span><span class="o">.</span><span class="n">indicators</span><span class="o">.</span><span class="n">atmos</span><span class="o">.</span><span class="n">frost_days</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;tasmin&#39;</span><span class="p">],</span> <span class="n">thresh</span><span class="o">=</span><span class="s1">&#39;0 degC&#39;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;fd&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_fd</span>
 
 <span class="c1"># Input: tasmax</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_tx</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_tx</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly mean of daily maximum near-surface (2-metre) air temperature &quot;&quot;&quot;</span>
     <span class="n">ds_tx</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;tasmax&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;tx&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_tx</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_txx</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_txx</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly maximum of daily maximum near-surface (2-metre) air temperature &quot;&quot;&quot;</span>
     <span class="n">ds_txx</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;tasmax&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;txx&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_txx</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_tx35</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_tx35</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly count of days with maximum near-surface (2-metre) temperature above 35 °C &quot;&quot;&quot;</span>
     <span class="n">ds_tx35</span> <span class="o">=</span> <span class="n">xclim</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">tx_days_above</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;tasmax&#39;</span><span class="p">],</span> <span class="n">thresh</span><span class="o">=</span><span class="s1">&#39;35.0 degC&#39;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">,</span> <span class="n">op</span><span class="o">=</span><span class="s1">&#39;&gt;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;tx35&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_tx35</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_tx40</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_tx40</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly count of days with maximum near-surface (2-metre) temperature above 40 °C &quot;&quot;&quot;</span>
     <span class="n">ds_tx40</span> <span class="o">=</span> <span class="n">xclim</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">tx_days_above</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;tasmax&#39;</span><span class="p">],</span> <span class="n">thresh</span><span class="o">=</span><span class="s1">&#39;40.0 degC&#39;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">,</span> <span class="n">op</span><span class="o">=</span><span class="s1">&#39;&gt;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;tx40&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_tx40</span>
 
 <span class="c1"># Input: tasmin + tasmax</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_dtr</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_dtr</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly mean of near-surface (2-metre) air temperature difference between the maximum and minimum daily temperature &quot;&quot;&quot;</span>
     <span class="n">ds_dtr</span> <span class="o">=</span> <span class="n">xclim</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">daily_temperature_range</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;tasmin&#39;</span><span class="p">],</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;tasmax&#39;</span><span class="p">],</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">,</span> <span class="n">op</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;dtr&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_dtr</span>
 
 <span class="c1"># Input: pr</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_r</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_r</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly mean of daily accumulated precipitation of liquid water equivalent from all phases &quot;&quot;&quot;</span>
     <span class="n">ds_r</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;pr&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_r</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_r01</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_r01</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly count of days with daily accumulated precipitation of liquid water equivalent from all phases above 1 mm &quot;&quot;&quot;</span>
     <span class="n">pr_flux</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;pr&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">assign_attrs</span><span class="p">(</span><span class="n">units</span> <span class="o">=</span> <span class="s1">&#39;mm/day&#39;</span><span class="p">)</span>
     <span class="n">per0</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">pr_flux</span><span class="p">)</span><span class="o">.</span><span class="n">assign_attrs</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="s1">&#39;mm/day&#39;</span><span class="p">)</span>
     <span class="n">ds_r01</span> <span class="o">=</span> <span class="n">xclim</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">days_over_precip_thresh</span><span class="p">(</span><span class="n">pr_flux</span><span class="p">,</span> <span class="n">per0</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="s1">&#39;1 mm/day&#39;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">,</span> <span class="n">bootstrap</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">op</span><span class="o">=</span><span class="s1">&#39;&gt;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;r01&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_r01</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_sdii</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_sdii</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly average of daily precipitation amount of liquid water equivalent from all phases on days with precipitation amount above or equal to 1 mm &quot;&quot;&quot;</span>
     <span class="n">pr_flux</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;pr&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">assign_attrs</span><span class="p">(</span><span class="n">units</span> <span class="o">=</span> <span class="s1">&#39;mm/day&#39;</span><span class="p">)</span>
     <span class="n">ds_sdii</span> <span class="o">=</span> <span class="n">xclim</span><span class="o">.</span><span class="n">indicators</span><span class="o">.</span><span class="n">atmos</span><span class="o">.</span><span class="n">daily_pr_intensity</span><span class="p">(</span><span class="n">pr_flux</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="s1">&#39;1 mm/day&#39;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">,</span> <span class="n">op</span><span class="o">=</span><span class="s1">&#39;&gt;=&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;sdii&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_sdii</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_r10</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>  
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_r10</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>  
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly count of days with daily accumulated precipitation of liquid water equivalent from all phases above 10 mm &quot;&quot;&quot;</span>
     <span class="n">pr_flux</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;pr&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">assign_attrs</span><span class="p">(</span><span class="n">units</span> <span class="o">=</span> <span class="s1">&#39;mm/day&#39;</span><span class="p">)</span>
     <span class="n">per0</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">pr_flux</span><span class="p">)</span><span class="o">.</span><span class="n">assign_attrs</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="s1">&#39;mm/day&#39;</span><span class="p">)</span>
     <span class="n">ds_r10</span> <span class="o">=</span> <span class="n">xclim</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">days_over_precip_thresh</span><span class="p">(</span><span class="n">pr_flux</span><span class="p">,</span> <span class="n">per0</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="s1">&#39;10 mm/day&#39;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">,</span> <span class="n">bootstrap</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">op</span><span class="o">=</span><span class="s1">&#39;&gt;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;r10&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_r10</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_r20</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_r20</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly count of days with daily accumulated precipitation of liquid water equivalent from all phases above 20 mm &quot;&quot;&quot;</span>
     <span class="n">pr_flux</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;pr&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">assign_attrs</span><span class="p">(</span><span class="n">units</span> <span class="o">=</span> <span class="s1">&#39;mm/day&#39;</span><span class="p">)</span>
     <span class="n">per0</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">pr_flux</span><span class="p">)</span><span class="o">.</span><span class="n">assign_attrs</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="s1">&#39;mm/day&#39;</span><span class="p">)</span>
     <span class="n">ds_r20</span> <span class="o">=</span> <span class="n">xclim</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">days_over_precip_thresh</span><span class="p">(</span><span class="n">pr_flux</span><span class="p">,</span> <span class="n">per0</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="s1">&#39;20 mm/day&#39;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">,</span> <span class="n">bootstrap</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">op</span><span class="o">=</span><span class="s1">&#39;&gt;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;r20&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_r20</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_rx1day</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_rx1day</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly maximum of 1-day accumulated precipitation of liquid water equivalent from all phases &quot;&quot;&quot;</span>
     <span class="n">pr_flux</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;pr&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">assign_attrs</span><span class="p">(</span><span class="n">units</span> <span class="o">=</span> <span class="s1">&#39;mm/day&#39;</span><span class="p">)</span>
     <span class="n">ds_rx1day</span> <span class="o">=</span> <span class="n">xclim</span><span class="o">.</span><span class="n">indicators</span><span class="o">.</span><span class="n">atmos</span><span class="o">.</span><span class="n">max_n_day_precipitation_amount</span><span class="p">(</span><span class="n">pr_flux</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;rx1day&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_rx1day</span>
 
 <span class="c1"># Input: pet</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_pet</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_pet</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly mean daily accumulated potential evapotranspiration (Hargreaves method, 1985), which is the rate at which evapotranspiration would occur under ambient conditions from a uniformly vegetated area when the water supply is not limiting &quot;&quot;&quot;</span>
     <span class="n">ds_pet</span> <span class="o">=</span> <span class="n">xclim</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">potential_evapotranspiration</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;tasmin&#39;</span><span class="p">],</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;tasmax&#39;</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;HG85&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;pet&#39;</span><span class="p">)</span>
     <span class="c1"># Convert to mm (assuming kg water /m² = mm)</span>
@@ -977,7 +982,7 @@ Further details and alternative options for installing this library are availabl
     <span class="k">return</span> <span class="n">ds_pet</span>
 
 <span class="c1"># Input: huss</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_huss</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_huss</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly amount of moisture in the air near the surface divided by amount of air plus moisture at that location &quot;&quot;&quot;</span>
     <span class="n">ds_huss</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;huss&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;huss&#39;</span><span class="p">)</span>
     <span class="c1"># Convert to g/kg</span>
@@ -986,19 +991,19 @@ Further details and alternative options for installing this library are availabl
     <span class="k">return</span> <span class="n">ds_huss</span>
 
 <span class="c1"># Defunct -- problems with units</span>
-<span class="c1"># def cal_rx5day(ds):</span>
+<span class="c1"># def cal_rx5day(ds: xr.Dataset) -&gt; xr.Dataset:</span>
 <span class="c1">#     &quot;&quot;&quot; Monthly maximum of 5-day accumulated precipitation of liquid water equivalent from all phases &quot;&quot;&quot;</span>
 <span class="c1">#     pr_flux = ds[&#39;pr&#39;].copy().assign_attrs(units = &#39;mm/day&#39;)</span>
 <span class="c1">#     ds_rx5day = xclim.indicators.atmos.max_n_day_precipitation_amount(pr_flux, window=5, freq=&#39;MS&#39;).to_dataset(name=&#39;rx5day&#39;)</span>
 <span class="c1">#     return ds_rx5day</span>
 
-<span class="c1"># def cal_spi6(ds):</span>
+<span class="c1"># def cal_spi6(ds: xr.Dataset) -&gt; xr.Dataset:</span>
 <span class="c1">#     &quot;&quot;&quot; Monthly index that compares accumulated precipitation for 6 months with the long-term precipitation distribution for the same location and accumulation period, as the number of standard deviations from the mean. The reference period corresponds to 1971-2010 &quot;&quot;&quot;</span>
 <span class="c1">#     pr_flux = ds[&#39;pr&#39;].copy().assign_attrs(units = &#39;mm/day&#39;)</span>
 <span class="c1">#     ds_spi6 = xclim.indices.standardized_precipitation_index(pr_flux, freq=&#39;MS&#39;, window=6, dist=&#39;gamma&#39;, method=&#39;ML&#39;).to_dataset(name=&#39;spi6&#39;)</span>
 <span class="c1">#     return ds_spi6</span>
 
-<span class="c1"># def cal_spei6(ds):</span>
+<span class="c1"># def cal_spei6(ds: xr.Dataset) -&gt; xr.Dataset:</span>
 <span class="c1">#      &quot;&quot;&quot; Monthly index that compares accumulated precipitation minus potential evapotranspiration (Hargreaves method, 1985) for 6 months with the long-term distribution for the same location and accumulation period, as the number of standard deviations from the mean. The reference period corresponds to 1971-2010 &quot;&quot;&quot;</span>
 <span class="c1">#     pr_flux = ds[&#39;pr&#39;].copy().assign_attrs(units = &#39;mm/day&#39;)</span>
 <span class="c1">#     ds_spei6 = xclim.indices.standardized_precipitation_index(pr_flux, freq=&#39;MS&#39;, window=6, dist=&#39;gamma&#39;, method=&#39;ML&#39;).to_dataset(name=&#39;spei6&#39;)</span>
@@ -1008,6 +1013,7 @@ Further details and alternative options for installing this library are availabl
 </div>
 </details>
 </div>
+<p>Monthly data → Monthly indicators:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1017,55 +1023,55 @@ Further details and alternative options for installing this library are availabl
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Monthly data -&gt; Monthly indicators</span>
 <span class="c1"># Input: evpsbl</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_evspsbl</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_evspsbl</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly mean of daily amount of water in the atmosphere due to conversion of both liquid and solid phases to vapor (from underlying surface and vegetation) &quot;&quot;&quot;</span>
     <span class="n">ds_evspsbl</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;evspsbl&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;evspsbl&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_evspsbl</span>
 
 <span class="c1"># Input: mrsos</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_mrsos</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_mrsos</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly soil shallow moisture content, as the vertical sum per unit area of water in all phases contained in the upper soil portion to a depth of 7 to 10 cm (depending on the dataset) &quot;&quot;&quot;</span>
     <span class="n">ds_mrsos</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;mrsos&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;mrsos&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_mrsos</span>
 
 <span class="c1"># Input: mrro</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_mrro</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_mrro</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly mean of daily amount per unit area of surface and subsurface liquid water which drains from land &quot;&quot;&quot;</span>
     <span class="n">ds_mrro</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;mrro&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;mrro&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_mrro</span>
 
 <span class="c1"># Input: prsn</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_prsn</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_prsn</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly mean of daily accumulated liquid water equivalent thickness snowfall &quot;&quot;&quot;</span>
     <span class="n">ds_prsn</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;prsn&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;prsn&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_prsn</span>
 
 <span class="c1"># Input: sfcWind</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_sfcwind</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_sfcwind</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly mean of daily mean near-surface (10-metre) wind speed &quot;&quot;&quot;</span>
     <span class="n">ds_sfcwind</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;sfcWind&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;sfcwind&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_sfcwind</span>
 
 <span class="c1"># Input: clt</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_clt</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_clt</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly mean cloud cover area percentage &quot;&quot;&quot;</span>
     <span class="n">ds_clt</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;clt&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;clt&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_clt</span>
 
 <span class="c1"># Input: rsds</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_rsds</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_rsds</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly mean incident solar (shortwave) radiation that reaches a horizontal plane at the surface &quot;&quot;&quot;</span>
     <span class="n">ds_rsds</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;rsds&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;rsds&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_rsds</span>
 
 <span class="c1"># Input: rlds</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_rlds</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_rlds</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly mean incident thermal (longwave) radiation at the surface (during cloudless and overcast conditions) &quot;&quot;&quot;</span>
     <span class="n">ds_rlds</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;rlds&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;rlds&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_rlds</span>
 
 <span class="c1"># Input: psl</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_psl</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_psl</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Monthly average air pressure at mean sea level &quot;&quot;&quot;</span>
     <span class="n">ds_psl</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;psl&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;psl&#39;</span><span class="p">)</span>
     <span class="c1"># Convert to hPa</span>
@@ -1077,6 +1083,8 @@ Further details and alternative options for installing this library are availabl
 </div>
 </details>
 </div>
+<p>Monthly data → Yearly indicators.
+These yearly indicators are not used in the rest of the analysis, but are included as a jumping-off point for the reader’s own analysis.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1086,19 +1094,19 @@ Further details and alternative options for installing this library are availabl
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Daily data -&gt; Yearly indicators</span>
 <span class="c1"># Input: pr</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_cdd</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_cdd</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Annual maximum of consecutive days when daily accumulated precipitation amount is below 1 mm &quot;&quot;&quot;</span>
     <span class="n">pr_flux</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;pr&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">assign_attrs</span><span class="p">(</span><span class="n">units</span> <span class="o">=</span> <span class="s1">&#39;mm/day&#39;</span><span class="p">)</span>
     <span class="n">ds_cdd</span> <span class="o">=</span> <span class="n">xclim</span><span class="o">.</span><span class="n">indicators</span><span class="o">.</span><span class="n">atmos</span><span class="o">.</span><span class="n">maximum_consecutive_dry_days</span><span class="p">(</span><span class="n">pr_flux</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="s1">&#39;1 mm/day&#39;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;YS&#39;</span><span class="p">,</span> <span class="n">resample_before_rl</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;cdd&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_cdd</span>
 
 <span class="c1"># Input: tas + tasmin + tasmax</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_hd</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_hd</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Annual energy consumption to heat the deficit of temperature below 15.5 °C &quot;&quot;&quot;</span>
     <span class="n">ds_hd</span> <span class="o">=</span> <span class="n">c3s_atlas</span><span class="o">.</span><span class="n">indexes</span><span class="o">.</span><span class="n">heating_degree_days</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">],</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;tasmax&#39;</span><span class="p">],</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;tasmin&#39;</span><span class="p">],</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;YS&#39;</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="mf">15.5</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;hd&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_hd</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">cal_cd</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cal_cd</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Annual energy consumption to cool the excess of temperature above 22 °C &quot;&quot;&quot;</span>
     <span class="n">ds_cd</span> <span class="o">=</span> <span class="n">c3s_atlas</span><span class="o">.</span><span class="n">indexes</span><span class="o">.</span><span class="n">cooling_degree_days</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">],</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;tasmax&#39;</span><span class="p">],</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;tasmin&#39;</span><span class="p">],</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;YS&#39;</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;cd&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_cd</span>
@@ -1107,6 +1115,7 @@ Further details and alternative options for installing this library are availabl
 </div>
 </details>
 </div>
+<p>The following cell defines some convenience functions for calculating multiple indicators in a loop, grouped according to their input and output data types:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1193,11 +1202,42 @@ Further details and alternative options for installing this library are availabl
 
 <span class="c1"># indicators_monthly_names = list(indicators_monthly.keys())</span>
 <span class="n">indicators_annual_names</span>  <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">indicators_annual</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+
+<span class="c1"># Calculation of multiple indicators</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">calculate_indicators_daily2monthly</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Calculate all daily -&gt; monthly indicators and return consolidated dataset. &quot;&quot;&quot;</span>
+    <span class="n">ds_indicators</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="n">func</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">indicators_daily2monthly</span><span class="o">.</span><span class="n">items</span><span class="p">()],</span> <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;no_conflicts&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ds_indicators</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">calculate_indicators_monthly2monthly</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Calculate all monthly -&gt; monthly indicators and return consolidated dataset. &quot;&quot;&quot;</span>
+    <span class="n">ds_indicators</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="n">func</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">indicators_monthly2monthly</span><span class="o">.</span><span class="n">items</span><span class="p">()],</span> <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;no_conflicts&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ds_indicators</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">calculate_indicators_monthly</span><span class="p">(</span><span class="n">ds_daily</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">ds_monthly</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Calculate all daily/monthly -&gt; monthly indicators and return consolidated dataset. &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">):</span>  <span class="c1"># Catch repetitive warning from dask</span>
+        <span class="n">ds_daily2monthly</span>   <span class="o">=</span> <span class="n">calculate_indicators_daily2monthly</span><span class="p">(</span><span class="n">ds_daily</span><span class="p">)</span>
+        <span class="n">ds_monthly2monthly</span> <span class="o">=</span> <span class="n">calculate_indicators_monthly2monthly</span><span class="p">(</span><span class="n">ds_monthly</span><span class="p">)</span>
+
+    <span class="n">ds_indicators</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="n">ds_daily2monthly</span><span class="p">,</span> <span class="n">ds_monthly2monthly</span><span class="p">],</span> <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;no_conflicts&quot;</span><span class="p">,</span> <span class="n">join</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ds_indicators</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">calculate_indicators_annual</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Calculate all daily -&gt; annual indicators and return consolidated dataset. &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">):</span>  <span class="c1"># Catch repetitive divide-by-zero warning</span>
+        <span class="n">ds_indicators</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="n">func</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">indicators_daily2annual</span><span class="o">.</span><span class="n">items</span><span class="p">()],</span> <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;no_conflicts&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ds_indicators</span>
 </pre></div>
 </div>
 </div>
 </details>
 </div>
+<p>The following cell defines <a class="reference external" href="https://earthkit-plots.readthedocs.io/en/latest/_api/plots/styles/index.html" rel="noreferrer" target="_blank">earthkit-plots styles</a> for the indicators.
+These styles define the colour maps and colour bar ranges for each quantity.
+Earthkit-plots styles are explained further in the <a class="reference external" href="https://earthkit-plots.readthedocs.io/en/latest/examples/examples/examples.html#Styles" rel="noreferrer" target="_blank">corresponding documentation</a>.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1319,27 +1359,10 @@ Further details and alternative options for installing this library are availabl
 </section>
 <section id="helper-functions">
 <h4>Helper functions<a class="headerlink" href="#helper-functions" title="Link to this heading">#</a></h4>
-<section id="general">
-<h5>General<a class="headerlink" href="#general" title="Link to this heading">#</a></h5>
-<div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Type hints</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">earthkit.plots.geo.domains</span><span class="w"> </span><span class="kn">import</span> <span class="n">Domain</span>
-<span class="n">AnyDomain</span> <span class="o">=</span> <span class="p">(</span><span class="n">Domain</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-</section>
-<section id="downloading-data">
-<h5>Downloading data<a class="headerlink" href="#downloading-data" title="Link to this heading">#</a></h5>
+<p>This section defines some functions and variables used in the following analysis, allowing code cells in later sections to be shorter and ensuring consistency.</p>
+<section id="data-downloading-pre-processing">
+<h5>Data downloading &amp; (pre-)processing<a class="headerlink" href="#data-downloading-pre-processing" title="Link to this heading">#</a></h5>
+<p>The following functions help with downloading data from datasets with limits, by generating multiple CDS requests with similar parameters:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1365,29 +1388,7 @@ Further details and alternative options for installing this library are availabl
 </div>
 </details>
 </div>
-<div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select (multiple) years in a dataset</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">select_years_in_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">years</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Select only data for the given year(s). &quot;&quot;&quot;</span>
-    <span class="n">years_int</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">years</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">years_int</span><span class="p">))</span>
-
-<span class="c1"># Select one month in multiple datasets</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">select_month_in_multiple_datasets</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">month</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Select only data for the given month, in any year. &quot;&quot;&quot;</span>
-    <span class="n">data_month</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.month&quot;</span><span class="p">)[</span><span class="n">month</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">data_month</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
+<p>The following functions aid in sub-selecting data, e.g. selecting one model from the ensemble included in the C3S Atlas dataset or selecting data for a specific time frame:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1411,7 +1412,31 @@ Further details and alternative options for installing this library are availabl
 
     <span class="k">return</span> <span class="n">data_member</span>
 
-<span class="c1"># C3S Atlas dataset: Download all data, pulling out years and model members of interest</span>
+<span class="c1"># Select (multiple) years in a dataset</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_years_in_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">years</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Select only data for the given year(s). &quot;&quot;&quot;</span>
+    <span class="n">years_int</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">years</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">years_int</span><span class="p">))</span>
+
+<span class="c1"># Select one month in multiple datasets</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_month_in_multiple_datasets</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">month</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Select only data for the given month, in any year. &quot;&quot;&quot;</span>
+    <span class="n">data_month</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.month&quot;</span><span class="p">)[</span><span class="n">month</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">data_month</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>The following functions help with downloading C3S Atlas data for one specific ensemble member and a subset of the temporal range (e.g. one year):</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># C3S Atlas dataset: Download all data, pulling out years and model members of interest</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">_download_c3s_atlas_single</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">years</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">],</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Helper function for download_c3s_atlas_data_oneyear_onemember; download and process a single C3S Atlas request. &quot;&quot;&quot;</span>
     <span class="c1"># Download data</span>
@@ -1444,50 +1469,7 @@ Further details and alternative options for installing this library are availabl
 </div>
 </details>
 </div>
-</section>
-<section id="calculation-of-indicators">
-<h5>Calculation of indicators<a class="headerlink" href="#calculation-of-indicators" title="Link to this heading">#</a></h5>
-<div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculation of multiple indicators</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">calculate_indicators_daily2monthly</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Calculate all daily -&gt; monthly indicators and return consolidated dataset. &quot;&quot;&quot;</span>
-    <span class="n">ds_indicators</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="n">func</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">indicators_daily2monthly</span><span class="o">.</span><span class="n">items</span><span class="p">()],</span> <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;no_conflicts&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">ds_indicators</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">calculate_indicators_monthly2monthly</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Calculate all monthly -&gt; monthly indicators and return consolidated dataset. &quot;&quot;&quot;</span>
-    <span class="n">ds_indicators</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="n">func</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">indicators_monthly2monthly</span><span class="o">.</span><span class="n">items</span><span class="p">()],</span> <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;no_conflicts&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">ds_indicators</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">calculate_indicators_monthly</span><span class="p">(</span><span class="n">ds_daily</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">ds_monthly</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Calculate all daily/monthly -&gt; monthly indicators and return consolidated dataset. &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">):</span>  <span class="c1"># Catch repetitive warning from dask</span>
-        <span class="n">ds_daily2monthly</span>   <span class="o">=</span> <span class="n">calculate_indicators_daily2monthly</span><span class="p">(</span><span class="n">ds_daily</span><span class="p">)</span>
-        <span class="n">ds_monthly2monthly</span> <span class="o">=</span> <span class="n">calculate_indicators_monthly2monthly</span><span class="p">(</span><span class="n">ds_monthly</span><span class="p">)</span>
-        
-    <span class="n">ds_indicators</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="n">ds_daily2monthly</span><span class="p">,</span> <span class="n">ds_monthly2monthly</span><span class="p">],</span> <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;no_conflicts&quot;</span><span class="p">,</span> <span class="n">join</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">ds_indicators</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">calculate_indicators_annual</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Calculate all daily -&gt; annual indicators and return consolidated dataset. &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">):</span>  <span class="c1"># Catch repetitive divide-by-zero warning</span>
-        <span class="n">ds_indicators</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="n">func</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">indicators_daily2annual</span><span class="o">.</span><span class="n">items</span><span class="p">()],</span> <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;no_conflicts&quot;</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">ds_indicators</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-</section>
-<section id="data-pre-processing">
-<h5>Data (pre-)processing<a class="headerlink" href="#data-pre-processing" title="Link to this heading">#</a></h5>
+<p>The following functions handle the homogenisation of origin data to a consistent format using the <a class="reference external" href="https://ecmwf-projects.github.io/c3s-atlas/intro.html" rel="noreferrer" target="_blank">User-tools for the C3S Atlas</a>:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1515,6 +1497,8 @@ Further details and alternative options for installing this library are availabl
 </div>
 </details>
 </div>
+<p>The following functions handle regridding and interpolating data based on ESMF as implemented in the <a class="reference external" href="https://ecmwf-projects.github.io/c3s-atlas/intro.html" rel="noreferrer" target="_blank">User-tools for the C3S Atlas</a>.
+This step is explained in more detail in the relevant section below.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1523,7 +1507,7 @@ Further details and alternative options for installing this library are availabl
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Interpolation from native grid to C3S Atlas grid</span>
-<span class="c1"># Note: this only works for monthly, not for annual</span>
+<span class="c1"># Note: this only works for monthly, not annual indicators</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">interpolate</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">var_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Interpolate a dataset `ds` to the C3S Atlas grid for one variable `var_name` &quot;&quot;&quot;</span>
     <span class="n">int_attr</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;interpolation_method&quot;</span><span class="p">:</span> <span class="s2">&quot;conservative_normed&quot;</span><span class="p">,</span> 
@@ -1543,7 +1527,7 @@ Further details and alternative options for installing this library are availabl
     <span class="c1"># Ignore repeated warnings on [-90, 90] bounds</span>
     <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">):</span>
         <span class="n">data_interpolated</span> <span class="o">=</span> <span class="p">[</span><span class="n">interpolate</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">var_name</span><span class="p">)</span> <span class="k">for</span> <span class="n">var_name</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">]</span>
-    
+
     <span class="n">dataset_interpolated</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">data_interpolated</span><span class="p">,</span> <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;no_conflicts&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">dataset_interpolated</span>
 </pre></div>
@@ -1554,6 +1538,7 @@ Further details and alternative options for installing this library are availabl
 </section>
 <section id="statistics">
 <h5>Statistics<a class="headerlink" href="#statistics" title="Link to this heading">#</a></h5>
+<p>The following functions calculate the difference (absolute / relative) between datasets, handling metadata etc.:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1561,8 +1546,7 @@ Further details and alternative options for installing this library are availabl
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Statistics</span>
-<span class="c1"># Constants</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Constants</span>
 <span class="n">NONZERO_THRESHOLD</span> <span class="o">=</span> <span class="mf">1e-5</span>
 <span class="n">NONZERO_THRESHOLD_PCT</span> <span class="o">=</span> <span class="mf">0.1</span>
 
@@ -1607,6 +1591,7 @@ Further details and alternative options for installing this library are availabl
 </div>
 </details>
 </div>
+<p>The following functions calculate and display metrics for the difference between two datasets, e.g. mean and median deviation:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1673,6 +1658,7 @@ Further details and alternative options for installing this library are availabl
 </section>
 <section id="visualisation">
 <h5>Visualisation<a class="headerlink" href="#visualisation" title="Link to this heading">#</a></h5>
+<p>The following cells contain functions for plotting results, starting with some base helper functions (e.g. displaying in Jupyter Notebook or Jupyter Book style, adding textboxes with consistent formatting, etc.):</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1729,6 +1715,7 @@ Further details and alternative options for installing this library are availabl
 </div>
 </details>
 </div>
+<p>The following functions are also base helper functions, but specific to geospatial plots:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1752,6 +1739,7 @@ Further details and alternative options for installing this library are availabl
 </div>
 </details>
 </div>
+<p>The following cell contains functions for geospatial comparisons between datasets on their native grids or on a common grid (the latter also showing the per-pixel difference):</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1762,7 +1750,7 @@ Further details and alternative options for installing this library are availabl
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualisation: Plot indicators geospatially</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">geospatial_comparison_multiple_indicators</span><span class="p">(</span><span class="n">data1</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">data2</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">indicators</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">month</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
                                               <span class="n">label1</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">&quot;C3S Atlas dataset&quot;</span><span class="p">,</span> <span class="n">label2</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">&quot;Reproduced from origin&quot;</span><span class="p">,</span>
-                                              <span class="n">domain</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="n">Domain</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                              <span class="n">domain</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AnyDomain</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                               <span class="n">glue_label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ekp</span><span class="o">.</span><span class="n">Figure</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Plot a list of indicators in two datasets.</span>
@@ -1784,7 +1772,7 @@ Further details and alternative options for installing this library are availabl
         <span class="c1"># Plot individual datasets</span>
         <span class="n">subplots_data</span> <span class="o">=</span> <span class="n">_spatial_plot_append_subplots</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">data1_month</span><span class="p">,</span> <span class="n">data2_month</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">domain</span><span class="p">,</span> 
                                                       <span class="n">z</span><span class="o">=</span><span class="n">indicator</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">styles</span><span class="p">[</span><span class="n">indicator</span><span class="p">])</span>
-    
+
         <span class="c1"># Decorate: Text + Colour bar</span>
         <span class="c1"># _add_textbox_to_subplots(year, *subplots_data)</span>
         <span class="n">subplots_data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">indicator</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
@@ -1798,25 +1786,15 @@ Further details and alternative options for installing this library are availabl
     <span class="n">fig</span><span class="o">.</span><span class="n">land</span><span class="p">()</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">coastlines</span><span class="p">()</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;grid.linestyle&quot;</span><span class="p">])</span>
-    
+
     <span class="c1"># Show result</span>
     <span class="n">_glue_or_show</span><span class="p">(</span><span class="n">fig</span><span class="o">.</span><span class="n">fig</span><span class="p">,</span> <span class="n">glue_label</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualisation: Plot indicators geospatially</span>
+
+
+<span class="c1"># Visualisation: Plot indicators geospatially</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">geospatial_comparison_multiple_indicators_with_difference</span><span class="p">(</span><span class="n">data1</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">data2</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">indicators</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">month</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
                                                               <span class="n">label1</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">&quot;C3S Atlas dataset&quot;</span><span class="p">,</span> <span class="n">label2</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">&quot;Reproduced from origin&quot;</span><span class="p">,</span>
-                                                              <span class="n">domain</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="n">Domain</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                                              <span class="n">domain</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AnyDomain</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                                               <span class="n">glue_label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ekp</span><span class="o">.</span><span class="n">Figure</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Plot a list of indicators in two datasets.</span>
@@ -1843,7 +1821,7 @@ Further details and alternative options for installing this library are availabl
         <span class="c1"># Plot difference</span>
         <span class="n">subplot_diff</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_map</span><span class="p">(</span><span class="n">domain</span><span class="o">=</span><span class="n">domain</span><span class="p">)</span>
         <span class="n">subplot_diff</span><span class="o">.</span><span class="n">grid_cells</span><span class="p">(</span><span class="n">difference</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">indicator</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">styles</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">indicator</span><span class="si">}</span><span class="s2">_diff&quot;</span><span class="p">])</span>
-    
+
         <span class="c1"># Decorate: Text + Colour bar</span>
         <span class="n">subplots_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">indicator</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
         <span class="n">subplot_diff</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Δ </span><span class="si">{</span><span class="n">indicator</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
@@ -1857,7 +1835,7 @@ Further details and alternative options for installing this library are availabl
     <span class="n">fig</span><span class="o">.</span><span class="n">land</span><span class="p">()</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">coastlines</span><span class="p">()</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;grid.linestyle&quot;</span><span class="p">])</span>
-    
+
     <span class="c1"># Show result</span>
     <span class="n">_glue_or_show</span><span class="p">(</span><span class="n">fig</span><span class="o">.</span><span class="n">fig</span><span class="p">,</span> <span class="n">glue_label</span><span class="p">)</span>
 </pre></div>
@@ -1865,6 +1843,7 @@ Further details and alternative options for installing this library are availabl
 </div>
 </details>
 </div>
+<p>The following cell contains functions for histogram comparisons between datasets on their native grids or on a common grid (the latter also showing the per-pixel difference):</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1883,11 +1862,11 @@ Further details and alternative options for installing this library are availabl
     <span class="c1"># Setup indicators</span>
     <span class="n">n_indicators</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">indicators</span><span class="p">)</span>
     <span class="n">loop_indicators</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">indicators</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Plotting indicators&quot;</span><span class="p">,</span> <span class="n">leave</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    
+
     <span class="c1"># Create figure</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="n">n_indicators</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="p">,</span>
                             <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">n_indicators</span><span class="p">),</span> <span class="n">layout</span><span class="o">=</span><span class="s2">&quot;constrained&quot;</span><span class="p">,</span> <span class="n">squeeze</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    
+
     <span class="c1"># Plot histograms of data</span>
     <span class="c1"># Loop over rows / indicators</span>
     <span class="k">for</span> <span class="n">ax_row</span><span class="p">,</span> <span class="n">indicator</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">loop_indicators</span><span class="p">):</span>
@@ -1898,36 +1877,26 @@ Further details and alternative options for installing this library are availabl
 
             <span class="c1"># Create histogram</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
-    
+
             <span class="c1"># Labels</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">indicator</span><span class="p">)</span>
-    
+
         <span class="n">ax_row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Frequency&quot;</span><span class="p">)</span>
-        
+
         <span class="c1"># Identify panel</span>
         <span class="n">_add_textbox_to_subplots</span><span class="p">(</span><span class="n">indicator</span><span class="p">,</span> <span class="o">*</span><span class="n">ax_row</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    
+
     <span class="c1"># Titles on top</span>
     <span class="n">titles</span> <span class="o">=</span> <span class="p">[</span><span class="n">label1</span><span class="p">,</span> <span class="n">label2</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">title</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">titles</span><span class="p">,</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
-        
+
     <span class="c1"># Show result</span>
     <span class="n">_glue_or_show</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">glue_label</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualisation: Plot data + difference in histograms</span>
+
+
+<span class="c1"># Visualisation: Plot data + difference in histograms</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">histogram_comparison_by_indicator_with_difference</span><span class="p">(</span><span class="n">data1</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">data2</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">indicators</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span>
                                                       <span class="n">indicators_relative</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                                       <span class="n">label1</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">&quot;C3S Atlas dataset&quot;</span><span class="p">,</span> <span class="n">label2</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">&quot;Reproduced from origin&quot;</span><span class="p">,</span>
@@ -1947,7 +1916,7 @@ Further details and alternative options for installing this library are availabl
     <span class="c1"># Setup indicators</span>
     <span class="n">n_indicators</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">indicators</span><span class="p">)</span>
     <span class="n">loop_indicators</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">indicators</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Plotting indicators&quot;</span><span class="p">,</span> <span class="n">leave</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    
+
     <span class="c1"># Create figure</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="n">n_indicators</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                             <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">n_indicators</span><span class="p">),</span> <span class="n">layout</span><span class="o">=</span><span class="s2">&quot;constrained&quot;</span><span class="p">,</span> <span class="n">squeeze</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -1970,7 +1939,7 @@ Further details and alternative options for installing this library are availabl
         <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ax_row</span><span class="p">,</span> <span class="p">(</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">)):</span>
             <span class="c1"># Flatten data</span>
             <span class="n">d</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">indicator</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
-    
+
             <span class="c1"># Create histogram</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
 
@@ -1989,9 +1958,9 @@ Further details and alternative options for installing this library are availabl
                 <span class="n">ax_row</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">ax_row</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">difference_rel_here</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
-    
+
         <span class="n">ax_row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Frequency&quot;</span><span class="p">)</span>
-        
+
         <span class="c1"># Identify panel</span>
         <span class="n">_add_textbox_to_subplots</span><span class="p">(</span><span class="n">indicator</span><span class="p">,</span> <span class="o">*</span><span class="n">ax_row</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="n">right</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">_add_textbox_to_subplots</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Δ </span><span class="si">{</span><span class="n">indicator</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">ax_row</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">right</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -2008,12 +1977,12 @@ Further details and alternative options for installing this library are availabl
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Difference&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axs</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">ravel</span><span class="p">():</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;% Difference&quot;</span><span class="p">)</span>
-    
+
     <span class="c1"># Titles on top</span>
     <span class="n">titles</span> <span class="o">=</span> <span class="p">[</span><span class="n">label1</span><span class="p">,</span> <span class="n">label2</span><span class="p">,</span> <span class="s2">&quot;Difference&quot;</span><span class="p">,</span> <span class="s2">&quot;% Difference&quot;</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">title</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">titles</span><span class="p">,</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
-        
+
     <span class="c1"># Show result</span>
     <span class="n">_glue_or_show</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">glue_label</span><span class="p">)</span>
 </pre></div>
@@ -2029,7 +1998,9 @@ Further details and alternative options for installing this library are availabl
 <section id="download-data">
 <h4>Download data<a class="headerlink" href="#download-data" title="Link to this heading">#</a></h4>
 <p>This notebook uses <a class="reference external" href="https://github.com/ecmwf/earthkit-data" rel="noreferrer" target="_blank">earthkit-data</a> to download files from the CDS.
-If you intend to run this notebook multiple times, it is highly recommended that you <a class="reference external" href="https://earthkit-data.readthedocs.io/en/latest/guide/caching.html" rel="noreferrer" target="_blank">enable caching</a> to prevent having to download the same files multiple times.</p>
+If you intend to run this notebook multiple times, it is highly recommended that you <a class="reference external" href="https://earthkit-data.readthedocs.io/en/latest/guide/caching.html" rel="noreferrer" target="_blank">enable caching</a> to prevent having to download the same files multiple times.
+If you prefer not to use earthkit, the following requests can also be used with the <a class="reference external" href="https://cds.climate.copernicus.eu/how-to-api#linux-use-client-step" rel="noreferrer" target="_blank">cdsapi module</a>.
+In either case (earthkit-data or cdsapi), it is required to set up a CDS account and API key as explained <a class="reference external" href="https://cds.climate.copernicus.eu/how-to-api" rel="noreferrer" target="_blank">on the CDS website</a>.</p>
 <p>The first step is to define the parameters that will be shared between the download of the origin dataset (here CMIP6) and the C3S Atlas dataset (in the <a class="reference internal" href="#derived-multi-origin-c3s-atlas-consistency-q02-section-c3s-atlas"><span class="std std-ref">next section</span></a>), namely the experiment and model member.
 Next, the request to download the corresponding data from CMIP6 is defined,
 in this notebook choosing several daily and monthly variables
@@ -2080,7 +2051,7 @@ daily and monthly variables are downloaded separately.</p>
 </div>
 </details>
 </div>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -3225,7 +3196,7 @@ ocean: NEMO3.6 (ORCA1 tripolar primarly 1 deg lat/lon with meridional refinement
 ocnBgchem: BFM5.1
 seaIce: CICE4.0</dd><dt><span>source_id :</span></dt><dd>CMCC-ESM2</dd><dt><span>source_type :</span></dt><dd>AOGCM BGC</dd><dt><span>sub_experiment :</span></dt><dd>none</dd><dt><span>sub_experiment_id :</span></dt><dd>none</dd><dt><span>table_id :</span></dt><dd>day</dd><dt><span>table_info :</span></dt><dd>Creation Date:(05 February 2020) MD5:6a248fd76c55aa6d6f7b3cc6866b5faf</dd><dt><span>title :</span></dt><dd>CMCC-ESM2 output prepared for CMIP6</dd><dt><span>variable_id :</span></dt><dd>tas</dd><dt><span>variant_label :</span></dt><dd>r1i1p1f1</dd><dt><span>license :</span></dt><dd>CMIP6 model data produced by CMCC is licensed under a Creative Commons Attribution ShareAlike 4.0 International License (https://creativecommons.org/licenses). Consult https://pcmdi.llnl.gov/CMIP6/TermsOfUse for terms of use governing CMIP6 output, including citation requirements and proper acknowledgment. Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in this file) and at https:///pcmdi.llnl.gov/. The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose. All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law.</dd><dt><span>cmor_version :</span></dt><dd>3.6.0</dd><dt><span>tracking_id :</span></dt><dd>hdl:21.14100/25c823a7-e043-463c-a6b7-4a6f067f78a4</dd></dl></div></li></ul></div></div></div></div>
 </div>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -14549,10 +14520,7 @@ including the per-pixel difference.</span><a class="headerlink" href="#derived-m
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-required-libraries">Import required libraries</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#define-indicators">Define indicators</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#helper-functions">Helper functions</a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#general">General</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#downloading-data">Downloading data</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#calculation-of-indicators">Calculation of indicators</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#data-pre-processing">Data (pre-)processing</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#data-downloading-pre-processing">Data downloading &amp; (pre-)processing</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#statistics">Statistics</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisation">Visualisation</a></li>
 </ul>

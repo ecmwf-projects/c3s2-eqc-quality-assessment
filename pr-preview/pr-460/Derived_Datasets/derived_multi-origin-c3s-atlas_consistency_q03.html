@@ -467,9 +467,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-required-libraries">Import required libraries</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#define-indicators">Define indicators</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#helper-functions">Helper functions</a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#general">General</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#downloading-data">Downloading data</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#data-pre-processing">Data (pre-)processing</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#data-downloading-pre-processing">Data downloading &amp; (pre-)processing</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#statistics">Statistics</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisation">Visualisation</a></li>
 </ul>
@@ -738,7 +736,7 @@ If any part of the code stops functioning, please raise an issue on our GitHub r
 <p>This notebook uses the <a class="reference external" href="https://github.com/ecmwf-projects/c3s-atlas" rel="noreferrer" target="_blank">User-tools for the C3S Atlas</a>, which can be installed from GitHub using <code class="docutils literal notranslate"><span class="pre">pip</span></code>.
 For convenience, the following cell can do this from within the notebook.
 Further details and alternative options for installing this library are available in its <a class="reference external" href="https://github.com/ecmwf-projects/c3s-atlas?tab=readme-ov-file#requirements" rel="noreferrer" target="_blank">documentation</a>.</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -755,7 +753,7 @@ Further details and alternative options for installing this library are availabl
 <section id="import-required-libraries">
 <h4>Import required libraries<a class="headerlink" href="#import-required-libraries" title="Link to this heading">#</a></h4>
 <p>In this section, we import all the relevant packages needed for running the notebook.</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -801,6 +799,11 @@ Further details and alternative options for installing this library are availabl
     <span class="kn">from</span><span class="w"> </span><span class="nn">myst_nb</span><span class="w"> </span><span class="kn">import</span> <span class="n">glue</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="n">glue</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="c1"># Type hints</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">earthkit.plots.geo.domains</span><span class="w"> </span><span class="kn">import</span> <span class="n">Domain</span>
+<span class="n">AnyDomain</span> <span class="o">=</span> <span class="p">(</span><span class="n">Domain</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -809,6 +812,8 @@ Further details and alternative options for installing this library are availabl
 </section>
 <section id="define-indicators">
 <h4>Define indicators<a class="headerlink" href="#define-indicators" title="Link to this heading">#</a></h4>
+<p>This section defines functions and variables for calculating and using the climate indicators.</p>
+<p>The following cell includes a helper function (in the form of a decorator) to correctly propagate NaNs, which is important for datasets using land/sea masks:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -816,8 +821,7 @@ Further details and alternative options for installing this library are availabl
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">propagate_nan</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">propagate_nan</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Decorator that ensures propagation of NaNs: find them in the original data, create a mask, and apply it to the result. &quot;&quot;&quot;</span>
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">func_with_nan</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">propagate_nan</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
@@ -828,7 +832,7 @@ Further details and alternative options for installing this library are availabl
         <span class="c1"># This preserves integer data types</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">propagate_nan</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">indicator</span>
-        
+
         <span class="c1"># Infer input (var-iable), output (ind-icator) keys</span>
         <span class="n">var</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">ind</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">indicator</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
@@ -851,6 +855,7 @@ Further details and alternative options for installing this library are availabl
 </div>
 </details>
 </div>
+<p>The following cell contains functions for calculating the indicators described in the introduction:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -888,6 +893,9 @@ Further details and alternative options for installing this library are availabl
 </div>
 </details>
 </div>
+<p>The following cell defines <a class="reference external" href="https://earthkit-plots.readthedocs.io/en/latest/_api/plots/styles/index.html" rel="noreferrer" target="_blank">earthkit-plots styles</a> for the indicators.
+These styles define the colour maps and colour bar ranges for each quantity.
+Earthkit-plots styles are explained further in the <a class="reference external" href="https://earthkit-plots.readthedocs.io/en/latest/examples/examples/examples.html#Styles" rel="noreferrer" target="_blank">corresponding documentation</a>.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -932,27 +940,10 @@ Further details and alternative options for installing this library are availabl
 </section>
 <section id="helper-functions">
 <h4>Helper functions<a class="headerlink" href="#helper-functions" title="Link to this heading">#</a></h4>
-<section id="general">
-<h5>General<a class="headerlink" href="#general" title="Link to this heading">#</a></h5>
-<div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Type hints</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">earthkit.plots.geo.domains</span><span class="w"> </span><span class="kn">import</span> <span class="n">Domain</span>
-<span class="n">AnyDomain</span> <span class="o">=</span> <span class="p">(</span><span class="n">Domain</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-</section>
-<section id="downloading-data">
-<h5>Downloading data<a class="headerlink" href="#downloading-data" title="Link to this heading">#</a></h5>
+<p>This section defines some functions and variables used in the following analysis, allowing code cells in later sections to be shorter and ensuring consistency.</p>
+<section id="data-downloading-pre-processing">
+<h5>Data downloading &amp; (pre-)processing<a class="headerlink" href="#data-downloading-pre-processing" title="Link to this heading">#</a></h5>
+<p>The following functions help with downloading data from datasets with limits, by generating multiple CDS requests with similar parameters:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -965,15 +956,9 @@ Further details and alternative options for installing this library are availabl
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Given a dict `request` with iterable entries, for the given `key`, generate a list of dicts instead. &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">request</span> <span class="o">|</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="p">[</span><span class="n">item</span><span class="p">,]}</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">request</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span>
 
-<span class="c1"># Select (multiple) years in a dataset</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">select_years_in_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">years</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Select only data for the given year(s). &quot;&quot;&quot;</span>
-    <span class="n">years</span> <span class="o">=</span> <span class="p">[</span><span class="n">years</span><span class="p">,]</span> <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">))</span> <span class="k">else</span> <span class="n">years</span>  <span class="c1"># Deal with single year</span>
-    <span class="n">years_int</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">years</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">years_int</span><span class="p">))</span>
 
 <span class="c1"># SST-CCI: Generate monthly batches of requests</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">generate_dates_in_month</span><span class="p">(</span><span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">month</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_dates_in_month</span><span class="p">(</span><span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">month</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; For a given year + month, generate all valid dates (checked with datetime). &quot;&quot;&quot;</span>
     <span class="n">year</span><span class="p">,</span> <span class="n">month</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">month</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">day</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">):</span>
@@ -983,7 +968,7 @@ Further details and alternative options for installing this library are availabl
             <span class="k">continue</span>
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># Valid date</span>
             <span class="k">yield</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">day</span><span class="si">:</span><span class="s2">02</span><span class="si">}</span><span class="s2">&quot;</span>  <span class="c1"># 2-digit string format for CDS</span>
-    
+
 <span class="k">def</span><span class="w"> </span><span class="nf">generate_monthly_batches</span><span class="p">(</span><span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">month</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">11</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Generate batches of n days in the given year + month. &quot;&quot;&quot;</span>
     <span class="k">yield from</span> <span class="n">batched</span><span class="p">(</span><span class="n">generate_dates_in_month</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">),</span> <span class="n">n</span><span class="p">)</span>
@@ -1000,11 +985,11 @@ Further details and alternative options for installing this library are availabl
     <span class="k">return</span> <span class="n">request</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">generate_submonthly_requests</span><span class="p">(</span><span class="n">main_request</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">year</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; For a given `year`, generate batched requests of n days per month for every month. &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; For a given `year`, generate batched requests of ≤n days per month for every month. &quot;&quot;&quot;</span>
     <span class="n">year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
 
     <span class="c1"># Generate requests</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">create_submonthly_request</span><span class="p">(</span><span class="n">main_request</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day_batch</span><span class="p">)</span> 
+    <span class="k">return</span> <span class="p">[</span><span class="n">create_submonthly_request</span><span class="p">(</span><span class="n">main_request</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day_batch</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="n">MONTHS</span>  <span class="c1"># Requires MONTHS to be defined in the &quot;general setup&quot; section</span>
             <span class="k">for</span> <span class="n">day_batch</span> <span class="ow">in</span> <span class="n">generate_monthly_batches</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">)]</span>
 </pre></div>
@@ -1012,6 +997,7 @@ Further details and alternative options for installing this library are availabl
 </div>
 </details>
 </div>
+<p>The following functions aid in sub-selecting data, e.g. selecting one model from the ensemble included in the C3S Atlas dataset or selecting data for a specific time frame:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1019,7 +1005,14 @@ Further details and alternative options for installing this library are availabl
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># C3S Atlas dataset: Individual model selection</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select (multiple) years in a dataset</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_years_in_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">years</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Select only data for the given year(s). &quot;&quot;&quot;</span>
+    <span class="n">years</span> <span class="o">=</span> <span class="p">[</span><span class="n">years</span><span class="p">,]</span> <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">))</span> <span class="k">else</span> <span class="n">years</span>  <span class="c1"># Deal with single year</span>
+    <span class="n">years_int</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">years</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">years_int</span><span class="p">))</span>
+
+<span class="c1"># C3S Atlas dataset: Individual model selection</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">select_model_from_c3s_atlas_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Select only data for the given model. &quot;&quot;&quot;</span>
     <span class="c1"># Ensure the model ID is provided in the right format</span>
@@ -1048,9 +1041,7 @@ Further details and alternative options for installing this library are availabl
 </div>
 </details>
 </div>
-</section>
-<section id="data-pre-processing">
-<h5>Data (pre-)processing<a class="headerlink" href="#data-pre-processing" title="Link to this heading">#</a></h5>
+<p>The following functions handle <a class="reference external" href="https://docs.xarray.dev/en/latest/user-guide/dask.html" rel="noreferrer" target="_blank">data chunking in dask</a> for computational efficiency:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1076,6 +1067,7 @@ Further details and alternative options for installing this library are availabl
 </div>
 </details>
 </div>
+<p>The following functions handle the homogenisation of origin data to a consistent format using the <a class="reference external" href="https://ecmwf-projects.github.io/c3s-atlas/intro.html" rel="noreferrer" target="_blank">User-tools for the C3S Atlas</a>:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1097,6 +1089,8 @@ Further details and alternative options for installing this library are availabl
 </div>
 </details>
 </div>
+<p>The following functions handle regridding and interpolating data based on ESMF as implemented in the <a class="reference external" href="https://ecmwf-projects.github.io/c3s-atlas/intro.html" rel="noreferrer" target="_blank">User-tools for the C3S Atlas</a>.
+This step is explained in more detail in the relevant section below.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1121,18 +1115,6 @@ Further details and alternative options for installing this library are availabl
     <span class="n">INTER</span> <span class="o">=</span> <span class="n">xesmfCICA</span><span class="o">.</span><span class="n">Interpolator</span><span class="p">(</span><span class="n">int_attr</span><span class="p">)</span>
     <span class="n">ds_interp</span> <span class="o">=</span> <span class="n">INTER</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_interp</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">interpolate_sst</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">var_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
-                    <span class="n">lats</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">lons</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Interpolates a dataset `ds` for one variable `var_name`. Accepts any lat/lon range. &quot;&quot;&quot;</span>
-    <span class="n">int_attr</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;interpolation_method&quot;</span><span class="p">:</span> <span class="s2">&quot;conservative_normed&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;lats&quot;</span><span class="p">:</span> <span class="n">lats</span><span class="p">,</span>
-                <span class="s2">&quot;lons&quot;</span><span class="p">:</span> <span class="n">lons</span><span class="p">,</span>
-                <span class="s2">&quot;var_name&quot;</span><span class="p">:</span> <span class="n">var_name</span><span class="p">,</span>
-    <span class="p">}</span>
-    <span class="n">INTER</span> <span class="o">=</span> <span class="n">xesmfCICA</span><span class="o">.</span><span class="n">Interpolator</span><span class="p">(</span><span class="n">int_attr</span><span class="p">)</span>
-    <span class="n">ds_interp</span> <span class="o">=</span> <span class="n">INTER</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">ds_interp</span>
 </pre></div>
 </div>
 </div>
@@ -1141,6 +1123,7 @@ Further details and alternative options for installing this library are availabl
 </section>
 <section id="statistics">
 <h5>Statistics<a class="headerlink" href="#statistics" title="Link to this heading">#</a></h5>
+<p>The following functions calculate the difference (absolute / relative) between datasets, handling metadata etc.:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1148,8 +1131,7 @@ Further details and alternative options for installing this library are availabl
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Statistics</span>
-<span class="c1"># Constants</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Constants</span>
 <span class="n">NONZERO_THRESHOLD</span> <span class="o">=</span> <span class="mf">1e-5</span>
 <span class="n">NONZERO_THRESHOLD_PCT</span> <span class="o">=</span> <span class="mf">0.1</span>
 
@@ -1158,7 +1140,7 @@ Further details and alternative options for installing this library are availabl
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Calculate the difference between two datasets, preserving CRS and metadata. &quot;&quot;&quot;</span>
     <span class="c1"># Align</span>
     <span class="n">data1</span><span class="p">,</span> <span class="n">data2</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">align</span><span class="p">(</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">,</span> <span class="n">join</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    
+
     <span class="c1"># Subtract</span>
     <span class="n">data1</span><span class="p">,</span> <span class="n">data2</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">([</span><span class="s2">&quot;lat_bnds&quot;</span><span class="p">,</span> <span class="s2">&quot;lon_bnds&quot;</span><span class="p">,</span> <span class="s2">&quot;time_bnds&quot;</span><span class="p">,</span> <span class="s2">&quot;height&quot;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">(</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">)]</span>
     <span class="n">difference</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">ufuncs</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">data1</span><span class="p">[</span><span class="n">diff_variables</span><span class="p">],</span> <span class="n">data2</span><span class="p">[</span><span class="n">diff_variables</span><span class="p">])</span>
@@ -1197,6 +1179,7 @@ Further details and alternative options for installing this library are availabl
 </div>
 </details>
 </div>
+<p>The following functions calculate and display metrics for the difference between two datasets, e.g. mean and median deviation:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1279,6 +1262,7 @@ Further details and alternative options for installing this library are availabl
 </section>
 <section id="visualisation">
 <h5>Visualisation<a class="headerlink" href="#visualisation" title="Link to this heading">#</a></h5>
+<p>The following cells contain functions for plotting results, starting with some base helper functions (e.g. displaying in Jupyter Notebook or Jupyter Book style, adding textboxes with consistent formatting, etc.):</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1335,6 +1319,7 @@ Further details and alternative options for installing this library are availabl
 </div>
 </details>
 </div>
+<p>The following functions are also base helper functions, but specific to geospatial plots:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1358,6 +1343,7 @@ Further details and alternative options for installing this library are availabl
 </div>
 </details>
 </div>
+<p>The following cell contains functions for geospatial comparisons between datasets on their native grids or on a common grid (the latter also showing the per-pixel difference):</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1367,7 +1353,7 @@ Further details and alternative options for installing this library are availabl
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">geospatial_comparison_multiple_origins</span><span class="p">(</span><span class="n">data1</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">],</span> <span class="n">data2</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">],</span> <span class="n">indicator</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">date</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
                                            <span class="n">label1</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">&quot;C3S Atlas dataset&quot;</span><span class="p">,</span> <span class="n">label2</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">&quot;Reproduced from origin&quot;</span><span class="p">,</span>
-                                           <span class="n">domain</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="n">Domain</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                           <span class="n">domain</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AnyDomain</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                            <span class="n">glue_label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1378,10 +1364,10 @@ Further details and alternative options for installing this library are availabl
     <span class="n">common_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">data1</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">data2</span><span class="p">]</span>
     <span class="n">n_datasets</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">common_keys</span><span class="p">)</span>
     <span class="n">loop_origins</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">common_keys</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Plotting datasets&quot;</span><span class="p">,</span> <span class="n">leave</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    
+
     <span class="c1"># Create figure</span>
     <span class="n">fig</span> <span class="o">=</span> <span class="n">ekp</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">rows</span><span class="o">=</span><span class="n">n_datasets</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">7.5</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="o">*</span><span class="n">n_datasets</span><span class="p">)))</span>
-    
+
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">loop_origins</span><span class="p">:</span>
         <span class="n">data1_here</span><span class="p">,</span> <span class="n">data2_here</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">date</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">(</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">)]</span>
 
@@ -1405,25 +1391,15 @@ Further details and alternative options for installing this library are availabl
     <span class="n">fig</span><span class="o">.</span><span class="n">land</span><span class="p">()</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">coastlines</span><span class="p">()</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;grid.linestyle&quot;</span><span class="p">])</span>
-    
+
     <span class="c1"># Show result</span>
     <span class="n">_glue_or_show</span><span class="p">(</span><span class="n">fig</span><span class="o">.</span><span class="n">fig</span><span class="p">,</span> <span class="n">glue_label</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualisation: Plot indicators geospatially</span>
+
+
+<span class="c1"># Visualisation: Plot indicators geospatially</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">geospatial_comparison_multiple_origin_with_difference</span><span class="p">(</span><span class="n">data1</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">data2</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">indicator</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">date</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
                                                           <span class="n">label1</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">&quot;C3S Atlas dataset&quot;</span><span class="p">,</span> <span class="n">label2</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">&quot;Reproduced from origin&quot;</span><span class="p">,</span>
-                                                          <span class="n">domain</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="n">Domain</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                                          <span class="n">domain</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AnyDomain</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                                           <span class="n">glue_label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Plot one indicator in multiple dicts of datasets.</span>
@@ -1436,19 +1412,19 @@ Further details and alternative options for installing this library are availabl
 
     <span class="c1"># Create figure</span>
     <span class="n">fig</span> <span class="o">=</span> <span class="n">ekp</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">rows</span><span class="o">=</span><span class="n">n_datasets</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">7.5</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">n_datasets</span><span class="p">)))</span>
-    
+
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">loop_origins</span><span class="p">:</span>
         <span class="n">data1_here</span><span class="p">,</span> <span class="n">data2_here</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">date</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">(</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">)]</span>
         <span class="n">difference</span> <span class="o">=</span> <span class="n">difference_between_datasets</span><span class="p">(</span><span class="n">data1_here</span><span class="p">,</span> <span class="n">data2_here</span><span class="p">,</span> <span class="n">diff_variables</span><span class="o">=</span><span class="p">[</span><span class="n">indicator</span><span class="p">,])</span>
-  
+
         <span class="c1"># Plot individual datasets</span>
-        <span class="n">subplots_data</span> <span class="o">=</span> <span class="n">_spatial_plot_append_subplots</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">data1_here</span><span class="p">,</span> <span class="n">data2_here</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">domain</span><span class="p">,</span> 
+        <span class="n">subplots_data</span> <span class="o">=</span> <span class="n">_spatial_plot_append_subplots</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">data1_here</span><span class="p">,</span> <span class="n">data2_here</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">domain</span><span class="p">,</span>
                                                       <span class="n">z</span><span class="o">=</span><span class="n">indicator</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">styles</span><span class="p">[</span><span class="n">indicator</span><span class="p">])</span>
 
         <span class="c1"># Plot difference</span>
         <span class="n">subplot_diff</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_map</span><span class="p">(</span><span class="n">domain</span><span class="o">=</span><span class="n">domain</span><span class="p">)</span>
         <span class="n">subplot_diff</span><span class="o">.</span><span class="n">grid_cells</span><span class="p">(</span><span class="n">difference</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">indicator</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">styles</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">indicator</span><span class="si">}</span><span class="s2">_diff&quot;</span><span class="p">])</span>
-    
+
         <span class="c1"># Decorate: Text</span>
         <span class="n">_add_textbox_to_subplots</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">date</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">subplots_data</span><span class="p">,</span> <span class="n">subplot_diff</span><span class="p">)</span>
 
@@ -1457,7 +1433,7 @@ Further details and alternative options for installing this library are availabl
         <span class="n">subplot</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">indicator</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">)</span>
     <span class="n">subplot_diff</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Difference&quot;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">)</span>
 
-    
+
     <span class="c1"># Titles on top</span>
     <span class="n">titles</span> <span class="o">=</span> <span class="p">[</span><span class="n">label1</span><span class="p">,</span> <span class="n">label2</span><span class="p">,</span> <span class="s2">&quot;Difference&quot;</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">title</span><span class="p">,</span> <span class="n">subplot</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">titles</span><span class="p">,</span> <span class="n">fig</span><span class="o">.</span><span class="n">subplots</span><span class="p">):</span>
@@ -1467,7 +1443,7 @@ Further details and alternative options for installing this library are availabl
     <span class="n">fig</span><span class="o">.</span><span class="n">land</span><span class="p">()</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">coastlines</span><span class="p">()</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;grid.linestyle&quot;</span><span class="p">])</span>
-    
+
     <span class="c1"># Show result</span>
     <span class="n">_glue_or_show</span><span class="p">(</span><span class="n">fig</span><span class="o">.</span><span class="n">fig</span><span class="p">,</span> <span class="n">glue_label</span><span class="p">)</span>
 </pre></div>
@@ -1475,6 +1451,7 @@ Further details and alternative options for installing this library are availabl
 </div>
 </details>
 </div>
+<p>The following cell contains functions for histogram comparisons between datasets on their native grids or on a common grid (the latter also showing the per-pixel difference):</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1529,19 +1506,9 @@ Further details and alternative options for installing this library are availabl
 
     <span class="c1"># Show result</span>
     <span class="n">_glue_or_show</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">glue_label</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualisation: Plot data + difference in histograms</span>
+
+
+<span class="c1"># Visualisation: Plot data + difference in histograms</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">histogram_comparison_by_origin_with_difference</span><span class="p">(</span><span class="n">data1</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">data2</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">indicator</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
                                                    <span class="n">label1</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">&quot;C3S Atlas dataset&quot;</span><span class="p">,</span> <span class="n">label2</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">&quot;Reproduced from origin&quot;</span><span class="p">,</span>
                                                    <span class="n">year</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -1637,7 +1604,9 @@ because this information is available in the previous notebooks.</p>
 or want to limit your bandwidth or memory usage,
 you can choose to only run specific subsections below.</p>
 <p>This notebook uses <a class="reference external" href="https://github.com/ecmwf/earthkit-data" rel="noreferrer" target="_blank">earthkit-data</a> to download files from the CDS.
-If you intend to run this notebook multiple times, it is highly recommended that you <a class="reference external" href="https://earthkit-data.readthedocs.io/en/latest/guide/caching.html" rel="noreferrer" target="_blank">enable caching</a> to prevent having to download the same files multiple times.</p>
+If you intend to run this notebook multiple times, it is highly recommended that you <a class="reference external" href="https://earthkit-data.readthedocs.io/en/latest/guide/caching.html" rel="noreferrer" target="_blank">enable caching</a> to prevent having to download the same files multiple times.
+If you prefer not to use earthkit, the following requests can also be used with the <a class="reference external" href="https://cds.climate.copernicus.eu/how-to-api#linux-use-client-step" rel="noreferrer" target="_blank">cdsapi module</a>.
+In either case (earthkit-data or cdsapi), it is required to set up a CDS account and API key as explained <a class="reference external" href="https://cds.climate.copernicus.eu/how-to-api" rel="noreferrer" target="_blank">on the CDS website</a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This notebook uses <a class="reference external" href="https://github.com/pangeo-data/xESMF" rel="noreferrer" target="_blank">xESMF</a> for regridding data.
@@ -1756,7 +1725,7 @@ meaning any datasets not downloaded will automatically be skipped in the analysi
 </div>
 </details>
 </div>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -1771,7 +1740,7 @@ meaning any datasets not downloaded will automatically be skipped in the analysi
     <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">CMIP6_MODEL</span><span class="p">,</span>
     <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;daily_maximum_near_surface_air_temperature&quot;</span><span class="p">],</span>
     <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">YEAR_FUTURE</span><span class="p">,],</span>
-    <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="n">MONTHS</span><span class="p">,</span>  
+    <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="n">MONTHS</span><span class="p">,</span>
     <span class="s2">&quot;day&quot;</span><span class="p">:</span> <span class="n">DAYS</span><span class="p">,</span>
     <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;netcdf&quot;</span><span class="p">,</span>
 <span class="p">}</span>
@@ -1886,7 +1855,7 @@ Attributes: (12/48)
 </div>
 </details>
 </div>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2020,7 +1989,7 @@ Attributes: (12/28)
 </div>
 </details>
 </div>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2147,7 +2116,7 @@ Attributes: (12/35)
 These data may take up to several hours to download
 and
 require sufficient storage to download and cache.</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2252,7 +2221,7 @@ Attributes:
 These data may take up to several hours to download
 and
 require sufficient storage to download and cache.</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2377,7 +2346,7 @@ Attributes:
 These data may take up to several hours to download
 and
 require sufficient storage to download and cache.</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2478,7 +2447,7 @@ Attributes:
 </section>
 <section id="berkearth">
 <h4>BERKEARTH<a class="headerlink" href="#berkearth" title="Link to this heading">#</a></h4>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2584,7 +2553,7 @@ Attributes: (12/21)
 </section>
 <section id="oras5">
 <h4>ORAS5<a class="headerlink" href="#oras5" title="Link to this heading">#</a></h4>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2604,7 +2573,7 @@ Attributes: (12/21)
 <span class="c1"># Download data, pre-process, calculate indicator, interpolate</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span><span class="s2">&quot;cds&quot;</span><span class="p">,</span> <span class="n">ORAS5_ID</span><span class="p">,</span> <span class="n">request_ORAS5</span><span class="p">)</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">()</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;sosstsst&quot;</span><span class="p">:</span> <span class="s2">&quot;sst&quot;</span><span class="p">})</span>
-<span class="n">data</span><span class="p">[</span><span class="s2">&quot;sst&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Celsius&quot;</span>    
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;sst&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Celsius&quot;</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">homogenise</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;sst&quot;</span><span class="p">,</span> <span class="n">ORAS5_ID</span><span class="p">)</span>
 <span class="n">indicator_ORAS5</span> <span class="o">=</span> <span class="n">cal_sst</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="n">interpolated_ORAS5</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">indicator_ORAS5</span><span class="p">,</span> <span class="s2">&quot;sst&quot;</span><span class="p">,</span>
@@ -2671,7 +2640,7 @@ Attributes: (12/21)
 These data may take up to several hours to download
 and
 require sufficient storage to download and cache.</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2693,7 +2662,7 @@ require sufficient storage to download and cache.</p>
 
 <span class="c1"># Download data, pre-process, calculate indicator</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span><span class="s2">&quot;cds&quot;</span><span class="p">,</span> <span class="n">SST_CCI_ID</span><span class="p">,</span> <span class="o">*</span><span class="n">multi_request_SST_CCI</span><span class="p">)</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">()</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;analysed_sst&quot;</span><span class="p">:</span> <span class="s2">&quot;sst&quot;</span><span class="p">})</span> 
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;analysed_sst&quot;</span><span class="p">:</span> <span class="s2">&quot;sst&quot;</span><span class="p">})</span>
 <span class="n">data</span><span class="p">[</span><span class="s2">&quot;sst&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Kelvin&quot;</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">homogenise</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;sst&quot;</span><span class="p">,</span> <span class="n">SST_CCI_ID</span><span class="p">)</span>
 <span class="n">indicator_SST_CCI</span> <span class="o">=</span> <span class="n">cal_sst</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -2791,7 +2760,7 @@ Attributes: (12/58)
 </section>
 <section id="cpc">
 <h4>CPC<a class="headerlink" href="#cpc" title="Link to this heading">#</a></h4>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -3926,9 +3895,7 @@ including the per-pixel difference.</span><a class="headerlink" href="#derived-m
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-required-libraries">Import required libraries</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#define-indicators">Define indicators</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#helper-functions">Helper functions</a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#general">General</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#downloading-data">Downloading data</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#data-pre-processing">Data (pre-)processing</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#data-downloading-pre-processing">Data downloading &amp; (pre-)processing</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#statistics">Statistics</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisation">Visualisation</a></li>
 </ul>
