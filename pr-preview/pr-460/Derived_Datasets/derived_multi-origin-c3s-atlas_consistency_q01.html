@@ -478,7 +478,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#download-data">Download data</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#homogenise-data">Homogenise data</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-indicator">Calculate indicator</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#interpolate-to-a-common-and-regular-grid">Interpolate to a common and regular grid</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#regrid-to-c3s-atlas-grid">Regrid to C3S Atlas grid</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#retrieve-indicator-from-the-c3s-atlas-dataset">3. Retrieve indicator from the C3S Atlas dataset</a></li>
@@ -632,14 +632,15 @@ This notebook mirrors <a class="reference external" href="https://ecmwf-projects
 <ul class="simple">
 <li><p>Install User-tools for the C3S Atlas.</p></li>
 <li><p>Import all required libraries.</p></li>
-<li><p>Definition of helper functions.</p></li>
+<li><p>Define indicator.</p></li>
+<li><p>Define helper functions.</p></li>
 </ul>
 <p><strong><a class="reference internal" href="#derived-multi-origin-c3s-atlas-consistency-q01-section-origin"><span class="std std-ref">2. Calculate indicator from the origin dataset</span></a></strong></p>
 <ul class="simple">
 <li><p>Download data from the origin dataset.</p></li>
 <li><p>Homogenise data.</p></li>
 <li><p>Calculate indicator.</p></li>
-<li><p>Interpolate to a common and regular grid.</p></li>
+<li><p>Regrid the origin data to the C3S Atlas grid.</p></li>
 </ul>
 <p><strong><a class="reference internal" href="#derived-multi-origin-c3s-atlas-consistency-q01-section-c3s-atlas"><span class="std std-ref">3. Retrieve indicator from the C3S Atlas dataset</span></a></strong></p>
 <ul class="simple">
@@ -668,7 +669,7 @@ If any part of the code stops functioning, please raise an issue on our GitHub r
 <p>This notebook uses the <a class="reference external" href="https://github.com/ecmwf-projects/c3s-atlas" rel="noreferrer" target="_blank">User-tools for the C3S Atlas</a>, which can be installed from GitHub using <code class="docutils literal notranslate"><span class="pre">pip</span></code>.
 For convenience, the following cell can do this from within the notebook.
 Further details and alternative options for installing this library are available in its <a class="reference external" href="https://github.com/ecmwf-projects/c3s-atlas?tab=readme-ov-file#requirements" rel="noreferrer" target="_blank">documentation</a>.</p>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -818,7 +819,7 @@ Earthkit-plots styles are explained further in the <a class="reference external"
 </div>
 </details>
 </div>
-<p>The following functions handle regridding and interpolating data based on ESMF as implemented in the <a class="reference external" href="https://ecmwf-projects.github.io/c3s-atlas/intro.html" rel="noreferrer" target="_blank">User-tools for the C3S Atlas</a>.
+<p>The following functions handle regridding data based on ESMF as implemented in the <a class="reference external" href="https://ecmwf-projects.github.io/c3s-atlas/intro.html" rel="noreferrer" target="_blank">User-tools for the C3S Atlas</a>.
 This step is explained in more detail in the relevant section below.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
@@ -827,9 +828,9 @@ This step is explained in more detail in the relevant section below.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Interpolation from native grid to C3S Atlas grid</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">interpolate</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">var_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Interpolate a dataset `ds` to the C3S Atlas grid for one variable `var_name` &quot;&quot;&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Regridding from native grid to C3S Atlas grid</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">regrid</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">var_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Regrid a dataset `ds` to the C3S Atlas grid for one variable `var_name` &quot;&quot;&quot;</span>
     <span class="n">int_attr</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;interpolation_method&quot;</span><span class="p">:</span> <span class="s2">&quot;conservative_normed&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;lats&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">89.5</span><span class="p">,</span> <span class="mf">90.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
                 <span class="s2">&quot;lons&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">179.5</span><span class="p">,</span> <span class="mf">180.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
@@ -1336,10 +1337,6 @@ This step is explained in more detail in the relevant section below.</p>
 <span id="derived-multi-origin-c3s-atlas-consistency-q01-section-origin"></span><h3>2. Calculate indicator from the origin dataset<a class="headerlink" href="#calculate-indicator-from-the-origin-dataset" title="Link to this heading">#</a></h3>
 <section id="download-data">
 <h4>Download data<a class="headerlink" href="#download-data" title="Link to this heading">#</a></h4>
-<p>This notebook uses <a class="reference external" href="https://github.com/ecmwf/earthkit-data" rel="noreferrer" target="_blank">earthkit-data</a> to download files from the CDS.
-If you intend to run this notebook multiple times, it is highly recommended that you <a class="reference external" href="https://earthkit-data.readthedocs.io/en/latest/guide/caching.html" rel="noreferrer" target="_blank">enable caching</a> to prevent having to download the same files multiple times.
-If you prefer not to use earthkit, the following requests can also be used with the <a class="reference external" href="https://cds.climate.copernicus.eu/how-to-api#linux-use-client-step" rel="noreferrer" target="_blank">cdsapi module</a>.
-In either case (earthkit-data or cdsapi), it is required to set up a CDS account and API key as explained <a class="reference external" href="https://cds.climate.copernicus.eu/how-to-api" rel="noreferrer" target="_blank">on the CDS website</a>.</p>
 <p>This assessment examines the dataset in two years (2060 and 2080),
 for one ensemble member
 and
@@ -1347,9 +1344,13 @@ for one climate scenario
 – which is not how climate projection data are normally used.
 Good practice in climate science is to look at multi-year statistics and trends,
 across multiple ensemble members.
-However, since the purpose of this assessment is to assess the <em>quality</em> of the climate data,
+However, since the purpose of this assessment is to assess the consistency and reproducibility of the post-processing performed to produce the C3S Atlas dataset,
 it is valid to use a subset of the data here.
 The specific subset used can be easily tweaked by changing the <code class="docutils literal notranslate"><span class="pre">EXPERIMENT</span></code>, <code class="docutils literal notranslate"><span class="pre">MODEL</span></code>, and <code class="docutils literal notranslate"><span class="pre">YEARS</span></code> variables in this section.</p>
+<p>This notebook uses <a class="reference external" href="https://github.com/ecmwf/earthkit-data" rel="noreferrer" target="_blank">earthkit-data</a> to download files from the CDS.
+If you intend to run this notebook multiple times, it is highly recommended that you <a class="reference external" href="https://earthkit-data.readthedocs.io/en/latest/guide/caching.html" rel="noreferrer" target="_blank">enable caching</a> to prevent having to download the same files multiple times.
+If you prefer not to use earthkit, the following requests can also be used with the <a class="reference external" href="https://cds.climate.copernicus.eu/how-to-api#linux-use-client-step" rel="noreferrer" target="_blank">cdsapi module</a>.
+In either case (earthkit-data or cdsapi), it is required to set up a CDS account and API key as explained <a class="reference external" href="https://cds.climate.copernicus.eu/how-to-api" rel="noreferrer" target="_blank">on the CDS website</a>.</p>
 <p>The first step is to define the parameters that will be shared between the download of the origin dataset (here CMIP6) and the C3S Atlas dataset (in the <a class="reference internal" href="#derived-multi-origin-c3s-atlas-consistency-q01-section-c3s-atlas"><span class="std std-ref">next section</span></a>), namely the experiment and model member.
 Next, the request to download the corresponding data from CMIP6 is defined,
 in this notebook choosing only the variable necessary to calculate the <code class="docutils literal notranslate"><span class="pre">tx35</span></code> indicator, namely <code class="docutils literal notranslate"><span class="pre">daily_maximum_near_surface_air_temperature</span></code>.
@@ -1404,7 +1405,7 @@ to limit the size per request.</p>
 </div>
 </details>
 </div>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2339,7 +2340,7 @@ The following changes are applied:</p>
 <p>The homogenisation is applied in the following code cell.
 The <code class="docutils literal notranslate"><span class="pre">apply_fixers</span></code> function describes the different homogenisation steps as it applies them;
 this can be read by expanding the following cell outputs.</p>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -3734,8 +3735,8 @@ Data variables:
               dtype=&#x27;datetime64[ns]&#x27;, name=&#x27;time&#x27;, freq=None))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-05ceb55a-c15c-4327-a866-bde16dd879d8' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-05ceb55a-c15c-4327-a866-bde16dd879d8' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div></div></div>
 </div>
 </section>
-<section id="interpolate-to-a-common-and-regular-grid">
-<h4>Interpolate to a common and regular grid<a class="headerlink" href="#interpolate-to-a-common-and-regular-grid" title="Link to this heading">#</a></h4>
+<section id="regrid-to-c3s-atlas-grid">
+<h4>Regrid to C3S Atlas grid<a class="headerlink" href="#regrid-to-c3s-atlas-grid" title="Link to this heading">#</a></h4>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This notebook uses <a class="reference external" href="https://github.com/pangeo-data/xESMF" rel="noreferrer" target="_blank">xESMF</a> for regridding data.
@@ -3743,7 +3744,7 @@ xESMF is most easily installed using mamba/conda as explained in its documentati
 Users who cannot or do not wish to use mamba/conda can manually compile and install <a class="reference external" href="https://earthsystemmodeling.org/docs/release/latest/ESMF_usrdoc/node10.html" rel="noreferrer" target="_blank">ESMF</a> on their machines.
 In future, this notebook will use <a class="reference external" href="https://github.com/ecmwf/earthkit-regrid" rel="noreferrer" target="_blank">earthkit-regrid</a> instead, once it reaches suitable maturity.</p>
 </div>
-<p>The final step in the processing is regridding and interpolation to a standard grid (Figure <a class="reference internal" href="#multi-origin-c3s-atlas-consistency-q01-workflow-fig"><span class="std std-numref">7.1.1</span></a>).
+<p>The final step in the processing is regridding to the standardised grid used in the C3S Atlas dataset (Figure <a class="reference internal" href="#multi-origin-c3s-atlas-consistency-q01-workflow-fig"><span class="std std-numref">7.1.1</span></a>).
 This is performed through a custom function in the <a class="reference external" href="https://github.com/ecmwf-projects/c3s-atlas/tree/main/c3s_atlas" rel="noreferrer" target="_blank">User-tools for the C3S Atlas</a>,
 specifically <code class="docutils literal notranslate"><span class="pre">c3s_atlas.interpolation</span></code>.
 This function is based on ESMF, as noted above.</p>
@@ -3753,15 +3754,15 @@ Examples of such areas for a temperature index are coastlines and mountain range
 In the case of C3S Atlas, this order of operations was a conscious choice to preserve the “raw” signals,
 e.g. preventing extreme temperatures from being smoothed out.
 However, it can affect the indicator values and therefore must be considered when using the C3S Atlas application or dataset.</p>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Apply interpolation function</span>
-<span class="n">indicators_cmip6_interpolated</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">indicators_cmip6</span><span class="p">,</span> <span class="n">indicator</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Apply regridding function</span>
+<span class="n">indicators_cmip6_regridded</span> <span class="o">=</span> <span class="n">regrid</span><span class="p">(</span><span class="n">indicators_cmip6</span><span class="p">,</span> <span class="n">indicator</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -3774,7 +3775,7 @@ However, it can affect the indicator values and therefore must be considered whe
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">indicators_cmip6_interpolated</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">indicators_cmip6_regridded</span>
 </pre></div>
 </div>
 </div>
@@ -4479,7 +4480,7 @@ Data variables:
 <section id="retrieve-indicator-from-the-c3s-atlas-dataset">
 <span id="derived-multi-origin-c3s-atlas-consistency-q01-section-c3s-atlas"></span><h3>3. Retrieve indicator from the C3S Atlas dataset<a class="headerlink" href="#retrieve-indicator-from-the-c3s-atlas-dataset" title="Link to this heading">#</a></h3>
 <p>Here, we download the same indicator as above directly from the <a class="reference external" href="https://doi.org/10.24381/cds.h35hb680" rel="noreferrer" target="_blank">Gridded dataset underpinning the Copernicus Interactive Climate Atlas</a> so the values can be compared.</p>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -5473,21 +5474,19 @@ Attributes: (12/26)
 This means a point-by-point comparison is not possible
 (because the points are not equivalent),
 but the distributions can be compared geospatially and overall.
-This comparison probes the consistency quality attribute:
+This qualitative comparison probes the consistency quality attribute:
 Are the climate indicators in the dataset underpinning the Copernicus Interactive Climate Atlas consistent with their origin datasets?</p>
-<p>The second comparison uses the regridded version of the indicators derived from the origin dataset.
-This makes a point-by-point comparison possible.
+<p>Second, the C3S Atlas dataset is compared to the indicators derived from the origin dataset and regridded to the C3S Atlas grid.
+This makes a quantitative point-by-point comparison possible.
 This second comparison probes how well the dataset underpinning the Copernicus Interactive Climate Atlas can be reproduced from its origin datasets,
 based on the workflow (Figure <a class="reference internal" href="#multi-origin-c3s-atlas-consistency-q01-workflow-fig"><span class="std std-numref">7.1.1</span></a>).</p>
-<section id="consistency-comparison-on-native-grids">
-<h4>Consistency: Comparison on native grids<a class="headerlink" href="#consistency-comparison-on-native-grids" title="Link to this heading">#</a></h4>
 <p>For the geospatial comparison,
 we display the values of the indicator for one month,
 across one region and globally.
 For the example of <code class="docutils literal notranslate"><span class="pre">tx35</span></code>,
 June
 should provide many warm days in the Northern hemisphere with significant spatial variation.</p>
-<p>In the first example, we display the results across
+<p>As an example, we display the results across
 Europe.
 This region can easily be modified in the following code cell using the <a class="reference external" href="https://earthkit-plots.readthedocs.io/en/latest/examples/guide/05-domains.html" rel="noreferrer" target="_blank">domains provided by earthkit-plots</a>.
 Some examples are provided in the cell (commented out using <code class="docutils literal notranslate"><span class="pre">#</span></code>).</p>
@@ -5513,6 +5512,8 @@ Some examples are provided in the cell (commented out using <code class="docutil
 </div>
 </details>
 </div>
+<section id="consistency-comparison-on-native-grids">
+<h4>Consistency: Comparison on native grids<a class="headerlink" href="#consistency-comparison-on-native-grids" title="Link to this heading">#</a></h4>
 <p>It is clear from
 Figures <a class="reference internal" href="#derived-multi-origin-c3s-atlas-consistency-q01-fig-geo-regional"><span class="std std-numref">7.1.2</span></a> and <a class="reference internal" href="#derived-multi-origin-c3s-atlas-consistency-q01-fig-geo-global"><span class="std std-numref">7.1.3</span></a>
 that the C3S Atlas dataset and its reproduction from the origin display very similar patterns,
@@ -5522,10 +5523,15 @@ The general distribution of indicator values
 is the same,
 in this example showing more hot days in northern Africa, the Middle East, and eastern Europe than in western and northern Europe.
 Small differences appear in various places,
-likely the result of the interpolation step in the C3S Atlas workflow as noted before.
+likely the result of the regridding step in the C3S Atlas workflow as noted before.
 Larger differences can be seen in areas with steep temperature gradients,
 such as Italy with its mountains and coastlines.
-For reference,
+Figure <a class="reference internal" href="#derived-multi-origin-c3s-atlas-consistency-q01-fig-hist-native"><span class="std std-numref">7.1.5</span></a>
+confirms that the overall distributions in indicator values
+(across all time and space dimensions)
+are very similar,
+but small differences exist.</p>
+<p>For reference,
 Figure <a class="reference internal" href="#derived-multi-origin-c3s-atlas-consistency-q01-fig-geo-export"><span class="std std-numref">7.1.4</span></a>
 displays the equivalent view
 in the C3S Atlas application.
@@ -5536,11 +5542,6 @@ and hence showing that the conclusions from this quality assessment transfer to 
 Differences are caused by the application displaying projection data as a multi-year average
 (here 2081–2100)
 as well as the difference in visualisation style.</p>
-<p>Figure <a class="reference internal" href="#derived-multi-origin-c3s-atlas-consistency-q01-fig-hist-native"><span class="std std-numref">7.1.5</span></a>
-confirms that the overall distributions in indicator values
-(across all time and space dimensions)
-are very similar,
-but small differences exist.</p>
 <p>Overall, we can conclude that the C3S Atlas dataset and its origins are highly consistent,
 but small differences exist due to the difference in grid.
 Users of the C3S Atlas dataset
@@ -5650,7 +5651,7 @@ on the native grid of each dataset.</span><a class="headerlink" href="#derived-m
 </section>
 <section id="reproducibility-comparison-on-c3s-atlas-grid">
 <h4>Reproducibility: Comparison on C3S Atlas grid<a class="headerlink" href="#reproducibility-comparison-on-c3s-atlas-grid" title="Link to this heading">#</a></h4>
-<p>After regridding/interpolating,
+<p>After regridding to the C3S Atlas grid,
 the indicator values reproduced from the origin dataset
 can be compared point-by-point to the values retrieved from the C3S Atlas dataset.
 We first examine some metrics that describe the difference Δ between corresponding pixels:</p>
@@ -5661,7 +5662,7 @@ We first examine some metrics that describe the difference Δ between correspond
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display_difference_stats</span><span class="p">(</span><span class="n">indicators_c3s_atlas</span><span class="p">,</span> <span class="n">indicators_cmip6_interpolated</span><span class="p">,</span> <span class="n">indicator</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display_difference_stats</span><span class="p">(</span><span class="n">indicators_c3s_atlas</span><span class="p">,</span> <span class="n">indicators_cmip6_regridded</span><span class="p">,</span> <span class="n">indicator</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -5744,7 +5745,7 @@ at least for the <code class="docutils literal notranslate"><span class="pre">tx
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Histogram</span>
-<span class="n">fig_hist</span> <span class="o">=</span> <span class="n">histogram_comparison_by_year_with_difference</span><span class="p">(</span><span class="n">indicators_c3s_atlas</span><span class="p">,</span> <span class="n">indicators_cmip6_interpolated</span><span class="p">,</span> <span class="n">indicator</span><span class="p">,</span>
+<span class="n">fig_hist</span> <span class="o">=</span> <span class="n">histogram_comparison_by_year_with_difference</span><span class="p">(</span><span class="n">indicators_c3s_atlas</span><span class="p">,</span> <span class="n">indicators_cmip6_regridded</span><span class="p">,</span> <span class="n">indicator</span><span class="p">,</span>
                                                         <span class="n">glue_label</span><span class="o">=</span><span class="s2">&quot;derived_multi-origin-c3s-atlas_consistency_q01_fig-hist-c3s-atlas&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -5768,7 +5769,7 @@ including the per-pixel difference.</span><a class="headerlink" href="#derived-m
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create plot with function defined at the start</span>
-<span class="n">geospatial_comparison_with_difference</span><span class="p">(</span><span class="n">indicators_c3s_atlas</span><span class="p">,</span> <span class="n">indicators_cmip6_interpolated</span><span class="p">,</span> <span class="n">indicator</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">domain</span><span class="p">,</span>
+<span class="n">geospatial_comparison_with_difference</span><span class="p">(</span><span class="n">indicators_c3s_atlas</span><span class="p">,</span> <span class="n">indicators_cmip6_regridded</span><span class="p">,</span> <span class="n">indicator</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">domain</span><span class="p">,</span>
                                       <span class="n">glue_label</span><span class="o">=</span><span class="s2">&quot;derived_multi-origin-c3s-atlas_consistency_q01_fig-geocomp-regional&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -5829,7 +5830,6 @@ including the per-pixel difference.</span><a class="headerlink" href="#derived-m
 </section>
 <section id="references">
 <h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
-<p><em>To be replaced with numerical references once the text is finished</em></p>
 <p>[<a class="reference external" href="https://doi.org/10.21957/ah52ufc369" rel="noreferrer" target="_blank">Gutiérrez+24</a>] J. M. Gutiérrez et al., ‘The Copernicus Interactive Climate Atlas: a tool to explore regional climate change’, ECMWF Newsletter, vol. 181, pp. 38–45, Oct. 2024, doi: 10.21957/ah52ufc369.</p>
 <p>[<a class="reference external" href="https://doi.org/10.24381/cds.h35hb680" rel="noreferrer" target="_blank">C3S Atlas dataset</a>] Copernicus Climate Change Service, ‘Gridded dataset underpinning the Copernicus Interactive Climate Atlas’. Copernicus Climate Change Service (C3S) Climate Data Store (CDS), Jun. 17, 2024. doi: 10.24381/cds.h35hb680.</p>
 <p>[<a class="reference external" href="https://doi.org/10.24381/cds.c866074c" rel="noreferrer" target="_blank">CMIP6 dataset</a>] Copernicus Climate Change Service, ‘CMIP6 climate projections’. Copernicus Climate Change Service (C3S) Climate Data Store (CDS), Mar. 23, 2021. doi: 10.24381/cds.c866074c.</p>
@@ -5923,7 +5923,7 @@ including the per-pixel difference.</span><a class="headerlink" href="#derived-m
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#download-data">Download data</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#homogenise-data">Homogenise data</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-indicator">Calculate indicator</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#interpolate-to-a-common-and-regular-grid">Interpolate to a common and regular grid</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#regrid-to-c3s-atlas-grid">Regrid to C3S Atlas grid</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#retrieve-indicator-from-the-c3s-atlas-dataset">3. Retrieve indicator from the C3S Atlas dataset</a></li>

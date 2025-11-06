@@ -703,14 +703,15 @@ CERRA has been left out because the C3S User-tools package is currently not full
 <ul class="simple">
 <li><p>Install User-tools for the C3S Atlas.</p></li>
 <li><p>Import all required libraries.</p></li>
-<li><p>Definition of helper functions.</p></li>
+<li><p>Define indicators.</p></li>
+<li><p>Define helper functions.</p></li>
 </ul>
 <p><strong><a class="reference internal" href="#derived-multi-origin-c3s-atlas-consistency-q03-section-indicators"><span class="std std-ref">2. Calculate and retrieve indicators</span></a></strong></p>
 <ul class="simple">
 <li><p>Download data from the origin datasets.</p></li>
 <li><p>Homogenise data.</p></li>
 <li><p>Calculate indicators.</p></li>
-<li><p>Interpolate to a common and regular grid.</p></li>
+<li><p>Regrid the origin data to the C3S Atlas grid.</p></li>
 <li><p>Download corresponding data from the C3S Atlas dataset.</p></li>
 </ul>
 <p><strong><a class="reference internal" href="#derived-multi-origin-c3s-atlas-consistency-q03-section-results"><span class="std std-ref">3. Results</span></a></strong></p>
@@ -736,7 +737,7 @@ If any part of the code stops functioning, please raise an issue on our GitHub r
 <p>This notebook uses the <a class="reference external" href="https://github.com/ecmwf-projects/c3s-atlas" rel="noreferrer" target="_blank">User-tools for the C3S Atlas</a>, which can be installed from GitHub using <code class="docutils literal notranslate"><span class="pre">pip</span></code>.
 For convenience, the following cell can do this from within the notebook.
 Further details and alternative options for installing this library are available in its <a class="reference external" href="https://github.com/ecmwf-projects/c3s-atlas?tab=readme-ov-file#requirements" rel="noreferrer" target="_blank">documentation</a>.</p>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -753,7 +754,7 @@ Further details and alternative options for installing this library are availabl
 <section id="import-required-libraries">
 <h4>Import required libraries<a class="headerlink" href="#import-required-libraries" title="Link to this heading">#</a></h4>
 <p>In this section, we import all the relevant packages needed for running the notebook.</p>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -1089,7 +1090,7 @@ Earthkit-plots styles are explained further in the <a class="reference external"
 </div>
 </details>
 </div>
-<p>The following functions handle regridding and interpolating data based on ESMF as implemented in the <a class="reference external" href="https://ecmwf-projects.github.io/c3s-atlas/intro.html" rel="noreferrer" target="_blank">User-tools for the C3S Atlas</a>.
+<p>The following functions handle regridding data based on ESMF as implemented in the <a class="reference external" href="https://ecmwf-projects.github.io/c3s-atlas/intro.html" rel="noreferrer" target="_blank">User-tools for the C3S Atlas</a>.
 This step is explained in more detail in the relevant section below.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
@@ -1103,10 +1104,10 @@ This step is explained in more detail in the relevant section below.</p>
     <span class="n">stop</span> <span class="o">=</span> <span class="n">stop</span> <span class="o">+</span> <span class="n">step</span><span class="o">/</span><span class="mf">100.</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span>
 
-<span class="c1"># Interpolation from native grid to C3S Atlas grid</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">interpolate</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">var_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
+<span class="c1"># Regridding from native grid to C3S Atlas grid</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">regrid</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">var_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
                 <span class="n">lat_range</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">89.5</span><span class="p">,</span> <span class="mf">89.5</span><span class="p">,</span> <span class="mf">1.</span><span class="p">),</span> <span class="n">lon_range</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">179.5</span><span class="p">,</span> <span class="mf">179.5</span><span class="p">,</span> <span class="mf">1.</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Interpolates a dataset `ds` for one variable `var_name`. &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Regrid a dataset `ds` for one variable `var_name`. &quot;&quot;&quot;</span>
     <span class="n">int_attr</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;interpolation_method&quot;</span><span class="p">:</span> <span class="s2">&quot;conservative_normed&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;lats&quot;</span><span class="p">:</span> <span class="n">padded_range</span><span class="p">(</span><span class="o">*</span><span class="n">lat_range</span><span class="p">),</span>
                 <span class="s2">&quot;lons&quot;</span><span class="p">:</span> <span class="n">padded_range</span><span class="p">(</span><span class="o">*</span><span class="n">lon_range</span><span class="p">),</span>
@@ -1593,7 +1594,7 @@ This step is explained in more detail in the relevant section below.</p>
 the origin data were downloaded,
 pre-processed,
 used to calculate the relevant indicator(s),
-and interpolated;
+and regridded;
 after which the <a class="reference external" href="https://doi.org/10.24381/cds.h35hb680" rel="noreferrer" target="_blank">Atlas dataset</a> was downloaded.
 This notebook follows the same structure but for each origin in turn,
 for clarity and to preserve memory when loading multiple datasets at the same time.
@@ -1603,6 +1604,16 @@ because this information is available in the previous notebooks.</p>
 <p>If you are only interested in specific origin datasets,
 or want to limit your bandwidth or memory usage,
 you can choose to only run specific subsections below.</p>
+<p>This assessment examines the dataset in one year (2080),
+for one ensemble member
+and
+for one climate scenario
+– which is not how climate projection data are normally used.
+Good practice in climate science is to look at multi-year statistics and trends,
+across multiple ensemble members.
+However, since the purpose of this assessment is to assess the consistency and reproducibility of the post-processing performed to produce the C3S Atlas dataset,
+it is valid to use a subset of the data here.
+The specific subset used can be easily tweaked by changing the <code class="docutils literal notranslate"><span class="pre">EXPERIMENT</span></code>, <code class="docutils literal notranslate"><span class="pre">MODEL</span></code>, and <code class="docutils literal notranslate"><span class="pre">YEARS</span></code> variables in the relevant sections.</p>
 <p>This notebook uses <a class="reference external" href="https://github.com/ecmwf/earthkit-data" rel="noreferrer" target="_blank">earthkit-data</a> to download files from the CDS.
 If you intend to run this notebook multiple times, it is highly recommended that you <a class="reference external" href="https://earthkit-data.readthedocs.io/en/latest/guide/caching.html" rel="noreferrer" target="_blank">enable caching</a> to prevent having to download the same files multiple times.
 If you prefer not to use earthkit, the following requests can also be used with the <a class="reference external" href="https://cds.climate.copernicus.eu/how-to-api#linux-use-client-step" rel="noreferrer" target="_blank">cdsapi module</a>.
@@ -1725,7 +1736,7 @@ meaning any datasets not downloaded will automatically be skipped in the analysi
 </div>
 </details>
 </div>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -1745,11 +1756,11 @@ meaning any datasets not downloaded will automatically be skipped in the analysi
     <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;netcdf&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="c1"># Download data, pre-process, calculate indicator, interpolate</span>
+<span class="c1"># Download data, pre-process, calculate indicator, regrid</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span><span class="s2">&quot;cds&quot;</span><span class="p">,</span> <span class="n">CMIP6_ID</span><span class="p">,</span> <span class="n">request_CMIP6</span><span class="p">)</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">()</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">homogenise</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;tasmax&quot;</span><span class="p">,</span> <span class="n">CMIP6_ID</span><span class="p">)</span>
 <span class="n">indicator_CMIP6</span> <span class="o">=</span> <span class="n">cal_tx35</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">propagate_nan</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">interpolated_CMIP6</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">indicator_CMIP6</span><span class="p">,</span> <span class="s2">&quot;tx35&quot;</span><span class="p">,</span>
+<span class="n">regridded_CMIP6</span> <span class="o">=</span> <span class="n">regrid</span><span class="p">(</span><span class="n">indicator_CMIP6</span><span class="p">,</span> <span class="s2">&quot;tx35&quot;</span><span class="p">,</span>
                                  <span class="n">lat_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">89.5</span><span class="p">,</span> <span class="mf">89.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">lon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">179.5</span><span class="p">,</span> <span class="mf">179.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -1830,7 +1841,7 @@ Attributes: (12/48)
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add to collection</span>
 <span class="n">c3s_atlas_tx35_future</span><span class="p">[</span><span class="s2">&quot;CMIP6&quot;</span><span class="p">]</span>            <span class="o">=</span> <span class="n">data_c3s_atlas</span>
 <span class="n">origin_tx35_future</span><span class="p">[</span><span class="s2">&quot;CMIP6&quot;</span><span class="p">]</span>               <span class="o">=</span> <span class="n">indicator_CMIP6</span>
-<span class="n">origin_c3s_atlasgrid_tx35_future</span><span class="p">[</span><span class="s2">&quot;CMIP6&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">interpolated_CMIP6</span>
+<span class="n">origin_c3s_atlasgrid_tx35_future</span><span class="p">[</span><span class="s2">&quot;CMIP6&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">regridded_CMIP6</span>
 </pre></div>
 </div>
 </div>
@@ -1855,7 +1866,7 @@ Attributes: (12/48)
 </div>
 </details>
 </div>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -1875,12 +1886,12 @@ Attributes: (12/48)
     <span class="s2">&quot;period&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;20560101-20801231&quot;</span><span class="p">],</span>
 <span class="p">}</span>
 
-<span class="c1"># Download data, pre-process, calculate indicator, interpolate</span>
+<span class="c1"># Download data, pre-process, calculate indicator, regrid</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span><span class="s2">&quot;cds&quot;</span><span class="p">,</span> <span class="n">CMIP5_ID</span><span class="p">,</span> <span class="n">request_CMIP5</span><span class="p">)</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">()</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">select_years_in_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="n">YEAR_FUTURE</span><span class="p">,])</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">homogenise</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;tasmax&quot;</span><span class="p">,</span> <span class="n">CMIP5_ID</span><span class="p">)</span>
 <span class="n">indicator_CMIP5</span> <span class="o">=</span> <span class="n">cal_tx35</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">interpolated_CMIP5</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">indicator_CMIP5</span><span class="p">,</span> <span class="s2">&quot;tx35&quot;</span><span class="p">,</span>
+<span class="n">regridded_CMIP5</span> <span class="o">=</span> <span class="n">regrid</span><span class="p">(</span><span class="n">indicator_CMIP5</span><span class="p">,</span> <span class="s2">&quot;tx35&quot;</span><span class="p">,</span>
                                  <span class="n">lat_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">89.</span><span class="p">,</span> <span class="mf">89.</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">lon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">179.</span><span class="p">,</span> <span class="mf">179.</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -1960,7 +1971,7 @@ Attributes: (12/28)
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add to collection</span>
 <span class="n">c3s_atlas_tx35_future</span><span class="p">[</span><span class="s2">&quot;CMIP5&quot;</span><span class="p">]</span>            <span class="o">=</span> <span class="n">data_c3s_atlas</span>
 <span class="n">origin_tx35_future</span><span class="p">[</span><span class="s2">&quot;CMIP5&quot;</span><span class="p">]</span>               <span class="o">=</span> <span class="n">indicator_CMIP5</span>
-<span class="n">origin_c3s_atlasgrid_tx35_future</span><span class="p">[</span><span class="s2">&quot;CMIP5&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">interpolated_CMIP5</span>
+<span class="n">origin_c3s_atlasgrid_tx35_future</span><span class="p">[</span><span class="s2">&quot;CMIP5&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">regridded_CMIP5</span>
 </pre></div>
 </div>
 </div>
@@ -1989,7 +2000,7 @@ Attributes: (12/28)
 </div>
 </details>
 </div>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2015,12 +2026,12 @@ Attributes: (12/28)
     <span class="s2">&quot;end_year&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;2080&quot;</span><span class="p">],</span>
 <span class="p">}</span>
 
-<span class="c1"># Download data, pre-process, calculate indicator, interpolate</span>
+<span class="c1"># Download data, pre-process, calculate indicator, regrid</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span><span class="s2">&quot;cds&quot;</span><span class="p">,</span> <span class="n">CORDEX_EUR_11_ID</span><span class="p">,</span> <span class="n">request_CORDEX_EUR_11</span><span class="p">)</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">()</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">select_years_in_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="n">YEAR_FUTURE</span><span class="p">,])</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">homogenise</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;tasmax&quot;</span><span class="p">,</span> <span class="n">CORDEX_EUR_11_ID</span><span class="p">)</span>
 <span class="n">indicator_CORDEX_EUR_11</span> <span class="o">=</span> <span class="n">cal_tx35</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">interpolated_CORDEX_EUR_11</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">indicator_CORDEX_EUR_11</span><span class="p">,</span> <span class="s2">&quot;tx35&quot;</span><span class="p">,</span>
+<span class="n">regridded_CORDEX_EUR_11</span> <span class="o">=</span> <span class="n">regrid</span><span class="p">(</span><span class="n">indicator_CORDEX_EUR_11</span><span class="p">,</span> <span class="s2">&quot;tx35&quot;</span><span class="p">,</span>
                                          <span class="n">lat_range</span><span class="o">=</span><span class="p">(</span><span class="mf">21.8125</span><span class="p">,</span> <span class="mf">72.6875</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">),</span> <span class="n">lon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">44.8125</span><span class="p">,</span> <span class="mf">65.1875</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -2103,7 +2114,7 @@ Attributes: (12/35)
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add to collection</span>
 <span class="n">c3s_atlas_tx35_future</span><span class="p">[</span><span class="s2">&quot;CORDEX-EUR-11&quot;</span><span class="p">]</span>            <span class="o">=</span> <span class="n">data_c3s_atlas</span>
 <span class="n">origin_tx35_future</span><span class="p">[</span><span class="s2">&quot;CORDEX-EUR-11&quot;</span><span class="p">]</span>               <span class="o">=</span> <span class="n">indicator_CORDEX_EUR_11</span>
-<span class="n">origin_c3s_atlasgrid_tx35_future</span><span class="p">[</span><span class="s2">&quot;CORDEX-EUR-11&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">interpolated_CORDEX_EUR_11</span>
+<span class="n">origin_c3s_atlasgrid_tx35_future</span><span class="p">[</span><span class="s2">&quot;CORDEX-EUR-11&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">regridded_CORDEX_EUR_11</span>
 </pre></div>
 </div>
 </div>
@@ -2116,7 +2127,7 @@ Attributes: (12/35)
 These data may take up to several hours to download
 and
 require sufficient storage to download and cache.</p>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2221,7 +2232,7 @@ Attributes:
 These data may take up to several hours to download
 and
 require sufficient storage to download and cache.</p>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2346,7 +2357,7 @@ Attributes:
 These data may take up to several hours to download
 and
 require sufficient storage to download and cache.</p>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2366,13 +2377,13 @@ require sufficient storage to download and cache.</p>
     <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;30_0e&quot;</span><span class="p">],</span>
 <span class="p">}</span>
 
-<span class="c1"># Download data, pre-process, calculate indicator, interpolate</span>
+<span class="c1"># Download data, pre-process, calculate indicator, regrid</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span><span class="s2">&quot;cds&quot;</span><span class="p">,</span> <span class="n">E_OBS_ID</span><span class="p">,</span> <span class="n">request_E_OBS</span><span class="p">)</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">()</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">select_years_in_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="n">YEAR_HISTORICAL</span><span class="p">,])</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;tx&quot;</span><span class="p">:</span> <span class="s2">&quot;tasmax&quot;</span><span class="p">})</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">homogenise</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;tasmax&quot;</span><span class="p">,</span> <span class="n">E_OBS_ID</span><span class="p">)</span>
 <span class="n">indicator_E_OBS</span> <span class="o">=</span> <span class="n">cal_tx35</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">interpolated_E_OBS</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">indicator_E_OBS</span><span class="p">,</span> <span class="s2">&quot;tx35&quot;</span><span class="p">,</span>
+<span class="n">regridded_E_OBS</span> <span class="o">=</span> <span class="n">regrid</span><span class="p">(</span><span class="n">indicator_E_OBS</span><span class="p">,</span> <span class="s2">&quot;tx35&quot;</span><span class="p">,</span>
                                  <span class="n">lat_range</span><span class="o">=</span><span class="p">(</span><span class="mf">25.0625</span><span class="p">,</span> <span class="mf">71.4375</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">),</span> <span class="n">lon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">24.9375</span><span class="p">,</span> <span class="mf">45.4375</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -2438,7 +2449,7 @@ Attributes:
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add to collection</span>
 <span class="n">c3s_atlas_tx35_historical</span><span class="p">[</span><span class="s2">&quot;E-OBS&quot;</span><span class="p">]</span>            <span class="o">=</span> <span class="n">data_c3s_atlas</span>
 <span class="n">origin_tx35_historical</span><span class="p">[</span><span class="s2">&quot;E-OBS&quot;</span><span class="p">]</span>               <span class="o">=</span> <span class="n">indicator_E_OBS</span>
-<span class="n">origin_c3s_atlasgrid_tx35_historical</span><span class="p">[</span><span class="s2">&quot;E-OBS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">interpolated_E_OBS</span>
+<span class="n">origin_c3s_atlasgrid_tx35_historical</span><span class="p">[</span><span class="s2">&quot;E-OBS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">regridded_E_OBS</span>
 </pre></div>
 </div>
 </div>
@@ -2447,7 +2458,7 @@ Attributes:
 </section>
 <section id="berkearth">
 <h4>BERKEARTH<a class="headerlink" href="#berkearth" title="Link to this heading">#</a></h4>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2553,7 +2564,7 @@ Attributes: (12/21)
 </section>
 <section id="oras5">
 <h4>ORAS5<a class="headerlink" href="#oras5" title="Link to this heading">#</a></h4>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2570,13 +2581,13 @@ Attributes: (12/21)
     <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="n">MONTHS</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="c1"># Download data, pre-process, calculate indicator, interpolate</span>
+<span class="c1"># Download data, pre-process, calculate indicator, regrid</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span><span class="s2">&quot;cds&quot;</span><span class="p">,</span> <span class="n">ORAS5_ID</span><span class="p">,</span> <span class="n">request_ORAS5</span><span class="p">)</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">()</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;sosstsst&quot;</span><span class="p">:</span> <span class="s2">&quot;sst&quot;</span><span class="p">})</span>
 <span class="n">data</span><span class="p">[</span><span class="s2">&quot;sst&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Celsius&quot;</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">homogenise</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;sst&quot;</span><span class="p">,</span> <span class="n">ORAS5_ID</span><span class="p">)</span>
 <span class="n">indicator_ORAS5</span> <span class="o">=</span> <span class="n">cal_sst</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">interpolated_ORAS5</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">indicator_ORAS5</span><span class="p">,</span> <span class="s2">&quot;sst&quot;</span><span class="p">,</span>
+<span class="n">regridded_ORAS5</span> <span class="o">=</span> <span class="n">regrid</span><span class="p">(</span><span class="n">indicator_ORAS5</span><span class="p">,</span> <span class="s2">&quot;sst&quot;</span><span class="p">,</span>
                                  <span class="n">lat_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">89.875</span><span class="p">,</span> <span class="mf">89.875</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">),</span> <span class="n">lon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">179.875</span><span class="p">,</span> <span class="mf">179.875</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -2627,7 +2638,7 @@ Attributes: (12/21)
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add to collection</span>
 <span class="n">c3s_atlas_sst</span><span class="p">[</span><span class="s2">&quot;ORAS5&quot;</span><span class="p">]</span>            <span class="o">=</span> <span class="n">data_c3s_atlas</span>
 <span class="n">origin_sst</span><span class="p">[</span><span class="s2">&quot;ORAS5&quot;</span><span class="p">]</span>               <span class="o">=</span> <span class="n">indicator_ORAS5</span>
-<span class="n">origin_c3s_atlasgrid_sst</span><span class="p">[</span><span class="s2">&quot;ORAS5&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">interpolated_ORAS5</span>
+<span class="n">origin_c3s_atlasgrid_sst</span><span class="p">[</span><span class="s2">&quot;ORAS5&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">regridded_ORAS5</span>
 </pre></div>
 </div>
 </div>
@@ -2640,7 +2651,7 @@ Attributes: (12/21)
 These data may take up to several hours to download
 and
 require sufficient storage to download and cache.</p>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2760,7 +2771,7 @@ Attributes: (12/58)
 </section>
 <section id="cpc">
 <h4>CPC<a class="headerlink" href="#cpc" title="Link to this heading">#</a></h4>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2909,23 +2920,21 @@ we manually clear out some memory-intensive objects that are no longer necessary
 This means a point-by-point comparison is not possible
 (because the points are not equivalent),
 but the distributions can be compared geospatially and overall.
-This comparison probes the consistency quality attribute:
+This qualitative comparison probes the consistency quality attribute:
 Are the climate indicators in the dataset underpinning the Copernicus Interactive Climate Atlas consistent with their origin datasets?</p>
-<p>The second comparison uses the regridded version of the indicators derived from the origin datasets.
-This makes a point-by-point comparison possible.
+<p>Second, the C3S Atlas dataset is compared to the indicators derived from the origin dataset and regridded to the C3S Atlas grid.
+This makes a quantitative point-by-point comparison possible.
 This second comparison probes how well the dataset underpinning the Copernicus Interactive Climate Atlas can be reproduced from its origin datasets,
 based on the workflow (Figure <a class="reference internal" href="#multi-origin-c3s-atlas-consistency-q03-workflow-fig"><span class="std std-numref">7.3.1</span></a>).</p>
-<section id="consistency-comparison-on-native-grids">
-<h4>Consistency: Comparison on native grids<a class="headerlink" href="#consistency-comparison-on-native-grids" title="Link to this heading">#</a></h4>
 <p>For the geospatial comparison,
 we display the values of the indicators for one month,
 across one region and globally.
-In the first example, we display the results across
+As an example, we display the results across
 Europe
 in
 June,
-which should provide significant spatial variation.</p>
-<p>This region can easily be modified in the following code cell using the <a class="reference external" href="https://earthkit-plots.readthedocs.io/en/latest/examples/guide/05-domains.html" rel="noreferrer" target="_blank">domains provided by earthkit-plots</a>.
+which should provide significant spatial variation.
+This region can easily be modified in the following code cell using the <a class="reference external" href="https://earthkit-plots.readthedocs.io/en/latest/examples/guide/05-domains.html" rel="noreferrer" target="_blank">domains provided by earthkit-plots</a>.
 Some examples are provided in the cell (commented out using <code class="docutils literal notranslate"><span class="pre">#</span></code>).</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
@@ -2950,18 +2959,20 @@ Some examples are provided in the cell (commented out using <code class="docutil
 </div>
 </details>
 </div>
+<section id="consistency-comparison-on-native-grids">
+<h4>Consistency: Comparison on native grids<a class="headerlink" href="#consistency-comparison-on-native-grids" title="Link to this heading">#</a></h4>
 <p>As in the
 <a class="reference internal" href="derived_multi-origin-c3s-atlas_consistency_q01.html"><span class="doc std std-doc">previous</span></a>
 <a class="reference internal" href="derived_multi-origin-c3s-atlas_consistency_q02.html"><span class="doc std std-doc">notebooks</span></a>,
 it is clear from the geospatial comparisons
 (Figures <a class="reference internal" href="#derived-multi-origin-c3s-atlas-consistency-q03-fig-geo-tx35future"><span class="std std-numref">7.3.2</span></a>–<a class="reference internal" href="#derived-multi-origin-c3s-atlas-consistency-q03-fig-geo-r01"><span class="std std-numref">7.3.5</span></a>)
-that the C3S Atlas dataset closely resembles a manual reproduction of its origin datasets.
+that the C3S Atlas dataset closely resembles a manual reproduction from its origin datasets.
 The general distribution of indicator values is the same for
 all comparisons.
 The
 E-OBS <code class="docutils literal notranslate"><span class="pre">tx35</span></code> (Figure <a class="reference internal" href="#derived-multi-origin-c3s-atlas-consistency-q03-fig-geo-tx35historical"><span class="std std-numref">7.3.3</span></a>)
 comparison shows clear differences in terms of coverage,
-which can be explained by differences in versions used
+which is explained by differences in versions used
 (26.0e in the production of the C3S Atlas dataset, 30.0e here).
 Additionally,
 the CMIP5 comparison
@@ -2976,7 +2987,7 @@ previous
 notebooks.
 The C3S Atlas dataset and its origins are highly consistent,
 but small differences exist due to the difference in grid
-and potential differences in the origin dataset version used and workflow.
+and differences in the origin dataset version used and workflow.
 Large differences were observed
 only
 in the availability or masking of data in specific areas,
@@ -3235,7 +3246,10 @@ on the native grid of each dataset.</span><a class="headerlink" href="#derived-m
 </section>
 <section id="reproducibility-comparison-on-c3s-atlas-grid">
 <h4>Reproducibility: Comparison on C3S Atlas grid<a class="headerlink" href="#reproducibility-comparison-on-c3s-atlas-grid" title="Link to this heading">#</a></h4>
-<p>After regridding/interpolating, the indicator values reproduced from the origin dataset can be compared point-by-point to the values retrieved from the C3S Atlas dataset. We first examine some metrics that describe the difference Δ between corresponding pixels:</p>
+<p>After regridding to the C3S Atlas grid,
+the indicator values reproduced from the origin dataset
+can be compared point-by-point to the values retrieved from the C3S Atlas dataset.
+We first examine some metrics that describe the difference Δ between corresponding pixels:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -3812,7 +3826,6 @@ including the per-pixel difference.</span><a class="headerlink" href="#derived-m
 </section>
 <section id="references">
 <h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
-<p><em>To be replaced with numerical references once the text is finished</em></p>
 <p>[<a class="reference external" href="https://doi.org/10.21957/ah52ufc369" rel="noreferrer" target="_blank">Gutiérrez+24</a>] J. M. Gutiérrez et al., ‘The Copernicus Interactive Climate Atlas: a tool to explore regional climate change’, ECMWF Newsletter, vol. 181, pp. 38–45, Oct. 2024, doi: 10.21957/ah52ufc369.</p>
 <p>[<a class="reference external" href="https://doi.org/10.24381/cds.h35hb680" rel="noreferrer" target="_blank">C3S Atlas dataset</a>] Copernicus Climate Change Service, ‘Gridded dataset underpinning the Copernicus Interactive Climate Atlas’. Copernicus Climate Change Service (C3S) Climate Data Store (CDS), Jun. 17, 2024. doi: 10.24381/cds.h35hb680.</p>
 <p>[<a class="reference external" href="https://doi.org/10.24381/cds.c866074c" rel="noreferrer" target="_blank">CMIP6 dataset</a>] Copernicus Climate Change Service, ‘CMIP6 climate projections’. Copernicus Climate Change Service (C3S) Climate Data Store (CDS), Mar. 23, 2021. doi: 10.24381/cds.c866074c.</p>
