@@ -1,0 +1,786 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>1.5.1. Satellite data benchmarking for Earth System Models &#8212; eqcbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Satellite_ECVs/Land_Hydrology/satellite_satellite-soil-moisture_completeness_q04';</script>
+    <link rel="icon" href="../../_static/C3S_favicon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="1.6. Ocean" href="../Ocean/Ocean.html" />
+    <link rel="prev" title="1.5. Land Hydrology" href="Land_Hydrology.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">⚠️This is under development!⚠️</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/C3S–POS–LINE.png" class="logo__image only-light" alt="eqcbook - Home"/>
+    <script>document.write(`<img src="../../_static/C3S–POS–LINE.png" class="logo__image only-dark" alt="eqcbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    C3S EQC quality assessments
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Satellite Observations</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../satellite.html">1. Quality assessments for Satellite Observations</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Atmosphere_Physics/Atmosphere_Physics.html">1.1. Atmosphere Physics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Atmospheric_Composition/Atmospheric_Composition.html">1.2. Atmospheric Composition</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Cryosphere/Cryosphere.html">1.3. Cryosphere</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Land_Biosphere/Land_Biosphere.html">1.4. Land Biosphere</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="Land_Hydrology.html">1.5. Land Hydrology</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">1.5.1. Satellite data benchmarking for Earth System Models</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Ocean/Ocean.html">1.6. Ocean</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Insitu Observations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../In_Situ/insitu.html">2. Quality assessments for Insitu Observations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Reanalysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../Reanalyses/reanalysis.html">3. Quality assessments for Reanalysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Seasonal Forecasts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../Seasonal_Forecasts/seasonal.html">4. Quality assessments for Seasonal Forecasts</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Climate Projections</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../Climate_Projections/climate.html">5. Quality assessments for Climate Projections</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../Climate_Projections/CMIP6/CMIP6.html">5.1. CMIP6</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../Climate_Projections/CORDEX/CORDEX.html">5.2. CORDEX</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Climate Indicators</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../Indicators/indicator.html">6. Quality assessments for Climate Indicators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Derived Datasets</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../Derived_Datasets/derived.html">7. Quality assessments for Derived Datasets</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Applications</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../Applications/application.html">8. Quality assessments for C3S Applications</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quality assessment template</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../templates/template_instructions.html">Template instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../templates/template.html">Template</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment/issues/new?title=Issue%20on%20page%20%2FSatellite_ECVs/Land_Hydrology/satellite_satellite-soil-moisture_completeness_q04.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/Satellite_ECVs/Land_Hydrology/satellite_satellite-soil-moisture_completeness_q04.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Satellite data benchmarking for Earth System Models</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-validating-surface-soil-moisture-variability-in-global-climate-models">🌍 Use case: Validating surface soil moisture variability in global Climate Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statements">📢 Quality assessment statements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#models-performance-against-the-soil-moisture-benchmark-datasets">1. Models performance against the soil moisture benchmark datasets</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#global-analysis">Global Analysis</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#regional-analysis">Regional Analysis</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-resources">Key resources</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><img alt="logo" src="../../_images/LogoLine_horizon_C3S1.png" /></p>
+<div class="alert alert-block alert-warning">
+Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
+</div><section class="tex2jax_ignore mathjax_ignore" id="satellite-data-benchmarking-for-earth-system-models">
+<h1><span class="section-number">1.5.1. </span>Satellite data benchmarking for Earth System Models<a class="headerlink" href="#satellite-data-benchmarking-for-earth-system-models" title="Link to this heading">#</a></h1>
+<p>Production date: 11 - 2025</p>
+<p>Produced by: CNR-ISMAR</p>
+<section id="use-case-validating-surface-soil-moisture-variability-in-global-climate-models">
+<h2>🌍 Use case: Validating surface soil moisture variability in global Climate Models<a class="headerlink" href="#use-case-validating-surface-soil-moisture-variability-in-global-climate-models" title="Link to this heading">#</a></h2>
+</section>
+<section id="quality-assessment-question">
+<h2>❓ Quality assessment question<a class="headerlink" href="#quality-assessment-question" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Is the satellite-based soil moisture record complete enough to assess Earth System Models outputs?</strong></p></li>
+</ul>
+<p>The Earth’s climate and its evolution are determined by interactions between land surfaces, the atmosphere, the ocean and ice caps under the atmospheric composition and the forcing of solar radiation. For these reasons, numerical models must couple all these components of the system when used to develop climate projections in order to anticipate the impacts of climate change. In this general framework, interactions between the Earth’s surface and the atmosphere strongly modulate regional climate. They are based on a complex overlap of multiple land-atmosphere feedback processes and also depend on the representation of soil moisture. However, simulated soil moisture does not have an unambiguous meaning. It is a highly model-specific quantity, with a dynamic range defined by the specific evaporation and runoff formulations used by the given model, as well as model-specific soil parameters such as porosity, hydraulic conductivity, wilting point and layer depth. Even when the models are driven by exactly the same meteorological forcing, large differences in soil moisture products generated by different land models can be observed <a class="reference external" href="https://doi.org/10.1175/2009JCLI2832.1" rel="noreferrer" target="_blank">[1]</a>.</p>
+<p>Here we extract results from two recent papers, which use the ESA-CCI combined product to evaluate the latest Earth System Models used in the Coupled Model Intercomparison Project (CMIP6), a project of the World Climate Research Programme providing climate projections to understand past, present and future climate changes, in their capability to correctly represent the surface soil moisture.</p>
+</section>
+<section id="quality-assessment-statements">
+<h2>📢 Quality assessment statements<a class="headerlink" href="#quality-assessment-statements" title="Link to this heading">#</a></h2>
+<div class="note admonition">
+<p class="admonition-title">These are the key outcomes of this assessment</p>
+<ul class="simple">
+<li><p>ESA-CCI COM dataset has long-term, global coverage which makes it a valuable resource for evaluating surface soil moisture in Earth System Models; its combination of different satellite platforms helps mitigate the limitations of individual sensors, providing an observational estimate for surface soil moisture that is robust</p></li>
+<li><p>Regional analysis with this product may be affected permanent gaps on tropical forests</p></li>
+<li><p>Satellite-based soil moisture products are considered as observations, but they are highly dependent on the underlying algoritms used to produce them and caution should be used about the reliability of the absolute values retrieved</p></li>
+<li><p>Variations observed underscore the sensitivity of model evaluation to the choice of reference dataset and highlights the need for multi-dataset benchmarking</p></li>
+</ul>
+</div>
+</section>
+<section id="methodology">
+<h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
+<p>Evaluation of soil moisture (SM) performance of CMIP6 models is carried out extrapolating results from recent scientific literature available <a class="reference external" href="https://doi.org/10.5194/egusphere-2025-3517" rel="noreferrer" target="_blank">[2]</a> <a class="reference external" href="https://doi.org/10.1029/2019MS002005" rel="noreferrer" target="_blank">[3]</a>, involving three different types of datasets:</p>
+<p>The ESA-CCI COM, which provides surface SM down to 5 cm from 1978 to present, with a daily temporal resolution and spatial resolution of 0.25 degrees.</p>
+<p>The Wang2021OLC product <a class="reference external" href="https://doi.org/10.5194/essd-13-4385-2021" rel="noreferrer" target="_blank">[4]</a> synthesizes SM information from diverse sources, including in situ observations, satellite data, reanalysis products, and offline land surface model simulations. Here, the optimal linear combination (OLC) version is used. This dataset provides a global, gap-free, long-term record of SM across different depths from 1970 to 2016, with a monthly temporal resolution and spatial resolution of 0.5 degrees.</p>
+<p>The Global Land Evaporation Amsterdam Model v3 (GLEAM v3) <a class="reference external" href="https://doi.org/10.5194/gmd-10-1903-2017" rel="noreferrer" target="_blank">[5]</a> is a set of algorithms dedicated to the estimation of terrestrial evaporation and root-zone soil moisture from satellite data. This dataset provides SM estimates at 10 cm over 36-year period spanning 1980–2015, with a daily temporal resolution and a common upscaled spatial resolution of 0.25 degrees.</p>
+<p>In Massoud et al. (2025), a global analysis is conducted using the monthly aggregation of ESA-CCI and the Wang et al. (2021) products. Since the former provides SM estimates at 5 cm, the <span class="math notranslate nohighlight">\(mrsol\)</span> variable from each CMIP6 model - defined as the Total Water Content of Soil Layer - is integrated to this depth, using the formula <a class="reference external" href="https://doi.org/10.1175/JCLI-D-20-0827.1" rel="noreferrer" target="_blank">[6]</a> <a class="reference external" href="https://doi.org/10.5194/essd-13-4385-2021" rel="noreferrer" target="_blank">[7]</a>:</p>
+<div class="math notranslate nohighlight">
+\[
+SM_{integrated} = {\{[\sum_{layer\ i=1}^{layer\ n-1} mrsol(i) / \rho_{w}dz(i) * dz] + [mrsol(n)/ \rho_{w}dz(i) * z_{remaining}] }\}/z_{total}
+\]</div>
+<p>In this equation, 𝑚𝑟𝑠𝑜𝑙(𝑖) represents the mass of SM in the 𝑖-th model-defined soil layer, reported in units of <span class="math notranslate nohighlight">\([kg\ m^{-2}]\)</span>. The variable <span class="math notranslate nohighlight">\(\rho_{w}\)</span> is the density of liquid water, assumed to be a constant value of 1000 <span class="math notranslate nohighlight">\(kg/m³\)</span>. The quantity <span class="math notranslate nohighlight">\(𝑑𝑧(𝑖)\)</span> refers to the thickness of the 𝑖-th soil layer in meters <span class="math notranslate nohighlight">\([m]\)</span>, which is used to compute the volumetric contribution of each layer. The term <span class="math notranslate nohighlight">\(z_{remaining}\)</span> represents the portion in <span class="math notranslate nohighlight">\([m]\)</span> of the final layer that partially overlaps with the target integration depth, defining the vertical extent over which SM is integrated. This formula first converts each layer’s SM from mass per unit area <span class="math notranslate nohighlight">\([kg\ m-2]\)</span> to volumetric SM <span class="math notranslate nohighlight">\([m3/m3]\)</span> by dividing by the product of water density and layer thickness. Then, it multiplies by the layer thickness to compute the volume per unit area. Summing over all layers and dividing by the total soil depth yields the average volumetric SM over the target depth. Also, the <span class="math notranslate nohighlight">\(mrsos\)</span> variable in CMIP6 models, defined as the Moisture in Upper Portion of Soil Column and which represents surface SM at approximately 10 <span class="math notranslate nohighlight">\(cm\)</span>, it is benchmarked against the 10 <span class="math notranslate nohighlight">\(cm\)</span> layer from the Wang2021OLC product.</p>
+<p>Monthly aggregation of ESA-CCI and GLEAM products are employed in Cheruy et al. (2020). As stated in Koster et al. (2009) <a class="reference external" href="https://doi.org/10.1175/2009JCLI2832.1" rel="noreferrer" target="_blank">[1]</a>, when referring to model-generated soil moisture (or soil wetness) data, since it is a model-specific quantity with no direct observational analog, one should rather refer to  an “index” of the moisture state, and the key to any proper transferability of soil moisture states between land surface models (LSMs) lies in the recognition of and correction for the differences in the statistical moments of the LSMs’ soil moisture distributions. For this reason in <a class="reference external" href="https://doi.org/10.1029/2019MS002005" rel="noreferrer" target="_blank">[3]</a> they prefer using the standardized Soil Moisture Index, avoiding direct comparison between absolute soil wetness values:</p>
+<div class="math notranslate nohighlight">
+\[
+SMI = (w -w_{m})/ \sigma_{m}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(w_{m}\)</span> is the mean wetness for the given LSM at the point and time of year in question and <span class="math notranslate nohighlight">\(\sigma_{m}\)</span> is that LSM’s standard deviation of wetness index for that point and time of year. Comparison against the <span class="math notranslate nohighlight">\(mrsos\)</span> variable is also performed.</p>
+<p>Results are shown for:</p>
+<p><strong><a class="reference internal" href="#satellite-satellite-soil-moisture-completeness-q04-satellite-soil-moisture-validation-completeness-q04-section-1"><span class="std std-ref">1. Models performance against the soil moisture benchmark datasets</span></a></strong></p>
+<ul class="simple">
+<li><p>Global analysis</p></li>
+<li><p>Regional analysis</p></li>
+</ul>
+</section>
+<section id="analysis-and-results">
+<h2>📈 Analysis and results<a class="headerlink" href="#analysis-and-results" title="Link to this heading">#</a></h2>
+<section id="models-performance-against-the-soil-moisture-benchmark-datasets">
+<span id="satellite-satellite-soil-moisture-completeness-q04-satellite-soil-moisture-validation-completeness-q04-section-1"></span><h3>1. Models performance against the soil moisture benchmark datasets<a class="headerlink" href="#models-performance-against-the-soil-moisture-benchmark-datasets" title="Link to this heading">#</a></h3>
+<section id="global-analysis">
+<h4>Global Analysis<a class="headerlink" href="#global-analysis" title="Link to this heading">#</a></h4>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../../_images/051c5e80-6b7d-4fcd-93ce-76cf74766d76.png"><img alt="../../_images/051c5e80-6b7d-4fcd-93ce-76cf74766d76.png" src="../../_images/051c5e80-6b7d-4fcd-93ce-76cf74766d76.png" style="height: 300px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 1.5.1.1 </span><span class="caption-text">Long-term mean soil moisture (SM) from observational datasets. (A) ESA-CCI Surface SM <span class="math notranslate nohighlight">\([m³ m⁻³]\)</span> (top 5 cm) (1978-2023), providing global estimates based on satellite data. (B) Wang et al. (2021) OLC Surface SM <span class="math notranslate nohighlight">\([m³ m⁻³]\)</span> (top 10 cm) (1970-2016), derived from a merged dataset of satellite and in-situ observations. Each subplot shows the global distribution of soil moisture at the depths represented in each product. Reproduced from <a class="reference external" href="https://doi.org/10.5194/egusphere-2025-3517" rel="noreferrer" target="_blank">[2]</a>.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id2">
+<a class="reference internal image-reference" href="../../_images/1ff4b9ba-b23b-4ddf-b92a-8ea61d160c6b.png"><img alt="../../_images/1ff4b9ba-b23b-4ddf-b92a-8ea61d160c6b.png" src="../../_images/1ff4b9ba-b23b-4ddf-b92a-8ea61d160c6b.png" style="height: 300px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 1.5.1.2 </span><span class="caption-text">Taylor diagrams evaluating the performance of CMIP6 model SM simulations compared to different observational datasets: A) Surface SM from ESA-CCI (top 5 cm), B) Wang2021OLC Surface SM using mrsos from the models (top 10 cm). Reproduced from <a class="reference external" href="https://doi.org/10.5194/egusphere-2025-3517" rel="noreferrer" target="_blank">[2]</a>.</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The figure above presents Taylor plots comparing model performance with the SM reference datasets used. These plots show that the models generally capture the correlation and spatial patterns of surface SM well, albeit with varying degrees of bias and dispersion. It can also be noted that the models show a greater ability to capture correlations than standard deviations, suggesting that they better represent relative patterns of moisture and drought than absolute levels of soil moisture. The considerable dispersion in soil moisture estimates among CMIP6 models reflects differences in how LSM models represent key processes and input data. The variability observed in soil moisture simulations between CMIP6 models likely stems from a combination of factors, including differences in soil properties, legacy input datasets, timing of precipitation events, hydrological parameterisations and process representations, as well as feedback mechanisms.</p>
+</section>
+<section id="regional-analysis">
+<h4>Regional Analysis<a class="headerlink" href="#regional-analysis" title="Link to this heading">#</a></h4>
+<p>Among the Earth system models evaluated in the previous section at the global level is IPSL-CM6A-LR, the latest version of the low-resolution climate model developed by the Institut Pierre Simon Laplace. Between phases 5 and 6 of CMIP, atmospheric, land surface and hydrological components were improved, with the most significant changes relating to soil hydrology, snow cover and background albedo <a class="reference external" href="https://doi.org/10.1029/2019MS001892" rel="noreferrer" target="_blank">[8]</a>. To document the impact of the changes, four different configurations are considered in the paper, combining final versions of atmospheric physics (AP and 6A) and of the soil hydrology (Choi and ctrl), namely, APChoi (corresponding to the IPSL‐CM5A in the CMIP5 database), APctrl, 6AChoi, and 6Actrl (corresponding to the IPSL‐CM6A in the CMIP6 database).</p>
+<p>The surface soil moisture distributions for the four reference configurations and for the different observation sets are constructed based on monthly values for a 10-year period for which all observations are available (2001–2010). In addition to the soil moisture datasets, the global gridded datasets used as a reference to examine the moisture-energy coupling at the surface are site‐observations upscaled products for evaporation <a class="reference external" href="https://doi.org/10.1029/2010JG001566" rel="noreferrer" target="_blank">[9]</a>, CERES‐EBAF for surface shortwave (SW) radiation <a class="reference external" href="https://doi.org/10.1175/JCLI-D-12-00436.1" rel="noreferrer" target="_blank">[10]</a>, and the Global Precipitation Climatology Project (GPCP) monthly product <a class="reference external" href="https://doi.org/10.1175/1525-7541%282003%29004%3C1147:TVGPCP%3E2.0.CO;2" rel="noreferrer" target="_blank">[11]</a> for the precipitation.</p>
+<p>The focus is on two hotspot regions <a class="reference external" href="https://doi.org/10.1126/science.1100217" rel="noreferrer" target="_blank">[12]</a>, where the soil moisture‐atmosphere coupling is strong: the Central North America (CNA) region and a box in the Sahel (−10, 30°E, 0–20°N). A third region corresponding to Western Europe (WE) where the coupling is weaker is also considered.</p>
+<figure class="align-default" id="id3">
+<a class="reference internal image-reference" href="../../_images/9fa09b4c-07a4-442c-a5d4-eb273a844eb4.png"><img alt="../../_images/9fa09b4c-07a4-442c-a5d4-eb273a844eb4.png" src="../../_images/9fa09b4c-07a4-442c-a5d4-eb273a844eb4.png" style="height: 600px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 1.5.1.3 </span><span class="caption-text">Köppen climate regions <a class="reference external" href="https://doi.org/10.1127/0941-2948/2006/0130" rel="noreferrer" target="_blank">[13]</a>: A) Tropical, B) Desert and Semi-arid, C) Temperate, and D) Continental. Regional mean values of surface SM derived from the ESA-CCI product are shown. The ESA-CCI dataset includes some data gaps, particularly in densely forested regions (e.g., the Amazon and Congo), ice-covered areas, and urban zones, due to limitations in microwave satellite observations. These gaps are more prevalent in earlier years and become less frequent over time. Reproduced from <a class="reference external" href="https://doi.org/10.5194/egusphere-2025-3517" rel="noreferrer" target="_blank">[2]</a>.</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id4">
+<a class="reference internal image-reference" href="../../_images/28210d4a-472e-4ffa-b873-58669b2cf842.jpg"><img alt="../../_images/28210d4a-472e-4ffa-b873-58669b2cf842.jpg" src="../../_images/28210d4a-472e-4ffa-b873-58669b2cf842.jpg" style="height: 550px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 1.5.1.4 </span><span class="caption-text">Regional histograms computed from monthly values of the individual grid points corresponding to the CNA region in JJA. The histograms are constructed for a 10‐year long period in which all observations are available (2001–2010). Each row is dedicated to a particular variable: surface standardized soil moisture (mrsos, first row), net SW radiation at the surface (second row), evaporation (third row), and precipitation (fourth row). The first four columns correspond to the four reference experiments and the last two columns to the different sets of observations indicated above the corresponding histograms. The colors depict the PDF from the minimum to first quartile (dark red) from first quartile to the median (pale orange), from median to third quartile (cyan line), and from the third quartile to the maximum (blue line). Reproduced from <a class="reference external" href="https://doi.org/10.1029/2019MS002005" rel="noreferrer" target="_blank">[3]</a>.</span><a class="headerlink" href="#id4" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id5">
+<a class="reference internal image-reference" href="../../_images/6ef5dc4c-d141-4c9c-acaf-f0752f648d8b.jpg"><img alt="../../_images/6ef5dc4c-d141-4c9c-acaf-f0752f648d8b.jpg" src="../../_images/6ef5dc4c-d141-4c9c-acaf-f0752f648d8b.jpg" style="height: 550px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 1.5.1.5 </span><span class="caption-text">Regional histograms computed from monthly values of the individual grid points corresponding to the Sahel box (−10:30°E, 0:20°N) in JJA. The histograms are constructed for a 10‐year long period in which all observations are available (2001–2010). Each row is dedicated to a particular variable: surface standardized soil moisture (first row), net SW radiation at the surface (second row), evaporation (third row), and precipitation (fourth row). The first four
+columns correspond to the reference experiments, and the last two columns correspond to the different sets of observations indicated above the corresponding histograms. The colors depict the PDF from the minimum to first quartile (dark red) from first quartile to the median (pale orange), from median to third quartile (cyan line), and from the third quartile to the maximum (blue line). For soil moisture, the y‐axis is cut at .25 (representing 25% of the quartile)
+for the sake of readability but the driest quartile peaks at 0.8 (corresponding to 80% of the quartile) for APctrl and the moister quartile peaks at .8 for APChoi and APctrl. For evaporation they‐axis is cut at .14 (corresponding to 14% of a quartile), but 55% (APChoi) and 90% (APctrl) of the evaporation associated with the first quartile is less than 0.1 mm/day. For the precipitation, the y‐axis is cut at .12, but 70% , 85%, 15 %, and 40 % of the precipitation associated with the driest soil moisture quartile are less then 0.1 mm/day for APChoi, APctrl, 6AChoi, and 6Actrl and 20% and 10 % for GLEAM and ESA‐CCI. Reproduced from <a class="reference external" href="https://doi.org/10.1029/2019MS002005" rel="noreferrer" target="_blank">[3]</a>.</span><a class="headerlink" href="#id5" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id6">
+<a class="reference internal image-reference" href="../../_images/3afc311a-1dd5-4e92-ba4c-7385307ddeee.png"><img alt="../../_images/3afc311a-1dd5-4e92-ba4c-7385307ddeee.png" src="../../_images/3afc311a-1dd5-4e92-ba4c-7385307ddeee.png" style="height: 550px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 1.5.1.6 </span><span class="caption-text">Regional histograms computed from monthly values of the individual grid points corresponding to the Western Europe. Each row is dedicated to a particular variable: surface standardized soil moisture (first row), net SW radiation at the surface (second row), evaporation (third row), and precipitation (fourth row). The first four columns correspond to the reference experiments, the last two columns correspond to the different sets of observations indicated above the corresponding histograms. The colors depict the PDF from the minimum to first quartile (dark red) from first quartile to the median (pale orange), from median to third quartile (cyan line) and from the third quartile to the maximum (blue line). Reproduced from <a class="reference external" href="https://doi.org/10.1029/2019MS002005" rel="noreferrer" target="_blank">[3]</a>.</span><a class="headerlink" href="#id6" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The soil‐moisture information at monthly time scale is here mostly used to discriminate between very dry, moderately dry, moderately moist, and very moist soils.  In this analysis, the fact that ESA-CCI is more correlated with soil moisture up to a depth of 5 cm, while GLEAM takes into account the first 0–10 cm as done in the simulations for the <span class="math notranslate nohighlight">\(mrsos\)</span> variable, is not explicitly considered, thus contributing to the differences.</p>
+<p>Looking at the histograms, the multilayer hydrology - the ctrl configuration - gives a representation of the surface soil moisture in better agreement with available observations than the Choi scheme, and the representation of evaporation in regions of strong coupling of the continental surface with the atmosphere is significantly improved; in the region where the soil moisture‐atmosphere coupling is expected not to be dominant, the simulated net SW radiation, the simulated evaporation, and the simulated precipitation appear to be more sensitive to the soil moisture than the observed ones.</p>
+<p>Some considerations can finally be done for the SW radiation, since for all regions, for both AP and 6A versions of the model and for each soil moisture quartile, the highest value of the net SW radiation is overestimated by as much as 20 <span class="math notranslate nohighlight">\(Wm^{-2}\)</span>. This bias can either rely on a difficulty in processing CERES observations to retrieve the net radiation at the surface or rely on the atmospheric model.</p>
+</section>
+</section>
+</section>
+<section id="i-if-you-want-to-know-more">
+<h2>ℹ️ If you want to know more<a class="headerlink" href="#i-if-you-want-to-know-more" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://climate.esa.int/en/projects/soil-moisture/" rel="noreferrer" target="_blank">ESA-CCI Soil Moisture Project</a></p>
+<p><a class="reference external" href="https://doi.org/10.5194/essd-17-4305-2025" rel="noreferrer" target="_blank">ESA CCI Soil Moisture GAPFILLED: an independent global gap-free satellite climate data record with uncertainty estimates</a></p>
+<p><a class="reference external" href="https://esgf-ui.cmcc.it/esgf-dashboard-ui/cmip6.html" rel="noreferrer" target="_blank">ESGF Data Statistics - CMIP6 project</a></p>
+<p><a class="reference external" href="https://fluxnet.org/" rel="noreferrer" target="_blank">FLUXNET Data Initiative</a></p>
+<section id="key-resources">
+<h3>Key resources<a class="headerlink" href="#key-resources" title="Link to this heading">#</a></h3>
+<p>Some key resources and further readings were linked throughout this assessment.</p>
+<p>The CDS catalogue entries for the data used were:</p>
+<ul class="simple">
+<li><p>Soil moisture gridded data from 1978 to present: <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/satellite-soil-moisture?tab=overview" rel="noreferrer" target="_blank">https://cds.climate.copernicus.eu/datasets/satellite-soil-moisture?tab=overview</a></p></li>
+<li><p>CMIP6 climate projections: <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/projections-cmip6?tab=overview" rel="noreferrer" target="_blank">https://cds.climate.copernicus.eu/datasets/projections-cmip6?tab=overview</a></p></li>
+<li><p>Surface radiation budget from 1979 to present derived from satellite observations: <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/satellite-surface-radiation-budget?tab=overview" rel="noreferrer" target="_blank">https://cds.climate.copernicus.eu/datasets/satellite-surface-radiation-budget?tab=overview</a></p></li>
+<li><p>Precipitation monthly and daily gridded data from 1979 to present derived from satellite measurements: <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/satellite-precipitation?tab=overview" rel="noreferrer" target="_blank">https://cds.climate.copernicus.eu/datasets/satellite-precipitation?tab=overview</a></p></li>
+</ul>
+<p>Other datasets can be accessed at:</p>
+<ul class="simple">
+<li><p>Global Multi-layer Soil Moisture Products: <a class="reference external" href="https://figshare.com/articles/dataset/Global_Multi-layer_Soil_Moisture_Products/13661312/1?file=26220602" rel="noreferrer" target="_blank">https://figshare.com/articles/dataset/Global_Multi-layer_Soil_Moisture_Products/13661312/1?file=26220602</a></p></li>
+<li><p>GLEAM: <a class="reference external" href="https://www.gleam.eu/" rel="noreferrer" target="_blank">https://www.gleam.eu/</a></p></li>
+</ul>
+</section>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://doi.org/10.1175/2009JCLI2832.1" rel="noreferrer" target="_blank">[1]</a> Koster, R. D., Guo, Z., Yang, R., Dirmeyer, P. A., Mitchell, K., &amp; Puma, M. J. (2009). On the nature of soil moisture in land surface models. Journal of Climate, 22(16), 4322–4335</p>
+<p><a class="reference external" href="https://doi.org/10.5194/egusphere-2025-3517" rel="noreferrer" target="_blank">[2]</a> Massoud, E. C., Collier, N., Wang, Y., Mao, J., Harpold, A., Kannenberg, S. A., Koren, G., Kumar, M., Raghav, P., Ray, P., Shi, M., Tao, J., Vasu, S. P., Wang, H., Zhu, Q., and Hoffman, F. M.: Benchmarking soil moisture and its relationship to ecohydrologic variables in Earth System Models, EGUsphere [preprint], <a class="reference external" href="https://doi.org/10.5194/egusphere-2025-3517" rel="noreferrer" target="_blank">https://doi.org/10.5194/egusphere-2025-3517</a>, 2025</p>
+<p><a class="reference external" href="https://doi.org/10.1029/2019MS002005" rel="noreferrer" target="_blank">[3]</a> Cheruy F., A. Ducharne, F. Hourdin, I. Musat, E. Vignon, G. Gastineau, V. Bastrikov. N. Vuichard, B. Diallo, J.L. Dufresne, J. Ghattas, J.Y. Grandpeix, A. Idelkadi, L. Mellul, F. Maigna, M. Nenegoz, C. Ottlé, P. Peylin, F. Wang, Y. Zhao, Improved near surface continental climate in IPSL-CM6A-LR by combined evolutions of atmospheric and land surface physics. Journal of Advances in Modeling Earth System, 12, e2019MS002005, <a class="reference external" href="https://doi.org/10.1029/2019MS002005" rel="noreferrer" target="_blank">https://doi.org/10.1029/2019MS002005</a>, 2020</p>
+<p><a class="reference external" href="https://doi.org/10.5194/essd-13-4385-2021" rel="noreferrer" target="_blank">[4]</a> Wang, Y., Mao, J., Jin, M., Hoffman, F. M., Shi, X., Wullschleger, S. D., and Dai, Y.: Development of observation-based global multilayer soil moisture products for 1970 to 2016, Earth Syst. Sci. Data, 13, 4385–4405, <a class="reference external" href="https://doi.org/10.5194/essd-13-4385-2021" rel="noreferrer" target="_blank">https://doi.org/10.5194/essd-13-4385-2021</a>, 2021</p>
+<p><a class="reference external" href="https://doi.org/10.5194/gmd-10-1903-2017" rel="noreferrer" target="_blank">[5]</a> Martens, B., Miralles, D. G., Lievens, H., van der Schalie, R., de Jeu, R. A. M., Fernández‐Prieto, D., et al. (2017). GLEAM v3: satellite‐based land evaporation and rootzone soil moisture. Geoscientific Model Development, 10(5), 1903–1925. <a class="reference external" href="https://doi.org/10.5194/gmd-10-1903-2017" rel="noreferrer" target="_blank">https://doi.org/10.5194/gmd-10-1903-2017</a></p>
+<p><a class="reference external" href="https://doi.org/10.1175/JCLI-D-20-0827.1" rel="noreferrer" target="_blank">[6]</a> Qiao, L., Zuo, Z., and Xiao, D. “Evaluation of soil moisture in CMIP6 simulations.” Journal of Climate
+35, no. 2 (2022): 779-800</p>
+<p><a class="reference external" href="https://doi.org/10.5194/essd-13-4385-2021" rel="noreferrer" target="_blank">[7]</a> Wang, Y., Mao, J., Jin, M., Hoffman, F. M., Shi, X., Wullschleger, S. D., and Dai, Y.: Development of
+observation-based global multilayer soil moisture products for 1970 to 2016, Earth Syst. Sci. Data, 13, 800 4385–4405, 2021</p>
+<p><a class="reference external" href="https://doi.org/10.1029/2019MS001892" rel="noreferrer" target="_blank">[8]</a> Hourdin, F., Rio, C., Grandpeix, J., Madeleine, J., Cheruy, F., Rochetin, N., et al. (2020). LMDZ6A: The atmospheric component of the IPSL climate model with improved and better tuned physics. Journal of Advances in Modeling Earth Systems, 12, e2019MS001892</p>
+<p><a class="reference external" href="https://doi.org/10.1029/2010JG001566" rel="noreferrer" target="_blank">[9]</a> Jung, M., Reichstein, M., Margolis, H. A., Cescatti, A., Richardson, A. D., Arain, M. A., et al. (2011). Global patterns of land‐atmosphere fluxes of carbon dioxide, latent heat, and sensible heat derived from eddy covariance, satellite, and meteorological observations.
+J. Geophys. Res., 116, G00J07</p>
+<p><a class="reference external" href="https://doi.org/10.1175/JCLI-D-12-00436.1" rel="noreferrer" target="_blank">[10]</a> Kato, S., Loeb, N. G., Rose, F. G., Doelling, D. R., Rutan, D. A., Caldwell, T. E., et al. (2013). Surface irradiances consistent with CERES‐derived top‐of‐atmosphere shortwave and longwave irradiances. Journal of Climate, 26, 2719–2740</p>
+<p><a class="reference external" href="https://doi.org/10.1175/1525-7541%282003%29004%3C1147:TVGPCP%3E2.0.CO;2" rel="noreferrer" target="_blank">[11]</a> Adler, R., Huffman, G., Chang, A., Ferraro, R., Xie, P., Janowiak, B., et al. (2003). The Version 2 Global Precipitation Climatology Project
+(GPCP) monthly precipitation analysis (1979‐Present). Journal of Hydrometeorology, 4, 1147–1167</p>
+<p><a class="reference external" href="https://doi.org/10.1126/science.1100217" rel="noreferrer" target="_blank">[12]</a> Koster, R., Dirmeyer, P., Guo, Z., Bonan, G., Chan, E., Cox, P., et al. (2004). Regions of strong coupling between soil moisture and precipitation. Science, 305(5687), 1138</p>
+<p><a class="reference external" href="https://doi.org/10.1127/0941-2948/2006/0130" rel="noreferrer" target="_blank">[13]</a> Kottek, M., Grieser, J., Beck, C., Rudolf, B., &amp; Rubel, F. (2006). World Map of the Köppen‐Geiger climate classification updated. Meteorologische Zeitschrift, 15, 259–263</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Satellite_ECVs/Land_Hydrology"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Land_Hydrology.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">1.5. </span>Land Hydrology</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../Ocean/Ocean.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">1.6. </span>Ocean</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-validating-surface-soil-moisture-variability-in-global-climate-models">🌍 Use case: Validating surface soil moisture variability in global Climate Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statements">📢 Quality assessment statements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#models-performance-against-the-soil-moisture-benchmark-datasets">1. Models performance against the soil moisture benchmark datasets</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#global-analysis">Global Analysis</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#regional-analysis">Regional Analysis</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-resources">Key resources</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By the Copernicus Climate Change Service (C3S), entrusted to ECMWF (European Centre for Medium-Range Weather Forecasts)
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
