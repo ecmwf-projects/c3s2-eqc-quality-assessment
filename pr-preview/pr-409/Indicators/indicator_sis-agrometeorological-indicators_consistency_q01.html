@@ -1825,8 +1825,8 @@ and
 only need to be changed in one place if you wish to modify the notebook for your own use case.</p>
 <p>In this example, we will be looking at data for the United Kingdom and Ireland every day in January–September 2023.
 We will also do a time series comparison at one site within this area.
-To customise the domain, site, and period,
-edit the variables in the following cell:</p>
+The domain, site, and period are defined in the following cell,
+and can be edited when running this notebook yourself:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1847,8 +1847,8 @@ edit the variables in the following cell:</p>
 </details>
 </div>
 <p>The CDS request template is then defined using the values defined above.
-Additional information to download specific data variables will be mixed into this template in the next sections.</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+Additional information to download specific data variables will be mixed into this template in the following sections.</p>
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -1898,7 +1898,7 @@ Additional information to download specific data variables will be mixed into th
 <p>Due to size limits on the CDS, the different variables of interest in AgERA5 (temperature, irradiation, etc.) have to be downloaded separately and then combined afterwards.
 This is achieved by combining the previously defined template request with parameters specific to AgERA5, and subsequently with parameters specific to each individual variable.</p>
 <p>First, the parameters specific to AgERA5 (dataset ID and version) are defined and combined with the template:</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -1936,7 +1936,7 @@ This is achieved by combining the previously defined template request with param
 </div>
 </details>
 </div>
-<p>Next, the individual data variables are defined:</p>
+<p>Next, the requests for each of the individual data variables are defined:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1992,9 +1992,9 @@ This is achieved by combining the previously defined template request with param
 </details>
 </div>
 <p>The requests for specific variables are combined with the template and passed to earthkit for download from the CDS.
-Earthkit-data downloads the dataset as a <a class="reference external" href="https://earthkit-data.readthedocs.io/en/latest/guide/data.html" rel="noreferrer" target="_blank">field list</a>, which can be manipulated directly.
-Here, we convert it to an <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html" rel="noreferrer" target="_blank">xarray object</a> for ease of use later (when comparing multiple datasets):</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+Earthkit-data downloads the dataset as a <a class="reference external" href="https://earthkit-data.readthedocs.io/en/latest/guide/data.html" rel="noreferrer" target="_blank">field list</a>.
+Here, we convert this object to an <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html" rel="noreferrer" target="_blank">xarray dataset</a> for ease of use later (when comparing multiple datasets):</p>
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -3229,7 +3229,7 @@ Attributes:
 <p>The process to download data from ERA5-Land is similar to that for AgERA5 above:
 defining a template and variable-specific requests.
 A difference is that data will be downloaded from two CDS datasets.
-The <a class="reference external" href="https://doi.org/10.24381/cds.e2161bac" rel="noreferrer" target="_blank"><em>ERA5-Land hourly data from 1950 to present</em></a> dataset contains hourly data for variables like 2m temperature as well as accumulated data for variables like solar irradiation.
+The <a class="reference external" href="https://doi.org/10.24381/cds.e2161bac" rel="noreferrer" target="_blank"><em>ERA5-Land hourly data from 1950 to present</em></a> dataset contains hourly data for variables like 2 m temperature as well as accumulated data for variables like solar irradiation.
 For the use case in this assessment, we are only interested in the daily accumulated data.
 <a class="reference external" href="https://doi.org/10.24381/cds.e9c9c792" rel="noreferrer" target="_blank"><em>ERA5-Land post-processed daily statistics from 1950 to present</em></a> provides daily minimum/maximum/mean statistics for the hourly variables, saving us the effort of aggregating these ourselves.
 In the following subsections, the data (accumulated and daily statistics) are downloaded and harmonised to the same format as AgERA5.</p>
@@ -3242,7 +3242,7 @@ In the following subsections, the data (accumulated and daily statistics) are do
 <p>In practice, this means that one needs to download data for <em>day+1</em> (e.g. 2 January 2023) to get the total accumulated value for <em>day</em> (1 January 2023).
 Hence, for this specific dataset, our existing <code class="docutils literal notranslate"><span class="pre">request_time</span></code> will download data for 2022-12-31 – 2023-09-29, so we need to add one extra day.
 This is achieved by adding a second request for just the extra day to the earthkit-data download.</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -3304,7 +3304,7 @@ Extra-day request template for reanalysis-era5-land:
 </div>
 </details>
 </div>
-<p>Next, the individual data variables are defined:</p>
+<p>Next, the requests for each of the individual data variables are defined:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -3354,9 +3354,9 @@ Extra-day request template for reanalysis-era5-land:
 </div>
 </div>
 <p>Inspecting the resulting dataset
-(in Xarray format)
+(in xarray format)
 shows that the <code class="docutils literal notranslate"><span class="pre">forecast_reference_time</span></code> coordinate conveniently matches the variable to the day of accumulation.
-It is important to note that this is <em>not</em> true if the data are downloaded in NetCDF format,
+It is important to note that this is not true if the data are downloaded in NetCDF format,
 in which case there is a 1-day offset;
 beware of this difference if modifying this notebook yourself.</p>
 <div class="cell tag_hide-input docutils container">
@@ -3924,8 +3924,10 @@ Attributes:
 </section>
 <section id="daily-statistics-from-the-post-processed-era5-land-dataset">
 <h5>Daily statistics from the post-processed ERA5-Land dataset<a class="headerlink" href="#daily-statistics-from-the-post-processed-era5-land-dataset" title="Link to this heading">#</a></h5>
-<p>The daily statistics are indexed according to the day they apply to, meaning we do not need to worry about adding extra days here.</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<p>The daily statistics are indexed according to the day they apply to,
+like AgERA5,
+meaning we do not need to worry about adding extra days here.</p>
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -3965,7 +3967,7 @@ Attributes:
 </div>
 </details>
 </div>
-<p>Next, the individual data variables are defined:</p>
+<p>Next, the requests for each of the individual data variables are defined:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -5268,7 +5270,7 @@ However, two steps need to be taken before the data can be compared directly:</p
 <p>Temperatures are provided in K in both datasets – here, we convert these to °C which is more commonly used in agricultural studies.
 Solar irradiation is converted from J/m²/d to MJ/m²/d which is more intuitive, with 2.45 MJ/m² approximately equivalent to 1 mm of potential water evaporation [<a class="reference external" href="https://research.wur.nl/en/publications/system-description-of-the-wofost-72-cropping-systems-model" rel="noreferrer" target="_blank">De Wit+20</a>].
 The “long” names of variables and units, as stored in xarray metadata, are also harmonised between the two datasets to simplify the analysis steps and figures later on.
-This is not strictly necessary, but it is convenient.</p>
+This is not strictly necessary, but it is convenient when intercomparing two datasets.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -5305,7 +5307,8 @@ This is not strictly necessary, but it is convenient.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_agera5</span>   <span class="o">=</span> <span class="n">convert_to_2m_wind_speed</span><span class="p">(</span><span class="n">data_agera5</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add 2 m wind speed (from 10 m wind speed)</span>
+<span class="n">data_agera5</span>   <span class="o">=</span> <span class="n">convert_to_2m_wind_speed</span><span class="p">(</span><span class="n">data_agera5</span><span class="p">)</span>
 <span class="n">data_era5land</span> <span class="o">=</span> <span class="n">convert_to_2m_wind_speed</span><span class="p">(</span><span class="n">data_era5land</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -5319,7 +5322,8 @@ This is not strictly necessary, but it is convenient.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_agera5</span>   <span class="o">=</span> <span class="n">add_growing_degree_days</span><span class="p">(</span><span class="n">data_agera5</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add effective temperature and cumulative growing degree-days</span>
+<span class="n">data_agera5</span>   <span class="o">=</span> <span class="n">add_growing_degree_days</span><span class="p">(</span><span class="n">data_agera5</span><span class="p">)</span>
 <span class="n">data_era5land</span> <span class="o">=</span> <span class="n">add_growing_degree_days</span><span class="p">(</span><span class="n">data_era5land</span><span class="p">)</span>
 </pre></div>
 </div>
