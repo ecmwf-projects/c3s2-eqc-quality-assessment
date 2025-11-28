@@ -495,9 +495,9 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#point-by-point-comparison">Point-by-point comparison</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series-comparison">Time series comparison</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geospatial-comparison">Geospatial comparison</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion-and-conclusions">Discussion and Conclusions</a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">4. Conclusions</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
@@ -531,8 +531,8 @@ Please note that this repository is used for development and review, so quality 
 <section id="quality-assessment-question">
 <h2>❓ Quality assessment question<a class="headerlink" href="#quality-assessment-question" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Which reanalysis dataset should I use for simulations of crop yields?</p></li>
 <li><p>Is AgERA5 fit-for-purpose as an input dataset for crop models?</p></li>
+<li><p>How do the AgERA5 and ERA5-Land datasets differ for agriculturally relevant variables?</p></li>
 </ul>
 <p>Reliable estimation of crop yields using models such as WOrld FOod STudies (<a class="reference external" href="https://github.com/ajwdewit/pcse" rel="noreferrer" target="_blank">WOFOST</a>) [<a class="reference external" href="https://doi.org/10.1016/j.agsy.2018.06.018" rel="noreferrer" target="_blank">De Wit+19</a>] depends on reliable and fit-for-purpose meteorological data.
 Crop models simulate growth and yield based on daily weather variables including temperature, solar irradiation, vapour pressure, wind speed, and precipitation (snow/rain).
@@ -564,7 +564,7 @@ the ease of use of both datasets for this particular use case
 as well as
 the quantitative difference between AgERA5 and ERA5-Land for agriculturally relevant variables.
 Both datasets are derived from ERA5,
-with differences in their aggregation and downscaling methods as well as in the variables provided.
+with differences in their aggregation and downscaling methods, bias adjustment, and provided variables.
 Hence,
 this intercomparison is not an independent validation of either dataset,
 but rather an intercomparison between similar products.
@@ -581,10 +581,10 @@ that it can serve as a template for the user to pick up and apply to their own d
 <div class="note admonition">
 <p class="admonition-title">These are the key outcomes of this assessment</p>
 <ul class="simple">
-<li><p>The AgERA5 dataset (“Agrometeorological indicators from 1979 to present derived from reanalysis”) is well-suited to agricultural studies because it provides daily aggregates and statistics of important parameters such as irradiation, temperature, vapour pressure, precipitation, wind speed, and snow depth.</p></li>
-<li><p>The resolution of AgERA5 (daily, 0.1°) is comparable to other data sources and is sufficient for simulations at similar spatial scales. Comparisons can be made at scales larger than the cell size, i.e. 0.1° or ~11 km.</p></li>
-<li><p>The AgERA5 and ERA5-Land datasets, both derived from ERA5, provide different values due to their different methods for downscaling and bias adjustment. While these differences are (in some cases) statistically significant, they are small compared to the typical uncertainty in ERA5 and compared to the uncertainties in agricultural models. Differences may be larger in specific areas, e.g. at higher elevation.</p></li>
-<li><p>etc</p></li>
+<li><p>The AgERA5 dataset (<em>Agrometeorological indicators from 1979 to present derived from reanalysis</em>) is highly fit for the purpose of agricultural simulations because it provides all the relevant variables with the appropriate temporal aggregation on a 0.1° × 0.1° geospatial grid.</p></li>
+<li><p>Values for all variables differ slightly between AgERA5 and ERA5-Land, despite sharing a common origin, because the datasets are derived differently. However, even accumulated along an entire growth season, these differences are small compared to the relevant uncertainties and real physical variation.</p></li>
+<li><p>Differences between AgERA5 and ERA5-Land show patterns in space and time. This assessment is set up to be customisable for a different region or period and can serve as a jumping-off point for further analysis.</p></li>
+<li><p>Neither AgERA5 nor ERA5-Land provides uncertainties on its data.</p></li>
 </ul>
 </div>
 </section>
@@ -695,10 +695,11 @@ There are other agriculturally relevant cumulative quantities relating to moistu
 </ul>
 <p><strong><a class="reference internal" href="#indicator-sis-agrometeorological-indicators-consistency-q01-section-results"><span class="std std-ref">3. Results</span></a></strong></p>
 <ul class="simple">
-<li><p>Geospatial comparison</p></li>
 <li><p>Point-by-point comparison</p></li>
 <li><p>Time series comparison</p></li>
+<li><p>Geospatial comparison</p></li>
 </ul>
+<p><strong><a class="reference internal" href="#indicator-sis-agrometeorological-indicators-consistency-q01-section-conclusions"><span class="std std-ref">4. Conclusions</span></a></strong></p>
 </section>
 <section id="analysis-and-results">
 <h2>📈 Analysis and results<a class="headerlink" href="#analysis-and-results" title="Link to this heading">#</a></h2>
@@ -1525,7 +1526,7 @@ Earthkit-plots styles are explained further in the <a class="reference external"
     <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
         <span class="n">fig</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Geospatial intercomparison: </span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">fig</span><span class="o">.</span><span class="n">title</span><span class="p">(</span> <span class="s2">&quot;Geospatial intercomparison at {time:</span><span class="si">%-d</span><span class="s2"> %B %Y}&quot;</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">title</span><span class="p">(</span> <span class="s2">&quot;Geospatial intercomparison on {time:</span><span class="si">%-d</span><span class="s2"> %B %Y}&quot;</span><span class="p">)</span>
     
     <span class="c1"># Show result</span>
     <span class="n">_glue_or_show</span><span class="p">(</span><span class="n">fig</span><span class="o">.</span><span class="n">fig</span><span class="p">,</span> <span class="n">glue_label</span><span class="p">)</span>
@@ -1872,7 +1873,7 @@ and can be edited when running this notebook yourself:</p>
 </div>
 <p>The CDS request template is then defined using the values defined above.
 Additional information to download specific data variables will be mixed into this template in the following sections.</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -1922,7 +1923,7 @@ Additional information to download specific data variables will be mixed into th
 <p>Due to size limits on the CDS, the different variables of interest in AgERA5 (temperature, irradiation, etc.) have to be downloaded separately and then combined afterwards.
 This is achieved by combining the previously defined template request with parameters specific to AgERA5, and subsequently with parameters specific to each individual variable.</p>
 <p>First, the parameters specific to AgERA5 (dataset ID and version) are defined and combined with the template:</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2018,7 +2019,7 @@ This is achieved by combining the previously defined template request with param
 <p>The requests for specific variables are combined with the template and passed to earthkit for download from the CDS.
 Earthkit-data downloads the dataset as a <a class="reference external" href="https://earthkit-data.readthedocs.io/en/latest/guide/data.html" rel="noreferrer" target="_blank">field list</a>.
 Here, we convert this object to an <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html" rel="noreferrer" target="_blank">xarray dataset</a> for ease of use later (when comparing multiple datasets):</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2073,9 +2074,6 @@ Here, we convert this object to an <a class="reference external" href="https://d
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 7/7 [00:00&lt;00:00, 181.96it/s]
-</pre></div>
-</div>
 <div class="output text_html"><div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
 <defs>
 <symbol id="icon-database" viewBox="0 0 32 32">
@@ -3223,29 +3221,7 @@ Attributes:
                &#x27;2023-09-21&#x27;, &#x27;2023-09-22&#x27;, &#x27;2023-09-23&#x27;, &#x27;2023-09-24&#x27;,
                &#x27;2023-09-25&#x27;, &#x27;2023-09-26&#x27;, &#x27;2023-09-27&#x27;, &#x27;2023-09-28&#x27;,
                &#x27;2023-09-29&#x27;, &#x27;2023-09-30&#x27;],
-              dtype=&#x27;datetime64[ns]&#x27;, name=&#x27;time&#x27;, length=273, freq=None))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-e9036074-3541-4627-a7fd-d7c372a6f278' class='xr-section-summary-in' type='checkbox'  checked><label for='section-e9036074-3541-4627-a7fd-d7c372a6f278' class='xr-section-summary' >Attributes: <span>(6)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>Conventions :</span></dt><dd>CF-1.7</dd><dt><span>title :</span></dt><dd>AgERA5 daily weather variables derived from the ECMWF ERA5 reanalysis.</dd><dt><span>institution :</span></dt><dd>Wageningen Environmental Research</dd><dt><span>history :</span></dt><dd>Generated by `pragera5 run_daily_processing 2023-01-01` version 1.2.0, executed on 2025-03-07 12:00:44.087250</dd><dt><span>references :</span></dt><dd>https://doi.org/10.24381/cds.6c68c9bb</dd><dt><span>source :</span></dt><dd>ECWMF ERA5 reanalysis, https://doi.org/10.24381/cds.143582cf</dd></dl></div></li></ul></div></div></div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/o/git/c3s2-eqc-quality-assessment/.venv/lib/python3.12/site-packages/dask/_task_spec.py:759: RuntimeWarning: invalid value encountered in divide
-  return self.func(*new_argspec)
-/home/o/git/c3s2-eqc-quality-assessment/.venv/lib/python3.12/site-packages/dask/_task_spec.py:759: RuntimeWarning: invalid value encountered in divide
-  return self.func(*new_argspec)
-/home/o/git/c3s2-eqc-quality-assessment/.venv/lib/python3.12/site-packages/dask/_task_spec.py:759: RuntimeWarning: invalid value encountered in divide
-  return self.func(*new_argspec)
-/home/o/git/c3s2-eqc-quality-assessment/.venv/lib/python3.12/site-packages/dask/array/core.py:5090: RuntimeWarning: invalid value encountered in scalar divide
-  result = function(*args, **kwargs)
-/home/o/git/c3s2-eqc-quality-assessment/.venv/lib/python3.12/site-packages/dask/array/core.py:5090: RuntimeWarning: invalid value encountered in scalar divide
-  result = function(*args, **kwargs)
-/home/o/git/c3s2-eqc-quality-assessment/.venv/lib/python3.12/site-packages/dask/array/core.py:5090: RuntimeWarning: invalid value encountered in scalar divide
-  result = function(*args, **kwargs)
-/home/o/git/c3s2-eqc-quality-assessment/.venv/lib/python3.12/site-packages/dask/_task_spec.py:759: RuntimeWarning: invalid value encountered in divide
-  return self.func(*new_argspec)
-/home/o/git/c3s2-eqc-quality-assessment/.venv/lib/python3.12/site-packages/dask/_task_spec.py:759: RuntimeWarning: invalid value encountered in divide
-  return self.func(*new_argspec)
-/home/o/git/c3s2-eqc-quality-assessment/.venv/lib/python3.12/site-packages/dask/_task_spec.py:759: RuntimeWarning: invalid value encountered in divide
-  return self.func(*new_argspec)
-/home/o/git/c3s2-eqc-quality-assessment/.venv/lib/python3.12/site-packages/dask/_task_spec.py:759: RuntimeWarning: invalid value encountered in divide
-  return self.func(*new_argspec)
-</pre></div>
-</div>
-</div>
+              dtype=&#x27;datetime64[ns]&#x27;, name=&#x27;time&#x27;, length=273, freq=None))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-e9036074-3541-4627-a7fd-d7c372a6f278' class='xr-section-summary-in' type='checkbox'  checked><label for='section-e9036074-3541-4627-a7fd-d7c372a6f278' class='xr-section-summary' >Attributes: <span>(6)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>Conventions :</span></dt><dd>CF-1.7</dd><dt><span>title :</span></dt><dd>AgERA5 daily weather variables derived from the ECMWF ERA5 reanalysis.</dd><dt><span>institution :</span></dt><dd>Wageningen Environmental Research</dd><dt><span>history :</span></dt><dd>Generated by `pragera5 run_daily_processing 2023-01-01` version 1.2.0, executed on 2025-03-07 12:00:44.087250</dd><dt><span>references :</span></dt><dd>https://doi.org/10.24381/cds.6c68c9bb</dd><dt><span>source :</span></dt><dd>ECWMF ERA5 reanalysis, https://doi.org/10.24381/cds.143582cf</dd></dl></div></li></ul></div></div></div></div>
 </div>
 </section>
 <section id="era5-land">
@@ -3266,7 +3242,7 @@ In the following subsections, the data (accumulated and daily statistics) are do
 <p>In practice, this means that one needs to download data for <em>day+1</em> (e.g. 2 January 2023) to get the total accumulated value for <em>day</em> (1 January 2023).
 Hence, for this specific dataset, our existing <code class="docutils literal notranslate"><span class="pre">request_time</span></code> will download data for 2022-12-31 – 2023-09-29, so we need to add one extra day.
 This is achieved by adding a second request for just the extra day to the earthkit-data download.</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -3371,11 +3347,6 @@ Extra-day request template for reanalysis-era5-land:
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:00&lt;00:00, 180.57it/s]
-</pre></div>
-</div>
-</div>
 </div>
 <p>Inspecting the resulting dataset
 (in xarray format)
@@ -3951,7 +3922,7 @@ Attributes:
 <p>The daily statistics are indexed according to the day they apply to,
 like AgERA5,
 meaning we do not need to worry about adding extra days here.</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -8232,10 +8203,10 @@ The datasets are compared in three ways:</p>
 <li><p>Time series: Agreement between the datasets over time for one site or a range of sites. Relevant for crop yield modelling, which is based on values at specific times and/or aggregated over the entire time series for one site.</p></li>
 <li><p>Geospatial: Distribution across the spatial domain. Displays spatial patterns and highlights specific areas or types of terrain (e.g. coastal, mountain) with better or worse agreement.</p></li>
 </ul>
-<p>These comparisons are followed by a general discussion and conclusions.</p>
 <section id="point-by-point-comparison">
 <h4>Point-by-point comparison<a class="headerlink" href="#point-by-point-comparison" title="Link to this heading">#</a></h4>
-<p>In this section, the overall distributions of values in the two datasets, and their differences, are compared.</p>
+<p>In this section,
+the differences between one-to-one match-ups (same latitude, longitude, and time) between the two datasets are analysed.</p>
 <p>We first examine some metrics that describe the difference Δ between corresponding (in time and space) pixels.
 The 5<sup>th</sup> and 95<sup>th</sup> percentiles provide a confidence interval (CI) around the median difference.
 This is not an uncertainty but rather a description of the variation across the domain.</p>
@@ -8420,7 +8391,7 @@ the difference in solar irradiation
 is small both relative to its values
 (median |Δ| of 3%)
 and in practice
-(equivalent to &lt;0.1 mm water evaporation per day).
+(equivalent to ~0.1 mm water evaporation per day).
 The differences in precipitation are also small,
 &lt;1 mm per day in the vast majority of match-ups,
 although there are a few outliers
@@ -8489,12 +8460,14 @@ Yellow means high density, blue means low density, white means zero points in th
 </section>
 <section id="time-series-comparison">
 <h4>Time series comparison<a class="headerlink" href="#time-series-comparison" title="Link to this heading">#</a></h4>
-<p>Crop yield estimates make use of the time series of the relevant variables in a given site.
-Rewrite based on previous section:
-Therefore, a comparison between time series from the different datasets should provide a better estimate of the differences downstream than an overall point-by-point comparison.</p>
-<p>We first examine some metrics that describe the difference Δ between corresponding (in time and space) pixels.
-The 5<sup>th</sup> and 95<sup>th</sup> percentiles provide a confidence interval (CI) around the median difference.
-This is not an uncertainty but rather a description of the variation across the domain.</p>
+<p>Crop yield estimates make use of the time series of the relevant variables at a given site.
+In this section,
+the differences between match-ups between the two datasets along a time series at one site (same latitude, longitude) are analysed,
+as well as the statistics of all time series in the entire spatial domain.</p>
+<p>We first examine the same metrics for Δ as in the point-by-point comparison,
+this time looking only at values at one site
+(one latitude, one longitude; specified at the start of the notebook)
+along its entire time series.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -8639,10 +8612,41 @@ This is not an uncertainty but rather a description of the variation across the 
 </table>
 </div></div>
 </div>
-<p>Results here.
+<p>The example site
+(52.5 °N, 0 °E; chosen arbitrarily)
+mirrors the results seen in the overall point-by-point comparison,
+primarily that differences between AgERA5 and ERA5-Land tend to be small.
+The aforementioned differences in temperature are visible when comparing the time series graphically
 (Figure <a class="reference internal" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-timeseries-abs"><span class="std std-numref">6.1.3</span></a>)
+and appear at individual days,
+rather than an overall offset.
+A difference in cumulative growing degree-days builds up over time
+(Figure <a class="reference internal" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-timeseries-rel"><span class="std std-numref">6.1.4</span></a>),
+but remains too small to affect the resulting development stages significantly.</p>
+<p>The systematic offset in wind speed seen in the point-by-point comparison is also visible in the time series
 (Figure <a class="reference internal" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-timeseries-rel"><span class="std std-numref">6.1.4</span></a>)
-(Figure <a class="reference internal" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-timeseries-multi"><span class="std std-numref">6.1.5</span></a>)</p>
+with AgERA5 consistently providing estimates that are 0.07–1.26 m/s faster than those in ERA5-Land.
+This is true across most of the spatial domain
+(Figure <a class="reference internal" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-timeseries-multi"><span class="std std-numref">6.1.5</span></a>).
+Comparing the values
+(Figure <a class="reference internal" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-timeseries-abs"><span class="std std-numref">6.1.3</span></a>)
+and differences
+(Figure <a class="reference internal" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-timeseries-rel"><span class="std std-numref">6.1.4</span></a>)
+for total precipitation indicates that its relatively large median percentage difference is caused by outliers,
+particularly on days with low precipitation.</p>
+<p>Only snow depth and solar irradiation show notable patterns over time.
+While snow depth is 0 cm across most of the time series
+– as one would expect at this site in the south of the UK –
+the datasets differ in <em>when</em> they estimate &gt;0 snow depth
+(Figure <a class="reference internal" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-timeseries-abs"><span class="std std-numref">6.1.3</span></a>).
+While negligible here,
+this difference may be more impactful at other sites where snow is more common;
+this will be discussed in the next section.
+Lastly,
+differences in solar irradiation increase in late spring and summer (May–August) in this domain,
+but stay small percentage-wise
+(Figure <a class="reference internal" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-timeseries-multi"><span class="std std-numref">6.1.5</span></a>)
+and in terms of the equivalent evaporation (&lt;0.2 mm/d).</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -8701,8 +8705,12 @@ the light shaded area the 5–95% range.</span><a class="headerlink" href="#indi
 </section>
 <section id="geospatial-comparison">
 <h4>Geospatial comparison<a class="headerlink" href="#geospatial-comparison" title="Link to this heading">#</a></h4>
-<p>In this section, the spatial distributions of values in the two datasets, and their differences, are compared visually using earthkit-plots.
-For a fair comparison, this is done across multiple dates, which can be specified in the following cell:</p>
+<p>In this section,
+the geospatial distribution of differences between the two datasets are analysed.
+This analysis is performed both in terms of development stage thresholds
+(day of emergence, anthesis, maturity)
+and in several single-day snapshots along the time domain.
+The dates for these snapshots are defined in the cell below and can be customised when running this notebook yourself.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -8713,24 +8721,62 @@ For a fair comparison, this is done across multiple dates, which can be specifie
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Date(s) for geospatial comparison plot, in {year}-mm-dd format</span>
 <span class="c1"># Examples were chosen arbitrarily</span>
 <span class="n">comparison_dates</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;winter&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">-01-01&quot;</span><span class="p">,</span>  <span class="c1">#  1 January</span>
-    <span class="s2">&quot;spring&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">-04-13&quot;</span><span class="p">,</span>  <span class="c1"># 13 April</span>
-    <span class="s2">&quot;summer&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">-06-14&quot;</span><span class="p">,</span>  <span class="c1"># 14 June</span>
-    <span class="s2">&quot;autumn&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">-09-24&quot;</span><span class="p">,</span>  <span class="c1"># 24 September</span>
+    <span class="s2">&quot;january&quot;</span><span class="p">:</span>   <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">-01-01&quot;</span><span class="p">,</span>  <span class="c1">#  1 January</span>
+    <span class="s2">&quot;april&quot;</span><span class="p">:</span>     <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">-04-13&quot;</span><span class="p">,</span>  <span class="c1"># 13 April</span>
+    <span class="s2">&quot;june&quot;</span><span class="p">:</span>      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">-06-14&quot;</span><span class="p">,</span>  <span class="c1"># 14 June</span>
+    <span class="s2">&quot;september&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">-09-24&quot;</span><span class="p">,</span>  <span class="c1"># 24 September</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 </div>
 </details>
 </div>
-<p>Results here
-(Figure <a class="reference internal" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-winter"><span class="std std-numref">6.1.6</span></a>)
-(Figure <a class="reference internal" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-spring"><span class="std std-numref">6.1.7</span></a>)
-(Figure <a class="reference internal" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-summer"><span class="std std-numref">6.1.8</span></a>)
-(Figure <a class="reference internal" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-autumn"><span class="std std-numref">6.1.9</span></a>)</p>
-<!--
-Note that differences in snow thickness are highest in areas where you wouldn't generally have crops anyway
---><div class="cell tag_hide-input docutils container">
+<p>As before,
+the two datasets match well,
+with the overall distributions of values for each variable being similar across the domain
+and differences being small
+(Figure <a class="reference internal" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-january"><span class="std std-numref">6.1.6</span></a>–<a class="reference internal" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-dayof"><span class="std std-numref">6.1.10</span></a>).</p>
+<p>The most striking difference is in the apparent spatial resolution of total precipitation, snow depth, and solar irradiation,
+with AgERA5 appearing blockier and ERA5-Land smoother
+(e.g. Ireland in Figure <a class="reference internal" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-september"><span class="std std-numref">6.1.9</span></a>).
+Since both datasets are derived from ERA5 and downscaled to the same 0.1° × 0.1° grid,
+this effect is caused by differences in their derivation methods.
+AgERA5 is downscaled from the native ERA5 grid through a nearest-neighbour interpolation
+– which preserves the ERA5 grid cell size in the data –
+followed by an empirical bias adjustment
+based on ECMWF’s HRES operational model
+for all variables <em>except</em> precipitation and snow depth [<a class="reference external" href="https://confluence.ecmwf.int/pages/viewpage.action?pageId=278550984" rel="noreferrer" target="_blank">Boogaard+25</a>].
+ERA5-Land,
+in contrast,
+is generated by integrating ECMWF’s CHTESSEL land surface model with a downscaled version of ERA5 meteorology [<a class="reference external" href="https://doi.org/10.5194/essd-13-4349-2021" rel="noreferrer" target="_blank">Muñoz-Sabater+21</a>].
+These methods are fundamentally different and hence produce slightly different results.
+The spatial structure of differences in these three variables,
+which looks like noise on a rectangular grid
+(e.g. total precipitation in Wales in Figure <a class="reference internal" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-january"><span class="std std-numref">6.1.6</span></a>),
+results from this misalignment between downscaling methods.
+Another visual difference is that AgERA5 uses a coarser land/sea mask, but this does not impact its usage in any way.</p>
+<p>Snow depth shows large differences between the datasets,
+particularly in the Scottish Highlands
+(Figure <a class="reference internal" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-january"><span class="std std-numref">6.1.6</span></a>),
+likely also resulting from the different downscaling methods.
+For snow depth, ERA5-Land is more likely to represent the `ground truth’ since it integrates a land surface model.
+In this example domain (UK and Ireland), the difference has little real-life impact because it is concentrated in mountainous areas that are less relevant to crop modelling.
+However, it may be impactful in parts of the world where snow is more common in agricultural areas.
+This is why, as noted in the introduction, intercomparisons such as this quality assessment should be conducted over limited domains rather than globally.
+Lastly, it is important to note that ERA5 itself has known biases in its estimates of snow depth [<a class="reference external" href="https://doi.org/10.5194/essd-13-4349-2021" rel="noreferrer" target="_blank">Muñoz-Sabater+21</a>],
+which propagate into derived datasets.</p>
+<p>The previous sections showed that wind speeds in AgERA5 are generally faster across the domain.
+The geospatial comparison highlights Ireland and Scotland as having particularly large differences,
+while ERA5-Land wind speeds tend to be faster than AgERA5’s near coastlines
+(e.g. Figures
+<a class="reference internal" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-january"><span class="std std-numref">6.1.6</span></a>
+and
+<a class="reference internal" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-september"><span class="std std-numref">6.1.9</span></a>).</p>
+<p>There are no clear spatial patterns in the cumulative growing degree-days nor in the derived development stage thresholds
+(Figure <a class="reference internal" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-dayof"><span class="std std-numref">6.1.10</span></a>).
+The spatial differences seen in other variables will impact actual crop models,
+but these thresholds provide a first-order estimate of the consistency between AgERA5 and ERA5-Land.</p>
+<div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -8738,18 +8784,14 @@ Note that differences in snow thickness are highest in areas where you wouldn't 
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot day of emergence, anthesis, maturity</span>
-<span class="n">geospatial_comparison_with_difference</span><span class="p">(</span><span class="n">data_agera5</span><span class="p">,</span> <span class="n">data_era5land</span><span class="p">,</span> <span class="n">comparison_dates</span><span class="p">[</span><span class="s2">&quot;winter&quot;</span><span class="p">],</span> <span class="n">domain</span><span class="o">=</span><span class="n">domain</span><span class="p">,</span>
+<span class="c1"># Note that the comparison date doesn&#39;t matter because these variables do not have a time dimension</span>
+<span class="n">geospatial_comparison_with_difference</span><span class="p">(</span><span class="n">data_agera5</span><span class="p">,</span> <span class="n">data_era5land</span><span class="p">,</span> <span class="n">comparison_dates</span><span class="p">[</span><span class="s2">&quot;january&quot;</span><span class="p">],</span> <span class="n">domain</span><span class="o">=</span><span class="n">domain</span><span class="p">,</span>
                                       <span class="n">variables</span><span class="o">=</span><span class="n">VARIABLES_DAY_OF</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Development stages&quot;</span><span class="p">,</span>
                                       <span class="n">glue_label</span><span class="o">=</span><span class="s2">&quot;indicator_sis-agrometeorological-indicators_consistency_q01_fig-geo-dayof&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                                                                                                                                                                                                 
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
@@ -8770,59 +8812,45 @@ Note that differences in snow thickness are highest in areas where you wouldn't 
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                                                                                                                                                                                                 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                                                                                                                                                                                                 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                                                                                                                                                                                                 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                                                                                                                                                                                                 
-</pre></div>
-</div>
-</div>
 </div>
 <div class="sd-tab-set docutils">
 <input checked="checked" id="sd-tab-item-5" name="sd-tab-set-2" type="radio">
-<label class="sd-tab-label" data-sync-group="tab" data-sync-id="winter" for="sd-tab-item-5">
-Winter</label><div class="sd-tab-content docutils">
-<figure class="align-default" id="indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-winter" style="width: 700px">
-<img alt="../_images/b89702b93e9d843357110e85381968a1ea528e25601e7c5318973cb50a3cbf79.png" src="../_images/b89702b93e9d843357110e85381968a1ea528e25601e7c5318973cb50a3cbf79.png" />
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="january" for="sd-tab-item-5">
+January</label><div class="sd-tab-content docutils">
+<figure class="align-default" id="indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-january" style="width: 700px">
+<img alt="../_images/006a2bebf512b0f344b4a740713168173b7c611e4faac4a24a97127740ed928d.png" src="../_images/006a2bebf512b0f344b4a740713168173b7c611e4faac4a24a97127740ed928d.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 6.1.6 </span><span class="caption-text">Geospatial comparison between AgERA5 and ERA5-Land.</span><a class="headerlink" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-winter" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 6.1.6 </span><span class="caption-text">Geospatial comparison between AgERA5 and ERA5-Land.</span><a class="headerlink" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-january" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 </div>
 <input id="sd-tab-item-6" name="sd-tab-set-2" type="radio">
-<label class="sd-tab-label" data-sync-group="tab" data-sync-id="spring" for="sd-tab-item-6">
-Spring</label><div class="sd-tab-content docutils">
-<figure class="align-default" id="indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-spring" style="width: 700px">
-<img alt="../_images/01323b76961d5ee85e122a4eb7caf1b8557373ec8ba3942045d25fcf779fd813.png" src="../_images/01323b76961d5ee85e122a4eb7caf1b8557373ec8ba3942045d25fcf779fd813.png" />
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="april" for="sd-tab-item-6">
+April</label><div class="sd-tab-content docutils">
+<figure class="align-default" id="indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-april" style="width: 700px">
+<img alt="../_images/d7c908bb15e50545f60a4d3cd34c07e8f593766376d727dbbf55ae0544f085a8.png" src="../_images/d7c908bb15e50545f60a4d3cd34c07e8f593766376d727dbbf55ae0544f085a8.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 6.1.7 </span><span class="caption-text">Geospatial comparison between AgERA5 and ERA5-Land.</span><a class="headerlink" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-spring" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 6.1.7 </span><span class="caption-text">Geospatial comparison between AgERA5 and ERA5-Land.</span><a class="headerlink" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-april" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 </div>
 <input id="sd-tab-item-7" name="sd-tab-set-2" type="radio">
-<label class="sd-tab-label" data-sync-group="tab" data-sync-id="summer" for="sd-tab-item-7">
-Summer</label><div class="sd-tab-content docutils">
-<figure class="align-default" id="indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-summer" style="width: 700px">
-<img alt="../_images/d991b1980fd9700db28904f30b3332964d92874b114adf3218ea059c7f8ff021.png" src="../_images/d991b1980fd9700db28904f30b3332964d92874b114adf3218ea059c7f8ff021.png" />
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="june" for="sd-tab-item-7">
+June</label><div class="sd-tab-content docutils">
+<figure class="align-default" id="indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-june" style="width: 700px">
+<img alt="../_images/452dea2b31a68020dd387f41530375435152b72a3215c3c49c030eeb64e6ae90.png" src="../_images/452dea2b31a68020dd387f41530375435152b72a3215c3c49c030eeb64e6ae90.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 6.1.8 </span><span class="caption-text">Geospatial comparison between AgERA5 and ERA5-Land.</span><a class="headerlink" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-summer" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 6.1.8 </span><span class="caption-text">Geospatial comparison between AgERA5 and ERA5-Land.</span><a class="headerlink" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-june" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 </div>
 <input id="sd-tab-item-8" name="sd-tab-set-2" type="radio">
-<label class="sd-tab-label" data-sync-group="tab" data-sync-id="autumn" for="sd-tab-item-8">
-Autumn</label><div class="sd-tab-content docutils">
-<figure class="align-default" id="indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-autumn" style="width: 700px">
-<img alt="../_images/5d2396b2bff793b12ee5bcf6c09d03c360b0d5efed8e356727adf5e7d15c95ad.png" src="../_images/5d2396b2bff793b12ee5bcf6c09d03c360b0d5efed8e356727adf5e7d15c95ad.png" />
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="september" for="sd-tab-item-8">
+September</label><div class="sd-tab-content docutils">
+<figure class="align-default" id="indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-september" style="width: 700px">
+<img alt="../_images/45347ad8e8388a130e0afc48b557d717d4f64bf8e8d50231a242fe6f0f44801d.png" src="../_images/45347ad8e8388a130e0afc48b557d717d4f64bf8e8d50231a242fe6f0f44801d.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 6.1.9 </span><span class="caption-text">Geospatial comparison between AgERA5 and ERA5-Land.</span><a class="headerlink" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-autumn" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 6.1.9 </span><span class="caption-text">Geospatial comparison between AgERA5 and ERA5-Land.</span><a class="headerlink" href="#indicator-sis-agrometeorological-indicators-consistency-q01-fig-geo-september" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 </div>
@@ -8841,15 +8869,39 @@ have been masked.</span><a class="headerlink" href="#indicator-sis-agrometeorolo
 </div>
 </div>
 </section>
-<section id="discussion-and-conclusions">
-<h4>Discussion and Conclusions<a class="headerlink" href="#discussion-and-conclusions" title="Link to this heading">#</a></h4>
-<p>One paragraph on the sources of difference.
-Talk about bias correction in AgERA5.
-Differences in aggregation? Time zones used <a class="reference external" href="https://confluence.ecmwf.int/pages/viewpage.action?pageId=278550984#DataStream2:AgERA5historicandnearrealtimeforcingdata:AlgorithmTheoreticalBasis(ATBD)-Step1:NNinterpolationto0.1%C2%B0grid" rel="noreferrer" target="_blank">https://confluence.ecmwf.int/pages/viewpage.action?pageId=278550984#DataStream2:AgERA5historicandnearrealtimeforcingdata:AlgorithmTheoreticalBasis(ATBD)-Step1:NNinterpolationto0.1°grid</a> <a class="reference external" href="https://confluence.ecmwf.int/display/CKB/ERA5+family+post-processed+daily+statistics+documentation" rel="noreferrer" target="_blank">https://confluence.ecmwf.int/display/CKB/ERA5+family+post-processed+daily+statistics+documentation</a></p>
-<p>Uncertainties not available in AgERA5 or ERA5-Land (add citation from NMS report here), would be useful next step.
-Main conclusion, however, is that differences are generally negligible <em>in this domain and for this use case</em>, although must always take care.</p>
-<p>The setup shows that AgERA5 is very easy to use – although CDS format is not ideal for retrieving time series in one site, refer to agera5tools.</p>
 </section>
+<section id="conclusions">
+<span id="indicator-sis-agrometeorological-indicators-consistency-q01-section-conclusions"></span><h3>4. Conclusions<a class="headerlink" href="#conclusions" title="Link to this heading">#</a></h3>
+<p>In this assessment,
+the AgERA5 and ERA5-Land datasets were compared to assess their ease of use and consistency between variables relevant to agricultural simulations.
+The datasets are both derived from ERA5 and thus share many similarities.
+The two main differences are in the ease of use
+– or rather, tailoredness to agricultural simulations –
+and in the specific values provided.</p>
+<p>AgERA5 is highly fit for the purpose of agricultural simulations because it provides all the relevant variables with the appropriate temporal aggregation on a 0.1° × 0.1° geospatial grid, ready to be used.
+ERA5-Land is also suitable, but requires more pre-processing to obtain the required data in the desired format.
+It should be noted that AgERA5, as provided on the CDS, is not fully optimised for acquisition of time series at a specific site.
+While the code used in this quality assessment can be copied and adapted at will, users may find it more convenient to use the <a class="reference external" href="https://github.com/ajwdewit/agera5tools" rel="noreferrer" target="_blank">AgERA5tools package</a> developed by the data provider.</p>
+<p>Values for all variables differ slightly between AgERA5 and ERA5-Land,
+despite sharing a common origin,
+because the datasets are derived differently.
+AgERA5 applies nearest-neighbour interpolation and an empirical bias adjustment based on ERA5 and HRES.
+ERA5-Land combines the CHTESSEL land surface model with downscaled ERA5 meteorology.
+The datasets also differ in their temporal aggregation method.
+Combined,
+this results in differences in the values provided.
+However, even accumulated along an entire growth season,
+these differences are small compared to
+the effects of uncertainty in the underpinning data,
+real physical variation across the domain
+(including between plots within one pixel),
+and the uncertainty inherent to crop modelling.</p>
+<p>Because neither dataset provides its own uncertainty estimates,
+a deeper quantitative comparison between individual values is not possible.
+Uncertainties could be estimated by propagating the ERA5-EDA ensemble through the respective processing chains,
+but this is not trivial due to the additional uncertainty introduced within those chains [<a class="reference external" href="https://doi.org/10.5194/essd-13-4349-2021" rel="noreferrer" target="_blank">Muñoz-Sabater+21</a>].
+There is a wealth of literature comparing either or both of these datasets to other reanalyses and observations,
+with some references provided in the introduction and below.</p>
 </section>
 </section>
 <section id="i-if-you-want-to-know-more">
@@ -8904,11 +8956,12 @@ Main conclusion, however, is that differences are generally negligible <em>in th
 <p>[<a class="reference external" href="https://doi.org/10.17159/sajs.2024/16043" rel="noreferrer" target="_blank">Kruger+24</a>] J. A. Kruger, S. J. Roffe, and A. J. van der Walt, ‘AgERA5 representation of seasonal mean and extreme temperatures in the Northern Cape, South Africa’, South African Journal of Science, vol. 120, no. 3–4, pp. 1–13, Mar. 2024, doi: 10.17159/sajs.2024/16043.</p>
 <p>[<a class="reference external" href="https://doi.org/10.1175/JAMC-D-23-0227.1" rel="noreferrer" target="_blank">Esquivel-Arriaga+24</a>] G. Esquivel-Arriaga et al., ‘Performance Evaluation of Global Precipitation Datasets in Northern Mexico Drylands’, Journal of Applied Meteorology and Climatology, vol. 63, no. 12, pp. 1545–1558, Dec. 2024, doi: 10.1175/JAMC-D-23-0227.1.</p>
 <p>[<a class="reference external" href="https://doi.org/10.1109/MERCon63886.2024.10689062" rel="noreferrer" target="_blank">Suraweera+24</a>] B. Suraweera, K. De Silva, L. Gunawardhana, and L. Rajapakse, ‘Evaluation of Satellite Rainfall Estimates for Surface Runoff Modelling in the Maha Oya Basin, Sri Lanka’, in 2024 Moratuwa Engineering Research Conference (MERCon), Aug. 2024, pp. 67–72. doi: 10.1109/MERCon63886.2024.10689062.</p>
-<p>[<a class="reference external" href="https://www.fao.org/4/x0490e/x0490e00.htm" rel="noreferrer" target="_blank">Allen+98</a>] R. G. Allen, L. S. Pereira, D. Raes, and M. Smith, Crop evapotranspiration – Guidelines for computing crop water requirements. in FAO Irrigation and drainage papers, no. 56. Rome, Italy: FAO – Food and Agriculture Organization of the United Nations, 1998. Accessed: Nov. 24, 2025. [Online]. Available: <a class="reference external" href="https://www.fao.org/4/x0490e/x0490e00.htm" rel="noreferrer" target="_blank">https://www.fao.org/4/x0490e/x0490e00.htm</a></p>
+<p>[<a class="reference external" href="https://www.fao.org/4/x0490e/x0490e00.htm" rel="noreferrer" target="_blank">Allen+98</a>] R. G. Allen, L. S. Pereira, D. Raes, and M. Smith, Crop evapotranspiration – Guidelines for computing crop water requirements. in FAO Irrigation and drainage papers, no. 56. Rome, Italy: FAO – Food and Agriculture Organization of the United Nations, 1998. Accessed: Nov. 24, 2025. [Online].</p>
 <p>[<a class="reference external" href="https://doi.org/10.3390/hydrology12070161" rel="noreferrer" target="_blank">Garbanzo+25</a>] G. Garbanzo et al., ‘Addressing Weather Data Gaps in Reference Crop Evapotranspiration Estimation: A Case Study in Guinea-Bissau, West Africa’, Hydrology, vol. 12, no. 7, p. 161, June 2025, doi: 10.3390/hydrology12070161.</p>
 <p>[<a class="reference external" href="https://doi.org/10.1016/j.ejrh.2025.102531" rel="noreferrer" target="_blank">Garcia-Prats+25</a>] A. Garcia-Prats et al., ‘High-resolution spatially interpolated FAO Penman-Monteith crop reference evapotranspiration maps of Sicily Island (Italy) and Jucar River system (Spain) using AgERA5 and ERA5-Land reanalysis datasets’, Journal of Hydrology: Regional Studies, vol. 60, p. 102531, Aug. 2025, doi: 10.1016/j.ejrh.2025.102531.</p>
 <p>[<a class="reference external" href="https://doi.org/10.1016/j.agsy.2018.05.002" rel="noreferrer" target="_blank">Ceglar+19</a>] A. Ceglar et al., ‘Improving WOFOST model to simulate winter wheat phenology in Europe: Evaluation and effects on yield’, Agricultural Systems, vol. 168, pp. 168–180, Jan. 2019, doi: 10.1016/j.agsy.2018.05.002.</p>
-<p>[<a class="reference external" href="https://research.wur.nl/en/publications/system-description-of-the-wofost-72-cropping-systems-model" rel="noreferrer" target="_blank">De Wit+20</a>] A. J. W. de Wit, H. L. Boogaard, I. Supit, and M. van den Berg, ‘System description of the WOFOST 7.2 cropping systems model’, Wageningen Environmental Research, May 2020. [Online]. Available: <a class="reference external" href="https://research.wur.nl/en/publications/system-description-of-the-wofost-72-cropping-systems-model" rel="noreferrer" target="_blank">https://research.wur.nl/en/publications/system-description-of-the-wofost-72-cropping-systems-model</a></p>
+<p>[<a class="reference external" href="https://research.wur.nl/en/publications/system-description-of-the-wofost-72-cropping-systems-model" rel="noreferrer" target="_blank">De Wit+20</a>] A. J. W. de Wit, H. L. Boogaard, I. Supit, and M. van den Berg, ‘System description of the WOFOST 7.2 cropping systems model’, Wageningen Environmental Research, May 2020. [Online].</p>
+<p>[<a class="reference external" href="https://confluence.ecmwf.int/pages/viewpage.action?pageId=278550984" rel="noreferrer" target="_blank">Boogaard+25</a>] H. Boogaard, A. de Wit, J. Lazebnik, J. Schubert, and G. van der Grijn, ‘Data Stream 2: AgERA5 historic and near real time forcing data: Algorithm Theoretical Basis (ATBD)’, Copernicus Knowledge Base. Accessed: May 20, 2025. [Online].</p>
 </section>
 </section>
 </section>
@@ -9015,9 +9068,9 @@ Main conclusion, however, is that differences are generally negligible <em>in th
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#point-by-point-comparison">Point-by-point comparison</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series-comparison">Time series comparison</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geospatial-comparison">Geospatial comparison</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion-and-conclusions">Discussion and Conclusions</a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">4. Conclusions</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
