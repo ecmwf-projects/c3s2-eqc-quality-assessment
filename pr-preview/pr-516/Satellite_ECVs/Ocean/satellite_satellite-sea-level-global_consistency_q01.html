@@ -536,7 +536,7 @@ Please note that this repository is used for development and review, so quality 
 <h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
 <p>The altimetric sea level datasets are distributed by the <a class="reference external" href="https://marine.copernicus.eu/" rel="noreferrer" target="_blank">Copernicus Marine Environment Monitoring Service (CMEMS)</a> and the <a class="reference external" href="https://climate.copernicus.eu/" rel="noreferrer" target="_blank">Copernicus Climate Change Service (C3S)</a>. In this assessment, we use <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/satellite-sea-level-global?tab=overview" rel="noreferrer" target="_blank">the Sea level gridded data from satellite observations</a> provided by the <a class="reference external" href="https://cds.climate.copernicus.eu/" rel="noreferrer" target="_blank">Copernicus Climate Data Store (CDS)</a>. The C3S product is designed for climate applications and is based on a consistent and stable altimeter constellation to ensure the long-term stability of the ocean observing system. To achieve this consistency, two satellites of the altimeters constellation are selected to collect observations. One of the satellites serves as the reference mission. Although there are changes over time, each replacement mission follows the same orbit, ensuring consistency. The other, known as the secondary mission, is a complementary satellite that provides significant information for estimating mesoscale signals. All the necessary information can be found in the <a class="reference external" href="https://confluence.ecmwf.int/display/CKB/Sea+Level+version+DT2024%3A+Product+User+Guide+and+Specification#SeaLevelversionDT2024:ProductUserGuideandSpecification-section4.2.2" rel="noreferrer" target="_blank">Product User Guide and Specification (PUGS)</a>.</p>
 <p>As previously mentioned, we follow the same methodology as in <a class="reference external" href="https://doi.org/10.1038/s41598-025-06149-9" rel="noreferrer" target="_blank">[5]</a> to estimate EKE time series and trends over the global ocean. In addition, we quantify EKE in regions of high mesoscale activity, as performed in that study. The authors used the vDT2018 and vDT2021 two-satellite products from C3S to compare them with the vDT2021 all-satellite product provided by CMEMS. The latter uses all available satellites in the constellation, ranging from 2 to 7 over the altimetric period.</p>
-<p>In this study, we use the latest version of the sea level product from C3S (vDT2024) to compare it with vDT2021, in order to evaluate how the new version resolves the EKE relative to the previous one. The TOPEX-A instrument drift correction for 1993-1998, which has been quantified in many studies (e.g., <a class="reference external" href="https://doi.org/10.1038/NCLIMATE2635" rel="noreferrer" target="_blank">[14]</a>), has not yet been computed in the vDT2024 data. In contrast, the vDT2021 product implements this correction as a separate variable (not directly included in the SLA estimate).</p>
+<p>In this study, the vDT2024 version of the satellite gridded sea level observations available in the Climate Data Store is compared with the vDT2021, in order to evaluate how the new version resolves the EKE relative to the previous one. The TOPEX-A instrument drift correction for 1993-1998, which has been quantified in many studies (e.g., <a class="reference external" href="https://doi.org/10.1038/NCLIMATE2635" rel="noreferrer" target="_blank">[14]</a>), has not yet been computed in the vDT2024 data. In contrast, the vDT2021 product implements this correction as a separate variable (not directly included in the SLA estimate).</p>
 <p>The analysis and results are organised in the following steps, which are detailed in the sections below:</p>
 <p><strong><a class="reference internal" href="#satellite-satellite-sea-level-global-consistency-q01-section-1"><span class="std std-ref">1. Data selection and setup</span></a></strong></p>
 <ul class="simple">
@@ -663,7 +663,7 @@ EKE = \frac{1}{2} (u_a^2 + v_a^2) \quad \text{(cm² s⁻²)}
 </details>
 </div>
 <p>In this part, we download the datasets according to the request, integrating the function that computes EKE once all the data are available. Chunks are necessary to manage large volumes of information. Finally, we concatenate the EKE data along the dimension “version”.</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -859,7 +859,7 @@ EKE = \frac{1}{2} (u_a^2 + v_a^2) \quad \text{(cm² s⁻²)}
 </details>
 </div>
 <p>Here, we define the regions used in the test (no ice, high EKE, KE, and GS) and the dictionaries to store the original time series and a 12-month rolling mean over a continuous period to smooth fluctuations in the data.</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -941,7 +941,7 @@ GS
 </details>
 </div>
 <p>In this case, we calculate the trends over different periods of the EKE time series, starting each trend in a different year between 1993 and 2013 (inclusive) and ending in the last year of the study (2022). The MK test is applied to each EKE time series for every region and version. As before, we create new dictionaries to store all trends and p-values.</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
