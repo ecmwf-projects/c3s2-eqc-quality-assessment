@@ -21,6 +21,7 @@ KNOWN_SSL_ISSUES = (
     "https://apps.climate.copernicus.eu",
     "https://pulse.climate.copernicus.eu",
     "https://thermaltrace.climate.copernicus.eu",
+    "https://web.unisa.it",
 )
 
 KNOWN_403_ISSUES = (
