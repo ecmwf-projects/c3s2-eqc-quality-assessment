@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>1.2.1. Assessment of the resolution of surface albedo satellite data for monitoring the Sahara desert &#8212; eqcbook</title>
+    <title>1.2.1. Using satellite albedo data to monitor Sahara desert expansion &#8212; eqcbook</title>
   
   
   
@@ -190,7 +190,7 @@
 </ul>
 </details></li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="Atmospheric_Composition.html">1.2. Atmospheric Composition</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">1.2.1. Assessment of the resolution of surface albedo satellite data for monitoring the Sahara desert</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">1.2.1. Using satellite albedo data to monitor Sahara desert expansion</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../Cryosphere/Cryosphere.html">1.3. Cryosphere</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
@@ -445,7 +445,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Assessment of the resolution of surface albedo satellite data for monitoring the Sahara desert</h1>
+    <h1>Using satellite albedo data to monitor Sahara desert expansion</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -466,18 +466,19 @@ document.write(`
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-loading-and-preparation">2. Data loading and preparation</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#load-monthly-albedo-data">Load monthly albedo data</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-inspection-and-sahara-albedo-extraction">Dataset inspection and Sahara albedo extraction</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qflag-filtering-plot-helpers">QFLAG filtering + Plot helpers</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#inspect-the-dataset-and-extract-albedo-values-over-the-sahara-region">Inspect the dataset and extract albedo values over the Sahara region.</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apply-quality-flag-qflag-filtering-and-define-plotting-helper-functions">Apply quality-flag (QFLAG) filtering and define plotting helper functions.</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-and-describe-the-results">3. Plot and describe the results.</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sahara-study-area-maps-with-country-names">Sahara study area maps with country names</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#detecting-and-visualizing-sahara-desert-expansion-from-albedo-ndjf-20062019">Detecting and Visualizing Sahara Desert Expansion from Albedo (NDJF, 2006→2019)</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#quantifying-desertification-by-country-within-the-sahara-study-domain">Quantifying desertification by country within the Sahara study domain</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#validate-new-desert-pixels-and-inspect-their-values">Validate “new-desert” pixels and inspect their values</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-maps-of-the-sahara-study-area-with-country-boundaries-and-labels">Generate maps of the Sahara study area with country boundaries and labels.</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#detect-and-visualize-sahara-desert-expansion-using-albedo-data-ndjf-20062019-and-produce-an-albedo-change-map-2019-2006">Detect and visualize Sahara Desert expansion using albedo data (NDJF, 2006–2019) and produce an albedo change map (2019 − 2006).</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#quantify-desertification-by-country-within-the-sahara-study-domain">Quantify desertification by country within the Sahara study domain.</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#validate-newly-identified-desert-pixels-and-inspect-their-albedo-values">Validate newly identified desert pixels and inspect their albedo values.</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#perform-pixel-count-analysis-comparing-summer-albedo-maps-2006-vs-2019">Perform pixel-count analysis comparing summer albedo maps (2006 vs. 2019).</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#take-home-messages">Take-home messages</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#take-home-messages">4. Take-home messages</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
@@ -498,8 +499,8 @@ document.write(`
   <p><img alt="logo" src="../../_images/LogoLine_horizon_C3S1.png" /></p>
 <div class="alert alert-block alert-warning">
 Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
-</div><section class="tex2jax_ignore mathjax_ignore" id="assessment-of-the-resolution-of-surface-albedo-satellite-data-for-monitoring-the-sahara-desert">
-<h1><span class="section-number">1.2.1. </span>Assessment of the resolution of surface albedo satellite data for monitoring the Sahara desert<a class="headerlink" href="#assessment-of-the-resolution-of-surface-albedo-satellite-data-for-monitoring-the-sahara-desert" title="Link to this heading">#</a></h1>
+</div><section class="tex2jax_ignore mathjax_ignore" id="using-satellite-albedo-data-to-monitor-sahara-desert-expansion">
+<h1><span class="section-number">1.2.1. </span>Using satellite albedo data to monitor Sahara desert expansion<a class="headerlink" href="#using-satellite-albedo-data-to-monitor-sahara-desert-expansion" title="Link to this heading">#</a></h1>
 <p> </p>
 <p>Production date: 30-09-2024</p>
 <p>Produced by: Consiglio Nazionale delle Ricerche (<a class="reference external" href="https://www.cnr.it/en" rel="noreferrer" target="_blank">CNR</a>
@@ -511,7 +512,7 @@ Please note that this repository is used for development and review, so quality 
 <h2>❓ Quality assessment question<a class="headerlink" href="#quality-assessment-question" title="Link to this heading">#</a></h2>
 <p><strong>• Can satellite albedo datasets be used to estimate the expansion of the Sahara desert?</strong></p>
 <p>The Sahara, Earth’s largest hot desert, has expanded in recent decades. Existing studies indicates a sustained enlargement of the dry zone on both annual and seasonal timescales [1]. This implies risks to ecosystems, pastoral livelihoods, food and water security, and infrastructure across North and West Africa. Multiple regional studies document intensified desertification pressures in precisely the areas our analysis targets: sand‐dune encroachment around Nouakchott in Mauritania [2]; degradation and desertification sensitivity along the Algerian steppe, Sahara margin, where large‐scale countermeasures such as the “Green Dam” have been evaluated [3]; dune reactivation and wind‐erosion impacts in Niger [4]; active dune migration in the Libyan Ubārī Sand Sea [5]; and increased mobile dunes around Lake Chad and northern Chad since the 1970s [6].
-In this assessment, we test whether satellite‐derived surface albedo from the Copernicus CDS (10-daily, 1-km; SPOT-VGT/PROBA-V, v2) can monitor desert expansion signals by mapping spatial albedo patterns and their changes comparing the data for two year, the winter season 2006-2007 and 2019-2020 (November to February, NDJF). Evaluating desertification during the NDJF[FM1.1] (November-January-February) period is crucial because this is often the dry season in many regions, making it the most vulnerable time for desertification to worsen. Albedo is a suitable proxy for surface state in arid lands because brightening often accompanies exposure or stabilization of bare sands and crusts, while darkening may reflect seasonal greening or increased surface moisture. Using seasonally consistent composites and quality screening, we quantify “desert-like” area via albedo masks and compute area changes on the native grid. The results reveal a small net increase in very bright desert‐like area across the Sahara, with the largest gains concentrated in the western–central Sahara (notably Mali and Mauritania), [FM2.1]aligning with the independent evidence cited above [1–6]. This supports the use of CDS surface albedo data as a powerful tool for monitoring desertification dynamics and regional hotspots of change.</p>
+In this assessment, we test whether satellite‐derived surface albedo from the Copernicus CDS (10-daily, 1-km; SPOT-VGT/PROBA-V, v2) can monitor desert expansion signals by mapping spatial albedo patterns and their changes comparing the data for two years, the winter season 2006-2007 and 2019-2020 (November to February, NDJF). Evaluating desertification during the NDJF period is crucial because this is often the dry season in many regions, making it the most vulnerable time for desertification to worsen. Albedo is a suitable proxy for surface state in arid lands because brightening often accompanies exposure or stabilization of bare sands and crusts, while darkening may reflect seasonal greening or increased surface moisture. Using seasonally consistent composites and quality screening, we quantify “desert-like” area via albedo masks and compute area changes on the native grid. The results reveal a small net increase in very bright desert‐like area across the Sahara, with the largest gains concentrated in the western–central Sahara (notably Mali and Mauritania), aligning with the independent evidence cited above [1–6]. This supports the use of CDS surface albedo data as a powerful tool for monitoring desertification dynamics and regional hotspots of change.</p>
 </section>
 <section id="quality-assessment-statement">
 <h2>📢 Quality assessment statement<a class="headerlink" href="#quality-assessment-statement" title="Link to this heading">#</a></h2>
@@ -519,6 +520,7 @@ In this assessment, we test whether satellite‐derived surface albedo from the 
 <p class="admonition-title">These are the key outcomes of this assessment</p>
 <ul class="simple">
 <li><p>The seasonal albedo maps provide a clear, side-by-side view of surface reflectance in two benchmark years, making spatial changes in bright, desert-like areas easy to spot.</p></li>
+<li><p>The spatial resolution of the albedo data is sufficient to detect regional patterns in desert expansion, supporting effective monitoring of desertification processes.</p></li>
 </ul>
 </div>
 </section>
@@ -531,18 +533,19 @@ In this assessment, we test whether satellite‐derived surface albedo from the 
 </ul>
 <p><a class="reference internal" href="#satellite-satellite-albedo-resolution-q04-section-2"><span class="std std-ref">2. Data loading and preparation</span></a></p>
 <ul class="simple">
-<li><p>Load monthly albedo data</p></li>
-<li><p>Dataset inspection and Sahara albedo extraction</p></li>
-<li><p>QFLAG filtering + Plot helpers
-<a class="reference internal" href="#satellite-satellite-albedo-resolution-q04-section-3"><span class="std std-ref">3. Plot and describe the results.</span></a></p></li>
-<li><p>Sahara study area maps with country names</p></li>
-<li><p>Detecting and Visualizing Sahara Desert Expansion from Albedo (NDJF, 2006→2019)</p></li>
-<li><p>Quantifying Desertification by Country within the Sahara Study Domain</p></li>
-<li><p>Validate “new-desert” pixels and inspect their values</p></li>
-<li><p>Pixel count analysis of albedo map plots – Summer 2006 vs 2019</p></li>
-<li><p>Plot albedo change map (2019 − 2006)</p></li>
+<li><p>Load monthly albedo data.</p></li>
+<li><p>Inspect the dataset and extract albedo values over the Sahara region.</p></li>
+<li><p>Apply quality-flag (QFLAG) filtering and define plotting helper functions.</p></li>
 </ul>
-<p><a class="reference internal" href="#satellite-satellite-albedo-resolution-q04-section-4"><span class="std std-ref">Take-home messages</span></a></p>
+<p><a class="reference internal" href="#satellite-satellite-albedo-resolution-q04-section-3"><span class="std std-ref">3. Plot and describe the results.</span></a></p>
+<ul class="simple">
+<li><p>Generate maps of the Sahara study area with country boundaries and labels.</p></li>
+<li><p>Detect and visualize Sahara Desert expansion using albedo data (NDJF, 2006–2019) and Produce an albedo change map (2019 − 2006).</p></li>
+<li><p>Quantify desertification by country within the Sahara study domain.</p></li>
+<li><p>Validate newly identified desert pixels and inspect their albedo values.</p></li>
+<li><p>Perform pixel-count analysis comparing summer albedo maps (2006 vs. 2019).</p></li>
+</ul>
+<p><a class="reference internal" href="#satellite-satellite-albedo-resolution-q04-section-4"><span class="std std-ref">4. Take-home messages</span></a></p>
 </section>
 <section id="analysis-and-results">
 <h2>📈 Analysis and results<a class="headerlink" href="#analysis-and-results" title="Link to this heading">#</a></h2>
@@ -571,6 +574,7 @@ In this assessment, we test whether satellite‐derived surface albedo from the 
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.dates</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mdates</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">TwoSlopeNorm</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">patches</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.gridspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridSpec</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">shapely.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">box</span><span class="p">,</span> <span class="n">LineString</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">cartopy.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">shapereader</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;seaborn-v0_8-notebook&quot;</span><span class="p">)</span>
@@ -585,6 +589,7 @@ In this assessment, we test whether satellite‐derived surface albedo from the 
 <span id="satellite-satellite-albedo-resolution-q04-section-2"></span><h3>2. Data loading and preparation<a class="headerlink" href="#data-loading-and-preparation" title="Link to this heading">#</a></h3>
 <section id="load-monthly-albedo-data">
 <h4>Load monthly albedo data<a class="headerlink" href="#load-monthly-albedo-data" title="Link to this heading">#</a></h4>
+<p>This code retrieves monthly black-sky broadband albedo (albb_bh) data from the satellite-albedo collection over the central Sahara at 1 km resolution for the period 2006–2020, and computes time-weighted mean maps of albedo products for SPOT-VGT and PROBA-V sensors.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -651,7 +656,7 @@ In this assessment, we test whether satellite‐derived surface albedo from the 
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>satellite=&#39;spot&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 8/8 [00:00&lt;00:00,  9.86it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 8/8 [00:00&lt;00:00, 99.65it/s]
 /data/common/miniforge3/envs/wp5/lib/python3.12/site-packages/earthkit/data/readers/netcdf/fieldlist.py:202: FutureWarning: In a future version of xarray the default value for data_vars will change from data_vars=&#39;all&#39; to data_vars=None. This is likely to lead to different results when multiple datasets have matching variables with overlapping values. To opt in to new defaults and get rid of these warnings now use `set_options(use_new_combine_kwarg_defaults=True) or set data_vars explicitly.
   return xr.open_mfdataset(
 </pre></div>
@@ -659,7 +664,7 @@ In this assessment, we test whether satellite‐derived surface albedo from the 
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>satellite=&#39;proba&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 7/7 [00:00&lt;00:00, 41.57it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 7/7 [00:00&lt;00:00, 114.60it/s]
 /data/common/miniforge3/envs/wp5/lib/python3.12/site-packages/earthkit/data/readers/netcdf/fieldlist.py:202: FutureWarning: In a future version of xarray the default value for data_vars will change from data_vars=&#39;all&#39; to data_vars=None. This is likely to lead to different results when multiple datasets have matching variables with overlapping values. To opt in to new defaults and get rid of these warnings now use `set_options(use_new_combine_kwarg_defaults=True) or set data_vars explicitly.
   return xr.open_mfdataset(
 </pre></div>
@@ -667,8 +672,9 @@ In this assessment, we test whether satellite‐derived surface albedo from the 
 </div>
 </div>
 </section>
-<section id="dataset-inspection-and-sahara-albedo-extraction">
-<h4>Dataset inspection and Sahara albedo extraction<a class="headerlink" href="#dataset-inspection-and-sahara-albedo-extraction" title="Link to this heading">#</a></h4>
+<section id="inspect-the-dataset-and-extract-albedo-values-over-the-sahara-region">
+<h4>Inspect the dataset and extract albedo values over the Sahara region.<a class="headerlink" href="#inspect-the-dataset-and-extract-albedo-values-over-the-sahara-region" title="Link to this heading">#</a></h4>
+<p>This step inspects the dataset structure and extracts a single monthly SPOT albedo slice (June 2006) as a DataFrame for validation.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -756,8 +762,9 @@ Attributes: (12/23)
 </div>
 </div>
 </section>
-<section id="qflag-filtering-plot-helpers">
-<h4>QFLAG filtering + Plot helpers<a class="headerlink" href="#qflag-filtering-plot-helpers" title="Link to this heading">#</a></h4>
+<section id="apply-quality-flag-qflag-filtering-and-define-plotting-helper-functions">
+<h4>Apply quality-flag (QFLAG) filtering and define plotting helper functions.<a class="headerlink" href="#apply-quality-flag-qflag-filtering-and-define-plotting-helper-functions" title="Link to this heading">#</a></h4>
+<p>This block defines helper functions to (1) apply QFLAG quality filtering by masking pixels based on specific bit tests, (2) compute seasonal/annual mean albedo after QC, (3) set map extents and plot maps with optional threshold contours, and (4) estimate grid-cell areas (km²) for area-based desertification statistics.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -833,8 +840,9 @@ Attributes: (12/23)
 </section>
 <section id="plot-and-describe-the-results">
 <span id="satellite-satellite-albedo-resolution-q04-section-3"></span><h3>3. Plot and describe the results.<a class="headerlink" href="#plot-and-describe-the-results" title="Link to this heading">#</a></h3>
-<section id="sahara-study-area-maps-with-country-names">
-<h4>Sahara study area maps with country names<a class="headerlink" href="#sahara-study-area-maps-with-country-names" title="Link to this heading">#</a></h4>
+<section id="generate-maps-of-the-sahara-study-area-with-country-boundaries-and-labels">
+<h4>Generate maps of the Sahara study area with country boundaries and labels.<a class="headerlink" href="#generate-maps-of-the-sahara-study-area-with-country-boundaries-and-labels" title="Link to this heading">#</a></h4>
+<p>This code defines the Sahara study-area bounding box, loads Natural Earth country boundaries, filters and clips selected countries to the study polygon, then plots a context map and a zoomed study-area map with country names positioned using representative points and small manual label adjustments.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -885,17 +893,17 @@ Attributes: (12/23)
     <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
 
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_extent</span><span class="p">([</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">35</span><span class="p">],</span> <span class="n">crs</span><span class="o">=</span><span class="n">proj</span><span class="p">)</span>  <span class="c1"># [W, E, S, N]</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_extent</span><span class="p">([</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="o">-</span><span class="mi">35</span><span class="p">,</span> <span class="mi">38</span><span class="p">],</span> <span class="n">crs</span><span class="o">=</span><span class="n">proj</span><span class="p">)</span>  <span class="c1"># [W, E, S, N]</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">LAND</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightgray&quot;</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">OCEAN</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightblue&quot;</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">COASTLINE</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">BORDERS</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
 <span class="n">study_gdf</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Sahara Context with Study Area&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Africa Context with Study Area&quot;</span><span class="p">)</span>
 <span class="n">gl1</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span><span class="n">draw_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="n">gl1</span><span class="o">.</span><span class="n">top_labels</span> <span class="o">=</span> <span class="kc">False</span><span class="p">;</span> <span class="n">gl1</span><span class="o">.</span><span class="n">right_labels</span> <span class="o">=</span> <span class="kc">False</span>
 
-<span class="c1"># --- Right: zoomed study area with country names</span>
+
 <span class="n">ax2</span><span class="o">.</span><span class="n">set_extent</span><span class="p">([</span><span class="n">w</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">n</span><span class="p">],</span> <span class="n">crs</span><span class="o">=</span><span class="n">proj</span><span class="p">)</span>
 <span class="n">ax2</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">LAND</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightgray&quot;</span><span class="p">)</span>
 <span class="n">ax2</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">OCEAN</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightblue&quot;</span><span class="p">)</span>
@@ -941,14 +949,14 @@ Attributes: (12/23)
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/993be6b54652f096c3a21e5a8b9f30932eecc02cd6ede8a7810ed0b459838c81.png" src="../../_images/993be6b54652f096c3a21e5a8b9f30932eecc02cd6ede8a7810ed0b459838c81.png" />
+<img alt="../../_images/60c5758d19768eb3db6f5cf2eca83f0c3827fb7ea1e9685089276232607e07d4.png" src="../../_images/60c5758d19768eb3db6f5cf2eca83f0c3827fb7ea1e9685089276232607e07d4.png" />
 </div>
 </div>
-<p><em>Figure 1.</em> Study domain for the Sahara analysis. Left: West Africa context with the red rectangle showing the bounding box used for data extraction (28°N–15°N, 10°W–25°E; Plate Carrée). Right: Zoomed view of the box with national borders and labels (Morocco, Western Sahara, Mauritania, Mali, Algeria, Niger, Libya, Chad, Sudan, Egypt, and Burkina Faso) to indicate where changes are assessed.</p>
+<p><em>Figure 1.</em> Study domain for the Sahara analysis. Left: North Africa context with the red rectangle indicating the bounding box used for data extraction (28°N–15°N, 10°W–25°E; Plate Carrée projection). Right: Zoomed view of the box with national borders and labels (Morocco, Western Sahara, Mauritania, Mali, Algeria, Niger, Libya, Chad, Sudan, Egypt, and Burkina Faso) to indicate where changes are assessed.</p>
 </section>
-<section id="detecting-and-visualizing-sahara-desert-expansion-from-albedo-ndjf-20062019">
-<h4>Detecting and Visualizing Sahara Desert Expansion from Albedo (NDJF, 2006→2019)<a class="headerlink" href="#detecting-and-visualizing-sahara-desert-expansion-from-albedo-ndjf-20062019" title="Link to this heading">#</a></h4>
-<p>We build NDJF (Nov–Feb) albedo composites for two epochs—2006 from SPOT and 2019 from PROBA—using the same QC mask (Bits 4 &amp; 7) via seasonal_mean_bits47. If 2019 NDJF is incomplete, we fall back to the latest available PROBA year. We then restrict all comparisons to the common valid footprint (valid_both). Pixel-wise change is computed as Δ = PROBA − SPOT. A pixel is flagged as “new desert” when (i) it was not desert in 2006, (ii) it is desert in 2019, and (iii) it brightened by at least min_delta = 0.02. “Desert” here means broadband hemispherical albedo &gt; thr = 0.35. For context, we also mark pixels that brightened by &gt;0.02 but remained below the threshold. Finally, the figure shows: (top left/right) the two NDJF albedo maps on a shared color scale with the threshold contour; and (bottom) a change map where red pixels are “new desert” (crossed the threshold), and pale yellow pixels brightened but stayed sub-threshold. Grid labels are placed on the left of the SPOT map and the right of the PROBA map for readability, and a single colorbar applies to both top panels.</p>
+<section id="detect-and-visualize-sahara-desert-expansion-using-albedo-data-ndjf-20062019-and-produce-an-albedo-change-map-2019-2006">
+<h4>Detect and visualize Sahara Desert expansion using albedo data (NDJF, 2006–2019) and produce an albedo change map (2019 − 2006).<a class="headerlink" href="#detect-and-visualize-sahara-desert-expansion-using-albedo-data-ndjf-20062019-and-produce-an-albedo-change-map-2019-2006" title="Link to this heading">#</a></h4>
+<p>We build NDJF (Nov–Feb) albedo composites for two epochs, 2006 from SPOT and 2019 from PROBA, using the same QC mask derived from the surface albedo QFLAG, as defined in the Product User Guide and Specification. According to this specification, Bit 4 flags pixels with missing or insufficient input data (“No data”), and Bit 7 flags pixels where the albedo retrieval algorithm failed; only pixels where both bits are 0 (normally processed) are retained via seasonal_mean_bits47. If 2019 NDJF is incomplete, we fall back to the latest available PROBA year. We then restrict all comparisons to the common valid footprint (valid_both). Pixel-wise change is computed as Δ = PROBA − SPOT. A pixel is flagged as “new desert” when (i) it was not desert in 2006, (ii) it is desert in 2019, and (iii) it brightened by at least min_delta = 0.02. “Desert” here means broadband hemispherical albedo &gt; thr = 0.35. For context, we also mark pixels that brightened by &gt;0.02 but remained below the threshold. Finally, the figure shows: (top left/right) the two NDJF albedo maps on a shared color scale with the threshold contour; and (bottom) a change map where red pixels are “new desert” (crossed the threshold), and pale yellow pixels brightened but stayed sub-threshold.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -956,7 +964,11 @@ Attributes: (12/23)
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.gridspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridSpec</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.feature</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cfeature</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
 <span class="n">gs</span>  <span class="o">=</span> <span class="n">GridSpec</span><span class="p">(</span>
     <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>
     <span class="n">width_ratios</span><span class="o">=</span><span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>      <span class="c1"># narrow right column for colorbar</span>
@@ -965,62 +977,113 @@ Attributes: (12/23)
 <span class="p">)</span>
 
 <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;Sahara — NDJF Albedo (QC: Bits 4 &amp; 7) — Left: </span><span class="si">{</span><span class="n">year_spot</span><span class="si">}</span><span class="s2"> (SPOT) | Right: </span><span class="si">{</span><span class="n">year_proba</span><span class="si">}</span><span class="s2"> (PROBA)&quot;</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;Sahara — NDJF Albedo (QC: Bits 4 &amp; 7) — &quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;top: </span><span class="si">{</span><span class="n">year_spot</span><span class="si">}</span><span class="s2"> (SPOT) | middle: </span><span class="si">{</span><span class="n">year_proba</span><span class="si">}</span><span class="s2"> (PROBA)&quot;</span><span class="p">,</span>
     <span class="n">y</span><span class="o">=</span><span class="mf">0.98</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span>
 <span class="p">)</span>
 
 
 <span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">projection</span><span class="o">=</span><span class="n">proj</span><span class="p">)</span>
-<span class="n">_</span>   <span class="o">=</span> <span class="n">panel_map</span><span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">spot_map</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year_spot</span><span class="si">}</span><span class="s2"> (SPOT)&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="p">,</span> <span class="n">proj</span><span class="p">,</span> <span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">,</span> <span class="n">thr</span><span class="o">=</span><span class="n">thr</span><span class="p">,</span> <span class="n">valid_mask</span><span class="o">=</span><span class="n">valid_both</span><span class="p">)</span>
+<span class="n">im1</span> <span class="o">=</span> <span class="n">spot_map</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">proj</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;cividis&quot;</span><span class="p">,</span>
+    <span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span> <span class="n">add_colorbar</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year_spot</span><span class="si">}</span><span class="s2"> (SPOT) NDJF&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_extent</span><span class="p">(</span><span class="n">extent</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">proj</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">coastlines</span><span class="p">(</span><span class="s2">&quot;10m&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">BORDERS</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+
+<span class="n">cs1</span> <span class="o">=</span> <span class="n">spot_map</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">proj</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="n">thr</span><span class="p">],</span>
+    <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">add_colorbar</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">clabel</span><span class="p">(</span><span class="n">cs1</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">thr</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+<span class="n">gl1</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span><span class="n">draw_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">gl1</span><span class="o">.</span><span class="n">top_labels</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">gl1</span><span class="o">.</span><span class="n">right_labels</span> <span class="o">=</span> <span class="kc">False</span>
 
 
 <span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">projection</span><span class="o">=</span><span class="n">proj</span><span class="p">)</span>
-<span class="n">im2</span> <span class="o">=</span> <span class="n">panel_map</span><span class="p">(</span><span class="n">ax2</span><span class="p">,</span> <span class="n">proba_map</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year_proba</span><span class="si">}</span><span class="s2"> (PROBA)&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="p">,</span> <span class="n">proj</span><span class="p">,</span> <span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">,</span> <span class="n">thr</span><span class="o">=</span><span class="n">thr</span><span class="p">,</span> <span class="n">valid_mask</span><span class="o">=</span><span class="n">valid_both</span><span class="p">)</span>
+<span class="n">im2</span> <span class="o">=</span> <span class="n">proba_map</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">proj</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;cividis&quot;</span><span class="p">,</span>
+    <span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span> <span class="n">add_colorbar</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year_proba</span><span class="si">}</span><span class="s2"> (PROBA) NDJF&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_extent</span><span class="p">(</span><span class="n">extent</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">proj</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">coastlines</span><span class="p">(</span><span class="s2">&quot;10m&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">BORDERS</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+
+<span class="n">cs2</span> <span class="o">=</span> <span class="n">proba_map</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">proj</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="n">thr</span><span class="p">],</span>
+    <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">add_colorbar</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">clabel</span><span class="p">(</span><span class="n">cs2</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">thr</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+<span class="n">gl2</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span><span class="n">draw_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">gl2</span><span class="o">.</span><span class="n">top_labels</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">gl2</span><span class="o">.</span><span class="n">right_labels</span> <span class="o">=</span> <span class="kc">False</span>
+
 
 <span class="n">cax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="n">cbar</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im2</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cax</span><span class="p">)</span>
 <span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s2">&quot;Albedo&quot;</span><span class="p">)</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.ndimage</span><span class="w"> </span><span class="kn">import</span> <span class="n">binary_dilation</span>
-
-
-<span class="n">YELLOW_GROW_ITERS</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="n">yellow_big</span> <span class="o">=</span> <span class="n">binary_dilation</span><span class="p">(</span><span class="n">brightened_below_thr</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="n">YELLOW_GROW_ITERS</span><span class="p">)</span>
-
 
 <span class="n">ax3</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="p">:],</span> <span class="n">projection</span><span class="o">=</span><span class="n">proj</span><span class="p">)</span>
 <span class="n">ax3</span><span class="o">.</span><span class="n">set_extent</span><span class="p">(</span><span class="n">extent</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">proj</span><span class="p">)</span>
-<span class="n">ax3</span><span class="o">.</span><span class="n">coastlines</span><span class="p">(</span><span class="s2">&quot;10m&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.7</span><span class="p">);</span> <span class="n">ax3</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">BORDERS</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
-<span class="n">ax3</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;New desert (NDJF): crossed </span><span class="si">{</span><span class="n">thr</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> and brightened by &gt; </span><span class="si">{</span><span class="n">min_delta</span><span class="si">:</span><span class="s2">.02f</span><span class="si">}</span><span class="s2">   —   </span><span class="si">{</span><span class="n">year_spot</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">year_proba</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">coastlines</span><span class="p">(</span><span class="s2">&quot;10m&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">BORDERS</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;Change (NDJF): crossed </span><span class="si">{</span><span class="n">thr</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> &quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;or brightened ≥ </span><span class="si">{</span><span class="n">min_delta</span><span class="si">:</span><span class="s2">.02f</span><span class="si">}</span><span class="s2">  —  &quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year_spot</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">year_proba</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="p">)</span>
 
 
-<span class="n">ax3</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">spot_map</span><span class="o">.</span><span class="n">longitude</span><span class="p">,</span> <span class="n">spot_map</span><span class="o">.</span><span class="n">latitude</span><span class="p">,</span>
-               <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">valid_both</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">),</span> <span class="n">transform</span><span class="o">=</span><span class="n">proj</span><span class="p">,</span>
-               <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Greys&quot;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span>
+    <span class="n">spot_map</span><span class="o">.</span><span class="n">longitude</span><span class="p">,</span> <span class="n">spot_map</span><span class="o">.</span><span class="n">latitude</span><span class="p">,</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">valid_both</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">),</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">proj</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Greys&quot;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span>
+<span class="p">)</span>
 
 
-<span class="n">ax3</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">nd_lon</span><span class="p">,</span> <span class="n">nd_lat</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;#d73027&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span>
-            <span class="n">transform</span><span class="o">=</span><span class="n">proj</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;New desert: crossed &gt; threshold&quot;</span><span class="p">)</span>
-<span class="n">ax3</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">br_lon</span><span class="p">,</span> <span class="n">br_lat</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;#ffd27f&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
-            <span class="n">transform</span><span class="o">=</span><span class="n">proj</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Brightened (&lt; threshold)&quot;</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">nd_lon</span><span class="p">,</span> <span class="n">nd_lat</span><span class="p">,</span>
+    <span class="n">s</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;#d73027&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">proj</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;New desert (crossed threshold)&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span>
+<span class="p">)</span>
 
-<span class="n">gl3</span> <span class="o">=</span> <span class="n">ax3</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span><span class="n">draw_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">x_inline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">y_inline</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">gl3</span><span class="o">.</span><span class="n">top_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">;</span> <span class="n">gl3</span><span class="o">.</span><span class="n">left_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">;</span> <span class="n">gl3</span><span class="o">.</span><span class="n">right_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">;</span> <span class="n">gl3</span><span class="o">.</span><span class="n">bottom_labels</span><span class="o">=</span><span class="kc">True</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">br_lon</span><span class="p">,</span> <span class="n">br_lat</span><span class="p">,</span>
+    <span class="n">s</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;#ffd27f&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">proj</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Brightened (&lt; threshold)&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span>
+<span class="p">)</span>
+
+<span class="n">gl3</span> <span class="o">=</span> <span class="n">ax3</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span><span class="n">draw_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">gl3</span><span class="o">.</span><span class="n">top_labels</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">gl3</span><span class="o">.</span><span class="n">left_labels</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">gl3</span><span class="o">.</span><span class="n">right_labels</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">gl3</span><span class="o">.</span><span class="n">bottom_labels</span> <span class="o">=</span> <span class="kc">True</span>
 
 <span class="n">ax3</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower left&quot;</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">framealpha</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/2c454ffe47c92ab6523b80920633a9188e14321122594a875ec24ceae0991037.png" src="../../_images/2c454ffe47c92ab6523b80920633a9188e14321122594a875ec24ceae0991037.png" />
+<img alt="../../_images/1961faee18b3c1d853f4fbe25a449e1f111a65266c7003a1ef84222d71d77659.png" src="../../_images/1961faee18b3c1d853f4fbe25a449e1f111a65266c7003a1ef84222d71d77659.png" />
 </div>
 </div>
 <p><em>Figure 2.</em> NDJF (Nov–Feb) broadband albedo over the Sahara in 2006 (SPOT, left) and 2019 (PROBA-V, right) after quality control (QFLAG bits 4 &amp; 7: valid inputs and algorithm success). The lower panel highlights change between the two epochs: red pixels brightened by &gt;0.02 and crossed above the 0.35 threshold (“new desert”), while yellow pixels brightened by &gt;0.02 but remained below the threshold. Only the footprint valid in both years is considered.</p>
 </section>
-<section id="quantifying-desertification-by-country-within-the-sahara-study-domain">
-<h4>Quantifying desertification by country within the Sahara study domain<a class="headerlink" href="#quantifying-desertification-by-country-within-the-sahara-study-domain" title="Link to this heading">#</a></h4>
+<section id="quantify-desertification-by-country-within-the-sahara-study-domain">
+<h4>Quantify desertification by country within the Sahara study domain.<a class="headerlink" href="#quantify-desertification-by-country-within-the-sahara-study-domain" title="Link to this heading">#</a></h4>
 <p>To quantify desertification in each country inside the Sahara study domain, we (i) mapped pixels that became newly “desert-like” between 2006 and 2019 (crossing an albedo threshold in 2019 but not in 2006) after quality control, (ii) summed those pixels to km² using an equal-area projection, and (iii) normalized by each country’s own area within the study box to report an interpretable percentage of its in-box territory affected. To avoid distorted ratios from tiny border slivers, we filtered out countries with &lt;10,000 km² inside the box. The resulting km² and % values reflect intensity of change within each country across the analyzed portion of the desert.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
@@ -1162,9 +1225,9 @@ Note: percentages are relative to EACH COUNTRY’S AREA within the study box; ti
 </div>
 </div>
 </section>
-<section id="validate-new-desert-pixels-and-inspect-their-values">
-<h4>Validate “new-desert” pixels and inspect their values<a class="headerlink" href="#validate-new-desert-pixels-and-inspect-their-values" title="Link to this heading">#</a></h4>
-<p>This cell turns the NDJF albedo maps for 2006 and 2019 into one table, keeps only pixels that are valid in both years, and then selects the ones that became desert by our rule (2019 albedo &gt; thr, 2006 albedo ≤ thr, and increase ≥ min_delta). It then (a) counts how many pixels meet all three conditions, (b) summarizes their values with min/median/max and percentiles for 2006 albedo, 2019 albedo, and the change (Δ), and (c) prints a small random sample showing latitude, longitude, 2006 albedo, 2019 albedo, and Δ for quick spot-checks.</p>
+<section id="validate-newly-identified-desert-pixels-and-inspect-their-albedo-values">
+<h4>Validate newly identified desert pixels and inspect their albedo values.<a class="headerlink" href="#validate-newly-identified-desert-pixels-and-inspect-their-albedo-values" title="Link to this heading">#</a></h4>
+<p>The analysis combines the NDJF albedo maps for 2006 and 2019 into a single comparative table, keeps only pixels that are valid in both years, and then selects the ones that became desert by our rule (2019 albedo &gt; thr, 2006 albedo ≤ thr, and increase ≥ min_delta). It then (a) counts how many pixels meet all three conditions, (b) summarizes their values with min/median/max and percentiles for 2006 albedo, 2019 albedo, and the change (Δ), and (c) prints a small random sample showing latitude, longitude, 2006 albedo, 2019 albedo, and Δ for quick spot-checks.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1368,6 +1431,9 @@ Note: percentages are relative to EACH COUNTRY’S AREA within the study box; ti
 </table>
 </div></div></div>
 </div>
+</section>
+<section id="perform-pixel-count-analysis-comparing-summer-albedo-maps-2006-vs-2019">
+<h4>Perform pixel-count analysis comparing summer albedo maps (2006 vs. 2019).<a class="headerlink" href="#perform-pixel-count-analysis-comparing-summer-albedo-maps-2006-vs-2019" title="Link to this heading">#</a></h4>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1426,7 +1492,7 @@ p95 2006/2019/delta: 0.348 0.39 0.061
 </section>
 </section>
 <section id="take-home-messages">
-<span id="satellite-satellite-albedo-resolution-q04-section-4"></span><h3>Take-home messages<a class="headerlink" href="#take-home-messages" title="Link to this heading">#</a></h3>
+<span id="satellite-satellite-albedo-resolution-q04-section-4"></span><h3>4. Take-home messages<a class="headerlink" href="#take-home-messages" title="Link to this heading">#</a></h3>
 <p>• Using threshold of surface albedo of 0.35 to separate desert from non-desert areas combined with a increase of surface brightening Δ= surface albedo2019 - surface albedo2006 &gt; 0.02, the year 2019 shows a small expansions of the desert compared to the year 2006, which occurs in different countries in the region and it is larger in Mali and Mauritania.
 • Pixel-level verification confirms that the flagged locations satisfying the selection rules (surface albedo2019 &gt; 0.35, surface albedo2006 ≤ 0.35, and Δ &gt; 0.02) show values of Δ in the 0.02–0.08 range.</p>
 </section>
@@ -1520,18 +1586,19 @@ p95 2006/2019/delta: 0.348 0.39 0.061
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-loading-and-preparation">2. Data loading and preparation</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#load-monthly-albedo-data">Load monthly albedo data</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-inspection-and-sahara-albedo-extraction">Dataset inspection and Sahara albedo extraction</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qflag-filtering-plot-helpers">QFLAG filtering + Plot helpers</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#inspect-the-dataset-and-extract-albedo-values-over-the-sahara-region">Inspect the dataset and extract albedo values over the Sahara region.</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#apply-quality-flag-qflag-filtering-and-define-plotting-helper-functions">Apply quality-flag (QFLAG) filtering and define plotting helper functions.</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-and-describe-the-results">3. Plot and describe the results.</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sahara-study-area-maps-with-country-names">Sahara study area maps with country names</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#detecting-and-visualizing-sahara-desert-expansion-from-albedo-ndjf-20062019">Detecting and Visualizing Sahara Desert Expansion from Albedo (NDJF, 2006→2019)</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#quantifying-desertification-by-country-within-the-sahara-study-domain">Quantifying desertification by country within the Sahara study domain</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#validate-new-desert-pixels-and-inspect-their-values">Validate “new-desert” pixels and inspect their values</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-maps-of-the-sahara-study-area-with-country-boundaries-and-labels">Generate maps of the Sahara study area with country boundaries and labels.</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#detect-and-visualize-sahara-desert-expansion-using-albedo-data-ndjf-20062019-and-produce-an-albedo-change-map-2019-2006">Detect and visualize Sahara Desert expansion using albedo data (NDJF, 2006–2019) and produce an albedo change map (2019 − 2006).</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#quantify-desertification-by-country-within-the-sahara-study-domain">Quantify desertification by country within the Sahara study domain.</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#validate-newly-identified-desert-pixels-and-inspect-their-albedo-values">Validate newly identified desert pixels and inspect their albedo values.</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#perform-pixel-count-analysis-comparing-summer-albedo-maps-2006-vs-2019">Perform pixel-count analysis comparing summer albedo maps (2006 vs. 2019).</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#take-home-messages">Take-home messages</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#take-home-messages">4. Take-home messages</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
