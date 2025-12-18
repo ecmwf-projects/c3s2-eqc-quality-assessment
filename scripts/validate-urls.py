@@ -23,7 +23,10 @@ KNOWN_SSL_ISSUES = (
     "https://thermaltrace.climate.copernicus.eu",
 )
 
-KNOWN_403_ISSUES = ("https://www.iea.org",)
+KNOWN_403_ISSUES = (
+    "https://www.iea.org",
+    "https://web.unisa.it",
+)
 
 CROSSREF_URL = "https://api.crossref.org/works/"
 URL_PATTERN = r"https?://[^\s)]+"
