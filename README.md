@@ -1,18 +1,18 @@
 # c3s2-eqc-quality-assessment
 
-> \[!WARNING\]
+> [!WARNING]
 > Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
 
-> \[!NOTE\]\
+> [!NOTE]
 > If anything is unclear with the templates, or if you encounter any problems, please report them at [GH164](https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment/issues/164).
 
 ## Quick start
 
-To install pre-commit:
+To run the quality assurance checks:
 
 ```bash
 pip install pre-commit
-pre-commit install
+make qa
 ```
 
 To build the book:
@@ -33,6 +33,9 @@ Data types:
 - reanalysis
 - satellite
 - seasonal
+- indicator
+- derived
+- application
 
 Assessment categories:
 
