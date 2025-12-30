@@ -669,7 +669,7 @@ Please note that this repository is used for development and review, so quality 
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 29/29 [00:02&lt;00:00, 14.49it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 29/29 [00:00&lt;00:00, 30.79it/s]
 </pre></div>
 </div>
 </div>
@@ -873,7 +873,7 @@ Please note that this repository is used for development and review, so quality 
 <section id="comparison-with-noaa-buoy-data">
 <span id="satellite-satellite-lake-water-temperature-validation-q02-section-4"></span><h3>4. Comparison with NOAA buoy data<a class="headerlink" href="#comparison-with-noaa-buoy-data" title="Link to this heading">#</a></h3>
 <p>The satellite data are compared with in-situ measurements from three NOAA NDBC buoys in Lake Superior <a class="reference external" href="https://www.ndbc.noaa.gov/" rel="noreferrer" target="_blank">[7]</a>. These are the same buoys used in <a class="reference external" href="https://doi.org/10.1029/2006GL029021" rel="noreferrer" target="_blank">[3]</a>, which reported a significant increase in summer temperatures from 1979 to 2006. In-situ data are now available through 2024. The goal of this section is thus to compare satellite and buoy data over 1995–2023 and evaluate whether similar trends are observed in the buoy measurements.</p>
-<p>First, the buoy data are downloaded from the NOAA National Data Buoy Center website <a class="reference external" href="https://doi.org/10.1029/2006GL029021" rel="noreferrer" target="_blank">[3]</a>, which provides data by station and year. We developed a Python script that automatically downloads the data for buoys 45001, 45004, and 45006 for all available years between 1979 and 2024, and combines them into a single, unified dataset.</p>
+<p>First, the buoy data are downloaded from the NOAA National Data Buoy Center website <a class="reference external" href="https://www.ndbc.noaa.gov/" rel="noreferrer" target="_blank">[7]</a>, which provides data by station and year. We developed a Python script that automatically downloads the data for buoys 45001, 45004, and 45006 for all available years between 1979 and 2024, and combines them into a single, unified dataset.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1054,25 +1054,25 @@ Please note that this repository is used for development and review, so quality 
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Overall progress:  34%|███▍      | 47/138 [00:16&lt;00:57,  1.57it/s, station=45004, year=1980]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Overall progress:  34%|███▍      | 47/138 [00:34&lt;01:21,  1.12it/s, station=45004, year=1980]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> → download error: 404 Client Error: Not Found for url: https://www.ndbc.noaa.gov/data/historical/stdmet/45004h1979.txt.gz
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Overall progress:  67%|██████▋   | 93/138 [00:31&lt;00:27,  1.63it/s, station=45006, year=1980]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Overall progress:  67%|██████▋   | 93/138 [01:09&lt;00:46,  1.03s/it, station=45006, year=1980]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> → download error: 404 Client Error: Not Found for url: https://www.ndbc.noaa.gov/data/historical/stdmet/45006h1979.txt.gz
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Overall progress:  69%|██████▉   | 95/138 [00:32&lt;00:19,  2.24it/s, station=45006, year=1982]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Overall progress:  68%|██████▊   | 94/138 [01:09&lt;00:34,  1.26it/s, station=45006, year=1981]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> → download error: 404 Client Error: Not Found for url: https://www.ndbc.noaa.gov/data/historical/stdmet/45006h1980.txt.gz
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Overall progress: 100%|██████████| 138/138 [00:44&lt;00:00,  3.07it/s, station=45006, year=2024]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Overall progress: 100%|██████████| 138/138 [01:42&lt;00:00,  1.34it/s, station=45006, year=2024]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total rows loaded: 958592
@@ -1119,7 +1119,7 @@ Please note that this repository is used for development and review, so quality 
 
 <span class="k">for</span> <span class="n">station</span><span class="p">,</span> <span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">)</span> <span class="ow">in</span> <span class="n">buoy_coords</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
 
-    <span class="c1"># Nearest satellite grid cell to buoy location</span>
+    <span class="c1"># Nearest satellite pixel to buoy location</span>
     <span class="n">ts</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">filtered_ds</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span>
         <span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span>
@@ -1457,7 +1457,7 @@ Please note that this repository is used for development and review, so quality 
 <span class="n">summer_months</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
 
 <span class="c1"># Station coordinates</span>
-<span class="n">lon_pixel</span><span class="p">,</span> <span class="n">lat_pixel</span> <span class="o">=</span> <span class="n">buoy_coords</span><span class="p">[</span><span class="n">station</span><span class="p">]</span>
+<span class="n">lon_gridcell</span><span class="p">,</span> <span class="n">lat_gridcell</span> <span class="o">=</span> <span class="n">buoy_coords</span><span class="p">[</span><span class="n">station</span><span class="p">]</span>
 
 <span class="c1"># --------------------------------------------------</span>
 <span class="c1"># 1. All points (summer) for the station/year</span>
@@ -1470,10 +1470,10 @@ Please note that this repository is used for development and review, so quality 
     <span class="p">(</span><span class="n">df_buoy_all</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">summer_months</span><span class="p">))</span>
 <span class="p">]</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;datetime&#39;</span><span class="p">)</span>
 
-<span class="c1"># Satellite: all summer points at pixel</span>
+<span class="c1"># Satellite: all summer points at gridcell</span>
 <span class="n">ts_sat_all</span> <span class="o">=</span> <span class="p">(</span>
     <span class="n">filtered_ds</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span>
-    <span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="n">lat_pixel</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="n">lon_pixel</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="n">lat_gridcell</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="n">lon_gridcell</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
     <span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">filtered_ds</span><span class="p">[</span><span class="s1">&#39;time.year&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">year</span><span class="p">)</span>
 <span class="p">)</span>
 <span class="n">ts_sat_all</span> <span class="o">=</span> <span class="n">ts_sat_all</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">ts_sat_all</span><span class="p">[</span><span class="s1">&#39;time.month&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">summer_months</span><span class="p">))</span> <span class="o">-</span> <span class="mf">273.15</span>
@@ -1844,7 +1844,6 @@ Please note that this repository is used for development and review, so quality 
 </section>
 <section id="references">
 <h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
-<p>List the references used in the Notebook here.</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://doi.org/10.1038/s41558-024-02122-y" rel="noreferrer" target="_blank">[1]</a> Wang, X., Shi, K., Qin, B. et al. (2024). Disproportionate impact of atmospheric heat events on lake surface water temperature increases. Nat. Clim. Chang.</p></li>
 <li><p><a class="reference external" href="https://climate.copernicus.eu/lake-surface-temperatures" rel="noreferrer" target="_blank">[2]</a> Copernicus (2018). Lake surface temperatures. Climate Change Service.</p></li>
