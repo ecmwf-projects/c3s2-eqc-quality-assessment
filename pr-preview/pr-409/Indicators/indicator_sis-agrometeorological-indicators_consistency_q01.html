@@ -521,7 +521,7 @@ document.write(`
 Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
 </div><section class="tex2jax_ignore mathjax_ignore" id="agricultural-simulations-using-agera5-regional-intercomparison-between-reanalysis-datasets">
 <h1><span class="section-number">6.1. </span>Agricultural simulations using AgERA5: Regional intercomparison between reanalysis datasets<a class="headerlink" href="#agricultural-simulations-using-agera5-regional-intercomparison-between-reanalysis-datasets" title="Link to this heading">#</a></h1>
-<p>Production date: 2025-MM-DD</p>
+<p>Production date: 2026-01-20.</p>
 <p><strong>Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch.</strong></p>
 <p>Dataset version: 2.0.</p>
 <p>Produced by: Olivier Burggraaff (National Physical Laboratory).</p>
@@ -570,7 +570,7 @@ this intercomparison is not an independent validation of either dataset,
 but rather an intercomparison between similar products.
 Quality assessments for ERA5 and ERA5-Land can be found in <a class="reference internal" href="../Reanalyses/reanalysis.html"><span class="std std-doc">the relevant chapter of this website</span></a>.</p>
 <p>Agricultural intercomparisons are best performed regionally
-to avoid confusing differences between datasets with physical differences between regions.
+to account for local climate and meteorological conditions as well as local agricultural practices.
 Accordingly,
 this notebook is focused on one region in one growth season,
 but it is written in such a way
@@ -638,9 +638,9 @@ It focuses on the following variables of interest for a crop model such as <a cl
 [Source](https://pcse.readthedocs.io/en/stable/code.html#pcse.base.WeatherDataContainer)
 -->
 <p>Evapotranspiration is another important variable for agricultural models.
-AgERA5 provides reference evapotranspiration values derived from the variables described above using the FAO version of the Penman–Monteith equation [<a class="reference external" href="https://www.fao.org/4/x0490e/x0490e00.htm" rel="noreferrer" target="_blank">Allen+98</a>].
+AgERA5 provides reference evapotranspiration values derived from the variables described above using the FAO version of the Penman–Monteith equation for a hypothetical reference crop in a vegetated surface [<a class="reference external" href="https://www.fao.org/4/x0490e/x0490e00.htm" rel="noreferrer" target="_blank">Allen+98</a>].
 ERA5-Land also provides (actual and potential) evapotranspiration,
-but <a class="reference external" href="https://confluence.ecmwf.int/display/CKB/ERA5-Land%3A+data+documentation#heading-Guidelines" rel="noreferrer" target="_blank">derives these through a different method</a>
+but <a class="reference external" href="https://confluence.ecmwf.int/display/CKB/ERA5-Land%3A+data+documentation#heading-Guidelines" rel="noreferrer" target="_blank">derives these using a different method</a>
 and therefore the datasets cannot easily be compared one-to-one for this variable.
 For intercomparisons of evapotranspiration calculated from
 AgERA5, ERA5-Land, and other datasets,
@@ -651,7 +651,7 @@ following ERA5,
 because this is the standard height for wind measurements in meteorology.
 The wind speed at 2 m,
 which crop models typically use for their evapotranspiration calculations,
-can be estimated as 0.75 times the wind speed at 10 m [<a class="reference external" href="https://www.fao.org/4/x0490e/x0490e00.htm" rel="noreferrer" target="_blank">Allen+98</a>].</p>
+can be estimated as 0.75× the wind speed at 10 m [<a class="reference external" href="https://www.fao.org/4/x0490e/x0490e00.htm" rel="noreferrer" target="_blank">Allen+98</a>].</p>
 <p>An important quantity derived from temperature is the number of <em>growing degree-days</em> (°C d) or <em>thermal time</em> (TSUM in WOFOST).
 Growing degree-days are essentially the sum of the <em>effective daily temperature</em> T<sub>eff</sub> over time,
 with T<sub>eff</sub> the temperature relative to
@@ -1877,7 +1877,7 @@ and can be edited when running this notebook yourself:</p>
 </div>
 <p>The CDS request template is then defined using the values defined above.
 Additional information to download specific data variables will be mixed into this template in the following sections.</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -1927,7 +1927,7 @@ Additional information to download specific data variables will be mixed into th
 <p>Due to size limits on the CDS, the different variables of interest in AgERA5 (temperature, irradiation, etc.) have to be downloaded separately and then combined afterwards.
 This is achieved by combining the previously defined template request with parameters specific to AgERA5, and subsequently with parameters specific to each individual variable.</p>
 <p>First, the parameters specific to AgERA5 (dataset ID and version) are defined and combined with the template:</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2023,7 +2023,7 @@ This is achieved by combining the previously defined template request with param
 <p>The requests for specific variables are combined with the template and passed to earthkit for download from the CDS.
 Earthkit-data downloads the dataset as a <a class="reference external" href="https://earthkit-data.readthedocs.io/en/latest/guide/data.html" rel="noreferrer" target="_blank">field list</a>.
 Here, we convert this object to an <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html" rel="noreferrer" target="_blank">xarray dataset</a> for ease of use later (when comparing multiple datasets):</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -3246,7 +3246,7 @@ In the following subsections, the data (accumulated and daily statistics) are do
 <p>In practice, this means that one needs to download data for <em>day+1</em> (e.g. 2 January 2023) to get the total accumulated value for <em>day</em> (1 January 2023).
 Hence, for this specific dataset, our existing <code class="docutils literal notranslate"><span class="pre">request_time</span></code> will download data for 2022-12-31 – 2023-09-29, so we need to add one extra day.
 This is achieved by adding a second request for just the extra day to the earthkit-data download.</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -3926,7 +3926,7 @@ Attributes:
 <p>The daily statistics are indexed according to the day they apply to,
 like AgERA5,
 meaning we do not need to worry about adding extra days here.</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
