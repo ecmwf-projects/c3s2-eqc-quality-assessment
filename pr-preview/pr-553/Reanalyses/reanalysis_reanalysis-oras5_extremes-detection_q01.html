@@ -1,0 +1,1638 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3.1. Analysis of Temperature Extremes using ORAS5 Reanalysis &#8212; eqcbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=1ae7504c"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Reanalyses/reanalysis_reanalysis-oras5_extremes-detection_q01';</script>
+    <link rel="icon" href="../_static/C3S_favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4. Seasonal forecasts" href="../Seasonal_Forecasts/seasonal.html" />
+    <link rel="prev" title="3. Reanalysis" href="reanalysis.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">⚠️This is under development!⚠️</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/C3S–POS–LINE.png" class="logo__image only-light" alt="eqcbook - Home"/>
+    <script>document.write(`<img src="../_static/C3S–POS–LINE.png" class="logo__image only-dark" alt="eqcbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    C3S EQC quality assessments
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Satellite Observations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Satellite_ECVs/satellite.html">1. Quality assessments for Satellite Observations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Atmosphere_Physics/Atmosphere_Physics.html">1.1. Atmosphere Physics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Atmospheric_Composition/Atmospheric_Composition.html">1.2. Atmospheric Composition</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Cryosphere/Cryosphere.html">1.3. Cryosphere</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Land_Biosphere/Land_Biosphere.html">1.4. Land Biosphere</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Land_Hydrology/Land_Hydrology.html">1.5. Land Hydrology</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Ocean/Ocean.html">1.6. Ocean</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Insitu Observations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../In_Situ/insitu.html">2. Quality assessments for Insitu Observations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Reanalysis</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="reanalysis.html">3. Quality assessments for Reanalysis</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.1. Analysis of Temperature Extremes using ORAS5 Reanalysis</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Seasonal Forecasts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Seasonal_Forecasts/seasonal.html">4. Quality assessments for Seasonal Forecasts</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Climate Projections</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Climate_Projections/climate.html">5. Quality assessments for Climate Projections</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Climate_Projections/CMIP6/CMIP6.html">5.1. CMIP6</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Climate_Projections/CORDEX/CORDEX.html">5.2. CORDEX</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Climate Indicators</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Indicators/indicator.html">6. Quality assessments for Climate Indicators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Derived Datasets</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Derived_Datasets/derived.html">7. Quality assessments for Derived Datasets</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Applications</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Applications/application.html">8. Quality assessments for C3S Applications</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quality assessment template</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../templates/template_instructions.html">Template instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../templates/template.html">Template</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment/issues/new?title=Issue%20on%20page%20%2FReanalyses/reanalysis_reanalysis-oras5_extremes-detection_q01.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Reanalyses/reanalysis_reanalysis-oras5_extremes-detection_q01.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Analysis of Temperature Extremes using ORAS5 Reanalysis</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-evaluating-marine-extreme-temperature-events-the-case-of-the-blob">🌍 Use case: Evaluating marine extreme temperature events, the case of the Blob</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-questions">❓ Quality assessment questions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-selection-and-setup">1. Data selection and setup</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-required-libraries">Import required libraries</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-request-for-oras5-reanalysis">Data request for ORAS5 reanalysis</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#download-and-transform">Download and transform</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#detection-of-marine-heatwaves">2. Detection of marine heatwaves</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-processing-and-computations">3. Data processing and computations</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#general-parameters">General parameters</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sea-surface-temperature-sst">Sea surface temperature (SST)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#potential-temperature">Potential temperature</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#wind-stress-components">Wind stress components</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-layer-depth-and-net-downward-heat-flux">Mixed layer depth and net downward heat flux</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-and-discussion-of-results">4. Plotting and discussion of results</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#physical-mechanisms-and-characteristics-of-the-blob">Physical mechanisms and characteristics of the Blob</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-resources">Key resources</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><img alt="logo" src="../_images/LogoLine_horizon_C3S1.png" /></p>
+<div class="alert alert-block alert-warning">
+Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
+</div><section class="tex2jax_ignore mathjax_ignore" id="analysis-of-temperature-extremes-using-oras5-reanalysis">
+<h1><span class="section-number">3.1. </span>Analysis of Temperature Extremes using ORAS5 Reanalysis<a class="headerlink" href="#analysis-of-temperature-extremes-using-oras5-reanalysis" title="Link to this heading">#</a></h1>
+<p>Production date: 27-12-2025</p>
+<p>Produced by: Joan Armajach and Blanca Fernández-Álvarez - IMEDEA (CSIC-UIB) <a class="reference external" href="https://imedea.uib-csic.es/" rel="noreferrer" target="_blank">[webpage]</a></p>
+<section id="use-case-evaluating-marine-extreme-temperature-events-the-case-of-the-blob">
+<h2>🌍 Use case: Evaluating marine extreme temperature events, the case of the Blob<a class="headerlink" href="#use-case-evaluating-marine-extreme-temperature-events-the-case-of-the-blob" title="Link to this heading">#</a></h2>
+</section>
+<section id="quality-assessment-questions">
+<h2>❓ Quality assessment questions<a class="headerlink" href="#quality-assessment-questions" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>How reliable is ORAS5 for studying marine temperature extremes, such as marine heatwaves?</strong></p></li>
+</ul>
+<p>Extreme events are considered unusual climate anomalies that occur rarely and differ significantly in magnitude from typical conditions in a region <a class="reference external" href="https://doi.org/10.1146/annurev-marine-032720-095144" rel="noreferrer" target="_blank">[1]</a>. In the ocean, one of the most relevant is extremely warm ocean temperatures, leading to substantial biological and economic impacts <a class="reference external" href="https://doi.org/10.5670/oceanog.2018.205" rel="noreferrer" target="_blank">[2]</a>. This phenomenon is known as marine heatwave (MHW), a term first introduced by <a class="reference external" href="https://fish.gov.au/Archived-Reports/Documents/Pearce_et_al_2011.pdf" rel="noreferrer" target="_blank">[3]</a>. MHWs are defined as discrete and prolonged periods of anomalously high sea surface temperature (SST) which can be characterized by their duration, intensity, spatial extent and rate of evolution <a class="reference external" href="https://doi.org/10.1016/j.pocean.2015.12.014" rel="noreferrer" target="_blank">[4]</a>. Increases in mean SST or changes in its variability can alter the metrics and properties of MHWs <a class="reference external" href="https://doi.org/10.1007/s00382-019-04707-2" rel="noreferrer" target="_blank">[5]</a>. These extreme events have become more frequent and persistent over recent decades as a result of anthropogenic climate change [<a class="reference external" href="https://doi.org/10.1016/j.pocean.2015.12.014" rel="noreferrer" target="_blank">4</a>, <a class="reference external" href="https://doi.org/10.1007/s00382-019-04707-2" rel="noreferrer" target="_blank">5</a>, <a class="reference external" href="https://doi.org/10.1038/s41586-018-0383-9" rel="noreferrer" target="_blank">6</a>]. Over the last century, MHWs have increased by 54% in annual days globally from 1925 to 2016, as reported in <a class="reference external" href="https://doi.org/10.1038/s41467-018-03732-9" rel="noreferrer" target="_blank">[7]</a>. Marine ecosystems have demonstrated high vulnerability to MHWs, with major mortality events, especially habitat-forming organisms such as corals, seagrass, and kelp <a class="reference external" href="https://doi.org/10.1038/s44358-025-00058-5" rel="noreferrer" target="_blank">[8]</a>. At present, one of the largest and longest MHWs ever recorded occurred in the Northeast (NE) Pacific from the boreal fall of 2013 to early 2016, known as “the Blob” <a class="reference external" href="https://doi.org/10.1002/2015GL063306" rel="noreferrer" target="_blank">[9]</a>. This anomalously warm SST event, originating in the Gulf of Alaska and extending to the North American coastline, exceeded 6 °C above normal in some areas <a class="reference external" href="https://doi.org/10.1029/2019JD030780" rel="noreferrer" target="_blank">[10]</a>. In recent years, the case of the Blob has been extensively studied, with the objective of understanding its origin and the mechanisms that maintained it for such an extended period (e.g., [<a class="reference external" href="https://doi.org/10.1029/2019JD030780" rel="noreferrer" target="_blank">10</a>, <a class="reference external" href="https://doi.org/10.1029/2018GL078242" rel="noreferrer" target="_blank">11</a>, <a class="reference external" href="https://doi.org/10.1038/nclimate3082" rel="noreferrer" target="_blank">12</a>]), thus becoming one of the most significant MHWs ever detected.</p>
+<p>This notebook aims to assess the performance of ORAS5 reanalysis in detecting MHWs, focusing on the Blob event in the NE Pacific from the fall of 2013 to early 2016.</p>
+</section>
+<section id="quality-assessment-statement">
+<h2>📢 Quality assessment statement<a class="headerlink" href="#quality-assessment-statement" title="Link to this heading">#</a></h2>
+<div class="note admonition">
+<p class="admonition-title">These are the key outcomes of this assessment</p>
+<ul class="simple">
+<li><p>A prominent anomalous warm seawater event, known as “the Blob”, occurred in the Northeast (NE) Pacific between 2013 and 2016, becoming the largest and most persistent marine heatwave (MHW). Remarkable sea surface temperature (SST) anomalies were detected, especially in the Blob region, reaching values of approximately 2°C. The duration of this extreme event consisted of two persistent MHWs. The first occurred at the origin of the Blob, from late 2013 to late 2014, with a peak intensity between August and October 2014. The second persisted from early 2015 to late 2015, with its peak also appearing from August to October 2015. Temperature anomalies extended from the surface to 150 m depth. The prolonged subsurface warming played a key role in the formation of multiyear MHW events, as in the case of the Blob.</p></li>
+<li><p>Wind stress magnitude anomalies present different patterns during winter (November–January) and summer (August–October) of 2014–2015. In winter, mainly negative anomalies are observed over the NE Pacific, indicating weak surface winds. By summer, more positive anomalies appear in some regions, reflecting a partial strengthening of the wind stress, although winds remain relatively weak. This pattern of winds led to a shallow mixed layer and prolonged upper ocean heating, which contributed to more pronounced SST anomalies.</p></li>
+<li><p>ORAS5 dataset represents an ideal tool for studying temperature extreme events, such as MHWs, and their physical drivers. These results have been verified with other similar studies using reanalysis, such as [<a class="reference external" href="https://doi.org/10.1002/2015GL063306" rel="noreferrer" target="_blank">9</a>, <a class="reference external" href="https://doi.org/10.1029/2019JD030780" rel="noreferrer" target="_blank">10</a>, <a class="reference external" href="https://doi.org/10.1038/s41612-023-00327-0" rel="noreferrer" target="_blank">14</a>] and in-situ data [<a class="reference external" href="https://doi.org/10.1029/2021JC018356" rel="noreferrer" target="_blank">16</a>].</p></li>
+</ul>
+</div>
+</section>
+<section id="methodology">
+<h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
+<p>In this study, we use the <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-oras5?tab=overview" rel="noreferrer" target="_blank">ORAS5 global ocean reanalysis from the Copernicus Climate Data Store (CDS)</a>. This dataset provides monthly gridded data projected onto a tripolar model grid with a resolution of 0.25° x 0.25° over the global ocean. Here, we use the two products that constitute ORAS5: the “Consolidated” (1958–2014) and the “Operational” (2015 to present). The main differences between these two products are the atmospheric reanalysis forcing used and the type of observations (reprocessed for the Consolidated and near real-time observations for the Operational). Detailed information is available on the <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-oras5?tab=overview" rel="noreferrer" target="_blank">CDS</a>.</p>
+<p>For the evaluation of how reliably this product detects marine heatwaves (MHWs), we use sea surface temperature (SST) measurements for the studied period. As reported in <a class="reference external" href="https://doi.org/10.5194/os-15-779-2019" rel="noreferrer" target="_blank">[13]</a>, ORAS5 uses updated versions of observational datasets, with special emphasis on the consistency of SST data. To study the driving mechanisms of the Blob in more detail, we use additional variables available from the ORAS5 reanalysis dataset. These include potential temperature (to analyze the zonal-depth sections), zonal and meridional wind stress (representing the horizontal shear along the “x” and “y” axes), mixed layer depth (MLD) using a fixed threshold of 0.03 kg m⁻³, and the surface downward energy flux, including both solar and non-solar heat fluxes.</p>
+<p>The analysis and results are organised in the following steps, which are detailed in the sections below:</p>
+<p><strong><a class="reference internal" href="#reanalysis-reanalysis-oras5-extremes-detection-q01-section-1"><span class="std std-ref">1. Data selection and setup</span></a></strong></p>
+<ul class="simple">
+<li><p>Import required libraries</p></li>
+<li><p>Define request for ORAS5 reanalysis</p></li>
+<li><p>Download and transform</p></li>
+</ul>
+<p><strong><a class="reference internal" href="#reanalysis-reanalysis-oras5-extremes-detection-q01-section-2"><span class="std std-ref">2. Detection of marine heatwaves</span></a></strong></p>
+<p><strong><a class="reference internal" href="#reanalysis-reanalysis-oras5-extremes-detection-q01-section-3"><span class="std std-ref">3. Data processing and computations</span></a></strong></p>
+<ul class="simple">
+<li><p>General parameters</p></li>
+<li><p>Sea surface temperature (SST)</p></li>
+<li><p>Wind stress components</p></li>
+<li><p>Mixed layer depth and net downward heat flux</p></li>
+</ul>
+<p><strong><a class="reference internal" href="#reanalysis-reanalysis-oras5-extremes-detection-q01-section-4"><span class="std std-ref">4. Plotting and discussion of results</span></a></strong></p>
+<ul class="simple">
+<li><p>Physical mechanisms and characteristics of the Blob</p></li>
+</ul>
+</section>
+<section id="analysis-and-results">
+<h2>📈 Analysis and results<a class="headerlink" href="#analysis-and-results" title="Link to this heading">#</a></h2>
+<section id="data-selection-and-setup">
+<span id="reanalysis-reanalysis-oras5-extremes-detection-q01-section-1"></span><h3>1. Data selection and setup<a class="headerlink" href="#data-selection-and-setup" title="Link to this heading">#</a></h3>
+<section id="import-required-libraries">
+<h4>Import required libraries<a class="headerlink" href="#import-required-libraries" title="Link to this heading">#</a></h4>
+<p>First, we import the required packages.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load required modules</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="kn">import</span> <span class="n">Patch</span><span class="p">,</span> <span class="n">Rectangle</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">TwoSlopeNorm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mpl_toolkits.axes_grid1.inset_locator</span><span class="w"> </span><span class="kn">import</span> <span class="n">inset_axes</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.feature</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cfeature</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.mpl.ticker</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cticker</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">utils</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;seaborn-v0_8-notebook&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="data-request-for-oras5-reanalysis">
+<h4>Data request for ORAS5 reanalysis<a class="headerlink" href="#data-request-for-oras5-reanalysis" title="Link to this heading">#</a></h4>
+<p>In this section, we define several variables from the <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-oras5?tab=download" rel="noreferrer" target="_blank">ORAS5 reanalysis dataset</a>, as described in the Methodology Section. The main parameters are: “Sea surface temperature” (°C), “Mixed layer depth 0.03” (m), “Net downward heat flux” (W m⁻²), “Zonal wind stress” (N m⁻²), and “Meridional wind stress” (N m⁻²). All of these have a single level (surface) vertical resolution. For this assessment, we choose the time interval from 1979–01 to 2016–01 (38 years) to obtain a consistent climatology. We apply a regional mask covering only latitudes from 30°N to 60°N and longitudes from 160°W to 120°W, representing the NE Pacific, where the Blob occurred. Additionally, we use “Potential temperature” (°C) at all depth levels but only at a single point, corresponding to the center of the Blob (approximately 45°N, 140°W). For all variables, we use both the operational and the consolidated products.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Time </span>
+<span class="n">start</span> <span class="o">=</span> <span class="s2">&quot;1979-01&quot;</span>
+<span class="n">stop</span> <span class="o">=</span> <span class="s2">&quot;2016-01&quot;</span>
+
+<span class="c1"># Id collection (dataset)</span>
+<span class="n">collection_id</span> <span class="o">=</span> <span class="s2">&quot;reanalysis-oras5&quot;</span>
+
+<span class="c1"># NE Pacific </span>
+<span class="n">lat_slice</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+<span class="n">lon_slice</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">160</span><span class="p">,</span> <span class="o">-</span><span class="mi">120</span><span class="p">)</span>
+
+<span class="c1"># Variables</span>
+<span class="n">variables</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;sea_surface_temperature&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;meridional_wind_stress&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;mixed_layer_depth_0_03&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;net_downward_heat_flux&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;zonal_wind_stress&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="c1"># Define request 1</span>
+<span class="n">request_1</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;1MS&quot;</span><span class="p">):</span>
+        <span class="n">request_1</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;vertical_resolution&quot;</span><span class="p">:</span> <span class="s2">&quot;single_level&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">variable</span><span class="p">,</span>
+                <span class="s2">&quot;product_type&quot;</span><span class="p">:</span> <span class="s2">&quot;operational&quot;</span> <span class="k">if</span> <span class="n">date</span><span class="o">.</span><span class="n">year</span> <span class="o">&gt;</span> <span class="mi">2014</span> <span class="k">else</span> <span class="s2">&quot;consolidated&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y&quot;</span><span class="p">),</span>
+                <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%m&quot;</span><span class="p">),</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+        
+<span class="n">grid_request_1</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">collection_id</span><span class="p">,</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;vertical_resolution&quot;</span><span class="p">:</span> <span class="s2">&quot;single_level&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="s2">&quot;net_downward_heat_flux&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;product_type&quot;</span><span class="p">:</span> <span class="s2">&quot;consolidated&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="s2">&quot;1979&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="s2">&quot;01&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+
+<span class="c1"># Same time but only in one single point, representing the center of the Blob</span>
+<span class="n">lat_centerBlob</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mf">44.9</span><span class="p">,</span> <span class="mf">45.1</span><span class="p">)</span>
+<span class="n">lon_centerBlob</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mf">140.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">139.9</span><span class="p">)</span>
+
+<span class="c1"># Define request 2</span>
+<span class="n">request</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;vertical_resolution&quot;</span><span class="p">:</span> <span class="s2">&quot;all_levels&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;potential_temperature&quot;</span><span class="p">],</span>
+<span class="p">}</span>
+
+<span class="n">requests</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;1MS&quot;</span><span class="p">):</span>
+    <span class="n">requests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">request</span>
+        <span class="o">|</span> <span class="p">{</span>
+            <span class="s2">&quot;product_type&quot;</span><span class="p">:</span> <span class="s2">&quot;operational&quot;</span> <span class="k">if</span> <span class="n">date</span><span class="o">.</span><span class="n">year</span> <span class="o">&gt;</span> <span class="mi">2014</span> <span class="k">else</span> <span class="s2">&quot;consolidated&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y&quot;</span><span class="p">),</span>
+            <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%m&quot;</span><span class="p">),</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="download-and-transform">
+<h4>Download and transform<a class="headerlink" href="#download-and-transform" title="Link to this heading">#</a></h4>
+<p>Here, we define a function named “regionalise_and_interpolate” for the wind stress variables, since they are not on the same grid. ORAS5 uses staggered grids, so the zonal and meridional components are not located at the cell center (as for other variables), but instead on the cell faces. For this reason, these values are interpolated using the “nearest_s2d” (nearest source-to-destination) method. Now, we can download and transform the requested datasets.</p>
+<div class="cell tag_hide-input tag_hide-output docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input above-output-prompt docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">regionalise_and_interpolate</span><span class="p">(</span>
+    <span class="n">ds</span><span class="p">,</span> <span class="n">lat_slice</span><span class="p">,</span> <span class="n">lon_slice</span><span class="p">,</span> <span class="n">grid_request_1</span><span class="p">,</span> <span class="o">**</span><span class="n">regrid_kwargs</span>
+<span class="p">):</span>
+    <span class="n">ds_grid</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
+        <span class="o">*</span><span class="n">grid_request_1</span><span class="p">,</span>
+        <span class="n">transform_func</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">regionalise</span><span class="p">,</span>
+        <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lon_slice&quot;</span><span class="p">:</span> <span class="n">lon_slice</span><span class="p">,</span> <span class="s2">&quot;lat_slice&quot;</span><span class="p">:</span> <span class="n">lat_slice</span><span class="p">},</span>
+        <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">regrid</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">ds_grid</span><span class="p">,</span> <span class="o">**</span><span class="n">regrid_kwargs</span><span class="p">)</span>
+
+<span class="c1"># Download and transform (Request 1)</span>
+<span class="n">datasets</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">variable</span><span class="p">,</span> <span class="n">request_1</span> <span class="ow">in</span> <span class="n">request_1</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">variable</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">transform_func_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;lon_slice&quot;</span><span class="p">:</span> <span class="n">lon_slice</span><span class="p">,</span> <span class="s2">&quot;lat_slice&quot;</span><span class="p">:</span> <span class="n">lat_slice</span><span class="p">}</span>
+    <span class="k">if</span> <span class="s2">&quot;wind_stress&quot;</span> <span class="ow">in</span> <span class="n">variable</span><span class="p">:</span> <span class="c1"># we interpolate since are not on the same grid</span>
+        <span class="n">transform_func</span> <span class="o">=</span> <span class="n">regionalise_and_interpolate</span>
+        <span class="n">transform_func_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="p">{</span><span class="s2">&quot;grid_request_1&quot;</span><span class="p">:</span> <span class="n">grid_request_1</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;nearest_s2d&quot;</span><span class="p">}</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">transform_func</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">regionalise</span>
+    <span class="n">rolling</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
+        <span class="n">collection_id</span><span class="p">,</span>
+        <span class="n">request_1</span><span class="p">,</span>
+        <span class="n">transform_func</span><span class="o">=</span><span class="n">transform_func</span><span class="p">,</span>
+        <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="n">transform_func_kwargs</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;override&quot;</span><span class="p">)</span> 
+
+<span class="c1"># Download and transform (Request 2)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;variable=&#39;potential_temperature&#39;&quot;</span><span class="p">)</span>
+<span class="n">ds_PT</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
+    <span class="n">collection_id</span><span class="p">,</span>
+    <span class="n">requests</span><span class="p">,</span>
+    <span class="n">transform_func</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">regionalise</span><span class="p">,</span>
+    <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lon_slice&quot;</span><span class="p">:</span> <span class="n">lon_centerBlob</span><span class="p">,</span> <span class="s2">&quot;lat_slice&quot;</span><span class="p">:</span> <span class="n">lat_centerBlob</span><span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<details class="admonition hide below-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell output</p>
+<p class="expanded admonition-title">Hide code cell output</p>
+</summary>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>variable=&#39;sea_surface_temperature&#39;
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 445/445 [00:23&lt;00:00, 18.70it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>variable=&#39;meridional_wind_stress&#39;
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 445/445 [00:28&lt;00:00, 15.76it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>variable=&#39;mixed_layer_depth_0_03&#39;
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 445/445 [00:22&lt;00:00, 19.85it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>variable=&#39;net_downward_heat_flux&#39;
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 445/445 [01:00&lt;00:00,  7.36it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>variable=&#39;zonal_wind_stress&#39;
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 445/445 [00:44&lt;00:00, 10.06it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>variable=&#39;potential_temperature&#39;
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 445/445 [00:18&lt;00:00, 24.64it/s]
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+</section>
+<section id="detection-of-marine-heatwaves">
+<span id="reanalysis-reanalysis-oras5-extremes-detection-q01-section-2"></span><h3>2. Detection of marine heatwaves<a class="headerlink" href="#detection-of-marine-heatwaves" title="Link to this heading">#</a></h3>
+<p>In this part, we define some functions for processing SST correctly. One of them is composed following the MHW definition proposed by <a class="reference external" href="https://doi.org/10.1016/j.pocean.2015.12.014" rel="noreferrer" target="_blank">[4]</a>, which considers an MHW event when anomalously warm water persists for five or more days above a specific threshold. This threshold is based on the 90th percentile at each grid point over a climatology derived from 30 years of data. For our study, we use a similar definition but instead of daily data, we use monthly data, as ORAS5 has a monthly resolution. The other functions are designed to compute a consistent climatology using a circular rolling window.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Circular rolling statistic for periodic dimensions</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_avg</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;month&quot;</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">90</span><span class="p">):</span> <span class="c1"># w: full window size </span>
+    <span class="n">hw</span> <span class="o">=</span> <span class="n">w</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">da_ext</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">da</span><span class="o">.</span><span class="n">isel</span><span class="p">({</span><span class="n">dim</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="n">hw</span><span class="p">,</span> <span class="kc">None</span><span class="p">)}),</span> <span class="n">da</span><span class="p">,</span> <span class="n">da</span><span class="o">.</span><span class="n">isel</span><span class="p">({</span><span class="n">dim</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">hw</span><span class="p">)})],</span> <span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">stat</span> <span class="o">==</span> <span class="s2">&quot;mean&quot;</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">da_ext</span><span class="o">.</span><span class="n">rolling</span><span class="p">({</span><span class="n">dim</span><span class="p">:</span> <span class="n">w</span><span class="p">},</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_periods</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">stat</span> <span class="o">==</span> <span class="s2">&quot;percentile&quot;</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">da_ext</span><span class="o">.</span><span class="n">rolling</span><span class="p">({</span><span class="n">dim</span><span class="p">:</span> <span class="n">w</span><span class="p">},</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_periods</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">construct</span><span class="p">(</span><span class="s2">&quot;window&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanpercentile</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;window&quot;</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;stat must be &#39;mean&#39; or &#39;percentile&#39;&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">out</span><span class="o">.</span><span class="n">isel</span><span class="p">({</span><span class="n">dim</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="n">hw</span><span class="p">,</span> <span class="o">-</span><span class="n">hw</span><span class="p">)})</span>
+
+<span class="c1"># Monthly climatology and percentile thresholds applying the circular rolling defined as &quot;run_avg&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_climatology_monthly</span><span class="p">(</span><span class="n">baseline</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s2">&quot;sosstsst&quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">baseline</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+
+    <span class="n">clim</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.month&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+    <span class="n">pctl</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.month&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanpercentile</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">({</span>
+        <span class="s2">&quot;clim&quot;</span><span class="p">:</span> <span class="n">run_avg</span><span class="p">(</span><span class="n">clim</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="n">smooth</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;month&quot;</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;pctl&quot;</span><span class="p">:</span> <span class="n">run_avg</span><span class="p">(</span><span class="n">pctl</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="n">smooth</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;month&quot;</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span>
+    <span class="p">})</span>
+
+<span class="c1"># Expand the coordinate month to a full time dimension </span>
+<span class="k">def</span><span class="w"> </span><span class="nf">expand_monthly_to_time</span><span class="p">(</span><span class="n">da_month</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+    <span class="n">month_idx</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span>
+    <span class="n">da_expanded</span> <span class="o">=</span> <span class="n">da_month</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">month</span><span class="o">=</span><span class="n">month_idx</span><span class="p">)</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">da_expanded</span>
+
+<span class="c1"># Similar function following the definition of Hobday et al. (2016), but using monthly data</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">detect_mhw</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">clim_ds</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s2">&quot;sosstsst&quot;</span><span class="p">,</span> <span class="n">min_duration</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span> <span class="c1"># minimum consecutive months to consider MHW event</span>
+    <span class="n">sst</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+    <span class="n">clim_t</span> <span class="o">=</span> <span class="n">expand_monthly_to_time</span><span class="p">(</span><span class="n">clim_ds</span><span class="p">[</span><span class="s2">&quot;clim&quot;</span><span class="p">],</span> <span class="n">sst</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>
+    <span class="n">pctl_t</span> <span class="o">=</span> <span class="n">expand_monthly_to_time</span><span class="p">(</span><span class="n">clim_ds</span><span class="p">[</span><span class="s2">&quot;pctl&quot;</span><span class="p">],</span> <span class="n">sst</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>
+
+    <span class="n">cond</span> <span class="o">=</span> <span class="p">(</span><span class="n">sst</span> <span class="o">&gt;</span> <span class="n">pctl_t</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="c1"># binary condition (1 if SST exceeds percentile threshold, and 0 if not)</span>
+
+    <span class="c1"># MHW detection (min_duration consecutive months above the threshold = MHW event)</span>
+    <span class="n">mhw</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">cond</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">min_duration</span><span class="p">,</span> <span class="n">min_periods</span><span class="o">=</span><span class="n">min_duration</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">min_duration</span><span class="p">,</span> <span class="n">min_periods</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">({</span><span class="s2">&quot;mhw&quot;</span><span class="p">:</span> <span class="n">mhw</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="data-processing-and-computations">
+<span id="reanalysis-reanalysis-oras5-extremes-detection-q01-section-3"></span><h3>3. Data processing and computations<a class="headerlink" href="#data-processing-and-computations" title="Link to this heading">#</a></h3>
+<section id="general-parameters">
+<h4>General parameters<a class="headerlink" href="#general-parameters" title="Link to this heading">#</a></h4>
+<p>We define the climatology between January 1976 and January 2016, and the Blob event period, which persisted for over two years, from November 2013 to January 2016. We also indicate the NE Pacific region where the Blob occurs, from 40°N to 50°N and 130°W to 150°W.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="s2">&quot;1979-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2016-01&quot;</span> <span class="c1"># Full climatology (1976 to 2016)</span>
+<span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span class="s2">&quot;2013-11&quot;</span><span class="p">,</span> <span class="s2">&quot;2016-01&quot;</span> <span class="c1"># Blob period</span>
+
+<span class="c1"># Blob region  </span>
+<span class="n">lat_minBlob</span><span class="p">,</span> <span class="n">lat_maxBlob</span> <span class="o">=</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span>
+<span class="n">lon_minBlob</span><span class="p">,</span> <span class="n">lon_maxBlob</span> <span class="o">=</span> <span class="o">-</span><span class="mi">150</span><span class="p">,</span> <span class="o">-</span><span class="mi">130</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="sea-surface-temperature-sst">
+<h4>Sea surface temperature (SST)<a class="headerlink" href="#sea-surface-temperature-sst" title="Link to this heading">#</a></h4>
+<p>As mentioned before, the climatology is constructed using a 38-year historical period. Then, we calculate the SST anomalies during the Blob time interval (2013–11 to 2016–01) relative to the entire climatology.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sst_period</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;sosstsst&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">))</span> <span class="c1"># Blob event </span>
+<span class="n">sst_baseline</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">))</span> <span class="c1"># Climatology (reference)</span>
+
+<span class="n">clim_ds_all</span> <span class="o">=</span> <span class="n">get_climatology_monthly</span><span class="p">(</span>
+    <span class="n">sst_baseline</span><span class="p">,</span>
+    <span class="n">var</span><span class="o">=</span><span class="s2">&quot;sosstsst&quot;</span><span class="p">)</span>
+<span class="n">clim_period</span> <span class="o">=</span> <span class="n">expand_monthly_to_time</span><span class="p">(</span><span class="n">clim_ds_all</span><span class="p">[</span><span class="s2">&quot;clim&quot;</span><span class="p">],</span> <span class="n">sst_period</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>  
+<span class="n">sst_anomaly</span> <span class="o">=</span> <span class="n">sst_period</span> <span class="o">-</span> <span class="n">clim_period</span>
+<span class="n">sst_anomaly_mean</span> <span class="o">=</span> <span class="n">sst_anomaly</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span> <span class="c1"># SST anomaly (temporal average) </span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>For detection of MHWs, we establish that if SST exceeds the threshold (90th percentile) for three or more consecutive months, the period is considered a MHW. Therefore, we apply the functions defined in Section 2 to compute the monthly averaged time series of SST, climatology and 90th percentile. We detect MHW events according to the defined conditions.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mask</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">lat_minBlob</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">lat_maxBlob</span><span class="p">)</span> <span class="o">&amp;</span>
+    <span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">lon_minBlob</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">lon_maxBlob</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>  
+<span class="n">ds_region</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">baseline</span> <span class="o">=</span> <span class="n">ds_region</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">))</span>
+
+<span class="n">clim_ds</span> <span class="o">=</span> <span class="n">get_climatology_monthly</span><span class="p">(</span>
+    <span class="n">baseline</span><span class="p">,</span>
+    <span class="n">var</span><span class="o">=</span><span class="s2">&quot;sosstsst&quot;</span><span class="p">,</span>
+    <span class="n">p</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="c1"># 90th percentile </span>
+    <span class="n">smooth</span><span class="o">=</span><span class="mi">3</span>
+<span class="p">)</span>
+
+<span class="n">mhw_ds</span> <span class="o">=</span> <span class="n">detect_mhw</span><span class="p">(</span>
+    <span class="n">ds_region</span><span class="p">,</span>
+    <span class="n">clim_ds</span><span class="p">,</span>
+    <span class="n">var</span><span class="o">=</span><span class="s2">&quot;sosstsst&quot;</span><span class="p">,</span>
+    <span class="n">min_duration</span><span class="o">=</span><span class="mi">3</span> <span class="c1"># 3 or more consecutive months </span>
+<span class="p">)</span>
+
+<span class="c1"># Spatially averaged monthly time series</span>
+<span class="n">sst_reg</span> <span class="o">=</span> <span class="n">ds_region</span><span class="p">[</span><span class="s2">&quot;sosstsst&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">))</span> <span class="c1"># SST </span>
+<span class="n">clim_t</span> <span class="o">=</span> <span class="n">clim_ds</span><span class="p">[</span><span class="s2">&quot;clim&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">month</span><span class="o">=</span><span class="n">sst_reg</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">))</span> <span class="c1"># Climatology</span>
+<span class="n">pctl_t</span> <span class="o">=</span> <span class="n">clim_ds</span><span class="p">[</span><span class="s2">&quot;pctl&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">month</span><span class="o">=</span><span class="n">sst_reg</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">))</span> <span class="c1"># Percentile </span>
+<span class="n">mhw_reg</span> <span class="o">=</span> <span class="n">mhw_ds</span><span class="p">[</span><span class="s2">&quot;mhw&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="c1"># MHW events </span>
+
+<span class="c1"># Only for the Blob period (t0, t1) </span>
+<span class="n">sst_p</span> <span class="o">=</span> <span class="n">sst_reg</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">))</span>
+<span class="n">clim_p</span> <span class="o">=</span> <span class="n">clim_t</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">))</span>
+<span class="n">pctl_p</span> <span class="o">=</span> <span class="n">pctl_t</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">))</span>
+<span class="n">mhw_p</span> <span class="o">=</span> <span class="n">mhw_reg</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="potential-temperature">
+<h4>Potential temperature<a class="headerlink" href="#potential-temperature" title="Link to this heading">#</a></h4>
+<p>Here, we use the potential temperature to compute its anomalies at each depth level during the Blob period. Since we are interested only in the upper ocean, we define a depth section including only the first 300 m. The monthly climatology uses the same reference period as for SST.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pt_period</span> <span class="o">=</span> <span class="n">ds_PT</span><span class="p">[</span><span class="s2">&quot;votemper&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">))</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+<span class="n">pt_baseline</span> <span class="o">=</span> <span class="n">ds_PT</span><span class="p">[</span><span class="s2">&quot;votemper&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">))</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+
+<span class="n">clim</span> <span class="o">=</span> <span class="p">(</span><span class="n">pt_baseline</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.month&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">clim_period</span> <span class="o">=</span> <span class="n">expand_monthly_to_time</span><span class="p">(</span><span class="n">clim</span><span class="p">,</span> <span class="n">pt_period</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>
+<span class="n">pt_anomaly</span> <span class="o">=</span> <span class="n">pt_period</span> <span class="o">-</span> <span class="n">clim_period</span>
+
+<span class="n">zmax</span> <span class="o">=</span> <span class="mi">300</span> <span class="c1"># depth section </span>
+<span class="n">temp_period_z</span> <span class="o">=</span> <span class="n">pt_period</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">deptht</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">zmax</span><span class="p">))</span>
+<span class="n">anomaly_z</span> <span class="o">=</span> <span class="n">pt_anomaly</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">deptht</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">zmax</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="wind-stress-components">
+<h4>Wind stress components<a class="headerlink" href="#wind-stress-components" title="Link to this heading">#</a></h4>
+<p>Regarding the role of the winds, we select four periods based on whether a MHW event occurred: November 2013 to January 2014 (no MHW), August to October 2014 (MHW), November 2014 to January 2015 (no MHW), and August to October 2015 (MHW).</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">events</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">&quot;Nov 2013 – Jan 2014&quot;</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;2013-11-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2014-01-31&quot;</span><span class="p">),</span> <span class="p">[</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">1</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s2">&quot;Aug 2014 – Oct 2014&quot;</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;2014-08-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2014-10-31&quot;</span><span class="p">),</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s2">&quot;Nov 2014 – Jan 2015&quot;</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;2014-11-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2015-01-31&quot;</span><span class="p">),</span> <span class="p">[</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">1</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s2">&quot;Aug 2015 – Oct 2015&quot;</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;2015-08-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2015-10-31&quot;</span><span class="p">),</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>We compute the magnitude of the wind stress from the zonal and meridional components. Then, we calculate the anomalies relative to the climatology obtained using only the months corresponding to each period.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">wind_stress_anomaly</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">event_slice</span><span class="p">,</span> <span class="n">clim_months</span><span class="p">):</span>
+
+    <span class="n">tau_mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;sozotaux&quot;</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;sometauy&quot;</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># magnitude from stress components </span>
+    
+    <span class="n">tau_x_evt</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;sozotaux&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">event_slice</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span> <span class="c1"># zonal wind stress component</span>
+    <span class="n">tau_y_evt</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;sometauy&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">event_slice</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span> <span class="c1"># meridional wind stress component</span>
+    <span class="n">tau_mag_evt</span> <span class="o">=</span> <span class="n">tau_mag</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">event_slice</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span> <span class="c1"># total magnitude </span>
+    
+    <span class="n">ds_clim</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;time.month&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">clim_months</span><span class="p">))</span>
+    <span class="n">tau_x_clim</span> <span class="o">=</span> <span class="n">ds_clim</span><span class="p">[</span><span class="s2">&quot;sozotaux&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+    <span class="n">tau_y_clim</span> <span class="o">=</span> <span class="n">ds_clim</span><span class="p">[</span><span class="s2">&quot;sometauy&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+    <span class="n">tau_mag_clim</span> <span class="o">=</span> <span class="n">tau_mag</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;time.month&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">clim_months</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Anomalies (stress components and magnitude) for each event relative to a climatology constructed using the corresponding months of the event </span>
+    <span class="n">tau_x_anom</span> <span class="o">=</span> <span class="n">tau_x_evt</span> <span class="o">-</span> <span class="n">tau_x_clim</span>
+    <span class="n">tau_y_anom</span> <span class="o">=</span> <span class="n">tau_y_evt</span> <span class="o">-</span> <span class="n">tau_y_clim</span>
+    <span class="n">tau_mag_anom</span> <span class="o">=</span> <span class="n">tau_mag_evt</span> <span class="o">-</span> <span class="n">tau_mag_clim</span>  
+    
+    <span class="k">return</span> <span class="n">tau_x_anom</span><span class="p">,</span> <span class="n">tau_y_anom</span><span class="p">,</span> <span class="n">tau_mag_anom</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="mixed-layer-depth-and-net-downward-heat-flux">
+<h4>Mixed layer depth and net downward heat flux<a class="headerlink" href="#mixed-layer-depth-and-net-downward-heat-flux" title="Link to this heading">#</a></h4>
+<p>Here, we use the mixed layer depth and the net downward heat flux variables. We apply a spatially weighted mean to compute anomalies during the Blob event, using the full climatology (1979–2016) as a reference.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Dictionaries to store the results </span>
+<span class="n">ts_dict</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">clim_dict</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">anom_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">ds_region</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
+    <span class="c1"># Spatial weighted mean</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">ds_region</span><span class="p">[</span><span class="n">var</span><span class="p">])</span>
+    <span class="n">ts_dict</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">ts</span>
+    <span class="c1"># Monthly climatology </span>
+    <span class="n">clim</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.month&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+    <span class="n">clim_dict</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">clim</span>
+    <span class="c1"># Blob event period </span>
+    <span class="n">ts_sub</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;2013-11&quot;</span><span class="p">,</span> <span class="s2">&quot;2016-01&quot;</span><span class="p">))</span>
+    <span class="c1"># Anomalies </span>
+    <span class="n">anom_sub</span> <span class="o">=</span> <span class="n">ts_sub</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.month&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="n">clim</span>
+    <span class="n">anom_dict</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">anom_sub</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+</section>
+<section id="plotting-and-discussion-of-results">
+<span id="reanalysis-reanalysis-oras5-extremes-detection-q01-section-4"></span><h3>4. Plotting and discussion of results<a class="headerlink" href="#plotting-and-discussion-of-results" title="Link to this heading">#</a></h3>
+<section id="physical-mechanisms-and-characteristics-of-the-blob">
+<h4>Physical mechanisms and characteristics of the Blob<a class="headerlink" href="#physical-mechanisms-and-characteristics-of-the-blob" title="Link to this heading">#</a></h4>
+<p>In this section, we present several figures to visualize and understand some of the physical mechanisms driving the Blob, including SST, potential temperature, wind stress components, mixed layer depth, and net downward heat flux.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="n">gs</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_gridspec</span><span class="p">(</span>
+    <span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">width_ratios</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="n">height_ratios</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
+    <span class="n">hspace</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span>
+    <span class="n">wspace</span><span class="o">=</span><span class="mf">0.15</span>
+<span class="p">)</span>
+
+<span class="c1"># Figure A</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+
+<span class="n">norm</span> <span class="o">=</span> <span class="n">TwoSlopeNorm</span><span class="p">(</span><span class="n">vmin</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">vcenter</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># Normalize the color scale around 0 </span>
+<span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
+
+<span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">],</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">],</span> <span class="n">sst_anomaly_mean</span><span class="p">,</span>
+    <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdBu_r&quot;</span><span class="p">,</span>
+    <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span>
+    <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span>
+    <span class="n">cfeature</span><span class="o">.</span><span class="n">LAND</span><span class="p">,</span>
+    <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;0.85&quot;</span><span class="p">,</span>
+    <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+    <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span>
+<span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">],</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">],</span> <span class="n">sst_anomaly_mean</span><span class="p">,</span>
+    <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;0.7&quot;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
+    <span class="n">zorder</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="c1"># Rectangle NE Pacific</span>
+<span class="n">rect_nepac</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">(</span>
+    <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">lon_minBlob</span><span class="p">,</span> <span class="n">lat_minBlob</span><span class="p">),</span>
+    <span class="n">width</span><span class="o">=</span><span class="n">lon_maxBlob</span> <span class="o">-</span> <span class="n">lon_minBlob</span><span class="p">,</span>
+    <span class="n">height</span><span class="o">=</span><span class="n">lat_maxBlob</span> <span class="o">-</span> <span class="n">lat_minBlob</span><span class="p">,</span>
+    <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
+    <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+    <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+    <span class="n">zorder</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">rect_nepac</span><span class="p">)</span>
+
+<span class="n">map_lon_min</span><span class="p">,</span> <span class="n">map_lon_max</span> <span class="o">=</span> <span class="o">-</span><span class="mi">160</span><span class="p">,</span> <span class="o">-</span><span class="mi">120</span>
+<span class="n">map_lat_min</span><span class="p">,</span> <span class="n">map_lat_max</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">60</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">map_lon_min</span><span class="p">,</span> <span class="n">map_lon_max</span><span class="p">,</span> <span class="n">map_lat_min</span><span class="p">,</span> <span class="n">map_lat_max</span><span class="p">],</span>
+    <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="n">rect_border</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">(</span>
+    <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">map_lon_min</span><span class="p">,</span> <span class="n">map_lat_min</span><span class="p">),</span>
+    <span class="n">width</span><span class="o">=</span><span class="n">map_lon_max</span> <span class="o">-</span> <span class="n">map_lon_min</span><span class="p">,</span>
+    <span class="n">height</span><span class="o">=</span><span class="n">map_lat_max</span> <span class="o">-</span> <span class="n">map_lat_min</span><span class="p">,</span>
+    <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+    <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+    <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+    <span class="n">zorder</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">rect_border</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">()</span>
+
+<span class="c1"># Marker representing the center of the Blob </span>
+<span class="n">lat_centerBlob</span> <span class="o">=</span> <span class="p">(</span><span class="n">lat_slice</span><span class="o">.</span><span class="n">start</span> <span class="o">+</span> <span class="n">lat_slice</span><span class="o">.</span><span class="n">stop</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="n">lon_centerBlob</span> <span class="o">=</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">lon_slice</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">lon_slice</span><span class="o">.</span><span class="n">stop</span><span class="p">)</span> <span class="o">+</span>
+                  <span class="nb">max</span><span class="p">(</span><span class="n">lon_slice</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">lon_slice</span><span class="o">.</span><span class="n">stop</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">lon_centerBlob</span><span class="p">,</span> <span class="n">lat_centerBlob</span><span class="p">,</span>
+    <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
+    <span class="n">zorder</span><span class="o">=</span><span class="mi">30</span>
+<span class="p">)</span>
+
+<span class="c1"># Ticks</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">160</span><span class="p">,</span> <span class="o">-</span><span class="mi">119</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">cticker</span><span class="o">.</span><span class="n">LongitudeFormatter</span><span class="p">())</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">cticker</span><span class="o">.</span><span class="n">LatitudeFormatter</span><span class="p">())</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">labeltop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">labelright</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">lon</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">160</span><span class="p">,</span> <span class="o">-</span><span class="mi">119</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">lon</span><span class="p">,</span> <span class="n">lon</span><span class="p">],</span> <span class="p">[</span><span class="n">map_lat_min</span><span class="p">,</span> <span class="n">map_lat_max</span><span class="p">],</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
+        <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">50</span>
+    <span class="p">)</span>
+
+<span class="k">for</span> <span class="n">lat</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">map_lon_min</span><span class="p">,</span> <span class="n">map_lon_max</span><span class="p">],</span> <span class="p">[</span><span class="n">lat</span><span class="p">,</span> <span class="n">lat</span><span class="p">],</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
+        <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">50</span>
+    <span class="p">)</span>
+
+<span class="c1"># Colorbar</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span>
+    <span class="n">im</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+    <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;horizontal&quot;</span><span class="p">,</span>
+    <span class="n">pad</span><span class="o">=</span><span class="mf">0.14</span><span class="p">,</span>
+    <span class="n">fraction</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+    <span class="n">aspect</span><span class="o">=</span><span class="mi">25</span>
+<span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s2">&quot;SST anomaly (°C)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">([</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+
+<span class="c1"># FIGURE B</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">map_pos</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_position</span><span class="p">([</span><span class="n">pos</span><span class="o">.</span><span class="n">x0</span><span class="p">,</span> <span class="n">map_pos</span><span class="o">.</span><span class="n">y0</span><span class="p">,</span> <span class="n">pos</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">map_pos</span><span class="o">.</span><span class="n">height</span><span class="p">])</span>
+
+<span class="n">line1</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sst_p</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">sst_p</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Temperature&quot;</span><span class="p">)</span>
+<span class="n">line2</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">clim_p</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">clim_p</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;dodgerblue&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Climatology&quot;</span><span class="p">)</span>
+<span class="n">line3</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pctl_p</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">pctl_p</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;90th Percentile&quot;</span><span class="p">)</span>
+
+<span class="n">sst_mhw</span> <span class="o">=</span> <span class="n">sst_p</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mhw_p</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span>
+    <span class="n">sst_p</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">pctl_p</span><span class="p">,</span> <span class="n">sst_mhw</span><span class="p">,</span>
+    <span class="n">where</span><span class="o">=</span><span class="n">sst_p</span> <span class="o">&gt;=</span> <span class="n">pctl_p</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="n">mhw_patch</span> <span class="o">=</span> <span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;MHW&quot;</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="p">[</span><span class="n">line1</span><span class="p">,</span> <span class="n">line2</span><span class="p">,</span> <span class="n">line3</span><span class="p">,</span> <span class="n">mhw_patch</span><span class="p">],</span>
+           <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;SST (°C)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># FIGURE C</span>
+<span class="n">ax3</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span>
+
+<span class="n">cf</span> <span class="o">=</span> <span class="n">ax3</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+    <span class="n">anomaly_z</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">],</span>
+    <span class="n">anomaly_z</span><span class="p">[</span><span class="s2">&quot;deptht&quot;</span><span class="p">],</span>
+    <span class="n">anomaly_z</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+    <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">33</span><span class="p">),</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdBu_r&quot;</span>
+<span class="p">)</span>
+
+<span class="n">cs</span> <span class="o">=</span> <span class="n">ax3</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span>
+    <span class="n">temp_period_z</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">],</span>
+    <span class="n">temp_period_z</span><span class="p">[</span><span class="s2">&quot;deptht&quot;</span><span class="p">],</span>
+    <span class="n">temp_period_z</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+    <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+    <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.8</span>
+<span class="p">)</span>
+
+<span class="n">ax3</span><span class="o">.</span><span class="n">clabel</span><span class="p">(</span><span class="n">cs</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%.0f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Depth (m)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+<span class="c1"># Colorbar</span>
+<span class="n">cax</span> <span class="o">=</span> <span class="n">inset_axes</span><span class="p">(</span>
+    <span class="n">ax3</span><span class="p">,</span>
+    <span class="n">width</span><span class="o">=</span><span class="s2">&quot;75%&quot;</span><span class="p">,</span>
+    <span class="n">height</span><span class="o">=</span><span class="s2">&quot;8%&quot;</span><span class="p">,</span>
+    <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower center&quot;</span><span class="p">,</span>
+    <span class="n">borderpad</span><span class="o">=-</span><span class="mf">4.5</span>
+<span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cf</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cax</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;horizontal&quot;</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s2">&quot;Potential Temperature anomaly (°C)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">([</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+
+<span class="n">posA</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+<span class="n">posB</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+<span class="n">posC</span> <span class="o">=</span> <span class="n">ax3</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+<span class="n">center_x</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">posA</span><span class="o">.</span><span class="n">x0</span> <span class="o">+</span> <span class="n">posB</span><span class="o">.</span><span class="n">x1</span><span class="p">)</span>
+<span class="n">new_width</span> <span class="o">=</span> <span class="mf">0.55</span> <span class="o">*</span> <span class="p">(</span><span class="n">posB</span><span class="o">.</span><span class="n">x1</span> <span class="o">-</span> <span class="n">posA</span><span class="o">.</span><span class="n">x0</span><span class="p">)</span>
+<span class="n">new_x0</span> <span class="o">=</span> <span class="n">center_x</span> <span class="o">-</span> <span class="n">new_width</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="n">new_y0</span> <span class="o">=</span> <span class="n">posC</span><span class="o">.</span><span class="n">y0</span> <span class="o">+</span> <span class="mf">0.12</span>
+<span class="n">new_height</span> <span class="o">=</span> <span class="n">posC</span><span class="o">.</span><span class="n">height</span> <span class="o">*</span> <span class="mf">0.75</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_position</span><span class="p">([</span><span class="n">new_x0</span><span class="p">,</span> <span class="n">new_y0</span><span class="p">,</span> <span class="n">new_width</span><span class="p">,</span> <span class="n">new_height</span><span class="p">])</span>
+<span class="n">posC</span> <span class="o">=</span> <span class="n">ax3</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+<span class="n">y_top</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">posA</span><span class="o">.</span><span class="n">y1</span><span class="p">,</span> <span class="n">posB</span><span class="o">.</span><span class="n">y1</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">posA</span><span class="o">.</span><span class="n">x0</span> <span class="o">-</span> <span class="mf">0.03</span><span class="p">,</span> <span class="n">y_top</span> <span class="o">+</span> <span class="mf">0.015</span><span class="p">,</span> <span class="s2">&quot;A&quot;</span><span class="p">,</span>
+         <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">posB</span><span class="o">.</span><span class="n">x0</span> <span class="o">-</span> <span class="mf">0.03</span><span class="p">,</span> <span class="n">y_top</span> <span class="o">+</span> <span class="mf">0.015</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span>
+         <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">posC</span><span class="o">.</span><span class="n">x0</span> <span class="o">-</span> <span class="mf">0.02</span><span class="p">,</span> <span class="n">posC</span><span class="o">.</span><span class="n">y1</span> <span class="o">+</span> <span class="mf">0.012</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
+         <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/3a58a4b639455bb006fcf96b18e35be220d9b315095021119a72343a6332cade.png" src="../_images/3a58a4b639455bb006fcf96b18e35be220d9b315095021119a72343a6332cade.png" />
+</div>
+</div>
+<p>In this figure, we present three subplots ordered from A to C. The first one (Figure 1A) shows SST anomalies in the NE Pacific, averaged over the period of the Blob event (November 2013 to January 2016) based on the historical climatology from 1979 to 2016. The black rectangle indicates the study area, with a marker (in this case, a star) showing the center point of the Blob. Regarding the results, warm anomalies are detected, reaching a maximum of over 2°C within the Blob. The rest of the NE Pacific also exhibits notable SST anomalies, but of smaller magnitude. Figure 1B displays the time series of monthly-averaged SST (black line). Moreover, shown are the monthly-averaged climatology (blue line), the 90th percentile threshold (green line), and MHW events (red shading). These periods indicate that SST exceeds the threshold for a minimum of three consecutive months. If we observe in more detail, the first MHW (beginning of the Blob) originated in late 2013, developed in early 2014, and dissipated by late 2014. The peak intensity of the MHW was from August to October 2014. The second MHW event started in early 2015 and continued until late 2015, with its peak from August to October 2015. The last subplot (Figure 1C) shows a time-depth section of the monthly-averaged potential temperature anomaly for the upper 300 m of the ocean. The exact location corresponds to the center of the Blob, marked by a star in Figure 1A. We can determine that the subsurface temperature anomaly extended mainly to 100 m. These anomalies were very notable during the same peak periods mentioned in Figure 1B, with maximum values around 2–3°C. Below approximately 150 m, the anomalous warming decreased to near 0°C, with slightly negative anomalies at great depths. As described in <a class="reference external" href="https://doi.org/10.1038/s41612-023-00327-0" rel="noreferrer" target="_blank">[14]</a>, the case of the Blob extended from the surface to depths of around 140 m, with subsurface warming persisting longer than surface warming, affecting the mixed layer temperature. This was observed thanks to the Argo floats deployed in the NE Pacific <a class="reference external" href="https://doi.org/10.1002/2017JC013120" rel="noreferrer" target="_blank">[15]</a>. Both the timming of occurrence and the magnitude of the anomalies identified here are consistent with other reanalyses, such as NOAA’s GODAS <a class="reference external" href="https://doi.org/10.1002/2015GL063306" rel="noreferrer" target="_blank">[9]</a> and CFSR <a class="reference external" href="https://doi.org/10.1029/2019JD030780" rel="noreferrer" target="_blank">[10]</a>, as well as in situ observations <a class="reference external" href="https://doi.org/10.1029/2021JC018356" rel="noreferrer" target="_blank">[16]</a>.</p>
+<p><a class="reference external" href="https://doi.org/10.1088/1748-9326/aa67c3" rel="noreferrer" target="_blank">[17]</a> explains that the 2013–2016 warm Blob was a clear precursor to the evolution of the 2015–2016 El Niño, with the two events being closely linked. Nevertheless, this relationship should be examined with caution given the complexity of the ocean–atmosphere interactions in the North Pacific.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
+    <span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+    <span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;projection&quot;</span><span class="p">:</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()},</span>
+    <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;wspace&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;hspace&quot;</span><span class="p">:</span><span class="mf">0.12</span><span class="p">}</span> 
+<span class="p">)</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>  
+
+<span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+<span class="k">for</span> <span class="n">title</span><span class="p">,</span> <span class="n">evt_slice</span><span class="p">,</span> <span class="n">months</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">tau_mag_anom</span> <span class="o">=</span> <span class="n">wind_stress_anomaly</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">evt_slice</span><span class="p">,</span> <span class="n">months</span><span class="p">)</span>
+    <span class="n">vmin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">tau_mag_anom</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">vmax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">vmax</span><span class="p">,</span> <span class="n">tau_mag_anom</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">vmax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">vmin</span><span class="p">),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">vmax</span><span class="p">))</span>
+<span class="n">vmin</span> <span class="o">=</span> <span class="o">-</span><span class="n">vmax</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">evt_slice</span><span class="p">,</span> <span class="n">months</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">events</span><span class="p">):</span>
+    <span class="n">tau_x_anom</span><span class="p">,</span> <span class="n">tau_y_anom</span><span class="p">,</span> <span class="n">tau_mag_anom</span> <span class="o">=</span> <span class="n">wind_stress_anomaly</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">evt_slice</span><span class="p">,</span> <span class="n">months</span><span class="p">)</span>
+
+    <span class="c1"># Magnitude contourf </span>
+    <span class="n">im</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+        <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">],</span>
+        <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">],</span>
+        <span class="n">tau_mag_anom</span><span class="p">,</span>
+        <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">,</span> <span class="mi">21</span><span class="p">),</span> 
+        <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdBu_r&quot;</span><span class="p">,</span>
+        <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
+    <span class="p">)</span>
+    <span class="c1"># Quiver</span>
+    <span class="n">step</span> <span class="o">=</span> <span class="mi">8</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span> 
+        <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">][::</span><span class="n">step</span><span class="p">,</span> <span class="p">::</span><span class="n">step</span><span class="p">],</span>
+        <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">][::</span><span class="n">step</span><span class="p">,</span> <span class="p">::</span><span class="n">step</span><span class="p">],</span>
+        <span class="n">tau_x_anom</span><span class="p">[::</span><span class="n">step</span><span class="p">,</span> <span class="p">::</span><span class="n">step</span><span class="p">],</span>
+        <span class="n">tau_y_anom</span><span class="p">[::</span><span class="n">step</span><span class="p">,</span> <span class="p">::</span><span class="n">step</span><span class="p">],</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+        <span class="n">scale</span><span class="o">=</span><span class="mf">1.75</span><span class="p">,</span>
+        <span class="n">width</span><span class="o">=</span><span class="mf">0.002</span><span class="p">,</span>
+        <span class="n">pivot</span><span class="o">=</span><span class="s2">&quot;middle&quot;</span><span class="p">,</span>
+        <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
+    <span class="p">)</span> 
+
+    <span class="n">Qkey</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span>
+    <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span>
+    <span class="n">scale</span><span class="o">=</span><span class="mf">1.75</span><span class="p">,</span>        
+    <span class="n">width</span><span class="o">=</span><span class="mf">0.004</span><span class="p">,</span>      
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span>
+    <span class="p">)</span>
+    
+    <span class="c1"># Quiverkey</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">quiverkey</span><span class="p">(</span>
+        <span class="n">Qkey</span><span class="p">,</span>
+        <span class="n">X</span><span class="o">=</span><span class="mf">0.88</span><span class="p">,</span>
+        <span class="n">Y</span><span class="o">=</span><span class="mf">0.075</span><span class="p">,</span>
+        <span class="n">U</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> 
+        <span class="n">zorder</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+        <span class="n">coordinates</span><span class="o">=</span><span class="s2">&quot;axes&quot;</span>
+    <span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+        <span class="mf">0.80</span><span class="p">,</span> <span class="mf">0.11</span><span class="p">,</span>
+        <span class="s2">&quot;0.1 N/m²&quot;</span><span class="p">,</span>
+        <span class="n">transform</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span>
+        <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
+        <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
+        <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span>
+        <span class="n">zorder</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">boxstyle</span><span class="o">=</span><span class="s1">&#39;round,pad=0.5&#39;</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Map</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">LAND</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;0.85&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">coastlines</span><span class="p">()</span>
+    <span class="n">map_extent</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">160</span><span class="p">,</span> <span class="o">-</span><span class="mi">120</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">]</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_extent</span><span class="p">(</span><span class="n">map_extent</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+
+    <span class="c1"># Rectangle</span>
+    <span class="n">rect</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">(</span>
+        <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">lon_minBlob</span><span class="p">,</span> <span class="n">lat_minBlob</span><span class="p">),</span>
+        <span class="n">width</span><span class="o">=</span><span class="n">lon_maxBlob</span> <span class="o">-</span> <span class="n">lon_minBlob</span><span class="p">,</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">lat_maxBlob</span> <span class="o">-</span> <span class="n">lat_minBlob</span><span class="p">,</span>
+        <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
+        <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+        <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+        <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
+        <span class="n">zorder</span><span class="o">=</span><span class="mi">10</span>
+    <span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    
+    <span class="c1"># Ticks </span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">160</span><span class="p">,</span> <span class="o">-</span><span class="mi">119</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">lon_formatter</span> <span class="o">=</span> <span class="n">cticker</span><span class="o">.</span><span class="n">LongitudeFormatter</span><span class="p">()</span>
+    <span class="n">lat_formatter</span> <span class="o">=</span> <span class="n">cticker</span><span class="o">.</span><span class="n">LatitudeFormatter</span><span class="p">()</span>
+    
+    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> 
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">lat_formatter</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> 
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> 
+        
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>  
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">lon_formatter</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>  
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> 
+        
+<span class="c1"># Colorbar (set position)</span>
+<span class="n">cbar_ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">])</span> 
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span>
+    <span class="n">im</span><span class="p">,</span>                
+    <span class="n">cax</span><span class="o">=</span><span class="n">cbar_ax</span><span class="p">,</span>         
+    <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;horizontal&quot;</span>
+<span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Wind stress magnitude anomaly (N/m$^2$)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">FormatStrFormatter</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%.2f</span><span class="s1">&#39;</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/d2190ef285ae5c19a2d764ec14c3cc8d8f3627cadc08526273bac26efe30b5e6.png" src="../_images/d2190ef285ae5c19a2d764ec14c3cc8d8f3627cadc08526273bac26efe30b5e6.png" />
+</div>
+</div>
+<p>This figure show wind stress magnitude anomalies for winter (November–January) and summer (August–October) during 2013–2015. During winter 2013–2014, negative wind stress anomalies dominate the NE Pacific within the Blob region (outlined box), indicating weakened surface winds prior to the onset of the MHW. In contrast, summer 2014 exhibits weaker and more spatially heterogeneous anomalies. The winter of 2014–2015 again shows predominantly negative wind stress anomalies over the same region, consistent with continued weak wind forcing. By summer 2015, positive anomalies become more pronounced, suggesting a partial recovery of wind stress. These patterns are comparable to the ones obtained in <a class="reference external" href="https://doi.org/10.1175/JCLI-D-16-0348.1" rel="noreferrer" target="_blank">[18]</a>. Being consistent with the proposed Blob mechanism, whereby weakened winds and associated negative wind stress curl reduce vertical mixing, leading to a shallower mixed layer and sustained upper ocean warming <a class="reference external" href="https://doi.org/10.1038/s41612-023-00327-0" rel="noreferrer" target="_blank">[14]</a>.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Variables </span>
+<span class="n">heat_flux</span> <span class="o">=</span> <span class="s2">&quot;sohefldo&quot;</span> <span class="c1"># Net Downward Heat Flux </span>
+<span class="n">mld</span> <span class="o">=</span> <span class="s2">&quot;somxl030&quot;</span> <span class="c1"># Mixed Layer Depth 0.03</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+
+<span class="c1"># Net Downward Heat Flux </span>
+<span class="n">anom_dict</span><span class="p">[</span><span class="n">heat_flux</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:red&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">heat_flux</span><span class="p">,</span>
+    <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span>
+<span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Net Downward Heat Flux (W/m²)&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:red&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">labelcolor</span><span class="o">=</span><span class="s2">&quot;tab:red&quot;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>  
+
+<span class="c1"># Mixed Layer Depth 0.03</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+<span class="n">anom_dict</span><span class="p">[</span><span class="n">mld</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">mld</span><span class="p">,</span>
+    <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span>
+<span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Mixed Layer Depth 0.03 (m)&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">labelcolor</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/65572c14dcdd6f71bd241c884872415e0eeb2c7a973ab294dadf77b3130d7e18.png" src="../_images/65572c14dcdd6f71bd241c884872415e0eeb2c7a973ab294dadf77b3130d7e18.png" />
+</div>
+</div>
+<p>Figure 3 presents time series of the net downward heat flux (red line) and the mixed layer depth (blue line) for the Blob region from 2013 to 2016. The net downward heat flux shows two major peaks at the beginning of the MHW events, which occurred in early 2014 and 2015, indicating a major influx of energy into the ocean. These positive anomalies corresponded to periods of reduced ocean-to-atmosphere heat loss during winter, especially in the latent heat flux <a class="reference external" href="https://doi.org/10.1038/s41612-025-00900-9" rel="noreferrer" target="_blank">[19]</a>. Regarding the mixed layer depth, its anomalies were generally negative, with a maximum negative anomaly in March 2015 (period of a MHW). In connection with the net downward heat flux, the upper ocean heating led to greater buoyancy in the mixed layer, which had a significant effect on the Blob’s development <a class="reference external" href="https://doi.org/10.1029/2022GL098849" rel="noreferrer" target="_blank">[20]</a>. At the end of the Blob, the mixed layer depth anomalies became progressively positive.</p>
+</section>
+</section>
+</section>
+<section id="i-if-you-want-to-know-more">
+<h2>ℹ️ If you want to know more<a class="headerlink" href="#i-if-you-want-to-know-more" title="Link to this heading">#</a></h2>
+<section id="key-resources">
+<h3>Key resources<a class="headerlink" href="#key-resources" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-oras5?tab=overview" rel="noreferrer" target="_blank">CDS entry</a>: ORAS5 global ocean reanalysis monthly data from 1958 to present.</p></li>
+<li><p>Detailed information about the ORAS5 system is available at <a class="reference external" href="https://doi.org/10.5194/os-15-779-2019" rel="noreferrer" target="_blank">[13]</a>.</p></li>
+</ul>
+<p>Further information:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/bopen/c3s-eqc-automatic-quality-control/tree/main/c3s_eqc_automatic_quality_control" rel="noreferrer" target="_blank">C3S EQC custom functions</a>, <code class="docutils literal notranslate"><span class="pre">c3s_eqc_automatic_quality_control</span></code>,  prepared by <a class="reference external" href="https://www.bopen.eu/" rel="noreferrer" target="_blank">B-Open</a>.</p></li>
+</ul>
+</section>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://doi.org/10.1146/annurev-marine-032720-095144" rel="noreferrer" target="_blank">[1]</a> Oliver, E. C., Benthuysen, J. A., Darmaraki, S., Donat, M. G., Hobday, A. J., Holbrook, N. J., … &amp; Sen Gupta, A. (2021). Marine heatwaves. Annual review of marine science, 13(1), 313-342. doi: 10.1146/annurev-marine-032720-095144</p>
+<p><a class="reference external" href="https://doi.org/10.5670/oceanog.2018.205" rel="noreferrer" target="_blank">[2]</a> Hobday, A. J., Oliver, E. C., Gupta, A. S., Benthuysen, J. A., Burrows, M. T., Donat, M. G., … &amp; Smale, D. A. (2018). Categorizing and naming marine heatwaves. Oceanography, 31(2), 162-173. doi: 10.5670/oceanog.2018.205</p>
+<p><a class="reference external" href="https://fish.gov.au/Archived-Reports/Documents/Pearce_et_al_2011.pdf" rel="noreferrer" target="_blank">[3]</a> Pearce, A., Lenanton, R., Jackson, G., Moore, J., Feng, M. and Gaughan, D. 2011. The “marine heat wave” off Western Australia during the summer of 2010/11. Fisheries Research Report No. 222. Department of Fisheries, Western Australia. 40pp. ISBN: 978-1-921845-25-3</p>
+<p><a class="reference external" href="https://doi.org/10.1016/j.pocean.2015.12.014" rel="noreferrer" target="_blank">[4]</a> Hobday, A. J., Alexander, L. V., Perkins, S. E., Smale, D. A., Straub, S. C., Oliver, E. C., … &amp; Wernberg, T. (2016). A hierarchical approach to defining marine heatwaves. Progress in oceanography, 141, 227-238. doi: 10.1016/j.pocean.2015.12.014</p>
+<p><a class="reference external" href="https://doi.org/10.1007/s00382-019-04707-2" rel="noreferrer" target="_blank">[5]</a> Oliver, E. C. (2019). Mean warming not variability drives marine heatwave trends. Climate Dynamics, 53(3), 1653-1659. doi: 10.1007/s00382-019-04707-2</p>
+<p><a class="reference external" href="https://doi.org/10.1038/s41586-018-0383-9" rel="noreferrer" target="_blank">[6]</a> Frölicher, T. L., Fischer, E. M., &amp; Gruber, N. (2018). Marine heatwaves under global warming. Nature, 560(7718), 360-364. doi: 10.1038/s41586-018-0383-9</p>
+<p><a class="reference external" href="https://doi.org/10.1038/s41467-018-03732-9" rel="noreferrer" target="_blank">[7]</a> Oliver, E. C., Donat, M. G., Burrows, M. T., Moore, P. J., Smale, D. A., Alexander, L. V., … &amp; Wernberg, T. (2018). Longer and more frequent marine heatwaves over the past century. Nature communications, 9(1), 1324. doi: 10.1038/s41467-018-03732-9</p>
+<p><a class="reference external" href="https://doi.org/10.1038/s44358-025-00058-5" rel="noreferrer" target="_blank">[8]</a> Wernberg, T., Thomsen, M. S., Burrows, M. T., Filbee-Dexter, K., Hobday, A. J., Holbrook, N. J., … &amp; Smith, K. (2025). Marine heatwaves as hot spots of climate change and impacts on biodiversity and ecosystem services. Nature Reviews Biodiversity, 1(7), 461-479. doi: 10.1038/s44358-025-00058-5</p>
+<p><a class="reference external" href="https://doi.org/10.1002/2015GL063306" rel="noreferrer" target="_blank">[9]</a> Bond, N. A., Cronin, M. F., Freeland, H., &amp; Mantua, N. (2015). Causes and impacts of the 2014 warm anomaly in the NE Pacific. Geophysical Research Letters, 42(9), 3414-3420. doi: 10.1002/2015GL063306</p>
+<p><a class="reference external" href="https://doi.org/10.1029/2019JD030780" rel="noreferrer" target="_blank">[10]</a> Schmeisser, L., Bond, N. A., Siedlecki, S. A., &amp; Ackerman, T. P. (2019). The role of clouds and surface heat fluxes in the maintenance of the 2013–2016 Northeast Pacific marine heatwave. Journal of Geophysical Research: Atmospheres, 124(20), 10772-10783. doi: 10.1029/2019JD030780</p>
+<p><a class="reference external" href="https://doi.org/10.1029/2018GL078242" rel="noreferrer" target="_blank">[11]</a> Myers, T. A., Mechoso, C. R., Cesana, G. V., DeFlorio, M. J., &amp; Waliser, D. E. (2018). Cloud feedback key to marine heatwave off Baja California. Geophysical Research Letters, 45(9), 4345-4352. doi: 10.1029/2018GL078242</p>
+<p><a class="reference external" href="https://doi.org/10.1038/nclimate3082" rel="noreferrer" target="_blank">[12]</a> Di Lorenzo, E., &amp; Mantua, N. (2016). Multi-year persistence of the 2014/15 North Pacific marine heatwave. Nature Climate Change, 6(11), 1042-1047. doi: 10.1038/nclimate3082</p>
+<p><a class="reference external" href="https://doi.org/10.5194/os-15-779-2019" rel="noreferrer" target="_blank">[13]</a> Zuo, H., Balmaseda, M. A., Tietsche, S., Mogensen, K., &amp; Mayer, M. (2019). The ECMWF operational ensemble reanalysis–analysis system for ocean and sea ice: a description of the system and assessment. Ocean science, 15(3), 779-808. doi: 10.5194/os-15-779-2019</p>
+<p><a class="reference external" href="https://doi.org/10.1038/s41612-023-00327-0" rel="noreferrer" target="_blank">[14]</a> Chen, H. H., Wang, Y., Xiu, P., Yu, Y., Ma, W., &amp; Chai, F. (2023). Combined oceanic and atmospheric forcing of the 2013/14 marine heatwave in the northeast Pacific. npj Climate and Atmospheric Science, 6(1), 3. doi: 10.1038/s41612-023-00327-0</p>
+<p><a class="reference external" href="https://doi.org/10.1002/2017JC013120" rel="noreferrer" target="_blank">[15]</a> Chao, Y., Farrara, J. D., Bjorkstedt, E., Chai, F., Chavez, F., Rudnick, D. L., … &amp; Ateljevich, E. (2017). The origins of the anomalous warming in the C alifornia coastal ocean and S an F rancisco B ay during 2014–2016. Journal of Geophysical Research: Oceans, 122(9), 7537-7557. doi: 10.1002/2017JC013120</p>
+<p><a class="reference external" href="https://doi.org/10.1029/2021JC018356" rel="noreferrer" target="_blank">[16]</a> Holser, R. R., Keates, T. R., Costa, D. P., &amp; Edwards, C. A. (2022). Extent and magnitude of subsurface anomalies during the Northeast Pacific Blob as measured by animal‐borne sensors. Journal of Geophysical Research: Oceans, 127(7), e2021JC018356. doi: 10.1029/2021JC018356</p>
+<p><a class="reference external" href="https://doi.org/10.1088/1748-9326/aa67c3" rel="noreferrer" target="_blank">[17]</a> Tseng, Y. H., Ding, R., &amp; Huang, X. M. (2017). The warm Blob in the northeast Pacific—the bridge leading to the 2015/16 El Niño. Environmental Research Letters, 12(5), 054019. doi: 10.1088/1748-9326/aa67c3</p>
+<p><a class="reference external" href="https://doi.org/10.1175/JCLI-D-16-0348.1" rel="noreferrer" target="_blank">[18]</a> Hu, Z., Kumar, A., Jha, B., Zhu, J., &amp; Huang., B. (2017): Persistence and Predictions of the Remarkable Warm Anomaly in the Northeastern Pacific Ocean during 2014–16. J. Climate, 30, 689–702, doi: 10.1175/JCLI-D-16-0348.1</p>
+<p><a class="reference external" href="https://doi.org/10.1038/s41612-025-00900-9" rel="noreferrer" target="_blank">[19]</a> Chen, H. H., Wang, Y., Li, X., Wan, L., Yuan, Y., Yan, Y., … &amp; Chai, F. (2025). Arctic warming as a potential trigger for the warm blob in the northeast Pacific. npj Climate and Atmospheric Science, 8(1), 111. doi: 10.1038/s41612-025-00900-9</p>
+<p><a class="reference external" href="https://doi.org/10.1029/2022GL098849" rel="noreferrer" target="_blank">[20]</a> Shi, J., Tang, C., Liu, Q., Zhang, Y., Yang, H., &amp; Li, C. (2022). Role of mixed layer depth in the location and development of the Northeast Pacific warm blobs. Geophysical Research Letters, 49(16), e2022GL098849. doi: 10.1029/2022GL098849</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Reanalyses"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="reanalysis.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Reanalysis</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../Seasonal_Forecasts/seasonal.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Seasonal forecasts</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-evaluating-marine-extreme-temperature-events-the-case-of-the-blob">🌍 Use case: Evaluating marine extreme temperature events, the case of the Blob</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-questions">❓ Quality assessment questions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-selection-and-setup">1. Data selection and setup</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-required-libraries">Import required libraries</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-request-for-oras5-reanalysis">Data request for ORAS5 reanalysis</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#download-and-transform">Download and transform</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#detection-of-marine-heatwaves">2. Detection of marine heatwaves</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-processing-and-computations">3. Data processing and computations</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#general-parameters">General parameters</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sea-surface-temperature-sst">Sea surface temperature (SST)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#potential-temperature">Potential temperature</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#wind-stress-components">Wind stress components</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-layer-depth-and-net-downward-heat-flux">Mixed layer depth and net downward heat flux</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-and-discussion-of-results">4. Plotting and discussion of results</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#physical-mechanisms-and-characteristics-of-the-blob">Physical mechanisms and characteristics of the Blob</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-resources">Key resources</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By the Copernicus Climate Change Service (C3S), entrusted to ECMWF (European Centre for Medium-Range Weather Forecasts)
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
