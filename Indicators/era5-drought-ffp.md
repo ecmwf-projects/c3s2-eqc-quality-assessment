@@ -31,24 +31,24 @@ Key limitations
 
 ```
 • Timeliness: the "consolidated" dataset is updated 2-3 months behind real time while the "intermediate" dataset is update with 1 month of delay. Whilst this is sufficient for many use cases such as historical anaylsis of crop yields, it is too long for (near-) real time uses cases such as early warning drought systems that require updates every few days.
+        
+• Validation: comparible datasets are at coarser resolutions than ERA5-Drought (i.e. at 1° and 0.5°, while ERA5-Drought is available at 0.25°), so only a qualatitive validation was performed to ensure the dataset was free from "clerical errors". Since other datasets use other input data, make other assumptions and use other reference periods, a fair comparison differences may arise from these factors when estimating drought indices. The ERA5-Drought dataset has however been validated against the underlying dataset (ERA5), ensuring the indices themselves are reproducible (can we reference the reproducibility notebook here?).
 
-• Batch download: issues were found when attempting to download   
+• Early reanalysis data: the scarcity of observational data pre-satellite era before 1980 leads to increased uncertainy in the reanalysis outputs (https://doi.org/10.1002/qj.4174). Furthermore, data prior to 1960 may be more strongly influenced by intial conditions used in the reanalysis model, therefore users should interpret early renalysis data (1940-1980) with caution.
 
-• Improper formatting: only for ensemble dataset. Perhaps also mention variable names? And longitude coords not following usual convention.
-
-• Dataset size: too large sometimes
-
-• Clarity: may not be necessary- more personal.
-
-• Lack of validation: onyl qualatitive with other datasets, no quantatitive study- yet!
+• Exreme precipitation events: a validation study  of the underlying ERA5 precipitation dataset that compared against in-situ observations across Europe found extreme precipitation events tend to underestimated [(21. Lavers, D. A., Simmons, A., Vamborg, F. & Rodwell, M. J. An evaluation of era5 precipitation for climate monitoring. Quarterly Journal of the Royal Meteorological Society 148, 3152–3165 (2022).)]. This is likely to translate to extreme wet events categorised by the drought indices to be underestimated.
 ```
 
 Example applications
 
 ```
-• Drought monitoring:
+• Drought identification & monitoring: the SPI and SPEI indices have been extensively used to identify and capture major droughts across the globe (https://doi.org/10.1038/sdata.2014.1)(https://doi.org/10.1016/j.pce.2018.07.001)(https://doi.org/10.1175/2010JHM1307.1), with the WMO recommending the SPI as the main meteorological drought index that countries should use to monitor and follow drought conditions (Hayes, 2011)(https://digitalcommons.unl.edu/droughtfacpub/94/). The inclusion of temperature along with precipitation data allows for SPEI to be applicable for all climate regimes, and looking at the impact of climate change in model output under future scenarios.
 
-• Crop yield modelling:
+• Crop yield modelling: early crop prediction from combined use of satellite observational data such as the Normalized Difference Vegetation Index (NDVI) has allowed the prediction of wheat and barley production in February, four months before harvest (Vicente‐Serrano et al., ‘Early Prediction of Crop Production Using Drought Indices at Different Time‐scales and Remote Sensing Data’.). This is useful for managing crop production, along with early prediction of crop losses.
+
+• Tree-ring width series: 
+
+• Streamflow data: 
 
 • Parametric insurance:
 ```
@@ -57,4 +57,8 @@ Further considerations
 
 ```
 •  Distribution parameters:
+
+•  Batch quality flag download: mutliple accumulation windows in a single CDS request may be specified, but only the final accumulation window is downloaded for the quality flags such as "pzero" and the "significance" datas. Users of these quality flags must specify separate CDS requests per accumulation window, which is not instructed, and may prove to be an obstacle for filtering data. 
+
+• Improper ensemble formatting: only for ensemble dataset. Perhaps also mention variable names? And longitude coords not following usual convention.
 ```
