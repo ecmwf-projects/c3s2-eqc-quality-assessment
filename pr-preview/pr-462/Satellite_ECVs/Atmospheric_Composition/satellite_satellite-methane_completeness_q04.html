@@ -499,8 +499,8 @@ document.write(`
 Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
 </div><section class="tex2jax_ignore mathjax_ignore" id="methane-satellite-observations-completeness-assessment-for-greenhouse-gas-monitoring">
 <h1><span class="section-number">1.2.1. </span>Methane satellite observations completeness assessment for greenhouse gas monitoring<a class="headerlink" href="#methane-satellite-observations-completeness-assessment-for-greenhouse-gas-monitoring" title="Link to this heading">#</a></h1>
-<p>Production date: 09-02-2026</p>
-<p>Produced by: CNR</p>
+<p>Production date: 11-02-2026</p>
+<p>Produced by: Davide Putero, Paolo Cristofanelli (CNR)</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Please note that this assessment also refers to the deprecated Level 2 XCH<span class="math notranslate nohighlight">\(_4\)</span> data products which won’t be extended after 2022.</p>
@@ -755,7 +755,7 @@ Please note that this repository is used for development and review, so quality 
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 20/20 [00:00&lt;00:00, 26.07it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 20/20 [00:19&lt;00:00,  1.01it/s]
 </pre></div>
 </div>
 </div>
@@ -831,40 +831,52 @@ Please note that this repository is used for development and review, so quality 
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">plot_bars</span><span class="p">(</span><span class="n">da</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">plot_bars_vertical</span><span class="p">(</span><span class="n">da</span><span class="p">):</span>
+    <span class="n">nplots</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span>      
     <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
-        <span class="n">da</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">//</span> <span class="mi">3</span><span class="p">,</span>
-        <span class="mi">3</span><span class="p">,</span>
-        <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="n">da</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]),</span>
-        <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">nplots</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">,</span>
+        <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">nplots</span><span class="p">),</span>      
+        <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
+
+    
+    <span class="k">if</span> <span class="n">nplots</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">axs</span> <span class="o">=</span> <span class="p">[</span><span class="n">axs</span><span class="p">]</span>
+
     <span class="n">da_resampled</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;1MS&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-    <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">da_resampled</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">da_resampled</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">day</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">da_resampled</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span>
+        <span class="p">(</span><span class="n">da_resampled</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">day</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">)</span>
     <span class="n">xticks</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">da_resampled</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]),</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
         <span class="n">mask</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">labels</span> <span class="o">=</span> <span class="n">da_resampled</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span>
-    <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">lat</span><span class="p">,</span> <span class="n">da_lat</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axs</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">da_resampled</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">)):</span>
+
+    <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">lat</span><span class="p">,</span> <span class="n">da_lat</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">da_resampled</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">)):</span>
         <span class="n">da_lat</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">xticks</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">da_lat</span><span class="o">.</span><span class="n">long_name</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">da_lat</span><span class="o">.</span><span class="n">units</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">band_from_central_latitude</span><span class="p">(</span><span class="n">lat</span><span class="p">))</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">45</span><span class="p">])</span>  <span class="c1"># set your desired limits</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">45</span><span class="p">])</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span>
 
 
-<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plot_bars</span><span class="p">(</span><span class="n">da</span><span class="p">)</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;2003-2022&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plot_bars_vertical</span><span class="p">(</span><span class="n">da</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Zonal growth rates (2003 – 2022)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.02</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/79f9452588b24d9620a80322bb13d2b7302b3eb2bbf4e00f588741d5bd23a858.png" src="../../_images/79f9452588b24d9620a80322bb13d2b7302b3eb2bbf4e00f588741d5bd23a858.png" />
+<img alt="../../_images/fda56de4e48256578dfaad842caa0e2a15edbe59a1d89c3807dd6c18235b1655.png" src="../../_images/fda56de4e48256578dfaad842caa0e2a15edbe59a1d89c3807dd6c18235b1655.png" />
 </div>
 </div>
 <p><em>Zonal growth rates of XCH<span class="math notranslate nohighlight">\(_4\)</span>, over 2003-2022. The panels indicate the 20° latitude bands selected for the analysis. The colors differentiate between the standard averaging (orange) and the zonal-first averaging (blue) methods.</em></p>
@@ -880,15 +892,15 @@ Interestingly, as also reported in <a class="reference external" href="https://d
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig_zoom</span><span class="p">,</span> <span class="n">axs_zoom</span> <span class="o">=</span> <span class="n">plot_bars</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;2018&quot;</span><span class="p">,</span> <span class="s2">&quot;2022&quot;</span><span class="p">)))</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">fig_zoom</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;2018-2022&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig_zoom</span><span class="p">,</span> <span class="n">axs_zoom</span> <span class="o">=</span> <span class="n">plot_bars_vertical</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;2018&quot;</span><span class="p">,</span> <span class="s2">&quot;2022&quot;</span><span class="p">)))</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">fig_zoom</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Zonal growth rates (2018-2022)&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/4f9dd3419161493ef563c4d9a445d10c6cbb2729a826550e47eb18b2d72c628b.png" src="../../_images/4f9dd3419161493ef563c4d9a445d10c6cbb2729a826550e47eb18b2d72c628b.png" />
+<img alt="../../_images/a0c09464ce8152967c172a943ead5161a7ec2346b88c77709db34a1376594837.png" src="../../_images/a0c09464ce8152967c172a943ead5161a7ec2346b88c77709db34a1376594837.png" />
 </div>
 </div>
 <p><em>Zonal growth rates of XCH<span class="math notranslate nohighlight">\(_4\)</span>, over 2018-2022. The panels indicate the 20° latitude bands selected for the analysis. The colors differentiate between the standard averaging (orange) and the zonal-first averaging (blue) methods.</em></p>
