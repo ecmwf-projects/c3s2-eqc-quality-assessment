@@ -462,20 +462,19 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-selection-and-setup">1. Data selection and setup</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-required-libraries">Import required libraries</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-request-for-oras5-reanalysis">Data request for ORAS5 reanalysis</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-request">Data request</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#download-and-transform">Download and transform</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#detection-of-marine-heatwaves">2. Detection of marine heatwaves</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-processing-and-computations">3. Data processing and computations</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#general-parameters">General parameters</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sea-surface-temperature-sst">Sea surface temperature (SST)</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#potential-temperature">Potential temperature</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#wind-stress-components">Wind stress components</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-layer-depth-and-net-downward-heat-flux">Mixed layer depth and net downward heat flux</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#oras5">ORAS5</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#esa-cci">ESA-CCI</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-and-discussion-of-results">4. Plotting and discussion of results</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#validation">Validation</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#physical-mechanisms-and-characteristics-of-the-blob">Physical mechanisms and characteristics of the Blob</a></li>
 </ul>
 </li>
@@ -522,31 +521,34 @@ Please note that this repository is used for development and review, so quality 
 <ul class="simple">
 <li><p>A prominent anomalous warm seawater event, known as “the Blob”, occurred in the Northeast (NE) Pacific between 2013 and 2016, becoming the largest and most persistent marine heatwave (MHW). Remarkable sea surface temperature (SST) anomalies were detected, especially in the Blob region, reaching values of approximately 2°C. The duration of this extreme event consisted of two persistent MHWs. The first occurred at the origin of the Blob, from late 2013 to late 2014, with a peak intensity between August and October 2014. The second persisted from early 2015 to late 2015, with its peak also appearing from August to October 2015. Temperature anomalies extended from the surface to 150 m depth. The prolonged subsurface warming played a key role in the formation of multiyear MHW events, as in the case of the Blob.</p></li>
 <li><p>Wind stress magnitude anomalies present different patterns during winter (November–January) and summer (August–October) of 2014–2015. In winter, mainly negative anomalies are observed over the NE Pacific, indicating weak surface winds. By summer, more positive anomalies appear in some regions, reflecting a partial strengthening of the wind stress, although winds remain relatively weak. This pattern of winds led to a shallow mixed layer and prolonged upper ocean heating, which contributed to more pronounced SST anomalies.</p></li>
-<li><p>ORAS5 dataset represents an ideal tool for studying temperature extreme events, such as MHWs, and their physical drivers. These results have been verified with other similar studies using reanalysis, such as [<a class="reference external" href="https://doi.org/10.1002/2015GL063306" rel="noreferrer" target="_blank">9</a>, <a class="reference external" href="https://doi.org/10.1029/2019JD030780" rel="noreferrer" target="_blank">10</a>, <a class="reference external" href="https://doi.org/10.1038/s41612-023-00327-0" rel="noreferrer" target="_blank">14</a>] and in-situ data [<a class="reference external" href="https://doi.org/10.1029/2021JC018356" rel="noreferrer" target="_blank">16</a>].</p></li>
+<li><p>As ORAS5 is only available at monthly resolution on the Climate Data Store (CDS), capturing events with a period of less than one month is not possible. Nevertheless, events spanning several months, such as the Blob, can be accurately represented.</p></li>
+<li><p>ORAS5 dataset represents a potential and promising tool for studying temperature extreme events, such as MHWs, and their physical drivers. Moreover, it can also provide information on the ocean subsurface behaviour and its role in the development and persistence of MHWs. These results have been verified with other similar studies using reanalysis, such as [<a class="reference external" href="https://doi.org/10.1002/2015GL063306" rel="noreferrer" target="_blank">9</a>, <a class="reference external" href="https://doi.org/10.1029/2019JD030780" rel="noreferrer" target="_blank">10</a>, <a class="reference external" href="https://doi.org/10.1080/1755876X.2022.2095169" rel="noreferrer" target="_blank">14</a>, <a class="reference external" href="https://doi.org/10.1038/s41612-023-00327-0" rel="noreferrer" target="_blank">16</a>], and in-situ data [<a class="reference external" href="https://doi.org/10.1029/2021JC018356" rel="noreferrer" target="_blank">18</a>].</p></li>
 </ul>
 </div>
 </section>
 <section id="methodology">
 <h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
-<p>In this study, we use the <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-oras5?tab=overview" rel="noreferrer" target="_blank">ORAS5 global ocean reanalysis from the Copernicus Climate Data Store (CDS)</a>. This dataset provides monthly gridded data projected onto a tripolar model grid with a resolution of 0.25° x 0.25° over the global ocean. Here, we use the two products that constitute ORAS5: the “Consolidated” (1958–2014) and the “Operational” (2015 to present). The main differences between these two products are the atmospheric reanalysis forcing used and the type of observations (reprocessed for the Consolidated and near real-time observations for the Operational). Detailed information is available on the <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-oras5?tab=overview" rel="noreferrer" target="_blank">CDS</a>.</p>
-<p>For the evaluation of how reliably this product detects marine heatwaves (MHWs), we use sea surface temperature (SST) measurements for the studied period. As reported in <a class="reference external" href="https://doi.org/10.5194/os-15-779-2019" rel="noreferrer" target="_blank">[13]</a>, ORAS5 uses updated versions of observational datasets, with special emphasis on the consistency of SST data. To study the driving mechanisms of the Blob in more detail, we use additional variables available from the ORAS5 reanalysis dataset. These include potential temperature (to analyze the zonal-depth sections), zonal and meridional wind stress (representing the horizontal shear along the “x” and “y” axes), mixed layer depth (MLD) using a fixed threshold of 0.03 kg m⁻³, and the surface downward energy flux, including both solar and non-solar heat fluxes.</p>
+<p>In this study, we use the <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-oras5?tab=overview" rel="noreferrer" target="_blank">ORAS5 global ocean reanalysis from the Copernicus Climate Data Store (CDS)</a>. This dataset provides monthly gridded data projected onto a tripolar model grid with a resolution of 0.25° × 0.25° over the global ocean. Here, we use the two products that constitute ORAS5: the “Consolidated” (1958–2014) and the “Operational” (2015 to present). The main differences between these two products are the atmospheric reanalysis forcing used and the type of observations (reprocessed for the Consolidated and near real-time observations for the Operational). Detailed information is available on the <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-oras5?tab=overview" rel="noreferrer" target="_blank">CDS</a>.</p>
+<p>For the evaluation of how reliably this product detects marine heatwaves (MHWs), we use SST measurements for the studied period. As reported in <a class="reference external" href="https://doi.org/10.5194/os-15-779-2019" rel="noreferrer" target="_blank">[13]</a> and <a class="reference external" href="https://doi.org/10.1080/1755876X.2022.2095169" rel="noreferrer" target="_blank">[14]</a>, ORAS5 incorporates updated versions of observational datasets, with special emphasis on the consistency of SST data, by adjusting the surface non-solar total heat flux according to the difference between modelled and observation-based SST analyses. SST fields from ORAS5 are represented by the ocean potential temperature at the first model level (0.5 m depth) <a class="reference external" href="https://doi.org/10.1080/1755876X.2022.2095169" rel="noreferrer" target="_blank">[14]</a>.</p>
+<p>To study the driving mechanisms of the Blob in more detail, we use additional variables available from the ORAS5 reanalysis dataset. These include potential temperature (to analyze the zonal-depth sections), zonal and meridional wind stress (representing the horizontal shear along the “x” and “y” axes), mixed layer depth (MLD) using a fixed threshold of 0.03 kg m⁻³, and the surface downward energy flux, including both solar and non-solar heat fluxes.</p>
+<p>Since detecting MHWs using monthly data is not a standard practice, we use a reference dataset from the CDS called <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/satellite-sea-surface-temperature?tab=overview" rel="noreferrer" target="_blank">Global sea surface temperature derived from satellite observations</a>. This dataset provides gridded daily global estimates of SST at 20 cm depth, with a 0.05° × 0.05° resolution. These data are derived from multiple satellite sensors continuously since 1980. The SST algorithms were created by the European Space Agency (ESA) Climate Change Initiative (CCI) project, which produced the SST Climate Data Record (CDR), a long, stable, and accurate time series covering 1980 to 2021, suitable for studies assessing long-term climate changes. The Copernicus Climate Change Service (C3S) funded the development of the Interim CDR (ICDR) for 2022, to ensure continuity of the record using the same software and algorithms as the CDR.</p>
 <p>The analysis and results are organised in the following steps, which are detailed in the sections below:</p>
 <p><strong><a class="reference internal" href="#reanalysis-reanalysis-oras5-extremes-detection-q01-section-1"><span class="std std-ref">1. Data selection and setup</span></a></strong></p>
 <ul class="simple">
 <li><p>Import required libraries</p></li>
-<li><p>Define request for ORAS5 reanalysis</p></li>
+<li><p>Define request</p></li>
 <li><p>Download and transform</p></li>
 </ul>
 <p><strong><a class="reference internal" href="#reanalysis-reanalysis-oras5-extremes-detection-q01-section-2"><span class="std std-ref">2. Detection of marine heatwaves</span></a></strong></p>
 <p><strong><a class="reference internal" href="#reanalysis-reanalysis-oras5-extremes-detection-q01-section-3"><span class="std std-ref">3. Data processing and computations</span></a></strong></p>
 <ul class="simple">
 <li><p>General parameters</p></li>
-<li><p>Sea surface temperature (SST)</p></li>
-<li><p>Wind stress components</p></li>
-<li><p>Mixed layer depth and net downward heat flux</p></li>
+<li><p>ORAS5</p></li>
+<li><p>ESA-CCI</p></li>
 </ul>
 <p><strong><a class="reference internal" href="#reanalysis-reanalysis-oras5-extremes-detection-q01-section-4"><span class="std std-ref">4. Plotting and discussion of results</span></a></strong></p>
 <ul class="simple">
+<li><p>Validation</p></li>
 <li><p>Physical mechanisms and characteristics of the Blob</p></li>
 </ul>
 </section>
@@ -576,6 +578,7 @@ Please note that this repository is used for development and review, so quality 
 <span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.feature</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cfeature</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.mpl.ticker</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cticker</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">calendar</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">utils</span>
 
@@ -586,9 +589,10 @@ Please note that this repository is used for development and review, so quality 
 </details>
 </div>
 </section>
-<section id="data-request-for-oras5-reanalysis">
-<h4>Data request for ORAS5 reanalysis<a class="headerlink" href="#data-request-for-oras5-reanalysis" title="Link to this heading">#</a></h4>
-<p>In this section, we define several variables from the <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-oras5?tab=download" rel="noreferrer" target="_blank">ORAS5 reanalysis dataset</a>, as described in the Methodology Section. The main parameters are: “Sea surface temperature” (°C), “Mixed layer depth 0.03” (m), “Net downward heat flux” (W m⁻²), “Zonal wind stress” (N m⁻²), and “Meridional wind stress” (N m⁻²). All of these have a single level (surface) vertical resolution. For this assessment, we choose the time interval from 1979–01 to 2016–01 (38 years) to obtain a consistent climatology. We apply a regional mask covering only latitudes from 30°N to 60°N and longitudes from 160°W to 120°W, representing the NE Pacific, where the Blob occurred. Additionally, we use “Potential temperature” (°C) at all depth levels but only at a single point, corresponding to the center of the Blob (approximately 45°N, 140°W). For all variables, we use both the operational and the consolidated products.</p>
+<section id="data-request">
+<h4>Data request<a class="headerlink" href="#data-request" title="Link to this heading">#</a></h4>
+<p><strong>ORAS5</strong></p>
+<p>In this section, we define several variables from the <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-oras5?tab=download" rel="noreferrer" target="_blank">ORAS5 reanalysis dataset</a>, as described in the Methodology Section. The main parameters are: “Sea surface temperature” (°C), “Mixed layer depth 0.03” (m), “Net downward heat flux” (W m⁻²), “Zonal wind stress” (N m⁻²), and “Meridional wind stress” (N m⁻²). All of these have a single level (surface) vertical resolution. For this assessment, we choose the time interval from 1980–01 to 2016–01 (36 years) to obtain a consistent climatology. We apply a regional mask covering only latitudes from 30°N to 60°N and longitudes from 160°W to 120°W, representing the NE Pacific, where the Blob occurred. Additionally, we use “Potential temperature” (°C) at all depth levels but only at a single point, corresponding to the center of the Blob (approximately 45°N, 140°W). For all variables, we use both the operational and the consolidated products.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -596,16 +600,27 @@ Please note that this repository is used for development and review, so quality 
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Time </span>
-<span class="n">start</span> <span class="o">=</span> <span class="s2">&quot;1979-01&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Time</span>
+<span class="n">start</span> <span class="o">=</span> <span class="s2">&quot;1980-01&quot;</span>
 <span class="n">stop</span> <span class="o">=</span> <span class="s2">&quot;2016-01&quot;</span>
 
-<span class="c1"># Id collection (dataset)</span>
-<span class="n">collection_id</span> <span class="o">=</span> <span class="s2">&quot;reanalysis-oras5&quot;</span>
-
-<span class="c1"># NE Pacific </span>
+<span class="c1"># Space</span>
 <span class="n">lat_slice</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
 <span class="n">lon_slice</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">160</span><span class="p">,</span> <span class="o">-</span><span class="mi">120</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Id collection (dataset)</span>
+<span class="n">collection_id</span> <span class="o">=</span> <span class="s2">&quot;reanalysis-oras5&quot;</span>
 
 <span class="c1"># Variables</span>
 <span class="n">variables</span> <span class="o">=</span> <span class="p">[</span>
@@ -617,10 +632,10 @@ Please note that this repository is used for development and review, so quality 
 <span class="p">]</span>
 
 <span class="c1"># Define request 1</span>
-<span class="n">request_1</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="n">requests</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;1MS&quot;</span><span class="p">):</span>
-        <span class="n">request_1</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">requests</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="p">{</span>
                 <span class="s2">&quot;vertical_resolution&quot;</span><span class="p">:</span> <span class="s2">&quot;single_level&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">variable</span><span class="p">,</span>
@@ -630,13 +645,13 @@ Please note that this repository is used for development and review, so quality 
             <span class="p">}</span>
         <span class="p">)</span>
         
-<span class="n">grid_request_1</span> <span class="o">=</span> <span class="p">(</span>
+<span class="n">grid_request</span> <span class="o">=</span> <span class="p">(</span>
     <span class="n">collection_id</span><span class="p">,</span>
     <span class="p">{</span>
         <span class="s2">&quot;vertical_resolution&quot;</span><span class="p">:</span> <span class="s2">&quot;single_level&quot;</span><span class="p">,</span>
         <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="s2">&quot;net_downward_heat_flux&quot;</span><span class="p">,</span>
         <span class="s2">&quot;product_type&quot;</span><span class="p">:</span> <span class="s2">&quot;consolidated&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="s2">&quot;1979&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="s2">&quot;1980&quot;</span><span class="p">,</span>
         <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="s2">&quot;01&quot;</span><span class="p">,</span>
     <span class="p">},</span>
 <span class="p">)</span>
@@ -651,9 +666,9 @@ Please note that this repository is used for development and review, so quality 
     <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;potential_temperature&quot;</span><span class="p">],</span>
 <span class="p">}</span>
 
-<span class="n">requests</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">request_2</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;1MS&quot;</span><span class="p">):</span>
-    <span class="n">requests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+    <span class="n">request_2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
         <span class="n">request</span>
         <span class="o">|</span> <span class="p">{</span>
             <span class="s2">&quot;product_type&quot;</span><span class="p">:</span> <span class="s2">&quot;operational&quot;</span> <span class="k">if</span> <span class="n">date</span><span class="o">.</span><span class="n">year</span> <span class="o">&gt;</span> <span class="mi">2014</span> <span class="k">else</span> <span class="s2">&quot;consolidated&quot;</span><span class="p">,</span>
@@ -666,10 +681,69 @@ Please note that this repository is used for development and review, so quality 
 </div>
 </details>
 </div>
+<p><strong>SST derived from satellite observations (ESA-CCI)</strong></p>
+<p>For the verification dataset, we specify the corresponding data request. This product provides two different processing levels, Level-3 and Level-4. In this study, we use the L4 product since SST measurements are obtained by combining multiple sensors through an analysis system (e.g., optimal interpolation), producing a gap-free dataset. The newest version, v3.0, is selected for its improved sensors processing, which includes the reduction of systematic biases.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define ESA-CCI SST</span>
+<span class="n">collection_id_esa_cci</span> <span class="o">=</span> <span class="s2">&quot;satellite-sea-surface-temperature&quot;</span>
+<span class="n">requests_esa_cci</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;1MS&quot;</span><span class="p">):</span>
+    <span class="n">n_days</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">monthrange</span><span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">date</span><span class="o">.</span><span class="n">month</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">requests_esa_cci</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;processinglevel&quot;</span><span class="p">:</span> <span class="s2">&quot;level_4&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;sensor_on_satellite&quot;</span><span class="p">:</span> <span class="s2">&quot;combined_product&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;3_0&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y&quot;</span><span class="p">),</span>
+            <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%m&quot;</span><span class="p">),</span>
+            <span class="s2">&quot;day&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">day</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">day</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_days</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
 </section>
 <section id="download-and-transform">
 <h4>Download and transform<a class="headerlink" href="#download-and-transform" title="Link to this heading">#</a></h4>
+<p><strong>ORAS5</strong></p>
 <p>Here, we define a function named “regionalise_and_interpolate” for the wind stress variables, since they are not on the same grid. ORAS5 uses staggered grids, so the zonal and meridional components are not located at the cell center (as for other variables), but instead on the cell faces. For this reason, these values are interpolated using the “nearest_s2d” (nearest source-to-destination) method. Now, we can download and transform the requested datasets.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">regionalise_and_interpolate</span><span class="p">(</span>
+    <span class="n">ds</span><span class="p">,</span> <span class="n">lat_slice</span><span class="p">,</span> <span class="n">lon_slice</span><span class="p">,</span> <span class="n">grid_request</span><span class="p">,</span> <span class="n">time_mean</span><span class="p">,</span> <span class="o">**</span><span class="n">regrid_kwargs</span>
+<span class="p">):</span>
+    <span class="k">if</span> <span class="n">time_mean</span><span class="p">:</span>
+        <span class="n">time_mean</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ds_grid</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
+        <span class="o">*</span><span class="n">grid_request</span><span class="p">,</span>
+        <span class="n">transform_func</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">regionalise</span><span class="p">,</span>
+        <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lon_slice&quot;</span><span class="p">:</span> <span class="n">lon_slice</span><span class="p">,</span> <span class="s2">&quot;lat_slice&quot;</span><span class="p">:</span> <span class="n">lat_slice</span><span class="p">},</span>
+        <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">regrid</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">ds_grid</span><span class="p">,</span> <span class="o">**</span><span class="n">regrid_kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">time_mean</span><span class="p">:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="p">[</span><span class="n">time_mean</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">ds</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
 <div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -677,44 +751,32 @@ Please note that this repository is used for development and review, so quality 
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input above-output-prompt docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">regionalise_and_interpolate</span><span class="p">(</span>
-    <span class="n">ds</span><span class="p">,</span> <span class="n">lat_slice</span><span class="p">,</span> <span class="n">lon_slice</span><span class="p">,</span> <span class="n">grid_request_1</span><span class="p">,</span> <span class="o">**</span><span class="n">regrid_kwargs</span>
-<span class="p">):</span>
-    <span class="n">ds_grid</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
-        <span class="o">*</span><span class="n">grid_request_1</span><span class="p">,</span>
-        <span class="n">transform_func</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">regionalise</span><span class="p">,</span>
-        <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lon_slice&quot;</span><span class="p">:</span> <span class="n">lon_slice</span><span class="p">,</span> <span class="s2">&quot;lat_slice&quot;</span><span class="p">:</span> <span class="n">lat_slice</span><span class="p">},</span>
-        <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="k">return</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">regrid</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">ds_grid</span><span class="p">,</span> <span class="o">**</span><span class="n">regrid_kwargs</span><span class="p">)</span>
-
-<span class="c1"># Download and transform (Request 1)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Download and transform (Request 1)</span>
 <span class="n">datasets</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">variable</span><span class="p">,</span> <span class="n">request_1</span> <span class="ow">in</span> <span class="n">request_1</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="k">for</span> <span class="n">variable</span><span class="p">,</span> <span class="n">request</span> <span class="ow">in</span> <span class="n">requests</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">variable</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">transform_func_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;lon_slice&quot;</span><span class="p">:</span> <span class="n">lon_slice</span><span class="p">,</span> <span class="s2">&quot;lat_slice&quot;</span><span class="p">:</span> <span class="n">lat_slice</span><span class="p">}</span>
     <span class="k">if</span> <span class="s2">&quot;wind_stress&quot;</span> <span class="ow">in</span> <span class="n">variable</span><span class="p">:</span> <span class="c1"># we interpolate since are not on the same grid</span>
-        <span class="n">transform_func</span> <span class="o">=</span> <span class="n">regionalise_and_interpolate</span>
+        <span class="n">transform_func</span> <span class="o">=</span> <span class="n">regionalise_and_interpolate</span> 
         <span class="n">transform_func_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-            <span class="p">{</span><span class="s2">&quot;grid_request_1&quot;</span><span class="p">:</span> <span class="n">grid_request_1</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;nearest_s2d&quot;</span><span class="p">}</span>
+            <span class="p">{</span><span class="s2">&quot;grid_request&quot;</span><span class="p">:</span> <span class="n">grid_request</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;nearest_s2d&quot;</span><span class="p">,</span> <span class="s2">&quot;time_mean&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">transform_func</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">regionalise</span>
-    <span class="n">rolling</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
         <span class="n">collection_id</span><span class="p">,</span>
-        <span class="n">request_1</span><span class="p">,</span>
+        <span class="n">request</span><span class="p">,</span>
         <span class="n">transform_func</span><span class="o">=</span><span class="n">transform_func</span><span class="p">,</span>
         <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="n">transform_func_kwargs</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
-<span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;override&quot;</span><span class="p">)</span> 
+<span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;override&quot;</span><span class="p">)</span>
 
 <span class="c1"># Download and transform (Request 2)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;variable=&#39;potential_temperature&#39;&quot;</span><span class="p">)</span>
 <span class="n">ds_PT</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
     <span class="n">collection_id</span><span class="p">,</span>
-    <span class="n">requests</span><span class="p">,</span>
+    <span class="n">request_2</span><span class="p">,</span>
     <span class="n">transform_func</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">regionalise</span><span class="p">,</span>
     <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lon_slice&quot;</span><span class="p">:</span> <span class="n">lon_centerBlob</span><span class="p">,</span> <span class="s2">&quot;lat_slice&quot;</span><span class="p">:</span> <span class="n">lat_centerBlob</span><span class="p">},</span>
 <span class="p">)</span>
@@ -731,37 +793,76 @@ Please note that this repository is used for development and review, so quality 
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>variable=&#39;sea_surface_temperature&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 445/445 [00:23&lt;00:00, 18.70it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 433/433 [00:52&lt;00:00,  8.24it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>variable=&#39;meridional_wind_stress&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 445/445 [00:28&lt;00:00, 15.76it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 433/433 [00:27&lt;00:00, 15.63it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>variable=&#39;mixed_layer_depth_0_03&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 445/445 [00:22&lt;00:00, 19.85it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 433/433 [00:18&lt;00:00, 23.72it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>variable=&#39;net_downward_heat_flux&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 445/445 [01:00&lt;00:00,  7.36it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 433/433 [00:19&lt;00:00, 21.95it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>variable=&#39;zonal_wind_stress&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 445/445 [00:44&lt;00:00, 10.06it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 433/433 [00:56&lt;00:00,  7.69it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>variable=&#39;potential_temperature&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 445/445 [00:18&lt;00:00, 24.64it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 433/433 [00:39&lt;00:00, 10.90it/s]
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p><strong>ESA-CCI</strong></p>
+<p>Daily ESA-CCI SST fields are transformed to monthly means and interpolated onto the same regular 0.25° × 0.25° grid to compare with ORAS5 at the same temporal and spatial resolution.</p>
+<div class="cell tag_hide-input tag_hide-output docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input above-output-prompt docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Download and transform (Request ESA-CCI)</span>
+<span class="n">transform_func_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;lon_slice&quot;</span><span class="p">:</span> <span class="n">lon_slice</span><span class="p">,</span>
+    <span class="s2">&quot;lat_slice&quot;</span><span class="p">:</span> <span class="n">lat_slice</span><span class="p">,</span>
+    <span class="s2">&quot;grid_request&quot;</span><span class="p">:</span> <span class="n">grid_request</span><span class="p">,</span> <span class="c1"># reference grid from ORAS5 (0.25º)</span>
+    <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;nearest_s2d&quot;</span><span class="p">,</span> <span class="c1"># interpolation method (regridding)</span>
+    <span class="s2">&quot;time_mean&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="c1"># temporal mean to convert daily data to monthly</span>
+<span class="p">}</span>
+<span class="n">ds_esa_cci</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
+    <span class="n">collection_id_esa_cci</span><span class="p">,</span>
+    <span class="n">requests_esa_cci</span><span class="p">,</span>
+    <span class="n">transform_func</span><span class="o">=</span><span class="n">regionalise_and_interpolate</span><span class="p">,</span>
+    <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="n">transform_func_kwargs</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<details class="admonition hide below-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell output</p>
+<p class="expanded admonition-title">Hide code cell output</p>
+</summary>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 433/433 [00:23&lt;00:00, 18.33it/s]
 </pre></div>
 </div>
 </div>
@@ -771,7 +872,7 @@ Please note that this repository is used for development and review, so quality 
 </section>
 <section id="detection-of-marine-heatwaves">
 <span id="reanalysis-reanalysis-oras5-extremes-detection-q01-section-2"></span><h3>2. Detection of marine heatwaves<a class="headerlink" href="#detection-of-marine-heatwaves" title="Link to this heading">#</a></h3>
-<p>In this part, we define some functions for processing SST correctly. One of them is composed following the MHW definition proposed by <a class="reference external" href="https://doi.org/10.1016/j.pocean.2015.12.014" rel="noreferrer" target="_blank">[4]</a>, which considers an MHW event when anomalously warm water persists for five or more days above a specific threshold. This threshold is based on the 90th percentile at each grid point over a climatology derived from 30 years of data. For our study, we use a similar definition but instead of daily data, we use monthly data, as ORAS5 has a monthly resolution. The other functions are designed to compute a consistent climatology using a circular rolling window.</p>
+<p>In this part, we define some functions for processing SST correctly. One of them is composed following the MHW definition proposed by <a class="reference external" href="https://doi.org/10.1016/j.pocean.2015.12.014" rel="noreferrer" target="_blank">[4]</a>, which considers an MHW event when anomalously warm water persists for five or more days above a specific threshold. This threshold is based on the 90th percentile at each grid point over a climatology derived from 30 years of data. For our study, we adopt a similar definition but instead of daily data, we use monthly data, as ORAS5 has a monthly resolution on the CDS. This is done following <a class="reference external" href="https://doi.org/10.1029/2019JD030780" rel="noreferrer" target="_blank">[10]</a>, where monthly reanalysis data is also used. The other functions are designed to compute a consistent climatology using a circular rolling window.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -838,7 +939,7 @@ Please note that this repository is used for development and review, so quality 
 <span id="reanalysis-reanalysis-oras5-extremes-detection-q01-section-3"></span><h3>3. Data processing and computations<a class="headerlink" href="#data-processing-and-computations" title="Link to this heading">#</a></h3>
 <section id="general-parameters">
 <h4>General parameters<a class="headerlink" href="#general-parameters" title="Link to this heading">#</a></h4>
-<p>We define the climatology between January 1976 and January 2016, and the Blob event period, which persisted for over two years, from November 2013 to January 2016. We also indicate the NE Pacific region where the Blob occurs, from 40°N to 50°N and 130°W to 150°W.</p>
+<p>We define the climatology between January 1980 and January 2016, and the Blob event period, which persisted for over two years, from November 2013 to January 2016. We also indicate the NE Pacific region where the Blob occurs, from 40°N to 50°N and 130°W to 150°W.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -846,7 +947,7 @@ Please note that this repository is used for development and review, so quality 
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="s2">&quot;1979-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2016-01&quot;</span> <span class="c1"># Full climatology (1976 to 2016)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="s2">&quot;1980-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2016-01&quot;</span> <span class="c1"># Full climatology (1976 to 2016)</span>
 <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span class="s2">&quot;2013-11&quot;</span><span class="p">,</span> <span class="s2">&quot;2016-01&quot;</span> <span class="c1"># Blob period</span>
 
 <span class="c1"># Blob region  </span>
@@ -858,9 +959,10 @@ Please note that this repository is used for development and review, so quality 
 </details>
 </div>
 </section>
-<section id="sea-surface-temperature-sst">
-<h4>Sea surface temperature (SST)<a class="headerlink" href="#sea-surface-temperature-sst" title="Link to this heading">#</a></h4>
-<p>As mentioned before, the climatology is constructed using a 38-year historical period. Then, we calculate the SST anomalies during the Blob time interval (2013–11 to 2016–01) relative to the entire climatology.</p>
+<section id="oras5">
+<h4>ORAS5<a class="headerlink" href="#oras5" title="Link to this heading">#</a></h4>
+<p><strong>SST</strong></p>
+<p>As mentioned before, the climatology is constructed using a 36-year historical period. Then, we calculate the SST anomalies during the Blob time interval (2013–11 to 2016–01) relative to the entire climatology.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -868,15 +970,13 @@ Please note that this repository is used for development and review, so quality 
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sst_period</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;sosstsst&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">))</span> <span class="c1"># Blob event </span>
-<span class="n">sst_baseline</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">))</span> <span class="c1"># Climatology (reference)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sst_Blob_ORAS5</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;sosstsst&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">))</span> <span class="c1"># Blob event </span>
+<span class="n">sst_baseline_ORAS5</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">))</span> <span class="c1"># Climatology (reference)</span>
 
-<span class="n">clim_ds_all</span> <span class="o">=</span> <span class="n">get_climatology_monthly</span><span class="p">(</span>
-    <span class="n">sst_baseline</span><span class="p">,</span>
-    <span class="n">var</span><span class="o">=</span><span class="s2">&quot;sosstsst&quot;</span><span class="p">)</span>
-<span class="n">clim_period</span> <span class="o">=</span> <span class="n">expand_monthly_to_time</span><span class="p">(</span><span class="n">clim_ds_all</span><span class="p">[</span><span class="s2">&quot;clim&quot;</span><span class="p">],</span> <span class="n">sst_period</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>  
-<span class="n">sst_anomaly</span> <span class="o">=</span> <span class="n">sst_period</span> <span class="o">-</span> <span class="n">clim_period</span>
-<span class="n">sst_anomaly_mean</span> <span class="o">=</span> <span class="n">sst_anomaly</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span> <span class="c1"># SST anomaly (temporal average) </span>
+<span class="n">clim_ds_ORAS5</span> <span class="o">=</span> <span class="n">get_climatology_monthly</span><span class="p">(</span><span class="n">sst_baseline_ORAS5</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s2">&quot;sosstsst&quot;</span><span class="p">)</span>
+<span class="n">clim_period_ORAS5</span> <span class="o">=</span> <span class="n">expand_monthly_to_time</span><span class="p">(</span><span class="n">clim_ds_ORAS5</span><span class="p">[</span><span class="s2">&quot;clim&quot;</span><span class="p">],</span> <span class="n">sst_Blob_ORAS5</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>  
+<span class="n">sst_anomaly_ORAS5</span> <span class="o">=</span> <span class="n">sst_Blob_ORAS5</span> <span class="o">-</span> <span class="n">clim_period_ORAS5</span>
+<span class="n">sst_anomaly_mean_ORAS5</span> <span class="o">=</span> <span class="n">sst_anomaly_ORAS5</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span> <span class="c1"># SST anomaly (temporal average) </span>
 </pre></div>
 </div>
 </div>
@@ -927,9 +1027,7 @@ Please note that this repository is used for development and review, so quality 
 </div>
 </details>
 </div>
-</section>
-<section id="potential-temperature">
-<h4>Potential temperature<a class="headerlink" href="#potential-temperature" title="Link to this heading">#</a></h4>
+<p><strong>Potential temperature</strong></p>
 <p>Here, we use the potential temperature to compute its anomalies at each depth level during the Blob period. Since we are interested only in the upper ocean, we define a depth section including only the first 300 m. The monthly climatology uses the same reference period as for SST.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
@@ -953,9 +1051,7 @@ Please note that this repository is used for development and review, so quality 
 </div>
 </details>
 </div>
-</section>
-<section id="wind-stress-components">
-<h4>Wind stress components<a class="headerlink" href="#wind-stress-components" title="Link to this heading">#</a></h4>
+<p><strong>Wind stress components</strong></p>
 <p>Regarding the role of the winds, we select four periods based on whether a MHW event occurred: November 2013 to January 2014 (no MHW), August to October 2014 (MHW), November 2014 to January 2015 (no MHW), and August to October 2015 (MHW).</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
@@ -1007,10 +1103,8 @@ Please note that this repository is used for development and review, so quality 
 </div>
 </details>
 </div>
-</section>
-<section id="mixed-layer-depth-and-net-downward-heat-flux">
-<h4>Mixed layer depth and net downward heat flux<a class="headerlink" href="#mixed-layer-depth-and-net-downward-heat-flux" title="Link to this heading">#</a></h4>
-<p>Here, we use the mixed layer depth and the net downward heat flux variables. We apply a spatially weighted mean to compute anomalies during the Blob event, using the full climatology (1979–2016) as a reference.</p>
+<p><strong>Mixed layer depth and net downward heat flux</strong></p>
+<p>Here, we use the mixed layer depth and the net downward heat flux variables. We apply a spatially weighted mean to compute anomalies during the Blob event, using the full climatology (1980–2016) as a reference.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1041,9 +1135,127 @@ Please note that this repository is used for development and review, so quality 
 </details>
 </div>
 </section>
+<section id="esa-cci">
+<h4>ESA-CCI<a class="headerlink" href="#esa-cci" title="Link to this heading">#</a></h4>
+<p><strong>SST</strong></p>
+<p>In the dataset, the SST fields are converted from Kelvin (K) to degrees Celsius (°C) to compatibilty with SST ORAS5 units. For the verification dataset, we compute the SST anomalies for the Blob event based on the same climatology period, following the same procedure as for ORAS5.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_esa_cci</span><span class="p">[</span><span class="s2">&quot;analysed_sst_C&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_esa_cci</span><span class="p">[</span><span class="s2">&quot;analysed_sst&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mf">273.15</span> <span class="c1"># convert K to ºC (new variable)</span>
+<span class="n">ds_esa_cci</span><span class="p">[</span><span class="s2">&quot;analysed_sst_C&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;°C&quot;</span>
+
+<span class="n">sst_Blob_ESA</span> <span class="o">=</span> <span class="n">ds_esa_cci</span><span class="p">[</span><span class="s2">&quot;analysed_sst_C&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">))</span> <span class="c1"># Blob event </span>
+<span class="n">sst_baseline_ESA</span> <span class="o">=</span> <span class="n">ds_esa_cci</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">))</span> <span class="c1"># Climatology (reference)</span>
+
+<span class="n">clim_ds_ESA</span> <span class="o">=</span> <span class="n">get_climatology_monthly</span><span class="p">(</span><span class="n">sst_baseline_ESA</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s2">&quot;analysed_sst_C&quot;</span><span class="p">)</span>
+<span class="n">clim_period_ESA</span> <span class="o">=</span> <span class="n">expand_monthly_to_time</span><span class="p">(</span><span class="n">clim_ds_ESA</span><span class="p">[</span><span class="s2">&quot;clim&quot;</span><span class="p">],</span> <span class="n">sst_Blob_ESA</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>  
+<span class="n">sst_anomaly_ESA</span> <span class="o">=</span> <span class="n">sst_Blob_ESA</span> <span class="o">-</span> <span class="n">clim_period_ESA</span>
+<span class="n">sst_anomaly_mean_ESA</span> <span class="o">=</span> <span class="n">sst_anomaly_ESA</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
 </section>
 <section id="plotting-and-discussion-of-results">
 <span id="reanalysis-reanalysis-oras5-extremes-detection-q01-section-4"></span><h3>4. Plotting and discussion of results<a class="headerlink" href="#plotting-and-discussion-of-results" title="Link to this heading">#</a></h3>
+<section id="validation">
+<h4>Validation<a class="headerlink" href="#validation" title="Link to this heading">#</a></h4>
+<p>First, prior to describing the results regarding the Blob, we validate ORAS5 SST against ESA-CCI SST for the period of the event (2013–2016). We use various statistical metrics, such as mean bias and root mean square error (RMSE), to assess the accuracy of the reanalysis product.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bias_Blob</span> <span class="o">=</span> <span class="p">(</span><span class="n">sst_Blob_ORAS5</span> <span class="o">-</span> <span class="n">sst_Blob_ESA</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span> <span class="c1"># Bias</span>
+<span class="n">rmse_Blob</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(((</span><span class="n">sst_anomaly_ORAS5</span> <span class="o">-</span> <span class="n">sst_anomaly_ESA</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">))</span> <span class="c1"># RMSE </span>
+
+<span class="n">maps</span> <span class="o">=</span> <span class="p">[</span><span class="n">bias_Blob</span><span class="p">,</span> <span class="n">rmse_Blob</span><span class="p">]</span>
+<span class="n">titles</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;BIAS&quot;</span><span class="p">,</span> <span class="s2">&quot;RMSE&quot;</span><span class="p">]</span>
+<span class="n">cmaps</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;RdBu_r&quot;</span><span class="p">,</span> <span class="s2">&quot;viridis&quot;</span><span class="p">]</span>
+<span class="n">vmins</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">vmaxs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Figure </span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;projection&#39;</span><span class="p">:</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()})</span>
+
+<span class="n">map_extent</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">160</span><span class="p">,</span> <span class="o">-</span><span class="mi">120</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">]</span>  <span class="c1"># Map extension </span>
+<span class="n">lon_ticks</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">160</span><span class="p">,</span> <span class="o">-</span><span class="mi">119</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">lat_ticks</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">cmap</span><span class="p">,</span> <span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">maps</span><span class="p">,</span> <span class="n">titles</span><span class="p">,</span> <span class="n">cmaps</span><span class="p">,</span> <span class="n">vmins</span><span class="p">,</span> <span class="n">vmaxs</span><span class="p">)):</span>
+    <span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span>
+        <span class="n">ds_esa_cci</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">],</span> <span class="n">ds_esa_cci</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
+    <span class="p">)</span>
+    
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">LAND</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;0.85&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">(</span><span class="n">map_extent</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+    
+    <span class="n">rect</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">(</span>
+        <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">lon_minBlob</span><span class="p">,</span> <span class="n">lat_minBlob</span><span class="p">),</span>
+        <span class="n">width</span><span class="o">=</span><span class="n">lon_maxBlob</span> <span class="o">-</span> <span class="n">lon_minBlob</span><span class="p">,</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">lat_maxBlob</span> <span class="o">-</span> <span class="n">lat_minBlob</span><span class="p">,</span>
+        <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
+        <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+        <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+        <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
+        <span class="n">zorder</span><span class="o">=</span><span class="mi">10</span>
+    <span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span>
+    
+    <span class="c1"># Ticks</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">lon_ticks</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">lat_ticks</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="n">lon_formatter</span> <span class="o">=</span> <span class="n">cticker</span><span class="o">.</span><span class="n">LongitudeFormatter</span><span class="p">()</span>
+    <span class="n">lat_formatter</span> <span class="o">=</span> <span class="n">cticker</span><span class="o">.</span><span class="n">LatitudeFormatter</span><span class="p">()</span>
+    
+    <span class="c1"># Latitude</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  
+        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">lat_formatter</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>       
+        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Longitude</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">lon_formatter</span><span class="p">)</span>
+    
+    <span class="c1"># Title and colorbar</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span>
+        <span class="n">im</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+        <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;horizontal&quot;</span><span class="p">,</span>
+        <span class="n">pad</span><span class="o">=</span><span class="mf">0.07</span><span class="p">,</span>
+        <span class="n">fraction</span><span class="o">=</span><span class="mf">0.035</span><span class="p">,</span>
+        <span class="n">aspect</span><span class="o">=</span><span class="mi">20</span>
+    <span class="p">)</span>
+    <span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s2">&quot;°C&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">ticks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">cbar</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">(</span><span class="n">ticks</span><span class="p">)</span>
+    
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/36cfa0d7db26a08da0bd1d23f9692c491d7ac80997270adec695bcd5626e07a7.png" src="../_images/36cfa0d7db26a08da0bd1d23f9692c491d7ac80997270adec695bcd5626e07a7.png" />
+</div>
+</div>
+<p>The first figure shows the bias (in °C) for ORAS5 with respect to the ESA-CCI SST dataset, where the black rectangle represents the Blob region. SST bias is calculated from monthly mean data and averaged over the 2013–2016 event. Regarding the results, negative values (cold bias) shown on the map indicate that ORAS5 slightly underestimates SST compared to ESA-CCI. This suggests that ORAS5 may represent the Blob with lower intensity. In the second figure, the RMSE is shown, computed using SST anomalies over the same time interval as the bias. Overall, the spatial pattern of RMSE is quite consistent, although almost the entire Blob region exhibits some discrepancies against ESA-CCI. A study assessing ocean reanalysis, including ORAS5, for MHWs in the Indian Ocean reports that ORAS5 shows similar behaviour to that observed in this assessment, exhibiting a colder SST bias <a class="reference external" href="https://doi.org/10.1007/s00382-025-07780-y" rel="noreferrer" target="_blank">[15]</a>.</p>
+</section>
 <section id="physical-mechanisms-and-characteristics-of-the-blob">
 <h4>Physical mechanisms and characteristics of the Blob<a class="headerlink" href="#physical-mechanisms-and-characteristics-of-the-blob" title="Link to this heading">#</a></h4>
 <p>In this section, we present several figures to visualize and understand some of the physical mechanisms driving the Blob, including SST, potential temperature, wind stress components, mixed layer depth, and net downward heat flux.</p>
@@ -1071,7 +1283,7 @@ Please note that this repository is used for development and review, so quality 
 <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
 
 <span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
-    <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">],</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">],</span> <span class="n">sst_anomaly_mean</span><span class="p">,</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">],</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">],</span> <span class="n">sst_anomaly_mean_ORAS5</span><span class="p">,</span>
     <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">,</span>
     <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdBu_r&quot;</span><span class="p">,</span>
     <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span>
@@ -1087,7 +1299,7 @@ Please note that this repository is used for development and review, so quality 
 <span class="p">)</span>
 
 <span class="n">ax</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span>
-    <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">],</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">],</span> <span class="n">sst_anomaly_mean</span><span class="p">,</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">],</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">],</span> <span class="n">sst_anomaly_mean_ORAS5</span><span class="p">,</span>
     <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;0.7&quot;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
     <span class="n">zorder</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
 <span class="p">)</span>
@@ -1259,11 +1471,11 @@ Please note that this repository is used for development and review, so quality 
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/3a58a4b639455bb006fcf96b18e35be220d9b315095021119a72343a6332cade.png" src="../_images/3a58a4b639455bb006fcf96b18e35be220d9b315095021119a72343a6332cade.png" />
+<img alt="../_images/a3095d7fb12011884819234587b3e1a8978a90bdddceeb5cb0e6188881ef7e40.png" src="../_images/a3095d7fb12011884819234587b3e1a8978a90bdddceeb5cb0e6188881ef7e40.png" />
 </div>
 </div>
-<p>In this figure, we present three subplots ordered from A to C. The first one (Figure 1A) shows SST anomalies in the NE Pacific, averaged over the period of the Blob event (November 2013 to January 2016) based on the historical climatology from 1979 to 2016. The black rectangle indicates the study area, with a marker (in this case, a star) showing the center point of the Blob. Regarding the results, warm anomalies are detected, reaching a maximum of over 2°C within the Blob. The rest of the NE Pacific also exhibits notable SST anomalies, but of smaller magnitude. Figure 1B displays the time series of monthly-averaged SST (black line). Moreover, shown are the monthly-averaged climatology (blue line), the 90th percentile threshold (green line), and MHW events (red shading). These periods indicate that SST exceeds the threshold for a minimum of three consecutive months. If we observe in more detail, the first MHW (beginning of the Blob) originated in late 2013, developed in early 2014, and dissipated by late 2014. The peak intensity of the MHW was from August to October 2014. The second MHW event started in early 2015 and continued until late 2015, with its peak from August to October 2015. The last subplot (Figure 1C) shows a time-depth section of the monthly-averaged potential temperature anomaly for the upper 300 m of the ocean. The exact location corresponds to the center of the Blob, marked by a star in Figure 1A. We can determine that the subsurface temperature anomaly extended mainly to 100 m. These anomalies were very notable during the same peak periods mentioned in Figure 1B, with maximum values around 2–3°C. Below approximately 150 m, the anomalous warming decreased to near 0°C, with slightly negative anomalies at great depths. As described in <a class="reference external" href="https://doi.org/10.1038/s41612-023-00327-0" rel="noreferrer" target="_blank">[14]</a>, the case of the Blob extended from the surface to depths of around 140 m, with subsurface warming persisting longer than surface warming, affecting the mixed layer temperature. This was observed thanks to the Argo floats deployed in the NE Pacific <a class="reference external" href="https://doi.org/10.1002/2017JC013120" rel="noreferrer" target="_blank">[15]</a>. Both the timming of occurrence and the magnitude of the anomalies identified here are consistent with other reanalyses, such as NOAA’s GODAS <a class="reference external" href="https://doi.org/10.1002/2015GL063306" rel="noreferrer" target="_blank">[9]</a> and CFSR <a class="reference external" href="https://doi.org/10.1029/2019JD030780" rel="noreferrer" target="_blank">[10]</a>, as well as in situ observations <a class="reference external" href="https://doi.org/10.1029/2021JC018356" rel="noreferrer" target="_blank">[16]</a>.</p>
-<p><a class="reference external" href="https://doi.org/10.1088/1748-9326/aa67c3" rel="noreferrer" target="_blank">[17]</a> explains that the 2013–2016 warm Blob was a clear precursor to the evolution of the 2015–2016 El Niño, with the two events being closely linked. Nevertheless, this relationship should be examined with caution given the complexity of the ocean–atmosphere interactions in the North Pacific.</p>
+<p>In this figure, we present three subplots ordered from A to C. The first one (Figure A) shows SST anomalies in the NE Pacific, averaged over the period of the Blob event (November 2013 to January 2016) based on the historical climatology from 1980 to 2016. The black rectangle indicates the study area, with a marker (in this case, a star) showing the center point of the Blob. Regarding the results, warm anomalies are detected, reaching a maximum of over 2°C within the Blob. The rest of the NE Pacific also exhibits notable SST anomalies, but of smaller magnitude. Figure B displays the time series of monthly-averaged SST (black line). Moreover, shown are the monthly-averaged climatology (blue line), the 90th percentile threshold (green line), and MHW events (red shading). These periods indicate that SST exceeds the threshold for a minimum of three consecutive months. If we observe in more detail, the first MHW (beginning of the Blob) originated in late 2013, developed in early 2014, and dissipated by late 2014. The peak intensity of the MHW was from August to October 2014. The second MHW event started in early 2015 and continued until late 2015, with its peak from August to October 2015. The last subplot (Figure C) shows a time-depth section of the monthly-averaged potential temperature anomaly for the upper 300 m of the ocean. The exact location corresponds to the center of the Blob, marked by a star in Figure A. We can determine that the subsurface temperature anomaly extended mainly to 100 m. These anomalies were very notable during the same peak periods mentioned in Figure B, with maximum values around 2–3°C. Below approximately 150 m, the anomalous warming decreased to near 0°C, with slightly negative anomalies at great depths. As described in <a class="reference external" href="https://doi.org/10.1038/s41612-023-00327-0" rel="noreferrer" target="_blank">[16]</a>, the case of the Blob extended from the surface to depths of around 140 m, with subsurface warming persisting longer than surface warming, affecting the mixed layer temperature. This was observed thanks to the Argo floats deployed in the NE Pacific <a class="reference external" href="https://doi.org/10.1002/2017JC013120" rel="noreferrer" target="_blank">[17]</a>. Both the timming of occurrence and the magnitude of the anomalies identified here are consistent with other reanalyses, such as NOAA’s Global Ocean Data Assimilation System (GODAS) <a class="reference external" href="https://doi.org/10.1002/2015GL063306" rel="noreferrer" target="_blank">[9]</a> and Climate Forecast System Reanalysis (CFSR) <a class="reference external" href="https://doi.org/10.1029/2019JD030780" rel="noreferrer" target="_blank">[10]</a>, as well as in situ observations <a class="reference external" href="https://doi.org/10.1029/2021JC018356" rel="noreferrer" target="_blank">[18]</a>.</p>
+<p><a class="reference external" href="https://doi.org/10.1088/1748-9326/aa67c3" rel="noreferrer" target="_blank">[19]</a> explains that the 2013–2016 warm Blob was a clear precursor to the evolution of the 2015–2016 El Niño, with the two events being closely linked. Nevertheless, this relationship should be examined with caution given the complexity of the ocean–atmosphere interactions in the North Pacific.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1395,10 +1607,10 @@ Please note that this repository is used for development and review, so quality 
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/d2190ef285ae5c19a2d764ec14c3cc8d8f3627cadc08526273bac26efe30b5e6.png" src="../_images/d2190ef285ae5c19a2d764ec14c3cc8d8f3627cadc08526273bac26efe30b5e6.png" />
+<img alt="../_images/6a6457ebc0a20ff2fa0d263554074643f4413fbe0a0070f02536f00b16415cbf.png" src="../_images/6a6457ebc0a20ff2fa0d263554074643f4413fbe0a0070f02536f00b16415cbf.png" />
 </div>
 </div>
-<p>This figure show wind stress magnitude anomalies for winter (November–January) and summer (August–October) during 2013–2015. During winter 2013–2014, negative wind stress anomalies dominate the NE Pacific within the Blob region (outlined box), indicating weakened surface winds prior to the onset of the MHW. In contrast, summer 2014 exhibits weaker and more spatially heterogeneous anomalies. The winter of 2014–2015 again shows predominantly negative wind stress anomalies over the same region, consistent with continued weak wind forcing. By summer 2015, positive anomalies become more pronounced, suggesting a partial recovery of wind stress. These patterns are comparable to the ones obtained in <a class="reference external" href="https://doi.org/10.1175/JCLI-D-16-0348.1" rel="noreferrer" target="_blank">[18]</a>. Being consistent with the proposed Blob mechanism, whereby weakened winds and associated negative wind stress curl reduce vertical mixing, leading to a shallower mixed layer and sustained upper ocean warming <a class="reference external" href="https://doi.org/10.1038/s41612-023-00327-0" rel="noreferrer" target="_blank">[14]</a>.</p>
+<p>This figure show wind stress magnitude anomalies for winter (November–January) and summer (August–October) during 2013–2015. During winter 2013–2014, negative wind stress anomalies dominate the NE Pacific within the Blob region (outlined box), indicating weakened surface winds prior to the onset of the MHW. In contrast, summer 2014 exhibits weaker and more spatially heterogeneous anomalies. The winter of 2014–2015 again shows predominantly negative wind stress anomalies over the same region, consistent with continued weak wind forcing. By summer 2015, positive anomalies become more pronounced, suggesting a partial recovery of wind stress. These patterns are comparable to the ones obtained in <a class="reference external" href="https://doi.org/10.1175/JCLI-D-16-0348.1" rel="noreferrer" target="_blank">[20]</a>. Being consistent with the proposed Blob mechanism, whereby weakened winds and associated negative wind stress curl reduce vertical mixing, leading to a shallower mixed layer and sustained upper ocean warming <a class="reference external" href="https://doi.org/10.1038/s41612-023-00327-0" rel="noreferrer" target="_blank">[16]</a>.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1440,10 +1652,10 @@ Please note that this repository is used for development and review, so quality 
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/65572c14dcdd6f71bd241c884872415e0eeb2c7a973ab294dadf77b3130d7e18.png" src="../_images/65572c14dcdd6f71bd241c884872415e0eeb2c7a973ab294dadf77b3130d7e18.png" />
+<img alt="../_images/ea1dc6ee56d316850e0445a914cd0002ea8a57498a6a1f952a3830d6f6a7fa3e.png" src="../_images/ea1dc6ee56d316850e0445a914cd0002ea8a57498a6a1f952a3830d6f6a7fa3e.png" />
 </div>
 </div>
-<p>Figure 3 presents time series of the net downward heat flux (red line) and the mixed layer depth (blue line) for the Blob region from 2013 to 2016. The net downward heat flux shows two major peaks at the beginning of the MHW events, which occurred in early 2014 and 2015, indicating a major influx of energy into the ocean. These positive anomalies corresponded to periods of reduced ocean-to-atmosphere heat loss during winter, especially in the latent heat flux <a class="reference external" href="https://doi.org/10.1038/s41612-025-00900-9" rel="noreferrer" target="_blank">[19]</a>. Regarding the mixed layer depth, its anomalies were generally negative, with a maximum negative anomaly in March 2015 (period of a MHW). In connection with the net downward heat flux, the upper ocean heating led to greater buoyancy in the mixed layer, which had a significant effect on the Blob’s development <a class="reference external" href="https://doi.org/10.1029/2022GL098849" rel="noreferrer" target="_blank">[20]</a>. At the end of the Blob, the mixed layer depth anomalies became progressively positive.</p>
+<p>This figure presents time series of the net downward heat flux (red line) and the mixed layer depth (blue line) for the Blob region from 2013 to 2016. The net downward heat flux shows two major peaks at the beginning of the MHW events, which occurred in early 2014 and 2015, indicating a major influx of energy into the ocean. These positive anomalies corresponded to periods of reduced ocean-to-atmosphere heat loss during winter, especially in the latent heat flux <a class="reference external" href="https://doi.org/10.1038/s41612-025-00900-9" rel="noreferrer" target="_blank">[21]</a>. Regarding the mixed layer depth, its anomalies were generally negative, with a maximum negative anomaly in March 2015 (period of a MHW). In connection with the net downward heat flux, the upper ocean heating led to greater buoyancy in the mixed layer, which had a significant effect on the Blob’s development <a class="reference external" href="https://doi.org/10.1029/2022GL098849" rel="noreferrer" target="_blank">[22]</a>. At the end of the Blob, the mixed layer depth anomalies became progressively positive.</p>
 </section>
 </section>
 </section>
@@ -1453,6 +1665,7 @@ Please note that this repository is used for development and review, so quality 
 <h3>Key resources<a class="headerlink" href="#key-resources" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p><a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-oras5?tab=overview" rel="noreferrer" target="_blank">CDS entry</a>: ORAS5 global ocean reanalysis monthly data from 1958 to present.</p></li>
+<li><p><a class="reference external" href="https://cds.climate.copernicus.eu/datasets/satellite-sea-surface-temperature?tab=overview" rel="noreferrer" target="_blank">ESA-CCI SST entry</a>: Global sea surface temperature derived from satellite observations.</p></li>
 <li><p>Detailed information about the ORAS5 system is available at <a class="reference external" href="https://doi.org/10.5194/os-15-779-2019" rel="noreferrer" target="_blank">[13]</a>.</p></li>
 </ul>
 <p>Further information:</p>
@@ -1475,13 +1688,15 @@ Please note that this repository is used for development and review, so quality 
 <p><a class="reference external" href="https://doi.org/10.1029/2018GL078242" rel="noreferrer" target="_blank">[11]</a> Myers, T. A., Mechoso, C. R., Cesana, G. V., DeFlorio, M. J., &amp; Waliser, D. E. (2018). Cloud feedback key to marine heatwave off Baja California. Geophysical Research Letters, 45(9), 4345-4352. doi: 10.1029/2018GL078242</p>
 <p><a class="reference external" href="https://doi.org/10.1038/nclimate3082" rel="noreferrer" target="_blank">[12]</a> Di Lorenzo, E., &amp; Mantua, N. (2016). Multi-year persistence of the 2014/15 North Pacific marine heatwave. Nature Climate Change, 6(11), 1042-1047. doi: 10.1038/nclimate3082</p>
 <p><a class="reference external" href="https://doi.org/10.5194/os-15-779-2019" rel="noreferrer" target="_blank">[13]</a> Zuo, H., Balmaseda, M. A., Tietsche, S., Mogensen, K., &amp; Mayer, M. (2019). The ECMWF operational ensemble reanalysis–analysis system for ocean and sea ice: a description of the system and assessment. Ocean science, 15(3), 779-808. doi: 10.5194/os-15-779-2019</p>
-<p><a class="reference external" href="https://doi.org/10.1038/s41612-023-00327-0" rel="noreferrer" target="_blank">[14]</a> Chen, H. H., Wang, Y., Xiu, P., Yu, Y., Ma, W., &amp; Chai, F. (2023). Combined oceanic and atmospheric forcing of the 2013/14 marine heatwave in the northeast Pacific. npj Climate and Atmospheric Science, 6(1), 3. doi: 10.1038/s41612-023-00327-0</p>
-<p><a class="reference external" href="https://doi.org/10.1002/2017JC013120" rel="noreferrer" target="_blank">[15]</a> Chao, Y., Farrara, J. D., Bjorkstedt, E., Chai, F., Chavez, F., Rudnick, D. L., … &amp; Ateljevich, E. (2017). The origins of the anomalous warming in the C alifornia coastal ocean and S an F rancisco B ay during 2014–2016. Journal of Geophysical Research: Oceans, 122(9), 7537-7557. doi: 10.1002/2017JC013120</p>
-<p><a class="reference external" href="https://doi.org/10.1029/2021JC018356" rel="noreferrer" target="_blank">[16]</a> Holser, R. R., Keates, T. R., Costa, D. P., &amp; Edwards, C. A. (2022). Extent and magnitude of subsurface anomalies during the Northeast Pacific Blob as measured by animal‐borne sensors. Journal of Geophysical Research: Oceans, 127(7), e2021JC018356. doi: 10.1029/2021JC018356</p>
-<p><a class="reference external" href="https://doi.org/10.1088/1748-9326/aa67c3" rel="noreferrer" target="_blank">[17]</a> Tseng, Y. H., Ding, R., &amp; Huang, X. M. (2017). The warm Blob in the northeast Pacific—the bridge leading to the 2015/16 El Niño. Environmental Research Letters, 12(5), 054019. doi: 10.1088/1748-9326/aa67c3</p>
-<p><a class="reference external" href="https://doi.org/10.1175/JCLI-D-16-0348.1" rel="noreferrer" target="_blank">[18]</a> Hu, Z., Kumar, A., Jha, B., Zhu, J., &amp; Huang., B. (2017): Persistence and Predictions of the Remarkable Warm Anomaly in the Northeastern Pacific Ocean during 2014–16. J. Climate, 30, 689–702, doi: 10.1175/JCLI-D-16-0348.1</p>
-<p><a class="reference external" href="https://doi.org/10.1038/s41612-025-00900-9" rel="noreferrer" target="_blank">[19]</a> Chen, H. H., Wang, Y., Li, X., Wan, L., Yuan, Y., Yan, Y., … &amp; Chai, F. (2025). Arctic warming as a potential trigger for the warm blob in the northeast Pacific. npj Climate and Atmospheric Science, 8(1), 111. doi: 10.1038/s41612-025-00900-9</p>
-<p><a class="reference external" href="https://doi.org/10.1029/2022GL098849" rel="noreferrer" target="_blank">[20]</a> Shi, J., Tang, C., Liu, Q., Zhang, Y., Yang, H., &amp; Li, C. (2022). Role of mixed layer depth in the location and development of the Northeast Pacific warm blobs. Geophysical Research Letters, 49(16), e2022GL098849. doi: 10.1029/2022GL098849</p>
+<p><a class="reference external" href="https://doi.org/10.1080/1755876X.2022.2095169" rel="noreferrer" target="_blank">[14]</a> de Boisséson, E., Balmaseda, M. A., Mayer, M., &amp; Zuo, H.: Section 4.3 of Copernicus Ocean State Report, issue 6, J. Oper. Oceanogr., 15, 1–220. doi: 10.1080/1755876X.2022.2095169</p>
+<p><a class="reference external" href="https://doi.org/10.1007/s00382-025-07780-y" rel="noreferrer" target="_blank">[15]</a> Paul, A., Maheswaran, P. A., Satheesan, K., &amp; Kottayil, A. (2025). Assessing ocean reanalysis accuracy for marine extremes in the Indian ocean using in-situ observations. Climate Dynamics, 63(9), 343. doi: 10.1007/s00382-025-07780-y</p>
+<p><a class="reference external" href="https://doi.org/10.1038/s41612-023-00327-0" rel="noreferrer" target="_blank">[16]</a> Chen, H. H., Wang, Y., Xiu, P., Yu, Y., Ma, W., &amp; Chai, F. (2023). Combined oceanic and atmospheric forcing of the 2013/14 marine heatwave in the northeast Pacific. npj Climate and Atmospheric Science, 6(1), 3. doi: 10.1038/s41612-023-00327-0</p>
+<p><a class="reference external" href="https://doi.org/10.1002/2017JC013120" rel="noreferrer" target="_blank">[17]</a> Chao, Y., Farrara, J. D., Bjorkstedt, E., Chai, F., Chavez, F., Rudnick, D. L., … &amp; Ateljevich, E. (2017). The origins of the anomalous warming in the C alifornia coastal ocean and S an F rancisco B ay during 2014–2016. Journal of Geophysical Research: Oceans, 122(9), 7537-7557. doi: 10.1002/2017JC013120</p>
+<p><a class="reference external" href="https://doi.org/10.1029/2021JC018356" rel="noreferrer" target="_blank">[18]</a> Holser, R. R., Keates, T. R., Costa, D. P., &amp; Edwards, C. A. (2022). Extent and magnitude of subsurface anomalies during the Northeast Pacific Blob as measured by animal‐borne sensors. Journal of Geophysical Research: Oceans, 127(7), e2021JC018356. doi: 10.1029/2021JC018356</p>
+<p><a class="reference external" href="https://doi.org/10.1088/1748-9326/aa67c3" rel="noreferrer" target="_blank">[19]</a> Tseng, Y. H., Ding, R., &amp; Huang, X. M. (2017). The warm Blob in the northeast Pacific—the bridge leading to the 2015/16 El Niño. Environmental Research Letters, 12(5), 054019. doi: 10.1088/1748-9326/aa67c3</p>
+<p><a class="reference external" href="https://doi.org/10.1175/JCLI-D-16-0348.1" rel="noreferrer" target="_blank">[20]</a> Hu, Z., Kumar, A., Jha, B., Zhu, J., &amp; Huang., B. (2017): Persistence and Predictions of the Remarkable Warm Anomaly in the Northeastern Pacific Ocean during 2014–16. J. Climate, 30, 689–702, doi: 10.1175/JCLI-D-16-0348.1</p>
+<p><a class="reference external" href="https://doi.org/10.1038/s41612-025-00900-9" rel="noreferrer" target="_blank">[21]</a> Chen, H. H., Wang, Y., Li, X., Wan, L., Yuan, Y., Yan, Y., … &amp; Chai, F. (2025). Arctic warming as a potential trigger for the warm blob in the northeast Pacific. npj Climate and Atmospheric Science, 8(1), 111. doi: 10.1038/s41612-025-00900-9</p>
+<p><a class="reference external" href="https://doi.org/10.1029/2022GL098849" rel="noreferrer" target="_blank">[22]</a> Shi, J., Tang, C., Liu, Q., Zhang, Y., Yang, H., &amp; Li, C. (2022). Role of mixed layer depth in the location and development of the Northeast Pacific warm blobs. Geophysical Research Letters, 49(16), e2022GL098849. doi: 10.1029/2022GL098849</p>
 </section>
 </section>
 </section>
@@ -1557,20 +1772,19 @@ Please note that this repository is used for development and review, so quality 
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-selection-and-setup">1. Data selection and setup</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-required-libraries">Import required libraries</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-request-for-oras5-reanalysis">Data request for ORAS5 reanalysis</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-request">Data request</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#download-and-transform">Download and transform</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#detection-of-marine-heatwaves">2. Detection of marine heatwaves</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-processing-and-computations">3. Data processing and computations</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#general-parameters">General parameters</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sea-surface-temperature-sst">Sea surface temperature (SST)</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#potential-temperature">Potential temperature</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#wind-stress-components">Wind stress components</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-layer-depth-and-net-downward-heat-flux">Mixed layer depth and net downward heat flux</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#oras5">ORAS5</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#esa-cci">ESA-CCI</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-and-discussion-of-results">4. Plotting and discussion of results</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#validation">Validation</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#physical-mechanisms-and-characteristics-of-the-blob">Physical mechanisms and characteristics of the Blob</a></li>
 </ul>
 </li>
