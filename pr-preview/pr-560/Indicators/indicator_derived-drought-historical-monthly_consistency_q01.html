@@ -557,7 +557,7 @@ Please note that this repository is used for development and review, so quality 
 In the United Kingdom, the record-breaking hot and dry spring and summer of 2025 caused harvest losses worth more than £800 million [<a class="reference external" href="https://eciu.net/analysis/reports/2025/estimated-financial-losses-faced-by-uk-farmers-due-dry-weather-impacts-on-key-arable-crops" rel="noreferrer" target="_blank">ECIU+25</a>].
 An 18-month drought in Brazil in 2023–24,
 the most severe since monitoring began in 1954,
-led to 720 health centres in affected areas becoming non-operational [<a class="reference external" href="https://www.unicef.org/media/165191/file/LACR-Flash-Update-11-November-2024.pdf" rel="noreferrer" target="_blank">UNICEF+24</a>].
+led to 720 health centres in affected areas becoming non-operational [<a class="reference external" href="https://reliefweb.int/node/4111326" rel="noreferrer" target="_blank">UNICEF+24</a>].
 Finally, extreme rainfall killed hundreds of people and caused billions of € in damages in Spain in 2024 [<a class="reference external" href="https://doi.org/10.48088/ejg.i.fra.16.2.286.297" rel="noreferrer" target="_blank">Franch-Pardo+25</a>].
 Climate change is thought to be the primary driver behind the increase in drought and extreme precipitation events since the 1950s [<a class="reference external" href="https://doi.org/10.59327/IPCC/AR6-9789291691647" rel="noreferrer" target="_blank">IPCC+23</a>],
 and this trend is expected to continue into the future.</p>
@@ -639,13 +639,19 @@ as well as
 the associated quality flags
 (probability of zero precipitation <em>p<sub>0</sub></em> and Shapiro–Wilk normality <em>α</em>)
 from ERA5.
-These reproduced values are then compared to the pre-made data in ERA5–Drought in several case studies,
+These reproduced values are then compared to the pre-made data in ERA5–Drought in two case studies,
 namely
 a full time-series comparison in one location
 and
 a geospatial comparison at one point in time.
-The notebook is set up so that the test sites and dates are easily customised,
-so you can download this notebook and run it on your preferred domain.</p>
+Because the goal of this assessment is to test the reproducibility of ERA5–Drought,
+rather than intercomparing two independent datasets,
+comparisons will be made on both low- and high-quality data,
+instead of masking and ignoring low-quality data.
+When using the dataset in practice,
+masking low-quality data <em>is</em> recommended, as explained in [<a class="reference external" href="https://doi.org/10.1038/s41597-025-04896-y" rel="noreferrer" target="_blank">Keune+25</a>].</p>
+<p>This notebook is set up so that the test sites and dates are easily customised,
+so you can download it and apply it to your preferred domain.</p>
 <p>The analysis and results are organised in the following steps, which are detailed in the sections below:</p>
 <p><strong><a class="reference internal" href="#indicator-derived-drought-historical-monthly-consistency-q01-section-code-setup"><span class="std std-ref">1. Code setup</span></a></strong></p>
 <ul class="simple">
@@ -2205,10 +2211,11 @@ and are © EuroGeographics.</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Main function: Plot maps of absolute values (left, middle) and differences (right)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_geospatial_comparison_quality_flags</span><span class="p">(</span><span class="n">var</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">example_month</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_geospatial_comparison_quality_flags</span><span class="p">(</span><span class="n">var</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
                                              <span class="n">probabilities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]]]</span><span class="o">=</span><span class="p">{},</span>  <span class="c1"># e.g. p0</span>
                                              <span class="n">masks</span><span class="p">:</span>         <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]]]</span><span class="o">=</span><span class="p">{},</span>  <span class="c1"># e.g. p0 &lt; 0.33 or alpha &gt; 0.05</span>
                                              <span class="n">label1</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">&quot;ERA5–Drought&quot;</span><span class="p">,</span> <span class="n">label2</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">&quot;Reproduced&quot;</span><span class="p">,</span> <span class="n">title_suffix</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                                             <span class="n">example_month</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># e.g. 12 for December</span>
                                              <span class="n">flag_label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                              <span class="n">domain</span><span class="p">:</span> <span class="n">AnyDomain</span><span class="o">=</span><span class="n">DOMAIN_GLOBAL</span><span class="p">,</span> <span class="n">shared_mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">]</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                                              <span class="n">month_dimension</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">&quot;month&quot;</span><span class="p">,</span>
@@ -2240,6 +2247,8 @@ and are © EuroGeographics.</p>
     <span class="c1"># Plot probabilities (if any)</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">list_of_datasets</span> <span class="ow">in</span> <span class="n">probabilities</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="c1"># Select data for one month</span>
+        <span class="k">assert</span> <span class="n">example_month</span> <span class="ow">in</span> <span class="n">MONTHS</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Cannot use example month `</span><span class="si">{</span><span class="n">example_month</span><span class="si">}</span><span class="s2">`; please use a number from 1 through 12.&quot;</span>
+        <span class="n">month_label</span> <span class="o">=</span> <span class="n">MONTHS_NAMED</span><span class="p">[</span><span class="n">example_month</span><span class="p">]</span>
         <span class="n">list_of_datasets</span> <span class="o">=</span> <span class="p">[</span><span class="n">prob</span><span class="o">.</span><span class="n">sel</span><span class="p">({</span><span class="n">month_dimension</span><span class="p">:</span> <span class="n">example_month</span><span class="p">})</span> <span class="k">for</span> <span class="n">prob</span> <span class="ow">in</span> <span class="n">list_of_datasets</span><span class="p">]</span>
 
         <span class="c1"># Calculate difference</span>
@@ -2253,7 +2262,7 @@ and are © EuroGeographics.</p>
         <span class="n">subplots</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid_cells</span><span class="p">(</span><span class="n">probability_difference</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">shared_mask</span><span class="p">),</span> <span class="n">z</span><span class="o">=</span><span class="n">var</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">styles</span><span class="p">[</span><span class="s2">&quot;probability_diff&quot;</span><span class="p">])</span>
 
         <span class="c1"># Add colour bars</span>
-        <span class="n">subplots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+        <span class="n">subplots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">month_label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
         <span class="n">subplots</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Difference&quot;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
 
     <span class="c1"># Plot masks (if any)</span>
@@ -2286,9 +2295,8 @@ and are © EuroGeographics.</p>
         <span class="n">subplot</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
 
     <span class="c1"># Decorate figure</span>
-    <span class="n">month_for_title</span> <span class="o">=</span> <span class="n">MONTHS_NAMED</span><span class="p">[</span><span class="n">example_month</span><span class="p">]</span>
     <span class="n">var</span> <span class="o">=</span> <span class="n">INDEXES_NAMED</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">INDEXES_NAMED</span> <span class="k">else</span> <span class="n">var</span>  <span class="c1"># e.g. SPI1 to SPI-1, if possible</span>
-    <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">label1</span><span class="si">}</span><span class="s2"> vs. </span><span class="si">{</span><span class="n">label2</span><span class="si">}</span><span class="se">\n</span><span class="s2">Geospatial comparison of </span><span class="si">{</span><span class="n">flag_label</span><span class="si">}</span><span class="se">\n</span><span class="s2">(</span><span class="si">{</span><span class="n">domain</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">month_for_title</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">)</span><span class="si">{</span><span class="n">title_suffix</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">label1</span><span class="si">}</span><span class="s2"> vs. </span><span class="si">{</span><span class="n">label2</span><span class="si">}</span><span class="se">\n</span><span class="s2">Geospatial comparison of </span><span class="si">{</span><span class="n">flag_label</span><span class="si">}</span><span class="se">\n</span><span class="s2">(</span><span class="si">{</span><span class="n">domain</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">)</span><span class="si">{</span><span class="n">title_suffix</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="n">decorate_fig</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
 
     <span class="c1"># Show result</span>
@@ -18879,12 +18887,12 @@ although the flagged pixels do not always match one-to-one with the pixels that 
 
 <span class="c1"># Display quality flags – this step may take a few minutes</span>
 <span class="c1"># Regional for tp1, for regional SPI comparison</span>
-<span class="n">plot_geospatial_comparison_quality_flags</span><span class="p">(</span><span class="s2">&quot;tp1&quot;</span><span class="p">,</span> <span class="n">example_month</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">probabilities</span><span class="o">=</span><span class="n">probabilities</span><span class="p">,</span> <span class="n">masks</span><span class="o">=</span><span class="n">masks</span><span class="p">,</span>
+<span class="n">plot_geospatial_comparison_quality_flags</span><span class="p">(</span><span class="s2">&quot;tp1&quot;</span><span class="p">,</span> <span class="n">probabilities</span><span class="o">=</span><span class="n">probabilities</span><span class="p">,</span> <span class="n">masks</span><span class="o">=</span><span class="n">masks</span><span class="p">,</span> <span class="n">example_month</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
                                          <span class="n">shared_mask</span><span class="o">=</span><span class="n">LAND</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">domain_region</span><span class="p">,</span> <span class="n">flag_label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$p_0$&quot;</span><span class="p">,</span>
                                          <span class="n">glue_label</span><span class="o">=</span><span class="s2">&quot;indicator_derived-drought-historical-monthly_consistency_q01_fig-spi-p0-region&quot;</span><span class="p">)</span>
 
 <span class="c1"># Global for tp3 (comparable to SPEI-3 Shapiro–Wilk plot in Keune+25 Fig 3.</span>
-<span class="n">plot_geospatial_comparison_quality_flags</span><span class="p">(</span><span class="s2">&quot;tp3&quot;</span><span class="p">,</span> <span class="n">example_month</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">probabilities</span><span class="o">=</span><span class="n">probabilities</span><span class="p">,</span> <span class="n">masks</span><span class="o">=</span><span class="n">masks</span><span class="p">,</span>
+<span class="n">plot_geospatial_comparison_quality_flags</span><span class="p">(</span><span class="s2">&quot;tp3&quot;</span><span class="p">,</span> <span class="n">probabilities</span><span class="o">=</span><span class="n">probabilities</span><span class="p">,</span> <span class="n">masks</span><span class="o">=</span><span class="n">masks</span><span class="p">,</span> <span class="n">example_month</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
                                          <span class="n">shared_mask</span><span class="o">=</span><span class="n">LAND</span><span class="p">,</span> <span class="n">flag_label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$p_0$&quot;</span><span class="p">,</span>
                                          <span class="n">glue_label</span><span class="o">=</span><span class="s2">&quot;indicator_derived-drought-historical-monthly_consistency_q01_fig-spi-p0-global&quot;</span><span class="p">)</span>
 </pre></div>
@@ -18897,7 +18905,7 @@ although the flagged pixels do not always match one-to-one with the pixels that 
 <label class="sd-tab-label" data-sync-group="tab" data-sync-id="global" for="sd-tab-item-4">
 Global, 3-month</label><div class="sd-tab-content docutils">
 <figure class="align-default" id="indicator-derived-drought-historical-monthly-consistency-q01-fig-spi-p0-global">
-<img alt="../_images/48993d595b2337633bcd623a70108442e1f68f85aee25fb478639ce6e3ec45f4.png" src="../_images/48993d595b2337633bcd623a70108442e1f68f85aee25fb478639ce6e3ec45f4.png" />
+<img alt="../_images/ef4aaf21aac4a836440baba13bad99c2fdfcbbb60efeaaea937b75bb39841383.png" src="../_images/ef4aaf21aac4a836440baba13bad99c2fdfcbbb60efeaaea937b75bb39841383.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 6.1.6 </span><span class="caption-text">Global probability of zero precipitation in the 3-month accumulation period and associated masks in ERA5–Drought (left) vs. reproduced from ERA5 precipitation data (middle) and the difference or mismatch between the two (right).
 Probability is displayed for one calendar month (December) across the reference window (1991–2020).
@@ -18910,7 +18918,7 @@ following [<a class="reference external" href="https://doi.org/10.1038/s41597-02
 <label class="sd-tab-label" data-sync-group="tab" data-sync-id="geospatial" for="sd-tab-item-5">
 Example region, 1-month</label><div class="sd-tab-content docutils">
 <figure class="align-default" id="indicator-derived-drought-historical-monthly-consistency-q01-fig-spi-p0-region">
-<img alt="../_images/881738f0ccc734c9455d69431e823050bf6829f89b8dfaa3f1c5d0ffd0e001fc.png" src="../_images/881738f0ccc734c9455d69431e823050bf6829f89b8dfaa3f1c5d0ffd0e001fc.png" />
+<img alt="../_images/5c3cf330b8c286231a14d66722b8381f9265c1e36eb0de3776cd83414be60a95.png" src="../_images/5c3cf330b8c286231a14d66722b8381f9265c1e36eb0de3776cd83414be60a95.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 6.1.7 </span><span class="caption-text">Probability of zero precipitation in the 1-month accumulation period and associated masks in ERA5–Drought (left) vs. reproduced from ERA5 precipitation data (middle) and the difference or mismatch between the two (right).
 Probability is displayed for one calendar month (December) across the reference window (1991–2020).
@@ -21546,12 +21554,12 @@ The mask provided with ERA5–Drought can be used confidently to mask correspond
 
 <span class="c1"># Display quality flags – this step may take a few minutes</span>
 <span class="c1"># SPI-1: Compare to table</span>
-<span class="n">plot_geospatial_comparison_quality_flags</span><span class="p">(</span><span class="s2">&quot;SPI1&quot;</span><span class="p">,</span> <span class="n">example_month</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">masks</span><span class="o">=</span><span class="n">masks</span><span class="p">,</span>
+<span class="n">plot_geospatial_comparison_quality_flags</span><span class="p">(</span><span class="s2">&quot;SPI1&quot;</span><span class="p">,</span> <span class="n">masks</span><span class="o">=</span><span class="n">masks</span><span class="p">,</span>
                                          <span class="n">shared_mask</span><span class="o">=</span><span class="n">LAND</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">domain_region</span><span class="p">,</span>
                                          <span class="n">glue_label</span><span class="o">=</span><span class="s2">&quot;indicator_derived-drought-historical-monthly_consistency_q01_fig-spi-normality-region-spi1&quot;</span><span class="p">)</span>
 
 <span class="c1"># SPI-3: Compare to Keune+25 Fig 3.</span>
-<span class="n">plot_geospatial_comparison_quality_flags</span><span class="p">(</span><span class="s2">&quot;SPI3&quot;</span><span class="p">,</span> <span class="n">example_month</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">masks</span><span class="o">=</span><span class="n">masks</span><span class="p">,</span>
+<span class="n">plot_geospatial_comparison_quality_flags</span><span class="p">(</span><span class="s2">&quot;SPI3&quot;</span><span class="p">,</span> <span class="n">masks</span><span class="o">=</span><span class="n">masks</span><span class="p">,</span>
                                          <span class="n">shared_mask</span><span class="o">=</span><span class="n">LAND</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">domain_region</span><span class="p">,</span>
                                          <span class="n">glue_label</span><span class="o">=</span><span class="s2">&quot;indicator_derived-drought-historical-monthly_consistency_q01_fig-spi-normality-region-spi3&quot;</span><span class="p">)</span>
 </pre></div>
@@ -21564,7 +21572,7 @@ The mask provided with ERA5–Drought can be used confidently to mask correspond
 <label class="sd-tab-label" data-sync-group="tab" data-sync-id="geospatial" for="sd-tab-item-6">
 SPI-1</label><div class="sd-tab-content docutils">
 <figure class="align-default" id="indicator-derived-drought-historical-monthly-consistency-q01-fig-spi-normality-region-spi1">
-<img alt="../_images/2d49902f634bd68944ca594fb02effa6c3c8d2471530494d3bae0d3b0b6f8db0.png" src="../_images/2d49902f634bd68944ca594fb02effa6c3c8d2471530494d3bae0d3b0b6f8db0.png" />
+<img alt="../_images/b6b8f73fb62122783d14f3f1fe9d45c46dc011644e447a2efe71b2c8f8242005.png" src="../_images/b6b8f73fb62122783d14f3f1fe9d45c46dc011644e447a2efe71b2c8f8242005.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 6.1.8 </span><span class="caption-text">Shapiro–Wilk normality <em>α</em> for SPI-1 and associated masks in ERA5–Drought (left) vs. reproduced from ERA5 precipitation data (middle) and the difference or mismatch between the two (right).
 The <em>α</em> &lt; 0.05 mask is displayed as the number of calendar months that get flagged and the oceans are masked,
@@ -21577,7 +21585,7 @@ This figure displays only the example region (Horn of Africa).</span><a class="h
 <label class="sd-tab-label" data-sync-group="tab" data-sync-id="spi3" for="sd-tab-item-7">
 SPI-3</label><div class="sd-tab-content docutils">
 <figure class="align-default" id="indicator-derived-drought-historical-monthly-consistency-q01-fig-spi-normality-region-spi3">
-<img alt="../_images/5a03ea3d46e54acf3e1124e7a1471f9f5b551fba0b6c77bbf5bf2a80f76a7b75.png" src="../_images/5a03ea3d46e54acf3e1124e7a1471f9f5b551fba0b6c77bbf5bf2a80f76a7b75.png" />
+<img alt="../_images/fd91cffe30b1cd96caa85c9a738d276c5fc8d56941b6a3c92baf0dfa368e4b25.png" src="../_images/fd91cffe30b1cd96caa85c9a738d276c5fc8d56941b6a3c92baf0dfa368e4b25.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 6.1.9 </span><span class="caption-text">Shapiro–Wilk normality <em>α</em> for SPI-3 and associated masks in ERA5–Drought (left) vs. reproduced from ERA5 precipitation data (middle) and the difference or mismatch between the two (right).
 The <em>α</em> &lt; 0.05 mask is displayed as the number of calendar months that get flagged and the oceans are masked,
@@ -32830,12 +32838,12 @@ they tend to either both pass or both fail the normality test.</p>
 
 <span class="c1"># Display quality flags – this step may take a few minutes</span>
 <span class="c1"># SPI-1: Compare to table</span>
-<span class="n">plot_geospatial_comparison_quality_flags</span><span class="p">(</span><span class="s2">&quot;SPEI1&quot;</span><span class="p">,</span> <span class="n">example_month</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">masks</span><span class="o">=</span><span class="n">masks</span><span class="p">,</span>
+<span class="n">plot_geospatial_comparison_quality_flags</span><span class="p">(</span><span class="s2">&quot;SPEI1&quot;</span><span class="p">,</span> <span class="n">masks</span><span class="o">=</span><span class="n">masks</span><span class="p">,</span>
                                          <span class="n">shared_mask</span><span class="o">=</span><span class="n">LAND</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">domain_region</span><span class="p">,</span>
                                          <span class="n">glue_label</span><span class="o">=</span><span class="s2">&quot;indicator_derived-drought-historical-monthly_consistency_q01_fig-spei-normality-region-spei1&quot;</span><span class="p">)</span>
 
 <span class="c1"># SPI-3: Compare to Keune+25 Fig 3.</span>
-<span class="n">plot_geospatial_comparison_quality_flags</span><span class="p">(</span><span class="s2">&quot;SPEI3&quot;</span><span class="p">,</span> <span class="n">example_month</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">masks</span><span class="o">=</span><span class="n">masks</span><span class="p">,</span>
+<span class="n">plot_geospatial_comparison_quality_flags</span><span class="p">(</span><span class="s2">&quot;SPEI3&quot;</span><span class="p">,</span> <span class="n">masks</span><span class="o">=</span><span class="n">masks</span><span class="p">,</span>
                                          <span class="n">shared_mask</span><span class="o">=</span><span class="n">LAND</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">domain_region</span><span class="p">,</span>
                                          <span class="n">glue_label</span><span class="o">=</span><span class="s2">&quot;indicator_derived-drought-historical-monthly_consistency_q01_fig-spei-normality-region-spei3&quot;</span><span class="p">)</span>
 </pre></div>
@@ -32848,7 +32856,7 @@ they tend to either both pass or both fail the normality test.</p>
 <label class="sd-tab-label" data-sync-group="tab" data-sync-id="geospatial" for="sd-tab-item-12">
 SPEI-1</label><div class="sd-tab-content docutils">
 <figure class="align-default" id="indicator-derived-drought-historical-monthly-consistency-q01-fig-spei-normality-region-spei1">
-<img alt="../_images/26d0baa763fb83c27cb5ea11bc67147d919e8dbe1bafe185c18255df7cb9a9a0.png" src="../_images/26d0baa763fb83c27cb5ea11bc67147d919e8dbe1bafe185c18255df7cb9a9a0.png" />
+<img alt="../_images/cda4c718389ad012a415e4f16170ebc4dbdb0164911445eb0ee305e52db5d469.png" src="../_images/cda4c718389ad012a415e4f16170ebc4dbdb0164911445eb0ee305e52db5d469.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 6.1.15 </span><span class="caption-text">Shapiro–Wilk normality <em>α</em> for SPEI-1 and associated masks in ERA5–Drought (left) vs. reproduced from ERA5 precipitation data (middle) and the difference or mismatch between the two (right).
 The <em>α</em> &lt; 0.05 mask is displayed as the number of calendar months that get flagged and the oceans are masked,
@@ -32861,7 +32869,7 @@ This figure displays only the example region (Horn of Africa).</span><a class="h
 <label class="sd-tab-label" data-sync-group="tab" data-sync-id="spi3" for="sd-tab-item-13">
 SPEI-3</label><div class="sd-tab-content docutils">
 <figure class="align-default" id="indicator-derived-drought-historical-monthly-consistency-q01-fig-spei-normality-region-spei3">
-<img alt="../_images/4265dae821c308aacfa0a5d345f3c583f94318e1aacaf0a5d7f03cc8b8c03a98.png" src="../_images/4265dae821c308aacfa0a5d345f3c583f94318e1aacaf0a5d7f03cc8b8c03a98.png" />
+<img alt="../_images/a24edf30d93d9ab69a239950e5d8c1b8102cd55a68a5bd24ced373bd85bd3862.png" src="../_images/a24edf30d93d9ab69a239950e5d8c1b8102cd55a68a5bd24ced373bd85bd3862.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 6.1.16 </span><span class="caption-text">Shapiro–Wilk normality <em>α</em> for SPEI-3 and associated masks in ERA5–Drought (left) vs. reproduced from ERA5 precipitation data (middle) and the difference or mismatch between the two (right).
 The <em>α</em> &lt; 0.05 mask is displayed as the number of calendar months that get flagged and the oceans are masked,
@@ -37743,7 +37751,7 @@ a forthcoming assessment on this subject.</p>
 <h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
 <p>[<a class="reference external" href="https://eciu.net/analysis/reports/2025/estimated-financial-losses-faced-by-uk-farmers-due-dry-weather-impacts-on-key-arable-crops" rel="noreferrer" target="_blank">ECIU+25</a>] Energy &amp; Climate Intelligence Unit, ‘Estimated financial losses faced by UK farmers due dry weather impacts on key arable crops’, Energy &amp; Climate Intelligence Unit, London, United Kingdom, Dec. 2025.</p>
 <p>[<a class="reference external" href="https://doi.org/10.59327/IPCC/AR6-9789291691647" rel="noreferrer" target="_blank">IPCC+23</a>] IPCC, ‘Climate Change 2023: Synthesis Report. Contribution of Working Groups I, II and III to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change’, Intergovernmental Panel on Climate Change (IPCC), Geneva, Switzerland, Jul. 2023. doi: 10.59327/IPCC/AR6-9789291691647.</p>
-<p>[<a class="reference external" href="https://www.unicef.org/media/165191/file/LACR-Flash-Update-11-November-2024.pdf" rel="noreferrer" target="_blank">UNICEF+24</a>] UNICEF, ‘Latin America and Caribbean Region Flash Update No. 2 (Climate-related crisis in the Amazon Region)’, UNICEF, Nov. 2024.</p>
+<p>[<a class="reference external" href="https://reliefweb.int/node/4111326" rel="noreferrer" target="_blank">UNICEF+24</a>] UNICEF, ‘Latin America and Caribbean Region Flash Update No. 2 (Climate-related crisis in the Amazon Region)’, UNICEF, Nov. 2024.</p>
 <p>[<a class="reference external" href="https://doi.org/10.48088/ejg.i.fra.16.2.286.297" rel="noreferrer" target="_blank">Franch-Pardo+25</a>] I. Franch-Pardo, P. A. F. Puig, and A. Cerdà, ‘Geospatial Technologies in Crisis Response: Analyzing the 2024 Floods in Valencia, Spain’, European Journal of Geography, vol. 16, no. 2, pp. 286–297, Aug. 2025, doi: 10.48088/ejg.i.fra.16.2.286.297.</p>
 <p>[<a class="reference external" href="https://climate.colostate.edu/pdfs/relationshipofdroughtfrequency.pdf" rel="noreferrer" target="_blank">McKee+93</a>] T. B. McKee, N. J. Doesken, and J. Kleist, ‘The relationship of drought frequency and duration to time scales’, in Eighth Conference on Applied Climatology, Anaheim, California, USA, Jan. 1993.</p>
 <p>[<a class="reference external" href="https://doi.org/10.1038/s41597-025-04896-y" rel="noreferrer" target="_blank">Keune+25</a>] J. Keune, F. Di Giuseppe, C. Barnard, E. Damasio da Costa, and F. Wetterhall, ‘ERA5–Drought: Global drought indices based on ECMWF reanalysis’, Scientific Data, vol. 12, p. 616, Apr. 2025, doi: 10.1038/s41597-025-04896-y.</p>
