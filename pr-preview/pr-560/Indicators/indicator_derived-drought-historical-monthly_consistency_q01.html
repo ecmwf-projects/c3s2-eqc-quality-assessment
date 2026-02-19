@@ -541,7 +541,7 @@ document.write(`
 Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
 </div><section class="tex2jax_ignore mathjax_ignore" id="reproducibility-of-drought-indicators-in-the-era5drought-dataset">
 <h1><span class="section-number">6.1. </span>Reproducibility of drought indicators in the ERA5–Drought dataset<a class="headerlink" href="#reproducibility-of-drought-indicators-in-the-era5drought-dataset" title="Link to this heading">#</a></h1>
-<p>Production date: 2026-02-xx</p>
+<p>Production date: 2026-02-19.</p>
 <p><strong>Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch.</strong></p>
 <p>Dataset version: 1.0.</p>
 <p>Produced by: Enis Gerxhalija, Olivier Burggraaff (National Physical Laboratory).</p>
@@ -558,14 +558,14 @@ In the United Kingdom, the record-breaking hot and dry spring and summer of 2025
 An 18-month drought in Brazil in 2023–24,
 the most severe since monitoring began in 1954,
 led to 720 health centres in affected areas becoming non-operational [<a class="reference external" href="https://reliefweb.int/node/4111326" rel="noreferrer" target="_blank">UNICEF+24</a>].
-Finally, extreme rainfall killed hundreds of people and caused billions of € in damages in Spain in 2024 [<a class="reference external" href="https://doi.org/10.48088/ejg.i.fra.16.2.286.297" rel="noreferrer" target="_blank">Franch-Pardo+25</a>].
+Extreme rainfall killed hundreds of people and caused billions of € in damages in Spain in 2024 [<a class="reference external" href="https://doi.org/10.48088/ejg.i.fra.16.2.286.297" rel="noreferrer" target="_blank">Franch-Pardo+25</a>].
 Climate change is thought to be the primary driver behind the increase in drought and extreme precipitation events since the 1950s [<a class="reference external" href="https://doi.org/10.59327/IPCC/AR6-9789291691647" rel="noreferrer" target="_blank">IPCC+23</a>],
 and this trend is expected to continue into the future.</p>
 <p>Given these impacts,
 monitoring drought and extreme precipitation is vital.
 Several quantitative proxies have been developed to aid in this monitoring,
 generally based on
-(a combination of)
+a combination of
 total precipitation, soil moisture, evapotranspiration, and surface (air) temperature.
 Two widely-employed indices are the
 <em>Standardised Precipitation Index (SPI)</em> [<a class="reference external" href="https://climate.colostate.edu/pdfs/relationshipofdroughtfrequency.pdf" rel="noreferrer" target="_blank">McKee+93</a>]
@@ -579,15 +579,14 @@ For example,
 an SPI value of +1 corresponds to a precipitation that is 1 standard deviation above the mean,
 for that site and time frame.
 This probabilistic approach lends itself to statements on the occurrence rate of extreme events [<a class="reference external" href="https://climate.colostate.edu/pdfs/relationshipofdroughtfrequency.pdf" rel="noreferrer" target="_blank">McKee+93</a>].
-SPEI expands on SPI by including not just gains from precipitation, but also losses due to evapo(transpi)ration.
+SPEI expands on SPI by including not just gains from precipitation, but also losses due to evapotranspiration.
 SPI and SPEI can be evaluated over different <em>accumulation periods</em> to probe phenomena at different time scales [<a class="reference external" href="https://doi.org/10.1038/s41597-025-04896-y" rel="noreferrer" target="_blank">Keune+25</a>, <a class="reference external" href="https://drought.emergency.copernicus.eu/data/factsheets/factsheet_spi.pdf" rel="noreferrer" target="_blank">EDO+25</a>]:</p>
 <ul class="simple">
 <li><p>1, 3 months: soil moisture, flow in smaller creeks.</p></li>
 <li><p>6, 12 months: reservoir storage, stream flow.</p></li>
 <li><p>24, 36, 48 months: reservoir and groundwater recharge.</p></li>
 </ul>
-<p>Of course,
-proxies like SPI and SPEI depend on reliable input data in the form of historical meteorological time series.
+<p>Indicators like SPI and SPEI depend on reliable input data in the form of historical meteorological time series.
 Weather stations can provide these data with high accuracy and precision for specific sites,
 but their coverage is sparse and their data are not always interoperable.
 Reanalyses,
@@ -621,9 +620,9 @@ This notebook provides code for reproducing SPI and SPEI from ERA5 data and can 
 <p class="admonition-title">These are the key outcomes of this assessment</p>
 <ul class="simple">
 <li><p>Drought indicators (SPI and SPEI) and quality flags provided in the ERA5–Drought dataset (reanalysis and ensemble) are highly consistent with values calculated from the underpinning ERA5 dataset. The pre-calculated values in ERA5–Drought can be used confidently.</p></li>
-<li><p>For SPI, some differences between ERA5–Drought and the reproduced dataset occur in isolated spikes or in regions that are masked by the included quality flags. These do not affect real-world use cases.</p></li>
+<li><p>For SPI, some differences between ERA5–Drought and the reproduced dataset occur in isolated spikes or in regions that are captured within the included quality flags. These do not affect real-world use cases, but highlight that quality flags should be applied before application of the data.</p></li>
 <li><p>For SPEI, ambiguity in the choice of statistical distribution used is the most likely cause for differences between ERA5–Drought and its reproduction. The same is true for the associated normality quality flag.</p></li>
-<li><p>Users of SPI and SPEI datasets, such as ERA5–Drought, should take note of the underlying assumptions and potential sources of difference between datasets. The quality flags in ERA5–Drought can be used to mask low-quality data.</p></li>
+<li><p>Users of SPI and SPEI datasets, such as ERA5–Drought, should take note of the underlying assumptions and potential sources of difference between datasets. The quality flags in ERA5–Drought should be used to mask low-quality data.</p></li>
 </ul>
 </div>
 </section>
@@ -1863,17 +1862,6 @@ and are © EuroGeographics.</p>
 <span class="c1"># DOMAIN_GLOBAL = ekp.geo.domains.Domain.from_string(&quot;global&quot;, crs=ccrs.Robinson())</span>
 
 <span class="c1"># Visualisation: Helper functions for geospatial plots</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">_spatial_plot_append_subplots</span><span class="p">(</span><span class="n">fig</span><span class="p">:</span> <span class="n">ekp</span><span class="o">.</span><span class="n">Figure</span><span class="p">,</span> <span class="o">*</span><span class="n">data</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AnyDomain</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">ekp</span><span class="o">.</span><span class="n">Subplot</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Plot any number of datasets into new subplots in an existing earthkit figure. &quot;&quot;&quot;</span>
-    <span class="c1"># Create subplots</span>
-    <span class="n">subplots</span> <span class="o">=</span> <span class="p">[</span><span class="n">fig</span><span class="o">.</span><span class="n">add_map</span><span class="p">(</span><span class="n">domain</span><span class="o">=</span><span class="n">domain</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
-
-    <span class="c1"># Plot</span>
-    <span class="k">for</span> <span class="n">subplot</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">subplots</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="n">subplot</span><span class="o">.</span><span class="n">grid_cells</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">subplots</span>
-
 <span class="k">def</span><span class="w"> </span><span class="nf">decorate_fig</span><span class="p">(</span><span class="n">fig</span><span class="p">:</span> <span class="n">ekp</span><span class="o">.</span><span class="n">Figure</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Decorate an earthkit figure with land, coastlines, etc. &quot;&quot;&quot;</span>
     <span class="c1"># Add progress bar because individual steps can be very slow for large plots</span>
@@ -2337,6 +2325,7 @@ Both of these date ranges can be adjusted in the cell below when running the ana
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define your preferred analysis and reference periods</span>
 <span class="n">years</span>           <span class="o">=</span> <span class="p">(</span><span class="mi">1940</span><span class="p">,</span> <span class="mi">2024</span><span class="p">)</span>  <span class="c1"># Years for the analysis (inclusive)</span>
 <span class="n">years_reference</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1991</span><span class="p">,</span> <span class="mi">2020</span><span class="p">)</span>  <span class="c1"># Years for the reference period (inclusive)</span>
+<span class="n">year_snapshot</span>   <span class="o">=</span> <span class="mi">2024</span>          <span class="c1"># Year for example region geospatial analysis</span>
 
 <span class="c1"># Derived variables for convenience:</span>
 <span class="n">reference_window</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">years_reference</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">-01-01&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">years_reference</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">-12-01&quot;</span><span class="p">),}</span>  <span class="c1">#  Slice (1991-01-01, 2020-12-01)</span>
@@ -2363,18 +2352,15 @@ a different site can be chosen when running the notebook yourself by editing the
 <span class="n">example_region_size</span> <span class="o">=</span> <span class="mi">12</span>  <span class="c1"># Degrees to either side of the example side</span>
 <span class="n">label_region</span> <span class="o">=</span> <span class="s2">&quot;Horn of Africa&quot;</span>
 
-<span class="c1"># Define the year for the example region analysis</span>
-<span class="n">snapshot_year</span> <span class="o">=</span> <span class="mi">2024</span>
-
 <span class="c1"># Derived variables for convenience</span>
 <span class="c1"># Example site</span>
 <span class="n">label_site</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">example_site</span><span class="p">[</span><span class="s1">&#39;lat&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> °N, </span><span class="si">{</span><span class="n">example_site</span><span class="p">[</span><span class="s1">&#39;lon&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> °E)&quot;</span>
-<span class="n">request_site</span> <span class="o">=</span> <span class="n">request_data_for_one_site</span><span class="p">(</span><span class="n">lat</span><span class="o">=</span><span class="n">example_site</span><span class="p">[</span><span class="s2">&quot;lat&quot;</span><span class="p">],</span> <span class="n">lon</span><span class="o">=</span><span class="n">example_site</span><span class="p">[</span><span class="s2">&quot;lon&quot;</span><span class="p">])</span>
+<span class="n">request_site</span> <span class="o">=</span> <span class="n">request_data_for_one_site</span><span class="p">(</span><span class="o">**</span><span class="n">example_site</span><span class="p">)</span>
 
 <span class="c1"># Example region</span>
 <span class="n">example_region</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="n">example_site</span><span class="p">[</span><span class="s2">&quot;lat&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">example_region_size</span><span class="p">,</span> <span class="n">example_site</span><span class="p">[</span><span class="s2">&quot;lat&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">example_region_size</span><span class="p">),</span>  <span class="c1"># Decreasing order</span>
                   <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="n">example_site</span><span class="p">[</span><span class="s2">&quot;lon&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">example_region_size</span><span class="p">,</span> <span class="n">example_site</span><span class="p">[</span><span class="s2">&quot;lon&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">example_region_size</span><span class="p">),}</span> <span class="c1"># Increasing order</span>
-<span class="n">request_region</span> <span class="o">=</span> <span class="n">request_data_for_one_site</span><span class="p">(</span><span class="n">lat</span><span class="o">=</span><span class="n">example_site</span><span class="p">[</span><span class="s2">&quot;lat&quot;</span><span class="p">],</span> <span class="n">lon</span><span class="o">=</span><span class="n">example_site</span><span class="p">[</span><span class="s2">&quot;lon&quot;</span><span class="p">],</span> <span class="n">half_width</span><span class="o">=</span><span class="n">example_region_size</span><span class="p">)</span>
+<span class="n">request_region</span> <span class="o">=</span> <span class="n">request_data_for_one_site</span><span class="p">(</span><span class="o">**</span><span class="n">example_site</span><span class="p">,</span> <span class="n">half_width</span><span class="o">=</span><span class="n">example_region_size</span><span class="p">)</span>
 <span class="n">domain_region</span> <span class="o">=</span> <span class="n">ekp</span><span class="o">.</span><span class="n">geo</span><span class="o">.</span><span class="n">domains</span><span class="o">.</span><span class="n">Domain</span><span class="p">(</span>
     <span class="n">bbox</span><span class="o">=</span><span class="p">[</span><span class="n">example_region</span><span class="p">[</span><span class="s2">&quot;lon&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">example_region</span><span class="p">[</span><span class="s2">&quot;lon&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span> <span class="n">example_region</span><span class="p">[</span><span class="s2">&quot;lat&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">example_region</span><span class="p">[</span><span class="s2">&quot;lat&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span><span class="p">],</span>
     <span class="n">name</span><span class="o">=</span><span class="n">label_region</span><span class="p">,</span>
@@ -2445,20 +2431,18 @@ In either case (earthkit-data or cdsapi), it is required to set up a CDS account
 <span class="n">request_era5drought_template</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;1_0&quot;</span><span class="p">,</span>                                <span class="c1"># Current version</span>
     <span class="s2">&quot;dataset_type&quot;</span><span class="p">:</span> <span class="s2">&quot;consolidated_dataset&quot;</span><span class="p">,</span>          <span class="c1"># Only use consolidated data, i.e. not ERA5T-derived</span>
+    <span class="s2">&quot;product_type&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;reanalysis&quot;</span><span class="p">],</span>                  <span class="c1"># Reanalysis by default, can be overridden in ensemble section</span>
     <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="n">MONTHS</span><span class="p">],</span>   <span class="c1"># All calendar months</span>
 <span class="p">}</span>
 
 <span class="c1"># Request for SPI or SPEI data</span>
 <span class="n">request_era5drought_index</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;product_type&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;reanalysis&quot;</span><span class="p">],</span>
     <span class="s2">&quot;accumulation_period&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">ACCUMULATION_PERIODS</span><span class="p">],</span>
     <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">years</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">years</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)],</span>    
 <span class="p">}</span> <span class="o">|</span> <span class="n">request_era5drought_template</span>
 
 <span class="c1"># Request for quality flags</span>
-<span class="n">request_era5drought_flag</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;product_type&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;reanalysis&quot;</span><span class="p">],</span>
-<span class="p">}</span> <span class="o">|</span> <span class="n">request_era5drought_template</span>
+<span class="n">request_era5drought_flag</span> <span class="o">=</span> <span class="n">request_era5drought_template</span>
 
 <span class="c1"># Request for SPI/SPEI ensemble data</span>
 <span class="n">request_era5drought_index_ensemble</span> <span class="o">=</span> <span class="n">request_era5drought_index</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;product_type&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;ensemble_members&quot;</span><span class="p">],}</span>
@@ -12166,7 +12150,7 @@ download SPI from ERA5–Drought for the desired region and time span:</p>
 <span class="n">data_era5_precipitation_region</span> <span class="o">=</span> <span class="n">data_era5_precipitation_preprocessed</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="o">**</span><span class="n">example_region</span><span class="p">)</span>
 
 <span class="c1"># Window in which to evaluate SPI</span>
-<span class="n">evaluation_window</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">snapshot_year</span><span class="si">}</span><span class="s2">-01-01&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">snapshot_year</span><span class="si">}</span><span class="s2">-12-01&quot;</span><span class="p">)}</span>  <span class="c1">#  Slice (2024-01-01, 2024-12-01)</span>
+<span class="n">evaluation_window</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year_snapshot</span><span class="si">}</span><span class="s2">-01-01&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year_snapshot</span><span class="si">}</span><span class="s2">-12-01&quot;</span><span class="p">)}</span>  <span class="c1">#  Slice (2024-01-01, 2024-12-01)</span>
 
 <span class="c1"># Calculate SPI</span>
 <span class="n">spi_reproduced_region</span> <span class="o">=</span> <span class="n">calculate_spi_from_era5</span><span class="p">(</span><span class="n">data_era5_precipitation_region</span><span class="p">,</span> <span class="n">reference_window</span><span class="o">=</span><span class="n">reference_window</span><span class="p">,</span>
@@ -13382,7 +13366,7 @@ Data variables:
 <span class="p">}</span> <span class="o">|</span> <span class="n">request_era5drought_index</span> <span class="o">|</span> <span class="n">request_region</span>
 
 <span class="c1"># Select only desired year</span>
-<span class="n">request_era5drought_spi</span> <span class="o">=</span> <span class="n">request_era5drought_spi</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">snapshot_year</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],}</span>
+<span class="n">request_era5drought_spi</span> <span class="o">=</span> <span class="n">request_era5drought_spi</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year_snapshot</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],}</span>
 
 <span class="c1"># Download data and load into xarray</span>
 <span class="n">spi_era5drought_region</span> <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span><span class="s2">&quot;cds&quot;</span><span class="p">,</span> <span class="n">ID_ERA5_DROUGHT</span><span class="p">,</span> <span class="n">request_era5drought_spi</span><span class="p">)</span>
@@ -14920,7 +14904,7 @@ some of these likely correspond to pixels where quality flags would normally be 
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot geospatial comparison: SPI in one region</span>
-<span class="n">plot_geospatial_comparison</span><span class="p">(</span><span class="n">spi_era5drought_region</span><span class="p">,</span> <span class="n">spi_reproduced_region</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s2">&quot;SPI&quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">snapshot_year</span><span class="si">}</span><span class="s2">-12-01&quot;</span><span class="p">,</span>
+<span class="n">plot_geospatial_comparison</span><span class="p">(</span><span class="n">spi_era5drought_region</span><span class="p">,</span> <span class="n">spi_reproduced_region</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s2">&quot;SPI&quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year_snapshot</span><span class="si">}</span><span class="s2">-12-01&quot;</span><span class="p">,</span>
                            <span class="n">domain</span><span class="o">=</span><span class="n">domain_region</span><span class="p">,</span>
                            <span class="n">glue_label</span><span class="o">=</span><span class="s2">&quot;indicator_derived-drought-historical-monthly_consistency_q01_fig-spi-geospatial&quot;</span><span class="p">)</span>
 </pre></div>
@@ -14946,7 +14930,7 @@ some of these likely correspond to pixels where quality flags would normally be 
 </div>
 <div class="sd-tab-set docutils">
 <input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
-<label class="sd-tab-label" data-sync-group="tab" data-sync-id="geospatial" for="sd-tab-item-2">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="timeseries" for="sd-tab-item-2">
 Geospatial</label><div class="sd-tab-content docutils">
 <figure class="align-default" id="indicator-derived-drought-historical-monthly-consistency-q01-fig-spi-geospatial">
 <img alt="../_images/088f96a424e36c4934ad7a112d97516de92b597eba39d7581aff44b71ca364de.png" src="../_images/088f96a424e36c4934ad7a112d97516de92b597eba39d7581aff44b71ca364de.png" />
@@ -18915,7 +18899,7 @@ following [<a class="reference external" href="https://doi.org/10.1038/s41597-02
 </figure>
 </div>
 <input id="sd-tab-item-5" name="sd-tab-set-2" type="radio">
-<label class="sd-tab-label" data-sync-group="tab" data-sync-id="geospatial" for="sd-tab-item-5">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="timeseries" for="sd-tab-item-5">
 Example region, 1-month</label><div class="sd-tab-content docutils">
 <figure class="align-default" id="indicator-derived-drought-historical-monthly-consistency-q01-fig-spi-p0-region">
 <img alt="../_images/5c3cf330b8c286231a14d66722b8381f9265c1e36eb0de3776cd83414be60a95.png" src="../_images/5c3cf330b8c286231a14d66722b8381f9265c1e36eb0de3776cd83414be60a95.png" />
@@ -21569,7 +21553,7 @@ The mask provided with ERA5–Drought can be used confidently to mask correspond
 </div>
 <div class="sd-tab-set docutils">
 <input checked="checked" id="sd-tab-item-6" name="sd-tab-set-3" type="radio">
-<label class="sd-tab-label" data-sync-group="tab" data-sync-id="geospatial" for="sd-tab-item-6">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="timeseries" for="sd-tab-item-6">
 SPI-1</label><div class="sd-tab-content docutils">
 <figure class="align-default" id="indicator-derived-drought-historical-monthly-consistency-q01-fig-spi-normality-region-spi1">
 <img alt="../_images/b6b8f73fb62122783d14f3f1fe9d45c46dc011644e447a2efe71b2c8f8242005.png" src="../_images/b6b8f73fb62122783d14f3f1fe9d45c46dc011644e447a2efe71b2c8f8242005.png" />
@@ -27432,7 +27416,7 @@ download SPEI from ERA5–Drought for the desired region and time span:</p>
 <span class="n">data_era5_waterbalance_region</span> <span class="o">=</span> <span class="n">data_era5_waterbalance_preprocessed</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="o">**</span><span class="n">example_region</span><span class="p">)</span>
 
 <span class="c1"># Window in which to evaluate SPI</span>
-<span class="n">evaluation_window</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">snapshot_year</span><span class="si">}</span><span class="s2">-01-01&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">snapshot_year</span><span class="si">}</span><span class="s2">-12-01&quot;</span><span class="p">)}</span>  <span class="c1">#  Slice (2024-01-01, 2024-12-01)</span>
+<span class="n">evaluation_window</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year_snapshot</span><span class="si">}</span><span class="s2">-01-01&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year_snapshot</span><span class="si">}</span><span class="s2">-12-01&quot;</span><span class="p">)}</span>  <span class="c1">#  Slice (2024-01-01, 2024-12-01)</span>
 
 <span class="c1"># Calculate SPI</span>
 <span class="n">spei_reproduced_region</span> <span class="o">=</span> <span class="n">calculate_spei_from_era5</span><span class="p">(</span><span class="n">data_era5_waterbalance_region</span><span class="p">,</span> <span class="n">reference_window</span><span class="o">=</span><span class="n">reference_window</span><span class="p">,</span>
@@ -28648,7 +28632,7 @@ Data variables:
 <span class="p">}</span> <span class="o">|</span> <span class="n">request_era5drought_index</span> <span class="o">|</span> <span class="n">request_region</span>
 
 <span class="c1"># Select only desired year</span>
-<span class="n">request_era5drought_spei</span> <span class="o">=</span> <span class="n">request_era5drought_spei</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">snapshot_year</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],}</span>
+<span class="n">request_era5drought_spei</span> <span class="o">=</span> <span class="n">request_era5drought_spei</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year_snapshot</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],}</span>
 
 <span class="c1"># Download data and load into xarray</span>
 <span class="n">spei_era5drought_region</span> <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span><span class="s2">&quot;cds&quot;</span><span class="p">,</span> <span class="n">ID_ERA5_DROUGHT</span><span class="p">,</span> <span class="n">request_era5drought_spei</span><span class="p">)</span>
@@ -30170,7 +30154,7 @@ and tend not to affect the resulting classification
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_geospatial_comparison</span><span class="p">(</span><span class="n">spei_era5drought_region</span><span class="p">,</span> <span class="n">spei_reproduced_region</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s2">&quot;SPEI&quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">snapshot_year</span><span class="si">}</span><span class="s2">-12-01&quot;</span><span class="p">,</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_geospatial_comparison</span><span class="p">(</span><span class="n">spei_era5drought_region</span><span class="p">,</span> <span class="n">spei_reproduced_region</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s2">&quot;SPEI&quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year_snapshot</span><span class="si">}</span><span class="s2">-12-01&quot;</span><span class="p">,</span>
                            <span class="n">domain</span><span class="o">=</span><span class="n">domain_region</span><span class="p">,</span>
                            <span class="n">glue_label</span><span class="o">=</span><span class="s2">&quot;indicator_derived-drought-historical-monthly_consistency_q01_fig-spei-geospatial&quot;</span><span class="p">)</span>
 </pre></div>
@@ -30196,7 +30180,7 @@ and tend not to affect the resulting classification
 </div>
 <div class="sd-tab-set docutils">
 <input checked="checked" id="sd-tab-item-10" name="sd-tab-set-5" type="radio">
-<label class="sd-tab-label" data-sync-group="tab" data-sync-id="geospatial" for="sd-tab-item-10">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="timeseries" for="sd-tab-item-10">
 Geospatial</label><div class="sd-tab-content docutils">
 <figure class="align-default" id="indicator-derived-drought-historical-monthly-consistency-q01-fig-spei-geospatial">
 <img alt="../_images/45c0757268652a05ced4a2f380c698302b1efaddc54ad022a9f1b8ef907d2570.png" src="../_images/45c0757268652a05ced4a2f380c698302b1efaddc54ad022a9f1b8ef907d2570.png" />
@@ -32853,7 +32837,7 @@ they tend to either both pass or both fail the normality test.</p>
 </div>
 <div class="sd-tab-set docutils">
 <input checked="checked" id="sd-tab-item-12" name="sd-tab-set-6" type="radio">
-<label class="sd-tab-label" data-sync-group="tab" data-sync-id="geospatial" for="sd-tab-item-12">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="timeseries" for="sd-tab-item-12">
 SPEI-1</label><div class="sd-tab-content docutils">
 <figure class="align-default" id="indicator-derived-drought-historical-monthly-consistency-q01-fig-spei-normality-region-spei1">
 <img alt="../_images/cda4c718389ad012a415e4f16170ebc4dbdb0164911445eb0ee305e52db5d469.png" src="../_images/cda4c718389ad012a415e4f16170ebc4dbdb0164911445eb0ee305e52db5d469.png" />
