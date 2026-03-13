@@ -521,7 +521,7 @@ Here, the goal is to evaluate how accurately the Ocean Colour products can ident
 <p class="admonition-title">These are the key outcomes of this assessment</p>
 <ul class="simple">
 <li><p>The Ocean Colour dataset version 6.0 enables the calculation of two satellite-derived indicators for <em>Karenia brevis</em> detection on the West Florida Shelf: chlorophyll anomaly (chl_anom) and particulate backscattering ratio at 560 nm (bbp_560_ratio).</p></li>
-<li><p>The satellite-derived indicators maintain stable performance from 2000 to 2024, with an average total accuracy above 60% relative to <em>in situ</em> observations, confirming the dataset as a robust tool for long-term monitoring.</p></li>
+<li><p>The satellite-derived indicators maintain stable performance from 2000 to 2024, with an average total accuracy above 63% relative to <em>in situ</em> observations, confirming the dataset as a robust tool for long-term monitoring.</p></li>
 <li><p>The two indicators show different sensitivities to bloom conditions: chl_anom provides the highest HAB detection accuracy, whereas bbp_560_ratio is more susceptible to interference from non-algal particles in coastal waters.</p></li>
 <li><p>While both satellite-derived indicators generally agree, particularly in identifying non-bloom conditions, disagreements occur when optical signals are weak or optical coastal complexity is high.</p></li>
 <li><p>Combining the two satellite-derived indicators reduces false positive blooms and improves the overall accuracy, but increases missed detections (false negative) by excluding bloom identified by only a single indicator, illustrating the limitations of fixed thresholds.</p></li>
@@ -824,7 +824,7 @@ First, a spatio-temporal binning is applied by averaging all <em>in situ</em> sa
 <section id="computation-of-satellite-derived-indicators-of-k-brevis-habs">
 <h4>Computation of satellite-derived indicators of <em>K. brevis</em> HABs<a class="headerlink" href="#computation-of-satellite-derived-indicators-of-k-brevis-habs" title="Link to this heading">#</a></h4>
 <p>Two satellite-derived <em>K. brevis</em> HAB indicators are computed for each satellite-<em>in situ</em> pair: chl_anom and bbp_560_ratio.<br />
-The function <code class="docutils literal notranslate"><span class="pre">get_dynamic_baseline</span></code> is defined to calculate the mean chlor_a from the nearest satellite pixel to the <em>in situ</em> sampling location over a 2-month period ending 2 weeks before the sampling date, and the chl_anom is calculated by subtracting this baseline from the chlor_a observed on the date of the pair, following <a class="reference external" href="https://doi.org/10.1016/S1568-9883%2802%2900083-5" rel="noreferrer" target="_blank">[8]</a>.<br />
+The function <code class="docutils literal notranslate"><span class="pre">get_dynamic_baseline</span></code> is defined to calculate the mean chlor_a from the nearest satellite pixel to the <em>in situ</em> sampling location over a 2-month period ending 2 weeks before the sampling date, and the chl_anom is calculated by subtracting this baseline from the chlor_a observed on the date of the pair, following <a class="reference external" href="https://doi.org/10.1016/S1568-9883%2802%2900083-5" rel="noreferrer" target="_blank">[8]</a>. Note that chlor_a averages are computed using log-transformed daily data, and then unlogged <a class="reference external" href="https://doi.org/10.1029/95JC00458" rel="noreferrer" target="_blank">[14]</a>.<br />
 The bbp_560_ratio is computed by adapting the equation for bbp ratio at 555 nm from <a class="reference external" href="https://doi.org/10.1016/j.rse.2008.11.003" rel="noreferrer" target="_blank">[9]</a>. This approach relies on the same assumption made by <a class="reference external" href="https://doi.org/10.1016/j.rse.2008.11.003" rel="noreferrer" target="_blank">[9]</a>, namely that the difference between Rrs at 555 nm and Rrs at 560 nm is negligible, and is motivated by the fact that Rrs at 555 nm is not available in the Ocean Colour dataset. The bbp_560_ratio is calculated as: <span class="math notranslate nohighlight">\((-0.00182+2.058⋅Rrs\_560)/((0.3⋅chl^{0.62})⋅(0.002+0.02⋅(0.5-0.25⋅log_{10}chl)))\)</span>, where Rrs_560 and chl are the satellite data corresponding to each satellite-<em>in situ</em> pair.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
@@ -837,26 +837,37 @@ The bbp_560_ratio is computed by adapting the equation for bbp ratio at 555 nm f
     <span class="c1"># Define the 60-day window ending 14 days before the event</span>
     <span class="n">sample_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;sample_date&quot;</span><span class="p">])</span>
     <span class="n">end_baseline</span> <span class="o">=</span> <span class="n">sample_time</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">)</span>
-    <span class="n">start_baseline</span> <span class="o">=</span> <span class="n">sample_time</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">74</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">)</span>    
-    <span class="c1"># Select the nearest spatial pixel first</span>
-    <span class="n">pixel_ts</span> <span class="o">=</span> <span class="n">full_dataset</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span>
-        <span class="n">latitude</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;lat&quot;</span><span class="p">],</span> 
-        <span class="n">longitude</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;lon&quot;</span><span class="p">],</span> 
-        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">region</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>    
-    <span class="c1"># Slice the time range from that specific pixel&#39;s time series</span>
-    <span class="n">baseline_window</span> <span class="o">=</span> <span class="n">pixel_ts</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">start_baseline</span><span class="p">,</span> <span class="n">end_baseline</span><span class="p">))</span>    
-    <span class="c1"># Return the mean chlorophyll for that window</span>
-    <span class="n">mean_val</span> <span class="o">=</span> <span class="n">baseline_window</span><span class="o">.</span><span class="n">chlor_a</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> 
-    <span class="k">return</span> <span class="n">mean_val</span>
-    
+    <span class="n">start_baseline</span> <span class="o">=</span> <span class="n">sample_time</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">74</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">)</span>        
+    <span class="c1"># Select the nearest spatial pixel from the xarray dataset</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">pixel_ts</span> <span class="o">=</span> <span class="n">full_dataset</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span>
+            <span class="n">latitude</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;lat&quot;</span><span class="p">],</span> 
+            <span class="n">longitude</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;lon&quot;</span><span class="p">],</span> 
+            <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">region</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>            
+        <span class="c1"># Slice the time range for the baseline window</span>
+        <span class="n">baseline_window</span> <span class="o">=</span> <span class="n">pixel_ts</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">start_baseline</span><span class="p">,</span> <span class="n">end_baseline</span><span class="p">))</span>            
+        <span class="c1"># Extract chlor_a values and remove NaNs</span>
+        <span class="n">chl_values</span> <span class="o">=</span> <span class="n">baseline_window</span><span class="o">.</span><span class="n">chlor_a</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">chl_values</span> <span class="o">=</span> <span class="n">chl_values</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">chl_values</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">chl_values</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="n">chl_values</span> <span class="o">=</span> <span class="n">chl_values</span><span class="p">[</span><span class="n">chl_values</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">chl_values</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>            
+        <span class="n">log_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">chl_values</span><span class="p">))</span>
+        <span class="n">mean_val</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">log_mean</span>         
+        <span class="k">return</span> <span class="n">mean_val</span>    
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
 <span class="c1"># Calculate the moving baseline</span>
 <span class="n">matched_df</span><span class="p">[</span><span class="s1">&#39;chl_baseline&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">matched_df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">get_dynamic_baseline</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">ds_sat</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="c1"># Calculate Chlorophyll Anomaly</span>
 <span class="n">matched_df</span><span class="p">[</span><span class="s1">&#39;chl_anomaly&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">matched_df</span><span class="p">[</span><span class="s1">&#39;sat_chlor_a&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">matched_df</span><span class="p">[</span><span class="s1">&#39;chl_baseline&#39;</span><span class="p">]</span>
 
-<span class="c1"># Calculate bbp_560_ratio</span>
+<span class="c1"># 3. Calculate bbp_560_ratio</span>
 <span class="n">chl</span> <span class="o">=</span> <span class="n">matched_df</span><span class="p">[</span><span class="s1">&#39;sat_chlor_a&#39;</span><span class="p">]</span>
 <span class="n">rrs</span> <span class="o">=</span> <span class="n">matched_df</span><span class="p">[</span><span class="s1">&#39;sat_Rrs_560&#39;</span><span class="p">]</span>
 <span class="n">numerator</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.00182</span> <span class="o">+</span> <span class="p">(</span><span class="mf">2.058</span> <span class="o">*</span> <span class="n">rrs</span><span class="p">)</span>
@@ -1118,95 +1129,95 @@ Furthermore, a cross-comparison is performed to evaluate the consistency between
 </details>
 <div class="cell_output docutils container">
 <div class="output text_html"><h3>Table 1: Satellite-in situ match-up counts</h3></div><div class="output text_html"><style type="text/css">
-#T_e11ed th {
+#T_b0c56 th {
   text-align: center;
   background-color: 2px solid #ccc;
 }
-#T_e11ed tr:nth-child(5) {
+#T_b0c56 tr:nth-child(5) {
   text-align: center;
   border-top: 2px solid #ccc;
 }
-#T_e11ed tr:nth-child(7) {
+#T_b0c56 tr:nth-child(7) {
   text-align: center;
   border-top: 2px solid #ccc;
 }
 </style>
-<table id="T_e11ed">
+<table id="T_b0c56">
   <thead>
     <tr>
       <th class="blank level0" >&nbsp;</th>
-      <th id="T_e11ed_level0_col0" class="col_heading level0 col0" colspan="3">Satellite-derived indicator (counts):</th>
+      <th id="T_b0c56_level0_col0" class="col_heading level0 col0" colspan="3">Satellite-derived indicator (counts):</th>
     </tr>
     <tr>
       <th class="blank level1" >&nbsp;</th>
-      <th id="T_e11ed_level1_col0" class="col_heading level1 col0" >chl_anom</th>
-      <th id="T_e11ed_level1_col1" class="col_heading level1 col1" >bbp_560_ratio</th>
-      <th id="T_e11ed_level1_col2" class="col_heading level1 col2" >Combined (AND)</th>
+      <th id="T_b0c56_level1_col0" class="col_heading level1 col0" >chl_anom</th>
+      <th id="T_b0c56_level1_col1" class="col_heading level1 col1" >bbp_560_ratio</th>
+      <th id="T_b0c56_level1_col2" class="col_heading level1 col2" >Combined (AND)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th id="T_e11ed_level0_row0" class="row_heading level0 row0" >True Positive (TP)</th>
-      <td id="T_e11ed_row0_col0" class="data row0 col0" >410</td>
-      <td id="T_e11ed_row0_col1" class="data row0 col1" >352</td>
-      <td id="T_e11ed_row0_col2" class="data row0 col2" >154</td>
+      <th id="T_b0c56_level0_row0" class="row_heading level0 row0" >True Positive (TP)</th>
+      <td id="T_b0c56_row0_col0" class="data row0 col0" >468</td>
+      <td id="T_b0c56_row0_col1" class="data row0 col1" >352</td>
+      <td id="T_b0c56_row0_col2" class="data row0 col2" >188</td>
     </tr>
     <tr>
-      <th id="T_e11ed_level0_row1" class="row_heading level0 row1" >True Negative (TN)</th>
-      <td id="T_e11ed_row1_col0" class="data row1 col0" >2319</td>
-      <td id="T_e11ed_row1_col1" class="data row1 col1" >2117</td>
-      <td id="T_e11ed_row1_col2" class="data row1 col2" >2601</td>
+      <th id="T_b0c56_level0_row1" class="row_heading level0 row1" >True Negative (TN)</th>
+      <td id="T_b0c56_row1_col0" class="data row1 col0" >2200</td>
+      <td id="T_b0c56_row1_col1" class="data row1 col1" >2117</td>
+      <td id="T_b0c56_row1_col2" class="data row1 col2" >2527</td>
     </tr>
     <tr>
-      <th id="T_e11ed_level0_row2" class="row_heading level0 row2" >False Positive (FP)</th>
-      <td id="T_e11ed_row2_col0" class="data row2 col0" >512</td>
-      <td id="T_e11ed_row2_col1" class="data row2 col1" >714</td>
-      <td id="T_e11ed_row2_col2" class="data row2 col2" >230</td>
+      <th id="T_b0c56_level0_row2" class="row_heading level0 row2" >False Positive (FP)</th>
+      <td id="T_b0c56_row2_col0" class="data row2 col0" >631</td>
+      <td id="T_b0c56_row2_col1" class="data row2 col1" >714</td>
+      <td id="T_b0c56_row2_col2" class="data row2 col2" >304</td>
     </tr>
     <tr>
-      <th id="T_e11ed_level0_row3" class="row_heading level0 row3" >False Negative (FN)</th>
-      <td id="T_e11ed_row3_col0" class="data row3 col0" >625</td>
-      <td id="T_e11ed_row3_col1" class="data row3 col1" >683</td>
-      <td id="T_e11ed_row3_col2" class="data row3 col2" >881</td>
+      <th id="T_b0c56_level0_row3" class="row_heading level0 row3" >False Negative (FN)</th>
+      <td id="T_b0c56_row3_col0" class="data row3 col0" >567</td>
+      <td id="T_b0c56_row3_col1" class="data row3 col1" >683</td>
+      <td id="T_b0c56_row3_col2" class="data row3 col2" >847</td>
     </tr>
     <tr>
-      <th id="T_e11ed_level0_row4" class="row_heading level0 row4" >Correctly Classified</th>
-      <td id="T_e11ed_row4_col0" class="data row4 col0" >2729</td>
-      <td id="T_e11ed_row4_col1" class="data row4 col1" >2469</td>
-      <td id="T_e11ed_row4_col2" class="data row4 col2" >2755</td>
+      <th id="T_b0c56_level0_row4" class="row_heading level0 row4" >Correctly Classified</th>
+      <td id="T_b0c56_row4_col0" class="data row4 col0" >2668</td>
+      <td id="T_b0c56_row4_col1" class="data row4 col1" >2469</td>
+      <td id="T_b0c56_row4_col2" class="data row4 col2" >2715</td>
     </tr>
     <tr>
-      <th id="T_e11ed_level0_row5" class="row_heading level0 row5" >Incorrectly Classified</th>
-      <td id="T_e11ed_row5_col0" class="data row5 col0" >1137</td>
-      <td id="T_e11ed_row5_col1" class="data row5 col1" >1397</td>
-      <td id="T_e11ed_row5_col2" class="data row5 col2" >1111</td>
+      <th id="T_b0c56_level0_row5" class="row_heading level0 row5" >Incorrectly Classified</th>
+      <td id="T_b0c56_row5_col0" class="data row5 col0" >1198</td>
+      <td id="T_b0c56_row5_col1" class="data row5 col1" >1397</td>
+      <td id="T_b0c56_row5_col2" class="data row5 col2" >1151</td>
     </tr>
     <tr>
-      <th id="T_e11ed_level0_row6" class="row_heading level0 row6" >Total</th>
-      <td id="T_e11ed_row6_col0" class="data row6 col0" >3866</td>
-      <td id="T_e11ed_row6_col1" class="data row6 col1" >3866</td>
-      <td id="T_e11ed_row6_col2" class="data row6 col2" >3866</td>
+      <th id="T_b0c56_level0_row6" class="row_heading level0 row6" >Total</th>
+      <td id="T_b0c56_row6_col0" class="data row6 col0" >3866</td>
+      <td id="T_b0c56_row6_col1" class="data row6 col1" >3866</td>
+      <td id="T_b0c56_row6_col2" class="data row6 col2" >3866</td>
     </tr>
   </tbody>
 </table>
 </div><div class="output text_html"><h3 style='margin-top: 50px; margin-bottom: 10px;'>Table 2: Accuracy Percentage Comparison</h3></div><div class="output text_html"><style type="text/css">
-#T_f6d70 th {
+#T_c54ac th {
   background-color: #4CAF50;
   color: white;
   text-align: center;
 }
-#T_f6d70 td {
+#T_c54ac td {
   text-align: center;
   padding: 8px;
 }
 </style>
-<table id="T_f6d70">
+<table id="T_c54ac">
   <thead>
     <tr>
       <th class="blank level0" >&nbsp;</th>
-      <th id="T_f6d70_level0_col0" class="col_heading level0 col0" >HAB Accuracy (%)</th>
-      <th id="T_f6d70_level0_col1" class="col_heading level0 col1" >non-HAB Accuracy (%)</th>
-      <th id="T_f6d70_level0_col2" class="col_heading level0 col2" >Total Accuracy (%)</th>
+      <th id="T_c54ac_level0_col0" class="col_heading level0 col0" >HAB Accuracy (%)</th>
+      <th id="T_c54ac_level0_col1" class="col_heading level0 col1" >non-HAB Accuracy (%)</th>
+      <th id="T_c54ac_level0_col2" class="col_heading level0 col2" >Total Accuracy (%)</th>
     </tr>
     <tr>
       <th class="index_name level0" >Indicator</th>
@@ -1217,79 +1228,79 @@ Furthermore, a cross-comparison is performed to evaluate the consistency between
   </thead>
   <tbody>
     <tr>
-      <th id="T_f6d70_level0_row0" class="row_heading level0 row0" >chl_anom</th>
-      <td id="T_f6d70_row0_col0" class="data row0 col0" >44.5%</td>
-      <td id="T_f6d70_row0_col1" class="data row0 col1" >78.8%</td>
-      <td id="T_f6d70_row0_col2" class="data row0 col2" >70.6%</td>
+      <th id="T_c54ac_level0_row0" class="row_heading level0 row0" >chl_anom</th>
+      <td id="T_c54ac_row0_col0" class="data row0 col0" >42.6%</td>
+      <td id="T_c54ac_row0_col1" class="data row0 col1" >79.5%</td>
+      <td id="T_c54ac_row0_col2" class="data row0 col2" >69.0%</td>
     </tr>
     <tr>
-      <th id="T_f6d70_level0_row1" class="row_heading level0 row1" >bbp_560_ratio</th>
-      <td id="T_f6d70_row1_col0" class="data row1 col0" >33.0%</td>
-      <td id="T_f6d70_row1_col1" class="data row1 col1" >75.6%</td>
-      <td id="T_f6d70_row1_col2" class="data row1 col2" >63.9%</td>
+      <th id="T_c54ac_level0_row1" class="row_heading level0 row1" >bbp_560_ratio</th>
+      <td id="T_c54ac_row1_col0" class="data row1 col0" >33.0%</td>
+      <td id="T_c54ac_row1_col1" class="data row1 col1" >75.6%</td>
+      <td id="T_c54ac_row1_col2" class="data row1 col2" >63.9%</td>
     </tr>
     <tr>
-      <th id="T_f6d70_level0_row2" class="row_heading level0 row2" >Combined (AND)</th>
-      <td id="T_f6d70_row2_col0" class="data row2 col0" >40.1%</td>
-      <td id="T_f6d70_row2_col1" class="data row2 col1" >74.7%</td>
-      <td id="T_f6d70_row2_col2" class="data row2 col2" >71.3%</td>
+      <th id="T_c54ac_level0_row2" class="row_heading level0 row2" >Combined (AND)</th>
+      <td id="T_c54ac_row2_col0" class="data row2 col0" >38.2%</td>
+      <td id="T_c54ac_row2_col1" class="data row2 col1" >74.9%</td>
+      <td id="T_c54ac_row2_col2" class="data row2 col2" >70.2%</td>
     </tr>
   </tbody>
 </table>
 </div><div class="output text_html"><h3 style='margin-top: 50px; margin-bottom: 10px;'>Table 3: Inter-Algorithm Agreement (chl_anom vs. bbp_560_ratio)</h3></div><div class="output text_html"><style type="text/css">
-#T_3243d th {
+#T_9d7b9 th {
   text-align: center;
   background-color: #01579B;
   color: white;
 }
-#T_3243d tr:nth-child(5) {
+#T_9d7b9 tr:nth-child(5) {
   text-align: center;
   border-top: 2px solid #333;
   font-weight: bold;
 }
-#T_3243d td {
+#T_9d7b9 td {
   text-align: center;
   padding: 10px;
 }
 </style>
-<table id="T_3243d">
+<table id="T_9d7b9">
   <thead>
     <tr>
-      <th id="T_3243d_level0_col0" class="col_heading level0 col0" >Agreement type</th>
-      <th id="T_3243d_level0_col1" class="col_heading level0 col1" >Count</th>
-      <th id="T_3243d_level0_col2" class="col_heading level0 col2" >Percentage (%)</th>
+      <th id="T_9d7b9_level0_col0" class="col_heading level0 col0" >Agreement type</th>
+      <th id="T_9d7b9_level0_col1" class="col_heading level0 col1" >Count</th>
+      <th id="T_9d7b9_level0_col2" class="col_heading level0 col2" >Percentage (%)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td id="T_3243d_row0_col0" class="data row0 col0" >Agreement (HAB)</td>
-      <td id="T_3243d_row0_col1" class="data row0 col1" >384</td>
-      <td id="T_3243d_row0_col2" class="data row0 col2" >9.9%</td>
+      <td id="T_9d7b9_row0_col0" class="data row0 col0" >Agreement (HAB)</td>
+      <td id="T_9d7b9_row0_col1" class="data row0 col1" >492</td>
+      <td id="T_9d7b9_row0_col2" class="data row0 col2" >12.7%</td>
     </tr>
     <tr>
-      <td id="T_3243d_row1_col0" class="data row1 col0" >Agreement (no-HAB)</td>
-      <td id="T_3243d_row1_col1" class="data row1 col1" >2262</td>
-      <td id="T_3243d_row1_col2" class="data row1 col2" >58.5%</td>
+      <td id="T_9d7b9_row1_col0" class="data row1 col0" >Agreement (no-HAB)</td>
+      <td id="T_9d7b9_row1_col1" class="data row1 col1" >2193</td>
+      <td id="T_9d7b9_row1_col2" class="data row1 col2" >56.7%</td>
     </tr>
     <tr>
-      <td id="T_3243d_row2_col0" class="data row2 col0" >Disagreement (chl_anom: HAB, bbp_560_ratio: no-HAB)</td>
-      <td id="T_3243d_row2_col1" class="data row2 col1" >538</td>
-      <td id="T_3243d_row2_col2" class="data row2 col2" >13.9%</td>
+      <td id="T_9d7b9_row2_col0" class="data row2 col0" >Disagreement (chl_anom: HAB, bbp_560_ratio: no-HAB)</td>
+      <td id="T_9d7b9_row2_col1" class="data row2 col1" >607</td>
+      <td id="T_9d7b9_row2_col2" class="data row2 col2" >15.7%</td>
     </tr>
     <tr>
-      <td id="T_3243d_row3_col0" class="data row3 col0" >Disagreement (chl_anom: no-HAB, bbp_560_ratio: HAB)</td>
-      <td id="T_3243d_row3_col1" class="data row3 col1" >682</td>
-      <td id="T_3243d_row3_col2" class="data row3 col2" >17.6%</td>
+      <td id="T_9d7b9_row3_col0" class="data row3 col0" >Disagreement (chl_anom: no-HAB, bbp_560_ratio: HAB)</td>
+      <td id="T_9d7b9_row3_col1" class="data row3 col1" >574</td>
+      <td id="T_9d7b9_row3_col2" class="data row3 col2" >14.8%</td>
     </tr>
     <tr>
-      <td id="T_3243d_row4_col0" class="data row4 col0" >Overall Agreement</td>
-      <td id="T_3243d_row4_col1" class="data row4 col1" >2646</td>
-      <td id="T_3243d_row4_col2" class="data row4 col2" >68.4%</td>
+      <td id="T_9d7b9_row4_col0" class="data row4 col0" >Overall Agreement</td>
+      <td id="T_9d7b9_row4_col1" class="data row4 col1" >2685</td>
+      <td id="T_9d7b9_row4_col2" class="data row4 col2" >69.5%</td>
     </tr>
   </tbody>
 </table>
-</div><div class="output text_html"><br><br></div><img alt="../../_images/2b8ec95d40869ebc0b1661f499c77d99fc505e7e9e9b1be43c991428de1010c3.png" src="../../_images/2b8ec95d40869ebc0b1661f499c77d99fc505e7e9e9b1be43c991428de1010c3.png" />
-<div class="output text_html"><br><br></div><img alt="../../_images/642f458309401ea909d02065336944b2cdef0b26553e602b63acb3631cccc0e9.png" src="../../_images/642f458309401ea909d02065336944b2cdef0b26553e602b63acb3631cccc0e9.png" />
+</div><div class="output text_html"><br><br></div><img alt="../../_images/16b55e58269d6e85a2164cc1206a7b726445542a72475ee7fff6fd5f6a5a1124.png" src="../../_images/16b55e58269d6e85a2164cc1206a7b726445542a72475ee7fff6fd5f6a5a1124.png" />
+<div class="output text_html"><br><br></div><img alt="../../_images/9561af33a5ff9d0155a2873623059fba8edec5e9cbecd5d9ec1a6e411e8759aa.png" src="../../_images/9561af33a5ff9d0155a2873623059fba8edec5e9cbecd5d9ec1a6e411e8759aa.png" />
 </div>
 </div>
 </section>
@@ -1297,7 +1308,7 @@ Furthermore, a cross-comparison is performed to evaluate the consistency between
 <h4>Discussion<a class="headerlink" href="#discussion" title="Link to this heading">#</a></h4>
 <section id="performance-of-individual-satellite-indicators">
 <h5>Performance of individual satellite indicators<a class="headerlink" href="#performance-of-individual-satellite-indicators" title="Link to this heading">#</a></h5>
-<p>According to Table 1 and Table 2, chl_anom emerges as the most sensitive individual satellite indicator, achieving the highest HAB detection accuracy (44.5%) and a total accuracy of 70.6%. While it correctly identifies 410 true positive cases, the results reveal a significant number of false positives (512) and false negatives (625). These errors suggest that although chl_anom is a useful indicator for bloom conditions, the application of a fixed threshold applied over two decades may not fully account for the natural baseline variability in the region, often flagging non-HAB biomass or missing lower-density blooms.<br />
+<p>According to Table 1 and Table 2, chl_anom emerges as the most sensitive individual satellite indicator, achieving the highest HAB detection accuracy (42.6%) and a total accuracy of 69.0%. While it correctly identifies 468 true positive cases, the results reveal a significant number of false positives (613) and false negatives (567). These errors suggest that although chl_anom is a useful indicator for bloom conditions, the application of a fixed threshold applied over two decades may not fully account for the natural baseline variability in the region, often flagging non-HAB biomass or missing lower-density blooms.<br />
 The bbp_560_ratio shows relatively lower overall performance, with a total accuracy of 63.9%. It also has the lowest HAB detection accuracy among the tested methods (33.0%)and produces the highest number of both false positives and false negatives (714 and 683, respectively). This indicates that the optical signature of bbp_560_ratio, intended to highlight the low-backscattering nature of <em>K. brevis</em> <a class="reference external" href="https://doi.org/10.1016/j.rse.2008.11.003" rel="noreferrer" target="_blank">[9]</a>, is frequently confounded by other marine constituents. In the optically complex waters of the WFS, non-algal particles (e.g., suspended sediments) and co-occurring phytoplaknton species likely mask the specific backscattering signal of <em>K. brevis</em> <a class="reference external" href="https://doi.org/10.1016/j.rse.2008.11.003" rel="noreferrer" target="_blank">[9]</a>, leading both to false alarms when non-HAB particles mimic the specific backscattering ratio and to missed detections when the <em>K. brevis</em> signal is not optically dominant.</p>
 </section>
 <section id="temporal-stability-of-detection-performance">
@@ -1307,7 +1318,7 @@ The analysis also indicates that chl_anom acts as a more conservative indicator 
 </section>
 <section id="agreement-between-satellite-indicators">
 <h5>Agreement between satellite indicators<a class="headerlink" href="#agreement-between-satellite-indicators" title="Link to this heading">#</a></h5>
-<p>To determine whether the two different physical signals (i.e., chl concentration and particle backscattering) converge on the same biological signal over the long term, the agreement between the two satellite indicators is examined. Results summarised in Table 3 indicate an overall agreement of 68.4%, which suggests that the algorithms largely detect the same bloom-related optical signals across different sensor technologies and varying environmental conditions. Most of this agreement is driven by the dominance of clear-water conditions (58.5%), confirming the ability of the dataset in identifying non-HAB conditions (Table 2). The active bloom agreement (9.9%) highlights the most robust detections, where the <em>K. brevis</em> signal is strong enough to trigger both indicators simultaneously. These cases therefore represent the highest-confidence satellite detections in the records. Results also indicate that the two indicators diverge in the 31.6% of the cases. This decoupling likely reflects biological processes (e.g., vertical migration <a class="reference external" href="https://doi.org/10.1016/j.hal.2022.102289" rel="noreferrer" target="_blank">[11]</a>) and/or the presence of optically active constituents (e.g., suspended matter; <a class="reference external" href="https://doi.org/10.1016/j.rse.2008.11.003" rel="noreferrer" target="_blank">[9]</a>), which modify the pigment-to-backscattering ratio. Additionally, a threshold effect likely contributes to this disagreement. Indeed, when a bloom falls below the detection limit of one indicator, the other may still detect it. These decoupled cases highlight the complementary nature of the two indicators and suggest that relying on a single indicator would result in missing nearly a third of the biological activity detected when both indicators are active.</p>
+<p>To determine whether the two different physical signals (i.e., chl concentration and particle backscattering) converge on the same biological signal over the long term, the agreement between the two satellite indicators is examined. Results summarised in Table 3 indicate an overall agreement of 69.5%, which suggests that the algorithms largely detect the same bloom-related optical signals across different sensor technologies and varying environmental conditions. Most of this agreement is driven by the dominance of clear-water conditions (56.7%), confirming the ability of the dataset in identifying non-HAB conditions (Tables 1 and 2). The active bloom agreement (12.7%) highlights the most robust detections, where the <em>K. brevis</em> signal is strong enough to trigger both indicators simultaneously. These cases therefore represent the highest-confidence satellite detections in the records. Results also indicate that the two indicators diverge in the 30.5% of the cases. This decoupling likely reflects biological processes (e.g., vertical migration <a class="reference external" href="https://doi.org/10.1016/j.hal.2022.102289" rel="noreferrer" target="_blank">[11]</a>) and/or the presence of optically active constituents (e.g., suspended matter; <a class="reference external" href="https://doi.org/10.1016/j.rse.2008.11.003" rel="noreferrer" target="_blank">[9]</a>), which modify the pigment-to-backscattering ratio. Additionally, a threshold effect likely contributes to this disagreement. Indeed, when a bloom falls below the detection limit of one indicator, the other may still detect it. These decoupled cases highlight the complementary nature of the two indicators and suggest that relying on a single indicator would result in missing nearly a third of the biological activity detected when both indicators are active.</p>
 </section>
 <section id="spatial-patterns-of-detection-performance">
 <h5>Spatial patterns of detection performance<a class="headerlink" href="#spatial-patterns-of-detection-performance" title="Link to this heading">#</a></h5>
@@ -1315,8 +1326,8 @@ The analysis also indicates that chl_anom acts as a more conservative indicator 
 </section>
 <section id="implication-of-the-combined-detection-approach">
 <h5>Implication of the combined detection approach<a class="headerlink" href="#implication-of-the-combined-detection-approach" title="Link to this heading">#</a></h5>
-<p>The optical interference and signal divergence observed in nearshore waters directly influence the performance of the “Combined (AND)” detection strategy (Tables 1 and 2). By requiring both indicators to trigger simultaneously, this strategy acts as a high-precision filter, achieving the highest total accuracy (71.3%) and reducing false positives to their lowest level (230). However, because it only accepts the 9.9% of cases where both algorithms agree on a HAB (Table 3), it inherently ignores the 31.6% of the data where the signals diverge. This results in the highest number of false negatives (881) and a HAB detection accuracy of only 40.1%. While effective for high-confidence confirmation, the “AND” logic overlooks the transitional or optically complex phases of a bloom where only one indicator is dominant.</p>
-<p>Overall, this 25-year assessment shows that satellite indicators derived from the Ocean Colour dataset provide a valuable long-term monitoring tool for detecting <em>K. brevis</em> blooms on the West Florida Shelf. Ocean colour observations can detect <em>K. brevis</em> blooms with moderate accuracy, although performance varies between indicators and is reduced in optically complex nearshore waters. However, the reliance on static thresholds limits the ability of these indicators to capture the full spectrum of bloom conditions. Future improvements may involve the use of hyperspectral satellite data to develop species- or region-specific algorithms, and/or the application of machine-learning approaches that integrate multiple optical and environmental variables <a class="reference external" href="https://doi.org/10.3390/rs17040608" rel="noreferrer" target="_blank">[14]</a> <a class="reference external" href="https://doi.org/10.3390/rs13193863" rel="noreferrer" target="_blank">[15]</a>.</p>
+<p>The optical interference and signal divergence observed in nearshore waters directly influence the performance of the “Combined (AND)” detection strategy (Tables 1 and 2). By requiring both indicators to trigger simultaneously, this strategy acts as a high-precision filter, achieving the highest total accuracy (70.2%) and reducing false positives to their lowest level (304). However, because it only accepts the 12.7% of cases where both algorithms agree on a HAB (Table 3), it inherently ignores the 30.5% of the data where the signals diverge. This results in the highest number of false negatives (847) and a HAB detection accuracy of only 38.2%. While effective for high-confidence confirmation, the “AND” logic overlooks the transitional or optically complex phases of a bloom where only one indicator is dominant.</p>
+<p>Overall, this 25-year assessment shows that satellite indicators derived from the Ocean Colour dataset provide a valuable long-term monitoring tool for detecting <em>K. brevis</em> blooms on the West Florida Shelf. Ocean colour observations can detect <em>K. brevis</em> blooms with moderate accuracy, although performance varies between indicators and is reduced in optically complex nearshore waters. However, the reliance on static thresholds limits the ability of these indicators to capture the full spectrum of bloom conditions. Future improvements may involve the use of hyperspectral satellite data to develop species- or region-specific algorithms, and/or the application of machine-learning approaches that integrate multiple optical and environmental variables <a class="reference external" href="https://doi.org/10.3390/rs17040608" rel="noreferrer" target="_blank">[15]</a> <a class="reference external" href="https://doi.org/10.3390/rs13193863" rel="noreferrer" target="_blank">[16]</a>.</p>
 </section>
 </section>
 </section>
@@ -1360,8 +1371,9 @@ The analysis also indicates that chl_anom acts as a more conservative indicator 
 <p><a class="reference external" href="https://doi.org/10.1016/j.hal.2022.102289" rel="noreferrer" target="_blank">[11]</a> Hu, C., et al. (2022). <em>Karenia Brevis</em> bloom patterns on the west Florida shelf between 2003 and 2019: Integration of Field and satellite observations. Harmful Algae, 17, 102289.</p>
 <p><a class="reference external" href="https://doi.org/10.1016/j.hal.2008.11.002" rel="noreferrer" target="_blank">[12]</a> Vargo, G.A. (2009). A brief summary of the physiology and ecology of <em>Karenia brevis</em> Davis (g. Hansen and Moestrup comb. nov.) red tides on the West Florida Shelf and of hypotheses posed for their initiation, growth, maintenance, and termination. Harmful Algae, 8(4), 573-584.</p>
 <p><a class="reference external" href="https://doi.org/10.1371/journal.pone.0260755" rel="noreferrer" target="_blank">[13]</a> Stumpf, R.P., et al. (2022). Quantifying <em>Karenia brevis</em> bloom severity and respiratory irritation impact along the shoreline of Southwest Florida. PLoS ONE, 17(1), e0260755.</p>
-<p><a class="reference external" href="https://doi.org/10.3390/rs17040608" rel="noreferrer" target="_blank">[14]</a> Arias, F., et al. (2025). Mapping Harmful Algae Blooms: The Potential of Hyperspectral Imaging Technologies. Remote Sensing, 17(4), 608.</p>
-<p><a class="reference external" href="https://doi.org/10.3390/rs13193863" rel="noreferrer" target="_blank">[15]</a> Izadi, M., et al. (2021). A Remote Sensing and Machine Learning-Based Approach to Forecast the Onset of Harmful Algal Bloom. Remote Sensing, 13(19), 3863.</p>
+<p><a class="reference external" href="https://doi.org/10.1029/95JC00458" rel="noreferrer" target="_blank">[14]</a> Campbell, J.W. (1995). The lognormal distribution as a model for bio-optical variability in the sea. Journal of Geophysical Research, 100, 13237-13254.</p>
+<p><a class="reference external" href="https://doi.org/10.3390/rs17040608" rel="noreferrer" target="_blank">[15]</a> Arias, F., et al. (2025). Mapping Harmful Algae Blooms: The Potential of Hyperspectral Imaging Technologies. Remote Sensing, 17(4), 608.</p>
+<p><a class="reference external" href="https://doi.org/10.3390/rs13193863" rel="noreferrer" target="_blank">[16]</a> Izadi, M., et al. (2021). A Remote Sensing and Machine Learning-Based Approach to Forecast the Onset of Harmful Algal Bloom. Remote Sensing, 13(19), 3863.</p>
 </section>
 </section>
 </section>
