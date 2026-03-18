@@ -1,9 +1,13 @@
 import argparse
-import urllib.request
 from pathlib import Path
 
+import requests
+
 DATA_TYPES = {
+    "application": "Applications",
     "climate": "Climate_Projections",
+    "derived": "Derived_Datasets",
+    "indicator": "Indicators",
     "insitu": "In_Situ",
     "reanalysis": "Reanalyses",
     "satellite": "Satellite_ECVs",
@@ -70,17 +74,15 @@ def main(paths: list[Path]) -> None:
 
         # Check dataset ID
         url = "/".join([API_URL, collection_id])
-        code = None
         try:
-            code = urllib.request.urlopen(url).getcode()
-        except Exception:
-            pass
-        assert code == 200, f"{path=!s}: Invalid {collection_id=}"
+            requests.get(url).raise_for_status()
+        except Exception as exc:
+            raise RuntimeError(f"{path=!s}: Invalid {url=}") from exc
 
         # Check assessment category
-        assert (
-            assessment_category in ASSESSMENT_CATEGORIES
-        ), f"{path=!s}: Invalid {assessment_category=}"
+        assert assessment_category in ASSESSMENT_CATEGORIES, (
+            f"{path=!s}: Invalid {assessment_category=}"
+        )
 
         # Check question number
         assert len(question_number) == 3, f"{path=!s}: Invalid {question_number=}"
