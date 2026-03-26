@@ -496,8 +496,7 @@ Please note that this repository is used for development and review, so quality 
 <ul class="simple">
 <li><p><strong>How do ERA5 reanalysis products perform against GCOS Reference Upper-Air Network data?</strong></p></li>
 </ul>
-<p>High quality <strong>in situ reference observations</strong> are essential for evaluating atmospheric reanalyses such as <strong>ERA5</strong>, providing an observational high level reference with documented uncertainties. Within this context, the GCOS Reference Upper-Air Network <a class="reference external" href="https://www.gruan.org/network/about-gruan" rel="noreferrer" target="_blank">[1]</a>, plays a central role: its rigorously corrected radiosonde profiles, offer traceable, vertically resolved uncertainty estimates suitable for benchmarking reanalysis performance [<a class="reference external" href="https://doi.org/10.5194/amt-7-4463-2014" rel="noreferrer" target="_blank">2</a>; <a class="reference external" href="https://doi.org/10.5194/gi-9-337-2020" rel="noreferrer" target="_blank">3</a>].
-Over the past ten years, several studies have demonstrated the importance of reference quality radiosonde observations, often from GRUAN, for evaluating reanalysis products. Recent literature has documented the ability of ERA5 to reproduce climatological structures such as tropopause height, while revealing seasonal and regional discrepancies, mainly due to the limited station coverage [<a class="reference external" href="https://doi.org/10.5194/acp-25-17319-2025" rel="noreferrer" target="_blank">4</a>]; others, confirm that temperature fields in modern reanalyses (including ERA5) show low bias and high correlation when evaluated against GRUAN or other high quality reference radiosonde data [<a class="reference external" href="https://doi.org/10.3389/feart.2022.935139" rel="noreferrer" target="_blank">5</a>]. By contrast, authors highlight that humidity and water vapor from reanalysis in the upper troposphere and stratosphere remain more uncertain [<a class="reference external" href="https://doi.org/10.3390/atmos7070094" rel="noreferrer" target="_blank">e.g. 6</a>].</p>
+<p>High quality in situ reference observations are essential for evaluating atmospheric reanalyses such as ERA5, providing an observational high level reference with documented uncertainties. Within this context, the GCOS Reference Upper-Air Network <a class="reference external" href="https://www.gruan.org/network/about-gruan" rel="noreferrer" target="_blank">[1]</a>, plays a central role: its rigorously corrected radiosonde profiles, offer traceable measurements with vertically resolved uncertainty estimates suitable for benchmarking reanalysis performance and satellite retrievals [<a class="reference external" href="https://doi.org/10.5194/amt-7-4463-2014" rel="noreferrer" target="_blank">2</a>; <a class="reference external" href="https://doi.org/10.5194/gi-9-337-2020" rel="noreferrer" target="_blank">3</a>]. Over the past 15 years, several studies have demonstrated the importance of reference quality radiosonde observations, often from GRUAN, for evaluating reanalysis products. Recent literature has documented the ability of ERA5 to reproduce climatological structures such as tropopause height, while revealing seasonal and regional discrepancies, mainly due to the limited station coverage [<a class="reference external" href="https://doi.org/10.5194/acp-25-17319-2025" rel="noreferrer" target="_blank">4</a>]; others, confirm that temperature fields in modern reanalyses (including ERA5) show low bias and high correlation when evaluated against GRUAN or other high quality reference radiosonde data [<a class="reference external" href="https://doi.org/10.3389/feart.2022.935139" rel="noreferrer" target="_blank">5</a>]. By contrast, authors highlight that humidity and water vapor from reanalysis in the upper troposphere and stratosphere remain more uncertain [<a class="reference external" href="https://doi.org/10.3390/atmos7070094" rel="noreferrer" target="_blank">e.g. 6</a>].</p>
 </section>
 <section id="quality-assessment-statement">
 <h2>📢 Quality assessment statement<a class="headerlink" href="#quality-assessment-statement" title="Link to this heading">#</a></h2>
@@ -505,7 +504,7 @@ Over the past ten years, several studies have demonstrated the importance of ref
 <p class="admonition-title">These are the key outcomes of this assessment</p>
 <ul class="simple">
 <li><p>Temperature is the variable for which ERA5 consistently performs best across all stations. The reanalysis accurately reproduces the amplitude of variability (standard deviation ratio close to 1), the vertical anomaly structure and the temporal evolution. This is confirmed by very high correlations (R ≳ 0.95) and low centered RMSD, indicating a strong match across all pressure levels.</p></li>
-<li><p>For the U-component of the wind, ERA5 shows a moderate to good correlation with GRUAN, but underestimates variability (standard deviation ratio ≈ 0.8–0.5) and exhibits structural differences in vertical anomaly patterns (centred RMSE ≈ 0.8–0.4).</p></li>
+<li><p>For the zonal wind, ERA5 shows a moderate to good correlation with GRUAN, but underestimates variability (standard deviation ratio ≈ 0.8–0.5) and exhibits structural differences in vertical anomaly patterns (centred RMSE ≈ 0.8–0.4).</p></li>
 <li><p>Relative humidity is the variable with the lowest skill, showing generally lower correlations and a larger mismatch in vertical structure.</p></li>
 </ul>
 </div>
@@ -703,8 +702,6 @@ The GRUAN dataset provides high‑quality vertical profiles at selected stations
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Recovering from HTTP error [429 Too Many Requests], attempt 1 of 500
 Retrying in 10 seconds
-Recovering from HTTP error [429 Too Many Requests], attempt 1 of 500
-Retrying in 10 seconds
 </pre></div>
 </div>
 </div>
@@ -746,7 +743,7 @@ It returns the distance in kilometers, accounting for Earth’s curvature. The l
 <li><p>subsets the data to the selected time window;</p></li>
 <li><p>optionally resamples GRUAN time series to monthly means to match ERA5’s temporal resolution;</p></li>
 <li><p>ensures consistent pressure and level coordinates for both datasets;</p></li>
-<li><p>plots, for each variable, ERA5 anomalies (left panel) and GRUAN anomalies (right panel) using comparable color scales and axes.</p></li>
+<li><p>plots, for each variable, ERA5 anomalies (left panel) and GRUAN anomalies (central panel) and ERA5-GRUAN differences (right panel) using comparable color scales and axes.</p></li>
 </ul>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
@@ -952,123 +949,126 @@ It returns the distance in kilometers, accounting for Earth’s curvature. The l
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">plot_anomalies</span><span class="p">(</span>
-    <span class="n">ds_era5_anoma</span><span class="p">,</span>      <span class="c1"># ERA5 anomalies: dims (&#39;station&#39;,&#39;forecast_reference_time&#39;,&#39;plev&#39;)</span>
-    <span class="n">ds_gruan_anoma</span><span class="p">,</span>     <span class="c1"># GRUAN anomalies: coord &#39;station&#39; (attaccata a &#39;time&#39;), dims (&#39;time&#39;,&#39;pressure&#39;, ...)</span>
+    <span class="n">ds_era5_anoma</span><span class="p">,</span>      <span class="c1"># ERA5 anomalies</span>
+    <span class="n">ds_gruan_anoma</span><span class="p">,</span>     <span class="c1"># GRUAN anomalies</span>
     <span class="n">toplot</span><span class="p">,</span>
     <span class="n">station</span><span class="p">,</span>            <span class="c1"># es. &#39;LIN&#39;</span>
     <span class="n">start</span><span class="o">=</span><span class="s2">&quot;2006-01-01&quot;</span><span class="p">,</span>
     <span class="n">stop</span><span class="o">=</span><span class="s2">&quot;2020-12-31&quot;</span><span class="p">,</span>
-    <span class="n">resample_gruan_to_monthly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># True: GRUAN -&gt; media mensile per confronto con ERA5 monthly</span>
 <span class="p">):</span>
-    <span class="c1"># Select ERA5 data for the chosen station</span>
-    <span class="n">da_e</span> <span class="o">=</span> <span class="n">ds_era5_anoma</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="n">station</span><span class="p">)</span>  <span class="c1"># (&#39;forecast_reference_time&#39;, &#39;plev&#39;, vars)</span>
-   <span class="c1"># Select GRUAN data for the same station from the reorganized dataset</span>
-    <span class="n">ds_g_st</span> <span class="o">=</span> <span class="n">ds_gruan_anoma</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="n">station</span><span class="p">)</span>  <span class="c1"># (&#39;time&#39;, &#39;pressure&#39;, vars)</span>
 
-    <span class="c1"># Filter both datasets for the selected time period</span>
+    <span class="c1"># Select data for the chosen station</span>
+    <span class="n">da_e</span> <span class="o">=</span> <span class="n">ds_era5_anoma</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="n">station</span><span class="p">)</span>
+    <span class="n">ds_g_st</span> <span class="o">=</span> <span class="n">ds_gruan_anoma</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="n">station</span><span class="p">)</span>
+    <span class="n">ds_d_st</span> <span class="o">=</span> <span class="n">ds_diff</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="n">station</span><span class="p">)</span>   <span class="c1"># già allineato nel blocco differenze</span>
+
+    <span class="c1"># Select period</span>
     <span class="n">da_e</span> <span class="o">=</span> <span class="n">da_e</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">forecast_reference_time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">))</span>
     <span class="n">ds_g_st</span> <span class="o">=</span> <span class="n">ds_g_st</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">))</span>
+    <span class="n">ds_d_st</span> <span class="o">=</span> <span class="n">ds_d_st</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">forecast_reference_time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">))</span>
 
-    <span class="c1"># If required, compute GRUAN monthly means to match ERA5’s temporal resolution</span>
-    <span class="k">if</span> <span class="n">resample_gruan_to_monthly</span><span class="p">:</span>
-        <span class="n">ds_g_st</span> <span class="o">=</span> <span class="n">ds_g_st</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;1MS&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-
-    <span class="c1"># Coordinate &#39;plev&#39; in hPa if in Pa</span>
+    <span class="c1"># === pressure in hPa ===</span>
     <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">da_e</span><span class="p">[</span><span class="s2">&quot;plev&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">2000</span><span class="p">:</span>
         <span class="n">da_e</span> <span class="o">=</span> <span class="n">da_e</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">plev</span><span class="o">=</span><span class="n">da_e</span><span class="p">[</span><span class="s2">&quot;plev&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mf">100.0</span><span class="p">)</span>
 
-    <span class="c1"># Check if GRUAN pressure coordinate exists</span>
-    <span class="k">if</span> <span class="s2">&quot;pressure&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds_g_st</span><span class="o">.</span><span class="n">coords</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot find &#39;pressure&#39; coordinate in GRUAN dataset&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">ds_g_st</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">2000</span><span class="p">:</span>
-        <span class="n">ds_g_st</span> <span class="o">=</span> <span class="n">ds_g_st</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">pressure</span><span class="o">=</span><span class="n">ds_g_st</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mf">100.0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">ds_g_st</span><span class="p">[</span><span class="s2">&quot;plev&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">2000</span><span class="p">:</span>
+        <span class="n">ds_g_st</span> <span class="o">=</span> <span class="n">ds_g_st</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">plev</span><span class="o">=</span><span class="n">ds_g_st</span><span class="p">[</span><span class="s2">&quot;plev&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mf">100.0</span><span class="p">)</span>
 
-    <span class="c1"># Prepare plotting grid</span>
+    <span class="c1"># === figure: 3 panels ===</span>
     <span class="n">nrows</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">toplot</span><span class="p">)</span>
-    <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mf">3.6</span> <span class="o">*</span> <span class="n">nrows</span><span class="p">),</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
+        <span class="n">nrows</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mf">4.2</span> <span class="o">*</span> <span class="n">nrows</span><span class="p">),</span>
+        <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="s2">&quot;row&quot;</span>
+    <span class="p">)</span>
     <span class="k">if</span> <span class="n">nrows</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">axs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">axs</span><span class="p">])</span>
 
     <span class="n">gruan_var_map</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;t&quot;</span><span class="p">:</span> <span class="s2">&quot;air_temperature&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;u&quot;</span><span class="p">:</span> <span class="s2">&quot;eastward_wind_speed&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;r&quot;</span><span class="p">:</span> <span class="s2">&quot;relative_humidity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;t&quot;</span><span class="p">:</span> <span class="s2">&quot;air_temperature&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;u&quot;</span><span class="p">:</span> <span class="s2">&quot;eastward_wind_speed&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;r&quot;</span><span class="p">:</span> <span class="s2">&quot;relative_humidity&quot;</span><span class="p">,</span>
     <span class="p">}</span>
 
-    <span class="c1"># Start and end dates</span>
     <span class="n">start_dt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
     <span class="n">stop_dt</span>  <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">stop</span><span class="p">)</span>
 
-    <span class="c1"># Loop over variables to plot</span>
+    <span class="c1"># variables loop</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">varlabel</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">toplot</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
 
-        <span class="c1"># Select ERA5 variable</span>
-        <span class="n">da_e_var</span> <span class="o">=</span> <span class="n">da_e</span><span class="p">[</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;vname&quot;</span><span class="p">]]</span>  
-        <span class="n">Z_e</span> <span class="o">=</span> <span class="n">da_e_var</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="s2">&quot;plev&quot;</span><span class="p">,</span> <span class="s2">&quot;forecast_reference_time&quot;</span><span class="p">)</span>
-        <span class="n">X_e</span> <span class="o">=</span> <span class="n">da_e</span><span class="p">[</span><span class="s2">&quot;forecast_reference_time&quot;</span><span class="p">]</span>
-        <span class="n">Y_e</span> <span class="o">=</span> <span class="n">da_e</span><span class="p">[</span><span class="s2">&quot;plev&quot;</span><span class="p">]</span>
+        <span class="n">v_era</span> <span class="o">=</span> <span class="n">attr</span><span class="p">[</span><span class="s2">&quot;vname&quot;</span><span class="p">]</span>
+        <span class="n">v_gru</span> <span class="o">=</span> <span class="n">gruan_var_map</span><span class="p">[</span><span class="n">v_era</span><span class="p">]</span>
+        <span class="n">v_diff</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v_era</span><span class="si">}</span><span class="s2">_diff&quot;</span>
 
-        <span class="c1"># Create ERA5 anomaly plot</span>
-        <span class="n">cfe</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
-            <span class="n">X_e</span><span class="p">,</span> <span class="n">Y_e</span><span class="p">,</span> <span class="n">Z_e</span><span class="p">,</span>
-            <span class="n">cmap</span><span class="o">=</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;cmap&quot;</span><span class="p">],</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;levels&quot;</span><span class="p">]</span>
+        <span class="c1"># ERA5 anomalies</span>
+        <span class="n">da</span> <span class="o">=</span> <span class="n">da_e</span><span class="p">[</span><span class="n">v_era</span><span class="p">]</span>
+        <span class="n">Z</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="s2">&quot;plev&quot;</span><span class="p">,</span> <span class="s2">&quot;forecast_reference_time&quot;</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">da_e</span><span class="p">[</span><span class="s2">&quot;forecast_reference_time&quot;</span><span class="p">]</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="n">da_e</span><span class="p">[</span><span class="s2">&quot;plev&quot;</span><span class="p">]</span>
+
+        <span class="n">c1</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+            <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span>
+            <span class="n">cmap</span><span class="o">=</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;cmap&quot;</span><span class="p">],</span> <span class="n">levels</span><span class="o">=</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;levels&quot;</span><span class="p">],</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span>
         <span class="p">)</span>
         <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">varlabel</span><span class="si">}</span><span class="s2"> – ERA5 – </span><span class="si">{</span><span class="n">station</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;yscale&quot;</span><span class="p">])</span>
-        <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;ylim&quot;</span><span class="p">])</span>          
+        <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;ylim&quot;</span><span class="p">])</span>
         <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;yticks&quot;</span><span class="p">])</span>
         <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">ScalarFormatter</span><span class="p">())</span>
-        <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">start_dt</span><span class="p">,</span> <span class="n">stop_dt</span><span class="p">)</span>      
-        <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;[hPa]&quot;</span><span class="p">)</span>
-        <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cfe</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">da_e_var</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;units&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+        <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">start_dt</span><span class="p">,</span> <span class="n">stop_dt</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;units&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
 
-        <span class="c1"># Select corresponding GRUAN variable</span>
-        <span class="n">v_g</span> <span class="o">=</span> <span class="n">gruan_var_map</span><span class="p">[</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;vname&quot;</span><span class="p">]]</span>
-        <span class="k">if</span> <span class="n">v_g</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds_g_st</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GRUAN variable &#39;</span><span class="si">{</span><span class="n">v_g</span><span class="si">}</span><span class="s2">&#39; is not available in ds_gruan_anoma for station </span><span class="si">{</span><span class="n">station</span><span class="si">}</span><span class="s2">. Variables present: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">ds_g_st</span><span class="o">.</span><span class="n">data_vars</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1"># GRUAN anomalies </span>
+        <span class="n">da_g</span> <span class="o">=</span> <span class="n">ds_g_st</span><span class="p">[</span><span class="n">v_gru</span><span class="p">]</span>
+        <span class="n">Zg</span> <span class="o">=</span> <span class="n">da_g</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="s2">&quot;plev&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">)</span>
+        <span class="n">Xg</span> <span class="o">=</span> <span class="n">ds_g_st</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span>
+        <span class="n">Yg</span> <span class="o">=</span> <span class="n">ds_g_st</span><span class="p">[</span><span class="s2">&quot;plev&quot;</span><span class="p">]</span>
 
-        <span class="n">da_g_var</span> <span class="o">=</span> <span class="n">ds_g_st</span><span class="p">[</span><span class="n">v_g</span><span class="p">]</span>  
-
-        <span class="c1"># Check that GRUAN variable has expected dims (&#39;pressure&#39;, &#39;time&#39;)</span>
-        <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;pressure&quot;</span> <span class="ow">in</span> <span class="n">da_g_var</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;time&quot;</span> <span class="ow">in</span> <span class="n">da_g_var</span><span class="o">.</span><span class="n">dims</span><span class="p">):</span>
-            <span class="n">Z_g</span> <span class="o">=</span> <span class="n">da_g_var</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="s2">&quot;pressure&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;GRUAN variable &#39;</span><span class="si">{</span><span class="n">v_g</span><span class="si">}</span><span class="s2">&#39; does not have the expected (&#39;time&#39;,&#39;pressure&#39;) dimensions&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Found dims: </span><span class="si">{</span><span class="n">da_g_var</span><span class="o">.</span><span class="n">dims</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
-
-        <span class="n">X_g</span> <span class="o">=</span> <span class="n">ds_g_st</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span>
-        <span class="n">Y_g</span> <span class="o">=</span> <span class="n">ds_g_st</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">]</span>
-
-        <span class="c1"># Create GRUAN anomaly plot</span>
-        <span class="n">cfg</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
-            <span class="n">X_g</span><span class="p">,</span> <span class="n">Y_g</span><span class="p">,</span> <span class="n">Z_g</span><span class="p">,</span>
-            <span class="n">cmap</span><span class="o">=</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;cmap&quot;</span><span class="p">],</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;levels&quot;</span><span class="p">]</span>
+        <span class="n">c2</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+            <span class="n">Xg</span><span class="p">,</span> <span class="n">Yg</span><span class="p">,</span> <span class="n">Zg</span><span class="p">,</span>
+            <span class="n">cmap</span><span class="o">=</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;cmap&quot;</span><span class="p">],</span> <span class="n">levels</span><span class="o">=</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;levels&quot;</span><span class="p">],</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span>
         <span class="p">)</span>
         <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">varlabel</span><span class="si">}</span><span class="s2"> – GRUAN – </span><span class="si">{</span><span class="n">station</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;yscale&quot;</span><span class="p">])</span>
-        <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;ylim&quot;</span><span class="p">])</span>           
+        <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;ylim&quot;</span><span class="p">])</span>
         <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;yticks&quot;</span><span class="p">])</span>
         <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">ScalarFormatter</span><span class="p">())</span>
-        <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">start_dt</span><span class="p">,</span> <span class="n">stop_dt</span><span class="p">)</span>       
-        <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>                   
-        <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">da_g_var</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;units&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+        <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">start_dt</span><span class="p">,</span> <span class="n">stop_dt</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">da_g</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;units&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
 
-    <span class="c1"># X-axis labels</span>
-    <span class="n">axs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Forecast reference time (ERA5)&quot;</span><span class="p">)</span>
-    <span class="n">axs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time (GRUAN&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="s2">&quot;, monthly mean&quot;</span> <span class="k">if</span> <span class="n">resample_gruan_to_monthly</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
-    
-    <span class="c1"># Main title</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Anomaly profiles – ERA5 vs GRUAN – Station </span><span class="si">{</span><span class="n">station</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.02</span><span class="p">)</span>
-    
-    <span class="c1"># Show plot</span>
+        <span class="c1"># ERA5 – GRUAN differences</span>
+        <span class="n">da_d</span> <span class="o">=</span> <span class="n">ds_d_st</span><span class="p">[</span><span class="n">v_diff</span><span class="p">]</span>
+        <span class="n">Zd</span> <span class="o">=</span> <span class="n">da_d</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="s2">&quot;plev&quot;</span><span class="p">,</span> <span class="s2">&quot;forecast_reference_time&quot;</span><span class="p">)</span>
+
+        <span class="c1"># evita crash se tutto NaN</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">Zd</span><span class="p">)):</span>
+            <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">varlabel</span><span class="si">}</span><span class="s2"> – No valid data&quot;</span><span class="p">)</span>
+            <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+        
+        <span class="n">levels_diff</span> <span class="o">=</span> <span class="n">attr</span><span class="p">[</span><span class="s2">&quot;diff_levels&quot;</span><span class="p">]</span>
+
+        <span class="n">c3</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+            <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Zd</span><span class="p">,</span>
+            <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;bwr&quot;</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">levels_diff</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span>
+        <span class="p">)</span>
+        <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">varlabel</span><span class="si">}</span><span class="s2"> – Difference ERA5–GRUAN – </span><span class="si">{</span><span class="n">station</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;yscale&quot;</span><span class="p">])</span>
+        <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;ylim&quot;</span><span class="p">])</span>
+        <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">attr</span><span class="p">[</span><span class="s2">&quot;yticks&quot;</span><span class="p">])</span>
+        <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">ScalarFormatter</span><span class="p">())</span>
+        <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">start_dt</span><span class="p">,</span> <span class="n">stop_dt</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">c3</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;units&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+
+    <span class="c1"># === label assi X ===</span>
+    <span class="c1">#axs[-1, 0].set_xlabel(&quot;Forecast reference time (ERA5)&quot;)</span>
+    <span class="c1">#axs[-1, 1].set_xlabel(&quot;Time (GRUAN)&quot;)</span>
+    <span class="c1">#axs[-1, 2].set_xlabel(&quot;Difference ERA5 – GRUAN&quot;)</span>
+
+    <span class="c1">#fig.suptitle(f&quot;Anomaly profiles – ERA5 vs GRUAN vs Difference – Station {station}&quot;, y=1.03)</span>
+
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-    
     <span class="k">return</span> <span class="n">fig</span>
-    
 </pre></div>
 </div>
 </div>
@@ -1178,7 +1178,7 @@ It returns the distance in kilometers, accounting for Earth’s curvature. The l
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:17&lt;00:00,  9.64it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:15&lt;00:00, 10.75it/s]
 </pre></div>
 </div>
 </div>
@@ -1216,104 +1216,104 @@ It returns the distance in kilometers, accounting for Earth’s curvature. The l
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>station=&#39;NYA&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:13&lt;00:00, 12.69it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:19&lt;00:00,  8.68it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>station=&#39;BAR&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:10&lt;00:00, 15.61it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:20&lt;00:00,  8.12it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>station=&#39;SOD&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:12&lt;00:00, 12.93it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:22&lt;00:00,  7.58it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>station=&#39;LIN&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:09&lt;00:00, 17.29it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:21&lt;00:00,  7.78it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>station=&#39;TEN&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:09&lt;00:00, 18.02it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:24&lt;00:00,  6.73it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>station=&#39;BEL&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:11&lt;00:00, 14.23it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:19&lt;00:00,  8.71it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>station=&#39;BOU&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:12&lt;00:00, 13.50it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:16&lt;00:00, 10.09it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>station=&#39;CAB&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:12&lt;00:00, 13.31it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:17&lt;00:00,  9.63it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>station=&#39;GRA&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:13&lt;00:00, 12.31it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:19&lt;00:00,  8.48it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>station=&#39;LAU&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:15&lt;00:00, 10.47it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:15&lt;00:00, 10.78it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>station=&#39;MAN&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:13&lt;00:00, 12.84it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:25&lt;00:00,  6.63it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>station=&#39;NAU&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:13&lt;00:00, 12.30it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:27&lt;00:00,  6.07it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>station=&#39;PAY&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:09&lt;00:00, 17.91it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:24&lt;00:00,  6.79it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>station=&#39;POT&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:09&lt;00:00, 16.86it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:19&lt;00:00,  8.65it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>station=&#39;REU&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:10&lt;00:00, 15.76it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:35&lt;00:00,  4.74it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>station=&#39;SGP&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:10&lt;00:00, 16.29it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:40&lt;00:00,  4.13it/s]
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>station=&#39;TAT&#39;
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:13&lt;00:00, 12.05it/s]
-/data/wp5/.tmp/ipykernel_3409833/884858239.py:11: FutureWarning: In a future version of xarray the default value for coords will change from coords=&#39;different&#39; to coords=&#39;minimal&#39;. This is likely to lead to different results when multiple datasets have matching variables with overlapping values. To opt in to new defaults and get rid of these warnings now use `set_options(use_new_combine_kwarg_defaults=True) or set coords explicitly.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 167/167 [00:26&lt;00:00,  6.37it/s]
+/data/wp5/.tmp/ipykernel_4066450/884858239.py:11: FutureWarning: In a future version of xarray the default value for coords will change from coords=&#39;different&#39; to coords=&#39;minimal&#39;. This is likely to lead to different results when multiple datasets have matching variables with overlapping values. To opt in to new defaults and get rid of these warnings now use `set_options(use_new_combine_kwarg_defaults=True) or set coords explicitly.
   ds_era5 = xr.concat(datasets, &quot;station&quot;).compute()
 </pre></div>
 </div>
@@ -1329,8 +1329,7 @@ It returns the distance in kilometers, accounting for Earth’s curvature. The l
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Nome coords ERA5</span>
-<span class="n">lat_name</span> <span class="o">=</span> <span class="s2">&quot;latitude&quot;</span> <span class="k">if</span> <span class="s2">&quot;latitude&quot;</span> <span class="ow">in</span> <span class="n">ds_era5</span><span class="o">.</span><span class="n">coords</span> <span class="k">else</span> <span class="s2">&quot;lat&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lat_name</span> <span class="o">=</span> <span class="s2">&quot;latitude&quot;</span> <span class="k">if</span> <span class="s2">&quot;latitude&quot;</span> <span class="ow">in</span> <span class="n">ds_era5</span><span class="o">.</span><span class="n">coords</span> <span class="k">else</span> <span class="s2">&quot;lat&quot;</span>
 <span class="n">lon_name</span> <span class="o">=</span> <span class="s2">&quot;longitude&quot;</span> <span class="k">if</span> <span class="s2">&quot;longitude&quot;</span> <span class="ow">in</span> <span class="n">ds_era5</span><span class="o">.</span><span class="n">coords</span> <span class="k">else</span> <span class="s2">&quot;lon&quot;</span>
 
 <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1356,7 +1355,6 @@ It returns the distance in kilometers, accounting for Earth’s curvature. The l
 
 <span class="n">df_dist</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;station&quot;</span><span class="p">)</span>
 
-<span class="c1"># Rimuove l&#39;indice (non lo mostriamo)</span>
 <span class="n">df_dist</span> <span class="o">=</span> <span class="n">df_dist</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">display</span><span class="p">(</span><span class="n">df_dist</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;station&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
@@ -1540,8 +1538,21 @@ It returns the distance in kilometers, accounting for Earth’s curvature. The l
 <span class="c1">#  Calculation of anomalies for the reorganized dataset (ds_gruan_stations)</span>
 <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="c1"># Group by month, compute the monthly mean, and subtract it from each value</span>
-    <span class="n">ds_gruan_anoma</span> <span class="o">=</span> <span class="n">ds_gruan_stations</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time_gruan</span><span class="si">}</span><span class="s2">.month&quot;</span><span class="p">)</span> <span class="o">-</span> \
-                     <span class="n">ds_gruan_stations</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time_gruan</span><span class="si">}</span><span class="s2">.month&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">time_gruan</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">ds_gruan_stations</span> <span class="o">=</span> <span class="n">ds_gruan_stations</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;pressure&quot;</span><span class="p">:</span> <span class="s2">&quot;plev&quot;</span><span class="p">})</span>
+    <span class="n">ds_gruan_monthly</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">ds_gruan_stations</span>
+        <span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;1MS&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">mean</span><span class="p">()</span>                    
+        <span class="o">.</span><span class="n">reset_coords</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>   
+    <span class="p">)</span>
+   
+    <span class="c1"># monthly anomalies</span>
+    <span class="n">ds_gruan_anoma</span> <span class="o">=</span> <span class="n">ds_gruan_monthly</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.month&quot;</span><span class="p">)</span> <span class="o">-</span> \
+                     <span class="n">ds_gruan_monthly</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.month&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+
+    <span class="c1">#ds_gruan_anoma = ds_gruan_stations.groupby(f&quot;{time_gruan}.month&quot;) - \</span>
+    <span class="c1">#                 ds_gruan_stations.groupby(f&quot;{time_gruan}.month&quot;).mean(time_gruan, skipna=True)</span>
 
     <span class="c1"># Add a &quot;long_name&quot; attribute to indicate that variables represent anomalies</span>
     <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">ds_gruan_anoma</span><span class="o">.</span><span class="n">data_vars</span><span class="p">):</span>
@@ -1552,6 +1563,81 @@ It returns the distance in kilometers, accounting for Earth’s curvature. The l
 </div>
 </div>
 </details>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># DIFFERENCES: ERA5_anomaly - GRUAN_anomaly</span>
+<span class="n">stations</span> <span class="o">=</span> <span class="n">ds_anoma</span><span class="o">.</span><span class="n">station</span><span class="o">.</span><span class="n">values</span>
+
+<span class="n">diff_vars</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;t&quot;</span><span class="p">:</span> <span class="s2">&quot;air_temperature&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;u&quot;</span><span class="p">:</span> <span class="s2">&quot;eastward_wind_speed&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;r&quot;</span><span class="p">:</span> <span class="s2">&quot;relative_humidity&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">diff_out</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">diff_vars</span><span class="p">}</span>
+
+<span class="k">for</span> <span class="n">st</span> <span class="ow">in</span> <span class="n">stations</span><span class="p">:</span>
+
+    <span class="n">era</span> <span class="o">=</span> <span class="n">ds_anoma</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="n">st</span><span class="p">)</span>
+    <span class="n">grn</span> <span class="o">=</span> <span class="n">ds_gruan_anoma</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="n">st</span><span class="p">)</span>
+
+    <span class="c1"># # unify vertical dimension</span>
+    <span class="k">if</span> <span class="s2">&quot;pressure&quot;</span> <span class="ow">in</span> <span class="n">grn</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
+        <span class="n">grn</span> <span class="o">=</span> <span class="n">grn</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;pressure&quot;</span><span class="p">:</span><span class="s2">&quot;plev&quot;</span><span class="p">})</span>
+
+    <span class="k">if</span> <span class="n">era</span><span class="o">.</span><span class="n">plev</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">2000</span><span class="p">:</span> <span class="n">era</span> <span class="o">=</span> <span class="n">era</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">plev</span><span class="o">=</span><span class="n">era</span><span class="o">.</span><span class="n">plev</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">grn</span><span class="o">.</span><span class="n">plev</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">2000</span><span class="p">:</span> <span class="n">grn</span> <span class="o">=</span> <span class="n">grn</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">plev</span><span class="o">=</span><span class="n">grn</span><span class="o">.</span><span class="n">plev</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span>
+
+    
+    <span class="c1"># # unify temporal dimension</span>
+    <span class="n">grn</span> <span class="o">=</span> <span class="n">grn</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="s2">&quot;forecast_reference_time&quot;</span><span class="p">})</span>
+    
+    <span class="c1"># temporal alignment</span>
+    <span class="n">grn</span> <span class="o">=</span> <span class="n">grn</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span>
+        <span class="n">forecast_reference_time</span> <span class="o">=</span> <span class="n">era</span><span class="o">.</span><span class="n">forecast_reference_time</span><span class="p">,</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">,</span>
+        <span class="n">tolerance</span><span class="o">=</span><span class="s2">&quot;20D&quot;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># difference between monthly anomalies</span>
+    <span class="k">for</span> <span class="n">v_era</span><span class="p">,</span> <span class="n">v_gru</span> <span class="ow">in</span> <span class="n">diff_vars</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+        <span class="n">da_e</span> <span class="o">=</span> <span class="n">era</span><span class="p">[</span><span class="n">v_era</span><span class="p">]</span>
+        <span class="n">da_g</span> <span class="o">=</span> <span class="n">grn</span><span class="p">[</span><span class="n">v_gru</span><span class="p">]</span>
+
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">da_e</span> <span class="o">-</span> <span class="n">da_g</span>
+
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">diff</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="n">st</span><span class="p">)</span>
+        <span class="n">diff</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v_era</span><span class="si">}</span><span class="s2">_diff&quot;</span>
+        <span class="n">diff</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v_era</span><span class="si">}</span><span class="s2"> anomaly difference ERA5–GRUAN&quot;</span>
+
+        <span class="n">diff_out</span><span class="p">[</span><span class="n">v_era</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span>
+
+<span class="n">ds_diff</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
+    <span class="p">{</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">_diff&quot;</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">diff_out</span><span class="p">[</span><span class="n">v</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;station&quot;</span><span class="p">)</span>
+                            <span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="n">stations</span><span class="p">)</span>
+     <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">diff_vars</span><span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/data/wp5/.tmp/ipykernel_4066450/268337702.py:50: FutureWarning: In a future version of xarray the default value for coords will change from coords=&#39;different&#39; to coords=&#39;minimal&#39;. This is likely to lead to different results when multiple datasets have matching variables with overlapping values. To opt in to new defaults and get rid of these warnings now use `set_options(use_new_combine_kwarg_defaults=True) or set coords explicitly.
+  {f&quot;{v}_diff&quot;: xr.concat(diff_out[v], dim=&quot;station&quot;)
+/data/wp5/.tmp/ipykernel_4066450/268337702.py:50: FutureWarning: In a future version of xarray the default value for coords will change from coords=&#39;different&#39; to coords=&#39;minimal&#39;. This is likely to lead to different results when multiple datasets have matching variables with overlapping values. To opt in to new defaults and get rid of these warnings now use `set_options(use_new_combine_kwarg_defaults=True) or set coords explicitly.
+  {f&quot;{v}_diff&quot;: xr.concat(diff_out[v], dim=&quot;station&quot;)
+/data/wp5/.tmp/ipykernel_4066450/268337702.py:50: FutureWarning: In a future version of xarray the default value for coords will change from coords=&#39;different&#39; to coords=&#39;minimal&#39;. This is likely to lead to different results when multiple datasets have matching variables with overlapping values. To opt in to new defaults and get rid of these warnings now use `set_options(use_new_combine_kwarg_defaults=True) or set coords explicitly.
+  {f&quot;{v}_diff&quot;: xr.concat(diff_out[v], dim=&quot;station&quot;)
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="plot-anomalies">
@@ -1567,6 +1653,7 @@ It returns the distance in kilometers, accounting for Earth’s curvature. The l
     <span class="s2">&quot;Temperature&quot;</span> <span class="p">:</span> <span class="p">{</span>
        <span class="s2">&quot;vname&quot;</span>   <span class="p">:</span> <span class="s2">&quot;t&quot;</span><span class="p">,</span>
        <span class="s2">&quot;levels&quot;</span>  <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+       <span class="s2">&quot;diff_levels&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mf">10.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>    
        <span class="s2">&quot;yscale&quot;</span>  <span class="p">:</span> <span class="s2">&quot;log&quot;</span><span class="p">,</span>
        <span class="s2">&quot;ylim&quot;</span>    <span class="p">:</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>
        <span class="s2">&quot;yticks&quot;</span>  <span class="p">:</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span><span class="mi">600</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span><span class="mi">300</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span><span class="mi">100</span><span class="p">],</span>
@@ -1575,6 +1662,7 @@ It returns the distance in kilometers, accounting for Earth’s curvature. The l
     <span class="s2">&quot;U component of wind&quot;</span> <span class="p">:</span> <span class="p">{</span>
        <span class="s2">&quot;vname&quot;</span>   <span class="p">:</span> <span class="s2">&quot;u&quot;</span><span class="p">,</span>
        <span class="s2">&quot;levels&quot;</span>  <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+       <span class="s2">&quot;diff_levels&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="mf">40.4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>  
        <span class="s2">&quot;yscale&quot;</span>  <span class="p">:</span> <span class="s2">&quot;log&quot;</span><span class="p">,</span>
        <span class="s2">&quot;ylim&quot;</span>    <span class="p">:</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>
        <span class="s2">&quot;yticks&quot;</span>  <span class="p">:</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span><span class="mi">600</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span><span class="mi">400</span><span class="p">,</span><span class="mi">300</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">100</span><span class="p">],</span>
@@ -1582,7 +1670,8 @@ It returns the distance in kilometers, accounting for Earth’s curvature. The l
     <span class="p">},</span>
     <span class="s2">&quot;Relative Humidity&quot;</span> <span class="p">:</span> <span class="p">{</span>
        <span class="s2">&quot;vname&quot;</span>   <span class="p">:</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span>
-       <span class="s2">&quot;levels&quot;</span>  <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="o">+</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+       <span class="s2">&quot;levels&quot;</span>  <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="o">+</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">),</span>
+       <span class="s2">&quot;diff_levels&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="mf">40.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>  
        <span class="s2">&quot;yscale&quot;</span>  <span class="p">:</span> <span class="s2">&quot;linear&quot;</span><span class="p">,</span>
        <span class="s2">&quot;ylim&quot;</span>    <span class="p">:</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>
        <span class="s2">&quot;yticks&quot;</span>  <span class="p">:</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">100</span><span class="p">],</span>
@@ -1602,7 +1691,7 @@ It returns the distance in kilometers, accounting for Earth’s curvature. The l
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#for st in common_stations:</span>
-<span class="k">for</span> <span class="n">st</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;LIN&#39;</span><span class="p">,</span><span class="s1">&#39;TEN&#39;</span><span class="p">,</span><span class="s1">&#39;MAN&#39;</span><span class="p">]:</span>
+<span class="k">for</span> <span class="n">st</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;LIN&#39;</span><span class="p">,</span><span class="s1">&#39;NYA&#39;</span><span class="p">,</span><span class="s1">&#39;SGP&#39;</span><span class="p">,</span><span class="s1">&#39;LAU&#39;</span><span class="p">]:</span>
     <span class="n">plot_anomalies</span><span class="p">(</span>
         <span class="n">ds_era5_anoma</span><span class="o">=</span><span class="n">ds_anoma</span><span class="p">,</span>
         <span class="n">ds_gruan_anoma</span><span class="o">=</span><span class="n">ds_gruan_anoma</span><span class="p">,</span>
@@ -1610,29 +1699,28 @@ It returns the distance in kilometers, accounting for Earth’s curvature. The l
         <span class="n">station</span><span class="o">=</span><span class="n">st</span><span class="p">,</span>
         <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span>    <span class="c1"># &#39;2006-05&#39;</span>
         <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span>      <span class="c1"># &#39;2020-03&#39;</span>
-        <span class="n">resample_gruan_to_monthly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="c1">#resample_gruan_to_monthly=True,</span>
     <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/cb3877198f7da4e2a9bcfec577e7dd57851d08784da23fdfc662f3b0b4db7fb2.png" src="../_images/cb3877198f7da4e2a9bcfec577e7dd57851d08784da23fdfc662f3b0b4db7fb2.png" />
-<img alt="../_images/283793af552b03f774b96a424a9c59576ac53024e34ca7868893c61731aad767.png" src="../_images/283793af552b03f774b96a424a9c59576ac53024e34ca7868893c61731aad767.png" />
-<img alt="../_images/1de60698d4656e23aa5d2d506c2c007324c8d00072f0d249eefdacca0c41cfc1.png" src="../_images/1de60698d4656e23aa5d2d506c2c007324c8d00072f0d249eefdacca0c41cfc1.png" />
+<img alt="../_images/c1136b7ad0b482c7788bc56ca93e9815f40f9d5a52fac2d1e40e8c2afae71b1c.png" src="../_images/c1136b7ad0b482c7788bc56ca93e9815f40f9d5a52fac2d1e40e8c2afae71b1c.png" />
+<img alt="../_images/d179f2423ad2ff021e84a7790fe9cbb658fc509245719158803c3e47028b1d02.png" src="../_images/d179f2423ad2ff021e84a7790fe9cbb658fc509245719158803c3e47028b1d02.png" />
+<img alt="../_images/9d90c1c474f43af86cf1dfc7e29838297c99f4e836ef9265a23077f332928a39.png" src="../_images/9d90c1c474f43af86cf1dfc7e29838297c99f4e836ef9265a23077f332928a39.png" />
+<img alt="../_images/77534a9b123fb8df4ea9fae2aebaf46d47e64004e033b70cf065c22b307f04df.png" src="../_images/77534a9b123fb8df4ea9fae2aebaf46d47e64004e033b70cf065c22b307f04df.png" />
 </div>
 </div>
 <p>The entire dataset available in the CDS is considered by comparing monthly mean ERA5 pressure level fields with monthly mean GRUAN profiles over their overlapping period (2006–2020).
-The comparison is carried out for temperature, relative humidity, and the eastward wind component (U). For each GRUAN site, the nearest ERA5 grid point is selected, allowing a direct point to point evaluation of the vertical structure along the pressure levels. Anomalies are computed by removing the annual cycle, obtained as the climatological mean of each month over the full period.
-A visual comparison of anomalies is then performed through paired Hovmöller diagrams (time–pressure contour plots). For illustrative purposes, the visualization is restricted to three representative stations:</p>
-<p>•	Lindenberg (LIN), the site with the longest and most continuous GRUAN record,</p>
-<p>•	Tenerife (TEN), an example of a station with temporal discontinuities, and</p>
-<p>•	Manus (MAN), included because it shows the lowest correlations for at least one of the variables based on the statistical evaluation (Taylor diagram and summary table).</p>
-<p>Overall, the vertical structure and temporal patterns of temperature and wind anomalies are generally well captured by ERA5, with coherent features visible across the entire atmospheric column. In contrast, relative humidity exhibits noticeably poorer agreement, with ERA5 showing reduced skill in reproducing both the magnitude and variability of the observed RH anomalies, especially in the upper and middle troposphere.</p>
+The comparison is carried out for temperature, relative humidity, and the zonal wind. For each GRUAN site, the nearest ERA5 grid point is selected, allowing a direct point to point evaluation of the vertical structure along the pressure levels. Anomalies are computed by removing the annual cycle, obtained as the climatological mean of each month over the full period.
+A visual comparison of anomalies is then performed through paired Hovmöller diagrams (time–pressure contour plots). For illustrative purposes, the visualization is restricted to for four representative stations, selected among those with the longest and most continuous time series and covering different geographical regions: Lindenberg (LIN, Germany), Ny‑Ålesund (NYA, Svalbard), Lamont (SGP, Oklahoma, USA), and Lauder (LAU, New Zealand).
+A third panel is included to show the anomaly differences (ERA5–GRUAN), allowing a more explicit visualization of the discrepancies between the two time series.
+Overall, the vertical structure and temporal patterns of temperature and wind anomalies are generally well captured by ERA5, with coherent features visible across the entire atmospheric column. In contrast, relative humidity exhibits noticeably poorer agreement, with ERA5 showing reduced skill in reproducing both the magnitude and variability of the observed RH anomalies, especially in the upper and middle troposphere.</p>
 </section>
 <section id="statistical-metrics-and-taylor-diagram">
 <h4>Statistical Metrics and Taylor Diagram<a class="headerlink" href="#statistical-metrics-and-taylor-diagram" title="Link to this heading">#</a></h4>
-<p>The Taylor diagram provides a concise statistical summary of how well two fields agree in terms of their correlation, centered root‑mean‑square difference (cRMSD), and the ratio of their standard deviations [<a class="reference external" href="https://doi.org/10.1029/2000JD900719" rel="noreferrer" target="_blank">7</a>]. For each station and each variable (temperature, U‑wind component, and relative humidity), monthly‑mean GRUAN profiles (reference observations) are compared with monthly‑mean ERA5 profiles. The statistical metrics —correlation coefficient, standard‑deviation ratio (ERA5/GRUAN), and centered RMSD— are computed using the full set of monthly profiles: for a given station and variable, all pressure levels and all months within 2006–2020 are concatenated into a single Hovmöller diagrams before computing the statistics. Consequently, the Taylor diagram represents reanalysis skill aggregated across the entire vertical column and across all profiles. The standard‑deviation ratio assesses whether ERA5 captures the amplitude of variability of the GRUAN profiles (values near 1 indicate similar variability; values &lt; 1 indicate an underestimation; values &gt; 1 indicate an overestimation).
+<p>The Taylor diagram provides a concise statistical summary of how well two fields agree in terms of their correlation, centered root‑mean‑square difference (cRMSD), and the ratio of their standard deviations [<a class="reference external" href="https://doi.org/10.1029/2000JD900719" rel="noreferrer" target="_blank">7</a>]. For each station and each variable (temperature, zonal wind, and relative humidity), monthly‑mean GRUAN profiles (reference observations) are compared with monthly‑mean ERA5 profiles. The statistical metrics —correlation coefficient, standard‑deviation ratio (ERA5/GRUAN), and centered RMSD— are computed using the full set of monthly profiles: for a given station and variable, all pressure levels and all months within 2006–2020 are concatenated into a single Hovmöller diagrams before computing the statistics. Consequently, the Taylor diagram represents reanalysis skill aggregated across the entire vertical column and across all profiles. The standard‑deviation ratio assesses whether ERA5 captures the amplitude of variability of the GRUAN profiles (values near 1 indicate similar variability; values &lt; 1 indicate an underestimation; values &gt; 1 indicate an overestimation).
 The centered RMSD quantifies differences in pattern/shape between ERA5 and GRUAN after removing their means, thus being independent of bias.
 The correlation coefficient measures the linear association between ERA5 and GRUAN anomaly profiles across all pressure levels and time steps (R ≈ 1 indicates very strong agreement; 0.7–0.9 good agreement; &lt; 0.5 moderate to poor; &lt; 0.2 negligible).</p>
 <p>In the Taylor diagram, the radial distance corresponds to the reanalysis standard deviation (plotted as a ratio to the observed), the angle to the correlation coefficient, and the green dashed curves to the centered RMSD. Each point therefore summarizes ERA5 performance for a specific station–variable pair. The diagrams are generated with the SkillMetrics Python package, which implements these statistics and the Taylor diagram plotting functions [<a class="reference external" href="http://github.com/PeterRochford/SkillMetrics" rel="noreferrer" target="_blank">8</a>].</p>
@@ -1864,7 +1952,7 @@ The correlation coefficient measures the linear association between ERA5 and GRU
 </div>
 </div>
 <p>The quantitative analysis based on the statistical metrics, in the diagram above, clearly highlights that temperature exhibits the best agreement between ERA5 and GRUAN. The two datasets show a very high correlation, and ERA5 accurately reproduces both the amplitude of the variability and the vertical anomaly patterns along the profile.
-For the U wind component, the correlations between datasets decrease, although a generally good agreement is still evident. ERA5 tends to underestimate the variability, as indicated by standard deviation ratios typically in the range 0.8–0.5, and the profiles show noticeable structural differences, with centered RMSD values of about 0.8-0.4 (see also the summary table below).
+For the zonal wind, the correlations between datasets decrease, although a generally good agreement is still evident. ERA5 tends to underestimate the variability, as indicated by standard deviation ratios typically in the range 0.8–0.5, and the profiles show noticeable structural differences, with centered RMSD values of about 0.8-0.4 (see also the summary table below).
 The behaviour is similar for relative humidity, with some stations showing even poorer skill, reflecting both reduced correlation and a larger mismatch in the vertical structure compared to temperature and wind.
 The results are consistent with those reported in the literature (see Introduction). However, several sources of uncertainty that are not explicitly addressed in the present analysis should be acknowledged.
 Firstly, the drift of radiosonde balloons during ascent should be considered: radiosonde measurements do not represent true point observations, since each profile samples a off-vertical atmospheric column rather than a fixed vertical location. Ideally, a more physically consistent comparison would involve extracting ERA5 values at the grid point closest to the radiosonde’s position at each measurement level, rather than assuming a single fixed station location. However, implementing such a trajectory-based collocation is computationally demanding and is therefore not included in this analysis.
