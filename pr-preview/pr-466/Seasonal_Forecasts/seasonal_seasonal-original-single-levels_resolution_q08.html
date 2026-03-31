@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>4.1. Estimating optimal growth periods based on temperatures in seasonal subdaily forecast &#8212; eqcbook</title>
+    <title>4.1. Evaluating growth periods for wheat based on temperatures in seasonal subdaily forecast &#8212; eqcbook</title>
   
   
   
@@ -16,41 +16,44 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -65,6 +68,7 @@
     <link rel="prev" title="4. Seasonal forecasts" href="seasonal.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -80,19 +84,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -100,7 +93,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -108,8 +100,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -128,7 +120,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -158,21 +151,17 @@
     
     
     <img src="../_static/C3S–POS–LINE.png" class="logo__image only-light" alt="eqcbook - Home"/>
-    <script>document.write(`<img src="../_static/C3S–POS–LINE.png" class="logo__image only-dark" alt="eqcbook - Home"/>`);</script>
+    <img src="../_static/C3S–POS–LINE.png" class="logo__image only-dark pst-js-only" alt="eqcbook - Home"/>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -222,7 +211,7 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Seasonal Forecasts</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="seasonal.html">4. Quality assessments for Seasonal Forecasts</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.1. Estimating optimal growth periods based on temperatures in seasonal subdaily forecast</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.1. Evaluating growth periods for wheat based on temperatures in seasonal subdaily forecast</a></li>
 </ul>
 </details></li>
 </ul>
@@ -268,9 +257,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -400,7 +394,7 @@
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -414,25 +408,17 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
 </div></div>
@@ -445,7 +431,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Estimating optimal growth periods based on temperatures in seasonal subdaily forecast</h1>
+    <h1>Evaluating growth periods for wheat based on temperatures in seasonal subdaily forecast</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -455,14 +441,16 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-investigation-of-diurnal-temperature-ranges-and-mimimun-and-maximum-temperature-in-relation-to-crop-growth">🌍 Use case: Investigation of diurnal temperature ranges, and mimimun and maximum temperature in relation to crop growth</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-investigation-of-minimum-and-maximum-temperature-in-relation-to-optimal-growing-conditions-for-common-crops">🌍 Use case: Investigation of minimum and maximum temperature in relation to optimal growing conditions for common crops.</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-data-and-select-region-and-crop-of-interest">1. Download data and select region and crop of interest</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#temperature-extreme-trends-year-to-year">2. Temperature extreme trends year to year</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-temperature-data-with-growth-season-and-optimal-temperature-window">3. Plot the temperature data with growth season and optimal temperature window</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#debiasing">2. Debiasing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#temperature-trends-year-to-year">3. Temperature trends year to year</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-temperature-data-with-growth-season-and-optimal-temperature-window">4. Plot the temperature data with growth season and optimal temperature window</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">5. Discussion</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
@@ -485,54 +473,69 @@ document.write(`
   <p><img alt="logo" src="../_images/LogoLine_horizon_C3S1.png" /></p>
 <div class="alert alert-block alert-warning">
 Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
-</div><section class="tex2jax_ignore mathjax_ignore" id="estimating-optimal-growth-periods-based-on-temperatures-in-seasonal-subdaily-forecast">
-<h1><span class="section-number">4.1. </span>Estimating optimal growth periods based on temperatures in seasonal subdaily forecast<a class="headerlink" href="#estimating-optimal-growth-periods-based-on-temperatures-in-seasonal-subdaily-forecast" title="Link to this heading">#</a></h1>
-<p>Production date: 25.09.2025</p>
+</div><section class="tex2jax_ignore mathjax_ignore" id="evaluating-growth-periods-for-wheat-based-on-temperatures-in-seasonal-subdaily-forecast">
+<h1><span class="section-number">4.1. </span>Evaluating growth periods for wheat based on temperatures in seasonal subdaily forecast<a class="headerlink" href="#evaluating-growth-periods-for-wheat-based-on-temperatures-in-seasonal-subdaily-forecast" title="Link to this heading">#</a></h1>
+<p>Production date: 25.03.2026</p>
 <p>Produced by: Johanna Tjernström, Johannes Langvatn</p>
-<section id="use-case-investigation-of-diurnal-temperature-ranges-and-mimimun-and-maximum-temperature-in-relation-to-crop-growth">
-<h2>🌍 Use case: Investigation of diurnal temperature ranges, and mimimun and maximum temperature in relation to crop growth<a class="headerlink" href="#use-case-investigation-of-diurnal-temperature-ranges-and-mimimun-and-maximum-temperature-in-relation-to-crop-growth" title="Link to this heading">#</a></h2>
+<section id="use-case-investigation-of-minimum-and-maximum-temperature-in-relation-to-optimal-growing-conditions-for-common-crops">
+<h2>🌍 Use case: Investigation of minimum and maximum temperature in relation to optimal growing conditions for common crops.<a class="headerlink" href="#use-case-investigation-of-minimum-and-maximum-temperature-in-relation-to-optimal-growing-conditions-for-common-crops" title="Link to this heading">#</a></h2>
 </section>
 <section id="quality-assessment-question">
 <h2>❓ Quality assessment question<a class="headerlink" href="#quality-assessment-question" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p><strong>Can seasonal forecasts of minimum and maximum temperature be used to draw conclusions about growth conditions for common crops?</strong></p></li>
+<li><p><strong>How do long term temporal trends impact the growing season?</strong></p></li>
+<li><p><strong>Can seasonal forecasts of minimum and maximum temperature be used to draw conclusions about optimal planting dates for common crops?</strong></p></li>
 </ul>
-<p><strong>‘Context paragraph’ (no title/heading)</strong> - a very short introduction before the assessment statement describing approach taken to answer the user question. One or two key references could be useful,  if the assessment summarises literature . These can be referenced directly in the text, like <code class="docutils literal notranslate"><span class="pre">[Rodriguez</span> <span class="pre">et.</span> <span class="pre">al.</span> <span class="pre">2018](https://doi.org/10.1038/s41598-018-20628-2)</span></code> giving: <a class="reference external" href="https://doi.org/10.1038/s41598-018-20628-2" rel="noreferrer" target="_blank">Rodriguez et. al. 2018</a>. For major references numerical labels like this should be used (which should also listed at the end) <code class="docutils literal notranslate"><span class="pre">Rodriguez</span> <span class="pre">et.</span> <span class="pre">al.</span> <span class="pre">2018,</span> <span class="pre">[[1]](https://doi.org/10.5194/gmd-17-1249-2024))</span></code>giving: Rodriguez et. al. 2018, <a class="reference external" href="https://doi.org/10.5194/gmd-17-1249-2024" rel="noreferrer" target="_blank">[1]</a>). Please use DOI links where possible.</p>
+<p>One important factor for determining daily crop growth and in extension the total crop yield is the daily variations of temperature during the growth period. Typically, when considering the trends in crop yield in relation to changing temperature trends due to climate change, average daily temperature is used. However it is also important to consider the daily range of temperature which can be done by looking at the maximum and minimum temperatures and the diurnal temperature range given by their difference (DTR=Tmax-Tmin). (<a class="reference external" href="https://doi.org/10.1016/j.agrformet.2007.05.002" rel="noreferrer" target="_blank">Lobell, David B. (2007) [1]</a>)</p>
+<p>This notebook considers the optimal growing temperatures for spring wheat planted in central Europe, looking both at the effectiveness of seasonal forecasts in drawing conclusions about growth conditions for crops, and also how long term temperature trends in minimum and maximum temperature impact the growing season. This is done through looking at the subdaily minimum and maximum temperature in relation to the growth period and growing requirements for spring wheat.</p>
 </section>
 <section id="quality-assessment-statement">
 <h2>📢 Quality assessment statement<a class="headerlink" href="#quality-assessment-statement" title="Link to this heading">#</a></h2>
 <div class="note admonition">
 <p class="admonition-title">These are the key outcomes of this assessment</p>
 <ul class="simple">
-<li><p>To be found</p></li>
+<li><p>For the 2025 period, considering spring wheat with a planting date in April conclusions can be drawn based on the seasonal forecast, that April is a decent planting month for good growth conditions, and that warmer temperatures towards the end of the period may impact final yield.</p></li>
+<li><p>No concrete conclusions can be drawn from the interannual variability of minimum and maximum temperature, there is no clear trend between years and the amount of noise is too large to draw conclusions about agreement between the seasonal forecast and ERA5.</p></li>
+<li><p>There is a somewhat visible trend in the number of days falling outside optimal growth conditions based on the hindcast, characterised by a faint increase in the number of days with conditions warmer than the higher threshold for optimal growth. However, there is little agreement between the hindcast and ERA5.</p></li>
 </ul>
 </div>
 </section>
 <section id="methodology">
 <h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
-<p>A ‘free text’ introduction to the data analysis steps or a description of the literature synthesis, with a justification of the approach taken, and limitations mentioned. <strong>Mention which CDS catalogue entry is used, including a link, and also any other entries used for the assessment</strong>.</p>
-<p>Followed by a numbered list of the methodology and results, with the same headings as the sections under ‘Analysis and Results’. These should be links to the sections below, using the format <code class="docutils literal notranslate"><span class="pre">[](section-label)</span></code>. The title of the section will be automatically populated, so no need to repeat the title of the section when referecing it like this.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The section labels for the links need to be manually set, as seen below (<code class="docutils literal notranslate"><span class="pre">(section-1)=</span></code>, followed by the heading). These labels will be shown in GitHub but will not appear when the Jupyter Book page is built.</p>
-</div>
-<ul class="simple">
-<li><p>These headings can be specific to the quality assessment, and help guide the user through the ‘story’ of the assessment. This means we cannot pre-define the sections and headings here, as they will be different for each assessment.</p></li>
-<li><p>Sub-bullets could be used to outline what will be done/shown/discussed in each section</p></li>
-<li><p>The list below is just an example, or may need more or fewer sections, with different headings</p></li>
-</ul>
-<p>E.g. ‘The analysis and results are organised in the following steps, which are detailed in the sections below:’</p>
+<p>This notebook provides a usecase for using the subdaily minimum and maximum temperatures from <a class="reference external" href="https://doi.org/10.24381/cds.181d637e" rel="noreferrer" target="_blank">Seasonal forecast daily and subdaily data on single levels</a> and <a class="reference external" href="https://doi.org/10.24381/cds.adbb2d47" rel="noreferrer" target="_blank">ERA5 Reanalysis</a>.</p>
+<p>The forecast data for the target period is debiased using the hindcast period, with a trend preserving tool ibicus (<a class="reference external" href="https://doi.org/10.5194/gmd-17-1249-2024" rel="noreferrer" target="_blank">Spuler, et al. (2024) [2]</a>). Both the hindcast period and the forecast period are used in visualisations.</p>
+<p>A growth window was also established, based on the plant date and the growth time for wheat, as well as the optimal daily temperature window for growth, stated to be between 15 and 20 degrees celsius.</p>
+<p>Using this data plots were generated both to try and assess temporal trends, for example looking at the interannual variability, looking both at the hindcast and ERA5. As well as generating plots for each year of the hindcast period showing maximum and minimum temperature in relation to the growth window.</p>
+<p>The number of days during the growing period outside that optimal temperature window was also calculated both for the hindcast and also for ERA5 to illustrate a possible trend in the number of days a year spent outside of optimal growing conditions.</p>
+<p>Lastly a plot is generated with all of the different thresholds for crop growth, the optimal growth window is added, but also a minimum temperature for measurable growth and also an indicator for frost risk. The debiased forecast period is plotted with all members and ensemble mean. The climatology, taken from the hindcast period is also added as a shaded region.</p>
 <p><strong><a class="reference internal" href="#seasonal-seasonal-original-single-levels-resolution-q08-section-1"><span class="std std-ref">1. Download data and select region and crop of interest</span></a></strong></p>
 <ul class="simple">
-<li><p>Sub-steps or key points listed in bullet below. No strict requirement to match and link to sub-headings.</p></li>
+<li><p>Choose a selection of forecast systems and model version for the hindcast period and for the target forecast period, based on the year and planting month you want to explore</p></li>
+<li><p>Choose period, matching both hindcast and forecast, for ERA5</p></li>
 </ul>
-<p><strong><a class="reference internal" href="#seasonal-seasonal-original-single-levels-resolution-q08-section-2"><span class="std std-ref">2. Temperature extreme trends year to year</span></a></strong></p>
+<p><strong><a class="reference internal" href="#seasonal-seasonal-original-single-levels-resolution-q08-section-2"><span class="std std-ref">2. Debiasing</span></a></strong></p>
 <ul class="simple">
-<li><p>Sub-steps or key points listed in bullet below. No strict requirement to match and link to sub-headings.</p></li>
+<li><p>The forecast period is debiased using the hindcast data using a trend preserving method.</p></li>
+<li><p>Both the debiased data, and the hindcast data are saved.</p></li>
 </ul>
-<p><strong><a class="reference internal" href="#seasonal-seasonal-original-single-levels-resolution-q08-section-3"><span class="std std-ref">3. Plot the temperature data with growth season and optimal temperature window</span></a></strong></p>
+<p><strong><a class="reference internal" href="#seasonal-seasonal-original-single-levels-resolution-q08-section-3"><span class="std std-ref">3. Temperature trends year to year</span></a></strong></p>
 <ul class="simple">
-<li><p>Sub-steps or key points listed in bullet below. No strict requirement to match and link to sub-headings.</p></li>
+<li><p>The interannual variability is plotted for a selected month for the hindcast period and era5</p></li>
+<li><p>The minimum and maximum temperature is also plotted for ERA5 for the hindcast period, with a window for growing period and optimal growth temperatures to indicate temperature trends from year to year.</p></li>
+<li><p>The number of days of the growing period that are outside the optimal temperature range is also visualized for both the hindcast period and ERA5</p></li>
+</ul>
+<p><strong><a class="reference internal" href="#seasonal-seasonal-original-single-levels-resolution-q08-section-4"><span class="std std-ref">4. Plot the temperature data with growth season and optimal temperature window</span></a></strong></p>
+<ul class="simple">
+<li><p>The debiased forecast, with all ensemble members is plotted for the whole season, with the climatology taken from the hindcast over the growth window, based on the given start month and the growth time for spring wheat, as well as the optimal growth temperature window, the frost risk and minimum temperature for measurable growth.</p></li>
+</ul>
+<p><strong><a class="reference internal" href="#seasonal-seasonal-original-single-levels-resolution-q08-section-5"><span class="std std-ref">5. Discussion</span></a></strong></p>
+<p><strong>Key limitations:</strong></p>
+<ul class="simple">
+<li><p>Focusing just on temperature does not provide the full picture in terms of crop growth and yield since that is also heavily dependent on other conditions such as precipitation.</p></li>
+<li><p>The temperatures used as a baseline for growing conditions outlined on the FAO website <a class="reference external" href="https://www.fao.org/land-water/databases-and-software/crop-information/wheat/en/" rel="noreferrer" target="_blank">[3]</a> are specified as mean daily temperature, and thus cannot be directly compared to the maximum and minimum temperature.</p></li>
+<li><p>This notebook assumes the bias to be similar in all realizations, as the debiasing method is run for the 0th realization and then this computed bias is subtracted from the other realizations.</p></li>
+<li><p>This notebook does not make a distinction between arable and non-arable land.</p></li>
 </ul>
 </section>
 <section id="analysis-and-results">
@@ -558,7 +561,8 @@ Please note that this repository is used for development and review, so quality 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.dates</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mdates</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">col</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ibicus.debias</span><span class="w"> </span><span class="kn">import</span> <span class="n">ISIMIP</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibicus.debias</span><span class="w"> </span><span class="kn">import</span> <span class="n">CDFt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;seaborn-v0_8-notebook&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -572,52 +576,24 @@ Please note that this repository is used for development and review, so quality 
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">meanfunc</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
-    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;realization&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">ds</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_plant_month</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;-0</span><span class="si">{</span><span class="n">month</span><span class="si">}</span><span class="s2">-01&quot;</span><span class="p">)</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_maps</span><span class="p">(</span><span class="n">years</span><span class="p">,</span><span class="n">ds</span><span class="p">,</span><span class="n">number_columns</span><span class="p">,</span><span class="n">growth_time</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">units_kelvin_to_celsius_era5</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">t2m</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;GRIB_units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;°C&quot;</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">t2m</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;°C&quot;</span>
+    <span class="k">return</span> <span class="n">ds</span> <span class="o">-</span> <span class="mf">273.15</span>
+    
+<span class="k">def</span><span class="w"> </span><span class="nf">units_kelvin_to_celsius_sf</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">mn2t24</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;GRIB_units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;°C&quot;</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">mn2t24</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;°C&quot;</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">mx2t24</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;GRIB_units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;°C&quot;</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">mx2t24</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;°C&quot;</span>
+    <span class="k">return</span> <span class="n">ds</span> <span class="o">-</span> <span class="mf">273.15</span>
+    
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_years</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="n">number_columns</span><span class="p">,</span> <span class="n">growth_time</span><span class="p">,</span><span class="n">data_name</span><span class="p">):</span>
 
-    <span class="n">norm</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span><span class="n">ds</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
-    
-    <span class="n">cols</span> <span class="o">=</span> <span class="n">number_columns</span>
-    <span class="n">rows</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">years</span><span class="p">)</span> <span class="o">/</span> <span class="n">cols</span><span class="p">)</span>
-    
-    <span class="k">if</span> <span class="n">cols</span> <span class="o">*</span> <span class="n">rows</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">years</span><span class="p">):</span>
-        <span class="n">rows</span> <span class="o">=</span> <span class="n">rows</span> <span class="o">+</span> <span class="mi">1</span> 
-        
-    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="n">rows</span><span class="p">,</span><span class="n">ncols</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span><span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;projection&#39;</span><span class="p">:</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()})</span>
-    
-    <span class="n">plot</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">row</span> <span class="o">=</span> <span class="mi">0</span>
-    
-    <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
-        <span class="n">plant_month</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;-04-01&quot;</span><span class="p">)</span><span class="c1">#april</span>
-        <span class="n">end_month</span> <span class="o">=</span> <span class="n">plant_month</span> <span class="o">+</span> <span class="n">growth_time</span>
-    
-        <span class="n">selection</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;-03&quot;</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;-10&quot;</span><span class="p">,</span> <span class="n">inclusive</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">)</span>
-        
-        <span class="n">monthly_mean</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">selection</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
-    
-        <span class="n">cfax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">plot</span><span class="p">]</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">monthly_mean</span><span class="o">.</span><span class="n">longitude</span><span class="p">,</span><span class="n">monthly_mean</span><span class="o">.</span><span class="n">latitude</span><span class="p">,</span><span class="n">monthly_mean</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-                           <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span><span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span><span class="n">levels</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-        <span class="n">ax</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">plot</span><span class="p">]</span><span class="o">.</span><span class="n">coastlines</span><span class="p">()</span>
-        <span class="n">ax</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">plot</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
-        
-        <span class="n">plot</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">if</span> <span class="n">plot</span> <span class="o">&gt;</span> <span class="n">cols</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-    
-            <span class="n">plot</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
-
-    <span class="n">cmap</span> <span class="o">=</span> <span class="n">mpl</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">coolwarm</span>
-    <span class="n">cbar</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">mpl</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">ScalarMappable</span><span class="p">(</span><span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Degrees celsius&#39;</span><span class="p">)</span>
-    <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_position</span><span class="p">([</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.30</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">])</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_years</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="n">number_columns</span><span class="p">,</span> <span class="n">growth_time</span><span class="p">):</span>
-
-    <span class="n">norm</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">t2m_min</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">-</span><span class="mf">273.15</span><span class="p">,</span><span class="n">ds</span><span class="o">.</span><span class="n">t2m_max</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">-</span><span class="mf">273.15</span><span class="p">)</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">t2m_min</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span><span class="n">ds</span><span class="o">.</span><span class="n">t2m_max</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
 
     <span class="n">cols</span> <span class="o">=</span> <span class="n">number_columns</span>
     <span class="n">rows</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">years</span><span class="p">)</span> <span class="o">/</span> <span class="n">cols</span><span class="p">)</span>
@@ -631,17 +607,18 @@ Please note that this repository is used for development and review, so quality 
     <span class="n">row</span> <span class="o">=</span> <span class="mi">0</span>
     
     <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
-        <span class="n">plant_month</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;-04-01&quot;</span><span class="p">)</span><span class="c1">#april</span>
-        <span class="n">end_month</span> <span class="o">=</span> <span class="n">plant_month</span> <span class="o">+</span> <span class="n">growth_time</span>
+        <span class="n">start_month</span> <span class="o">=</span> <span class="n">get_plant_month</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">plant_month</span><span class="p">)</span>
+        <span class="n">end_month</span> <span class="o">=</span> <span class="n">start_month</span> <span class="o">+</span> <span class="n">growth_time</span>
     
         <span class="n">selection</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;-03&quot;</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;-10&quot;</span><span class="p">,</span> <span class="n">inclusive</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">)</span>
-        <span class="n">t_max</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">t2m_max</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">selection</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span><span class="o">-</span><span class="mf">273.15</span>
-        <span class="n">t_min</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">t2m_min</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">selection</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span><span class="o">-</span><span class="mf">273.15</span>
+        <span class="n">t_max</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">t2m_max</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">selection</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span>
+        <span class="n">t_min</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">t2m_min</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">selection</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span>
        
-        <span class="n">ax</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">plot</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_max</span><span class="o">.</span><span class="n">time</span><span class="p">,</span><span class="n">t_max</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;max temp&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">plot</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_min</span><span class="o">.</span><span class="n">time</span><span class="p">,</span><span class="n">t_min</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;min temp&quot;</span><span class="p">)</span>
         
-        <span class="n">ax</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">plot</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">plant_month</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Growth season&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">plot</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_min</span><span class="o">.</span><span class="n">time</span><span class="p">,</span><span class="n">t_min</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;min temp&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">plot</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_max</span><span class="o">.</span><span class="n">time</span><span class="p">,</span><span class="n">t_max</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;max temp&quot;</span><span class="p">)</span>
+        
+        <span class="n">ax</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">plot</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">start_month</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Growth season&quot;</span><span class="p">)</span>
         <span class="n">ax</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">plot</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">end_month</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">ax</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">plot</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">max_growing_temp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Optimal temperature window&quot;</span><span class="p">)</span>
         <span class="n">ax</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">plot</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">min_growing_temp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -654,8 +631,80 @@ Please note that this repository is used for development and review, so quality 
         <span class="k">if</span> <span class="n">plot</span> <span class="o">&gt;</span> <span class="n">cols</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
             <span class="n">plot</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper center&#39;</span><span class="p">,</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0001</span><span class="p">))</span>
+
+
+    <span class="c1">#plt.legend(bbox_to_anchor=(0.5, -0.2), loc=&#39;upper left&#39;, borderaxespad=0)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">interannual_variability</span><span class="p">(</span><span class="n">years</span><span class="p">,</span><span class="n">ds</span><span class="p">,</span><span class="n">month</span><span class="p">):</span> 
+    <span class="n">variability</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
+        <span class="n">start_first_year</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">month</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;-01&quot;</span><span class="p">)</span>
+        <span class="n">end_first_year</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">month</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;-01&quot;</span><span class="p">)</span>
+
+        <span class="n">start_second_year</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">month</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;-01&quot;</span><span class="p">)</span>
+        <span class="n">end_second_year</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">month</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;-01&quot;</span><span class="p">)</span>
+
+        <span class="n">monthly_mean_preceding</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start_first_year</span><span class="p">,</span><span class="n">end_first_year</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="n">monthly_mean_current</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start_second_year</span><span class="p">,</span><span class="n">end_second_year</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+       
+        <span class="n">variability</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">monthly_mean_current</span> <span class="o">-</span> <span class="n">monthly_mean_preceding</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">variability</span>
+    
+<span class="k">def</span><span class="w"> </span><span class="nf">count_less_than</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span><span class="n">plant_month</span><span class="p">,</span><span class="n">growth_time</span><span class="p">,</span><span class="n">reference</span><span class="p">,</span><span class="n">members_included</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">count_for_years</span> <span class="o">=</span> <span class="p">[]</span> 
+    <span class="n">members</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
+        <span class="n">start_month</span> <span class="o">=</span> <span class="n">get_plant_month</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">plant_month</span><span class="p">)</span>
+        <span class="n">end_month</span> <span class="o">=</span> <span class="n">start_month</span> <span class="o">+</span> <span class="n">growth_time</span>
+        <span class="n">selection</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start_month</span><span class="p">,</span><span class="n">end_month</span><span class="p">,</span> <span class="n">inclusive</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">)</span>
+        
+        <span class="n">var_selection</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">selection</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span>
+
+        <span class="n">where_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">var_selection</span> <span class="o">&lt;</span> <span class="n">reference</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">members_included</span><span class="p">:</span>
+            <span class="n">unique</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">where_true</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        
+            <span class="n">count_for_years</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+            <span class="n">members</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">unique</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="n">count_for_years</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">where_true</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        
+    <span class="k">return</span> <span class="n">count_for_years</span><span class="p">,</span> <span class="n">members</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">count_greater_than</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span><span class="n">plant_month</span><span class="p">,</span><span class="n">growth_time</span><span class="p">,</span><span class="n">reference</span><span class="p">,</span><span class="n">members_included</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">count_for_years</span> <span class="o">=</span> <span class="p">[]</span> 
+    <span class="n">members</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
+        <span class="n">start_month</span> <span class="o">=</span> <span class="n">get_plant_month</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">plant_month</span><span class="p">)</span>
+        <span class="n">end_month</span> <span class="o">=</span> <span class="n">start_month</span> <span class="o">+</span> <span class="n">growth_time</span>
+        <span class="n">selection</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start_month</span><span class="p">,</span><span class="n">end_month</span><span class="p">,</span> <span class="n">inclusive</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">)</span>
+        
+        <span class="n">var_selection</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">selection</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span>
+        <span class="n">where_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">var_selection</span> <span class="o">&gt;</span> <span class="n">reference</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">members_included</span><span class="p">:</span>
+            <span class="n">unique</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">where_true</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        
+            <span class="n">count_for_years</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+            <span class="n">members</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">unique</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="n">count_for_years</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">where_true</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+            
+        
+    <span class="k">return</span> <span class="n">count_for_years</span><span class="p">,</span> <span class="n">members</span>
+    
 </pre></div>
 </div>
 </div>
@@ -668,7 +717,7 @@ Please note that this repository is used for development and review, so quality 
 <p class="collapsed admonition-title">Show code cell source</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
-<div class="cell_input above-output-prompt docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="s2">&quot;derived-era5-single-levels-daily-statistics&quot;</span>
 
 <span class="n">request</span><span class="o">=</span> <span class="p">{</span>
@@ -713,6 +762,8 @@ Please note that this repository is used for development and review, so quality 
 <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;chunks&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
     <span class="s2">&quot;n_jobs&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;transform_func&quot;</span> <span class="p">:</span> <span class="n">units_kelvin_to_celsius_era5</span><span class="p">,</span>
+    <span class="s2">&quot;transform_chunks&quot;</span> <span class="p">:</span> <span class="kc">False</span>
 <span class="p">}</span>
 
 <span class="n">request</span><span class="p">[</span><span class="s2">&quot;daily_statistic&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;daily_minimum&quot;</span>
@@ -732,32 +783,6 @@ Please note that this repository is used for development and review, so quality 
 </div>
 </div>
 </details>
-<details class="admonition hide below-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell output</p>
-<p class="expanded admonition-title">Hide code cell output</p>
-</summary>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 36/36 [00:00&lt;00:00, 45.42it/s]
-100%|██████████| 36/36 [00:00&lt;00:00, 56.21it/s]
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">days</span> <span class="o">=</span> <span class="mi">215</span>
-<span class="n">leadtime_hour</span> <span class="o">=</span> <span class="p">[(</span><span class="n">day</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">24</span> <span class="k">for</span> <span class="n">day</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">days</span><span class="p">)]</span>
-</pre></div>
-</div>
-</div>
-</details>
 </div>
 <p>Downloading reference hindcast data, and forecast data</p>
 <div class="cell tag_hide-input tag_hide-output docutils container">
@@ -766,8 +791,10 @@ Please note that this repository is used for development and review, so quality 
 <p class="collapsed admonition-title">Show code cell source</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
-<div class="cell_input above-output-prompt docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">collection_id_max_min</span> <span class="o">=</span> <span class="s2">&quot;seasonal-original-single-levels&quot;</span>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">days</span> <span class="o">=</span> <span class="mi">215</span>
+<span class="n">leadtime_hour</span> <span class="o">=</span> <span class="p">[(</span><span class="n">day</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">24</span> <span class="k">for</span> <span class="n">day</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">days</span><span class="p">)]</span>
+<span class="n">collection_id_max_min</span> <span class="o">=</span> <span class="s2">&quot;seasonal-original-single-levels&quot;</span>
 <span class="n">request_hindcast</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;originating_centre&quot;</span><span class="p">:</span> <span class="s2">&quot;ecmwf&quot;</span><span class="p">,</span>
     <span class="s2">&quot;system&quot;</span><span class="p">:</span> <span class="s2">&quot;51&quot;</span><span class="p">,</span>
@@ -816,35 +843,20 @@ Please note that this repository is used for development and review, so quality 
     <span class="s2">&quot;chunks&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
     <span class="s2">&quot;n_jobs&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
     <span class="s2">&quot;backend_kwargs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;time_dims&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;valid_time&quot;</span><span class="p">]},</span>
+    <span class="s2">&quot;transform_func&quot;</span><span class="p">:</span> <span class="n">units_kelvin_to_celsius_sf</span><span class="p">,</span>
+    <span class="s2">&quot;transform_chunks&quot;</span><span class="p">:</span> <span class="kc">False</span>
 <span class="p">}</span>
-
 <span class="n">da_max_min</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
     <span class="n">collection_id_max_min</span><span class="p">,</span>
     <span class="n">request_max_min</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;transform_func&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">meanfunc</span>
-<span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;transform_chunks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
-
 <span class="n">da_hindcast</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
     <span class="n">collection_id_max_min</span><span class="p">,</span>
     <span class="n">request_hindcast</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-<details class="admonition hide below-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell output</p>
-<p class="expanded admonition-title">Hide code cell output</p>
-</summary>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 [00:00&lt;00:00,  8.61it/s]
-/data/common/miniforge3/envs/wp3/lib/python3.12/site-packages/earthkit/data/utils/kwargs.py:59: UserWarning: In xarray_open_dataset_kwargs backend_kwargs, overriding the default value (squeeze=False) with squeeze=True is not recommended.
-  warnings.warn(
 </pre></div>
 </div>
 </div>
@@ -860,9 +872,55 @@ Please note that this repository is used for development and review, so quality 
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">max_growing_temp</span> <span class="o">=</span> <span class="mi">20</span>
 <span class="n">min_growing_temp</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">frost_risk_temp</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">hazard_max</span> <span class="o">=</span> <span class="mi">12</span>
 <span class="n">hazard_min</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">plant_month</span> <span class="o">=</span> <span class="mi">4</span> <span class="c1">#april</span>
 <span class="n">growth_time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="mi">130</span><span class="p">,</span><span class="s2">&quot;D&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>Plotting the area of interest</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">stock_img</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">([</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">60</span><span class="p">],</span><span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+<span class="n">lon</span> <span class="o">=</span> <span class="n">ERA5</span><span class="o">.</span><span class="n">longitude</span>
+<span class="n">lat</span> <span class="o">=</span> <span class="n">ERA5</span><span class="o">.</span><span class="n">latitude</span>
+<span class="n">longitudes</span> <span class="o">=</span> <span class="p">[</span><span class="n">lon</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lon</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">lon</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">lon</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lon</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+<span class="n">latitidues</span> <span class="o">=</span> <span class="p">[</span><span class="n">lat</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">lat</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">lat</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lat</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lat</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">longitudes</span><span class="p">,</span> <span class="n">latitidues</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">());</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/f80154060fcdef55c73855ec0afeb5aef969750b8d2773889baad7722177c01f.png" src="../_images/f80154060fcdef55c73855ec0afeb5aef969750b8d2773889baad7722177c01f.png" />
+</div>
+</div>
+</section>
+<section id="debiasing">
+<span id="seasonal-seasonal-original-single-levels-resolution-q08-section-2"></span><h3>2. Debiasing<a class="headerlink" href="#debiasing" title="Link to this heading">#</a></h3>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_max_hindcast_0</span> <span class="o">=</span> <span class="n">da_hindcast</span><span class="p">[</span><span class="s2">&quot;mx2t24&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">realization</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">tas_min_hindcast_0</span> <span class="o">=</span> <span class="n">da_hindcast</span><span class="p">[</span><span class="s2">&quot;mn2t24&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">realization</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -889,8 +947,8 @@ Please note that this repository is used for development and review, so quality 
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_max</span> <span class="o">=</span> <span class="n">da_max_min</span><span class="p">[</span><span class="s2">&quot;mx2t24&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">realization</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">tas_min</span> <span class="o">=</span> <span class="n">da_max_min</span><span class="p">[</span><span class="s2">&quot;mn2t24&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">realization</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_max_0</span> <span class="o">=</span> <span class="n">da_max_min</span><span class="p">[</span><span class="s2">&quot;mx2t24&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">realization</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">tas_min_0</span> <span class="o">=</span> <span class="n">da_max_min</span><span class="p">[</span><span class="s2">&quot;mn2t24&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">realization</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -903,7 +961,22 @@ Please note that this repository is used for development and review, so quality 
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">debiaser</span> <span class="o">=</span> <span class="n">ISIMIP</span><span class="o">.</span><span class="n">from_variable</span><span class="p">(</span><span class="s2">&quot;tas&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_max</span> <span class="o">=</span> <span class="n">da_max_min</span><span class="p">[</span><span class="s2">&quot;mx2t24&quot;</span><span class="p">]</span>
+<span class="n">tas_min</span> <span class="o">=</span> <span class="n">da_max_min</span><span class="p">[</span><span class="s2">&quot;mn2t24&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">debiaser_min</span> <span class="o">=</span> <span class="n">CDFt</span><span class="o">.</span><span class="n">from_variable</span><span class="p">(</span><span class="s2">&quot;tasmin&quot;</span><span class="p">,</span><span class="n">running_window_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">debiaser_max</span> <span class="o">=</span> <span class="n">CDFt</span><span class="o">.</span><span class="n">from_variable</span><span class="p">(</span><span class="s2">&quot;tasmax&quot;</span><span class="p">,</span><span class="n">running_window_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -916,7 +989,7 @@ Please note that this repository is used for development and review, so quality 
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input above-output-prompt docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">min_debiased</span> <span class="o">=</span> <span class="n">debiaser</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">ERA5</span><span class="o">.</span><span class="n">t2m_min</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">tas_min_hindcast</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">tas_min</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">min_debiased</span> <span class="o">=</span> <span class="n">debiaser_min</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">ERA5</span><span class="o">.</span><span class="n">t2m_min</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">tas_min_hindcast_0</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">tas_min_0</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="n">time_obs</span><span class="o">=</span><span class="n">ERA5</span><span class="o">.</span><span class="n">t2m_min</span><span class="o">.</span><span class="n">time</span><span class="p">,</span><span class="n">time_cm_hist</span><span class="o">=</span><span class="n">tas_min_hindcast_0</span><span class="o">.</span><span class="n">time</span><span class="p">,</span><span class="n">time_cm_future</span><span class="o">=</span><span class="n">tas_min_0</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -927,13 +1000,15 @@ Please note that this repository is used for development and review, so quality 
 <p class="expanded admonition-title">Hide code cell output</p>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/451 [00:00&lt;?, ?it/s]/data/common/miniforge3/envs/wp3/lib/python3.12/site-packages/ibicus/debias/_debiaser.py:387: UserWarning: ISIMIP runs without time-information for at least one of obs, cm_hist or cm_future.
-                    This information is inferred, assuming the first observation is on a January 1st. Observations are chunked according to the assumed time information.
-                    This might lead to slight numerical differences to the run with time information, however the debiasing is not fundamentally changed.
-  return func(obs, cm_hist, cm_future, **kwargs)
-/data/common/miniforge3/envs/wp3/lib/python3.12/site-packages/ibicus/debias/_isimip.py:564: SmallSampleWarning: One or more sample arguments is too small; all returned values will be NaN. See documentation for sample size requirements.
-  regression = scipy.stats.linregress(unique_years, annual_means)
-100%|██████████| 451/451 [07:52&lt;00:00,  1.05s/it]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/data/common/miniforge3/envs/wp3/lib/python3.12/site-packages/ibicus/debias/_debiaser.py:532: UserWarning: obs contains values outside the reasonable physical range of [100, 400] for the variable: Daily minimum near-surface air temperature. This might be due to different units of to data problems. It is recommended to check the input.
+  obs, cm_hist, cm_future = self._check_inputs_and_convert_if_possible(
+/data/common/miniforge3/envs/wp3/lib/python3.12/site-packages/ibicus/debias/_debiaser.py:532: UserWarning: cm_hist contains values outside the reasonable physical range of [100, 400] for the variable: Daily minimum near-surface air temperature. This might be due to different units of to data problems. It is recommended to check the input.
+  obs, cm_hist, cm_future = self._check_inputs_and_convert_if_possible(
+/data/common/miniforge3/envs/wp3/lib/python3.12/site-packages/ibicus/debias/_debiaser.py:532: UserWarning: cm_future contains values outside the reasonable physical range of [100, 400] for the variable: Daily minimum near-surface air temperature. This might be due to different units of to data problems. It is recommended to check the input.
+  obs, cm_hist, cm_future = self._check_inputs_and_convert_if_possible(
+100%|██████████| 451/451 [00:15&lt;00:00, 29.91it/s]
+/data/common/miniforge3/envs/wp3/lib/python3.12/site-packages/ibicus/debias/_debiaser.py:562: UserWarning: The debiaser output contains values outside the reasonable physical range of [100, 400] for the variable: Daily minimum near-surface air temperature. This might be due to values outside the range in the input, or to a problem of the debiaser for the given dataset at hand. It is recommended to check the output carefully.
+  self._check_output(output)
 </pre></div>
 </div>
 </div>
@@ -946,7 +1021,7 @@ Please note that this repository is used for development and review, so quality 
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">min_bias</span> <span class="o">=</span> <span class="n">tas_min</span> <span class="o">-</span> <span class="n">min_debiased</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">min_bias</span> <span class="o">=</span> <span class="n">tas_min_0</span> <span class="o">-</span> <span class="n">min_debiased</span>
 </pre></div>
 </div>
 </div>
@@ -959,7 +1034,7 @@ Please note that this repository is used for development and review, so quality 
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input above-output-prompt docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">max_debiased</span> <span class="o">=</span> <span class="n">debiaser</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">ERA5</span><span class="o">.</span><span class="n">t2m_max</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">tas_max_hindcast</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">tas_max</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">max_debiased</span> <span class="o">=</span> <span class="n">debiaser_max</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">ERA5</span><span class="o">.</span><span class="n">t2m_max</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">tas_max_hindcast_0</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">tas_max_0</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="n">time_obs</span><span class="o">=</span><span class="n">ERA5</span><span class="o">.</span><span class="n">t2m_max</span><span class="o">.</span><span class="n">time</span><span class="p">,</span><span class="n">time_cm_hist</span><span class="o">=</span><span class="n">tas_max_hindcast_0</span><span class="o">.</span><span class="n">time</span><span class="p">,</span><span class="n">time_cm_future</span><span class="o">=</span><span class="n">tas_max_0</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -970,13 +1045,15 @@ Please note that this repository is used for development and review, so quality 
 <p class="expanded admonition-title">Hide code cell output</p>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/451 [00:00&lt;?, ?it/s]/data/common/miniforge3/envs/wp3/lib/python3.12/site-packages/ibicus/debias/_debiaser.py:387: UserWarning: ISIMIP runs without time-information for at least one of obs, cm_hist or cm_future.
-                    This information is inferred, assuming the first observation is on a January 1st. Observations are chunked according to the assumed time information.
-                    This might lead to slight numerical differences to the run with time information, however the debiasing is not fundamentally changed.
-  return func(obs, cm_hist, cm_future, **kwargs)
-/data/common/miniforge3/envs/wp3/lib/python3.12/site-packages/ibicus/debias/_isimip.py:564: SmallSampleWarning: One or more sample arguments is too small; all returned values will be NaN. See documentation for sample size requirements.
-  regression = scipy.stats.linregress(unique_years, annual_means)
-100%|██████████| 451/451 [07:46&lt;00:00,  1.03s/it]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/data/common/miniforge3/envs/wp3/lib/python3.12/site-packages/ibicus/debias/_debiaser.py:532: UserWarning: obs contains values outside the reasonable physical range of [100, 400] for the variable: Daily maximum near-surface air temperature. This might be due to different units of to data problems. It is recommended to check the input.
+  obs, cm_hist, cm_future = self._check_inputs_and_convert_if_possible(
+/data/common/miniforge3/envs/wp3/lib/python3.12/site-packages/ibicus/debias/_debiaser.py:532: UserWarning: cm_hist contains values outside the reasonable physical range of [100, 400] for the variable: Daily maximum near-surface air temperature. This might be due to different units of to data problems. It is recommended to check the input.
+  obs, cm_hist, cm_future = self._check_inputs_and_convert_if_possible(
+/data/common/miniforge3/envs/wp3/lib/python3.12/site-packages/ibicus/debias/_debiaser.py:532: UserWarning: cm_future contains values outside the reasonable physical range of [100, 400] for the variable: Daily maximum near-surface air temperature. This might be due to different units of to data problems. It is recommended to check the input.
+  obs, cm_hist, cm_future = self._check_inputs_and_convert_if_possible(
+100%|██████████| 451/451 [00:14&lt;00:00, 30.32it/s]
+/data/common/miniforge3/envs/wp3/lib/python3.12/site-packages/ibicus/debias/_debiaser.py:562: UserWarning: The debiaser output contains values outside the reasonable physical range of [100, 400] for the variable: Daily maximum near-surface air temperature. This might be due to values outside the range in the input, or to a problem of the debiaser for the given dataset at hand. It is recommended to check the output carefully.
+  self._check_output(output)
 </pre></div>
 </div>
 </div>
@@ -989,7 +1066,7 @@ Please note that this repository is used for development and review, so quality 
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">max_bias</span> <span class="o">=</span> <span class="n">tas_max</span> <span class="o">-</span> <span class="n">max_debiased</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">max_bias</span> <span class="o">=</span> <span class="n">tas_max_0</span> <span class="o">-</span> <span class="n">max_debiased</span>
 </pre></div>
 </div>
 </div>
@@ -1002,53 +1079,75 @@ Please note that this repository is used for development and review, so quality 
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">da_max_min</span><span class="p">[</span><span class="s2">&quot;max_debiased&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">([</span><span class="s2">&quot;realization&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span><span class="s2">&quot;longitude&quot;</span><span class="p">],</span> <span class="n">da_max_min</span><span class="p">[</span><span class="s2">&quot;mx2t24&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="n">max_bias</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-<span class="n">da_max_min</span><span class="p">[</span><span class="s2">&quot;min_debiased&quot;</span><span class="p">]</span> <span class="o">=</span>  <span class="p">([</span><span class="s2">&quot;realization&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span><span class="s2">&quot;longitude&quot;</span><span class="p">],</span> <span class="n">da_max_min</span><span class="p">[</span><span class="s2">&quot;mn2t24&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="n">min_bias</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">slice_europe_max</span> <span class="o">=</span> <span class="n">da_max_min</span><span class="p">[</span><span class="s2">&quot;max_debiased&quot;</span><span class="p">]</span>
-<span class="n">slice_europe_min</span> <span class="o">=</span> <span class="n">da_max_min</span><span class="p">[</span><span class="s2">&quot;min_debiased&quot;</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">))</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">stock_img</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">([</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">60</span><span class="p">],</span><span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
-<span class="n">longitudes</span> <span class="o">=</span> <span class="p">[</span><span class="n">slice_europe_max</span><span class="o">.</span><span class="n">longitude</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">slice_europe_max</span><span class="o">.</span><span class="n">longitude</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">slice_europe_max</span><span class="o">.</span><span class="n">longitude</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">slice_europe_max</span><span class="o">.</span><span class="n">longitude</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">slice_europe_max</span><span class="o">.</span><span class="n">longitude</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-<span class="n">latitidues</span> <span class="o">=</span> <span class="p">[</span><span class="n">slice_europe_max</span><span class="o">.</span><span class="n">latitude</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">slice_europe_max</span><span class="o">.</span><span class="n">latitude</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">slice_europe_max</span><span class="o">.</span><span class="n">latitude</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">slice_europe_max</span><span class="o">.</span><span class="n">latitude</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">slice_europe_max</span><span class="o">.</span><span class="n">latitude</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">longitudes</span><span class="p">,</span> <span class="n">latitidues</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">());</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">min_bias</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Minimum Temperature&quot;</span><span class="p">);</span>
+<span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">max_bias</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Maximum Temperature&quot;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Spatial mean Bias for Maximum and Minimum Temperature&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">min_bias</span><span class="o">.</span><span class="n">units</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/bfb98880b94c2729030c74129a3b21dbcb88d35e380f176eaa161954405999a3.png" src="../_images/bfb98880b94c2729030c74129a3b21dbcb88d35e380f176eaa161954405999a3.png" />
+<img alt="../_images/e87ce584f010c3f2806f960ff6ea50b162c921b742ef4ff75e76e2bddc374d91.png" src="../_images/e87ce584f010c3f2806f960ff6ea50b162c921b742ef4ff75e76e2bddc374d91.png" />
 </div>
+</div>
+<p>Effect of debiasing on the spatial mean for minimum and maximum temperature, the biggest bias in both max and min temperature is a cold bias during summer, but generally the biased forecast is too cold. So removing this cold bias would make the forecast warmer, especially during summer months.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">max_bias</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdBu_r&quot;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Temporal Mean Bias for Maximum Temperature&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="p">(</span><span class="n">min_bias</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdBu_r&quot;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Temporal Mean Bias for Minimum Temperature&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/7b09841232640ae4342feb226062f730be4c68850359d7e1fcbea33ef73ccd0c.png" src="../_images/7b09841232640ae4342feb226062f730be4c68850359d7e1fcbea33ef73ccd0c.png" />
+<img alt="../_images/9d79ae8660ac79b523ad0b200b672b2dab6c4ce4fcb967fd99c8ef51e4310060.png" src="../_images/9d79ae8660ac79b523ad0b200b672b2dab6c4ce4fcb967fd99c8ef51e4310060.png" />
+</div>
+</div>
+<p>Effect on debiasing temporally shows that most of the bias is from the Alps, which has a prominent cold bias in the minimum temperature, but also a slight warm bias in the maximum temperature when averaged over the whole forecast period.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">da_max_min</span><span class="p">[</span><span class="s2">&quot;max_debiased&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">da_max_min</span><span class="p">[</span><span class="s2">&quot;mx2t24&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">max_bias</span>
+<span class="n">da_max_min</span><span class="p">[</span><span class="s2">&quot;min_debiased&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">da_max_min</span><span class="p">[</span><span class="s2">&quot;mn2t24&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">max_bias</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_max_forecast</span> <span class="o">=</span> <span class="n">da_max_min</span><span class="p">[</span><span class="s2">&quot;max_debiased&quot;</span><span class="p">]</span>
+<span class="n">tas_min_forecast</span> <span class="o">=</span> <span class="n">da_max_min</span><span class="p">[</span><span class="s2">&quot;min_debiased&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</details>
 </div>
 </section>
-<section id="temperature-extreme-trends-year-to-year">
-<span id="seasonal-seasonal-original-single-levels-resolution-q08-section-2"></span><h3>2. Temperature extreme trends year to year<a class="headerlink" href="#temperature-extreme-trends-year-to-year" title="Link to this heading">#</a></h3>
+<section id="temperature-trends-year-to-year">
+<span id="seasonal-seasonal-original-single-levels-resolution-q08-section-3"></span><h3>3. Temperature trends year to year<a class="headerlink" href="#temperature-trends-year-to-year" title="Link to this heading">#</a></h3>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1056,30 +1155,22 @@ Please note that this repository is used for development and review, so quality 
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_maps</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1981</span><span class="p">,</span><span class="mi">2016</span><span class="p">),</span><span class="n">ERA5</span><span class="o">.</span><span class="n">t2m_min</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">growth_time</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">years</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1981</span><span class="p">,</span><span class="mi">2016</span><span class="p">)</span>
+<span class="n">month</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">month_label</span> <span class="o">=</span> <span class="p">{</span><span class="mi">3</span><span class="p">:</span><span class="s2">&quot;March&quot;</span><span class="p">,</span><span class="mi">4</span><span class="p">:</span><span class="s2">&quot;April&quot;</span><span class="p">,</span><span class="mi">5</span><span class="p">:</span><span class="s2">&quot;May&quot;</span><span class="p">,</span><span class="mi">6</span><span class="p">:</span><span class="s2">&quot;June&quot;</span><span class="p">,</span><span class="mi">7</span><span class="p">:</span><span class="s2">&quot;July&quot;</span><span class="p">,</span><span class="mi">8</span><span class="p">:</span><span class="s2">&quot;August&quot;</span><span class="p">}</span>
+
+<span class="n">min_era5</span> <span class="o">=</span> <span class="n">interannual_variability</span><span class="p">(</span><span class="n">years</span><span class="p">,</span><span class="n">ERA5</span><span class="o">.</span><span class="n">t2m_min</span><span class="p">,</span><span class="n">month</span><span class="p">)</span>
+<span class="n">max_era5</span> <span class="o">=</span> <span class="n">interannual_variability</span><span class="p">(</span><span class="n">years</span><span class="p">,</span><span class="n">ERA5</span><span class="o">.</span><span class="n">t2m_max</span><span class="p">,</span><span class="n">month</span><span class="p">)</span>
+
+<span class="n">ensemble_min</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">ensemble_max</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">da_hindcast</span><span class="o">.</span><span class="n">realization</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
+    <span class="n">ensemble_min</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">interannual_variability</span><span class="p">(</span><span class="n">years</span><span class="p">,</span><span class="n">tas_min_hindcast</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">realization</span><span class="o">=</span><span class="n">member</span><span class="p">),</span><span class="n">month</span><span class="p">))</span>
+    <span class="n">ensemble_max</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">interannual_variability</span><span class="p">(</span><span class="n">years</span><span class="p">,</span><span class="n">tas_max_hindcast</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">realization</span><span class="o">=</span><span class="n">member</span><span class="p">),</span><span class="n">month</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<img alt="../_images/f5bc3698ca40d9202da219aee00da7655188a6ec1f0856f34c192936d5930b79.png" src="../_images/f5bc3698ca40d9202da219aee00da7655188a6ec1f0856f34c192936d5930b79.png" />
-</div>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_maps</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1981</span><span class="p">,</span><span class="mi">2016</span><span class="p">),</span><span class="n">ERA5</span><span class="o">.</span><span class="n">t2m_max</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span><span class="n">growth_time</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-<div class="cell_output docutils container">
-<img alt="../_images/9e54feb62609390dedc5b8739388d65c13c9e1bbe0062d6c881c00ca909073db.png" src="../_images/9e54feb62609390dedc5b8739388d65c13c9e1bbe0062d6c881c00ca909073db.png" />
-</div>
 </div>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
@@ -1088,15 +1179,33 @@ Please note that this repository is used for development and review, so quality 
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_maps</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1981</span><span class="p">,</span><span class="mi">2016</span><span class="p">),</span><span class="n">ERA5</span><span class="o">.</span><span class="n">t2m_max</span> <span class="o">-</span> <span class="n">ERA5</span><span class="o">.</span><span class="n">t2m_min</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">growth_time</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_years</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">years</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">da_hindcast</span><span class="o">.</span><span class="n">realization</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_years</span><span class="p">,</span><span class="n">ensemble_min</span><span class="p">[</span><span class="n">member</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Hindcast min&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_years</span><span class="p">,</span><span class="n">ensemble_max</span><span class="p">[</span><span class="n">member</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Hindcast max&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_years</span><span class="p">,</span><span class="n">min_era5</span><span class="p">,</span><span class="s1">&#39;bo&#39;</span><span class="p">,</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;ERA5 min&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_years</span><span class="p">,</span><span class="n">max_era5</span><span class="p">,</span><span class="s1">&#39;ro&#39;</span><span class="p">,</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;ERA5 max&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Interannual variability, </span><span class="si">{</span><span class="n">month_label</span><span class="p">[</span><span class="n">month</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Mean Monthly T2M,</span><span class="se">\n</span><span class="s2"> year - preceding year&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Years&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">x_years</span><span class="p">[::</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+<span class="n">unique</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">handles</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">unique</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">unique</span><span class="o">.</span><span class="n">keys</span><span class="p">());</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/b694fee460c8d85d4a642b59595f6f19aa6aa53712d08d08dde1dff9327be5e9.png" src="../_images/b694fee460c8d85d4a642b59595f6f19aa6aa53712d08d08dde1dff9327be5e9.png" />
+<img alt="../_images/c3e52b04d73d59c1fcad01f2df1f82d91aac2e67db481af3ea174eed758429f3.png" src="../_images/c3e52b04d73d59c1fcad01f2df1f82d91aac2e67db481af3ea174eed758429f3.png" />
 </div>
 </div>
+<p>No clear trend in the interannual variability for the plant month.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1105,19 +1214,16 @@ Please note that this repository is used for development and review, so quality 
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">area_ERA5</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">ERA5</span><span class="p">)</span>
-<span class="n">plot_years</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1981</span><span class="p">,</span><span class="mi">2016</span><span class="p">),</span> <span class="n">area_ERA5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">growth_time</span><span class="p">)</span>
+<span class="n">plot_years</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">area_ERA5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">growth_time</span><span class="p">,</span><span class="s2">&quot;ERA5&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/434d01cf993baee99762f0791cde77708ffb8f073739c1e10af52e00a081d122.png" src="../_images/434d01cf993baee99762f0791cde77708ffb8f073739c1e10af52e00a081d122.png" />
+<img alt="../_images/c1dbf68134109281d4010b56f3e6e5141bd9ad345c3abd61624d52bc2785e3e6.png" src="../_images/c1dbf68134109281d4010b56f3e6e5141bd9ad345c3abd61624d52bc2785e3e6.png" />
 </div>
 </div>
-</section>
-<section id="plot-the-temperature-data-with-growth-season-and-optimal-temperature-window">
-<span id="seasonal-seasonal-original-single-levels-resolution-q08-section-3"></span><h3>3. Plot the temperature data with growth season and optimal temperature window<a class="headerlink" href="#plot-the-temperature-data-with-growth-season-and-optimal-temperature-window" title="Link to this heading">#</a></h3>
-<p>Computing the area max, min, mean and standard deviation for the future growth season.</p>
+<p>Some detectable increase in temperature window over time, moreso an increase in the maximum temperature. However it is difficult to draw any solid conclusions since there is quite a lot of variability between years.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1125,14 +1231,125 @@ Please note that this repository is used for development and review, so quality 
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">area_mean_max</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">slice_europe_max</span><span class="p">)</span>
-<span class="n">area_mean_min</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">slice_europe_min</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hindcast_area_max</span> <span class="o">=</span>  <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">tas_max_hindcast</span><span class="p">)</span>
+<span class="n">hindcast_area_min</span> <span class="o">=</span>  <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">tas_min_hindcast</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">min_less_than</span><span class="p">,</span> <span class="n">members_less_min</span> <span class="o">=</span> <span class="n">count_less_than</span><span class="p">(</span><span class="n">hindcast_area_min</span><span class="p">,</span><span class="n">years</span><span class="p">,</span><span class="n">plant_month</span><span class="p">,</span><span class="n">growth_time</span><span class="p">,</span><span class="n">min_growing_temp</span><span class="p">,</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">min_greater_than</span><span class="p">,</span> <span class="n">members_greater_min</span> <span class="o">=</span> <span class="n">count_greater_than</span><span class="p">(</span><span class="n">hindcast_area_min</span><span class="p">,</span><span class="n">years</span><span class="p">,</span><span class="n">plant_month</span><span class="p">,</span><span class="n">growth_time</span><span class="p">,</span><span class="n">max_growing_temp</span><span class="p">,</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="n">area_std_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">area_mean_max</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">area_std_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">area_mean_min</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">max_less_than</span><span class="p">,</span> <span class="n">members_less_max</span> <span class="o">=</span> <span class="n">count_less_than</span><span class="p">(</span><span class="n">hindcast_area_max</span><span class="p">,</span><span class="n">years</span><span class="p">,</span><span class="n">plant_month</span><span class="p">,</span><span class="n">growth_time</span><span class="p">,</span><span class="n">min_growing_temp</span><span class="p">,</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">max_greater_than</span><span class="p">,</span> <span class="n">members_greater_max</span> <span class="o">=</span> <span class="n">count_greater_than</span><span class="p">(</span><span class="n">hindcast_area_max</span><span class="p">,</span><span class="n">years</span><span class="p">,</span><span class="n">plant_month</span><span class="p">,</span><span class="n">growth_time</span><span class="p">,</span><span class="n">max_growing_temp</span><span class="p">,</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="n">area_mean_max</span> <span class="o">=</span> <span class="n">area_mean_max</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;realization&quot;</span><span class="p">)</span><span class="o">-</span><span class="mf">273.15</span>
-<span class="n">area_mean_min</span> <span class="o">=</span> <span class="n">area_mean_min</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;realization&quot;</span><span class="p">)</span><span class="o">-</span><span class="mf">273.15</span>
+<span class="n">era5_min_less_than</span><span class="p">,</span> <span class="n">ignore</span> <span class="o">=</span> <span class="n">count_less_than</span><span class="p">(</span><span class="n">area_ERA5</span><span class="o">.</span><span class="n">t2m_min</span><span class="p">,</span><span class="n">years</span><span class="p">,</span><span class="n">plant_month</span><span class="p">,</span><span class="n">growth_time</span><span class="p">,</span><span class="n">min_growing_temp</span><span class="p">,</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">era5_min_greater_than</span><span class="p">,</span> <span class="n">ignore</span> <span class="o">=</span> <span class="n">count_greater_than</span><span class="p">(</span><span class="n">area_ERA5</span><span class="o">.</span><span class="n">t2m_min</span><span class="p">,</span><span class="n">years</span><span class="p">,</span><span class="n">plant_month</span><span class="p">,</span><span class="n">growth_time</span><span class="p">,</span><span class="n">max_growing_temp</span><span class="p">,</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">era5_max_less_than</span><span class="p">,</span> <span class="n">members_less_max</span> <span class="o">=</span> <span class="n">count_less_than</span><span class="p">(</span><span class="n">area_ERA5</span><span class="o">.</span><span class="n">t2m_max</span><span class="p">,</span><span class="n">years</span><span class="p">,</span><span class="n">plant_month</span><span class="p">,</span><span class="n">growth_time</span><span class="p">,</span><span class="n">min_growing_temp</span><span class="p">,</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">era5_max_greater_than</span><span class="p">,</span> <span class="n">members_greater_max</span> <span class="o">=</span> <span class="n">count_greater_than</span><span class="p">(</span><span class="n">area_ERA5</span><span class="o">.</span><span class="n">t2m_max</span><span class="p">,</span><span class="n">years</span><span class="p">,</span><span class="n">plant_month</span><span class="p">,</span><span class="n">growth_time</span><span class="p">,</span><span class="n">max_growing_temp</span><span class="p">,</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">years</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
+    <span class="n">min_less_days</span> <span class="o">=</span> <span class="n">min_less_than</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">max_greater_days</span> <span class="o">=</span> <span class="n">max_greater_than</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    
+    <span class="n">era5_min_less_days</span> <span class="o">=</span> <span class="n">era5_min_less_than</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">era5_max_greater_days</span> <span class="o">=</span> <span class="n">era5_max_greater_than</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+    <span class="n">max_less_days</span> <span class="o">=</span> <span class="n">max_less_than</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">min_greater_days</span> <span class="o">=</span> <span class="n">min_greater_than</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+    <span class="n">era5_max_less_days</span> <span class="o">=</span> <span class="n">era5_max_less_than</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">era5_min_greater_days</span> <span class="o">=</span> <span class="n">era5_min_greater_than</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">min_less_days</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="n">min_less_days</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">min_less_days</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Minimum temperature lower than </span><span class="si">{</span><span class="n">min_growing_temp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">min_less_days</span><span class="p">),</span><span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Mean&quot;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="n">era5_min_less_days</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;ERA5 Minimum temperature lower than </span><span class="si">{</span><span class="n">min_growing_temp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span><span class="n">markeredgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">max_greater_days</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="n">max_greater_days</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">min_less_days</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Maximum temperature greater than </span><span class="si">{</span><span class="n">max_growing_temp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">max_greater_days</span><span class="p">),</span><span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Mean&quot;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="n">era5_max_greater_days</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;ERA5 Maximum temperature greater than </span><span class="si">{</span><span class="n">max_growing_temp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span><span class="n">markeredgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">max_less_days</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="n">max_less_days</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">max_less_days</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Maximum temperature lower than </span><span class="si">{</span><span class="n">min_growing_temp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">max_less_days</span><span class="p">),</span><span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Mean&quot;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="n">era5_max_less_days</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;ERA5 Maximum temperature lower than </span><span class="si">{</span><span class="n">min_growing_temp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span><span class="n">markeredgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">min_greater_days</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="n">max_less_days</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">max_less_days</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Minimum temperature greater than </span><span class="si">{</span><span class="n">max_growing_temp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>    
+        <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">min_greater_days</span><span class="p">),</span><span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Mean&quot;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="n">era5_min_greater_days</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;ERA5 Minimum temperature greater than </span><span class="si">{</span><span class="n">max_growing_temp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span><span class="n">markeredgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Years&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Number of days&quot;</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Years&quot;</span><span class="p">)</span>
+
+<span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+<span class="n">unique</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">handles</span><span class="p">))</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">unique</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">unique</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper center&#39;</span><span class="p">,</span> <span class="n">borderaxespad</span><span class="o">=</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+<span class="n">unique</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">handles</span><span class="p">))</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">unique</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">unique</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper center&#39;</span><span class="p">,</span> <span class="n">borderaxespad</span><span class="o">=</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">growth_time</span><span class="o">.</span><span class="n">days</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">)))</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">growth_time</span><span class="o">.</span><span class="n">days</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">)))</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Number of days outside optimal temperature range for wheat during growing period </span><span class="se">\n</span><span class="s2"> for all enseble members, for Hindcast&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/a1841beeb7f390c037cc920009659888f9de7a2a97c6b859e5d5d9e400839549.png" src="../_images/a1841beeb7f390c037cc920009659888f9de7a2a97c6b859e5d5d9e400839549.png" />
+</div>
+</div>
+<p>Faint increase in mean number of days where the maximum temperature is greater than 20 degrees, and a faint decrease in the number of days where the minimum temperature is below 15, this is also coherent with a visible decrease in the number of days where the maximum temperature is below 15. Although during this period there were no days counted during any year that the minimum temperature was greater than 20 degrees.</p>
+</section>
+<section id="plot-the-temperature-data-with-growth-season-and-optimal-temperature-window">
+<span id="seasonal-seasonal-original-single-levels-resolution-q08-section-4"></span><h3>4. Plot the temperature data with growth season and optimal temperature window<a class="headerlink" href="#plot-the-temperature-data-with-growth-season-and-optimal-temperature-window" title="Link to this heading">#</a></h3>
+<p>Computing the area max, min, and mean for the future growth season.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">area_mean_max</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">tas_max_forecast</span><span class="p">)</span>
+<span class="n">area_mean_min</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">tas_min_forecast</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1146,33 +1363,91 @@ Please note that this repository is used for development and review, so quality 
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">15</span><span class="p">))</span>
-<span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">plant_month</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">&quot;2025-04-01&quot;</span><span class="p">)</span><span class="c1">#april</span>
-<span class="n">end_month</span> <span class="o">=</span> <span class="n">plant_month</span> <span class="o">+</span> <span class="n">growth_time</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">area_mean_max</span><span class="o">.</span><span class="n">time</span><span class="p">,</span><span class="n">area_mean_max</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;max temp&quot;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">area_mean_max</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">area_mean_max</span> <span class="o">-</span> <span class="n">area_std_max</span><span class="p">,</span><span class="n">area_mean_max</span> <span class="o">+</span> <span class="n">area_std_max</span> <span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">area_mean_min</span><span class="o">.</span><span class="n">time</span><span class="p">,</span><span class="n">area_mean_min</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;min temp&quot;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">area_mean_min</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">area_mean_min</span> <span class="o">-</span> <span class="n">area_std_min</span><span class="p">,</span><span class="n">area_mean_min</span> <span class="o">+</span> <span class="n">area_std_min</span> <span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">max_sum</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">min_sum</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">hindcast_max_max</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1000</span>
+<span class="n">hindcast_max_min</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">hindcast_min_max</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1000</span>
+<span class="n">hindcast_min_min</span> <span class="o">=</span> <span class="mi">1000</span>
 
+<span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
+    <span class="n">selection</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;-03&quot;</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;-10&quot;</span><span class="p">,</span> <span class="n">inclusive</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">)</span>
+    <span class="n">hindcast_max_values</span> <span class="o">=</span> <span class="p">(</span><span class="n">hindcast_area_max</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">selection</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">hindcast_max_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">hindcast_max_max</span> <span class="o">&lt;</span> <span class="n">hindcast_max_values</span> <span class="p">,</span> <span class="n">hindcast_max_values</span><span class="p">,</span> <span class="n">hindcast_max_max</span><span class="p">)</span>
+    <span class="n">hindcast_max_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">hindcast_max_min</span> <span class="o">&gt;</span> <span class="n">hindcast_max_values</span> <span class="p">,</span> <span class="n">hindcast_max_values</span><span class="p">,</span> <span class="n">hindcast_max_min</span><span class="p">)</span>
+    <span class="n">max_sum</span> <span class="o">+=</span> <span class="n">hindcast_max_values</span>
+    <span class="n">hindcast_min_values</span> <span class="o">=</span> <span class="p">(</span><span class="n">hindcast_area_min</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">selection</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">hindcast_min_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">hindcast_min_max</span> <span class="o">&lt;</span> <span class="n">hindcast_min_values</span> <span class="p">,</span> <span class="n">hindcast_min_values</span><span class="p">,</span> <span class="n">hindcast_min_max</span><span class="p">)</span>
+    <span class="n">hindcast_min_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">hindcast_min_min</span> <span class="o">&gt;</span> <span class="n">hindcast_min_values</span> <span class="p">,</span> <span class="n">hindcast_min_values</span><span class="p">,</span> <span class="n">hindcast_min_min</span><span class="p">)</span>
+    <span class="n">min_sum</span> <span class="o">+=</span> <span class="n">hindcast_min_values</span>
 
-<span class="n">ax1</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">plant_month</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Growth season&quot;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">end_month</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">max_growing_temp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Optimal temperature window&quot;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">min_growing_temp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">hindcast_max_mean</span> <span class="o">=</span> <span class="n">max_sum</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">years</span><span class="p">)</span>
+<span class="n">hindcast_min_mean</span> <span class="o">=</span> <span class="n">min_sum</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">years</span><span class="p">)</span>
+<span class="n">hindcast_max_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">hindcast_max_max</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">hindcast_max_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">hindcast_max_min</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">hindcast_min_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">hindcast_min_max</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">hindcast_min_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">hindcast_min_min</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="n">start_month</span> <span class="o">=</span> <span class="n">get_plant_month</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span> <span class="n">plant_month</span><span class="p">)</span>
+<span class="n">end_month</span> <span class="o">=</span> <span class="n">start_month</span> <span class="o">+</span> <span class="n">growth_time</span>
+
+<span class="n">area_mean_max</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">hue</span><span class="o">=</span><span class="s2">&quot;realization&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;max (2025)&quot;</span><span class="p">,</span><span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">area_mean_min</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">hue</span><span class="o">=</span><span class="s2">&quot;realization&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;min (2025)&quot;</span><span class="p">,</span><span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">area_mean_max</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;realization&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Ensamble mean max (2025)&quot;</span><span class="p">,</span><span class="n">zorder</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">area_mean_min</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;realization&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Ensamble mean min (2025)&quot;</span><span class="p">,</span><span class="n">zorder</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">area_mean_max</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">hindcast_min_min</span><span class="p">,</span> <span class="n">hindcast_min_max</span><span class="p">,</span><span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Minimum hindcast (1981-2016)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">area_mean_max</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">hindcast_max_min</span><span class="p">,</span> <span class="n">hindcast_max_max</span><span class="p">,</span><span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Maximum hindcast (1981-2016)&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">start_month</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Growth season&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">end_month</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">xmin</span><span class="o">=</span><span class="n">start_month</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">end_month</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">max_growing_temp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Optimal temperature window&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">xmin</span><span class="o">=</span><span class="n">start_month</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">end_month</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">min_growing_temp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">xmin</span><span class="o">=</span><span class="n">area_mean_max</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xmax</span><span class="o">=</span><span class="n">area_mean_max</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span><span class="s2">&quot;D&quot;</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="n">frost_risk_temp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;navy&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Risk for frost&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Minimum temperature for measurable growth&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Max/min temperature and growth window for Wheat in Europe, 2025, (45-55°lat)&quot;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">MonthLocator</span><span class="p">(</span><span class="n">interval</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;T2M - [°C]&quot;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">MonthLocator</span><span class="p">(</span><span class="n">interval</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;T2M - [°C]&quot;</span><span class="p">)</span>
+
+<span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+<span class="n">unique</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">handles</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">unique</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">unique</span><span class="o">.</span><span class="n">keys</span><span class="p">());</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/de60377b6beadc768d19ce154f2aa39a3015a19ae7e5fb7cafb485ff263d5382.png" src="../_images/de60377b6beadc768d19ce154f2aa39a3015a19ae7e5fb7cafb485ff263d5382.png" />
+<img alt="../_images/2da469a65d9bc606d97771e7fe1ba6afbae6c5987cabee82b8c5c26cda6e2eb3.png" src="../_images/2da469a65d9bc606d97771e7fe1ba6afbae6c5987cabee82b8c5c26cda6e2eb3.png" />
 </div>
 </div>
+<p>For the 2025 season, looking at the growth parameters for spring wheat with the planting month in April, the forecast has several ensemble members that remain within the optimal growth window for most of the period. However, the ensemble means for both minimum and maximum temperatures fall outside of the window for a large part of the period.</p>
+<p>Very few ensemble members fall below the frost risk threshold for this year, indicating that April is a good month to plant in that regard.</p>
+<p>Overall the results indicate that the maximum temperature is higher than the optimal temperature for a large part of the period, starting towards the end of may in the ensemble mean. The interval between the minimum and maximum temperature also looks to be fairly consistent.</p>
+<p>From this plot we can draw the conclusion that it is likely that higher temperatures towards the middle to end of the growth period might have an impact on the growth rate and yield, but exactly what impact is difficult to quantify.</p>
+</section>
+<section id="discussion">
+<span id="seasonal-seasonal-original-single-levels-resolution-q08-section-5"></span><h3>5. Discussion<a class="headerlink" href="#discussion" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>The use case of seasonal forecasts for planning in agriculture</p></li>
+<li><p>Lack of visible trend from year to year in conditions surrounding optimal growth for spring wheat for this region and setup</p></li>
+<li><p>Conclusion about relationships between min/max temperature (too warm days, too cold nights, not cold enough nights etc.) on crop growth</p></li>
+<li><p>Elaboration on key limitations, like restricted region, time period, ignoring other parameters such as precipitation - capacity to water/soil moisture</p></li>
+</ul>
 </section>
 </section>
 <section id="i-if-you-want-to-know-more">
@@ -1190,13 +1465,14 @@ Please note that this repository is used for development and review, so quality 
 <li><p>xarray</p></li>
 <li><p>numpy</p></li>
 <li><p>matplotlib</p></li>
-<li><p>ibicus (<a class="reference external" href="https://doi.org/10.5194/gmd-17-1249-2024" rel="noreferrer" target="_blank">Spuler, et al. (2024) [1]</a>)</p></li>
+<li><p>ibicus (<a class="reference external" href="https://doi.org/10.5194/gmd-17-1249-2024" rel="noreferrer" target="_blank">Spuler, et al. (2024) [2]</a>)</p></li>
 </ul>
 </section>
 <section id="references">
 <h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
-<p><a class="reference external" href="https://doi.org/10.5194/gmd-17-1249-2024" rel="noreferrer" target="_blank">[1]</a> Spuler, F. R., Wessel, J. B., Comyn-Platt, E., Varndell, J., and Cagnazzo, C.: ibicus: a new open-source Python package and comprehensive interface for statistical bias adjustment and evaluation in climate modelling (v1.0.1), Geosci. Model Dev., 17, 1249–1269, <a class="reference external" href="https://doi.org/10.5194/gmd-17-1249-2024" rel="noreferrer" target="_blank">https://doi.org/10.5194/gmd-17-1249-2024</a>, 2024.</p>
-<p><a class="reference external" href="https://www.fao.org/land-water/databases-and-software/crop-information/wheat/en/" rel="noreferrer" target="_blank">[2]</a> <a class="reference external" href="http://Fao.org" rel="noreferrer" target="_blank">Fao.org</a> Food and Agriculture Organization of the United Nations. Available at: <a class="reference external" href="https://www.fao.org/land-water/databases-and-software/crop-information/wheat/en/" rel="noreferrer" target="_blank">https://www.fao.org/land-water/databases-and-software/crop-information/wheat/en/</a> (Accessed: 28 November 2025).</p>
+<p><a class="reference external" href="https://doi.org/10.1016/j.agrformet.2007.05.002" rel="noreferrer" target="_blank">[1]</a> Lobell, David B.: Changes in diurnal temperature range and national cereal yields, Agricultural and Forest Meteorology, 145, 229-238, <a class="reference external" href="https://doi.org/10.1016/j.agrformet.2007.05.002" rel="noreferrer" target="_blank">https://doi.org/10.1016/j.agrformet.2007.05.002</a>, 2007</p>
+<p><a class="reference external" href="https://doi.org/10.5194/gmd-17-1249-2024" rel="noreferrer" target="_blank">[2]</a> Spuler, F. R., Wessel, J. B., Comyn-Platt, E., Varndell, J., and Cagnazzo, C.: ibicus: a new open-source Python package and comprehensive interface for statistical bias adjustment and evaluation in climate modelling (v1.0.1), Geosci. Model Dev., 17, 1249–1269, <a class="reference external" href="https://doi.org/10.5194/gmd-17-1249-2024" rel="noreferrer" target="_blank">https://doi.org/10.5194/gmd-17-1249-2024</a>, 2024.</p>
+<p><a class="reference external" href="https://www.fao.org/land-water/databases-and-software/crop-information/wheat/en/" rel="noreferrer" target="_blank">[3]</a> <a class="reference external" href="http://Fao.org" rel="noreferrer" target="_blank">Fao.org</a> Food and Agriculture Organization of the United Nations. Available at: <a class="reference external" href="https://www.fao.org/land-water/databases-and-software/crop-information/wheat/en/" rel="noreferrer" target="_blank">https://www.fao.org/land-water/databases-and-software/crop-information/wheat/en/</a> (Accessed: 28 November 2025).</p>
 </section>
 </section>
 </section>
@@ -1256,23 +1532,27 @@ Please note that this repository is used for development and review, so quality 
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
   </div>
-  <nav class="bd-toc-nav page-toc">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-investigation-of-diurnal-temperature-ranges-and-mimimun-and-maximum-temperature-in-relation-to-crop-growth">🌍 Use case: Investigation of diurnal temperature ranges, and mimimun and maximum temperature in relation to crop growth</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-investigation-of-minimum-and-maximum-temperature-in-relation-to-optimal-growing-conditions-for-common-crops">🌍 Use case: Investigation of minimum and maximum temperature in relation to optimal growing conditions for common crops.</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-data-and-select-region-and-crop-of-interest">1. Download data and select region and crop of interest</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#temperature-extreme-trends-year-to-year">2. Temperature extreme trends year to year</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-temperature-data-with-growth-season-and-optimal-temperature-window">3. Plot the temperature data with growth season and optimal temperature window</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#debiasing">2. Debiasing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#temperature-trends-year-to-year">3. Temperature trends year to year</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-temperature-data-with-growth-season-and-optimal-temperature-window">4. Plot the temperature data with growth season and optimal temperature window</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">5. Discussion</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
@@ -1329,8 +1609,8 @@ By the Copernicus Climate Change Service (C3S), entrusted to ECMWF (European Cen
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>
