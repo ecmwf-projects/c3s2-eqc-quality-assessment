@@ -522,7 +522,7 @@ Please note that this repository is used for development and review, so quality 
 </ul>
 </div>
 <figure class="align-default" id="id1">
-<a class="reference internal image-reference" href="../../_images/4917d0d3-a6ef-4cc0-8f26-4e6e0fc13d10.png"><img alt="Visual abstract" src="../../_images/4917d0d3-a6ef-4cc0-8f26-4e6e0fc13d10.png" style="width: 1500px;" />
+<a class="reference internal image-reference" href="../../_images/88b80b6a-fa7c-45f6-bdb0-51e2689e6529.png"><img alt="Visual abstract" src="../../_images/88b80b6a-fa7c-45f6-bdb0-51e2689e6529.png" style="width: 1500px;" />
 </a>
 <figcaption>
 <p><span class="caption-number">Fig. 5.2.1.1 </span><span class="caption-text">Spatial patterns of SPEI6 change over the Mediterranean region. Panels show (a) CORDEX ensemble median (median of the selected subset of models at each grid cell) and (b) ensemble spread (standard deviation across the selected models). SPEI6 is standardised over the reference period 1971–2000. SPEI6 change is calculated at each grid point as the difference between the monthly climatologies of the target period (2026–2051) and the baseline period (1971–2000), and then averaged to obtain the ANNUAL mean. Future projections used for the target period follow the RCP8.5 scenario.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
@@ -566,7 +566,11 @@ Please note that this repository is used for development and review, so quality 
 <li><p><a class="reference internal" href="#climate-projections-cordex-domains-single-levels-validation-q08-climate-projections-cordex-validation-q08-section-3-6"><span class="std std-ref">3.6. Results summary</span></a></p></li>
 <li><p><a class="reference internal" href="#climate-projections-cordex-domains-single-levels-validation-q08-climate-projections-cordex-validation-q08-section-3-7"><span class="std std-ref">3.7. Implications for the users</span></a></p></li>
 </ul>
-</section>
+<p><a id='NOTE THE REFERENCE PERIOD SELECTION'></a></p>
+<div class="alert alert-block alert-warning">  
+<b>NOTE ON REFERENCE PERIOD SELECTION</b>:<br> 
+This notebook follows the same methodology as the assessment ‘CORDEX biases in the SPEI6 drought index over the Mediterranean region’. However, the reference period (1971–2000) is shorter than the 1971–2010 period used in the historical assessment. This choice avoids including scenario data in the standardisation (as CORDEX historical simulations extend only until 2005), ensures computational efficiency due to the shorter period, and maintains consistency with the 30-year length of the future target period.
+</div></section>
 <section id="analysis-and-results">
 <h2>📈 Analysis and results<a class="headerlink" href="#analysis-and-results" title="Link to this heading">#</a></h2>
 <section id="parameters-requests-and-functions-definition">
@@ -1193,7 +1197,7 @@ model=&#39;ncc_noresm1_m_smhi_rca4&#39;
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 [00:00&lt;00:00, 42.58it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 [00:00&lt;00:00, 25.66it/s]
 </pre></div>
 </div>
 </div>
@@ -1407,7 +1411,7 @@ model=&#39;ncc_noresm1_m_smhi_rca4&#39;
     <span class="n">cbar_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">area</span><span class="o">=</span><span class="n">area</span><span class="p">,</span>
     <span class="n">flip_cmaps</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">cmap_params_era5</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">cmap_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">cmap_params_median</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">cmap_params_bias</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">cmap_params_std</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1431,7 +1435,7 @@ model=&#39;ncc_noresm1_m_smhi_rca4&#39;
     <span class="c1"># --- ERA5 plot ---</span>
     <span class="k">if</span> <span class="n">da_era5</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">axs_iter</span><span class="p">)</span>
-        <span class="n">params</span> <span class="o">=</span> <span class="n">cmap_params_era5</span> <span class="ow">or</span> <span class="n">xr</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">_determine_cmap_params</span><span class="p">(</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">cmap_params</span> <span class="ow">or</span> <span class="n">xr</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">_determine_cmap_params</span><span class="p">(</span>
             <span class="n">da_era5</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="o">**</span><span class="n">default_kwargs</span>
         <span class="p">)</span>
         <span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span>
@@ -1521,17 +1525,17 @@ model=&#39;ncc_noresm1_m_smhi_rca4&#39;
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plot_ensemble</span><span class="p">(</span>
     <span class="n">da_models</span><span class="o">=</span><span class="n">da_interpolated</span><span class="p">,</span>
     <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
-    <span class="n">cmap_params_era5</span><span class="o">=</span><span class="n">shared_cmap_params</span><span class="p">,</span>
+    <span class="n">cmap_params</span><span class="o">=</span><span class="n">shared_cmap_params</span><span class="p">,</span>
     <span class="n">cmap_params_median</span><span class="o">=</span><span class="n">shared_cmap_params</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">common_title</span><span class="si">}</span><span class="se">\n</span><span class="s2">ERA5 vs </span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2"> ensemble | annual</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">common_title</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2"> ensemble | annual</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/d2075a612c67f915612fef1301a19a462cdcbbe4d5af9f47c0b991aecfa4a943.png" src="../../_images/d2075a612c67f915612fef1301a19a462cdcbbe4d5af9f47c0b991aecfa4a943.png" />
+<img alt="../../_images/3ab2a42d58018ac27b24bafcec384ebcd037bcff3fda7d4a5fb78ae08541977d.png" src="../../_images/3ab2a42d58018ac27b24bafcec384ebcd037bcff3fda7d4a5fb78ae08541977d.png" />
 </div>
 </div>
 <div>
@@ -1556,17 +1560,17 @@ model=&#39;ncc_noresm1_m_smhi_rca4&#39;
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plot_ensemble</span><span class="p">(</span>
     <span class="n">da_models</span><span class="o">=</span><span class="n">da_interpolated</span><span class="p">,</span>
     <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
-    <span class="n">cmap_params_era5</span><span class="o">=</span><span class="n">shared_cmap_params</span><span class="p">,</span>
+    <span class="n">cmap_params</span><span class="o">=</span><span class="n">shared_cmap_params</span><span class="p">,</span>
     <span class="n">cmap_params_median</span><span class="o">=</span><span class="n">shared_cmap_params</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">common_title</span><span class="si">}</span><span class="se">\n</span><span class="s2">ERA5 vs </span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2"> ensemble | DJF</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">common_title</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2"> ensemble | DJF</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/c1c8f74d56cf77f3b0d26b3d52ef26c70c1e52dddec659325bb71f2382f0a4cf.png" src="../../_images/c1c8f74d56cf77f3b0d26b3d52ef26c70c1e52dddec659325bb71f2382f0a4cf.png" />
+<img alt="../../_images/40a594d50d035c502899374cfbee4070edf52415074067773804834f91f92df7.png" src="../../_images/40a594d50d035c502899374cfbee4070edf52415074067773804834f91f92df7.png" />
 </div>
 </div>
 <div>
@@ -1587,17 +1591,17 @@ model=&#39;ncc_noresm1_m_smhi_rca4&#39;
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plot_ensemble</span><span class="p">(</span>
     <span class="n">da_models</span><span class="o">=</span><span class="n">da_interpolated</span><span class="p">,</span>
     <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
-    <span class="n">cmap_params_era5</span><span class="o">=</span><span class="n">shared_cmap_params</span><span class="p">,</span>
+    <span class="n">cmap_params</span><span class="o">=</span><span class="n">shared_cmap_params</span><span class="p">,</span>
     <span class="n">cmap_params_median</span><span class="o">=</span><span class="n">shared_cmap_params</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">common_title</span><span class="si">}</span><span class="se">\n</span><span class="s2">ERA5 vs </span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2"> ensemble | MAM</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">common_title</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2"> ensemble | MAM</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/a9d7bae001679e3ce40b0cdfbfa4cf8a5c3c4aa899d2db9ded14ca92ad2f6834.png" src="../../_images/a9d7bae001679e3ce40b0cdfbfa4cf8a5c3c4aa899d2db9ded14ca92ad2f6834.png" />
+<img alt="../../_images/b0e9c7953932782ae58849bbf8cb897f2e248d09b8ad215d961492005959639e.png" src="../../_images/b0e9c7953932782ae58849bbf8cb897f2e248d09b8ad215d961492005959639e.png" />
 </div>
 </div>
 <div>
@@ -1618,17 +1622,17 @@ model=&#39;ncc_noresm1_m_smhi_rca4&#39;
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plot_ensemble</span><span class="p">(</span>
     <span class="n">da_models</span><span class="o">=</span><span class="n">da_interpolated</span><span class="p">,</span>
     <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
-    <span class="n">cmap_params_era5</span><span class="o">=</span><span class="n">shared_cmap_params</span><span class="p">,</span>
+    <span class="n">cmap_params</span><span class="o">=</span><span class="n">shared_cmap_params</span><span class="p">,</span>
     <span class="n">cmap_params_median</span><span class="o">=</span><span class="n">shared_cmap_params</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">common_title</span><span class="si">}</span><span class="se">\n</span><span class="s2">ERA5 vs </span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2"> ensemble | JJA</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">common_title</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2"> ensemble | JJA</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/36bb5cb79f22757006592ec99f45de6aacd2ba604f10b931181483c3afcd7167.png" src="../../_images/36bb5cb79f22757006592ec99f45de6aacd2ba604f10b931181483c3afcd7167.png" />
+<img alt="../../_images/87c0867f8d78ec9d57b00caf967adad7bed569e303d6b8d64d352fb05590d829.png" src="../../_images/87c0867f8d78ec9d57b00caf967adad7bed569e303d6b8d64d352fb05590d829.png" />
 </div>
 </div>
 <div>
@@ -1649,17 +1653,17 @@ model=&#39;ncc_noresm1_m_smhi_rca4&#39;
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plot_ensemble</span><span class="p">(</span>
     <span class="n">da_models</span><span class="o">=</span><span class="n">da_interpolated</span><span class="p">,</span>
     <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
-    <span class="n">cmap_params_era5</span><span class="o">=</span><span class="n">shared_cmap_params</span><span class="p">,</span>
+    <span class="n">cmap_params</span><span class="o">=</span><span class="n">shared_cmap_params</span><span class="p">,</span>
     <span class="n">cmap_params_median</span><span class="o">=</span><span class="n">shared_cmap_params</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">common_title</span><span class="si">}</span><span class="se">\n</span><span class="s2">ERA5 vs </span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2"> ensemble | SON</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">common_title</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2"> ensemble | SON</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/986d6eed95682ed6d65789c838bbf94b282c9bfca10448c78343e53eaf09ae0c.png" src="../../_images/986d6eed95682ed6d65789c838bbf94b282c9bfca10448c78343e53eaf09ae0c.png" />
+<img alt="../../_images/23772292bbb4c456da3d526e004d2539dba12d2a0e8cb632e64a64c1133b5493.png" src="../../_images/23772292bbb4c456da3d526e004d2539dba12d2a0e8cb632e64a64c1133b5493.png" />
 </div>
 </div>
 <div>
