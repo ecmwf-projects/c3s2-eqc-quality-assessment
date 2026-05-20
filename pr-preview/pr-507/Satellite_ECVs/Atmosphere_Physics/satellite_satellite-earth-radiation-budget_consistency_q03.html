@@ -53,7 +53,7 @@
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../../_static/togglebutton.js?v=1ae7504c"></script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -497,7 +497,7 @@ Please note that this repository is used for development and review, so quality 
 <p class="admonition-title">These are the key outcomes of this assessment</p>
 <ul class="simple">
 <li><p>Overall consistency: Both datasets reproduce global Outgoing Longwave Radiation (OLR) patterns coherently, with regional differences generally small (&lt;5 W/m² in the tropics) and good agreement in zonal averages, though ERA5 consistently shows higher values.</p></li>
-<li><p>Seasonal and latitudinal biases: ERA5 exhibits a stronger seasonal cycle (~5 W/m²) compared to CLARA‑A3, due to model‑based cloud and temperature amplitudes, while CLARA‑A3 retrieval limitations dampen variability, especially at high latitudes.</p></li>
+<li><p>Seasonal and latitudinal biases: ERA5 has an overall bias of about 5 W/m² with respect to CLARA‑A3, due to model‑based cloud and temperature amplitudes, while CLARA‑A3 retrieval limitations dampen variability, especially at high latitudes.</p></li>
 <li><p>Climate applicability: Despite regional discrepancies (Tropical Pacific, Western Australia, North Africa), both products provide a robust basis for monitoring Earth’s energy balance and evaluating climate models, with ERA5 offering stability and completeness, and CLARA‑A3 serving as an observational benchmark.</p></li>
 </ul>
 </div>
@@ -512,9 +512,9 @@ Please note that this repository is used for development and review, so quality 
 </section>
 <section id="methodology">
 <h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
-<p>In this notebook we inter-compare the following catalogue entries from the Climate Data Store (CDS) by C3S:</p>
+<p>In this notebook we inter-compare data from the following catalogue entries from the Climate Data Store (CDS) by C3S:</p>
 <ol class="arabic simple">
-<li><p>CLARA-A3 TOA Outgoing Longwave Radiation (Satellite-Derived): This product is derived from satellite observations as part of the third generation of the CM SAF cLoud, Albedo, and Radiation dataset from AVHRR (CLARA-A3). It provides global coverage of monthly mean of top of the atmosphere net outgoing longwave radiation, calculated through radiative transfer models applied to cloud and surface properties retrieved from satellite instruments. This dataset represents observational estimates of the amount of shortwave radiation energy reaching the lower boundary of the atmosphere per unit of time and area from above. (for further information see <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/satellite-surface-radiation-budget?tab=overview" rel="noreferrer" target="_blank">CLARA-A3 Overview Page</a>).</p></li>
+<li><p>CLARA-A3 TOA Outgoing Longwave Radiation (Satellite-Derived): This product is derived from satellite observations as part of the third generation of the CM SAF cLoud, Albedo, and Radiation dataset from AVHRR (CLARA-A3). It provides global coverage of monthly mean of top of the atmosphere net outgoing longwave radiation, calculated through radiative transfer models applied to cloud and surface properties retrieved from satellite instruments. This dataset represents observational estimates of the amount of shortwave radiation energy reaching the lower boundary of the atmosphere per unit of time and area from above. (for further information see <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/satellite-earth-radiation-budget?tab=overview" rel="noreferrer" target="_blank">CLARA-A3 Overview Page</a>).</p></li>
 <li><p>ERA5 Mean Top Net Long Wave Radiation Flux (Reanalysis): The ERA5 product is the fifth-generation ECMWF atmospheric reanalysis, providing hourly estimates of atmospheric, land, and oceanic variables. This variable is not a direct observation but is the result of a model assimilating vast amounts of global data, and provided as a monthly averaged flux. It is considered a highly consistent and frequently used reference dataset for energy and climate studies due to its stability and high resolution. (for further detail see <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview" rel="noreferrer" target="_blank">ERA5 Overview Page</a>).</p></li>
 </ol>
 <p>The analysis and results are organised in the following steps, which are detailed in the sections below:</p>
@@ -620,7 +620,8 @@ Please note that this repository is used for development and review, so quality 
 </section>
 <section id="download-and-transform">
 <span id="satellite-satellite-earth-radiation-budget-consistency-q03-download-and-transform"></span><h3>2. Download and transform<a class="headerlink" href="#download-and-transform" title="Link to this heading">#</a></h3>
-<p>The code below will download the products, and build a mask to make the comparison fair. Indeed, in CLARA-A3 there is an ancillary variable called “number_of_lw_daily_means”, which indicates the number of daily averages used to calculate the monthly mean, for each of the monthly record in CLARA-A3. By flagging times and locations where the monthly average has not been calculated on a complete month, we can have a fair comparison with ERA5, to which the same mask is applied too.</p>
+<p>The code below will download the products, and build a mask to make the comparison fair. Indeed, in CLARA-A3 there is an ancillary variable called “number_of_lw_daily_means”, which indicates the number of daily averages used to calculate the monthly mean, for each of the monthly record in CLARA-A3. By flagging times and locations where the monthly average has not been calculated on a complete month, we can have a fair comparison with ERA5, to which the same mask is applied too.
+It is possible to inspect the percentage of valid measurements built with the above-mentioned flagging. In the figures below, we’ll plot the global map obtained by averaging this quantity over time, then over the spatial dimensions (longitude and latitude, respectively).</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -734,7 +735,11 @@ Please note that this repository is used for development and review, so quality 
 <img alt="../../_images/5e9aa15536f438fdc65e48955e2d5eb0040d772c64eeb14ab5bc2f65fb5305c9.png" src="../../_images/5e9aa15536f438fdc65e48955e2d5eb0040d772c64eeb14ab5bc2f65fb5305c9.png" />
 </div>
 </div>
-<p>Latitudinal and longitudinal patterns show a very homogeneous percentage of valid monthly means after the first years of the record.</p>
+<p>Latitudinal and longitudinal patterns show a very homogeneous percentage of valid monthly means after the first years of the record. Particularly evident in the left panel, there is a latitudinal band with a low percentage of valid measurements in the late 90s in the south pole. This means that for this region and this period of time, there’s a lower number of daily means contributing to the monthly mean. We didn’t find any further explanation in the related documentation.</p>
+</section>
+<section id="plot-spatial-weighted-time-series">
+<span id="satellite-satellite-earth-radiation-budget-consistency-q03-plot-spatial-weighted-time-series"></span><h3>3. Plot spatial weighted time series<a class="headerlink" href="#plot-spatial-weighted-time-series" title="Link to this heading">#</a></h3>
+<p>Below, we define functions to be used in the following analysis, such as time-weighted means on a given period and spatial mean. Then, we calculate and plot spatially weighted means for CLARA-A3 and ERA5, in terms of montly climatologies. We want here to inspect how the different products reproduce the seasonal cycle, both for the global mean, and for each hemisphere.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -859,10 +864,6 @@ Please note that this repository is used for development and review, so quality 
 </div>
 </details>
 </div>
-</section>
-<section id="plot-spatial-weighted-time-series">
-<span id="satellite-satellite-earth-radiation-budget-consistency-q03-plot-spatial-weighted-time-series"></span><h3>3. Plot spatial weighted time series<a class="headerlink" href="#plot-spatial-weighted-time-series" title="Link to this heading">#</a></h3>
-<p>Below, we calculate and plot spatially weighted means for CLARA-A3 and ERA5, in terms of montly climatologies. We want here to inspect how the different products reproduce the seasonal cycle, both for the global mean, and for each hemisphere.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -887,7 +888,7 @@ Please note that this repository is used for development and review, so quality 
 <img alt="../../_images/67ee89acc03ffc4fe098cfa020a8eaa2b3b84fb810466147220d849a42d680b3.png" src="../../_images/67ee89acc03ffc4fe098cfa020a8eaa2b3b84fb810466147220d849a42d680b3.png" />
 </div>
 </div>
-<p>The pronounced seasonality in OLR is mostly linked with the larger land area in the Northern Hemisphere. In both hemispheres and also globally, ERA5’s top net longwave radiation is systematically higher, with a difference of about <span class="math notranslate nohighlight">\(5\, W\,m^{-2}\)</span>. The <span class="math notranslate nohighlight">\(\sim 5\, W\, m^{-2}\)</span> larger seasonal cycle in ERA5 is likely due to model-based cloud and temperature seasonal amplitudes being stronger than in the satellite retrievals, combined with retrieval limitations in CLARA-A3 that tend to dampen variability, particularly at high latitudes (<a class="reference external" href="https://doi.org/10.1002/qj.3803" rel="noreferrer" target="_blank">[4]</a>, <a class="reference external" href="https://doi.org/10.5676/EUM_SAF_CM/CLARA_AVHRR/V003" rel="noreferrer" target="_blank">[5]</a>).</p>
+<p>The pronounced seasonality in OLR is mostly linked with the larger land area in the Northern Hemisphere. In both hemispheres and also globally, ERA5’s top net longwave radiation is systematically higher, with a difference of about <span class="math notranslate nohighlight">\(5\, W\,m^{-2}\)</span>. This bias suggests that ERA5 is emitting too much thermal radiation to space than the satellite counterpart do. This systematic difference is likely due either to a model-based temperature warm bias or misrepresentation of clouds in the underlying atmospheric model, i.e. ERA5 being less cloudy than CLARA-A3, or even, not cold enough high clouds in ERA5. This effect, combined with retrieval limitations in CLARA-A3 that tend to dampen variability, is particularly evident at high latitudes (<a class="reference external" href="https://doi.org/10.1002/qj.3803" rel="noreferrer" target="_blank">[4]</a>, <a class="reference external" href="https://doi.org/10.5676/EUM_SAF_CM/CLARA_AVHRR/V003" rel="noreferrer" target="_blank">[5]</a>).</p>
 </section>
 <section id="plot-time-weighted-means">
 <span id="satellite-satellite-earth-radiation-budget-consistency-q03-plot-time-weighted-means"></span><h3>4. Plot time weighted means<a class="headerlink" href="#plot-time-weighted-means" title="Link to this heading">#</a></h3>
