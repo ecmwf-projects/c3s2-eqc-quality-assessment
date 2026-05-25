@@ -443,7 +443,7 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-detecting-the-2017-2019-drought-in-south-east-australia">🌍 Use case: Detecting the 2017-2019 drought in south-east Australia.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-supporting-drought-monitoring-for-water-and-land-management-in-south-east-australia-during-the-cool-season-april-september">🌍 Use case: Supporting drought monitoring for water and land management in south-east Australia during the cool season (April-September).</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question-s">❓ Quality assessment question(s)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
@@ -453,7 +453,7 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#set-the-data-request">Set the data request</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#download-data">Download data</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#load-shapefiles">Load shapefiles</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#subset-data-to-australia">Subset data to Australia</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preprocessing">Data preprocessing</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#srzsma-computation">2. SRZSMA computation</a></li>
@@ -486,14 +486,14 @@
 Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
 </div><section class="tex2jax_ignore mathjax_ignore" id="root-zone-soil-moisture-during-australias-tinderbox-drought">
 <h1><span class="section-number">1.5.1. </span>Root zone soil moisture during Australia’s Tinderbox Drought<a class="headerlink" href="#root-zone-soil-moisture-during-australias-tinderbox-drought" title="Link to this heading">#</a></h1>
-<p>Production date: 27-04-2026</p>
+<p>Production date: 25-05-2026</p>
 <p>Produced by: Amaya Camila Trigoso Barrientos (VUB)</p>
-<section id="use-case-detecting-the-2017-2019-drought-in-south-east-australia">
-<h2>🌍 Use case: Detecting the 2017-2019 drought in south-east Australia.<a class="headerlink" href="#use-case-detecting-the-2017-2019-drought-in-south-east-australia" title="Link to this heading">#</a></h2>
+<section id="use-case-supporting-drought-monitoring-for-water-and-land-management-in-south-east-australia-during-the-cool-season-april-september">
+<h2>🌍 Use case: Supporting drought monitoring for water and land management in south-east Australia during the cool season (April-September).<a class="headerlink" href="#use-case-supporting-drought-monitoring-for-water-and-land-management-in-south-east-australia-during-the-cool-season-april-september" title="Link to this heading">#</a></h2>
 </section>
 <section id="quality-assessment-question-s">
 <h2>❓ Quality assessment question(s)<a class="headerlink" href="#quality-assessment-question-s" title="Link to this heading">#</a></h2>
-<p><strong>How well does the satellite derived C3S root zone soil moisture dataset detect the negative anomalies occurred during the drought of 2017-2019 in south-east Australia?</strong></p>
+<p><strong>How well does the C3S satellite-derived root zone soil moisture dataset detect the persistence, spatial extent, and severity of the 2017–2019 cool-season drought in south-east Australia?</strong></p>
 <p>The 2017–2019 “Tinderbox Drought” in south-eastern Australia was characterized by persistent precipitation deficits during the cool season (April–September), leading to prolonged soil moisture deficits and increased environmental stress <a class="reference external" href="https://doi.org/10.1126/sciadv.adj3460" rel="noreferrer" target="_blank">[1]</a>. This event provides a suitable case study to evaluate the ability of the Copernicus Climate Change Service (C3S) soil moisture dataset to detect drought extremes in a time series context.</p>
 <p>In this notebook, the root zone soil moisture variable (rzsm_1m) is analysed to assess whether the dataset can capture the temporal persistence, spatial extent, and severity of drought conditions associated with this event. The analysis is framed within the extremes-detection quality category, focusing on the dataset’s suitability to identify sustained negative anomalies and their spatial patterns.</p>
 </section>
@@ -502,10 +502,10 @@ Please note that this repository is used for development and review, so quality 
 <div class="note admonition">
 <p class="admonition-title">These are the key outcomes of this assessment</p>
 <ul class="simple">
-<li><p>The C3S root zone soil moisture dataset captures the multi-year persistence of negative soil moisture anomalies during the 2017–2019 cool seasons.</p></li>
-<li><p>The dataset represents the spatial extent and temporal expansion of drought conditions across the Murray–Darling Basin.</p></li>
-<li><p>The dataset reproduces a spatial pattern broadly consistent with the drought-affected region identified in Devanand et al. (2024) <a class="reference external" href="https://doi.org/10.1126/sciadv.adj3460" rel="noreferrer" target="_blank">[1]</a>.</p></li>
-<li><p>The delineation of the core drought-affected area is sensitive to the percentile threshold, with lower thresholds providing clearer identification of the most severe conditions.</p></li>
+<li><p>The C3S root zone soil moisture dataset detects persistent negative soil moisture anomalies across the 2017–2019 cool seasons, consistent with the multi-year drought conditions reported by Devanand et al. (2024) <a class="reference external" href="https://doi.org/10.1126/sciadv.adj3460" rel="noreferrer" target="_blank">[1]</a>.</p></li>
+<li><p>The dataset captures the seasonal intensification and spatial expansion of drought conditions across the Murray–Darling Basin, including widespread severe anomalies during 2018 and late-season intensification in 2019.</p></li>
+<li><p>Percentile-based drought detection is sensitive to the selected threshold: P15 identifies broad dry conditions, while a stricter P07 threshold more clearly isolates the core areas of most severe dryness.</p></li>
+<li><p>The product is suitable for detecting persistent soil-moisture extremes at regional scale, but differences in spatial delineation partly reflect methodological differences between C3S and GLEAM and the limited availability of independent validation data..</p></li>
 </ul>
 </div>
 </section>
@@ -513,13 +513,41 @@ Please note that this repository is used for development and review, so quality 
 <h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
 <p>Standardized root zone soil moisture anomalies (SRZSMA) were computed using a baseline period of 1980–2016, following a month-wise standardization approach to account for seasonal variability. The analysis focuses on the cool-season months (April–September) during the period 2017–2019, consistent with the definition of the Tinderbox Drought in Devanand et al. (2024) <a class="reference external" href="https://doi.org/10.1126/sciadv.adj3460" rel="noreferrer" target="_blank">[1]</a>.</p>
 <p>Multiple complementary indicators were used to assess drought conditions. Basin-mean SRZSMA was calculated to evaluate the temporal evolution of drought intensity (in Murray-Darling Basin). The spatial extent of drought was quantified as the fraction of basin area below fixed SRZSMA thresholds (−1, −1.5, −2), providing information on how widespread the anomalies were.</p>
-<p>In addition, a percentile-based drought frequency analysis was performed using root zone soil moisture. Calendar-month-specific percentile thresholds (e.g. P15) were derived from the baseline period and used to compute the fraction of time each grid cell experienced low soil moisture conditions during the analysis period. This approach allows comparison with Devanand et al. (2024) <a class="reference external" href="https://doi.org/10.1126/sciadv.adj3460" rel="noreferrer" target="_blank">[1]</a>, who use a similar fraction-of-time framework based on multiple drought indicators.</p>
+<p>In addition, a percentile-based drought frequency analysis was performed using root zone soil moisture. Calendar-month-specific percentile thresholds (e.g. P15) were derived from the baseline period, meaning that each month is evaluated against its own historical distribution (e.g. April values are compared only to the historical April values). These thresholds were then used to compute the fraction of time each grid cell experienced low soil moisture conditions during the analysis period. This approach allows comparison with Devanand et al. (2024) <a class="reference external" href="https://doi.org/10.1126/sciadv.adj3460" rel="noreferrer" target="_blank">[1]</a>, who use a similar fraction-of-time framework based on multiple drought indicators.</p>
 <p>Differences in spatial patterns between datasets were explored by testing alternative percentile thresholds (e.g. P07), allowing assessment of the sensitivity of drought detection to the definition of extreme conditions.</p>
 <p><strong><a class="reference internal" href="#satellite-satellite-soil-moisture-extremes-detection-q01-section-1"><span class="std std-ref">1. Download and preprocess data</span></a></strong></p>
+<ul class="simple">
+<li><p>Import packages and define parameters</p></li>
+<li><p>Load C3S root zone soil moisture data</p></li>
+<li><p>Load Australia and Murray–Darling Basin shapefiles</p></li>
+<li><p>Select rzsm_1m variable and subset data Australia</p></li>
+</ul>
 <p><strong><a class="reference internal" href="#satellite-satellite-soil-moisture-extremes-detection-q01-section-2"><span class="std std-ref">2. SRZSMA computation</span></a></strong></p>
+<ul class="simple">
+<li><p>Define function to calculate monthly Standardised Root Zone Soil Moisture Anomalies (SRZSMA)</p></li>
+<li><p>Choose the climatological baseline period and target period for calculation</p></li>
+<li><p>Calculate SRZSMA</p></li>
+</ul>
 <p><strong><a class="reference internal" href="#satellite-satellite-soil-moisture-extremes-detection-q01-section-3"><span class="std std-ref">3. Basin-averaged SRZSMA time series</span></a></strong></p>
+<ul class="simple">
+<li><p>Calculate basin-averaged SRZSMA for the Murray–Darling Basin</p></li>
+<li><p>Plot temporal evolution of drought conditions from 2017–2019</p></li>
+<li><p>Analyse persistence and seasonal development of drought conditions</p></li>
+</ul>
 <p><strong><a class="reference internal" href="#satellite-satellite-soil-moisture-extremes-detection-q01-section-4"><span class="std std-ref">4. Fraction of Murray–Darling Basin area below SRZSMA thresholds</span></a></strong></p>
+<ul class="simple">
+<li><p>Define SRZSMA drought severity thresholds (−1, −1.5, −2)</p></li>
+<li><p>Calculate the fraction of basin area below each threshold</p></li>
+<li><p>Analyse temporal evolution of drought extent and severity</p></li>
+<li><p>Compare drought development between cool seasons</p></li>
+</ul>
 <p><strong><a class="reference internal" href="#satellite-satellite-soil-moisture-extremes-detection-q01-section-5"><span class="std std-ref">5. Percentile-based drought frequency</span></a></strong></p>
+<ul class="simple">
+<li><p>Compute calendar-month percentile thresholds (P15 and P07)</p></li>
+<li><p>Calculate drought frequency using percentile exceedance</p></li>
+<li><p>Map spatial patterns of drought occurrence</p></li>
+<li><p>Compare threshold sensitivity for extremes detection</p></li>
+</ul>
 </section>
 <section id="analysis-and-results">
 <h2>📈 Analysis and results<a class="headerlink" href="#analysis-and-results" title="Link to this heading">#</a></h2>
@@ -650,7 +678,7 @@ Please note that this repository is used for development and review, so quality 
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 40/40 [00:00&lt;00:00, 64.19it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 40/40 [00:11&lt;00:00,  3.39it/s]
 </pre></div>
 </div>
 </div>
@@ -658,7 +686,7 @@ Please note that this repository is used for development and review, so quality 
 </section>
 <section id="load-shapefiles">
 <h4>Load shapefiles<a class="headerlink" href="#load-shapefiles" title="Link to this heading">#</a></h4>
-<p>The Murray–Darling Basin boundary was acces from the Murray–Darling Basin Authority dataset <a class="reference external" href="https://data.gov.au/data/dataset/4ede9aed-5620-47db-a72b-0b3aa0a3ced0/resource/8a6d889d-723b-492d-8c12-b8b0d1ba4b5a" rel="noreferrer" target="_blank">[2]</a>.</p>
+<p>The Murray–Darling Basin boundary was accessed from the Murray–Darling Basin Authority dataset <a class="reference external" href="https://data.gov.au/data/dataset/4ede9aed-5620-47db-a72b-0b3aa0a3ced0/resource/8a6d889d-723b-492d-8c12-b8b0d1ba4b5a" rel="noreferrer" target="_blank">[2]</a>.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -692,8 +720,8 @@ Please note that this repository is used for development and review, so quality 
 </details>
 </div>
 </section>
-<section id="subset-data-to-australia">
-<h4>Subset data to Australia<a class="headerlink" href="#subset-data-to-australia" title="Link to this heading">#</a></h4>
+<section id="data-preprocessing">
+<h4>Data preprocessing<a class="headerlink" href="#data-preprocessing" title="Link to this heading">#</a></h4>
 <p>The variable rzsm_1m (root zone soil moisture) from the C3S soil moisture v202505 dataset was selected. This variable represents a weighted average of the first three soil layers, with weights proportional to layer thickness, resulting in a stronger contribution from deeper layers. Values are expressed in m³ m⁻³ (see <a class="reference external" href="https://confluence.ecmwf.int/pages/viewpage.action?pageId=514318069" rel="noreferrer" target="_blank">PUGS</a>).</p>
 <p>The root zone soil moisture dataset was prepared by assigning a geographic coordinate reference system (EPSG:4326) and defining the spatial dimensions. It was then clipped to the Australian land boundary to restrict the analysis domain.</p>
 <div class="cell tag_hide-input docutils container">
@@ -747,11 +775,9 @@ Please note that this repository is used for development and review, so quality 
 </section>
 <section id="srzsma-computation">
 <span id="satellite-satellite-soil-moisture-extremes-detection-q01-section-2"></span><h3>2. SRZSMA computation<a class="headerlink" href="#srzsma-computation" title="Link to this heading">#</a></h3>
-<p>Standardized Root Zone Soil Moisture Anomalies (SRZSMA) were computed following a similar approach to that used by the European Drought Observatory (EDO) <a class="reference external" href="https://drought.emergency.copernicus.eu/data/factsheets/factsheet_soilmoisture.pdf" rel="noreferrer" target="_blank">[4]</a>. Monthly root zone soil moisture values for each grid cell were compared against a climatological reference period (1980–2016). The anomaly was calculated by subtracting the climatological mean of the corresponding calendar month and normalizing by the associated standard deviation:
-$<span class="math notranslate nohighlight">\(
-\text{SRZSMA} = \frac{\text{RZSM}_t - \overline{\text{RZSM}}}{\sigma_{\text{RZSM}}}
-\)</span>$
-where:</p>
+<p>Standardized Root Zone Soil Moisture Anomalies (SRZSMA) were computed following a similar approach to that used by the European Drought Observatory (EDO) <a class="reference external" href="https://drought.emergency.copernicus.eu/data/factsheets/factsheet_soilmoisture.pdf" rel="noreferrer" target="_blank">[4]</a>. Monthly root zone soil moisture values for each grid cell were compared against a climatological reference period (1980–2016). The anomaly was calculated by subtracting the climatological mean of the corresponding calendar month and normalizing by the associated standard deviation:</p>
+<p><span class="math notranslate nohighlight">\(\text{SRZSMA} = \frac{\text{RZSM}_t - \overline{\text{RZSM}}}{\sigma_{\text{RZSM}}}\)</span></p>
+<p>where:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(\text{RZSM}_t\)</span> is the root zone soil moisture at time <span class="math notranslate nohighlight">\(t\)</span> for a given grid cell</p></li>
 <li><p><span class="math notranslate nohighlight">\(\overline{\text{RZSM}}\)</span> is the mean root zone soil moisture for the same calendar month over the baseline period (1980–2016)</p></li>
@@ -811,7 +837,7 @@ where:</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ssma_aus</span> <span class="o">=</span> <span class="n">compute_ssma</span><span class="p">(</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ssma_aus</span> <span class="o">=</span> <span class="n">compute_srzsma</span><span class="p">(</span>
     <span class="n">sm_aus</span><span class="p">,</span>
     <span class="n">target_start</span><span class="o">=</span><span class="s2">&quot;1980-01-01&quot;</span><span class="p">,</span>
     <span class="n">target_end</span><span class="o">=</span><span class="s2">&quot;2019-12-31&quot;</span><span class="p">,</span>
@@ -917,6 +943,7 @@ where:</p>
 <section id="fraction-of-murraydarling-basin-area-below-srzsma-thresholds">
 <span id="satellite-satellite-soil-moisture-extremes-detection-q01-section-4"></span><h3>4. Fraction of Murray–Darling Basin area below SRZSMA thresholds<a class="headerlink" href="#fraction-of-murraydarling-basin-area-below-srzsma-thresholds" title="Link to this heading">#</a></h3>
 <p>To quantify the spatial extent of drought conditions, the fraction of the Murray–Darling Basin area affected by negative anomalies was computed for each time step. For a given SRZSMA threshold (−1, −1.5, −2), grid cells with SRZSMA values below the threshold are identified and assigned a value of 1, while all other cells are assigned 0. A spatially weighted mean of this binary field is then calculated, yielding the proportion of basin area experiencing drought conditions.</p>
+<p>The thresholds were chosen to discretize the standardized anomaly distribution into progressively more extreme negative departures from the mean. The selected values (−1, −1.5, −2) provide a simple, interpretable stratification while avoiding excessive fragmentation of the distribution.</p>
 <p>This metric complements the basin-mean SRZSMA time series by providing information on how widespread drought conditions are, rather than only their average intensity. It allows assessment of whether dry anomalies are localized or affect large portions of the basin, thereby supporting the evaluation of the dataset’s ability to represent the spatial extent and severity of drought extremes.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
@@ -970,18 +997,38 @@ where:</p>
     <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Fraction of Murray–Darling Basin area below SRZSMA thresholds&quot;</span><span class="p">,</span>
     <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Fraction of basin area&quot;</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 
+    <span class="c1"># Plot threshold lines</span>
     <span class="k">for</span> <span class="n">th</span> <span class="ow">in</span> <span class="n">thresholds</span><span class="p">:</span>
         <span class="n">frac</span> <span class="o">=</span> <span class="n">compute_area_fraction_below_threshold</span><span class="p">(</span><span class="n">ssma_da</span><span class="p">,</span> <span class="n">th</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">frac</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">frac</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;SRZSMA ≤ </span><span class="si">{</span><span class="n">th</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">frac</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">frac</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;SRZSMA ≤ </span><span class="si">{</span><span class="n">th</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="c1"># Highlight AMJJAS (Apr–Sep)</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">ssma_da</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+    <span class="n">first</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">year</span><span class="p">)):</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span>
+            <span class="n">start</span><span class="p">,</span>
+            <span class="n">end</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;orange&quot;</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>
+            <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">label</span><span class="o">=</span><span class="s2">&quot;AMJJAS (Apr–Sep)&quot;</span> <span class="k">if</span> <span class="n">first</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="p">)</span>
+        <span class="n">first</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -1005,7 +1052,7 @@ where:</p>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/f8db90e5e5c9cc4d1171638fa9e898c7193e4e673fbf7f5bd286eba9597c5a48.png" src="../../_images/f8db90e5e5c9cc4d1171638fa9e898c7193e4e673fbf7f5bd286eba9597c5a48.png" />
+<img alt="../../_images/4f585157f540221c4bf2675e561cfaab1e6330dc6840d8c350fa09fe42e0bb4d.png" src="../../_images/4f585157f540221c4bf2675e561cfaab1e6330dc6840d8c350fa09fe42e0bb4d.png" />
 </div>
 </div>
 <p><em>Figure 3. Fraction of Murray–Darling Basin area below SRZSMA thresholds (−1, −1.5, −2) during 2017–2019.</em></p>
@@ -1294,7 +1341,7 @@ where:</p>
 </div>
 </div>
 <p><em>Figure 5. Spatial distribution of SRZSMA over the Murray–Darling Basin for September 2017–2019, representing late cool-season conditions.</em></p>
-<p>The spatial patterns of SRZSMA in May show notable differences across the three years. In May 2017 and 2019, parts of the basin still exhibit near-normal to positive anomalies, indicating that drought conditions were not yet fully developed. In 2019, however, strongly negative anomalies (SRZSMA &lt; −2) are already present in the north-eastern part of the basin, while the western region shows near-normal to slightly positive conditions. In contrast, May 2018 is characterized by consistently negative anomalies across the entire basin, indicating more uniformly developed drought conditions at the start of the season.</p>
+<p>The spatial patterns of SRZSMA in May show notable differences across the three years. In May 2019, the basin exhibits a marked spatial contrast, with both positive to near-normal anomalies in the north-western region and strongly negative anomalies (SRZSMA &lt; −2) in the north-eastern part of the basin. This indicates strongly heterogeneous conditions, with drought already developing in some areas while others remain unaffected or near-normal. In comparison, May 2017 also shows mixed conditions but with weaker negative anomalies. By contrast, May 2018 is characterized by consistently negative anomalies across the entire basin, indicating more spatially uniform drought conditions at the start of the season.</p>
 <p>By September, drought conditions are more widespread and intensified in all years. In 2017, some localized positive anomalies persist in the southernmost part of the basin, while the rest of the region exhibits negative values. In both 2018 and 2019, the basin is entirely dominated by negative anomalies. In 2018, the most severe anomalies (SRZSMA &lt; −2) are concentrated in the southern part of the basin, whereas in 2019, the strongest negative anomalies are located in the eastern region. These spatial patterns indicate a progression from more localized anomalies early in the season to widespread and intensified drought conditions by September.</p>
 </section>
 </section>
@@ -1631,7 +1678,7 @@ where:</p>
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-detecting-the-2017-2019-drought-in-south-east-australia">🌍 Use case: Detecting the 2017-2019 drought in south-east Australia.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-supporting-drought-monitoring-for-water-and-land-management-in-south-east-australia-during-the-cool-season-april-september">🌍 Use case: Supporting drought monitoring for water and land management in south-east Australia during the cool season (April-September).</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question-s">❓ Quality assessment question(s)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
@@ -1641,7 +1688,7 @@ where:</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#set-the-data-request">Set the data request</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#download-data">Download data</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#load-shapefiles">Load shapefiles</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#subset-data-to-australia">Subset data to Australia</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preprocessing">Data preprocessing</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#srzsma-computation">2. SRZSMA computation</a></li>
