@@ -466,7 +466,7 @@
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#breakpoint-detection"><strong>3. Breakpoint Detection</strong></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#breakpoint-analysis">Breakpoint Analysis</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#breakpoint-and-derivative-spike-analysis">Breakpoint and Derivative-Spike Analysis</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#trend-assessment"><strong>4. Trend Assessment</strong></a><ul class="nav section-nav flex-column">
@@ -505,7 +505,7 @@ Please note that this repository is used for development and review, so quality 
 <section id="quality-assessment-question">
 <h2>❓ Quality assessment question<a class="headerlink" href="#quality-assessment-question" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><strong>Is the dataset accurate and consistent for the analysis of afforestation/deforestation trends in the Iberian Peninsula?</strong></p></li>
+<li><p><strong>Is the dataset suitable for the analysis of afforestation/deforestation trends in the Iberian Peninsula?</strong></p></li>
 </ul>
 <p>Land Cover data is an invaluable resource for a wide range of fields, from climate change research to forest management. Land Cover products that provide historical timelines enable scientists, policymakers, and planners to understand and analyse the transformation of land cover over recent decades (<a class="reference external" href="https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Forests,_forestry_and_logging" rel="noreferrer" target="_blank">EUROSTAT,2022</a>; <a class="reference external" href="https://commission.europa.eu/document/cf3294e1-8358-4c93-8de4-3e1503b95201_en" rel="noreferrer" target="_blank">New EU Forest Strategy for 2030</a>).</p>
 <p>This notebook will access the <em><strong>Land cover classification gridded maps from 1992 to present derived from satellite observations</strong></em> (henceforth, LC) data from the Climate Data Store (CDS) of the Copernicus Climate Change Service (C3S), and analyse the spatial patterns of a specific LC type over a given Area of Interest (AoI) and time.</p>
@@ -2641,13 +2641,6 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
 <li><p>Prior to segmentation, the growth-rate series may be <strong>standardised</strong> to ensure comparability across regions with different magnitudes of forest change.</p></li>
 </ul>
 <hr class="docutils" />
-<p><strong>Breakpoint Selection</strong></p>
-<ul class="simple">
-<li><p>Breakpoints are identified directly from the segmentation of the growth-rate series.</p></li>
-<li><p>Unlike earlier approaches, <strong>no explicit filtering based on derivative spikes is applied</strong>, as this was found to introduce additional assumptions and potentially remove meaningful structural changes.</p></li>
-<li><p>Instead, derivative spikes and breakpoints are analysed <strong>in parallel</strong>, allowing independent but complementary perspectives on the temporal behaviour of the series.</p></li>
-</ul>
-<hr class="docutils" />
 <p><strong>Interpreting Breakpoint Timing</strong></p>
 <p>Breakpoint positions should be interpreted as <strong>approximate indicators of when a change in growth dynamics begins</strong>, rather than exact points of maximum change.</p>
 <p>Because segmentation identifies <strong>changes in statistical behaviour</strong>, the detected breakpoint may:</p>
@@ -3287,97 +3280,16 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
 </table>
 </div></div></div>
 </div>
-<section id="breakpoint-analysis">
-<h4>Breakpoint Analysis<a class="headerlink" href="#breakpoint-analysis" title="Link to this heading">#</a></h4>
-<p>Breakpoint detection and derivative analysis capture two complementary aspects of temporal dynamics in land cover time series, a distinction widely recognised in change detection literature (<a class="reference external" href="https://doi.org/10.1109/JURSE.2019.8808967" rel="noreferrer" target="_blank">Chelali et al., 2019</a>; <a class="reference external" href="https://doi.org/10.1088/1755-1315/113/1/012087" rel="noreferrer" target="_blank">Chang et al., 2018</a>):</p>
-<ul class="simple">
-<li><p><strong>Breakpoints</strong> identify the onset of structural changes in the time series</p></li>
-<li><p><strong>Derivative spikes</strong> highlight years of maximum year-to-year variation</p></li>
-</ul>
-<p>Because of this, spikes may occur slightly after breakpoints, reflecting the difference between <strong>initiation</strong> and <strong>peak expression</strong> of change (<a class="reference external" href="https://doi.org/10.1109/JURSE.2019.8808967" rel="noreferrer" target="_blank">Chelali et al., 2019</a>).</p>
-<p>The interpretation is guided by:</p>
-<ul class="simple">
-<li><p><strong>temporal alignment with processing-chain transitions</strong>, and</p></li>
-<li><p><strong>spatial consistency across regions</strong></p></li>
-</ul>
-<p>This is particularly important in satellite-derived land cover products, where methodological updates (e.g. sensor transitions, classification schemes, or reference layers) can introduce apparent discontinuities in time series.</p>
-<p>A signal affecting many regions simultaneously is more likely to reflect a <strong>systematic driver</strong> (either methodological or large-scale environmental dynamics), whereas signals affecting few regions are more likely <strong>local effects</strong> (<a class="reference external" href="https://doi.org/10.1088/1755-1315/113/1/012087" rel="noreferrer" target="_blank">Chang et al., 2018</a>).</p>
-<hr class="docutils" />
-<p><strong>Breakpoint ~2001–2002</strong></p>
-<p>A prominent breakpoint cluster is observed in this period, affecting <strong>12 regions</strong>, making it the most spatially coherent signal in the dataset. The breakpoint is also supported by derivative spikes in a subset of regions.</p>
-<p><strong>Interpretation</strong><br />
-The high spatial consistency suggests a <strong>robust large-scale signal</strong> in forest dynamics. This pattern is consistent with a <strong>structural change affecting multiple regions simultaneously</strong>, potentially linked to:</p>
-<ul class="simple">
-<li><p>evolving distforestce regimes (e.g. wildfire activity), which have been identified as a major driver of land cover change in the Iberian Peninsula <a class="reference external" href="https://doi.org/10.1016/j.landurbplan.2011.03.001" rel="noreferrer" target="_blank">(Silva et al., 2011)</a>,</p></li>
-<li><p>land-use transitions associated with rural change and forest management,</p></li>
-<li><p>and broader environmental variability.</p></li>
-</ul>
-<p>However, given the absence of a clearly identified driver in the dataset documentation, this breakpoint should be interpreted as a <strong>strong but not fully attributable signal</strong>, reflecting the combined influence of environmental variability and potential methodological effects.</p>
-<hr class="docutils" />
-<p><strong>Breakpoint ~1996–1997</strong></p>
-<p>This breakpoint cluster affects <strong>10 regions</strong>, indicating a <strong>moderate to high spatial consistency</strong>, particularly in western and northern regions.</p>
-<p><strong>Interpretation</strong><br />
-This signal suggests a <strong>potential early structural shift</strong> in forest dynamics. Its timing coincides with a period of significant land-use transitions in the Iberian Peninsula, including:</p>
-<ul class="simple">
-<li><p>increasing <strong>farmland abandonment</strong>, which has been associated with natural forest regeneration <a class="reference external" href="https://api.semanticscholar.org/CorpusID:238829360" rel="noreferrer" target="_blank">(Palmero-Iniesta et al., 2021)</a>,</p></li>
-<li><p>and evolving forest management practices.</p></li>
-</ul>
-<p>At the same time, the early position in the time series - characterised by coarser spatial resolution and back-dating procedures — introduces uncertainty.</p>
-<p>As a result, this breakpoint likely reflects a combination of:</p>
-<ul class="simple">
-<li><p><strong>real land-use and ecological processes</strong>, and</p></li>
-<li><p><strong>data-related variability</strong>,</p></li>
-</ul>
-<p>and should therefore be interpreted as <strong>indicative but not conclusive</strong>.</p>
-<hr class="docutils" />
-<p><strong>Derivative-dominated signal ~1998–1999</strong></p>
-<p>This period exhibits the <strong>highest spatial consistency in derivative spikes</strong>, affecting <strong>15 regions</strong>, making it the most pronounced short-term variability signal in the dataset.</p>
-<p><strong>Interpretation</strong><br />
-This pattern reflects a period of <strong>intense year-to-year variability</strong>, rather than a clear structural shift. It likely captures:</p>
-<ul class="simple">
-<li><p>short-term fluctuations in vegetation conditions,</p></li>
-<li><p>sensitivity of the classification to mixed or transitional land cover,</p></li>
-<li><p>and potentially early adjustments in the observation system.</p></li>
-</ul>
-<p>The absence of a strong corresponding breakpoint suggests that this period represents <strong>transient variability</strong>, rather than a persistent change in forest dynamics.</p>
-<hr class="docutils" />
-<p><strong>Derivative signal ~2003–2004</strong></p>
-<p>A secondary derivative signal is observed, affecting <strong>5 regions</strong>, and coinciding with both methodological evolution and known environmental disturbances.</p>
-<p><strong>Interpretation</strong><br />
-This period aligns with major <strong>wildfire events (e.g. 2003)</strong> and associated forest loss across the Iberian Peninsula <a class="reference external" href="https://api.semanticscholar.org/CorpusID:265869582" rel="noreferrer" target="_blank">(Mato et al., 2014)</a>, as well as increased climatic stress conditions.</p>
-<p>At the same time, it coincides with improvements in observation and classification capacity.</p>
-<p>The signal is therefore best interpreted as a <strong>combined environmental and methodological effect</strong>, where:</p>
-<ul class="simple">
-<li><p>real  disturbances (fire and drought impacts)</p></li>
-<li><p>and improved detection capabilities</p></li>
-</ul>
-<p>jointly contribute to increased variability in the time series.</p>
-<hr class="docutils" />
-<p><strong>Minor breakpoint clusters</strong></p>
-<p>Additional breakpoint detections are observed, each affecting <strong>only one region</strong>, including:</p>
-<ul class="simple">
-<li><p>~2006–2007 (Cantabria)</p></li>
-<li><p>~2011–2012 (Comunidad de Madrid)</p></li>
-<li><p>~2016–2017 (Área Metropolitana de Lisboa)</p></li>
-</ul>
-<p><strong>Interpretation</strong><br />
-These signals are interpreted as <strong>localised or context-specific dynamics</strong>, rather than manifestations of large-scale processes. They likely reflect:</p>
-<ul class="simple">
-<li><p>local forest distforestces such as wildfires or drought impacts <a class="reference external" href="https://nhess.copernicus.org/articles/12/3123/2012/" rel="noreferrer" target="_blank">(Gouveia et al., 2012)</a>,</p></li>
-<li><p>regional land-use changes, including plantation dynamics <a class="reference external" href="https://doi.org/10.1016/j.landurbplan.2011.03.001" rel="noreferrer" target="_blank">(Silva et al., 2011)</a>,</p></li>
-<li><p>or natural regeneration processes following abandonment <a class="reference external" href="https://api.semanticscholar.org/CorpusID:238829360" rel="noreferrer" target="_blank">(Palmero-Iniesta et al., 2021)</a>.</p></li>
-</ul>
-<hr class="docutils" />
-<p><strong>Recent derivative signals (post-2015)</strong></p>
-<p>Recent derivative spikes (e.g. ~2015–2016, ~2016–2017, ~2017–2018, and isolated signals after 2020) affect <strong>a limited number of regions</strong> and lack spatial consistency.</p>
-<p><strong>Interpretation</strong><br />
-These signals may reflect <strong>recent distforestce events</strong>, including:</p>
-<ul class="simple">
-<li><p>severe droughts (e.g. 2017), which have significantly affected vegetation dynamics <a class="reference external" href="https://doi.org/10.1016/j.foreco.2017.10.011" rel="noreferrer" target="_blank">(Vidal-Macua et al., 2017)</a>,</p></li>
-<li><p>wildfire activity and post-distforestce recovery processes,</p></li>
-<li><p>and local land-use changes.</p></li>
-</ul>
-<p>Their limited spatial extent indicates that they do not represent <strong>large-scale structural shifts</strong>, but rather <strong>localized or short-term dynamics</strong>.</p>
+<section id="breakpoint-and-derivative-spike-analysis">
+<h4>Breakpoint and Derivative-Spike Analysis<a class="headerlink" href="#breakpoint-and-derivative-spike-analysis" title="Link to this heading">#</a></h4>
+<p>Breakpoint detection and derivative analysis describe related but not identical aspects of temporal change in land-cover time series. Breakpoints indicate potential structural shifts, while derivative spikes identify years with strong year-to-year variation (<a class="reference external" href="https://doi.org/10.1109/JURSE.2019.8808967" rel="noreferrer" target="_blank">Chelali et al., 2019</a>; <a class="reference external" href="https://doi.org/10.1088/1755-1315/113/1/012087" rel="noreferrer" target="_blank">Chang et al., 2018</a>). However, the repeated concentration of breakpoints and derivative spikes around similar years suggests that some of the observed variability may reflect methodological sensitivity, rather than clearly separable ecological or land-use processes.</p>
+<p>Signals are considered more robust when they show broad spatial coherence across regions, but temporal clustering alone is not treated as evidence of multiple independent change events. In satellite-derived land-cover products, changes in sensors, classification schemes, reference layers, or processing chains can introduce apparent discontinuities or amplified year-to-year variation. Therefore, breakpoint and derivative-spike results are assessed together, with attention to both spatial consistency and possible methodological artefacts (<a class="reference external" href="https://doi.org/10.1088/1755-1315/113/1/012087" rel="noreferrer" target="_blank">Chang et al., 2018</a>).</p>
+<p>The <strong>1998–1999 derivative signal</strong>, affecting 15 regions, is the most spatially widespread short-term variability signal. Its limited correspondence with a clear breakpoint suggests that it may represent transient variability, classification sensitivity in mixed or transitional land-cover classes, or early inconsistencies in the time series.</p>
+<p>A major breakpoint cluster is also observed around <strong>2001–2002</strong>, affecting 12 regions. Although this is the most spatially coherent breakpoint signal, no clearly documented methodological transition is identified within a close temporal window. This weakens any direct attribution to a known processing-chain change. The signal may partly reflect real land-cover dynamics, including wildfire activity, forest management changes, or broader land-use transitions in the Iberian Peninsula <a class="reference external" href="https://doi.org/10.1016/j.landurbplan.2011.03.001" rel="noreferrer" target="_blank">(Silva et al., 2011)</a>. Nevertheless, because breakpoint and derivative signals cluster around nearby years, this period is best interpreted as a strong but not fully attributable signal, potentially combining environmental change with methodological effects.</p>
+<p>A secondary derivative signal occurs around <strong>2003–2004</strong>, affecting 5 regions. This timing coincides with major wildfire activity and forest loss in parts of the Iberian Peninsula <a class="reference external" href="https://api.semanticscholar.org/CorpusID:265869582" rel="noreferrer" target="_blank">(Mato et al., 2014)</a>, as well as improvements in detection capacity.</p>
+<p>An earlier breakpoint cluster around <strong>1996–1997</strong>, affecting 10 regions, suggests a possible structural shift in western and northern regions. Its timing is consistent with broader land-use transitions, including farmland abandonment and natural forest regeneration <a class="reference external" href="https://api.semanticscholar.org/CorpusID:238829360" rel="noreferrer" target="_blank">(Palmero-Iniesta et al., 2021)</a>, as well as changes in forest management. However, given its proximity to the stronger 1998–1999 derivative signal, it should not be treated as a fully independent event without further validation.</p>
+<p>Overall, the recurrence of breakpoint and derivative-spike detections around similar years indicates that the time series contains periods of heightened instability, but these should not be over-interpreted as discrete ecological events. The most defensible interpretation is that the late 1990s to early 2000s represent an interval of elevated variability possibly shaped by a combination of land-cover change, disturbance processes, and methodological sensitivity in the data product.</p>
+<p>Additional breakpoint and derivative-spike detections affect only a small number of regions. These are best interpreted as localised or context-specific dynamics, potentially linked to wildfires, drought impacts, regional land-use change, plantation dynamics, or natural regeneration following abandonment <a class="reference external" href="https://nhess.copernicus.org/articles/12/3123/2012/" rel="noreferrer" target="_blank">(Gouveia et al., 2012</a><a class="reference external" href="https://doi.org/10.1016/j.foreco.2017.10.011" rel="noreferrer" target="_blank">; Vidal-Macua et al., 2017)</a>; <a class="reference external" href="https://doi.org/10.1016/j.landurbplan.2011.03.001" rel="noreferrer" target="_blank">(Silva et al., 2011)</a>; <a class="reference external" href="https://api.semanticscholar.org/CorpusID:238829360" rel="noreferrer" target="_blank">(Palmero-Iniesta et al., 2021)</a>.</p>
 </section>
 </section>
 <section id="trend-assessment">
@@ -4406,7 +4318,7 @@ These signals may reflect <strong>recent distforestce events</strong>, including
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#breakpoint-detection"><strong>3. Breakpoint Detection</strong></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#breakpoint-analysis">Breakpoint Analysis</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#breakpoint-and-derivative-spike-analysis">Breakpoint and Derivative-Spike Analysis</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#trend-assessment"><strong>4. Trend Assessment</strong></a><ul class="nav section-nav flex-column">
