@@ -476,6 +476,7 @@
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-resources">Key Resources</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 </ul>
 </li>
 </ul>
@@ -494,7 +495,7 @@
 Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
 </div><section class="tex2jax_ignore mathjax_ignore" id="satellite-land-cover-trend-assessment-for-spatial-planning-and-land-management">
 <h1><span class="section-number">1.4.1. </span>Satellite Land Cover trend assessment for Spatial Planning and Land Management<a class="headerlink" href="#satellite-land-cover-trend-assessment-for-spatial-planning-and-land-management" title="Link to this heading">#</a></h1>
-<p>Production date: 13-05-2024</p>
+<p>Production date: 05-06-2026</p>
 <p>Produced by: Inês Girão (+ATLANTIC)</p>
 <section id="use-case-using-land-cover-products-to-quantify-wetland-trends">
 <h2>🌍 Use case: Using land cover products to quantify wetland trends<a class="headerlink" href="#use-case-using-land-cover-products-to-quantify-wetland-trends" title="Link to this heading">#</a></h2>
@@ -502,7 +503,7 @@ Please note that this repository is used for development and review, so quality 
 <section id="quality-assessment-question">
 <h2>❓ Quality assessment question<a class="headerlink" href="#quality-assessment-question" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><strong>Is the dataset accurate and consistent for the analysis of wetland trends in Ireland?</strong></p></li>
+<li><p><strong>Is the dataset suitable for the analysis of wetland trends in Ireland?</strong></p></li>
 </ul>
 <p>Land Cover data is an invaluable resource for a wide range of fields, from climate change research to landscape management. Land Cover products that provide historical timelines enable scientists, policymakers, and planners to understand and analyse the transformation of land cover over recent decades (<a class="reference external" href="https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Forests,_forestry_and_logging" rel="noreferrer" target="_blank">EUROSTAT,2022</a>; <a class="reference external" href="https://commission.europa.eu/document/cf3294e1-8358-4c93-8de4-3e1503b95201_en" rel="noreferrer" target="_blank">New EU Forest Strategy for 2030</a>).</p>
 <p>This notebook will access the <em><strong>Land cover classification gridded maps from 1992 to present derived from satellite observations</strong></em> (henceforth, LC) data from the Climate Data Store (CDS) of the Copernicus Climate Change Service (C3S), and analyse the spatial patterns of a specific LC type over a given Area of Interest (AoI) and time.</p>
@@ -515,6 +516,7 @@ Please note that this repository is used for development and review, so quality 
 <p>The detected breakpoint should be interpreted as a sensitivity indicator rather than definitive evidence of abrupt wetland change. It highlights a period where the mapped wetland signal departs from the longer-term pattern, but its limited effect on the preferred trend suggests that the overall temporal structure remains stable.</p>
 <p>For the wetland class analysed, the similarity between the total and segmented trend outputs indicates that the dataset captures the underlying long-term pattern without strong distortion from short-term variability. This suggests that the full-period trend provides a robust summary of mapped wetland dynamics, while breakpoint outputs remain useful for flagging periods that may require closer contextual validation.</p>
 </div>
+<p><img alt="wetland_ireland.png" src="../../_images/0d2a04da-3b52-43a6-87a6-cf8a117bd6c9.png" /></p>
 </section>
 <section id="methodology">
 <h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
@@ -614,6 +616,8 @@ We will also need libraries for plotting and viewing data.</p>
 <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">Line2D</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ListedColormap</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mpatches</span>
 
 <span class="c1">#  Import External Tools</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">utils</span>
@@ -698,170 +702,6 @@ We will also need libraries for plotting and viewing data.</p>
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/32 [00:00&lt;?, ?it/s]2026-05-12 18:52:42,249 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 18:52:42,250 INFO Request ID is 3779e9ce-cf90-45cf-b017-2d16db487257
-2026-05-12 18:52:42,297 INFO status has been updated to accepted
-2026-05-12 18:53:06,164 INFO status has been updated to running
-2026-05-12 19:11:11,879 INFO status has been updated to successful
-  3%|▎         | 1/32 [18:30&lt;9:33:42, 1110.40s/it]2026-05-12 19:11:16,065 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 19:11:16,066 INFO Request ID is 0cef5b98-1e4d-4d67-8229-f3a6c46d3c4b
-2026-05-12 19:11:16,097 INFO status has been updated to accepted
-2026-05-12 19:11:29,435 INFO status has been updated to running
-2026-05-12 19:23:39,603 INFO status has been updated to successful
-  6%|▋         | 2/32 [30:58&lt;7:28:31, 897.06s/it] 2026-05-12 19:23:40,155 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 19:23:40,156 INFO Request ID is 23c90693-0333-4741-bdcc-1c8e4900f30d
-2026-05-12 19:23:40,183 INFO status has been updated to accepted
-2026-05-12 19:24:13,046 INFO status has been updated to running
-2026-05-12 19:29:59,762 INFO status has been updated to successful
-  9%|▉         | 3/32 [37:18&lt;5:19:32, 661.13s/it]2026-05-12 19:30:01,496 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 19:30:01,497 INFO Request ID is 16aed95f-5990-40b6-bfb7-951a54eded2f
-2026-05-12 19:30:01,513 INFO status has been updated to accepted
-2026-05-12 19:30:10,695 INFO status has been updated to running
-2026-05-12 19:40:29,620 INFO status has been updated to successful
- 12%|█▎        | 4/32 [47:48&lt;5:02:45, 648.75s/it]2026-05-12 19:40:32,755 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 19:40:32,755 INFO Request ID is 7f1b1ada-329f-4d9c-8e6b-ccd0fee7ed3d
-2026-05-12 19:40:35,080 INFO status has been updated to accepted
-2026-05-12 19:40:48,631 INFO status has been updated to running
-2026-05-12 19:48:54,109 INFO status has been updated to successful
- 16%|█▌        | 5/32 [56:12&lt;4:28:30, 596.67s/it]2026-05-12 19:48:55,697 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 19:48:55,698 INFO Request ID is 6a0243ee-3536-47dd-9f1a-11103757d6ab
-2026-05-12 19:48:55,712 INFO status has been updated to accepted
-2026-05-12 19:49:18,842 INFO status has been updated to running
-2026-05-12 19:59:15,903 INFO status has been updated to successful
- 19%|█▉        | 6/32 [1:06:37&lt;4:22:39, 606.13s/it]2026-05-12 19:59:20,978 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 19:59:20,980 INFO Request ID is 8c81b6ea-9314-46c9-bb11-3c9c01315933
-2026-05-12 19:59:21,230 INFO status has been updated to accepted
-2026-05-12 19:59:35,709 INFO status has been updated to running
-2026-05-12 20:11:41,691 INFO status has been updated to successful
- 22%|██▏       | 7/32 [1:19:00&lt;4:31:12, 650.89s/it]2026-05-12 20:11:42,138 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 20:11:42,139 INFO Request ID is 0c6b4875-7d94-4373-af88-8fe94c0f1c64
-2026-05-12 20:11:44,922 INFO status has been updated to accepted
-2026-05-12 20:13:00,170 INFO status has been updated to running
-2026-05-12 20:20:06,007 INFO status has been updated to successful
- 25%|██▌       | 8/32 [1:27:25&lt;4:01:50, 604.62s/it]2026-05-12 20:20:09,719 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 20:20:09,720 INFO Request ID is ea8104c8-dfad-45f9-b52c-5df64915ffc2
-2026-05-12 20:20:09,734 INFO status has been updated to accepted
-2026-05-12 20:20:31,465 INFO status has been updated to running
-2026-05-12 20:26:30,233 INFO status has been updated to successful
- 28%|██▊       | 9/32 [1:33:49&lt;3:25:16, 535.49s/it]2026-05-12 20:26:31,135 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 20:26:31,136 INFO Request ID is d80c95a0-1c54-45b5-b813-3416edc00e06
-2026-05-12 20:26:31,148 INFO status has been updated to accepted
-2026-05-12 20:26:41,208 INFO status has been updated to running
-2026-05-12 20:34:51,149 INFO status has been updated to successful
- 31%|███▏      | 10/32 [1:42:09&lt;3:12:22, 524.68s/it]2026-05-12 20:34:52,827 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 20:34:52,827 INFO Request ID is d4e6664b-cee9-4040-bebd-f7d3d5b1f3a6
-2026-05-12 20:34:52,839 INFO status has been updated to accepted
-2026-05-12 20:35:50,570 INFO status has been updated to running
-2026-05-12 20:43:19,132 INFO status has been updated to successful
- 34%|███▍      | 11/32 [1:50:37&lt;3:01:50, 519.56s/it]2026-05-12 20:43:19,566 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 20:43:19,566 INFO Request ID is b19cba33-ebdf-45c1-89ab-520753b06156
-2026-05-12 20:43:19,708 INFO status has been updated to accepted
-2026-05-12 20:43:52,204 INFO status has been updated to running
-2026-05-12 20:53:38,427 INFO status has been updated to successful
- 38%|███▊      | 12/32 [2:00:58&lt;3:03:27, 550.40s/it]2026-05-12 20:53:40,462 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 20:53:40,463 INFO Request ID is c9d44ec0-b636-434e-86fb-57133a02cde2
-2026-05-12 20:53:40,497 INFO status has been updated to accepted
-2026-05-12 20:54:03,519 INFO status has been updated to running
-2026-05-12 21:00:01,564 INFO status has been updated to successful
- 41%|████      | 13/32 [2:07:20&lt;2:38:06, 499.31s/it]2026-05-12 21:00:04,420 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 21:00:04,421 INFO Request ID is e3d8bcd3-e5ff-4232-ace5-755419ced380
-2026-05-12 21:00:04,448 INFO status has been updated to accepted
-2026-05-12 21:00:22,703 INFO status has been updated to running
-2026-05-12 21:08:31,655 INFO status has been updated to successful
- 44%|████▍     | 14/32 [2:15:50&lt;2:30:44, 502.48s/it]2026-05-12 21:08:32,071 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 21:08:32,072 INFO Request ID is 2c636b6c-487c-4990-9f44-0bdcbeba5990
-2026-05-12 21:08:32,101 INFO status has been updated to accepted
-2026-05-12 21:08:48,082 INFO status has been updated to running
-2026-05-12 21:14:53,157 INFO status has been updated to successful
- 47%|████▋     | 15/32 [2:22:11&lt;2:12:02, 466.02s/it]2026-05-12 21:14:53,515 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 21:14:53,516 INFO Request ID is 48952344-5530-4287-9de1-2296ab334363
-2026-05-12 21:14:53,532 INFO status has been updated to accepted
-2026-05-12 21:15:27,222 INFO status has been updated to running
-2026-05-12 21:23:12,893 INFO status has been updated to successful
- 50%|█████     | 16/32 [2:30:31&lt;2:06:59, 476.21s/it]2026-05-12 21:23:13,521 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 21:23:13,522 INFO Request ID is 650b45c7-4104-4b45-a191-90035b1ab721
-2026-05-12 21:23:13,549 INFO status has been updated to accepted
-2026-05-12 21:23:28,712 INFO status has been updated to running
-2026-05-12 21:31:36,342 INFO status has been updated to successful
- 53%|█████▎    | 17/32 [2:38:55&lt;2:01:06, 484.43s/it]2026-05-12 21:31:37,015 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 21:31:37,015 INFO Request ID is 8aee9f0f-9dde-4a20-a70d-ff7ee5369efb
-2026-05-12 21:31:37,048 INFO status has been updated to accepted
-2026-05-12 21:31:52,024 INFO status has been updated to running
-2026-05-12 21:39:57,831 INFO status has been updated to successful
- 56%|█████▋    | 18/32 [2:47:16&lt;1:54:12, 489.49s/it]2026-05-12 21:40:00,414 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 21:40:00,415 INFO Request ID is d8a03d33-c8d4-46a8-88b2-ee99876181a0
-2026-05-12 21:40:00,433 INFO status has been updated to accepted
-2026-05-12 21:40:23,791 INFO status has been updated to running
-2026-05-12 21:48:22,788 INFO status has been updated to successful
- 59%|█████▉    | 19/32 [2:55:41&lt;1:47:05, 494.24s/it]2026-05-12 21:48:25,819 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 21:48:25,819 INFO Request ID is 29ff2f31-f7c2-44c5-84bc-bd5a0f241f87
-2026-05-12 21:48:25,844 INFO status has been updated to accepted
-2026-05-12 21:48:59,888 INFO status has been updated to running
-2026-05-12 21:52:45,423 INFO status has been updated to successful
- 62%|██████▎   | 20/32 [3:00:04&lt;1:24:57, 424.83s/it]2026-05-12 21:52:49,317 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 21:52:49,318 INFO Request ID is 865eb923-d5b3-499d-a676-a392395b19e3
-2026-05-12 21:52:49,354 INFO status has been updated to accepted
-2026-05-12 21:53:13,015 INFO status has been updated to running
-2026-05-12 22:01:10,451 INFO status has been updated to successful
- 66%|██████▌   | 21/32 [3:08:31&lt;1:22:22, 449.33s/it]2026-05-12 22:01:13,060 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 22:01:13,061 INFO Request ID is a0aae296-43d3-4078-b799-3ed432a9bab0
-2026-05-12 22:01:13,073 INFO status has been updated to accepted
-2026-05-12 22:01:34,699 INFO status has been updated to running
-2026-05-12 22:09:31,751 INFO status has been updated to successful
- 69%|██████▉   | 22/32 [3:16:50&lt;1:17:22, 464.28s/it]2026-05-12 22:09:32,352 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 22:09:32,352 INFO Request ID is f0747546-e88a-45d4-9630-3c344a011da9
-2026-05-12 22:09:34,275 INFO status has been updated to accepted
-2026-05-12 22:10:49,570 INFO status has been updated to running
-2026-05-12 22:17:53,201 INFO status has been updated to successful
- 72%|███████▏  | 23/32 [3:25:13&lt;1:11:22, 475.84s/it]2026-05-12 22:17:55,009 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 22:17:55,009 INFO Request ID is 95425095-c052-4fee-8486-e1046d56cc20
-2026-05-12 22:17:55,039 INFO status has been updated to accepted
-2026-05-12 22:18:16,004 INFO status has been updated to running
-2026-05-12 22:30:15,960 INFO status has been updated to successful
- 75%|███████▌  | 24/32 [3:37:35&lt;1:14:05, 555.70s/it]2026-05-12 22:30:17,317 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 22:30:17,318 INFO Request ID is 854029bd-a663-4fbc-b151-e90c925688a1
-2026-05-12 22:30:20,500 INFO status has been updated to accepted
-2026-05-12 22:30:34,709 INFO status has been updated to running
-2026-05-12 22:38:39,517 INFO status has been updated to successful
- 78%|███████▊  | 25/32 [3:45:58&lt;1:02:59, 539.88s/it]2026-05-12 22:38:40,026 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 22:38:40,027 INFO Request ID is b49b25a6-bc9d-412b-8197-699471bfa133
-2026-05-12 22:38:40,057 INFO status has been updated to accepted
-2026-05-12 22:39:02,371 INFO status has been updated to running
-2026-05-12 22:46:59,682 INFO status has been updated to successful
- 81%|████████▏ | 26/32 [3:54:23&lt;52:57, 529.65s/it]  2026-05-12 22:47:05,857 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 22:47:05,858 INFO Request ID is 11bc388c-2aca-406b-984a-d6f2fe77fb56
-2026-05-12 22:47:05,889 INFO status has been updated to accepted
-2026-05-12 22:47:56,457 INFO status has been updated to running
-2026-05-12 22:55:26,084 INFO status has been updated to successful
- 84%|████████▍ | 27/32 [4:02:44&lt;43:25, 521.02s/it]2026-05-12 22:55:26,593 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 22:55:26,594 INFO Request ID is 47526539-1332-463d-bd2b-0b5468afa848
-2026-05-12 22:55:26,611 INFO status has been updated to accepted
-2026-05-12 22:55:40,371 INFO status has been updated to running
-2026-05-12 23:03:45,185 INFO status has been updated to successful
- 88%|████████▊ | 28/32 [4:11:03&lt;34:17, 514.42s/it]2026-05-12 23:03:45,711 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 23:03:45,711 INFO Request ID is 3c9d045f-400e-4acc-83a0-7f5f72751926
-2026-05-12 23:03:45,725 INFO status has been updated to accepted
-2026-05-12 23:04:06,688 INFO status has been updated to running
-2026-05-12 23:14:04,717 INFO status has been updated to successful
- 91%|█████████ | 29/32 [4:21:23&lt;27:18, 546.01s/it]2026-05-12 23:14:05,387 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 23:14:05,387 INFO Request ID is 9c40fffe-e060-4bbe-bb63-7248e3599221
-2026-05-12 23:14:05,415 INFO status has been updated to accepted
-2026-05-12 23:14:19,864 INFO status has been updated to running
-2026-05-12 23:22:24,813 INFO status has been updated to successful
- 94%|█████████▍| 30/32 [4:29:43&lt;17:44, 532.17s/it]2026-05-12 23:22:25,239 INFO [2025-07-04T00:00:00] Due to a transition between project phases, there are changes to the timeline of this dataset updates, which are usually on an annual basis with a one year delay: 2023 and 2024 data updates are now expected during 2026. Please watch the [forum](https://forum.ecmwf.int/c/announcements/5) for future announcements.
-2026-05-12 23:22:25,239 INFO Request ID is 127eaeb9-c8a2-4256-995c-56628f5091f6
-2026-05-12 23:22:25,277 INFO status has been updated to accepted
-2026-05-12 23:22:46,247 INFO status has been updated to running
-2026-05-12 23:32:44,303 INFO status has been updated to successful
-100%|██████████| 32/32 [4:40:02&lt;00:00, 525.09s/it]
-/data/common/miniforge3/envs/wp5/lib/python3.12/site-packages/earthkit/data/readers/netcdf/fieldlist.py:202: FutureWarning: In a future version of xarray the default value for data_vars will change from data_vars=&#39;all&#39; to data_vars=None. This is likely to lead to different results when multiple datasets have matching variables with overlapping values. To opt in to new defaults and get rid of these warnings now use `set_options(use_new_combine_kwarg_defaults=True) or set data_vars explicitly.
-  return xr.open_mfdataset(
-/data/wp5/.tmp/ipykernel_4035159/1081004638.py:6: DeprecationWarning: dropping variables using `drop` is deprecated; use drop_vars.
-  ds = ds.assign_coords(year=ds[&quot;time&quot;].dt.year).swap_dims(time=&quot;year&quot;).drop(&quot;time&quot;)
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
@@ -1385,11 +1225,11 @@ Attributes: (12/38)
     geospatial_lat_units:       degrees_north
     geospatial_lat_resolution:  0.002778
     geospatial_lon_units:       degrees_east
-    geospatial_lon_resolution:  0.002778</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-b52cefc9-4a52-42d0-8d61-4ad2186d2d38' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-b52cefc9-4a52-42d0-8d61-4ad2186d2d38' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>year</span>: 31</li><li><span class='xr-has-index'>latitude</span>: 1800</li><li><span class='xr-has-index'>longitude</span>: 2160</li><li><span>bounds</span>: 2</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-71e93ed6-fdf5-4e6d-8c5a-c7d775a19942' class='xr-section-summary-in' type='checkbox'  checked><label for='section-71e93ed6-fdf5-4e6d-8c5a-c7d775a19942' class='xr-section-summary' >Coordinates: <span>(6)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>year</span></div><div class='xr-var-dims'>(year)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>1992 1993 1994 ... 2020 2021 2022</div><input id='attrs-6236c719-f1b9-4dbd-b64e-2d2fb39529d0' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-6236c719-f1b9-4dbd-b64e-2d2fb39529d0' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-2e58cbc2-2b79-45b7-ae8c-03b17f233eef' class='xr-var-data-in' type='checkbox'><label for='data-2e58cbc2-2b79-45b7-ae8c-03b17f233eef' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>time</dd><dt><span>long_name :</span></dt><dd>time</dd><dt><span>axis :</span></dt><dd>T</dd><dt><span>bounds :</span></dt><dd>time_bounds</dd><dt><span>positive :</span></dt><dd>up</dd><dt><span>stored_direction :</span></dt><dd>increasing</dd><dt><span>type :</span></dt><dd>double</dd><dt><span>valid_max :</span></dt><dd></dd><dt><span>valid_min :</span></dt><dd></dd><dt><span>value :</span></dt><dd></dd><dt><span>z_bounds_factors :</span></dt><dd></dd><dt><span>z_factors :</span></dt><dd></dd><dt><span>bounds_values :</span></dt><dd></dd><dt><span>out_name :</span></dt><dd>time</dd></dl></div><div class='xr-var-data'><pre>array([1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003,
+    geospatial_lon_resolution:  0.002778</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-a6217e7f-ec85-4e1a-a468-83de95055ee0' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-a6217e7f-ec85-4e1a-a468-83de95055ee0' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>year</span>: 31</li><li><span class='xr-has-index'>latitude</span>: 1800</li><li><span class='xr-has-index'>longitude</span>: 2160</li><li><span>bounds</span>: 2</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-b5e32041-f7b5-4296-b70a-5fe444171b2c' class='xr-section-summary-in' type='checkbox'  checked><label for='section-b5e32041-f7b5-4296-b70a-5fe444171b2c' class='xr-section-summary' >Coordinates: <span>(6)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>year</span></div><div class='xr-var-dims'>(year)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>1992 1993 1994 ... 2020 2021 2022</div><input id='attrs-f98e1a96-6277-4287-ab48-fd56db3b2dac' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f98e1a96-6277-4287-ab48-fd56db3b2dac' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b2666737-be8b-4fce-8295-06aaddaffdf0' class='xr-var-data-in' type='checkbox'><label for='data-b2666737-be8b-4fce-8295-06aaddaffdf0' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>time</dd><dt><span>long_name :</span></dt><dd>time</dd><dt><span>axis :</span></dt><dd>T</dd><dt><span>bounds :</span></dt><dd>time_bounds</dd><dt><span>positive :</span></dt><dd>up</dd><dt><span>stored_direction :</span></dt><dd>increasing</dd><dt><span>type :</span></dt><dd>double</dd><dt><span>valid_max :</span></dt><dd></dd><dt><span>valid_min :</span></dt><dd></dd><dt><span>value :</span></dt><dd></dd><dt><span>z_bounds_factors :</span></dt><dd></dd><dt><span>z_factors :</span></dt><dd></dd><dt><span>bounds_values :</span></dt><dd></dd><dt><span>out_name :</span></dt><dd>time</dd></dl></div><div class='xr-var-data'><pre>array([1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003,
        2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015,
-       2016, 2017, 2018, 2019, 2020, 2021, 2022])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>latitude</span></div><div class='xr-var-dims'>(latitude)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>56.0 56.0 55.99 ... 51.01 51.0 51.0</div><input id='attrs-1f58fdfa-18ae-4dbc-bf46-d43bfc37c06e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-1f58fdfa-18ae-4dbc-bf46-d43bfc37c06e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-3b93193d-bd06-47c8-ac90-3cb2daea857a' class='xr-var-data-in' type='checkbox'><label for='data-3b93193d-bd06-47c8-ac90-3cb2daea857a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degrees_north</dd><dt><span>long_name :</span></dt><dd>latitude</dd><dt><span>standard_name :</span></dt><dd>latitude</dd><dt><span>valid_min :</span></dt><dd>-90.0</dd><dt><span>valid_max :</span></dt><dd>90.0</dd><dt><span>bounds :</span></dt><dd>lat_bounds</dd><dt><span>axis :</span></dt><dd>Y</dd><dt><span>positive :</span></dt><dd>North</dd><dt><span>type :</span></dt><dd>double</dd><dt><span>out_name :</span></dt><dd>latitude</dd></dl></div><div class='xr-var-data'><pre>array([55.998611, 55.995833, 55.993056, ..., 51.006944, 51.004167, 51.001389],
-      shape=(1800,))</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>longitude</span></div><div class='xr-var-dims'>(longitude)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-11.0 -11.0 ... -5.004 -5.001</div><input id='attrs-69daf51a-2c63-4601-b2d0-b2af82c434b4' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-69daf51a-2c63-4601-b2d0-b2af82c434b4' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a6b914de-05e2-4bfe-984d-10f6e5c1daaf' class='xr-var-data-in' type='checkbox'><label for='data-a6b914de-05e2-4bfe-984d-10f6e5c1daaf' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degrees_east</dd><dt><span>long_name :</span></dt><dd>longitude</dd><dt><span>standard_name :</span></dt><dd>longitude</dd><dt><span>valid_min :</span></dt><dd>-180.0</dd><dt><span>valid_max :</span></dt><dd>180.0</dd><dt><span>bounds :</span></dt><dd>lon_bounds</dd><dt><span>axis :</span></dt><dd>X</dd><dt><span>positive :</span></dt><dd>East</dd><dt><span>type :</span></dt><dd>double</dd><dt><span>out_name :</span></dt><dd>longitude</dd></dl></div><div class='xr-var-data'><pre>array([-10.998611, -10.995833, -10.993056, ...,  -5.006944,  -5.004167,
-        -5.001389], shape=(2160,))</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lat_bounds</span></div><div class='xr-var-dims'>(latitude, bounds)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>dask.array&lt;chunksize=(1800, 2), meta=np.ndarray&gt;</div><input id='attrs-4c117aa3-a533-4cbf-a73f-bc825771da04' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-4c117aa3-a533-4cbf-a73f-bc825771da04' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-fa5c4a8b-e887-413e-8c6d-f89a70f33d38' class='xr-var-data-in' type='checkbox'><label for='data-fa5c4a8b-e887-413e-8c6d-f89a70f33d38' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><table>
+       2016, 2017, 2018, 2019, 2020, 2021, 2022])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>latitude</span></div><div class='xr-var-dims'>(latitude)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>56.0 56.0 55.99 ... 51.01 51.0 51.0</div><input id='attrs-71962e20-a898-4449-9e96-b4ed074041d1' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-71962e20-a898-4449-9e96-b4ed074041d1' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f734a47d-9ff6-42a6-bf38-664de22d10df' class='xr-var-data-in' type='checkbox'><label for='data-f734a47d-9ff6-42a6-bf38-664de22d10df' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degrees_north</dd><dt><span>long_name :</span></dt><dd>latitude</dd><dt><span>standard_name :</span></dt><dd>latitude</dd><dt><span>valid_min :</span></dt><dd>-90.0</dd><dt><span>valid_max :</span></dt><dd>90.0</dd><dt><span>bounds :</span></dt><dd>lat_bounds</dd><dt><span>axis :</span></dt><dd>Y</dd><dt><span>positive :</span></dt><dd>North</dd><dt><span>type :</span></dt><dd>double</dd><dt><span>out_name :</span></dt><dd>latitude</dd></dl></div><div class='xr-var-data'><pre>array([55.998611, 55.995833, 55.993056, ..., 51.006944, 51.004167, 51.001389],
+      shape=(1800,))</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>longitude</span></div><div class='xr-var-dims'>(longitude)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-11.0 -11.0 ... -5.004 -5.001</div><input id='attrs-25d03d4c-2ead-40b8-9e33-a01d0248c0d1' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-25d03d4c-2ead-40b8-9e33-a01d0248c0d1' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f22d92a6-9806-47dd-8b7e-e1fb27bf4e0e' class='xr-var-data-in' type='checkbox'><label for='data-f22d92a6-9806-47dd-8b7e-e1fb27bf4e0e' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degrees_east</dd><dt><span>long_name :</span></dt><dd>longitude</dd><dt><span>standard_name :</span></dt><dd>longitude</dd><dt><span>valid_min :</span></dt><dd>-180.0</dd><dt><span>valid_max :</span></dt><dd>180.0</dd><dt><span>bounds :</span></dt><dd>lon_bounds</dd><dt><span>axis :</span></dt><dd>X</dd><dt><span>positive :</span></dt><dd>East</dd><dt><span>type :</span></dt><dd>double</dd><dt><span>out_name :</span></dt><dd>longitude</dd></dl></div><div class='xr-var-data'><pre>array([-10.998611, -10.995833, -10.993056, ...,  -5.006944,  -5.004167,
+        -5.001389], shape=(2160,))</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lat_bounds</span></div><div class='xr-var-dims'>(latitude, bounds)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>dask.array&lt;chunksize=(1800, 2), meta=np.ndarray&gt;</div><input id='attrs-d83ad7f6-9a82-4586-882b-c064a490b716' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-d83ad7f6-9a82-4586-882b-c064a490b716' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-19533663-a966-4f32-bf95-e240489b8128' class='xr-var-data-in' type='checkbox'><label for='data-19533663-a966-4f32-bf95-e240489b8128' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><table>
     <tr>
         <td>
             <table style="border-collapse: collapse;">
@@ -1444,7 +1284,7 @@ Attributes: (12/38)
 </svg>
         </td>
     </tr>
-</table></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lon_bounds</span></div><div class='xr-var-dims'>(longitude, bounds)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>dask.array&lt;chunksize=(2160, 2), meta=np.ndarray&gt;</div><input id='attrs-bafa9f3f-933e-4a44-936b-eba32ddd811e' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-bafa9f3f-933e-4a44-936b-eba32ddd811e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a587f249-04d3-4497-ba08-398177c18b89' class='xr-var-data-in' type='checkbox'><label for='data-a587f249-04d3-4497-ba08-398177c18b89' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><table>
+</table></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lon_bounds</span></div><div class='xr-var-dims'>(longitude, bounds)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>dask.array&lt;chunksize=(2160, 2), meta=np.ndarray&gt;</div><input id='attrs-b2183112-2acf-4b3a-8896-f50a7d486d22' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-b2183112-2acf-4b3a-8896-f50a7d486d22' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-77beecfc-ebc7-46bb-a330-75348becb551' class='xr-var-data-in' type='checkbox'><label for='data-77beecfc-ebc7-46bb-a330-75348becb551' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><table>
     <tr>
         <td>
             <table style="border-collapse: collapse;">
@@ -1499,7 +1339,7 @@ Attributes: (12/38)
 </svg>
         </td>
     </tr>
-</table></div></li><li class='xr-var-item'><div class='xr-var-name'><span>time_bounds</span></div><div class='xr-var-dims'>(year, bounds)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>dask.array&lt;chunksize=(1, 2), meta=np.ndarray&gt;</div><input id='attrs-1adbda3c-9ce8-4189-bf7d-879244dde244' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-1adbda3c-9ce8-4189-bf7d-879244dde244' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-951b235c-2b32-4b77-a42a-88661a0fb825' class='xr-var-data-in' type='checkbox'><label for='data-951b235c-2b32-4b77-a42a-88661a0fb825' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><table>
+</table></div></li><li class='xr-var-item'><div class='xr-var-name'><span>time_bounds</span></div><div class='xr-var-dims'>(year, bounds)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>dask.array&lt;chunksize=(1, 2), meta=np.ndarray&gt;</div><input id='attrs-438335c0-06e8-4194-92a3-4177521c366c' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-438335c0-06e8-4194-92a3-4177521c366c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d19cb61d-c7e4-45ee-a7b6-5b79c54a13e2' class='xr-var-data-in' type='checkbox'><label for='data-d19cb61d-c7e4-45ee-a7b6-5b79c54a13e2' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><table>
     <tr>
         <td>
             <table style="border-collapse: collapse;">
@@ -1572,7 +1412,7 @@ Attributes: (12/38)
 </svg>
         </td>
     </tr>
-</table></div></li></ul></div></li><li class='xr-section-item'><input id='section-ab5d630a-5e5d-4e5f-89e1-5ab6b2b19909' class='xr-section-summary-in' type='checkbox'  checked><label for='section-ab5d630a-5e5d-4e5f-89e1-5ab6b2b19909' class='xr-section-summary' >Data variables: <span>(6)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>lccs_class</span></div><div class='xr-var-dims'>(year, latitude, longitude)</div><div class='xr-var-dtype'>uint8</div><div class='xr-var-preview xr-preview'>dask.array&lt;chunksize=(1, 1800, 2160), meta=np.ndarray&gt;</div><input id='attrs-a01d62aa-1f6d-4de5-9fb9-731903191251' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-a01d62aa-1f6d-4de5-9fb9-731903191251' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f5158f6a-01ba-4ef4-b9e8-c7608cd4e7f6' class='xr-var-data-in' type='checkbox'><label for='data-f5158f6a-01ba-4ef4-b9e8-c7608cd4e7f6' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>land_cover_lccs</dd><dt><span>flag_colors :</span></dt><dd>#ffff64 #ffff64 #ffff00 #aaf0f0 #dcf064 #c8c864 #006400 #00a000 #00a000 #aac800 #003c00 #003c00 #005000 #285000 #285000 #286400 #788200 #8ca000 #be9600 #966400 #966400 #966400 #ffb432 #ffdcd2 #ffebaf #ffc864 #ffd278 #ffebaf #00785a #009678 #00dc82 #c31400 #fff5d7 #dcdcdc #fff5d7 #0046c8 #ffffff</dd><dt><span>long_name :</span></dt><dd>Land cover class defined in LCCS</dd><dt><span>valid_min :</span></dt><dd>1</dd><dt><span>valid_max :</span></dt><dd>220</dd><dt><span>ancillary_variables :</span></dt><dd>processed_flag current_pixel_state observation_count change_count</dd><dt><span>flag_meanings :</span></dt><dd>no_data cropland_rainfed cropland_rainfed_herbaceous_cover cropland_rainfed_tree_or_shrub_cover cropland_irrigated mosaic_cropland mosaic_natural_vegetation tree_broadleaved_evergreen_closed_to_open tree_broadleaved_deciduous_closed_to_open tree_broadleaved_deciduous_closed tree_broadleaved_deciduous_open tree_needleleaved_evergreen_closed_to_open tree_needleleaved_evergreen_closed tree_needleleaved_evergreen_open tree_needleleaved_deciduous_closed_to_open tree_needleleaved_deciduous_closed tree_needleleaved_deciduous_open tree_mixed mosaic_tree_and_shrub mosaic_herbaceous shrubland shrubland_evergreen shrubland_deciduous grassland lichens_and_mosses sparse_vegetation sparse_tree sparse_shrub sparse_herbaceous tree_cover_flooded_fresh_or_brakish_water tree_cover_flooded_saline_water shrub_or_herbaceous_cover_flooded urban bare_areas bare_areas_consolidated bare_areas_unconsolidated water snow_and_ice</dd><dt><span>flag_values :</span></dt><dd>[  0  10  11  12  20  30  40  50  60  61  62  70  71  72  80  81  82  90
+</table></div></li></ul></div></li><li class='xr-section-item'><input id='section-3ae0d258-1055-48b4-9dd7-218a75993fd1' class='xr-section-summary-in' type='checkbox'  checked><label for='section-3ae0d258-1055-48b4-9dd7-218a75993fd1' class='xr-section-summary' >Data variables: <span>(6)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>lccs_class</span></div><div class='xr-var-dims'>(year, latitude, longitude)</div><div class='xr-var-dtype'>uint8</div><div class='xr-var-preview xr-preview'>dask.array&lt;chunksize=(1, 1800, 2160), meta=np.ndarray&gt;</div><input id='attrs-19d79d55-3dc9-48f8-bc13-5f0cc529a5e1' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-19d79d55-3dc9-48f8-bc13-5f0cc529a5e1' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7c9de8fe-ba61-408a-ad85-6500aee3ca91' class='xr-var-data-in' type='checkbox'><label for='data-7c9de8fe-ba61-408a-ad85-6500aee3ca91' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>land_cover_lccs</dd><dt><span>flag_colors :</span></dt><dd>#ffff64 #ffff64 #ffff00 #aaf0f0 #dcf064 #c8c864 #006400 #00a000 #00a000 #aac800 #003c00 #003c00 #005000 #285000 #285000 #286400 #788200 #8ca000 #be9600 #966400 #966400 #966400 #ffb432 #ffdcd2 #ffebaf #ffc864 #ffd278 #ffebaf #00785a #009678 #00dc82 #c31400 #fff5d7 #dcdcdc #fff5d7 #0046c8 #ffffff</dd><dt><span>long_name :</span></dt><dd>Land cover class defined in LCCS</dd><dt><span>valid_min :</span></dt><dd>1</dd><dt><span>valid_max :</span></dt><dd>220</dd><dt><span>ancillary_variables :</span></dt><dd>processed_flag current_pixel_state observation_count change_count</dd><dt><span>flag_meanings :</span></dt><dd>no_data cropland_rainfed cropland_rainfed_herbaceous_cover cropland_rainfed_tree_or_shrub_cover cropland_irrigated mosaic_cropland mosaic_natural_vegetation tree_broadleaved_evergreen_closed_to_open tree_broadleaved_deciduous_closed_to_open tree_broadleaved_deciduous_closed tree_broadleaved_deciduous_open tree_needleleaved_evergreen_closed_to_open tree_needleleaved_evergreen_closed tree_needleleaved_evergreen_open tree_needleleaved_deciduous_closed_to_open tree_needleleaved_deciduous_closed tree_needleleaved_deciduous_open tree_mixed mosaic_tree_and_shrub mosaic_herbaceous shrubland shrubland_evergreen shrubland_deciduous grassland lichens_and_mosses sparse_vegetation sparse_tree sparse_shrub sparse_herbaceous tree_cover_flooded_fresh_or_brakish_water tree_cover_flooded_saline_water shrub_or_herbaceous_cover_flooded urban bare_areas bare_areas_consolidated bare_areas_unconsolidated water snow_and_ice</dd><dt><span>flag_values :</span></dt><dd>[  0  10  11  12  20  30  40  50  60  61  62  70  71  72  80  81  82  90
  100 110 120 121 122 130 140 150 151 152 153 160 170 180 190 200 201 202
  210 220]</dd></dl></div><div class='xr-var-data'><table>
     <tr>
@@ -1688,7 +1528,7 @@ Attributes: (12/38)
 </svg>
         </td>
     </tr>
-</table></div></li><li class='xr-var-item'><div class='xr-var-name'><span>processed_flag</span></div><div class='xr-var-dims'>(year, latitude, longitude)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>dask.array&lt;chunksize=(1, 1800, 2160), meta=np.ndarray&gt;</div><input id='attrs-774980b3-204f-46ff-8587-eab87f7b6bf0' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-774980b3-204f-46ff-8587-eab87f7b6bf0' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-66934291-2d31-4fd1-af15-1ab510bb98a4' class='xr-var-data-in' type='checkbox'><label for='data-66934291-2d31-4fd1-af15-1ab510bb98a4' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>LC map processed area flag</dd><dt><span>standard_name :</span></dt><dd>land_cover_lccs status_flag</dd><dt><span>valid_min :</span></dt><dd>0</dd><dt><span>valid_max :</span></dt><dd>1</dd><dt><span>flag_meanings :</span></dt><dd>not_processed processed</dd><dt><span>flag_values :</span></dt><dd>[0 1]</dd></dl></div><div class='xr-var-data'><table>
+</table></div></li><li class='xr-var-item'><div class='xr-var-name'><span>processed_flag</span></div><div class='xr-var-dims'>(year, latitude, longitude)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>dask.array&lt;chunksize=(1, 1800, 2160), meta=np.ndarray&gt;</div><input id='attrs-ccce8218-76ad-494c-8708-fe4130c7b4ad' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-ccce8218-76ad-494c-8708-fe4130c7b4ad' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-748a503f-237b-4fca-8b97-ae665b39f335' class='xr-var-data-in' type='checkbox'><label for='data-748a503f-237b-4fca-8b97-ae665b39f335' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>LC map processed area flag</dd><dt><span>standard_name :</span></dt><dd>land_cover_lccs status_flag</dd><dt><span>valid_min :</span></dt><dd>0</dd><dt><span>valid_max :</span></dt><dd>1</dd><dt><span>flag_meanings :</span></dt><dd>not_processed processed</dd><dt><span>flag_values :</span></dt><dd>[0 1]</dd></dl></div><div class='xr-var-data'><table>
     <tr>
         <td>
             <table style="border-collapse: collapse;">
@@ -1802,7 +1642,7 @@ Attributes: (12/38)
 </svg>
         </td>
     </tr>
-</table></div></li><li class='xr-var-item'><div class='xr-var-name'><span>current_pixel_state</span></div><div class='xr-var-dims'>(year, latitude, longitude)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>dask.array&lt;chunksize=(1, 1800, 2160), meta=np.ndarray&gt;</div><input id='attrs-64ff821c-94c9-47a9-a0a5-3c9675c61996' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-64ff821c-94c9-47a9-a0a5-3c9675c61996' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-68355415-826a-490a-b16d-a6fea9da9b10' class='xr-var-data-in' type='checkbox'><label for='data-68355415-826a-490a-b16d-a6fea9da9b10' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>LC pixel type mask</dd><dt><span>standard_name :</span></dt><dd>land_cover_lccs status_flag</dd><dt><span>valid_min :</span></dt><dd>0</dd><dt><span>valid_max :</span></dt><dd>5</dd><dt><span>flag_meanings :</span></dt><dd>invalid clear_land clear_water clear_snow_ice cloud cloud_shadow</dd><dt><span>flag_values :</span></dt><dd>[0 1 2 3 4 5]</dd></dl></div><div class='xr-var-data'><table>
+</table></div></li><li class='xr-var-item'><div class='xr-var-name'><span>current_pixel_state</span></div><div class='xr-var-dims'>(year, latitude, longitude)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>dask.array&lt;chunksize=(1, 1800, 2160), meta=np.ndarray&gt;</div><input id='attrs-609ff5aa-fbdb-46dd-ae3b-194d9323e93d' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-609ff5aa-fbdb-46dd-ae3b-194d9323e93d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-00be6f6e-a9ed-4729-9c30-2764a941ca82' class='xr-var-data-in' type='checkbox'><label for='data-00be6f6e-a9ed-4729-9c30-2764a941ca82' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>LC pixel type mask</dd><dt><span>standard_name :</span></dt><dd>land_cover_lccs status_flag</dd><dt><span>valid_min :</span></dt><dd>0</dd><dt><span>valid_max :</span></dt><dd>5</dd><dt><span>flag_meanings :</span></dt><dd>invalid clear_land clear_water clear_snow_ice cloud cloud_shadow</dd><dt><span>flag_values :</span></dt><dd>[0 1 2 3 4 5]</dd></dl></div><div class='xr-var-data'><table>
     <tr>
         <td>
             <table style="border-collapse: collapse;">
@@ -1916,7 +1756,7 @@ Attributes: (12/38)
 </svg>
         </td>
     </tr>
-</table></div></li><li class='xr-var-item'><div class='xr-var-name'><span>observation_count</span></div><div class='xr-var-dims'>(year, latitude, longitude)</div><div class='xr-var-dtype'>uint16</div><div class='xr-var-preview xr-preview'>dask.array&lt;chunksize=(1, 1800, 2160), meta=np.ndarray&gt;</div><input id='attrs-8220e6c7-2a20-42c5-871a-7fbb19422b2a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8220e6c7-2a20-42c5-871a-7fbb19422b2a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-58909c59-aa81-40b6-8a82-267acf59f4ec' class='xr-var-data-in' type='checkbox'><label for='data-58909c59-aa81-40b6-8a82-267acf59f4ec' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>number of valid observations</dd><dt><span>standard_name :</span></dt><dd>land_cover_lccs number_of_observations</dd><dt><span>valid_min :</span></dt><dd>0</dd><dt><span>valid_max :</span></dt><dd>32767</dd></dl></div><div class='xr-var-data'><table>
+</table></div></li><li class='xr-var-item'><div class='xr-var-name'><span>observation_count</span></div><div class='xr-var-dims'>(year, latitude, longitude)</div><div class='xr-var-dtype'>uint16</div><div class='xr-var-preview xr-preview'>dask.array&lt;chunksize=(1, 1800, 2160), meta=np.ndarray&gt;</div><input id='attrs-a3d07d5a-5d78-4cbd-86db-7d26cb833079' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-a3d07d5a-5d78-4cbd-86db-7d26cb833079' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e34e6ca3-db3b-492d-b471-6c5cd6feada7' class='xr-var-data-in' type='checkbox'><label for='data-e34e6ca3-db3b-492d-b471-6c5cd6feada7' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>number of valid observations</dd><dt><span>standard_name :</span></dt><dd>land_cover_lccs number_of_observations</dd><dt><span>valid_min :</span></dt><dd>0</dd><dt><span>valid_max :</span></dt><dd>32767</dd></dl></div><div class='xr-var-data'><table>
     <tr>
         <td>
             <table style="border-collapse: collapse;">
@@ -2030,7 +1870,7 @@ Attributes: (12/38)
 </svg>
         </td>
     </tr>
-</table></div></li><li class='xr-var-item'><div class='xr-var-name'><span>change_count</span></div><div class='xr-var-dims'>(year, latitude, longitude)</div><div class='xr-var-dtype'>uint8</div><div class='xr-var-preview xr-preview'>dask.array&lt;chunksize=(1, 1800, 2160), meta=np.ndarray&gt;</div><input id='attrs-b192f17e-da24-4548-8704-b870905b7cbf' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b192f17e-da24-4548-8704-b870905b7cbf' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-3b69c025-4b43-4f8d-8869-6a69da8206e5' class='xr-var-data-in' type='checkbox'><label for='data-3b69c025-4b43-4f8d-8869-6a69da8206e5' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>number of class changes</dd><dt><span>valid_min :</span></dt><dd>0</dd><dt><span>valid_max :</span></dt><dd>100</dd></dl></div><div class='xr-var-data'><table>
+</table></div></li><li class='xr-var-item'><div class='xr-var-name'><span>change_count</span></div><div class='xr-var-dims'>(year, latitude, longitude)</div><div class='xr-var-dtype'>uint8</div><div class='xr-var-preview xr-preview'>dask.array&lt;chunksize=(1, 1800, 2160), meta=np.ndarray&gt;</div><input id='attrs-313656e7-0496-473b-9855-6cd45c5a5aea' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-313656e7-0496-473b-9855-6cd45c5a5aea' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-aa17906e-0b4f-4350-955e-ad7071a6793f' class='xr-var-data-in' type='checkbox'><label for='data-aa17906e-0b4f-4350-955e-ad7071a6793f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>number of class changes</dd><dt><span>valid_min :</span></dt><dd>0</dd><dt><span>valid_max :</span></dt><dd>100</dd></dl></div><div class='xr-var-data'><table>
     <tr>
         <td>
             <table style="border-collapse: collapse;">
@@ -2144,7 +1984,7 @@ Attributes: (12/38)
 </svg>
         </td>
     </tr>
-</table></div></li><li class='xr-var-item'><div class='xr-var-name'><span>crs</span></div><div class='xr-var-dims'>(year)</div><div class='xr-var-dtype'>int32</div><div class='xr-var-preview xr-preview'>-2147483647 ... -2147483647</div><input id='attrs-6fd027b4-0717-46a6-8b2a-c7f267d42f86' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-6fd027b4-0717-46a6-8b2a-c7f267d42f86' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-660c7596-a232-4f49-ae24-a11a59f825e0' class='xr-var-data-in' type='checkbox'><label for='data-660c7596-a232-4f49-ae24-a11a59f825e0' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>wkt :</span></dt><dd>GEOGCS[&quot;WGS 84&quot;, 
+</table></div></li><li class='xr-var-item'><div class='xr-var-name'><span>crs</span></div><div class='xr-var-dims'>(year)</div><div class='xr-var-dtype'>int32</div><div class='xr-var-preview xr-preview'>-2147483647 ... -2147483647</div><input id='attrs-601cab72-4376-4388-9dc5-02b0ef297e62' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-601cab72-4376-4388-9dc5-02b0ef297e62' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7c011925-34ad-44cc-9761-d5009c67fcd0' class='xr-var-data-in' type='checkbox'><label for='data-7c011925-34ad-44cc-9761-d5009c67fcd0' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>wkt :</span></dt><dd>GEOGCS[&quot;WGS 84&quot;, 
   DATUM[&quot;World Geodetic System 1984&quot;, 
     SPHEROID[&quot;WGS 84&quot;, 6378137.0, 298.257223563, AUTHORITY[&quot;EPSG&quot;,&quot;7030&quot;]], 
     AUTHORITY[&quot;EPSG&quot;,&quot;6326&quot;]], 
@@ -2158,7 +1998,7 @@ Attributes: (12/38)
        -2147483647, -2147483647, -2147483647, -2147483647, -2147483647,
        -2147483647, -2147483647, -2147483647, -2147483647, -2147483647,
        -2147483647, -2147483647, -2147483647, -2147483647, -2147483647,
-       -2147483647], dtype=int32)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-aefbba83-456d-4e49-9954-b31ed427beb7' class='xr-section-summary-in' type='checkbox'  ><label for='section-aefbba83-456d-4e49-9954-b31ed427beb7' class='xr-section-summary' >Attributes: <span>(38)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>id :</span></dt><dd>ESACCI-LC-L4-LCCS-Map-300m-P1Y-1992-v2.0.7cds</dd><dt><span>title :</span></dt><dd>Land Cover Map of ESA CCI brokered by CDS</dd><dt><span>summary :</span></dt><dd>This dataset characterizes the land cover of a particular year (see time_coverage). The land cover was derived from the analysis of satellite data time series of the full period.</dd><dt><span>type :</span></dt><dd>ESACCI-LC-L4-LCCS-Map-300m-P1Y</dd><dt><span>project :</span></dt><dd>Climate Change Initiative - European Space Agency</dd><dt><span>references :</span></dt><dd>http://www.esa-landcover-cci.org/</dd><dt><span>institution :</span></dt><dd>UCLouvain</dd><dt><span>contact :</span></dt><dd>https://www.ecmwf.int/en/about/contact-us/get-support</dd><dt><span>comment :</span></dt><dd></dd><dt><span>Conventions :</span></dt><dd>CF-1.6</dd><dt><span>standard_name_vocabulary :</span></dt><dd>NetCDF Climate and Forecast (CF) Standard Names version 21</dd><dt><span>keywords :</span></dt><dd>land cover classification,satellite,observation</dd><dt><span>keywords_vocabulary :</span></dt><dd>NASA Global Change Master Directory (GCMD) Science Keywords</dd><dt><span>license :</span></dt><dd>ESA CCI Data Policy: free and open access</dd><dt><span>naming_authority :</span></dt><dd>org.esa-cci</dd><dt><span>cdm_data_type :</span></dt><dd>grid</dd><dt><span>TileSize :</span></dt><dd>2025:2025</dd><dt><span>tracking_id :</span></dt><dd>61b96fd7-42c3-4374-9de1-0dc3b0bcae2a</dd><dt><span>product_version :</span></dt><dd>2.0.7cds</dd><dt><span>creation_date :</span></dt><dd>20181130T095451Z</dd><dt><span>creator_name :</span></dt><dd>UCLouvain</dd><dt><span>creator_url :</span></dt><dd>http://www.uclouvain.be/</dd><dt><span>creator_email :</span></dt><dd>landcover-cci@uclouvain.be</dd><dt><span>source :</span></dt><dd>MERIS FR L1B version 5.05, MERIS RR L1B version 8.0, SPOT VGT P</dd><dt><span>history :</span></dt><dd>amorgos-4,0, lc-sdr-1.0, lc-sr-1.0, lc-classification-1.0,lc-user-tools-3.13,lc-user-tools-4.3</dd><dt><span>time_coverage_start :</span></dt><dd>19920101</dd><dt><span>time_coverage_end :</span></dt><dd>19921231</dd><dt><span>time_coverage_duration :</span></dt><dd>P1Y</dd><dt><span>time_coverage_resolution :</span></dt><dd>P1Y</dd><dt><span>geospatial_lat_min :</span></dt><dd>-90.0</dd><dt><span>geospatial_lat_max :</span></dt><dd>90.0</dd><dt><span>geospatial_lon_min :</span></dt><dd>-180</dd><dt><span>geospatial_lon_max :</span></dt><dd>180</dd><dt><span>spatial_resolution :</span></dt><dd>300m</dd><dt><span>geospatial_lat_units :</span></dt><dd>degrees_north</dd><dt><span>geospatial_lat_resolution :</span></dt><dd>0.002778</dd><dt><span>geospatial_lon_units :</span></dt><dd>degrees_east</dd><dt><span>geospatial_lon_resolution :</span></dt><dd>0.002778</dd></dl></div></li></ul></div></div></div></div>
+       -2147483647], dtype=int32)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-03ea0724-2d4e-47e2-88f3-eed1bdcef5c0' class='xr-section-summary-in' type='checkbox'  ><label for='section-03ea0724-2d4e-47e2-88f3-eed1bdcef5c0' class='xr-section-summary' >Attributes: <span>(38)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>id :</span></dt><dd>ESACCI-LC-L4-LCCS-Map-300m-P1Y-1992-v2.0.7cds</dd><dt><span>title :</span></dt><dd>Land Cover Map of ESA CCI brokered by CDS</dd><dt><span>summary :</span></dt><dd>This dataset characterizes the land cover of a particular year (see time_coverage). The land cover was derived from the analysis of satellite data time series of the full period.</dd><dt><span>type :</span></dt><dd>ESACCI-LC-L4-LCCS-Map-300m-P1Y</dd><dt><span>project :</span></dt><dd>Climate Change Initiative - European Space Agency</dd><dt><span>references :</span></dt><dd>http://www.esa-landcover-cci.org/</dd><dt><span>institution :</span></dt><dd>UCLouvain</dd><dt><span>contact :</span></dt><dd>https://www.ecmwf.int/en/about/contact-us/get-support</dd><dt><span>comment :</span></dt><dd></dd><dt><span>Conventions :</span></dt><dd>CF-1.6</dd><dt><span>standard_name_vocabulary :</span></dt><dd>NetCDF Climate and Forecast (CF) Standard Names version 21</dd><dt><span>keywords :</span></dt><dd>land cover classification,satellite,observation</dd><dt><span>keywords_vocabulary :</span></dt><dd>NASA Global Change Master Directory (GCMD) Science Keywords</dd><dt><span>license :</span></dt><dd>ESA CCI Data Policy: free and open access</dd><dt><span>naming_authority :</span></dt><dd>org.esa-cci</dd><dt><span>cdm_data_type :</span></dt><dd>grid</dd><dt><span>TileSize :</span></dt><dd>2025:2025</dd><dt><span>tracking_id :</span></dt><dd>61b96fd7-42c3-4374-9de1-0dc3b0bcae2a</dd><dt><span>product_version :</span></dt><dd>2.0.7cds</dd><dt><span>creation_date :</span></dt><dd>20181130T095451Z</dd><dt><span>creator_name :</span></dt><dd>UCLouvain</dd><dt><span>creator_url :</span></dt><dd>http://www.uclouvain.be/</dd><dt><span>creator_email :</span></dt><dd>landcover-cci@uclouvain.be</dd><dt><span>source :</span></dt><dd>MERIS FR L1B version 5.05, MERIS RR L1B version 8.0, SPOT VGT P</dd><dt><span>history :</span></dt><dd>amorgos-4,0, lc-sdr-1.0, lc-sr-1.0, lc-classification-1.0,lc-user-tools-3.13,lc-user-tools-4.3</dd><dt><span>time_coverage_start :</span></dt><dd>19920101</dd><dt><span>time_coverage_end :</span></dt><dd>19921231</dd><dt><span>time_coverage_duration :</span></dt><dd>P1Y</dd><dt><span>time_coverage_resolution :</span></dt><dd>P1Y</dd><dt><span>geospatial_lat_min :</span></dt><dd>-90.0</dd><dt><span>geospatial_lat_max :</span></dt><dd>90.0</dd><dt><span>geospatial_lon_min :</span></dt><dd>-180</dd><dt><span>geospatial_lon_max :</span></dt><dd>180</dd><dt><span>spatial_resolution :</span></dt><dd>300m</dd><dt><span>geospatial_lat_units :</span></dt><dd>degrees_north</dd><dt><span>geospatial_lat_resolution :</span></dt><dd>0.002778</dd><dt><span>geospatial_lon_units :</span></dt><dd>degrees_east</dd><dt><span>geospatial_lon_resolution :</span></dt><dd>0.002778</dd></dl></div></li></ul></div></div></div></div>
 </div>
 </section>
 </section>
@@ -2377,10 +2217,135 @@ Attributes: (12/38)
 </div>
 </details>
 </div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Wetland map with geographic context around Ireland</span>
+
+<span class="n">selected_year</span> <span class="o">=</span> <span class="mi">2020</span>  <span class="c1"># change this year</span>
+
+<span class="n">natural_earth_url</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;https://naturalearth.s3.amazonaws.com/&quot;</span>
+    <span class="s2">&quot;50m_cultural/ne_50m_admin_0_countries.zip&quot;</span>
+<span class="p">)</span>
+
+<span class="n">world</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">natural_earth_url</span><span class="p">)</span>
+
+<span class="n">context_countries</span> <span class="o">=</span> <span class="n">world</span><span class="p">[</span>
+    <span class="n">world</span><span class="p">[</span><span class="s2">&quot;NAME&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span>
+        <span class="s2">&quot;Ireland&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;United Kingdom&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;France&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Isle of Man&quot;</span>
+    <span class="p">])</span>
+<span class="p">]</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="s2">&quot;year&quot;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">dims</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">indexes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="s2">&quot;duplicated&quot;</span><span class="p">):</span>
+    <span class="n">ds_map</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">year</span><span class="o">=~</span><span class="n">ds</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">duplicated</span><span class="p">())</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">ds_map</span> <span class="o">=</span> <span class="n">ds</span>
+
+<span class="n">available_years</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">ds_map</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Available years:&quot;</span><span class="p">,</span> <span class="n">available_years</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">selected_year</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">available_years</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Year </span><span class="si">{</span><span class="n">selected_year</span><span class="si">}</span><span class="s2"> is not available. &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;Choose one of: </span><span class="si">{</span><span class="n">available_years</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+
+<span class="n">lc_year</span> <span class="o">=</span> <span class="n">ds_map</span><span class="p">[</span><span class="s2">&quot;lccs_class&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">selected_year</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="s2">&quot;year&quot;</span> <span class="ow">in</span> <span class="n">lc_year</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
+    <span class="n">lc_year</span> <span class="o">=</span> <span class="n">lc_year</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">wetland_pixels</span> <span class="o">=</span> <span class="n">lc_year</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">wetland_classes</span><span class="p">)</span>
+<span class="n">wetland_pixels</span> <span class="o">=</span> <span class="n">wetland_pixels</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">wetland_pixels</span><span class="p">)</span>
+
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># Sea background</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s2">&quot;#d7ecf7&quot;</span><span class="p">)</span>
+
+<span class="c1"># Land masses only, with soft boundaries</span>
+<span class="n">context_countries</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#f4f0e8&quot;</span><span class="p">,</span>
+    <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;#777777&quot;</span><span class="p">,</span>
+    <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span>
+<span class="p">)</span>
+
+<span class="c1"># Wetlands</span>
+<span class="n">wetland_pixels</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="n">ListedColormap</span><span class="p">([</span><span class="s2">&quot;#1f78b4&quot;</span><span class="p">]),</span>
+    <span class="n">add_colorbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span>
+<span class="p">)</span>
+
+<span class="c1"># Wider map extent</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">12.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">49.5</span><span class="p">,</span> <span class="mf">56.5</span><span class="p">)</span>
+
+<span class="c1"># Sea labels only</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+    <span class="o">-</span><span class="mf">9.2</span><span class="p">,</span> <span class="mf">50.6</span><span class="p">,</span>
+    <span class="s2">&quot;Atlantic Ocean&quot;</span><span class="p">,</span>
+    <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;italic&quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#336699&quot;</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span>
+<span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+    <span class="o">-</span><span class="mf">5.3</span><span class="p">,</span> <span class="mf">50.2</span><span class="p">,</span>
+    <span class="s2">&quot;Celtic Sea&quot;</span><span class="p">,</span>
+    <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
+    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;italic&quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#336699&quot;</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span>
+<span class="p">)</span>
+
+<span class="c1"># Legend</span>
+<span class="n">wetland_patch</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;#1f78b4&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Mapped wetlands&quot;</span><span class="p">)</span>
+<span class="n">land_patch</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;#f4f0e8&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Land&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+    <span class="n">handles</span><span class="o">=</span><span class="p">[</span><span class="n">wetland_patch</span><span class="p">,</span> <span class="n">land_patch</span><span class="p">],</span>
+    <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower left&quot;</span><span class="p">,</span>
+    <span class="n">frameon</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mapped wetlands in Ireland, </span><span class="si">{</span><span class="n">selected_year</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Longitude&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Latitude&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">,</span> <span class="n">adjustable</span><span class="o">=</span><span class="s2">&quot;box&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Available years: [1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022]
+</pre></div>
+</div>
+<img alt="../../_images/57529c78b7d279a4592d500936df44f57715743fe94d6ce4baa94761c0268c3f.png" src="../../_images/57529c78b7d279a4592d500936df44f57715743fe94d6ce4baa94761c0268c3f.png" />
+</div>
+</div>
 </section>
 <section id="potential-drivers-and-methodological-considerations-in-wetland-trends-in-the-ireland-19922022">
 <h4><strong>Potential Drivers and Methodological Considerations in Wetland Trends in the Ireland (1992–2022)</strong><a class="headerlink" href="#potential-drivers-and-methodological-considerations-in-wetland-trends-in-the-ireland-19922022" title="Link to this heading">#</a></h4>
-<p>wetlandisation in the Ireland over the last three decades has been influenced by a combination of <strong>economic shifts</strong>, <strong>demographic changes</strong>, and <strong>policy decisions</strong>. Before analysing trends, it is essential to account for abrupt shifts that may distort trend estimates. These shifts, often referred to as breakpoints, can result from:</p>
+<p>The size of wetlands areas, in the Ireland, over the last three decades has been influenced by a combination of <strong>economic shifts</strong>, <strong>demographic changes</strong>, and <strong>policy decisions</strong>. Before analysing trends, it is essential to account for abrupt shifts that may distort trend estimates. These shifts, often referred to as breakpoints, can result from:</p>
 <p><strong>Economic Drivers</strong></p>
 <ul class="simple">
 <li><p><strong>Peat extraction and turf cutting</strong><br />
@@ -2859,15 +2824,26 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
 <span class="n">pos</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
 <span class="n">legend_x</span> <span class="o">=</span> <span class="n">pos</span><span class="o">.</span><span class="n">x0</span> <span class="o">+</span> <span class="n">pos</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span>
 
-<span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
-    <span class="n">handles</span><span class="o">=</span><span class="n">phase_handles</span> <span class="o">+</span> <span class="n">line_handles</span><span class="p">,</span>
-    <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper center&quot;</span><span class="p">,</span>
-    <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="n">legend_x</span><span class="p">,</span> <span class="mf">0.98</span><span class="p">),</span>   <span class="c1"># centered over plot, high above it</span>
-    <span class="n">bbox_transform</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">transFigure</span><span class="p">,</span>
-    <span class="n">ncol</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-    <span class="n">frameon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span>
-<span class="p">)</span>
+<span class="c1"># Build legend only from handles that actually exist</span>
+
+<span class="n">legend_handles</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">if</span> <span class="s2">&quot;phase_handles&quot;</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">():</span>
+    <span class="n">legend_handles</span> <span class="o">+=</span> <span class="n">phase_handles</span>
+
+<span class="k">if</span> <span class="s2">&quot;line_handles&quot;</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">():</span>
+    <span class="n">legend_handles</span> <span class="o">+=</span> <span class="n">line_handles</span>
+
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">legend_handles</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+        <span class="n">handles</span><span class="o">=</span><span class="n">legend_handles</span><span class="p">,</span>
+        <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper center&quot;</span><span class="p">,</span>
+        <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="n">legend_x</span><span class="p">,</span> <span class="mf">0.98</span><span class="p">),</span>
+        <span class="n">bbox_transform</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">transFigure</span><span class="p">,</span>
+        <span class="n">ncol</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">frameon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span>
+    <span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -2875,7 +2851,7 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/153ba14296ab555d2d6f6eb27a14d431a04eedc70ff5dccf798bb4ac1bf33d29.png" src="../../_images/153ba14296ab555d2d6f6eb27a14d431a04eedc70ff5dccf798bb4ac1bf33d29.png" />
+<img alt="../../_images/47b338c64f68ea5778bc0fb002519b8af43592d864336a04c0020ac7a0c39e07.png" src="../../_images/47b338c64f68ea5778bc0fb002519b8af43592d864336a04c0020ac7a0c39e07.png" />
 </div>
 </div>
 <p>To assess whether detected discontinuities in the wetland-area time series may be influenced by methodological factors, a targeted alignment analysis is performed. The aim is to evaluate whether <strong>growth-rate breakpoints</strong> and <strong>derivative spikes</strong> occur shortly after known <strong>processing-chain changes</strong>.</p>
@@ -3189,11 +3165,7 @@ No derivative spike signals are temporally aligned with any known methodological
 <li><p><strong>Derivative spikes</strong> highlight years of maximum year-to-year variation</p></li>
 </ul>
 <p>Because of this, spikes may occur slightly after breakpoints, reflecting the difference between <strong>initiation</strong> and <strong>peak expression</strong> of change (<a class="reference external" href="https://doi.org/10.1109/JURSE.2019.8808967" rel="noreferrer" target="_blank">Chelali et al., 2019</a>).</p>
-<p>The interpretation is guided by:</p>
-<ul class="simple">
-<li><p><strong>temporal alignment with processing-chain transitions</strong></p></li>
-</ul>
-<p>This is particularly important in satellite-derived land cover products, where methodological updates (e.g. sensor transitions, classification schemes, or reference layers) can introduce artificial discontinuities in time series.</p>
+<p>The interpretation is guided by <strong>temporal alignment with processing-chain transitions</strong>. This is particularly important in satellite-derived land cover products, where methodological updates (e.g. sensor transitions, classification schemes, or reference layers) can introduce artificial discontinuities in time series.</p>
 <p>A signal affecting many regions simultaneously is more likely to reflect a <strong>systematic driver</strong> (either methodological or large-scale real dynamics), whereas signals affecting few regions are more likely <strong>local effects</strong> (<a class="reference external" href="https://doi.org/10.1088/1755-1315/113/1/012087" rel="noreferrer" target="_blank">Chang et al., 2018</a>).</p>
 <hr class="docutils" />
 <p><strong>Breakpoint ~2016–2017</strong></p>
@@ -3204,10 +3176,10 @@ No derivative spike signals are temporally aligned with any known methodological
 <p>A plausible interpretation is that the breakpoint captures a period of changing peatland and wetland trajectories associated with <strong>drainage status, peat extraction decline, post-industrial peatland after-use, and emerging restoration activity</strong>. Irish peatlands have experienced substantial land-use change, including conversion to grassland, forestry, extraction, and other managed uses, which can alter both hydrology and mapped land-cover class (<a class="reference external" href="https://doi.org/10.1007/s10113-023-02116-0" rel="noreferrer" target="_blank">Habib &amp; Connolly, 2023</a>; <a class="reference external" href="https://doi.org/10.1016/j.jenvman.2023.118391" rel="noreferrer" target="_blank">Tuohy et al., 2023</a>; <a class="reference external" href="https://doi.org/10.1038/s41598-024-51660-0" rel="noreferrer" target="_blank">Habib et al., 2024</a>).</p>
 <p>The post-2016 decline may therefore represent a combination of:</p>
 <ul class="simple">
-<li><p>continued effects of <strong>peatland drainage and land-use intensification</strong>, especially where wetland or semi-natural peatland areas become spectrally closer to grassland, shrubland, or other drier classes (<a class="reference external" href="https://doi.org/10.1016/j.jenvman.2023.118391" rel="noreferrer" target="_blank">Tuohy et al., 2023</a>; <a class="reference external" href="https://doi.org/10.30955/gnc2025.00123" rel="noreferrer" target="_blank">Bari et al., 2025</a>);</p></li>
-<li><p><strong>post-extraction vegetation change</strong> in cutaway and cutover bogs, where rewetting, scrub colonisation, open-water formation, or wet grassland development may produce heterogeneous land-cover signals (<a class="reference external" href="https://doi.org/10.3318/bioe.2021.09" rel="noreferrer" target="_blank">Crowley et al., 2022</a>; <a class="reference external" href="https://doi.org/10.1016/j.scitotenv.2023.163583" rel="noreferrer" target="_blank">Räsänen et al., 2023</a>);</p></li>
-<li><p>localised effects of <strong>peatland rehabilitation and rewetting</strong>, which can rapidly alter hydrology, vegetation, and carbon dynamics but may not always map directly into a single wetland class at 300 m resolution (<a class="reference external" href="https://doi.org/10.1016/j.ecoleng.2018.02.014" rel="noreferrer" target="_blank">Renou-Wilson et al., 2019</a>; <a class="reference external" href="https://doi.org/10.3390/land14112226" rel="noreferrer" target="_blank">Aitova et al., 2025</a>);</p></li>
-<li><p>broader policy and restoration momentum during the late 2010s and early 2020s, when peatland restoration became increasingly linked to climate mitigation, biodiversity recovery, and land-use transition (<a class="reference external" href="https://doi.org/10.1111/rec.14216" rel="noreferrer" target="_blank">Farrell et al., 2024</a>; <a class="reference external" href="https://doi.org/10.1002/adsu.202000146" rel="noreferrer" target="_blank">Tanneberger et al., 2020</a>).</p></li>
+<li><p>Continued effects of <strong>peatland drainage and land-use intensification</strong>, especially where wetland or semi-natural peatland areas become spectrally closer to grassland, shrubland, or other drier classes (<a class="reference external" href="https://doi.org/10.1016/j.jenvman.2023.118391" rel="noreferrer" target="_blank">Tuohy et al., 2023</a>; <a class="reference external" href="https://doi.org/10.30955/gnc2025.00123" rel="noreferrer" target="_blank">Bari et al., 2025</a>);</p></li>
+<li><p><strong>Post-extraction vegetation change</strong> in cutaway and cutover bogs, where rewetting, scrub colonisation, open-water formation, or wet grassland development may produce heterogeneous land-cover signals (<a class="reference external" href="https://doi.org/10.3318/bioe.2021.09" rel="noreferrer" target="_blank">Crowley et al., 2022</a>; <a class="reference external" href="https://doi.org/10.1016/j.scitotenv.2023.163583" rel="noreferrer" target="_blank">Räsänen et al., 2023</a>);</p></li>
+<li><p>Localised effects of <strong>peatland rehabilitation and rewetting</strong>, which can rapidly alter hydrology, vegetation, and carbon dynamics but may not always map directly into a single wetland class at 300 m resolution (<a class="reference external" href="https://doi.org/10.1016/j.ecoleng.2018.02.014" rel="noreferrer" target="_blank">Renou-Wilson et al., 2019</a>; <a class="reference external" href="https://doi.org/10.3390/land14112226" rel="noreferrer" target="_blank">Aitova et al., 2025</a>);</p></li>
+<li><p>Broader policy and restoration momentum during the late 2010s and early 2020s, when peatland restoration became increasingly linked to climate mitigation, biodiversity recovery, and land-use transition (<a class="reference external" href="https://doi.org/10.1111/rec.14216" rel="noreferrer" target="_blank">Farrell et al., 2024</a>; <a class="reference external" href="https://doi.org/10.1002/adsu.202000146" rel="noreferrer" target="_blank">Tanneberger et al., 2020</a>).</p></li>
 </ul>
 <p>Overall, the <strong>2016–2017 breakpoint</strong> is best interpreted as the onset of a new wetland-area regime in the mapped C3S series. The subsequent derivative spikes in <strong>2017–2018</strong> and <strong>2018–2019</strong> indicate that this transition was not only structural, but was also followed by abrupt year-to-year reductions in mapped wetland area.</p>
 <hr class="docutils" />
@@ -3225,10 +3197,10 @@ No derivative spike signals are temporally aligned with any known methodological
 <p>The Irish wetland-area series shows one dominant breakpoint cluster around <strong>2016–2017</strong>, followed by strong negative derivative spikes in <strong>2017–2018</strong> and <strong>2018–2019</strong>. This sequence indicates a transition from relative stability to sustained decline in mapped wetland area.</p>
 <p>The signal is strongest because:</p>
 <ul class="simple">
-<li><p>the main breakpoint occurs at the start of a clear post-2016 decline;</p></li>
-<li><p>the following two intervals show strong negative rate-of-change spikes;</p></li>
-<li><p>no processing-chain transition is identified within the ±2-year window in the breakpoint summary table;</p></li>
-<li><p>the timing is consistent with a period of major change in Irish peatland management, including declining industrial peat extraction, increasing restoration activity, and growing policy emphasis on peatlands for climate and biodiversity objectives (<a class="reference external" href="https://doi.org/10.1111/rec.14216" rel="noreferrer" target="_blank">Farrell et al., 2024</a>; <a class="reference external" href="https://doi.org/10.1007/s10113-023-02116-0" rel="noreferrer" target="_blank">Habib &amp; Connolly, 2023</a>; <a class="reference external" href="https://doi.org/10.1016/j.scitotenv.2023.163583" rel="noreferrer" target="_blank">Räsänen et al., 2023</a>).</p></li>
+<li><p>The main breakpoint occurs at the start of a clear post-2016 decline;</p></li>
+<li><p>The following two intervals show strong negative rate-of-change spikes;</p></li>
+<li><p>No processing-chain transition is identified within the ±2-year window in the breakpoint summary table;</p></li>
+<li><p>The timing is consistent with a period of major change in Irish peatland management, including declining industrial peat extraction, increasing restoration activity, and growing policy emphasis on peatlands for climate and biodiversity objectives (<a class="reference external" href="https://doi.org/10.1111/rec.14216" rel="noreferrer" target="_blank">Farrell et al., 2024</a>; <a class="reference external" href="https://doi.org/10.1007/s10113-023-02116-0" rel="noreferrer" target="_blank">Habib &amp; Connolly, 2023</a>; <a class="reference external" href="https://doi.org/10.1016/j.scitotenv.2023.163583" rel="noreferrer" target="_blank">Räsänen et al., 2023</a>).</p></li>
 </ul>
 <p>Nevertheless, the result should be treated as a <strong>candidate land-cover transition</strong> rather than definitive evidence of ecological wetland loss. In Ireland, peatlands and mapped wetlands are not equivalent: degraded, drained, afforested, or agriculturally managed peatlands may be classified as grassland, shrubland, sparse vegetation, forest, or other land-cover types rather than wetland.</p>
 </section>
@@ -3786,6 +3758,57 @@ No derivative spike signals are temporally aligned with any known methodological
 <li><p><a class="reference external" href="https://github.com/bopen/c3s-eqc-automatic-quality-control/tree/main/c3s_eqc_automatic_quality_control" rel="noreferrer" target="_blank">C3S EQC custom functions</a>, c3s_eqc_automatic_quality_control, prepared by <a class="reference external" href="https://www.bopen.eu/" rel="noreferrer" target="_blank">B-Open</a></p></li>
 </ul>
 </section>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://doi.org/10.3390/land14112226" rel="noreferrer" target="_blank">Aitova, E., Renou-Wilson, F., Wilson, D., Crowley, W., &amp; Morley, T. R. (2025). Immediate impact of rewetting on carbon dynamics in a degraded Irish raised bog. <em>Land, 14</em>(11), 2226.</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.3390/land12081614" rel="noreferrer" target="_blank">Atapattu, A. J., et al. (2023). Effect of ‘peatland-use’ type on culturable microbial groups in Irish peatlands. <em>Land, 12</em>(8), 1614.</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.30955/gnc2025.00123" rel="noreferrer" target="_blank">Bari, M. A., et al. (2025). Assessment and mapping of the drainage status of Ireland’s peatlands. <em>CEST2025</em>.</a></p></li>
+<li><p><a class="reference external" href="https://www.bnm.ie/peatlands/peatland-restoration/" rel="noreferrer" target="_blank">Bord na Móna. (n.d.). Peatland restoration.</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1088/1755-1315/113/1/012087" rel="noreferrer" target="_blank">Chang, Y., Hou, K., Li, X., Zhang, Y., &amp; Chen, P. (2018). Review of land use and land cover change research progress. <em>IOP Conference Series: Earth and Environmental Science, 113</em>, 012087.</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1109/JURSE.2019.8808967" rel="noreferrer" target="_blank">Chelali, M., Kurtz, C., Puissant, A., &amp; Vincent, N. (2019). Urban land cover analysis from satellite image time series based on temporal stability. <em>Joint Urban Remote Sensing Event (JURSE), 2019</em>, 1–4.</a></p></li>
+<li><p><a class="reference external" href="https://cds.climate.copernicus.eu/datasets/satellite-land-cover?tab=overview" rel="noreferrer" target="_blank">Climate Data Store. (n.d.). Land cover classification gridded maps from 1992 to present derived from satellite observations.</a></p></li>
+<li><p><a class="reference external" href="https://www.coillte.ie/our-business/our-projects/nature-conservation/" rel="noreferrer" target="_blank">Coillte. (n.d.). Nature conservation projects.</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.3318/bioe.2021.09" rel="noreferrer" target="_blank">Crowley, W., Smith, G. F., Mackin, F., Regan, S., Fernandez Valverde, F., &amp; Eakin, M. (2021). Recovery of the vegetation of a cutover raised bog in Ireland following rewetting measures. <em>Biology and Environment: Proceedings of the Royal Irish Academy, 121B</em>(2), 95–121.</a></p></li>
+<li><p><a class="reference external" href="https://www.npws.ie/sites/default/files/general/Final%20National%20Peatlands%20Strategy.pdf" rel="noreferrer" target="_blank">Department of Arts, Heritage and the Gaeltacht. (2015). <em>National Peatlands Strategy</em>.</a></p></li>
+<li><p><a class="reference external" href="https://www.epa.ie/publications/research/water/Research_Report_313.pdf" rel="noreferrer" target="_blank">Environmental Protection Agency. (2020). <em>Saltmarsh monitoring and assessment research report</em>.</a></p></li>
+<li><p><a class="reference external" href="https://www.epa.ie/publications/research/water/EPA-Report-SinglePage-446.pdf" rel="noreferrer" target="_blank">Environmental Protection Agency. (2023). <em>Research report on drought and water-related environmental impacts in Ireland</em>.</a></p></li>
+<li><p><a class="reference external" href="https://www.epa.ie/publications/compliance--enforcement/drinking-water/annual-drinking-water-reports/FINAL-EPA_DrinkingWaterQualityinPublicSupplies2024-v1.4.pdf" rel="noreferrer" target="_blank">Environmental Protection Agency. (2024). <em>Drinking water quality in public supplies 2024</em>.</a></p></li>
+<li><p><a class="reference external" href="https://leap.epa.ie/docs/0bb0df04-15a7-471e-9d16-d258233d5c06.pdf" rel="noreferrer" target="_blank">Environmental Protection Agency. (2025). <em>Bord na Móna rehabilitation and peatland restoration documentation</em>.</a></p></li>
+<li><p><a class="reference external" href="https://webgate.ec.europa.eu/life/publicWebsite/project/LIFE02-NAT-IRL-008490/restoring-active-blanket-bog-in-ireland" rel="noreferrer" target="_blank">European Commission LIFE Programme. (n.d.). Restoring active blanket bog in Ireland.</a></p></li>
+<li><p><a class="reference external" href="https://commission.europa.eu/document/cf3294e1-8358-4c93-8de4-3e1503b95201_en" rel="noreferrer" target="_blank">European Commission. (2021). <em>New EU Forest Strategy for 2030</em>.</a></p></li>
+<li><p><a class="reference external" href="https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Forests,_forestry_and_logging" rel="noreferrer" target="_blank">Eurostat. (2022). Forests, forestry and logging. <em>Statistics Explained</em>.</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1111/rec.14216" rel="noreferrer" target="_blank">Farrell, C. A., Connolly, J., &amp; Morley, T. R. (2024). Charting a course for peatland restoration in Ireland: A case study to support restoration frameworks in other regions. <em>Restoration Ecology</em>.</a></p></li>
+<li><p><a class="reference external" href="https://www.gsi.ie/en-ie/programmes-and-projects/marine-and-coastal-unit/projects/Pages/National-Coastal-Change-Assessment.aspx" rel="noreferrer" target="_blank">Geological Survey Ireland. (n.d.). National Coastal Change Assessment.</a></p></li>
+<li><p><a class="reference external" href="https://www.gov.ie/en/department-of-climate-energy-and-the-environment/publications/bord-na-m%C3%B3na-bog-rehabilitation-scheme/" rel="noreferrer" target="_blank">Government of Ireland. (2020). Bord na Móna Bog Rehabilitation Scheme.</a></p></li>
+<li><p><a class="reference external" href="https://www.gov.ie/en/department-of-housing-local-government-and-heritage/publications/national-peatlands-strategy-mid-term-review-and-implementation-plan/" rel="noreferrer" target="_blank">Government of Ireland. (2023). National Peatlands Strategy: Mid-Term Review and Implementation Plan.</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1007/s10113-023-02116-0" rel="noreferrer" target="_blank">Habib, W., &amp; Connolly, J. (2023). A national-scale assessment of land use change in peatlands between 1989 and 2020 using Landsat data and Google Earth Engine: A case study of Ireland.</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1002/rse2.387" rel="noreferrer" target="_blank">Habib, W., Cresson, R., McGuinness, K., &amp; Connolly, J. (2024). Mapping artificial drains in peatlands: A national-scale assessment of Irish raised bogs using sub-meter aerial imagery and deep learning methods. <em>Remote Sensing in Ecology and Conservation, 10</em>(4), 551–562.</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1038/s41598-024-51660-0" rel="noreferrer" target="_blank">Habib, W., Ingle, R., Saunders, M., &amp; Connolly, J. (2024). Quantifying peatland land use and CO₂ emissions in Irish raised bogs: Mapping insights using Sentinel-2 data and Google Earth Engine. <em>Scientific Reports, 14</em>, 1171.</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.2112/1551-5036-36.sp1.365" rel="noreferrer" target="_blank">Healy, M. G., &amp; Hickey, K. R. (2002). Historic land reclamation and intertidal wetland change in the Shannon Estuary, Ireland. <em>Journal of Coastal Research, 36</em>, 365–373.</a></p></li>
+<li><p><a class="reference external" href="https://www.ipcc.ie/a-to-z-peatlands/irelands-peatland-conservation-action-plan/peatland-action-plan/habitat-loss-of-peatlands/" rel="noreferrer" target="_blank">Irish Peatland Conservation Council. (2020). Habitat loss of peatlands.</a></p></li>
+<li><p><a class="reference external" href="https://www.ipcc.ie/advice/peatland-management-diy-tool-kit/restoration-of-burned-peatlands/" rel="noreferrer" target="_blank">Irish Peatland Conservation Council. (n.d.). Restoration of burned peatlands.</a></p></li>
+<li><p><a class="reference external" href="https://www.iucn-uk-peatlandprogramme.org/sites/default/files/2024-06/State%20of%20UK%20Peatlands.pdf" rel="noreferrer" target="_blank">IUCN UK Peatland Programme. (2024). <em>State of UK Peatlands</em>.</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1111/gcb.15654" rel="noreferrer" target="_blank">Jovani-Sancho, A. J., Cummins, T., &amp; Byrne, K. A. (2021). Soil carbon balance of afforested peatlands in the maritime temperate climatic zone. <em>Global Change Biology, 27</em>(15), 3681–3698.</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1007/s13280-024-02016-5" rel="noreferrer" target="_blank">Jurasinski, G., et al. (2024). Active afforestation of drained peatlands is not a viable restoration option under the EU Nature Restoration Law. <em>Ambio</em>.</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1007/s10533-023-01103-1" rel="noreferrer" target="_blank">Mander, Ü., Espenberg, M., Melling, L., &amp; Kull, A. (2023). Peatland restoration pathways to mitigate greenhouse gas emissions and retain peat carbon. <em>Biogeochemistry</em>.</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1016/j.rse.2023.113839" rel="noreferrer" target="_blank">McCormack, T., Campanyà, J., &amp; Naughton, O. (2023). Reconstructing flood level timeseries at seasonal wetlands in Ireland using Sentinel-1. <em>Remote Sensing of Environment, 299</em>, 113839.</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1016/j.geomorph.2021.107847" rel="noreferrer" target="_blank">Möller, I., et al. (2021). Salt marsh resilience to sea-level rise and increased storm intensity. <em>Geomorphology</em>.</a></p></li>
+<li><p><a class="reference external" href="https://www.naturacommunities.ie/protecting-and-restoring/threats/" rel="noreferrer" target="_blank">Natura Communities. (n.d.). Threats to protected habitats.</a></p></li>
+<li><p><a class="reference external" href="https://www.npws.ie/maps-and-data/designated-site-data/ssco-data" rel="noreferrer" target="_blank">National Parks and Wildlife Service. (2017). Site-specific conservation objectives data.</a></p></li>
+<li><p><a class="reference external" href="https://raisedbogs.ie/" rel="noreferrer" target="_blank">Raised Bog Restoration Ireland. (n.d.). Raised bog restoration in Ireland.</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1016/j.scitotenv.2023.163583" rel="noreferrer" target="_blank">Räsänen, A., et al. (2023). After-use of peat extraction sites: A systematic review of biodiversity, climate, hydrological and social impacts. <em>Science of the Total Environment, 882</em>, 163583.</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1016/j.ecoleng.2018.02.014" rel="noreferrer" target="_blank">Renou-Wilson, F., Moser, G., Fallon, D., Farrell, C. A., Müller, C., &amp; Wilson, D. (2019). Rewetting degraded peatlands for climate and biodiversity benefits: Results from two raised bogs. <em>Ecological Engineering, 127</em>, 547–560.</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.3897/aca.8.e148818" rel="noreferrer" target="_blank">Shamsuzzaman, M., et al. (2025). Restoration of a degraded raised bog: Implications for carbon flux and hydrological recovery. <em>ARPHA Conference Abstracts, 8</em>.</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1080/09064710.2025.2454388" rel="noreferrer" target="_blank">Tähtikarhu, M., Räsänen, T. A., Hyväluoma, J., Piayda, A., &amp; Myllys, M. (2025). Analysing hydrological impacts of controlled drainage, peat thickness and groundwater fluxes in cultivated peat soils. <em>Acta Agriculturae Scandinavica, Section B — Soil &amp; Plant Science, 75</em>(1).</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1002/adsu.202000146" rel="noreferrer" target="_blank">Tanneberger, F., Appulo, L., Ewert, S., Lakner, S., Ó Brolcháin, N., Peters, J., &amp; Wichtmann, W. (2021). The power of nature-based solutions: How peatlands can help us to achieve key EU sustainability objectives. <em>Advanced Sustainable Systems, 5</em>(1), 2000146.</a></p></li>
+<li><p><a class="reference external" href="https://teagasc.ie/wp-content/uploads/media/website/publications/2022/Ecological-Value-and-Condition-of-Irelands-Uplands_CD-210722.pdf" rel="noreferrer" target="_blank">Teagasc. (2022). <em>Ecological value and condition of Ireland’s uplands</em>.</a></p></li>
+<li><p><a class="reference external" href="https://teagasc.ie/wp-content/uploads/2025/05/Study-shows-area-of-drained-grassland-peat-soils-is-grossly-overestimated.pdf" rel="noreferrer" target="_blank">Teagasc. (2023). Study shows area of drained grassland peat soils is grossly overestimated.</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1007/s13280-023-01875-8" rel="noreferrer" target="_blank">Temmink, R. J. M., et al. (2023). Wetscapes: Restoring and maintaining peatland landscapes for sustainable futures. <em>Ambio</em>.</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1016/j.jenvman.2023.118391" rel="noreferrer" target="_blank">Tuohy, P., et al. (2023). Drainage status of grassland peat soils in Ireland: Extent, efficacy and implications for GHG emissions and rewetting efforts. <em>Journal of Environmental Management, 344</em>, 118391.</a></p></li>
+<li><p><a class="reference external" href="https://library.wmo.int/records/item/58111-the-2022-gcos-ecvs-requirements-gcos-245" rel="noreferrer" target="_blank">World Meteorological Organization. (2022). <em>The 2022 GCOS ECVs Requirements</em>. Global Climate Observing System, GCOS-245.</a></p></li>
+</ul>
+</section>
 </section>
 </section>
 
@@ -3890,6 +3913,7 @@ No derivative spike signals are temporally aligned with any known methodological
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-resources">Key Resources</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 </ul>
 </li>
 </ul>
