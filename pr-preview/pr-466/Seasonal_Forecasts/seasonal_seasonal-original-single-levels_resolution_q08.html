@@ -476,7 +476,7 @@ Please note that this repository is used for development and review, so quality 
 </div><section class="tex2jax_ignore mathjax_ignore" id="evaluating-growth-periods-for-wheat-based-on-temperatures-in-seasonal-subdaily-forecast">
 <h1><span class="section-number">4.1. </span>Evaluating growth periods for wheat based on temperatures in seasonal subdaily forecast<a class="headerlink" href="#evaluating-growth-periods-for-wheat-based-on-temperatures-in-seasonal-subdaily-forecast" title="Link to this heading">#</a></h1>
 <p>Production date: 25.03.2026</p>
-<p>Produced by: Johanna Tjernström, Johannes Langvatn</p>
+<p>Produced by: Johanna Tjernström (METNorway), Johannes Langvatn (METNorway)</p>
 <section id="use-case-investigation-of-minimum-and-maximum-temperature-in-relation-to-optimal-growing-conditions-for-common-crops">
 <h2>🌍 Use case: Investigation of minimum and maximum temperature in relation to optimal growing conditions for common crops.<a class="headerlink" href="#use-case-investigation-of-minimum-and-maximum-temperature-in-relation-to-optimal-growing-conditions-for-common-crops" title="Link to this heading">#</a></h2>
 </section>
@@ -711,7 +711,7 @@ Please note that this repository is used for development and review, so quality 
 </details>
 </div>
 <p>Downloading reference reanalysis data (ERA5)</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -739,7 +739,7 @@ Please note that this repository is used for development and review, so quality 
     <span class="p">],</span>
     <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="p">[</span>
         <span class="s2">&quot;03&quot;</span><span class="p">,</span> <span class="s2">&quot;04&quot;</span><span class="p">,</span> <span class="s2">&quot;05&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;06&quot;</span><span class="p">,</span> <span class="s2">&quot;07&quot;</span><span class="p">,</span> <span class="s2">&quot;08&quot;</span>
+        <span class="s2">&quot;06&quot;</span><span class="p">,</span> <span class="s2">&quot;07&quot;</span><span class="p">,</span> <span class="s2">&quot;08&quot;</span><span class="p">,</span> <span class="s2">&quot;09&quot;</span>
     <span class="p">],</span>
     <span class="s2">&quot;day&quot;</span><span class="p">:</span> <span class="p">[</span>
         <span class="s2">&quot;01&quot;</span><span class="p">,</span> <span class="s2">&quot;02&quot;</span><span class="p">,</span> <span class="s2">&quot;03&quot;</span><span class="p">,</span>
@@ -778,14 +778,28 @@ Please note that this repository is used for development and review, so quality 
     <span class="n">request</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;2025&quot;</span>
+<span class="n">era5_obs_max</span> <span class="o">=</span>  <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
+    <span class="n">dataset</span><span class="p">,</span>
+    <span class="n">request</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">&quot;daily_statistic&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;daily_minimum&quot;</span>
+<span class="n">era5_obs_min</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
+    <span class="n">dataset</span><span class="p">,</span>
+    <span class="n">request</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">)</span>
+
 <span class="n">ERA5</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="n">era5_min</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;t2m&quot;</span><span class="p">:</span> <span class="s2">&quot;t2m_min&quot;</span><span class="p">}),</span> <span class="n">era5_max</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;t2m&quot;</span><span class="p">:</span> <span class="s2">&quot;t2m_max&quot;</span><span class="p">})],</span> <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;override&quot;</span><span class="p">)</span>
+<span class="n">ERA5_obs</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="n">era5_obs_min</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;t2m&quot;</span><span class="p">:</span> <span class="s2">&quot;t2m_min&quot;</span><span class="p">}),</span> <span class="n">era5_obs_max</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;t2m&quot;</span><span class="p">:</span> <span class="s2">&quot;t2m_max&quot;</span><span class="p">})],</span> <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;override&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </details>
 </div>
 <p>Downloading reference hindcast data, and forecast data</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -982,7 +996,7 @@ Please note that this repository is used for development and review, so quality 
 </div>
 </details>
 </div>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -1006,7 +1020,7 @@ Please note that this repository is used for development and review, so quality 
   obs, cm_hist, cm_future = self._check_inputs_and_convert_if_possible(
 /data/common/miniforge3/envs/wp3/lib/python3.12/site-packages/ibicus/debias/_debiaser.py:532: UserWarning: cm_future contains values outside the reasonable physical range of [100, 400] for the variable: Daily minimum near-surface air temperature. This might be due to different units of to data problems. It is recommended to check the input.
   obs, cm_hist, cm_future = self._check_inputs_and_convert_if_possible(
-100%|██████████| 451/451 [00:15&lt;00:00, 29.91it/s]
+100%|██████████| 451/451 [00:14&lt;00:00, 30.25it/s]
 /data/common/miniforge3/envs/wp3/lib/python3.12/site-packages/ibicus/debias/_debiaser.py:562: UserWarning: The debiaser output contains values outside the reasonable physical range of [100, 400] for the variable: Daily minimum near-surface air temperature. This might be due to values outside the range in the input, or to a problem of the debiaser for the given dataset at hand. It is recommended to check the output carefully.
   self._check_output(output)
 </pre></div>
@@ -1027,7 +1041,7 @@ Please note that this repository is used for development and review, so quality 
 </div>
 </details>
 </div>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -1051,7 +1065,7 @@ Please note that this repository is used for development and review, so quality 
   obs, cm_hist, cm_future = self._check_inputs_and_convert_if_possible(
 /data/common/miniforge3/envs/wp3/lib/python3.12/site-packages/ibicus/debias/_debiaser.py:532: UserWarning: cm_future contains values outside the reasonable physical range of [100, 400] for the variable: Daily maximum near-surface air temperature. This might be due to different units of to data problems. It is recommended to check the input.
   obs, cm_hist, cm_future = self._check_inputs_and_convert_if_possible(
-100%|██████████| 451/451 [00:14&lt;00:00, 30.32it/s]
+100%|██████████| 451/451 [00:14&lt;00:00, 30.18it/s]
 /data/common/miniforge3/envs/wp3/lib/python3.12/site-packages/ibicus/debias/_debiaser.py:562: UserWarning: The debiaser output contains values outside the reasonable physical range of [100, 400] for the variable: Daily maximum near-surface air temperature. This might be due to values outside the range in the input, or to a problem of the debiaser for the given dataset at hand. It is recommended to check the output carefully.
   self._check_output(output)
 </pre></div>
@@ -1090,7 +1104,7 @@ Please note that this repository is used for development and review, so quality 
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/e87ce584f010c3f2806f960ff6ea50b162c921b742ef4ff75e76e2bddc374d91.png" src="../_images/e87ce584f010c3f2806f960ff6ea50b162c921b742ef4ff75e76e2bddc374d91.png" />
+<img alt="../_images/ca26a323ba2d0475dee4a3df17ad2a670e28427b20894aaf93c917af8abe49ec.png" src="../_images/ca26a323ba2d0475dee4a3df17ad2a670e28427b20894aaf93c917af8abe49ec.png" />
 </div>
 </div>
 <p>Effect of debiasing on the spatial mean for minimum and maximum temperature, the biggest bias in both max and min temperature is a cold bias during summer, but generally the biased forecast is too cold. So removing this cold bias would make the forecast warmer, especially during summer months.</p>
@@ -1112,8 +1126,8 @@ Please note that this repository is used for development and review, so quality 
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/7b09841232640ae4342feb226062f730be4c68850359d7e1fcbea33ef73ccd0c.png" src="../_images/7b09841232640ae4342feb226062f730be4c68850359d7e1fcbea33ef73ccd0c.png" />
-<img alt="../_images/9d79ae8660ac79b523ad0b200b672b2dab6c4ce4fcb967fd99c8ef51e4310060.png" src="../_images/9d79ae8660ac79b523ad0b200b672b2dab6c4ce4fcb967fd99c8ef51e4310060.png" />
+<img alt="../_images/c584f71bad888f96421469920754bd589313748c1e6408c989ccaa8e075b23ca.png" src="../_images/c584f71bad888f96421469920754bd589313748c1e6408c989ccaa8e075b23ca.png" />
+<img alt="../_images/52f212aa206786f7ebf4dff5ca1fa81fd58533dbe6aca8c028975e355e64aa0d.png" src="../_images/52f212aa206786f7ebf4dff5ca1fa81fd58533dbe6aca8c028975e355e64aa0d.png" />
 </div>
 </div>
 <p>Effect on debiasing temporally shows that most of the bias is from the Alps, which has a prominent cold bias in the minimum temperature, but also a slight warm bias in the maximum temperature when averaged over the whole forecast period.</p>
@@ -1220,7 +1234,7 @@ Please note that this repository is used for development and review, so quality 
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/c1dbf68134109281d4010b56f3e6e5141bd9ad345c3abd61624d52bc2785e3e6.png" src="../_images/c1dbf68134109281d4010b56f3e6e5141bd9ad345c3abd61624d52bc2785e3e6.png" />
+<img alt="../_images/b1fb46cf3d9d5a8c49c324801fb35f36df017acab09a1ead7e665fcabdf12a9e.png" src="../_images/b1fb46cf3d9d5a8c49c324801fb35f36df017acab09a1ead7e665fcabdf12a9e.png" />
 </div>
 </div>
 <p>Some detectable increase in temperature window over time, moreso an increase in the maximum temperature. However it is difficult to draw any solid conclusions since there is quite a lot of variability between years.</p>
@@ -1350,6 +1364,7 @@ Please note that this repository is used for development and review, so quality 
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">area_mean_max</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">tas_max_forecast</span><span class="p">)</span>
 <span class="n">area_mean_min</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">tas_min_forecast</span><span class="p">)</span>
+<span class="n">observations</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">ERA5_obs</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1404,10 +1419,12 @@ Please note that this repository is used for development and review, so quality 
 <span class="n">start_month</span> <span class="o">=</span> <span class="n">get_plant_month</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span> <span class="n">plant_month</span><span class="p">)</span>
 <span class="n">end_month</span> <span class="o">=</span> <span class="n">start_month</span> <span class="o">+</span> <span class="n">growth_time</span>
 
-<span class="n">area_mean_max</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">hue</span><span class="o">=</span><span class="s2">&quot;realization&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;max (2025)&quot;</span><span class="p">,</span><span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">area_mean_min</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">hue</span><span class="o">=</span><span class="s2">&quot;realization&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;min (2025)&quot;</span><span class="p">,</span><span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">area_mean_max</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;realization&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Ensamble mean max (2025)&quot;</span><span class="p">,</span><span class="n">zorder</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-<span class="n">area_mean_min</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;realization&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Ensamble mean min (2025)&quot;</span><span class="p">,</span><span class="n">zorder</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">area_mean_max</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">hue</span><span class="o">=</span><span class="s2">&quot;realization&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Max Forecast (2025)&quot;</span><span class="p">,</span><span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">area_mean_min</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">hue</span><span class="o">=</span><span class="s2">&quot;realization&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Min Forecast (2025)&quot;</span><span class="p">,</span><span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">observations</span><span class="o">.</span><span class="n">t2m_min</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Min ERA5 (2025)&quot;</span><span class="p">)</span>
+<span class="n">observations</span><span class="o">.</span><span class="n">t2m_max</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Max ERA5 (2025)&quot;</span><span class="p">)</span>
+<span class="n">area_mean_max</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;realization&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Ensemble mean max (2025)&quot;</span><span class="p">,</span><span class="n">zorder</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">area_mean_min</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;realization&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Ensemble mean min (2025)&quot;</span><span class="p">,</span><span class="n">zorder</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">area_mean_max</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">hindcast_min_min</span><span class="p">,</span> <span class="n">hindcast_min_max</span><span class="p">,</span><span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Minimum hindcast (1981-2016)&quot;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">area_mean_max</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">hindcast_max_min</span><span class="p">,</span> <span class="n">hindcast_max_max</span><span class="p">,</span><span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Maximum hindcast (1981-2016)&quot;</span><span class="p">)</span>
@@ -1432,7 +1449,7 @@ Please note that this repository is used for development and review, so quality 
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/2da469a65d9bc606d97771e7fe1ba6afbae6c5987cabee82b8c5c26cda6e2eb3.png" src="../_images/2da469a65d9bc606d97771e7fe1ba6afbae6c5987cabee82b8c5c26cda6e2eb3.png" />
+<img alt="../_images/12d5d7751be8296773af550b2473d411793d3a985786fb4d9ba72981868048f7.png" src="../_images/12d5d7751be8296773af550b2473d411793d3a985786fb4d9ba72981868048f7.png" />
 </div>
 </div>
 <p>For the 2025 season, looking at the growth parameters for spring wheat with the planting month in April, the forecast has several ensemble members that remain within the optimal growth window for most of the period. However, the ensemble means for both minimum and maximum temperatures fall outside of the window for a large part of the period.</p>
