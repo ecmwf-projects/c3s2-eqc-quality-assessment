@@ -16,41 +16,44 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../../_static/togglebutton.js?v=1ae7504c"></script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -65,6 +68,7 @@
     <link rel="prev" title="1.2. Atmospheric Composition" href="Atmospheric_Composition.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -80,19 +84,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -100,7 +93,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -108,8 +100,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -128,7 +120,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -158,21 +151,17 @@
     
     
     <img src="../../_static/C3S–POS–LINE.png" class="logo__image only-light" alt="eqcbook - Home"/>
-    <script>document.write(`<img src="../../_static/C3S–POS–LINE.png" class="logo__image only-dark" alt="eqcbook - Home"/>`);</script>
+    <img src="../../_static/C3S–POS–LINE.png" class="logo__image only-dark pst-js-only" alt="eqcbook - Home"/>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -268,9 +257,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -400,7 +394,7 @@
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -414,25 +408,17 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
 </div></div>
@@ -458,11 +444,13 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-identification-of-pollution-hotspots">🌍 Use case: Identification of Pollution Hotspots</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-questions">❓ Quality assessment questions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#selection-of-urban-hotspots-and-background-reference-areas">Selection of urban hotspots and background reference areas</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-the-data-to-use-and-set-up-the-code">Choose the data to use and set up the code</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-all-required-libraries">Import all required libraries</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#spatial-and-temporal-definitions">Spatial and temporal definitions</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-retrieval-and-preparation">Data Retrieval and Preparation</a><ul class="nav section-nav flex-column">
@@ -473,9 +461,9 @@ document.write(`
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-calculation-and-describe-the-results">Plot, calculation and describe the results</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pairwise-monthly-differences-city-nearby-town">Pairwise monthly differences (city − nearby town)</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seasonal-means-climatological-per-pair">Seasonal means (climatological) per pair</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cityrural-aod-and-fm-aod-time-series-plots">City–rural AOD and FM-AOD time-series plots</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seasonal-aod-fm-aod-maps-with-city-rural-markers">Seasonal AOD &amp; FM-AOD maps (with city/rural markers)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seasonal-mean-contrasts-per-urbanbackground-pair">Seasonal mean contrasts per urban–background pair</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#urbanbackground-aod-and-fm-aod-time-series-plots">Urban–background AOD and FM-AOD time-series plots</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seasonal-aod-and-fm-aod-maps-with-urban-background-markers">Seasonal AOD and FM-AOD maps with urban/background markers</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#focused-seasonal-map-plots-of-aod550-and-fm-aod550-for-megacitytown-pairs">Focused seasonal map plots of AOD550 and FM_AOD550 for megacity–town pairs</a></li>
 </ul>
 </li>
@@ -511,10 +499,11 @@ Please note that this repository is used for development and review, so quality 
 </section>
 <section id="quality-assessment-questions">
 <h2>❓ Quality assessment questions<a class="headerlink" href="#quality-assessment-questions" title="Link to this heading">#</a></h2>
-<p><strong>• Is there a difference in the aerosol optical depth (AOD) between megacities and nearby towns?</strong></p>
-<p><strong>• How satellite AOD can be used as a proxy for local air pollution when comparing scales of tens of kilometers?</strong></p>
-<p>The satellite-aerosol-properties catalog provides global Aerosol Optical Depth (AOD) and fine-mode AOD (FMAOD) from 1995 to present. AOD is often used as a proxy for particulate pollution, but being representative of the entire atmospheric column and influenced by different sources at different atmospheric levels, may be not able to capture change in the local air pollution [1]. Moreover, several products are at horizonal resolutions coarser than what is required to capture local difference due to pollution sources. Europe, where most citizens are exposed to air pollution levels above WHO guidelines [2], provides a relevant and challenging case study for evaluating satellite-based aerosol observations.
-In this analysis we use the SLSTR ensemble product to produce seasonal maps of AOD and FMAOD over the investigated period, with major cities such as Milan, Brussels, London, and Athens marked for context. These maps provide a regional overview of spatial patterns and seasonal variability. In addition, we retain line plots only for selected hotspots (e.g., Brussels, Milan, London) to illustrate how AOD and FMAOD values evolve over time at the city scale and also to show the difference in the AOD and FMAOD between megacities and nearby towns. This combination of maps and targeted time series balances spatial coverage with local detail, while keeping the focus on how satellite products can inform—but also constrain—urban air-quality assessments.</p>
+<p><strong>• Can the 1° SLSTR satellite AOD product distinguish urban pollution hotspots from nearby background areas over Europe?</strong></p>
+<p>The satellite Aerosol Properties catalogue entry provides global Aerosol Optical Depth (AOD) and fine-mode AOD (FMAOD) from 1995 to the present. AOD is often used as an indicator of particulate aerosol loading, but it represents the full atmospheric column rather than near-surface concentrations. Therefore, it may not directly capture changes in local surface air pollution, especially when aerosols are transported, vertically distributed above the boundary layer, or affected by dilution and dispersion processes <a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/19603734/" rel="noreferrer" target="_blank">[1]</a>.</p>
+<p>In addition, several satellite aerosol products have horizontal resolutions that are coarser than the spatial scale required to resolve local differences caused by urban emission sources. Europe, where most citizens are exposed to air pollution levels above WHO guidelines <a class="reference external" href="https://health.hub.copernicus.eu/air-pollution-nearly-everyone-europe-breathing-bad-air-deutsche-welle" rel="noreferrer" target="_blank">[2]</a>, provides a relevant and challenging case study for evaluating the capability of satellite-based aerosol observations to identify pollution hotspots.</p>
+<p>In this assessment, we use the SLSTR ensemble product at 1° resolution to produce seasonal maps of AOD and FMAOD over the period January 2018–June 2023, marking major urban areas such as Milan, Brussels, London, and Athens for spatial context. These maps provide a regional overview of aerosol spatial patterns and seasonal variability. We then further analyse time series over selected urban hotspots and nearby background towns to evaluate whether persistent city–background differences can be detected.</p>
+<p>This combined map-based and time-series approach allows us to assess both the potential and the limitations of SLSTR AOD for pollution-hotspot identification. The analysis is not intended to estimate surface PM concentrations directly, but to test whether the 1° column AOD product contains a detectable urban-scale signal relative to nearby background areas.</p>
 </section>
 <section id="quality-assessment-statement">
 <h2>📢 Quality assessment statement<a class="headerlink" href="#quality-assessment-statement" title="Link to this heading">#</a></h2>
@@ -523,35 +512,90 @@ In this analysis we use the SLSTR ensemble product to produce seasonal maps of A
 <p>• The seasonal maps confirm broad regional patterns in AOD and FMAOD, with higher values in summer (JJA) and spring (MAM) and lower values in winter (DJF). This seasonal cycle is consistent with enhanced photochemical activity, transport of natural aerosols, and regional meteorology.</p>
 <p>• Pairwise comparisons between megacities and their nearby towns reveal only modest differences. For Athens, mean AOD in the city is slightly higher than in Livadeia, but for Brussels, London, and Milan the rural sites often show equal or even slightly higher values.</p>
 <p>• These small differences highlight that, at ~1° resolution, satellite AOD tends to represent regional-scale aerosol burdens rather than sharp urban hotspots. The fractional statistics support this: for example, Athens shows the city having higher AOD than the rural site in ~68% of months, while in Brussels and London the nearby towns often exceed the city.</p>
-<p>• A small data gap is present for Northampton, which reduces the seasonal coverage. However, the available months are sufficient to capture the main seasonal cycle, so the results remain representative but should be interpreted with caution.</p>
+<p>• For the London–Northampton comparison, Northampton is used as the inland background reference. A short gap is present in [late 2019 to early 2020], where valid monthly AOD/FMAOD values are unavailable for the Northampton AOI after filtering; these months are excluded from the paired statistics.</p>
 <p>• Taken together, these findings emphasize the importance of scale and representativity. While satellite AOD products capture regional patterns and seasonality well, they cannot be expected to resolve contrasts between neighboring urban and rural sites at the scale of tens of kilometers.</p>
 </div>
 </section>
 <section id="methodology">
 <h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
-<p>This assessment aims to assess the consistency and completeness of SLSTR-derived satellite data in capturing the seasonal variability of Aerosol Optical Depth (AOD) over different global regions from 2018 to 2023. We also quantified data completeness via monthly observation counts normalized by area, and  test urban–rural contrasts using grid-aware neighborhoods.</p>
+<p>This assessment evaluates the capability of SLSTR-derived satellite AOD and FMAOD to capture seasonal aerosol variability and urban–background contrasts over selected European regions from January 2018 to June 2023. Data completeness is quantified using monthly valid-observation counts normalized by area. Urban–background contrasts are then tested using grid-aware neighborhoods around selected city and reference locations.</p>
+<p>The analysis uses monthly SLSTR/Sentinel-3 AOD and FMAOD from January 2018 to June 2023 over a European domain defined by longitude −12° to 35°E and latitude 34° to 60°N. Within this domain, four paired Areas of Interest (AOIs) are selected to compare large urban areas with nearby lower-density reference locations: Athens–Livadeia in Greece, London–Northampton in the United Kingdom, Brussels–Arras in Belgium/France, and Milan–Sondrio in Italy.</p>
+<p>The selected AOIs are based on fixed latitude/longitude coordinates. Each city is paired with a nearby town or background location within approximately 90–100 km. This design keeps each pair within a broadly similar regional aerosol environment while testing whether the 1° SLSTR product can detect persistent city–background differences in AOD and FMAOD.</p>
+<p>The reference locations are not all purely rural sites. They were selected as nearby lower-density/background locations outside the main metropolitan areas, while remaining within the same broad regional aerosol environment. Therefore, the analysis is described as an urban–background comparison rather than a strictly urban–rural comparison. This provides a conservative test: if the reference location also contains anthropogenic emissions, the city–background contrast may be reduced.</p>
+<p>To assess whether the 1° SLSTR AOD product can identify pollution hotspots, we define a set of verification steps before interpreting the results. Since no independent surface PM or AERONET validation dataset is used here, the verification is based on internal consistency between spatial maps, urban–background time series, and pairwise statistics.</p>
+<p>First, the monthly time series of AOD550 and FM_AOD550 are compared between each urban hotspot and its nearby background reference area. If the product can detect an urban aerosol enhancement, the city should show higher AOD and/or FM_AOD than the background area for a substantial fraction of valid months. To reduce the influence of individual monthly peaks, 3-month rolling means are also shown as a visual guide, while the statistics are calculated from the original monthly values.</p>
+<p>Second, pairwise city–background differences are calculated as:</p>
+<p>ΔAOD = AOD_city − AOD_background</p>
+<p>and similarly for FM_AOD550. For each pair, the mean difference, the 95% confidence interval, and the fraction of valid months in which the city value is higher than the background value are used to evaluate whether the urban signal is persistent. A robust signal would require a positive mean difference, a confidence interval that does not strongly overlap zero, and a city-higher fraction greater than 0.5.</p>
+<p>Third, seasonal climatological maps of AOD550 and FM_AOD550 are used to check whether the selected city and background locations are embedded in broader regional aerosol patterns. This step is important because AOD is a column-integrated quantity and may be influenced by transported aerosols, sea salt, dust, humidity effects, and regional pollution plumes. Therefore, a city–background contrast is interpreted only in the context of the surrounding seasonal spatial pattern.</p>
+<p>Finally, focused seasonal maps are produced for each city–background pair. These maps check whether the local pairwise contrast seen in the time series is spatially consistent with the surrounding 1° grid cells. If both the city and background locations lie within the same broad aerosol plume, weak city–background differences are expected and should not be interpreted only as a failure of spatial resolution.</p>
 <p>The methodology adopted for the analysis is split into the following steps:</p>
 <p><a class="reference internal" href="#satellite-satellite-aerosol-properties-consistency-q03-section-1"><span class="std std-ref">Choose the data to use and set up the code</span></a></p>
 <ul class="simple">
 <li><p>Import all required libraries</p></li>
-<li><p>Spatial and temporal definitions</p></li>
 </ul>
 <p><a class="reference internal" href="#satellite-satellite-aerosol-properties-consistency-q03-section-2"><span class="std std-ref">Data Retrieval and Preparation</span></a></p>
 <ul class="simple">
-<li><p>Download AOD data</p></li>
+<li><p>Retrieve and prepare AOD/FMAOD data</p></li>
 <li><p>Prepare the dataframe</p></li>
 <li><p>Define required functions</p></li>
-<li></li>
 </ul>
 <p><a class="reference internal" href="#satellite-satellite-aerosol-properties-consistency-q03-section-3"><span class="std std-ref">Plot, calculation and describe the results</span></a></p>
 <ul class="simple">
-<li><p>Pairwise monthly differences (city − nearby town)</p></li>
-<li><p>Seasonal means (climatological) per pair</p></li>
-<li><p>City–rural AOD and FM-AOD time-series plots</p></li>
-<li><p>Seasonal AOD &amp; FM-AOD maps (with city/rural markers)</p></li>
-<li><p>Focused seasonal map plots of AOD550 and FM_AOD550 for megacity–town pairs</p></li>
+<li><p>Pairwise monthly differences (city − background)</p></li>
+<li><p>Seasonal mean contrasts per urban–background pair</p></li>
+<li><p>Urban–background AOD and FM-AOD time-series plots</p></li>
+<li><p>Seasonal AOD and FM-AOD maps with urban/background markers</p></li>
+<li><p>Focused seasonal map plots of AOD550 and FM_AOD550 for selected urban–background pairs</p></li>
 </ul>
 <p><a class="reference internal" href="#satellite-satellite-aerosol-properties-consistency-q03-section-4"><span class="std std-ref">Take-Home Messages</span></a></p>
+<ul class="simple">
+<li><p>Main takeaways and limitations</p></li>
+</ul>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">EUROPE_EXTENT</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span> 
+<span class="n">YEAR_START</span><span class="p">,</span> <span class="n">YEAR_END</span> <span class="o">=</span> <span class="mi">2018</span><span class="p">,</span> <span class="mi">2023</span>
+<span class="n">AOIS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># Greece</span>
+    <span class="s2">&quot;Athens (urban hotspot)&quot;</span><span class="p">:</span>          <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">37.9838</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="mf">23.7275</span><span class="p">,</span> <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;city&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Livadeia (background area)&quot;</span><span class="p">:</span>      <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">38.4350</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="mf">22.8760</span><span class="p">,</span> <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;background&quot;</span><span class="p">},</span>  <span class="c1"># ~95 km</span>
+
+    <span class="c1"># UK</span>
+    <span class="s2">&quot;London (urban hotspot)&quot;</span><span class="p">:</span>          <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">51.5074</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.1278</span><span class="p">,</span> <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;city&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Northampton (background town)&quot;</span><span class="p">:</span>   <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">52.2405</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.9027</span><span class="p">,</span> <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;background&quot;</span><span class="p">},</span>  <span class="c1"># ~97 km</span>
+
+    <span class="c1"># Belgium / northern France</span>
+    <span class="s2">&quot;Brussels (urban hotspot)&quot;</span><span class="p">:</span>        <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">50.8466</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="mf">4.3528</span><span class="p">,</span> <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;city&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Arras (background town)&quot;</span><span class="p">:</span>         <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">50.2910</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="mf">2.7770</span><span class="p">,</span> <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;background&quot;</span><span class="p">},</span>  <span class="c1"># ~92 km</span>
+
+    <span class="c1"># Italy</span>
+    <span class="s2">&quot;Milan (urban hotspot)&quot;</span><span class="p">:</span>           <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">45.4642</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="mf">9.1900</span><span class="p">,</span> <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;city&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Sondrio (background valley/town)&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">46.1690</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="mf">9.8710</span><span class="p">,</span> <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;background&quot;</span><span class="p">},</span>  <span class="c1"># ~96 km</span>
+<span class="p">}</span>
+
+<span class="n">PAIRS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">&quot;Athens (urban hotspot)&quot;</span><span class="p">,</span> <span class="s2">&quot;Livadeia (background area)&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;London (urban hotspot)&quot;</span><span class="p">,</span> <span class="s2">&quot;Northampton (background town)&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;Brussels (urban hotspot)&quot;</span><span class="p">,</span> <span class="s2">&quot;Arras (background town)&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;Milan (urban hotspot)&quot;</span><span class="p">,</span> <span class="s2">&quot;Sondrio (background valley/town)&quot;</span><span class="p">),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<section id="selection-of-urban-hotspots-and-background-reference-areas">
+<h3>Selection of urban hotspots and background reference areas<a class="headerlink" href="#selection-of-urban-hotspots-and-background-reference-areas" title="Link to this heading">#</a></h3>
+<p>The analysis focuses on four European urban hotspots and their nearby background reference areas: Athens–Livadeia, London–Northampton, Brussels–Arras, and Milan–Sondrio. The selected locations are within the European domain defined above and are separated by approximately 90–100 km.</p>
+<p>The background locations are not intended to represent perfectly clean rural sites. Instead, they are selected as lower-density reference areas outside the main metropolitan regions, while remaining within the same broad regional aerosol environment as the corresponding city. This design allows a conservative test of whether the 1° SLSTR AOD product can detect persistent urban–background differences in AOD550 and FM_AOD550.</p>
+<p>Rather than comparing urban areas with purely rural backgrounds, this assessment intentionally focuses on the contrast between major metropolitan areas (large cities) and nearby smaller urban centers (small cities). A conventional city-rural comparison cannot reveal the sensitivity of satellite instrument in capturing different kind of pollution hotspots from the Aerosol Optical Depth (AOD) products.  By comparing distinct urban nodes of varying sizes (large vs. small cities) within the same regional background, we provide a more robust and sensitive evaluation of the satellite’s capability to detect localized anthropogenic emission gradients.</p>
+</section>
 </section>
 <section id="analysis-and-results">
 <h2>📈 Analysis and results<a class="headerlink" href="#analysis-and-results" title="Link to this heading">#</a></h2>
@@ -581,47 +625,6 @@ In this analysis we use the SLSTR ensemble product to produce seasonal maps of A
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.gridspec</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gridspec</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-</section>
-<section id="spatial-and-temporal-definitions">
-<h4>Spatial and temporal definitions<a class="headerlink" href="#spatial-and-temporal-definitions" title="Link to this heading">#</a></h4>
-<p>This assessment analyzes monthly SLSTR/Sentinel-3 AOD and FMAOD from January 2018 to June 2023, focusing on selected European megacities and their nearby towns. Four paired Areas of Interest (AOIs) are defined: Athens–Livadeia (Greece), London–Northampton (United Kingdom), Brussels–Arras (Belgium), and Milan–Sondrio (Italy). These AOIs are based on fixed latitude/longitude coordinates and represent typical urban–rural contrasts within ~100 km distance.</p>
-<div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">EUROPE_EXTENT</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span> 
-<span class="n">YEAR_START</span><span class="p">,</span> <span class="n">YEAR_END</span> <span class="o">=</span> <span class="mi">2018</span><span class="p">,</span> <span class="mi">2023</span>
-<span class="n">AOIS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="c1"># Greece</span>
-    <span class="s2">&quot;Athens (megacity)&quot;</span><span class="p">:</span>       <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">37.9838</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="mf">23.7275</span><span class="p">,</span> <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;city&quot;</span><span class="p">},</span>
-    <span class="s2">&quot;Livadeia (nearby rural)&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">38.4350</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="mf">22.8760</span><span class="p">,</span> <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;rural&quot;</span><span class="p">},</span>  <span class="c1"># ~95 km</span>
-     <span class="c1"># UK</span>
-    <span class="s2">&quot;London (megacity)&quot;</span><span class="p">:</span>         <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">51.5074</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.1278</span><span class="p">,</span> <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;city&quot;</span><span class="p">},</span>
-    <span class="s2">&quot;Northampton (nearby town)&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">52.2405</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.9027</span><span class="p">,</span> <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;rural&quot;</span><span class="p">},</span>  <span class="c1"># ~97 km</span>
-
-    <span class="c1"># Belgium</span>
-    <span class="s2">&quot;Brussels (megacity)&quot;</span><span class="p">:</span>       <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">50.8466</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="mf">4.3528</span><span class="p">,</span>  <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;city&quot;</span><span class="p">},</span>
-    <span class="s2">&quot;Arras (nearby town)&quot;</span><span class="p">:</span>       <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">50.2910</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="mf">2.7770</span><span class="p">,</span>  <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;rural&quot;</span><span class="p">},</span>  <span class="c1"># ~92 km WSW</span>
-
-    <span class="c1"># Italy</span>
-    <span class="s2">&quot;Milan (megacity)&quot;</span><span class="p">:</span>          <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">45.4642</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="mf">9.1900</span><span class="p">,</span>  <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;city&quot;</span><span class="p">},</span>
-    <span class="s2">&quot;Sondrio (nearby town)&quot;</span><span class="p">:</span>     <span class="p">{</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">46.1690</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="mf">9.8710</span><span class="p">,</span>  <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;rural&quot;</span><span class="p">},</span>  <span class="c1"># ~96 km N</span>
-<span class="p">}</span>
-
-<span class="n">PAIRS</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">(</span><span class="s2">&quot;Athens (megacity)&quot;</span><span class="p">,</span>      <span class="s2">&quot;Livadeia (nearby rural)&quot;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">&quot;London (megacity)&quot;</span><span class="p">,</span>   <span class="s2">&quot;Northampton (nearby town)&quot;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">&quot;Brussels (megacity)&quot;</span><span class="p">,</span> <span class="s2">&quot;Arras (nearby town)&quot;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">&quot;Milan (megacity)&quot;</span><span class="p">,</span>    <span class="s2">&quot;Sondrio (nearby town)&quot;</span><span class="p">),</span>
-<span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -714,6 +717,9 @@ In this analysis we use the SLSTR ensemble product to produce seasonal maps of A
 </section>
 <section id="prepare-the-dataframe">
 <h4>Prepare the dataframe<a class="headerlink" href="#prepare-the-dataframe" title="Link to this heading">#</a></h4>
+<p>In this step, the monthly SLSTR gridded dataset is prepared for seasonal and regional analysis. The analysis is restricted to the European domain defined above and to the period 2018–2023. Time information is then expanded into year, month, season, and season-year columns.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">season_year</span></code> column is introduced to handle winter consistently: December is assigned to the following year, so that DJF represents one continuous winter season. After these time labels are added, seasonal mean AOD550 and FM_AOD550 values are computed for each grid cell.</p>
+<p>Although the original data are gridded, the dataframe format is used here to simplify the later city–background pairwise statistics. Spatial aggregation for the city–background comparison is performed using fixed grid-aware neighbourhoods around each AOI. The use of dataframes is therefore limited to the tabular comparison step, where monthly city and background values are joined and differenced.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -754,6 +760,13 @@ In this analysis we use the SLSTR ensemble product to produce seasonal maps of A
 </section>
 <section id="define-required-functions">
 <h4>Define required functions<a class="headerlink" href="#define-required-functions" title="Link to this heading">#</a></h4>
+<p>The following functions are used to make the analysis reproducible and easier to interpret.</p>
+<p>First, <code class="docutils literal notranslate"><span class="pre">month_to_season</span></code> assigns each month to a meteorological season: DJF, MAM, JJA, or SON. The function <code class="docutils literal notranslate"><span class="pre">seasonal_means</span></code> then calculates the seasonal mean AOD550 and FM_AOD550 for each grid cell, preserving the latitude and longitude structure needed for mapping.</p>
+<p>The plotting functions convert the seasonal dataframe back into a regular latitude–longitude grid for visualization. <code class="docutils literal notranslate"><span class="pre">grid_for_plot</span></code> creates the grid edges required by <code class="docutils literal notranslate"><span class="pre">pcolormesh</span></code>, while <code class="docutils literal notranslate"><span class="pre">plot_seasonal_maps</span></code> displays seasonal climatological maps and marks the selected urban and background AOIs.</p>
+<p>For the city–background analysis, monthly values are extracted from a grid-aware neighbourhood around each AOI. The neighbourhood size is defined by <code class="docutils literal notranslate"><span class="pre">HALFWIN</span> <span class="pre">=</span> <span class="pre">0.5</span></code>, corresponding approximately to the native 1° SLSTR grid cell around the selected latitude/longitude point. For each city–background pair, the monthly difference is computed as:</p>
+<p>ΔAOD = AOD_city − AOD_background</p>
+<p>and similarly for FM_AOD550. The metric <code class="docutils literal notranslate"><span class="pre">frac_city_gt</span></code> is the percentage of valid months in which the city value is higher than the background value. For example, <code class="docutils literal notranslate"><span class="pre">frac_city_gt</span> <span class="pre">=</span> <span class="pre">60%</span></code> means that the city had higher AOD than the background in 60% of the valid monthly comparisons.</p>
+<p>The 3-month rolling mean shown in the time-series plots is used only for visualization, to reduce month-to-month noise and highlight persistent behaviour. The pairwise statistics are calculated from the original monthly values, not from the rolling curves.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1183,18 +1196,23 @@ In this analysis we use the SLSTR ensemble product to produce seasonal maps of A
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Seasonal means (climatological) per pair:&quot;</span><span class="p">)</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">print_pair_seasonals</span><span class="p">(</span><span class="n">city_label</span><span class="p">,</span> <span class="n">rural_label</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">print_pair_seasonals</span><span class="p">(</span><span class="n">city_label</span><span class="p">,</span> <span class="n">background_label</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">ts_by_place</span><span class="p">[</span><span class="n">city_label</span><span class="p">]</span>
-    <span class="n">r</span> <span class="o">=</span> <span class="n">ts_by_place</span><span class="p">[</span><span class="n">rural_label</span><span class="p">]</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">ts_by_place</span><span class="p">[</span><span class="n">background_label</span><span class="p">]</span>
 
     <span class="n">c_seas</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;season&quot;</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
     <span class="n">r_seas</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;season&quot;</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 
-    <span class="n">order</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;DJF&quot;</span><span class="p">,</span><span class="s2">&quot;MAM&quot;</span><span class="p">,</span><span class="s2">&quot;JJA&quot;</span><span class="p">,</span><span class="s2">&quot;SON&quot;</span><span class="p">]</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;DJF&quot;</span><span class="p">,</span> <span class="s2">&quot;MAM&quot;</span><span class="p">,</span> <span class="s2">&quot;JJA&quot;</span><span class="p">,</span> <span class="s2">&quot;SON&quot;</span><span class="p">]</span>
     <span class="n">c_seas</span> <span class="o">=</span> <span class="n">c_seas</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
     <span class="n">r_seas</span> <span class="o">=</span> <span class="n">r_seas</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;city&quot;</span><span class="p">:</span> <span class="n">c_seas</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="s2">&quot;rural&quot;</span><span class="p">:</span> <span class="n">r_seas</span><span class="o">.</span><span class="n">values</span><span class="p">},</span> <span class="n">index</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> seasonal mean | </span><span class="si">{</span><span class="n">city_label</span><span class="si">}</span><span class="s2"> vs </span><span class="si">{</span><span class="n">rural_label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="p">{</span><span class="s2">&quot;city&quot;</span><span class="p">:</span> <span class="n">c_seas</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="s2">&quot;background&quot;</span><span class="p">:</span> <span class="n">r_seas</span><span class="o">.</span><span class="n">values</span><span class="p">},</span>
+        <span class="n">index</span><span class="o">=</span><span class="n">order</span>
+    <span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> seasonal mean | </span><span class="si">{</span><span class="n">city_label</span><span class="si">}</span><span class="s2"> vs </span><span class="si">{</span><span class="n">background_label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -1212,7 +1230,14 @@ In this analysis we use the SLSTR ensemble product to produce seasonal maps of A
 <span id="satellite-satellite-aerosol-properties-consistency-q03-section-3"></span><h3>Plot, calculation and describe the results<a class="headerlink" href="#plot-calculation-and-describe-the-results" title="Link to this heading">#</a></h3>
 <section id="pairwise-monthly-differences-city-nearby-town">
 <h4>Pairwise monthly differences (city − nearby town)<a class="headerlink" href="#pairwise-monthly-differences-city-nearby-town" title="Link to this heading">#</a></h4>
-<p>For each megacity–town pair, we computed monthly differences in AOD550 and FM_AOD550 by subtracting the nearby town value from the city value.</p>
+<p>For each urban–background pair, monthly AOD550 and FM_AOD550 values are joined by year and month. The monthly difference is then calculated as the city value minus the background value. Positive values indicate months when the urban AOI has higher column aerosol loading than the reference location.</p>
+<p>The summary table reports:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mean_diff</span></code>: the average city–background difference over all valid months;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">frac_city_gt</span> <span class="pre">(%)</span></code>: the percentage of valid months for which the city value is greater than the background value;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n_months</span></code>: the number of valid monthly comparisons used.</p></li>
+</ul>
+<p>These metrics are used to assess persistence. A single high-AOD month is not enough to identify a robust hotspot signal; the city should exceed the background location in a substantial fraction of valid months.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1221,37 +1246,38 @@ In this analysis we use the SLSTR ensemble product to produce seasonal maps of A
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">city_label</span><span class="p">,</span> <span class="n">rural_label</span> <span class="ow">in</span> <span class="n">PAIRS</span><span class="p">:</span>
-    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">paired_summary</span><span class="p">(</span><span class="n">city_label</span><span class="p">,</span> <span class="n">rural_label</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s2">&quot;AOD550&quot;</span><span class="p">))</span>
-    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">paired_summary</span><span class="p">(</span><span class="n">city_label</span><span class="p">,</span> <span class="n">rural_label</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s2">&quot;FM_AOD550&quot;</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">city_label</span><span class="p">,</span> <span class="n">background_label</span> <span class="ow">in</span> <span class="n">PAIRS</span><span class="p">:</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">paired_summary</span><span class="p">(</span><span class="n">city_label</span><span class="p">,</span> <span class="n">background_label</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s2">&quot;AOD550&quot;</span><span class="p">))</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">paired_summary</span><span class="p">(</span><span class="n">city_label</span><span class="p">,</span> <span class="n">background_label</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s2">&quot;FM_AOD550&quot;</span><span class="p">))</span>
+
 <span class="n">summary_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Pairwise monthly differences (city − nearby town):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Pairwise monthly differences (city − background):&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">summary_df</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pairwise monthly differences (city − nearby town):
-                                         pair  variable  mean_diff  frac_city_gt (%)  n_months
-  Athens (megacity) − Livadeia (nearby rural)    AOD550      0.005            56.061        66
-  Athens (megacity) − Livadeia (nearby rural) FM_AOD550      0.001            51.515        66
-London (megacity) − Northampton (nearby town)    AOD550      0.037            65.152        66
-London (megacity) − Northampton (nearby town) FM_AOD550      0.052            74.242        66
-    Brussels (megacity) − Arras (nearby town)    AOD550     -0.021            24.242        66
-    Brussels (megacity) − Arras (nearby town) FM_AOD550     -0.031            19.697        66
-     Milan (megacity) − Sondrio (nearby town)    AOD550      0.010            57.576        66
-     Milan (megacity) − Sondrio (nearby town) FM_AOD550      0.015            66.667        66
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pairwise monthly differences (city − background):
+                                                    pair  variable  mean_diff  frac_city_gt (%)  n_months
+     Athens (urban hotspot) − Livadeia (background area)    AOD550      0.005            56.061        66
+     Athens (urban hotspot) − Livadeia (background area) FM_AOD550      0.001            51.515        66
+  London (urban hotspot) − Northampton (background town)    AOD550      0.037            65.152        66
+  London (urban hotspot) − Northampton (background town) FM_AOD550      0.052            74.242        66
+      Brussels (urban hotspot) − Arras (background town)    AOD550     -0.021            24.242        66
+      Brussels (urban hotspot) − Arras (background town) FM_AOD550     -0.031            19.697        66
+Milan (urban hotspot) − Sondrio (background valley/town)    AOD550      0.010            57.576        66
+Milan (urban hotspot) − Sondrio (background valley/town) FM_AOD550      0.015            66.667        66
 </pre></div>
 </div>
 </div>
 </div>
 <p>The results indicate that mean differences are generally small (within ±0.01–0.02), with Athens showing the most frequent positive city–rural contrast, while in Brussels, London, and Milan the rural sites often equal or exceed the city values.</p>
 </section>
-<section id="seasonal-means-climatological-per-pair">
-<h4>Seasonal means (climatological) per pair<a class="headerlink" href="#seasonal-means-climatological-per-pair" title="Link to this heading">#</a></h4>
-<p>For each megacity–town pair (Athens–Livadeia, London–Northampton, Brussels–Arras, Milan–Sondrio), seasonal climatological means of AOD550 and FM_AOD550 were computed.</p>
+<section id="seasonal-mean-contrasts-per-urbanbackground-pair">
+<h4>Seasonal mean contrasts per urban–background pair<a class="headerlink" href="#seasonal-mean-contrasts-per-urbanbackground-pair" title="Link to this heading">#</a></h4>
+<p>For each pair, seasonal climatological means are computed from the monthly AOI time series. The table reports the mean seasonal AOD550 and FM_AOD550 for the city and the background reference location, together with the city-minus-background difference. This helps identify whether any urban enhancement is seasonally persistent or limited to specific seasons.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1259,93 +1285,145 @@ London (megacity) − Northampton (nearby town) FM_AOD550      0.052            
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">city_label</span><span class="p">,</span> <span class="n">rural_label</span> <span class="ow">in</span> <span class="n">PAIRS</span><span class="p">:</span>
-    <span class="n">print_pair_seasonals</span><span class="p">(</span><span class="n">city_label</span><span class="p">,</span> <span class="n">rural_label</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s2">&quot;AOD550&quot;</span><span class="p">)</span>
-    <span class="n">print_pair_seasonals</span><span class="p">(</span><span class="n">city_label</span><span class="p">,</span> <span class="n">rural_label</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s2">&quot;FM_AOD550&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">city_label</span><span class="p">,</span> <span class="n">background_label</span> <span class="ow">in</span> <span class="n">PAIRS</span><span class="p">:</span>
+    <span class="n">print_pair_seasonals</span><span class="p">(</span><span class="n">city_label</span><span class="p">,</span> <span class="n">background_label</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s2">&quot;AOD550&quot;</span><span class="p">)</span>
+    <span class="n">print_pair_seasonals</span><span class="p">(</span><span class="n">city_label</span><span class="p">,</span> <span class="n">background_label</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s2">&quot;FM_AOD550&quot;</span><span class="p">)</span>
 
 <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">city_label</span><span class="p">,</span> <span class="n">rural_label</span> <span class="ow">in</span> <span class="n">PAIRS</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;AOD550&quot;</span><span class="p">,</span><span class="s2">&quot;FM_AOD550&quot;</span><span class="p">]:</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">ts_by_place</span><span class="p">[</span><span class="n">city_label</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;season&quot;</span><span class="p">)[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reindex</span><span class="p">([</span><span class="s2">&quot;DJF&quot;</span><span class="p">,</span><span class="s2">&quot;MAM&quot;</span><span class="p">,</span><span class="s2">&quot;JJA&quot;</span><span class="p">,</span><span class="s2">&quot;SON&quot;</span><span class="p">])</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">ts_by_place</span><span class="p">[</span><span class="n">rural_label</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;season&quot;</span><span class="p">)[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reindex</span><span class="p">([</span><span class="s2">&quot;DJF&quot;</span><span class="p">,</span><span class="s2">&quot;MAM&quot;</span><span class="p">,</span><span class="s2">&quot;JJA&quot;</span><span class="p">,</span><span class="s2">&quot;SON&quot;</span><span class="p">])</span>
-        <span class="k">for</span> <span class="n">season</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;DJF&quot;</span><span class="p">,</span><span class="s2">&quot;MAM&quot;</span><span class="p">,</span><span class="s2">&quot;JJA&quot;</span><span class="p">,</span><span class="s2">&quot;SON&quot;</span><span class="p">]:</span>
+<span class="k">for</span> <span class="n">city_label</span><span class="p">,</span> <span class="n">background_label</span> <span class="ow">in</span> <span class="n">PAIRS</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;AOD550&quot;</span><span class="p">,</span> <span class="s2">&quot;FM_AOD550&quot;</span><span class="p">]:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">ts_by_place</span><span class="p">[</span><span class="n">city_label</span><span class="p">]</span>
+            <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;season&quot;</span><span class="p">)[</span><span class="n">var</span><span class="p">]</span>
+            <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+            <span class="o">.</span><span class="n">reindex</span><span class="p">([</span><span class="s2">&quot;DJF&quot;</span><span class="p">,</span> <span class="s2">&quot;MAM&quot;</span><span class="p">,</span> <span class="s2">&quot;JJA&quot;</span><span class="p">,</span> <span class="s2">&quot;SON&quot;</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">ts_by_place</span><span class="p">[</span><span class="n">background_label</span><span class="p">]</span>
+            <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;season&quot;</span><span class="p">)[</span><span class="n">var</span><span class="p">]</span>
+            <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+            <span class="o">.</span><span class="n">reindex</span><span class="p">([</span><span class="s2">&quot;DJF&quot;</span><span class="p">,</span> <span class="s2">&quot;MAM&quot;</span><span class="p">,</span> <span class="s2">&quot;JJA&quot;</span><span class="p">,</span> <span class="s2">&quot;SON&quot;</span><span class="p">])</span>
+        <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">season</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;DJF&quot;</span><span class="p">,</span> <span class="s2">&quot;MAM&quot;</span><span class="p">,</span> <span class="s2">&quot;JJA&quot;</span><span class="p">,</span> <span class="s2">&quot;SON&quot;</span><span class="p">]:</span>
             <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-                <span class="s2">&quot;pair&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">city_label</span><span class="si">}</span><span class="s2"> vs </span><span class="si">{</span><span class="n">rural_label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;pair&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">city_label</span><span class="si">}</span><span class="s2"> vs </span><span class="si">{</span><span class="n">background_label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">var</span><span class="p">,</span>
                 <span class="s2">&quot;season&quot;</span><span class="p">:</span> <span class="n">season</span><span class="p">,</span>
                 <span class="s2">&quot;city&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">season</span><span class="p">])</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">season</span><span class="p">])</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
-                <span class="s2">&quot;rural&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">season</span><span class="p">])</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">season</span><span class="p">])</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                <span class="s2">&quot;background&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">season</span><span class="p">])</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">season</span><span class="p">])</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+                <span class="s2">&quot;diff_city_minus_background&quot;</span><span class="p">:</span> <span class="p">(</span>
+                    <span class="nb">float</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">season</span><span class="p">]</span> <span class="o">-</span> <span class="n">b</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">season</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">season</span><span class="p">])</span> <span class="ow">and</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">season</span><span class="p">])</span>
+                    <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                <span class="p">)</span>
             <span class="p">})</span>
+
 <span class="n">seasonal_pair_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">seasonal_pair_table</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AOD550 seasonal mean | Athens (megacity) vs Livadeia (nearby rural)
-      city  rural
-DJF  0.123  0.133
-MAM  0.186  0.166
-JJA  0.198  0.203
-SON  0.155  0.141
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AOD550 seasonal mean | Athens (urban hotspot) vs Livadeia (background area)
+      city  background
+DJF  0.123       0.133
+MAM  0.186       0.166
+JJA  0.198       0.203
+SON  0.155       0.141
 
-FM_AOD550 seasonal mean | Athens (megacity) vs Livadeia (nearby rural)
-      city  rural
-DJF  0.094  0.111
-MAM  0.145  0.133
-JJA  0.177  0.177
-SON  0.126  0.116
+FM_AOD550 seasonal mean | Athens (urban hotspot) vs Livadeia (background area)
+      city  background
+DJF  0.094       0.111
+MAM  0.145       0.133
+JJA  0.177       0.177
+SON  0.126       0.116
 
-AOD550 seasonal mean | London (megacity) vs Northampton (nearby town)
-      city  rural
-DJF  0.119  0.107
-MAM  0.214  0.141
-JJA  0.199  0.171
-SON  0.138  0.112
+AOD550 seasonal mean | London (urban hotspot) vs Northampton (background town)
+      city  background
+DJF  0.119       0.107
+MAM  0.214       0.141
+JJA  0.199       0.171
+SON  0.138       0.112
 
-FM_AOD550 seasonal mean | London (megacity) vs Northampton (nearby town)
-      city  rural
-DJF  0.102  0.085
-MAM  0.190  0.111
-JJA  0.172  0.104
-SON  0.115  0.084
+FM_AOD550 seasonal mean | London (urban hotspot) vs Northampton (background town)
+      city  background
+DJF  0.102       0.085
+MAM  0.190       0.111
+JJA  0.172       0.104
+SON  0.115       0.084
 
-AOD550 seasonal mean | Brussels (megacity) vs Arras (nearby town)
-      city  rural
-DJF  0.149  0.146
-MAM  0.152  0.183
-JJA  0.197  0.222
-SON  0.138  0.155
+AOD550 seasonal mean | Brussels (urban hotspot) vs Arras (background town)
+      city  background
+DJF  0.149       0.146
+MAM  0.152       0.183
+JJA  0.197       0.222
+SON  0.138       0.155
 
-FM_AOD550 seasonal mean | Brussels (megacity) vs Arras (nearby town)
-      city  rural
-DJF  0.127  0.124
-MAM  0.116  0.155
-JJA  0.131  0.178
-SON  0.113  0.135
+FM_AOD550 seasonal mean | Brussels (urban hotspot) vs Arras (background town)
+      city  background
+DJF  0.127       0.124
+MAM  0.116       0.155
+JJA  0.131       0.178
+SON  0.113       0.135
 
-AOD550 seasonal mean | Milan (megacity) vs Sondrio (nearby town)
-      city  rural
-DJF  0.166  0.134
-MAM  0.195  0.187
-JJA  0.180  0.199
-SON  0.171  0.137
+AOD550 seasonal mean | Milan (urban hotspot) vs Sondrio (background valley/town)
+      city  background
+DJF  0.166       0.134
+MAM  0.195       0.187
+JJA  0.180       0.199
+SON  0.171       0.137
 
-FM_AOD550 seasonal mean | Milan (megacity) vs Sondrio (nearby town)
-      city  rural
-DJF  0.149  0.116
-MAM  0.159  0.131
-JJA  0.124  0.148
-SON  0.144  0.112
+FM_AOD550 seasonal mean | Milan (urban hotspot) vs Sondrio (background valley/town)
+      city  background
+DJF  0.149       0.116
+MAM  0.159       0.131
+JJA  0.124       0.148
+SON  0.144       0.112
+                                                     pair  variable season  city  background  diff_city_minus_background
+     Athens (urban hotspot) vs Livadeia (background area)    AOD550    DJF 0.123       0.133                      -0.010
+     Athens (urban hotspot) vs Livadeia (background area)    AOD550    MAM 0.186       0.166                       0.020
+     Athens (urban hotspot) vs Livadeia (background area)    AOD550    JJA 0.198       0.203                      -0.005
+     Athens (urban hotspot) vs Livadeia (background area)    AOD550    SON 0.155       0.141                       0.015
+     Athens (urban hotspot) vs Livadeia (background area) FM_AOD550    DJF 0.094       0.111                      -0.018
+     Athens (urban hotspot) vs Livadeia (background area) FM_AOD550    MAM 0.145       0.133                       0.011
+     Athens (urban hotspot) vs Livadeia (background area) FM_AOD550    JJA 0.177       0.177                       0.001
+     Athens (urban hotspot) vs Livadeia (background area) FM_AOD550    SON 0.126       0.116                       0.009
+  London (urban hotspot) vs Northampton (background town)    AOD550    DJF 0.119       0.107                       0.011
+  London (urban hotspot) vs Northampton (background town)    AOD550    MAM 0.214       0.141                       0.072
+  London (urban hotspot) vs Northampton (background town)    AOD550    JJA 0.199       0.171                       0.029
+  London (urban hotspot) vs Northampton (background town)    AOD550    SON 0.138       0.112                       0.026
+  London (urban hotspot) vs Northampton (background town) FM_AOD550    DJF 0.102       0.085                       0.018
+  London (urban hotspot) vs Northampton (background town) FM_AOD550    MAM 0.190       0.111                       0.079
+  London (urban hotspot) vs Northampton (background town) FM_AOD550    JJA 0.172       0.104                       0.068
+  London (urban hotspot) vs Northampton (background town) FM_AOD550    SON 0.115       0.084                       0.031
+      Brussels (urban hotspot) vs Arras (background town)    AOD550    DJF 0.149       0.146                       0.003
+      Brussels (urban hotspot) vs Arras (background town)    AOD550    MAM 0.152       0.183                      -0.031
+      Brussels (urban hotspot) vs Arras (background town)    AOD550    JJA 0.197       0.222                      -0.025
+      Brussels (urban hotspot) vs Arras (background town)    AOD550    SON 0.138       0.155                      -0.017
+      Brussels (urban hotspot) vs Arras (background town) FM_AOD550    DJF 0.127       0.124                       0.003
+      Brussels (urban hotspot) vs Arras (background town) FM_AOD550    MAM 0.116       0.155                      -0.039
+      Brussels (urban hotspot) vs Arras (background town) FM_AOD550    JJA 0.131       0.178                      -0.047
+      Brussels (urban hotspot) vs Arras (background town) FM_AOD550    SON 0.113       0.135                      -0.022
+Milan (urban hotspot) vs Sondrio (background valley/town)    AOD550    DJF 0.166       0.134                       0.031
+Milan (urban hotspot) vs Sondrio (background valley/town)    AOD550    MAM 0.195       0.187                       0.008
+Milan (urban hotspot) vs Sondrio (background valley/town)    AOD550    JJA 0.180       0.199                      -0.019
+Milan (urban hotspot) vs Sondrio (background valley/town)    AOD550    SON 0.171       0.137                       0.034
+Milan (urban hotspot) vs Sondrio (background valley/town) FM_AOD550    DJF 0.149       0.116                       0.033
+Milan (urban hotspot) vs Sondrio (background valley/town) FM_AOD550    MAM 0.159       0.131                       0.028
+Milan (urban hotspot) vs Sondrio (background valley/town) FM_AOD550    JJA 0.124       0.148                      -0.023
+Milan (urban hotspot) vs Sondrio (background valley/town) FM_AOD550    SON 0.144       0.112                       0.031
 </pre></div>
 </div>
 </div>
 </div>
-<p>These values summarize average conditions in winter (DJF), spring (MAM), summer (JJA), and autumn (SON), allowing a compact comparison of seasonal cycles between cities and their nearby towns. The results show that while absolute levels vary seasonally, the city–rural differences remain small in magnitude relative to regional and seasonal variability.</p>
+<p>These values summarize average conditions in winter (DJF), spring (MAM), summer (JJA), and autumn (SON), allowing a compact comparison of seasonal cycles between each urban hotspot and its nearby background reference area. The seasonal contrasts are not uniform across pairs. London shows the clearest positive city–background enhancement, especially in spring and summer, with FM_AOD550 differences reaching about +0.079 in MAM and +0.068 in JJA. Athens and Milan show mixed behaviour, with positive differences in some seasons and weak or negative differences in others. Brussels does not show a persistent positive urban enhancement; in MAM, JJA, and SON, Arras has higher AOD/FMAOD than Brussels. Overall, the seasonal analysis indicates that the 1° SLSTR product can capture some urban–background contrasts, but these signals are strongly pair- and season-dependent and must be interpreted within the wider regional aerosol background.</p>
 </section>
-<section id="cityrural-aod-and-fm-aod-time-series-plots">
-<h4>City–rural AOD and FM-AOD time-series plots<a class="headerlink" href="#cityrural-aod-and-fm-aod-time-series-plots" title="Link to this heading">#</a></h4>
-<p>Values of timeseries are area-weighted neighborhood averages with valid-pixel masking.</p>
+<section id="urbanbackground-aod-and-fm-aod-time-series-plots">
+<h4>Urban–background AOD and FM-AOD time-series plots<a class="headerlink" href="#urbanbackground-aod-and-fm-aod-time-series-plots" title="Link to this heading">#</a></h4>
+<p>The following plots compare monthly AOD550 and FM_AOD550 between each urban hotspot and its nearby background reference location. The thin lines show the original monthly values, while the thicker “roll-3” curves show a 3-month rolling mean. The rolling mean is used only as a visual guide to reduce month-to-month noise and highlight persistent behaviour; all pairwise statistics are calculated from the original monthly values, not from the smoothed curves.</p>
+<p>Values shown in the time series are grid-aware neighbourhood averages around each AOI, calculated using valid monthly pixels.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1371,10 +1449,11 @@ SON  0.144  0.112
 <img alt="../../_images/09fa76905c380c29eb3b899eadefe21bcb39c58d72de49f17205a8976b76a728.png" src="../../_images/09fa76905c380c29eb3b899eadefe21bcb39c58d72de49f17205a8976b76a728.png" />
 </div>
 </div>
-<p><em>Figure 1.</em> Monthly mean time series of AOD550 and FM_AOD550 for each megacity and its paired nearby town (Athens–Livadeia, London–Northampton, Brussels–Arras, Milan–Sondrio). Solid lines show the megacity, dashed lines the nearby town. These plots illustrate temporal variability.</p>
+<p><em>Figure 1.</em> Monthly AOD550 and FM_AOD550 time series for Athens and Livadeia from January 2018 to June 2023. Thin lines show monthly values and thick lines show the 3-month rolling mean.</p>
+<p>The Athens–Livadeia comparison shows that both locations follow very similar seasonal variability in AOD550 and FM_AOD550. Peaks and minima generally occur at the same time, suggesting that the signal is largely controlled by regional aerosol conditions rather than only local urban emissions from Athens. The rolling mean shows some periods when Athens is higher than Livadeia, but the separation is not persistent throughout the full period. This indicates that, for this pair, the 1° SLSTR product captures regional aerosol variability more clearly than a stable city-scale hotspot signal.</p>
 </section>
-<section id="seasonal-aod-fm-aod-maps-with-city-rural-markers">
-<h4>Seasonal AOD &amp; FM-AOD maps (with city/rural markers)<a class="headerlink" href="#seasonal-aod-fm-aod-maps-with-city-rural-markers" title="Link to this heading">#</a></h4>
+<section id="seasonal-aod-and-fm-aod-maps-with-urban-background-markers">
+<h4>Seasonal AOD and FM-AOD maps with urban/background markers<a class="headerlink" href="#seasonal-aod-and-fm-aod-maps-with-urban-background-markers" title="Link to this heading">#</a></h4>
 <p>Each panel shows seasonal means (DJF, MAM, JJA, SON) for total AOD and fine-mode AOD. Triangles mark city AOIs their rural references. These maps provide the regional context for the urban–rural time-series and enhancement analyses.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
@@ -1410,6 +1489,9 @@ SON  0.144  0.112
 </div>
 </div>
 <p><em>Figure 2.</em> Seasonal AOD and Fine-Mode AOD (550 nm) over the Eastern Mediterranean, (Jan 2018–Jun 2023) (1°).</p>
+<p>The seasonal maps show broad regional aerosol structures rather than isolated city-scale hotspots. In particular, elevated AOD over the North Sea and adjacent coastal regions should not be interpreted as direct evidence of local surface pollution in the underlying pixel. This signal may reflect a combination of transported continental pollution, ship emissions, sea-salt aerosol, humidity-driven aerosol growth, or elevated aerosol layers.</p>
+<p>This highlights an important limitation of using column AOD for pollution-hotspot identification: the aerosol column observed by the satellite is not necessarily collocated with the surface emission source. Aerosols can be transported away from their source regions, and high AOD over a given pixel may reflect regional transport rather than local surface emissions.</p>
+<p>For this reason, the maps are used here only to provide regional aerosol context. The hotspot assessment is based primarily on urban–background time series and pairwise differences. Even these comparisons are interpreted cautiously, because both the city and its background reference location may be affected by the same transported aerosol plume.</p>
 </section>
 <section id="focused-seasonal-map-plots-of-aod550-and-fm-aod550-for-megacitytown-pairs">
 <h4>Focused seasonal map plots of AOD550 and FM_AOD550 for megacity–town pairs<a class="headerlink" href="#focused-seasonal-map-plots-of-aod550-and-fm-aod550-for-megacitytown-pairs" title="Link to this heading">#</a></h4>
@@ -1451,10 +1533,12 @@ SON  0.144  0.112
 <section id="take-home-messages">
 <span id="satellite-satellite-aerosol-properties-consistency-q03-section-4"></span><h3>Take-Home Messages<a class="headerlink" href="#take-home-messages" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>Seasonal cycles (e.g. summer peaks) dominate over city–rural differences.</p></li>
-<li><p>Fine-mode AOD (FM_aod550) does not consistently show higher values over cities, highlighting the challenge of using satellite AOD as a direct proxy for local pollution.</p></li>
-<li><p>Interpretation of urban–rural contrast in the AOD values requires caution, as meteorology, transport, and averaging effects can mask local signals.</p></li>
-<li><p>A small data gap is present for Northampton due to SLSTR data unavailability; while this reduces seasonal coverage, the available records still capture the main seasonal cycle and trends.</p></li>
+<li><p>Seasonal and regional aerosol variability frequently dominates over localized city-to-city differences. In several paired cases, the large metropolitan area and the smaller reference town exhibit highly synchronized peaks in both total AOD and fine-mode AOD, underscoring the strong influence of regional-scale atmospheric episodes over local signals.</p></li>
+<li><p>Fine-mode AOD does not consistently yield higher values over all major urban hotspots. This highlights the inherent physical challenge of utilizing satellite column-integrated AOD as a direct proxy for near-surface, ground-level pollution.</p></li>
+<li><p>Interpreting urban aerosol contrasts requires extreme caution. Local anthropogenic signals are easily masked or redistributed by meteorology, vertical aerosol stratification, atmospheric dilution, dispersion, and the spatial averaging of the product. For this reason, comparing large metropolitan areas with nearby smaller cities, rather than with open rural fields, provides a more physically sound and sensitive framework to test the instrument’s capacity to isolate localized urban emissions against a shared regional background.</p></li>
+<li><p>In this assessment, the smaller town of Northampton serves as the localized urban background reference for London. A brief data gap occurred for Northampton during late 2019 and early 2020 due to the unavailability of valid monthly SLSTR AOD data. These specific months were excluded from the pairwise statistics without compromising the consistency of overall seasonal analysis.</p></li>
+<li><p>The elevated AOD patterns systematically observed over maritime sectors like the North Sea demonstrate that high column loading cannot be automatically attributed to localized surface pollution. These features often reflect transported continental plumes, shipping emissions, biomass or marine aerosols, or humidity effects. This does not invalidate the analysis, but it defines its boundaries: the satellite product is highly effective for mapping macro-regional aerosol loading, whereas robust mapping of localized urban surface hotspots requires complementary tools such as ground-based PM monitoring, emission inventories, and chemical transport modeling.</p></li>
+<li><p>Overall, the 1° SLSTR AOD product can capture broad regional and seasonal aerosol-loading patterns over Europe, but its ability to distinguish individual urban pollution hotspots from nearby background areas is limited and strongly case-dependent. Some contrasts are visible, for example in selected seasons or pairs, but they are not persistent across all cities or variables. Therefore, SLSTR AOD is useful as a regional column-aerosol indicator, but it should not be used alone as a direct proxy for local near-surface urban pollution.</p></li>
 </ul>
 </section>
 </section>
@@ -1530,23 +1614,27 @@ SON  0.144  0.112
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
   </div>
-  <nav class="bd-toc-nav page-toc">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-identification-of-pollution-hotspots">🌍 Use case: Identification of Pollution Hotspots</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-questions">❓ Quality assessment questions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#selection-of-urban-hotspots-and-background-reference-areas">Selection of urban hotspots and background reference areas</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-the-data-to-use-and-set-up-the-code">Choose the data to use and set up the code</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-all-required-libraries">Import all required libraries</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#spatial-and-temporal-definitions">Spatial and temporal definitions</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-retrieval-and-preparation">Data Retrieval and Preparation</a><ul class="nav section-nav flex-column">
@@ -1557,9 +1645,9 @@ SON  0.144  0.112
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-calculation-and-describe-the-results">Plot, calculation and describe the results</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pairwise-monthly-differences-city-nearby-town">Pairwise monthly differences (city − nearby town)</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seasonal-means-climatological-per-pair">Seasonal means (climatological) per pair</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cityrural-aod-and-fm-aod-time-series-plots">City–rural AOD and FM-AOD time-series plots</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seasonal-aod-fm-aod-maps-with-city-rural-markers">Seasonal AOD &amp; FM-AOD maps (with city/rural markers)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seasonal-mean-contrasts-per-urbanbackground-pair">Seasonal mean contrasts per urban–background pair</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#urbanbackground-aod-and-fm-aod-time-series-plots">Urban–background AOD and FM-AOD time-series plots</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seasonal-aod-and-fm-aod-maps-with-urban-background-markers">Seasonal AOD and FM-AOD maps with urban/background markers</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#focused-seasonal-map-plots-of-aod550-and-fm-aod550-for-megacitytown-pairs">Focused seasonal map plots of AOD550 and FM_AOD550 for megacity–town pairs</a></li>
 </ul>
 </li>
@@ -1619,8 +1707,8 @@ By the Copernicus Climate Change Service (C3S), entrusted to ECMWF (European Cen
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>
