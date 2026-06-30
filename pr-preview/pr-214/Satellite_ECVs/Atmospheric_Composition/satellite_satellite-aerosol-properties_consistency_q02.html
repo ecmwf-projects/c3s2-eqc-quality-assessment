@@ -446,22 +446,25 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-the-data-to-use-and-set-up-the-code">Choose the data to use and set up the code</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-all-required-libraries">Import all required libraries</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-retrieval-and-preparation">Data Retrieval and Preparation</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-data-and-prepare-the-dataframe">Load the data and prepare the dataframe</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-the-required-python-packages">Import the required Python packages.</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#define-the-cds-dataset-request-and-load-the-monthly-aod550-fields">Define the CDS dataset request and load the monthly AOD550 fields.</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#spatial-and-temporal-definitions">Spatial and temporal definitions</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#study-regions-and-large-scale-aod-distribution">Study regions and large-scale AOD distribution</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#define-required-functions">Define required functions</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-and-describe-the-results">Plot and describe the results</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-time-series-for-canada-an-australia">Plot time series for Canada an Australia</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regional-time-series-analysis">Regional time-series analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-time-series-for-canada-and-australia">Plot time series for Canada and Australia</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#quantitative-comparison-of-aod-peaks-with-literature">Quantitative comparison of AOD peaks with literature</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#spatial-distribution-of-aod550-over-australia-and-canada">Spatial distribution of AOD550 over Australia and Canada</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#global-availability-of-aod550-observations-jan-jul-2021">Global availability of AOD550 observations (Jan-Jul 2021)</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#spatiotemporal-evolution-of-smoke-plumes">Spatiotemporal evolution of smoke-plumes</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spatial-analysis-of-wildfire-events">Spatial analysis of wildfire events</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-maps-of-aod550-during-selected-wildfire-episodes">Generate maps of AOD550 during selected wildfire episodes.</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spatiotemporal-variability-of-aod550">Spatiotemporal Variability of AOD550</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#longitudetime-evolution-of-aod550-40n90n">Longitude–Time Evolution of AOD550 (40°N–90°N)</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#take-home-messages">Take-Home Messages</a></li>
@@ -498,10 +501,10 @@ Please note that this repository is used for development and review, so quality 
 <h2>❓ Quality assessment questions<a class="headerlink" href="#quality-assessment-questions" title="Link to this heading">#</a></h2>
 <p><strong>• Can satellite AOD data consistently detect seasonal wildfire-driven aerosol peaks?</strong></p>
 <p><strong>• Is the spatial coverage of SLSTR AOD (1°) sufficient to study the spatial variability of wildfire-related AOD?</strong></p>
-<p>In the context of climate change and increasing wildfire activity, understanding the spatial and temporal distribution of aerosols from biomass burning is essential for assessing their environmental and climatic impacts. Seasonal variations in Aerosol Optical Depth (AOD) are strongly influenced by large-scale wildfires, such as those recently observed in Canada and Australia, which can inject smoke into the upper troposphere and even the lower stratosphere, with consequences for air quality, radiative forcing, and atmospheric circulation <a class="reference external" href="https://doi.org/10.3390/rs8050421" rel="noreferrer" target="_blank">[1]</a>, <a class="reference external" href="https://doi.org/10.1038/s41612-018-0039-3" rel="noreferrer" target="_blank">[2]</a>, <a class="reference external" href="https://doi.org/10.5194/amt-15-5289-2022" rel="noreferrer" target="_blank">[3]</a>. However, uncertainties in satellite data, including temporal consistency and retrieval sensitivity under dense smoke conditions, may affect the accuracy of such assessments <a class="reference external" href="https://doi.org/10.3390/rs8050421" rel="noreferrer" target="_blank">[1]</a>.</p>
-<p>The dataset analyzed is the Climate Data Store (CDS) AOD product derived from the SLSTR instrument aboard Sentinel-3, offering monthly gridded AOD values at 550 nm and ~1° spatial resolution in NetCDF format, covering the period 2018–2023. The core objective is to evaluate whether satellite observations can reliably detect the dynamics of aerosol emissions and transport linked to major fire events.</p>
+<p>In the context of climate change and increasing wildfire activity, understanding the spatial and temporal distribution of aerosols from biomass burning is essential for assessing their environmental and climatic impacts. Seasonal variations in Aerosol Optical Depth (AOD) are strongly influenced by large-scale wildfires, such as those recently observed in Canada and Australia, which can inject smoke into the upper troposphere and even the lower stratosphere, with consequences for air quality, radiative forcing, and atmospheric circulation <a class="reference external" href="https://doi.org/10.3390/rs8050421" rel="noreferrer" target="_blank">[1]</a>, <a class="reference external" href="https://doi.org/10.1038/s41612-018-0039-3" rel="noreferrer" target="_blank">[2]</a>, <a class="reference external" href="https://amt.copernicus.org/articles/15/5289/2022/" rel="noreferrer" target="_blank">[3]</a>. However, uncertainties in satellite data, including temporal consistency and retrieval sensitivity under dense smoke conditions, may affect the accuracy of such assessments <a class="reference external" href="https://doi.org/10.3390/rs8050421" rel="noreferrer" target="_blank">[1]</a>.</p>
+<p>This analysis uses the ensemble (ENS) aerosol product version 2.3 from the Climate Data Store (CDS) satellite aerosol properties dataset, derived from the SLSTR instrument aboard Sentinel-3. The ENS product combines the ORAC, SDV, and SU retrieval algorithms through uncertainty-weighted averaging and was selected because it represents the recommended merged product available through CDS. The dataset provides monthly gridded Aerosol Optical Depth (AOD) values at 550 nm with an approximate spatial resolution of 1° in NetCDF format, covering the period 2018–2023. The objective of this analysis is to investigate whether the dataset can capture temporal and spatial variations in aerosol loading associated with major wildfire events in Australia and Canada.</p>
 <p>Here, the ability of SLSTR data to monitor fire-driven AOD variability is investigated in regions highly affected by wildfires, focusing on extreme fire seasons in Canada and Australia. The analysis considers both the seasonal patterns and the intensity of episodic events, aiming to determine whether current satellite-based products provide sufficient spatial and temporal resolution for reliable monitoring.</p>
-<p>The results show periods of enhanced AOD during known wildfire seasons in the selected case studies. The analysis highlights the temporal and spatial variability of aerosol loading across the study regions, although further quantitative comparison with independent datasets would be required to assess the accuracy of these observations.</p>
+<p>The results identify periods of enhanced AOD that coincide with documented wildfire seasons in the selected case studies. The analysis highlights the temporal and spatial variability of aerosol loading across the study regions, although further quantitative comparison with independent datasets would be required to assess the accuracy of these observations.</p>
 </section>
 <section id="quality-assessment-statement">
 <h2>📢 Quality assessment statement<a class="headerlink" href="#quality-assessment-statement" title="Link to this heading">#</a></h2>
@@ -510,41 +513,49 @@ Please note that this repository is used for development and review, so quality 
 <ul class="simple">
 <li><p>The SLSTR aerosol data shows qualitative agreement with ground-based observations and Copernicus reports <a class="reference external" href="https://doi.org/10.1038/s41598-021-91547-y" rel="noreferrer" target="_blank">[5]</a>, <a class="reference external" href="https://atmosphere.copernicus.eu/wildfires-wreaked-havoc-2021-cams-tracked-their-impact" rel="noreferrer" target="_blank">[6]</a> in terms of the timing of major wildfire events. However, a quantitative comparison with independent datasets is required to assess the accuracy of the retrieved AOD values.</p></li>
 <li><p>The AOD dataset captures periods of enhanced aerosol loading associated with documented wildfire events in the selected case studies. Nevertheless, the ability to represent the full magnitude and temporal evolution of these events remains subject to uncertainties related to spatial averaging and data availability.</p></li>
-<li><p>The presence of missing data for certain months (mainly during winter) in the longitude range between -100º and -80º represents a limitation of the dataset. These gaps occur close to periods of enhanced AOD and may affect the characterization of aerosol events, including their onset, duration, and peak intensity. As a result, interpretations in these regions should be treated with caution.</p></li>
+<li><p>The presence of missing data for certain months (mainly during winter) in the longitude range between -100º and -80º represents a limitation of the dataset. These gaps occur close to periods of enhanced AOD and may affect the characterization of aerosol events, including their onset, duration, and peak intensity. As a result, interpretations in these regions should be treated with caution. It should also be noted that the present assessment focuses exclusively on the ENS v2.3 product. Since the CDS additionally provides the individual ORAC, SDV, and SU retrieval products, future work could investigate whether the limitations identified here, such as data gaps or differences during high-AOD events, are specific to the ensemble product or are common across retrieval algorithms. Such a comparison would provide further insight into the robustness of the retrieved aerosol signals.</p></li>
 </ul>
 </div>
 </section>
 <section id="methodology">
 <h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
+<p>To assess whether the CDS Satellite Aerosol Properties dataset can capture aerosol variability associated with major wildfire events, we analysed the temporal and spatial evolution of Aerosol Optical Depth (AOD550) over two well-documented case studies: the 2019–2020 Australian Black Summer bushfires and the 2021 Canadian wildfire season. The analysis uses the ensemble (ENS) version 2.3 product from the CDS satellite aerosol properties dataset, derived from SLSTR observations aboard Sentinel-3. Rather than performing a full validation against independent reference observations, this notebook investigates whether the dataset reproduces the timing, spatial distribution, and magnitude of enhanced aerosol loading reported during major wildfire episodes.</p>
+<p>More specifically, this notebook aims to:</p>
+<p>Analyse the temporal evolution of regional mean AOD550 over Australia and Canada during the period 2018–2023.
+Identify periods of enhanced aerosol loading associated with documented wildfire events.
+Examine the spatial distribution of AOD550 during selected wildfire episodes.
+Assess the availability of AOD observations and discuss the potential impact of data gaps on the interpretation of aerosol events.
+Compare selected AOD peaks with values reported in the scientific literature and discuss known limitations of the dataset.</p>
 <p>The methodology adopted for the analysis is split into the following steps:</p>
-<p><a class="reference internal" href="#satellite-satellite-aerosol-properties-consistency-q02-section-1"><span class="std std-ref">Choose the data to use and set up the code</span></a></p>
+<p><a class="reference internal" href="#satellite-satellite-aerosol-properties-consistency-q02-section-1"><span class="std std-ref">Data preparation</span></a></p>
 <ul class="simple">
-<li><p>Import all required libraries</p></li>
-</ul>
-<p><a class="reference internal" href="#satellite-satellite-aerosol-properties-consistency-q02-section-2"><span class="std std-ref">Data Retrieval and Preparation</span></a></p>
-<ul class="simple">
-<li><p>Load the data and prepare the dataframe</p></li>
+<li><p>Import the required Python packages.</p></li>
+<li><p>Define the CDS dataset request and load the monthly AOD550 fields.</p></li>
+<li><p>Spatial and temporal definitions</p></li>
+<li><p>Study regions and large-scale AOD distribution</p></li>
 <li><p>Define required functions</p></li>
 </ul>
-<p><a class="reference internal" href="#satellite-satellite-aerosol-properties-consistency-q02-section-3"><span class="std std-ref">Plot and describe the results</span></a></p>
+<p><a class="reference internal" href="#satellite-satellite-aerosol-properties-consistency-q02-section-2"><span class="std std-ref">Regional time-series analysis</span></a></p>
 <ul class="simple">
 <li><p>Plot time series for Canada and Australia</p></li>
 <li><p>Quantitative comparison of AOD peaks with literature</p></li>
-<li><p>Spatial distribution of AOD550 over Australia and Canada</p></li>
-<li><p>Global availability of AOD550 observations (Jan-Jul 2021)</p></li>
-<li><p>Spatiotemporal evolution of smoke plumes</p></li>
 </ul>
-<p><a class="reference internal" href="#satellite-satellite-aerosol-properties-consistency-q02-section-4"><span class="std std-ref">Take-Home Messages</span></a></p>
+<p><a class="reference internal" href="#satellite-satellite-aerosol-properties-consistency-q02-section-3"><span class="std std-ref">Spatial analysis of wildfire events</span></a></p>
 <ul class="simple">
-<li><p>Take-home message</p></li>
+<li><p>Generate maps of AOD550 during selected wildfire episodes.</p></li>
 </ul>
+<p><a class="reference internal" href="#satellite-satellite-aerosol-properties-consistency-q02-section-4"><span class="std std-ref">Spatiotemporal Variability of AOD550</span></a></p>
+<ul class="simple">
+<li><p>Longitude–Time Evolution of AOD550 (40°N–90°N)</p></li>
+</ul>
+<p><a class="reference internal" href="#satellite-satellite-aerosol-properties-consistency-q02-section-5"><span class="std std-ref">Take-Home Messages</span></a></p>
 </section>
 <section id="analysis-and-results">
 <h2>📈 Analysis and results<a class="headerlink" href="#analysis-and-results" title="Link to this heading">#</a></h2>
-<section id="choose-the-data-to-use-and-set-up-the-code">
-<span id="satellite-satellite-aerosol-properties-consistency-q02-section-1"></span><h3>Choose the data to use and set up the code<a class="headerlink" href="#choose-the-data-to-use-and-set-up-the-code" title="Link to this heading">#</a></h3>
-<section id="import-all-required-libraries">
-<h4>Import all required libraries<a class="headerlink" href="#import-all-required-libraries" title="Link to this heading">#</a></h4>
+<section id="data-preparation">
+<span id="satellite-satellite-aerosol-properties-consistency-q02-section-1"></span><h3>Data preparation<a class="headerlink" href="#data-preparation" title="Link to this heading">#</a></h3>
+<section id="import-the-required-python-packages">
+<h4>Import the required Python packages.<a class="headerlink" href="#import-the-required-python-packages" title="Link to this heading">#</a></h4>
 <p>In this section, the required Python libraries are imported to handle data processing, visualization, and geospatial analysis. These include tools for working with NetCDF files, numerical computations, and plotting time series and spatial maps of aerosol optical depth (AOD).</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
@@ -568,14 +579,11 @@ Please note that this repository is used for development and review, so quality 
 </details>
 </div>
 </section>
-</section>
-<section id="data-retrieval-and-preparation">
-<span id="satellite-satellite-aerosol-properties-consistency-q02-section-2"></span><h3>Data Retrieval and Preparation<a class="headerlink" href="#data-retrieval-and-preparation" title="Link to this heading">#</a></h3>
-<section id="load-the-data-and-prepare-the-dataframe">
-<h4>Load the data and prepare the dataframe<a class="headerlink" href="#load-the-data-and-prepare-the-dataframe" title="Link to this heading">#</a></h4>
+<section id="define-the-cds-dataset-request-and-load-the-monthly-aod550-fields">
+<h4>Define the CDS dataset request and load the monthly AOD550 fields.<a class="headerlink" href="#define-the-cds-dataset-request-and-load-the-monthly-aod550-fields" title="Link to this heading">#</a></h4>
 <p>In this step, the SLSTR AOD data files are loaded from local storage and combined into a single dataset for analysis. The data are stored as monthly NetCDF files, each corresponding to a specific time period.</p>
-<p>The code loops through all available files, extracts the timestamp from each filename, and converts the data into a tabular format (dataframe). All individual datasets are then merged into a single dataframe, where missing or invalid values are handled and the data are sorted chronologically.</p>
-<p>This structured dataframe is used for subsequent time series analysis and spatial visualization.</p>
+<p>The code loops through all available NetCDF files, extracts the timestamp from each filename, combines the files into a single xarray dataset, assigns the corresponding monthly time coordinates, replaces invalid values with missing values, and sorts the data chronologically.
+This structured dataframe is used for subsequent time series analysis and spatial visualization.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -737,319 +745,9 @@ Attributes: (12/18)
 </div>
 </div>
 </section>
-<section id="define-required-functions">
-<h4>Define required functions<a class="headerlink" href="#define-required-functions" title="Link to this heading">#</a></h4>
-<p>The following functions are defined to support the analysis and visualization of SLSTR aerosol data. They are used to extract AOD values for a selected date and region, organize the data on its original latitude-longitude grid, and generate spatial maps.</p>
-<p>The code also includes helper routines to handle missing values and to slightly smooth the mapped field in order to improve the readability of the spatial patterns without changing the original spatial coverage. Overall, these functions make it possible to consistently produce comparable maps for different wildfire events and study areas.</p>
-<div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.ndimage</span><span class="w"> </span><span class="kn">import</span> <span class="n">gaussian_filter</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.feature</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cfeature</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.io.shapereader</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">shpreader</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">cartopy.mpl.ticker</span><span class="w"> </span><span class="kn">import</span> <span class="n">LongitudeFormatter</span><span class="p">,</span> <span class="n">LatitudeFormatter</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">_fill_nearest_2d</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
-    <span class="n">Z</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-
-    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_iter</span><span class="p">):</span>
-        <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">mask</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
-            <span class="k">break</span>
-
-        <span class="n">Zpad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;edge&quot;</span><span class="p">)</span>
-        <span class="n">nb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span>
-            <span class="n">Zpad</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>   <span class="c1"># north</span>
-            <span class="n">Zpad</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>    <span class="c1"># south</span>
-            <span class="n">Zpad</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span>   <span class="c1"># west</span>
-            <span class="n">Zpad</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">:]</span>     <span class="c1"># east</span>
-        <span class="p">])</span>
-
-        <span class="n">valid</span> <span class="o">=</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">nb</span><span class="p">)</span>
-        <span class="n">count</span> <span class="o">=</span> <span class="n">valid</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">summed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">nb</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-        <span class="n">nb_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
-        <span class="n">has_neighbors</span> <span class="o">=</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span>
-        <span class="n">nb_mean</span><span class="p">[</span><span class="n">has_neighbors</span><span class="p">]</span> <span class="o">=</span> <span class="n">summed</span><span class="p">[</span><span class="n">has_neighbors</span><span class="p">]</span> <span class="o">/</span> <span class="n">count</span><span class="p">[</span><span class="n">has_neighbors</span><span class="p">]</span>
-
-        <span class="n">valid_fill</span> <span class="o">=</span> <span class="n">mask</span> <span class="o">&amp;</span> <span class="n">has_neighbors</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">valid_fill</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
-            <span class="k">break</span>
-
-        <span class="n">Z</span><span class="p">[</span><span class="n">valid_fill</span><span class="p">]</span> <span class="o">=</span> <span class="n">nb_mean</span><span class="p">[</span><span class="n">valid_fill</span><span class="p">]</span>
-
-    <span class="k">return</span> <span class="n">Z</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">native_field_from_ds</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s2">&quot;AOD550&quot;</span><span class="p">):</span>
-    <span class="n">min_lon</span><span class="p">,</span> <span class="n">max_lon</span><span class="p">,</span> <span class="n">min_lat</span><span class="p">,</span> <span class="n">max_lat</span> <span class="o">=</span> <span class="n">region</span>
-    <span class="n">date</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
-
-    <span class="n">sub</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">date</span><span class="p">)</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span>
-        <span class="n">latitude</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">min_lat</span><span class="p">,</span> <span class="n">max_lat</span><span class="p">),</span>
-        <span class="n">longitude</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">min_lon</span><span class="p">,</span> <span class="n">max_lon</span><span class="p">)</span>
-    <span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">sub</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> on </span><span class="si">{</span><span class="n">date</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="n">region</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-    <span class="n">lon</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-    <span class="n">lat</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-    <span class="n">Z</span> <span class="o">=</span> <span class="n">sub</span><span class="o">.</span><span class="n">values</span>
-
-    <span class="k">return</span> <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">Z</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_native_map</span><span class="p">(</span>
-    <span class="n">ds</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">region_name</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s2">&quot;AOD550&quot;</span><span class="p">,</span>
-    <span class="n">vmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">smooth_sigma</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
-    <span class="n">shapefile_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">lon_step</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">lat_step</span><span class="o">=</span><span class="mi">5</span>
-<span class="p">):</span>
-    <span class="k">if</span> <span class="n">levels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span>
-
-    <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">native_field_from_ds</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
-        <span class="n">Z</span> <span class="o">=</span> <span class="n">_fill_nearest_2d</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">smooth_sigma</span> <span class="ow">and</span> <span class="n">smooth_sigma</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">Z</span> <span class="o">=</span> <span class="n">gaussian_filter</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">smooth_sigma</span><span class="p">)</span>
-
-    <span class="n">LON</span><span class="p">,</span> <span class="n">LAT</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">)</span>
-
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
-
-    <span class="n">cf</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
-        <span class="n">LON</span><span class="p">,</span> <span class="n">LAT</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span>
-        <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">,</span>
-        <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span>
-        <span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span>
-        <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span>
-        <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
-        <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
-    <span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">shapefile_path</span><span class="p">:</span>
-        <span class="n">reader</span> <span class="o">=</span> <span class="n">shpreader</span><span class="o">.</span><span class="n">Reader</span><span class="p">(</span><span class="n">shapefile_path</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">add_geometries</span><span class="p">(</span>
-            <span class="n">reader</span><span class="o">.</span><span class="n">geometries</span><span class="p">(),</span>
-            <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
-            <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
-            <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
-            <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.2</span>
-        <span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">COASTLINE</span><span class="o">.</span><span class="n">with_scale</span><span class="p">(</span><span class="s2">&quot;10m&quot;</span><span class="p">),</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">BORDERS</span><span class="o">.</span><span class="n">with_scale</span><span class="p">(</span><span class="s2">&quot;10m&quot;</span><span class="p">),</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
-
-    <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cf</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">ticks</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
-    <span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
-
-    <span class="n">min_lon</span><span class="p">,</span> <span class="n">max_lon</span><span class="p">,</span> <span class="n">min_lat</span><span class="p">,</span> <span class="n">max_lat</span> <span class="o">=</span> <span class="n">region</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span><span class="n">draw_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
-
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">min_lon</span> <span class="o">/</span> <span class="n">lon_step</span><span class="p">)</span> <span class="o">*</span> <span class="n">lon_step</span><span class="p">,</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">max_lon</span> <span class="o">/</span> <span class="n">lon_step</span><span class="p">)</span> <span class="o">*</span> <span class="n">lon_step</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span>
-            <span class="n">lon_step</span>
-        <span class="p">),</span>
-        <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
-    <span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">min_lat</span> <span class="o">/</span> <span class="n">lat_step</span><span class="p">)</span> <span class="o">*</span> <span class="n">lat_step</span><span class="p">,</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">max_lat</span> <span class="o">/</span> <span class="n">lat_step</span><span class="p">)</span> <span class="o">*</span> <span class="n">lat_step</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span>
-            <span class="n">lat_step</span>
-        <span class="p">),</span>
-        <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
-    <span class="p">)</span>
-
-    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span>
-        <span class="n">LongitudeFormatter</span><span class="p">(</span><span class="n">number_format</span><span class="o">=</span><span class="s2">&quot;.0f&quot;</span><span class="p">,</span> <span class="n">degree_symbol</span><span class="o">=</span><span class="s2">&quot;°&quot;</span><span class="p">,</span> <span class="n">direction_label</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span>
-        <span class="n">LatitudeFormatter</span><span class="p">(</span><span class="n">number_format</span><span class="o">=</span><span class="s2">&quot;.0f&quot;</span><span class="p">,</span> <span class="n">degree_symbol</span><span class="o">=</span><span class="s2">&quot;°&quot;</span><span class="p">,</span> <span class="n">direction_label</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="p">)</span>
-
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">region_name</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-</section>
-</section>
-<section id="plot-and-describe-the-results">
-<span id="satellite-satellite-aerosol-properties-consistency-q02-section-3"></span><h3>Plot and describe the results<a class="headerlink" href="#plot-and-describe-the-results" title="Link to this heading">#</a></h3>
-<section id="plot-time-series-for-canada-an-australia">
-<h4>Plot time series for Canada an Australia<a class="headerlink" href="#plot-time-series-for-canada-an-australia" title="Link to this heading">#</a></h4>
-<p>The following code generates a time series of the monthly mean Aerosol Optical Depth (AOD550) for Australia and Canada over the study period (2018–2023).</p>
-<p>For each region, the AOD values are averaged over all grid points for each month, producing a single representative value per time step. This allows comparison of temporal variability and identification of seasonal patterns and extreme aerosol events, particularly those associated with major wildfire episodes.</p>
-<div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute regional mean time series</span>
-<span class="n">ts_aus</span> <span class="o">=</span> <span class="n">australia_ds</span><span class="p">[</span><span class="s2">&quot;AOD550&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">])</span>
-<span class="n">ts_can</span> <span class="o">=</span> <span class="n">canada_ds</span><span class="p">[</span><span class="s2">&quot;AOD550&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">])</span>
-
-<span class="c1"># Plot time series</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts_aus</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">],</span> <span class="n">ts_aus</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Australia&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts_can</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">],</span> <span class="n">ts_can</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Canada&quot;</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Mean AOD550 Time Series - Australia and Canada&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Mean AOD550&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</details>
-<div class="cell_output docutils container">
-<img alt="../../_images/e103f1782a045aac36a197798c5505bd74dc48833343329720fecbb1bdcd2b5b.png" src="../../_images/e103f1782a045aac36a197798c5505bd74dc48833343329720fecbb1bdcd2b5b.png" />
-</div>
-</div>
-<p><em>Figure 1.</em> Time series of monthly mean AOD550 for Australia and Canada over the 2018–2023 period.</p>
-<p>This figure shows the monthly mean Aerosol Optical Depth (AOD550) time series for Australia and Canada between 2018 and mid-2023. The time series highlights seasonal cycles and episodic peaks associated with major wildfire events, with AOD550 values consistently higher during fire seasons.</p>
-</section>
-<section id="quantitative-comparison-of-aod-peaks-with-literature">
-<h4>Quantitative comparison of AOD peaks with literature<a class="headerlink" href="#quantitative-comparison-of-aod-peaks-with-literature" title="Link to this heading">#</a></h4>
-<p>To provide a quantitative perspective, the peak AOD values derived from the SLSTR dataset were compared with values reported in the literature <a class="reference external" href="https://doi.org/10.1038/s41598-021-91547-y" rel="noreferrer" target="_blank">[5]</a> , <a class="reference external" href="https://atmosphere.copernicus.eu/wildfires-wreaked-havoc-2021-cams-tracked-their-impact" rel="noreferrer" target="_blank">[6]</a>.</p>
-<div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># AOD peak for Canada</span>
-<span class="n">max_can</span> <span class="o">=</span> <span class="n">ts_can</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
-<span class="n">max_can_value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">max_can</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
-<span class="n">max_can_time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">max_can</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="n">max_can</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">max_can_value</span><span class="p">,</span> <span class="n">max_can_time</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.2708333432674408 2023-06-01 00:00:00
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># # AOD peak for Australia</span>
-<span class="n">max_aus</span> <span class="o">=</span> <span class="n">ts_aus</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
-<span class="n">max_aus_value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">max_aus</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
-<span class="n">max_aus_time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">max_aus</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="n">max_aus</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">max_aus_value</span><span class="p">,</span> <span class="n">max_aus_time</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.21068081259727478 2019-12-01 00:00:00
-</pre></div>
-</div>
-</div>
-</div>
-<p>Over Australia, the maximum AOD550 reaches approximately 0.21 in December 2019, corresponding to the peak of the Black Summer bushfires. In comparison, ground-based AERONET observations reported in Li et al. 2021 indicate AOD440 values ranging from ~0.15 up to 2.76 during intense smoke episodes. The lower values obtained from SLSTR are expected, as the satellite product represents spatially averaged monthly conditions, whereas AERONET measurements capture local peak concentrations. Similarly, over Canada, the maximum AOD550 reaches approximately 0.27 (June 2023), corresponding to a period of extreme wildfire activity. The timing of this peak is consistent with wildfire events reported by Copernicus Atmosphere Monitoring Service, although this source does not provide quantitative AOD values. These comparisons indicate that the SLSTR dataset captures the order of magnitude and timing of enhanced aerosol loading, although a more rigorous assessment would require direct comparison with independent datasets and the calculation of quantitative performance metrics.</p>
-</section>
-<section id="spatial-distribution-of-aod550-over-australia-and-canada">
-<h4>Spatial distribution of AOD550 over Australia and Canada<a class="headerlink" href="#spatial-distribution-of-aod550-over-australia-and-canada" title="Link to this heading">#</a></h4>
-<p>The following code generates a spatial map of Aerosol Optical Depth (AOD550) over Australia for December 2019, corresponding to the peak of the extreme bushfire season. The data are extracted for the selected date and region, and plotted on their native grid to visualize the spatial distribution of aerosol concentrations. This allows identification of areas with enhanced AOD associated with wildfire emissions.</p>
-<div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Australia — DEC 2019 (matches the example month with higher AOD)</span>
-<span class="n">plot_native_map</span><span class="p">(</span>
-    <span class="n">ds</span><span class="p">,</span>
-    <span class="n">date</span><span class="o">=</span><span class="s2">&quot;2019-12-01&quot;</span><span class="p">,</span>
-    <span class="n">region</span><span class="o">=</span><span class="p">(</span><span class="mi">110</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="o">-</span><span class="mi">45</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">),</span>
-    <span class="n">region_name</span><span class="o">=</span><span class="s2">&quot;Australia&quot;</span><span class="p">,</span>
-    <span class="n">var</span><span class="o">=</span><span class="s2">&quot;AOD550&quot;</span><span class="p">,</span>
-    <span class="n">vmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">smooth_sigma</span><span class="o">=</span><span class="mf">0.8</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-<div class="cell_output docutils container">
-<img alt="../../_images/47168c6af46283311c2e84cdd3ca984e2350e346c30a879b8cb1150320b358ce.png" src="../../_images/47168c6af46283311c2e84cdd3ca984e2350e346c30a879b8cb1150320b358ce.png" />
-</div>
-</div>
-<p><em>Figure 2.</em> Spatial distribution of AOD550 over Australia on 2019-12-01, derived from SLSTR (Sentinel-3) data at ~1° resolution.</p>
-<p>The map shows strong AOD enhancements along southeastern Australia, corresponding to the extreme bushfire season reported in the literature and in Copernicus Atmosphere Monitoring Service for late 2019. These spatial patterns are consistent with the temporal variability observed in the regional mean AOD time series (Figure 1), and help localize the areas contributing to the observed aerosol increase. <a class="reference external" href="https://atmosphere.copernicus.eu/wildfires-wreaked-havoc-2021-cams-tracked-their-impact" rel="noreferrer" target="_blank">[6]</a>.</p>
-<p>The following code generates a spatial map of Aerosol Optical Depth (AOD550) over Canada for July 2021, corresponding to a period of intense wildfire activity. The data are extracted for the selected date and region, and plotted on their native grid to visualize the spatial distribution of aerosol concentrations. This enables the identification of regions affected by elevated AOD associated with wildfire smoke.</p>
-<div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Canada — JUL 2021</span>
-<span class="n">plot_native_map</span><span class="p">(</span>
-    <span class="n">ds</span><span class="p">,</span>
-    <span class="n">date</span><span class="o">=</span><span class="s2">&quot;2021-07-01&quot;</span><span class="p">,</span>
-    <span class="n">region</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">140</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">75</span><span class="p">),</span>
-    <span class="n">region_name</span><span class="o">=</span><span class="s2">&quot;Canada&quot;</span><span class="p">,</span>
-    <span class="n">var</span><span class="o">=</span><span class="s2">&quot;AOD550&quot;</span><span class="p">,</span>
-    <span class="n">vmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">smooth_sigma</span><span class="o">=</span><span class="mf">0.8</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-<div class="cell_output docutils container">
-<img alt="../../_images/58e21779dd9960b8e6656c7782dd054ea6f79180683193c144725f16bc837b5a.png" src="../../_images/58e21779dd9960b8e6656c7782dd054ea6f79180683193c144725f16bc837b5a.png" />
-</div>
-</div>
-<p><em>Figure 3.</em> Spatial distribution of AOD550 over Canada on 2021-07-01, derived from SLSTR (Sentinel-3) data at ~1° resolution.</p>
-<p>The map highlights pronounced AOD enhancements over regions in central and western Canada, consistent with wildfire smoke plumes reported in the literature for this period. These elevated aerosol levels match the temporal peaks shown in Figure 1 and align with documented fire outbreaks in governmental and scientific fire records <a class="reference external" href="https://doi.org/10.1038/s41598-021-91547-y" rel="noreferrer" target="_blank">[5]</a>.</p>
-</section>
-<section id="global-availability-of-aod550-observations-jan-jul-2021">
-<h4>Global availability of AOD550 observations (Jan-Jul 2021)<a class="headerlink" href="#global-availability-of-aod550-observations-jan-jul-2021" title="Link to this heading">#</a></h4>
-<p>The following figure shows the spatial coverage of AOD550 observations used in the analysis for two selected periods in 2021. The objective is to assess the availability and continuity of the dataset across regions and time.</p>
+<section id="study-regions-and-large-scale-aod-distribution">
+<h4>Study regions and large-scale AOD distribution<a class="headerlink" href="#study-regions-and-large-scale-aod-distribution" title="Link to this heading">#</a></h4>
+<p>The analysis focuses on two major wildfire case studies: the 2019–2020 Black Summer bushfires in Australia and the 2021 wildfire season in Canada. To provide geographical context, the following figure shows the global distribution of mean AOD550 derived from the SLSTR ENS v2.3 product for January–July 2021, together with the study regions selected for detailed investigation. The map is included to illustrate the location of the Australia and Canada domains within the broader global aerosol environment and does not constitute a quantitative assessment of wildfire impacts.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1126,12 +824,413 @@ Attributes: (12/18)
 <img alt="../../_images/3e059c3cb5a62e53f717d3f2898178acf20b02ad14c26b251020e0c9347da7cc.png" src="../../_images/3e059c3cb5a62e53f717d3f2898178acf20b02ad14c26b251020e0c9347da7cc.png" />
 </div>
 </div>
-<p><em>Figure 4.</em> Global distribution of mean AOD550 for January–July 2021. White or missing areas indicate regions with no valid observations. Dashed boxes highlight the Canada and Australia study regions.</p>
-<p>The figure highlights the spatial distribution of AOD550 observations used in this analysis and reveals that data coverage is not uniform across regions. While large areas exhibit continuous availability, several regions show partial or missing data, particularly at higher latitudes and in parts of the Southern Hemisphere.</p>
+<p><em>Figure 1.</em> Global mean AOD550 derived from the SLSTR ENS v2.3 product for January–July 2021.</p>
+<p>Values represent the temporal average of monthly AOD550 observations over the selected period. Dashed boxes indicate the Australia and Canada study regions analysed in this notebook. The figure is included to provide geographical context for the case studies and to illustrate the large-scale distribution of aerosol loading during the analysis period.</p>
 </section>
-<section id="spatiotemporal-evolution-of-smoke-plumes">
-<h4>Spatiotemporal evolution of smoke-plumes<a class="headerlink" href="#spatiotemporal-evolution-of-smoke-plumes" title="Link to this heading">#</a></h4>
-<p>The following code examines the spatiotemporal evolution of aerosol plumes between January and July 2021 in the latitude band 40ºN-90ºN. The data are first filtered to the study region and period, then averaged by time and longitude to produce a longitude-time diagram. This representation makes it possible to track how elevated AOD values evolve over time and spread across longitudes, helping to identify the development and transport of wildfire smoke plumes during the Canadian fire season.</p>
+<section id="define-required-functions">
+<h4>Define required functions<a class="headerlink" href="#define-required-functions" title="Link to this heading">#</a></h4>
+<p>The following functions are defined to support the analysis and visualization of SLSTR aerosol data. They are used to extract AOD values for a selected date and region, organize the data on its original latitude-longitude grid, and generate spatial maps.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.ndimage</span><span class="w"> </span><span class="kn">import</span> <span class="n">gaussian_filter</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.feature</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cfeature</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.io.shapereader</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">shpreader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cartopy.mpl.ticker</span><span class="w"> </span><span class="kn">import</span> <span class="n">LongitudeFormatter</span><span class="p">,</span> <span class="n">LatitudeFormatter</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_fill_nearest_2d</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_iter</span><span class="p">):</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">mask</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="k">break</span>
+
+        <span class="n">Zpad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;edge&quot;</span><span class="p">)</span>
+        <span class="n">nb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span>
+            <span class="n">Zpad</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>   <span class="c1"># north</span>
+            <span class="n">Zpad</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>    <span class="c1"># south</span>
+            <span class="n">Zpad</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span>   <span class="c1"># west</span>
+            <span class="n">Zpad</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">:]</span>     <span class="c1"># east</span>
+        <span class="p">])</span>
+
+        <span class="n">valid</span> <span class="o">=</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">nb</span><span class="p">)</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="n">valid</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">summed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">nb</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">nb_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">has_neighbors</span> <span class="o">=</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="n">nb_mean</span><span class="p">[</span><span class="n">has_neighbors</span><span class="p">]</span> <span class="o">=</span> <span class="n">summed</span><span class="p">[</span><span class="n">has_neighbors</span><span class="p">]</span> <span class="o">/</span> <span class="n">count</span><span class="p">[</span><span class="n">has_neighbors</span><span class="p">]</span>
+
+        <span class="n">valid_fill</span> <span class="o">=</span> <span class="n">mask</span> <span class="o">&amp;</span> <span class="n">has_neighbors</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">valid_fill</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="k">break</span>
+
+        <span class="n">Z</span><span class="p">[</span><span class="n">valid_fill</span><span class="p">]</span> <span class="o">=</span> <span class="n">nb_mean</span><span class="p">[</span><span class="n">valid_fill</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">Z</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">native_field_from_ds</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s2">&quot;AOD550&quot;</span><span class="p">):</span>
+    <span class="n">min_lon</span><span class="p">,</span> <span class="n">max_lon</span><span class="p">,</span> <span class="n">min_lat</span><span class="p">,</span> <span class="n">max_lat</span> <span class="o">=</span> <span class="n">region</span>
+    <span class="n">date</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+
+    <span class="n">sub</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">date</span><span class="p">)</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span>
+        <span class="n">latitude</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">min_lat</span><span class="p">,</span> <span class="n">max_lat</span><span class="p">),</span>
+        <span class="n">longitude</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">min_lon</span><span class="p">,</span> <span class="n">max_lon</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">sub</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> on </span><span class="si">{</span><span class="n">date</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="n">region</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">lon</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">lat</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">sub</span><span class="o">.</span><span class="n">values</span>
+
+    <span class="k">return</span> <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">Z</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_native_map</span><span class="p">(</span>
+    <span class="n">ds</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">region_name</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s2">&quot;AOD550&quot;</span><span class="p">,</span>
+    <span class="n">vmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">shapefile_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">lon_step</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">lat_step</span><span class="o">=</span><span class="mi">5</span>
+<span class="p">):</span>
+    <span class="k">if</span> <span class="n">levels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span>
+
+    <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">native_field_from_ds</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
+
+    <span class="n">LON</span><span class="p">,</span> <span class="n">LAT</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">)</span>
+
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+
+    <span class="n">cf</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+        <span class="n">LON</span><span class="p">,</span> <span class="n">LAT</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span>
+        <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span>
+        <span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span>
+        <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span>
+        <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
+        <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">shapefile_path</span><span class="p">:</span>
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">shpreader</span><span class="o">.</span><span class="n">Reader</span><span class="p">(</span><span class="n">shapefile_path</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_geometries</span><span class="p">(</span>
+            <span class="n">reader</span><span class="o">.</span><span class="n">geometries</span><span class="p">(),</span>
+            <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
+            <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+            <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.2</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span>
+            <span class="n">cfeature</span><span class="o">.</span><span class="n">COASTLINE</span><span class="o">.</span><span class="n">with_scale</span><span class="p">(</span><span class="s2">&quot;10m&quot;</span><span class="p">),</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
+            <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span>
+        <span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span>
+            <span class="n">cfeature</span><span class="o">.</span><span class="n">BORDERS</span><span class="o">.</span><span class="n">with_scale</span><span class="p">(</span><span class="s2">&quot;10m&quot;</span><span class="p">),</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+            <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span>
+        <span class="n">cf</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+        <span class="n">pad</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span>
+        <span class="n">ticks</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+
+    <span class="n">min_lon</span><span class="p">,</span> <span class="n">max_lon</span><span class="p">,</span> <span class="n">min_lat</span><span class="p">,</span> <span class="n">max_lat</span> <span class="o">=</span> <span class="n">region</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span>
+        <span class="n">draw_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">min_lon</span> <span class="o">/</span> <span class="n">lon_step</span><span class="p">)</span> <span class="o">*</span> <span class="n">lon_step</span><span class="p">,</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">max_lon</span> <span class="o">/</span> <span class="n">lon_step</span><span class="p">)</span> <span class="o">*</span> <span class="n">lon_step</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span>
+            <span class="n">lon_step</span>
+        <span class="p">),</span>
+        <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
+    <span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">min_lat</span> <span class="o">/</span> <span class="n">lat_step</span><span class="p">)</span> <span class="o">*</span> <span class="n">lat_step</span><span class="p">,</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">max_lat</span> <span class="o">/</span> <span class="n">lat_step</span><span class="p">)</span> <span class="o">*</span> <span class="n">lat_step</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span>
+            <span class="n">lat_step</span>
+        <span class="p">),</span>
+        <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
+    <span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span>
+        <span class="n">LongitudeFormatter</span><span class="p">(</span>
+            <span class="n">number_format</span><span class="o">=</span><span class="s2">&quot;.0f&quot;</span><span class="p">,</span>
+            <span class="n">degree_symbol</span><span class="o">=</span><span class="s2">&quot;°&quot;</span><span class="p">,</span>
+            <span class="n">direction_label</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span>
+        <span class="n">LatitudeFormatter</span><span class="p">(</span>
+            <span class="n">number_format</span><span class="o">=</span><span class="s2">&quot;.0f&quot;</span><span class="p">,</span>
+            <span class="n">degree_symbol</span><span class="o">=</span><span class="s2">&quot;°&quot;</span><span class="p">,</span>
+            <span class="n">direction_label</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">region_name</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+</section>
+<section id="regional-time-series-analysis">
+<span id="satellite-satellite-aerosol-properties-consistency-q02-section-2"></span><h3>Regional time-series analysis<a class="headerlink" href="#regional-time-series-analysis" title="Link to this heading">#</a></h3>
+<section id="plot-time-series-for-canada-and-australia">
+<h4>Plot time series for Canada and Australia<a class="headerlink" href="#plot-time-series-for-canada-and-australia" title="Link to this heading">#</a></h4>
+<p>The following code generates a time series of the monthly mean Aerosol Optical Depth (AOD550) for Australia and Canada over the study period (2018–2023).</p>
+<p>For each region, the AOD values are averaged over all grid points for each month, producing a single representative value per time step. This allows comparison of temporal variability and identification of seasonal patterns and extreme aerosol events, particularly those associated with major wildfire episodes.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute regional mean time series</span>
+<span class="n">ts_aus</span> <span class="o">=</span> <span class="n">australia_ds</span><span class="p">[</span><span class="s2">&quot;AOD550&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">])</span>
+<span class="n">ts_can</span> <span class="o">=</span> <span class="n">canada_ds</span><span class="p">[</span><span class="s2">&quot;AOD550&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">])</span>
+
+<span class="c1"># Plot time series</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts_aus</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">],</span> <span class="n">ts_aus</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Australia&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts_can</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">],</span> <span class="n">ts_can</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Canada&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Mean AOD550 Time Series - Australia and Canada&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Mean AOD550&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../_images/e103f1782a045aac36a197798c5505bd74dc48833343329720fecbb1bdcd2b5b.png" src="../../_images/e103f1782a045aac36a197798c5505bd74dc48833343329720fecbb1bdcd2b5b.png" />
+</div>
+</div>
+<p><em>Figure 2.</em> Time series of monthly mean AOD550 for Australia and Canada over the 2018–2023 period.</p>
+<p>This figure shows the monthly mean Aerosol Optical Depth (AOD550) time series for Australia and Canada between 2018 and mid-2023. The time series highlights seasonal cycles and episodic peaks associated with major wildfire events, with AOD550 values consistently higher during fire seasons.</p>
+</section>
+<section id="quantitative-comparison-of-aod-peaks-with-literature">
+<h4>Quantitative comparison of AOD peaks with literature<a class="headerlink" href="#quantitative-comparison-of-aod-peaks-with-literature" title="Link to this heading">#</a></h4>
+<p>To assess whether the SLSTR ENS v2.3 product reproduces the timing and magnitude of the Black Summer wildfire event, AOD550 values were extracted from the grid cell closest to the Tumbarumba AERONET station (35.5°S, 148.5°E), one of the locations analysed by Li et al. (2021). Unlike the regional averages presented previously, this comparison uses a single SLSTR grid cell without additional spatial smoothing in order to maximise consistency with the point-based observations reported in the literature. The resulting monthly time series is used to compare the temporal evolution of aerosol loading during the 2019–2020 fire season with values reported from independent ground-based measurements. <a class="reference external" href="https://doi.org/10.1038/s41598-021-91547-y" rel="noreferrer" target="_blank">[5]</a> , <a class="reference external" href="https://atmosphere.copernicus.eu/wildfires-wreaked-havoc-2021-cams-tracked-their-impact" rel="noreferrer" target="_blank">[6]</a>.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tumbarumba_lat</span> <span class="o">=</span> <span class="o">-</span><span class="mf">35.6566</span>
+<span class="n">tumbarumba_lon</span> <span class="o">=</span> <span class="mf">148.1517</span>
+
+<span class="n">slstr_tumbarumba</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;AOD550&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span>
+    <span class="n">latitude</span><span class="o">=</span><span class="n">tumbarumba_lat</span><span class="p">,</span>
+    <span class="n">longitude</span><span class="o">=</span><span class="n">tumbarumba_lon</span><span class="p">,</span>
+    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span>
+<span class="p">)</span>
+
+<span class="n">slstr_tumbarumba</span> <span class="o">=</span> <span class="n">slstr_tumbarumba</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">slstr_tumbarumba</span> <span class="o">!=</span> <span class="o">-</span><span class="mf">999.0</span><span class="p">)</span>
+
+<span class="c1"># Select wildfire period</span>
+<span class="n">slstr_tumbarumba_event</span> <span class="o">=</span> <span class="n">slstr_tumbarumba</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span>
+    <span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;2019-10-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2020-02-01&quot;</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">slstr_tumbarumba_event</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Closest SLSTR latitude:&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">slstr_tumbarumba_event</span><span class="o">.</span><span class="n">latitude</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Closest SLSTR longitude:&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">slstr_tumbarumba_event</span><span class="o">.</span><span class="n">longitude</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;xarray.DataArray &#39;AOD550&#39; (time: 5)&gt; Size: 20B
+array([0.06136374, 0.09609616, 0.34630984, 0.23093791, 0.05550185],
+      dtype=float32)
+Coordinates:
+  * time       (time) datetime64[ns] 40B 2019-10-01 2019-11-01 ... 2020-02-01
+    latitude   float32 4B -35.5
+    longitude  float32 4B 148.5
+Attributes:
+    long_name:      Aerosol optical depth at 550 nm
+    standard_name:  atmosphere_optical_depth_due_to_ambient_aerosol
+Closest SLSTR latitude: -35.5
+Closest SLSTR longitude: 148.5
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">slstr_tumbarumba_event</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">],</span>
+    <span class="n">slstr_tumbarumba_event</span><span class="p">,</span>
+    <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;SLSTR ENS v2.3 nearest pixel&quot;</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;SLSTR AOD550 near Tumbarumba during the 2019-2020 fire period&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;AOD550&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../_images/ecff6d17008094f0f0609f65a6d22b649a62669dfbf7d0a27ee9007f8e4fc269.png" src="../../_images/ecff6d17008094f0f0609f65a6d22b649a62669dfbf7d0a27ee9007f8e4fc269.png" />
+</div>
+</div>
+<p><em>Figure 3.</em> Monthly mean AOD550 from the SLSTR ENS v2.3 product at the grid cell nearest to the Tumbarumba AERONET station (35.5°S, 148.5°E) during October 2019–February 2020. A pronounced peak is observed in December 2019, coinciding with the period of intense aerosol loading associated with the Australian Black Summer wildfires.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">slstr_peak_value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">slstr_tumbarumba_event</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="n">slstr_peak_time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
+    <span class="n">slstr_tumbarumba_event</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="n">slstr_tumbarumba_event</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">values</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SLSTR peak AOD550:&quot;</span><span class="p">,</span> <span class="n">slstr_peak_value</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SLSTR peak month:&quot;</span><span class="p">,</span> <span class="n">slstr_peak_time</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SLSTR peak AOD550: 0.3463098406791687
+SLSTR peak month: 2019-12-01 00:00:00
+</pre></div>
+</div>
+</div>
+</div>
+<p>The SLSTR ENS v2.3 time series exhibits a pronounced increase in aerosol loading during the Black Summer wildfire period, with a maximum AOD550 of approximately 0.35 observed in December 2019. Li et al. (2021) reported AERONET AOD440 values reaching up to 2.76 during intense smoke episodes at Tumbarumba. The lower values observed in the SLSTR product are expected because the satellite data represent monthly mean aerosol conditions over a ~1° grid cell, whereas AERONET observations are point measurements capable of capturing short-lived local maxima. Despite these differences in spatial and temporal representativeness, both datasets identify December 2019–January 2020 as the period of strongest aerosol loading.</p>
+<p>In addition, the Product Quality Assessment Report (PQAR) indicates that for AERONET AOD values exceeding approximately 1.0, the SLSTR retrieval tends to underestimate high aerosol loading conditions. This behaviour may partly explain the difference between the extreme AERONET observations reported during the Australian wildfire event and the lower values observed in the monthly averaged SLSTR dataset. Consequently, the comparison suggests that the SLSTR product captures the timing of the major smoke event, while underestimating the magnitude of the most extreme aerosol concentrations.  <a class="reference external" href="https://doi.org/10.1038/s41598-021-91547-y" rel="noreferrer" target="_blank">[5]</a> , <a class="reference external" href="https://atmosphere.copernicus.eu/wildfires-wreaked-havoc-2021-cams-tracked-their-impact" rel="noreferrer" target="_blank">[6]</a>.</p>
+</section>
+</section>
+<section id="spatial-analysis-of-wildfire-events">
+<span id="satellite-satellite-aerosol-properties-consistency-q02-section-3"></span><h3>Spatial analysis of wildfire events<a class="headerlink" href="#spatial-analysis-of-wildfire-events" title="Link to this heading">#</a></h3>
+<section id="generate-maps-of-aod550-during-selected-wildfire-episodes">
+<h4>Generate maps of AOD550 during selected wildfire episodes.<a class="headerlink" href="#generate-maps-of-aod550-during-selected-wildfire-episodes" title="Link to this heading">#</a></h4>
+<p>The following code generates a map of monthly mean AOD550 over Australia for December 2019 using the original ENS v2.3 data on its native grid. The objective is to examine the spatial distribution of aerosol loading during the Black Summer wildfire season and to identify the regions contributing most strongly to the regional aerosol enhancement observed in the time series analysis.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Australia — DEC 2019 (matches the example month with higher AOD)</span>
+<span class="n">plot_native_map</span><span class="p">(</span>
+    <span class="n">ds</span><span class="p">,</span>
+    <span class="n">date</span><span class="o">=</span><span class="s2">&quot;2019-12-01&quot;</span><span class="p">,</span>
+    <span class="n">region</span><span class="o">=</span><span class="p">(</span><span class="mi">110</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="o">-</span><span class="mi">45</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">),</span>
+    <span class="n">region_name</span><span class="o">=</span><span class="s2">&quot;Australia&quot;</span><span class="p">,</span>
+    <span class="n">var</span><span class="o">=</span><span class="s2">&quot;AOD550&quot;</span><span class="p">,</span>
+    <span class="n">vmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">0.6</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../_images/025187013e082616f47d313eefb4a99f99b82b47a265705c8036b27b5eb75cba.png" src="../../_images/025187013e082616f47d313eefb4a99f99b82b47a265705c8036b27b5eb75cba.png" />
+</div>
+</div>
+<p><em>Figure 4.</em> Spatial distribution of AOD550 over Australia on 2019-12-01, derived from SLSTR (Sentinel-3) data at ~1° resolution.</p>
+<p>The map shows the spatial distribution of monthly mean AOD550 over Australia in December 2019, during the Black Summer wildfire season. Elevated AOD values are observed across southeastern Australia, with the highest concentrations located along the eastern and southeastern regions of the continent. Unlike the regional mean time series, this map provides spatial information on the distribution of aerosol loading and identifies the specific areas contributing to the regional AOD enhancement. The figure is intended to illustrate the geographical extent and spatial heterogeneity of the aerosol signal during a major wildfire episode. <a class="reference external" href="https://atmosphere.copernicus.eu/wildfires-wreaked-havoc-2021-cams-tracked-their-impact" rel="noreferrer" target="_blank">[6]</a>.</p>
+<p>The following code generates a spatial map of Aerosol Optical Depth (AOD550) over Canada for July 2021, corresponding to a period of intense wildfire activity. The data are extracted for the selected date and region, and plotted on their native grid to visualize the spatial distribution of aerosol concentrations. This enables the identification of regions affected by elevated AOD associated with wildfire smoke.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Canada — JUL 2021</span>
+<span class="n">plot_native_map</span><span class="p">(</span>
+    <span class="n">ds</span><span class="p">,</span>
+    <span class="n">date</span><span class="o">=</span><span class="s2">&quot;2021-07-01&quot;</span><span class="p">,</span>
+    <span class="n">region</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">140</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">75</span><span class="p">),</span>
+    <span class="n">region_name</span><span class="o">=</span><span class="s2">&quot;Canada&quot;</span><span class="p">,</span>
+    <span class="n">var</span><span class="o">=</span><span class="s2">&quot;AOD550&quot;</span><span class="p">,</span>
+    <span class="n">vmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">0.6</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../_images/c9fdea59456b9f2fc7281b351a23acf463d248e2dc96a296e3eae44e3e652d52.png" src="../../_images/c9fdea59456b9f2fc7281b351a23acf463d248e2dc96a296e3eae44e3e652d52.png" />
+</div>
+</div>
+<p><em>Figure 5.</em> Spatial distribution of AOD550 over Canada on 2021-07-01, derived from SLSTR (Sentinel-3) data at ~1° resolution.</p>
+<p>The map shows the spatial distribution of monthly mean AOD550 over Canada in July 2021. Elevated AOD values are observed across parts of western and central Canada, indicating substantial spatial variability in aerosol loading within the study region. The figure complements the regional mean time series by identifying the areas that contribute most strongly to the regional AOD signal. July 2021 corresponds to a period of documented wildfire activity in Canada; however, the present analysis does not allow attribution of the observed AOD enhancements exclusively to wildfire emissions. Establishing such a link would require a quantitative comparison with independent information, such as fire occurrence records, burned-area products, atmospheric transport analyses, or other aerosol observations. Therefore, the figure should be interpreted as evidence of enhanced aerosol loading during this period rather than as direct proof of wildfire-related emissions. <a class="reference external" href="https://doi.org/10.1038/s41598-021-91547-y" rel="noreferrer" target="_blank">[5]</a>.</p>
+</section>
+</section>
+<section id="spatiotemporal-variability-of-aod550">
+<span id="satellite-satellite-aerosol-properties-consistency-q02-section-4"></span><h3>Spatiotemporal Variability of AOD550<a class="headerlink" href="#spatiotemporal-variability-of-aod550" title="Link to this heading">#</a></h3>
+<section id="longitudetime-evolution-of-aod550-40n90n">
+<h4>Longitude–Time Evolution of AOD550 (40°N–90°N)<a class="headerlink" href="#longitudetime-evolution-of-aod550-40n90n" title="Link to this heading">#</a></h4>
+<p>The following analysis shows the longitude–time evolution of mean AOD550 between January and July 2021 in the latitude band 40°N–90°N. The data are averaged over latitude to produce a Hovmöller-style diagram, which summarizes how aerosol loading varies with longitude and time across the Northern Hemisphere. This figure is intended to provide a broad view of zonal AOD variability and should not be interpreted as direct evidence of smoke transport from a specific wildfire source without additional transport or trajectory analysis.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1168,7 +1267,7 @@ Attributes: (12/18)
 <span class="p">)</span>
 
 <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;AOD550&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">ticks</span><span class="o">=</span><span class="n">levels</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Spatiotemporal Evolution of Smoke Plumes (40°N-90°N)</span><span class="se">\n</span><span class="s2">Jan-Jul 2021&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Spatiotemporal Variability of AOD550 (40°N-90°N)</span><span class="se">\n</span><span class="s2">Jan-Jul 2021&quot;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Longitude&quot;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Date&quot;</span><span class="p">)</span>
 
@@ -1183,21 +1282,21 @@ Attributes: (12/18)
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/1fe5f9940dd5855e7386ec32b0c421226648ed122de18022f861a67ee8c70e23.png" src="../../_images/1fe5f9940dd5855e7386ec32b0c421226648ed122de18022f861a67ee8c70e23.png" />
+<img alt="../../_images/4930f10b0e8b029cfd665db9aaafdae940299420474e128b514832de9f665580.png" src="../../_images/4930f10b0e8b029cfd665db9aaafdae940299420474e128b514832de9f665580.png" />
 </div>
 </div>
-<p><em>Figure 5.</em> Hovmöller diagram showing the spatiotemporal evolution of mean AOD550 between January and July 2021 over 40°N–90°N.</p>
-<p>Enhanced aerosol loadings appear as warm-colored bands, indicating smoke plumes transported across longitudes. These patterns align with documented wildfire activity peaks in North America during this period [6], as seen in Figures 1–3.</p>
+<p><em>Figure 6.</em> Hovmöller-style longitude–time diagram of mean AOD550 between January and July 2021 over 40°N–90°N. Warm colours indicate longitudes and periods with enhanced aerosol loading. The figure provides a large-scale view of zonal AOD variability, but it does not by itself attribute the observed enhancements to Canadian wildfire smoke or demonstrate transport pathways.</p>
+<p>The diagram shows enhanced AOD values at several longitude ranges during the analysis period, with some of the strongest signals occurring at longitudes corresponding to Siberia. Lower AOD values are observed over the Atlantic and European longitudes, meaning that the figure does not provide continuous evidence of aerosol transport from Canada across the Northern Hemisphere. Therefore, the interpretation is limited to large-scale zonal variability in AOD550, and attribution to specific wildfire smoke plumes would require additional evidence such as fire occurrence data, atmospheric transport modelling, or trajectory analysis [6].</p>
 </section>
 </section>
 <section id="take-home-messages">
-<span id="satellite-satellite-aerosol-properties-consistency-q02-section-4"></span><h3>Take-Home Messages<a class="headerlink" href="#take-home-messages" title="Link to this heading">#</a></h3>
+<span id="satellite-satellite-aerosol-properties-consistency-q02-section-5"></span><h3>Take-Home Messages<a class="headerlink" href="#take-home-messages" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>Periods of enhanced AOD identified in the SLSTR dataset occur during known wildfire seasons reported in the literature and by Copernicus Atmosphere Monitoring Service <a class="reference external" href="https://doi.org/10.1038/s41598-021-91547-y" rel="noreferrer" target="_blank">[5]</a>, <a class="reference external" href="https://atmosphere.copernicus.eu/wildfires-wreaked-havoc-2021-cams-tracked-their-impact" rel="noreferrer" target="_blank">[6]</a>. However, this comparison is qualitative, and a quantitative evaluation against independent datasets would be required to assess the accuracy of the retrieved AOD values.</p></li>
-<li><p>Detection of wildfire-related variability: The time series analysis shows increases in AOD during periods associated with major wildfire events (e.g. December 2019 in Australia and summer 2021 in Canada). These results indicate that the dataset captures temporal variability consistent with wildfire activity, although the magnitude of the signal has not been quantitatively validated <a class="reference external" href="https://atmosphere.copernicus.eu/wildfires-wreaked-havoc-2021-cams-tracked-their-impact" rel="noreferrer" target="_blank">[6]</a>.</p></li>
-<li><p>Impact of missing data: The analysis reveals the presence of spatial and temporal gaps in AOD observations, particularly in specific longitude ranges and during certain months. These gaps may affect the identification and full characterization of aerosol events, especially when they occur close to periods of missing data.</p></li>
-<li><p>Spatiotemporal variability: The maps and animations illustrate changes in AOD distribution over time, highlighting the evolution of aerosol loading during selected periods. However, the identification of transport pathways remains qualitative and would require additional analysis for confirmation <a class="reference external" href="https://atmosphere.copernicus.eu/wildfires-wreaked-havoc-2021-cams-tracked-their-impact" rel="noreferrer" target="_blank">[6]</a>.</p></li>
-<li><p>Scope and limitations of the analysis: This study provides a qualitative assessment of the SLSTR AOD dataset in capturing temporal and spatial variability associated with wildfire events. A more robust evaluation would require quantitative comparison with reference datasets (e.g. AERONET or other satellite products) and the use of statistical performance metrics.</p></li>
+<li><p>Consistency with literature: Periods of enhanced AOD identified in the SLSTR ENS v2.3 dataset coincide with major wildfire seasons reported in the literature and by Copernicus Atmosphere Monitoring Service <a class="reference external" href="https://doi.org/10.1038/s41598-021-91547-y" rel="noreferrer" target="_blank">[5]</a>, <a class="reference external" href="https://atmosphere.copernicus.eu/wildfires-wreaked-havoc-2021-cams-tracked-their-impact" rel="noreferrer" target="_blank">[6]</a>. A comparison with observations from the Tumbarumba AERONET station indicates that the dataset captures the timing of the Black Summer wildfire event, although the magnitude of extreme aerosol loading is underestimated relative to local observations.</p></li>
+<li><p>Detection of wildfire-related variability: The regional time series show pronounced increases in AOD during periods associated with major wildfire activity, including December 2019 in Australia and summer 2021 in Canada. These results indicate that the dataset captures temporal variability consistent with documented wildfire seasons, although a comprehensive quantitative validation was beyond the scope of this assessment.</p></li>
+<li><p>Impact of missing data: The analysis reveals the presence of spatial and temporal gaps in AOD observations, particularly at high latitudes and during specific periods. These gaps may affect the characterization of aerosol events, especially when they occur close to periods of missing observations, and should therefore be considered when interpreting the results.</p></li>
+<li><p>Spatial and spatiotemporal variability: Regional maps and longitude–time analyses reveal substantial spatial and temporal variability in AOD550. These visualizations help identify periods and regions of enhanced aerosol loading; however, attribution to specific transport pathways or wildfire smoke plumes would require additional evidence, such as atmospheric transport modelling or trajectory analysis.</p></li>
+<li><p>Scope and limitations of the assessment: This study provides a qualitative assessment of the ability of the SLSTR ENS v2.3 product to represent spatial and temporal variations in aerosol loading associated with major wildfire seasons. A more comprehensive evaluation would require systematic comparison with independent reference datasets (e.g. AERONET and other satellite products) and the use of quantitative performance metrics.</p></li>
 </ul>
 </section>
 </section>
@@ -1214,8 +1313,8 @@ Attributes: (12/18)
 <h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
 <p><a class="reference external" href="https://doi.org/10.3390/rs8050421" rel="noreferrer" target="_blank">[1]</a> Popp, T., et al. (2016). <em>Development, production and evaluation of aerosol climate data records from European satellite observations (Aerosol_cci)</em>. <em>Remote Sensing</em>, 8(5), 421.</p>
 <p><a class="reference external" href="https://doi.org/10.1038/s41612-018-0039-3" rel="noreferrer" target="_blank">[2]</a> Peterson, D. A., et al. (2018). <em>Wildfire-driven thunderstorms cause a volcano-like stratospheric injection of smoke</em>. <em>npj Climate and Atmospheric Science</em>, 1, 30.</p>
-<p><a class="reference external" href="https://doi.org/10.5194/amt-15-5289-2022" rel="noreferrer" target="_blank">[3]</a> Sogacheva, L., Denisselle, M., Kolmonen, P., Virtanen, T. H., &amp; Dransfeld, S. (2022). <em>Extended validation and evaluation of the OLCI–SLSTR Synergy aerosol product (SY_2_AOD) on Sentinel-3</em>. <em>Atmospheric Measurement Techniques</em>, 15, 5289–5315.</p>
-<p><a class="reference external" href="https://doi.org/10.5194/acp-23-10473-2023" rel="noreferrer" target="_blank">[4]</a> Garrigues, S., et al. (2023). <em>Impact of assimilating NOAA VIIRS aerosol optical depth in CAMS: comparison with MODIS and analysis performance</em>. <em>Atmospheric Chemistry and Physics</em>, 23, 10473–10494.</p>
+<p><a class="reference external" href="https://amt.copernicus.org/articles/15/5289/2022/" rel="noreferrer" target="_blank">[3]</a> Sogacheva, L., Denisselle, M., Kolmonen, P., Virtanen, T. H., &amp; Dransfeld, S. (2022). <em>Extended validation and evaluation of the OLCI–SLSTR Synergy aerosol product (SY_2_AOD) on Sentinel-3</em>. <em>Atmospheric Measurement Techniques</em>, 15, 5289–5315.</p>
+<p><a class="reference external" href="https://acp.copernicus.org/articles/23/10473/2023/" rel="noreferrer" target="_blank">[4]</a> Garrigues, S., et al. (2023). <em>Impact of assimilating NOAA VIIRS aerosol optical depth in CAMS: comparison with MODIS and analysis performance</em>. <em>Atmospheric Chemistry and Physics</em>, 23, 10473–10494.</p>
 <p><a class="reference external" href="https://doi.org/10.1038/s41598-021-91547-y" rel="noreferrer" target="_blank">[5]</a> Li, M., Shen, F., &amp; Sun, X. (2021). <em>2019–2020 Australian bushfire air particulate pollution and impact on the South Pacific Ocean</em>. <em>Scientific Reports</em>, 11, 12288.</p>
 <p><a class="reference external" href="https://atmosphere.copernicus.eu/wildfires-wreaked-havoc-2021-cams-tracked-their-impact" rel="noreferrer" target="_blank">[6]</a> Copernicus Atmosphere Monitoring Service (CAMS). (2021). <em>Wildfires wreaked havoc in 2021: CAMS tracked their impact</em>.</p>
 </section>
@@ -1293,22 +1392,25 @@ Attributes: (12/18)
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-the-data-to-use-and-set-up-the-code">Choose the data to use and set up the code</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-all-required-libraries">Import all required libraries</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-retrieval-and-preparation">Data Retrieval and Preparation</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-data-and-prepare-the-dataframe">Load the data and prepare the dataframe</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-the-required-python-packages">Import the required Python packages.</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#define-the-cds-dataset-request-and-load-the-monthly-aod550-fields">Define the CDS dataset request and load the monthly AOD550 fields.</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#spatial-and-temporal-definitions">Spatial and temporal definitions</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#study-regions-and-large-scale-aod-distribution">Study regions and large-scale AOD distribution</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#define-required-functions">Define required functions</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-and-describe-the-results">Plot and describe the results</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-time-series-for-canada-an-australia">Plot time series for Canada an Australia</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regional-time-series-analysis">Regional time-series analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-time-series-for-canada-and-australia">Plot time series for Canada and Australia</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#quantitative-comparison-of-aod-peaks-with-literature">Quantitative comparison of AOD peaks with literature</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#spatial-distribution-of-aod550-over-australia-and-canada">Spatial distribution of AOD550 over Australia and Canada</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#global-availability-of-aod550-observations-jan-jul-2021">Global availability of AOD550 observations (Jan-Jul 2021)</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#spatiotemporal-evolution-of-smoke-plumes">Spatiotemporal evolution of smoke-plumes</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spatial-analysis-of-wildfire-events">Spatial analysis of wildfire events</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-maps-of-aod550-during-selected-wildfire-episodes">Generate maps of AOD550 during selected wildfire episodes.</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spatiotemporal-variability-of-aod550">Spatiotemporal Variability of AOD550</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#longitudetime-evolution-of-aod550-40n90n">Longitude–Time Evolution of AOD550 (40°N–90°N)</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#take-home-messages">Take-Home Messages</a></li>
