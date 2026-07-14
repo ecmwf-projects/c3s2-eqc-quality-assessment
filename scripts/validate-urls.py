@@ -20,6 +20,7 @@ KNOWN_SSL_ISSUES = (
     "https://alt-perubolivia.org",
     "https://apps.climate.copernicus.eu",
     "https://pulse.climate.copernicus.eu",
+    "https://thermaltrace.climate.copernicus.eu",
     "https://web.unisa.it",
 )
 
