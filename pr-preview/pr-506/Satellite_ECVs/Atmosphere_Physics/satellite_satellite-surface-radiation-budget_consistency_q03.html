@@ -16,41 +16,44 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../../_static/togglebutton.js?v=1ae7504c"></script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -67,6 +70,7 @@
     <link rel="prev" title="1.1. Atmosphere Physics" href="Atmosphere_Physics.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -82,19 +86,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -102,7 +95,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -110,8 +102,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -130,7 +122,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -159,22 +152,18 @@
       
     
     
-    <img src="../../_static/C3S–POS–LINE.png" class="logo__image only-light" alt="eqcbook - Home"/>
-    <script>document.write(`<img src="../../_static/C3S–POS–LINE.png" class="logo__image only-dark" alt="eqcbook - Home"/>`);</script>
+    <img src="../../_static/C3S_POS_LINE.svg" class="logo__image only-light" alt="eqcbook - Home"/>
+    <img src="../../_static/C3S_POS_LINE.svg" class="logo__image only-dark pst-js-only" alt="eqcbook - Home"/>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -270,9 +259,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -402,7 +396,7 @@
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -416,25 +410,17 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
 </div></div>
@@ -488,7 +474,7 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <p><img alt="logo" src="../../_images/LogoLine_horizon_C3S1.png" /></p>
+  <p><img alt="logo" src="../../_images/logoline_c3s1.svg" /></p>
 <div class="alert alert-block alert-warning">
 Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
 </div><section class="tex2jax_ignore mathjax_ignore" id="surface-radiation-budget-s-surface-downwelling-shortwave-flux-intercomparison-for-solar-energy-applications">
@@ -673,6 +659,217 @@ The analysis and results are organised in the following steps, which are detaile
 </div>
 </div>
 </details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-07-15 06:51:54,994 INFO [2025-12-08T00:00:00] Extension of the SLSTR datasets (until December 2024) will be done via a new product version (v5), expected in Q1 2026.
+2026-07-15 06:51:54,996 INFO Request ID is 0c46e11c-d112-41f8-9ffd-0d77cea623c3
+2026-07-15 06:51:55,067 INFO status has been updated to accepted
+2026-07-15 06:52:10,557 INFO status has been updated to running
+2026-07-15 06:52:18,176 INFO status has been updated to successful
+2026-07-15 06:52:20,898 INFO [2025-12-08T00:00:00] Extension of the SLSTR datasets (until December 2024) will be done via a new product version (v5), expected in Q1 2026.
+2026-07-15 06:52:20,899 INFO Request ID is f3e16211-b370-428b-b23b-66e5e4c1e8db
+2026-07-15 06:52:20,948 INFO status has been updated to accepted
+2026-07-15 06:52:34,380 INFO status has been updated to running
+2026-07-15 06:52:53,685 INFO status has been updated to successful
+2026-07-15 06:52:55,726 INFO [2025-12-08T00:00:00] Extension of the SLSTR datasets (until December 2024) will be done via a new product version (v5), expected in Q1 2026.
+2026-07-15 06:52:55,727 INFO Request ID is 292495ae-5160-4f08-8f6b-7b32bd40a138
+2026-07-15 06:52:55,759 INFO status has been updated to accepted
+2026-07-15 06:53:29,392 INFO status has been updated to running
+2026-07-15 06:53:46,580 INFO status has been updated to successful
+2026-07-15 06:53:49,889 INFO [2025-12-08T00:00:00] Extension of the SLSTR datasets (until December 2024) will be done via a new product version (v5), expected in Q1 2026.
+2026-07-15 06:53:49,890 INFO Request ID is ebc74472-d05c-4da7-b398-72ead86ed58e
+2026-07-15 06:53:49,912 INFO status has been updated to accepted
+2026-07-15 06:54:22,607 INFO status has been updated to running
+2026-07-15 06:54:40,283 INFO status has been updated to successful
+2026-07-15 06:54:42,995 INFO [2025-12-08T00:00:00] Extension of the SLSTR datasets (until December 2024) will be done via a new product version (v5), expected in Q1 2026.
+2026-07-15 06:54:42,996 INFO Request ID is 8a8f2322-bdee-4561-bdf6-52f483233850
+2026-07-15 06:54:43,028 INFO status has been updated to accepted
+2026-07-15 06:55:04,766 INFO status has been updated to running
+2026-07-15 06:55:34,256 INFO status has been updated to successful
+2026-07-15 06:55:36,648 INFO [2025-12-08T00:00:00] Extension of the SLSTR datasets (until December 2024) will be done via a new product version (v5), expected in Q1 2026.
+2026-07-15 06:55:36,649 INFO Request ID is 812b3c1b-c848-4296-83c8-2174cc70baf0
+2026-07-15 06:55:36,667 INFO status has been updated to accepted
+2026-07-15 06:56:02,497 INFO status has been updated to running
+2026-07-15 06:56:13,969 INFO status has been updated to successful
+2026-07-15 06:56:17,424 INFO [2025-12-08T00:00:00] Extension of the SLSTR datasets (until December 2024) will be done via a new product version (v5), expected in Q1 2026.
+2026-07-15 06:56:17,426 INFO Request ID is 81d31f15-9a83-49ab-87b4-69946f1f4e58
+2026-07-15 06:56:17,461 INFO status has been updated to accepted
+2026-07-15 06:56:33,158 INFO status has been updated to running
+2026-07-15 06:56:52,362 INFO status has been updated to successful
+2026-07-15 06:57:00,623 INFO [2025-12-08T00:00:00] Extension of the SLSTR datasets (until December 2024) will be done via a new product version (v5), expected in Q1 2026.
+2026-07-15 06:57:00,624 INFO Request ID is 8cf3d79d-9df3-45e7-9332-4dac0cdadbaf
+2026-07-15 06:57:00,657 INFO status has been updated to accepted
+2026-07-15 06:57:23,726 INFO status has been updated to running
+2026-07-15 06:57:52,242 INFO status has been updated to successful
+2026-07-15 06:57:55,848 INFO [2025-12-08T00:00:00] Extension of the SLSTR datasets (until December 2024) will be done via a new product version (v5), expected in Q1 2026.
+2026-07-15 06:57:55,849 INFO Request ID is e14b8ecc-7199-4625-a924-2d244af64364
+2026-07-15 06:57:55,922 INFO status has been updated to accepted
+2026-07-15 06:58:09,430 INFO status has been updated to running
+2026-07-15 06:58:28,575 INFO status has been updated to successful
+2026-07-15 06:58:31,287 INFO [2025-12-08T00:00:00] Extension of the SLSTR datasets (until December 2024) will be done via a new product version (v5), expected in Q1 2026.
+2026-07-15 06:58:31,288 INFO Request ID is f167ba70-66e9-4831-9b85-4179a297c3c3
+2026-07-15 06:58:31,702 INFO status has been updated to accepted
+2026-07-15 06:58:54,156 INFO status has been updated to running
+2026-07-15 06:59:22,693 INFO status has been updated to successful
+2026-07-15 07:00:16,450 INFO Request ID is 9cefc19f-549c-4dea-a699-3c6e5ef7875b          
+2026-07-15 07:00:16,501 INFO status has been updated to accepted
+2026-07-15 07:00:39,409 INFO status has been updated to running
+2026-07-15 07:01:08,184 INFO status has been updated to successful
+2026-07-15 07:01:10,419 INFO Request ID is 7e17cf99-1fbd-40c2-81d8-a4fbd62b9bab           
+2026-07-15 07:01:10,494 INFO status has been updated to accepted
+2026-07-15 07:01:34,416 INFO status has been updated to running
+2026-07-15 07:01:45,829 INFO status has been updated to successful
+2026-07-15 07:01:48,819 INFO Request ID is c09ecc27-1c81-4523-8d17-9c805b70d664          
+2026-07-15 07:01:48,946 INFO status has been updated to accepted
+2026-07-15 07:02:24,081 INFO status has been updated to successful
+2026-07-15 07:02:25,131 INFO Request ID is 734a4996-0a56-4c75-98bd-c85bf6b51e4a           
+2026-07-15 07:02:25,210 INFO status has been updated to accepted
+2026-07-15 07:02:49,506 INFO status has been updated to running
+2026-07-15 07:03:01,060 INFO status has been updated to successful
+2026-07-15 07:03:02,230 INFO Request ID is b070c3ef-6531-4ec0-a59f-c8126fa3543e           
+2026-07-15 07:03:02,298 INFO status has been updated to accepted
+2026-07-15 07:03:15,701 INFO status has been updated to running
+2026-07-15 07:03:23,659 INFO status has been updated to successful
+2026-07-15 07:03:27,259 INFO Request ID is 5a51d14a-271a-4e23-92d8-56fb751823b1          
+2026-07-15 07:03:28,419 INFO status has been updated to accepted
+2026-07-15 07:03:50,244 INFO status has been updated to running
+2026-07-15 07:04:01,655 INFO status has been updated to successful
+2026-07-15 07:04:05,973 INFO Request ID is 4db43440-d5db-4d09-9ec6-709106f3a955          
+2026-07-15 07:04:06,251 INFO status has been updated to accepted
+2026-07-15 07:04:27,403 INFO status has been updated to running
+2026-07-15 07:04:39,367 INFO status has been updated to successful
+2026-07-15 07:04:42,245 INFO Request ID is 130852c2-36dd-41ef-a624-cf087b0e8c2b           
+2026-07-15 07:04:43,065 INFO status has been updated to accepted
+2026-07-15 07:05:05,518 INFO status has been updated to running
+2026-07-15 07:05:16,944 INFO status has been updated to successful
+2026-07-15 07:05:18,218 INFO Request ID is 30362160-fc3d-4dfd-8e1b-16d31295c6da           
+2026-07-15 07:05:18,240 INFO status has been updated to accepted
+2026-07-15 07:05:51,900 INFO status has been updated to running
+2026-07-15 07:07:13,218 INFO status has been updated to successful
+2026-07-15 07:07:14,631 INFO Request ID is 2b63093f-bc40-4a94-89ff-9fe33e631ce2           
+2026-07-15 07:07:14,692 INFO status has been updated to accepted
+2026-07-15 07:07:30,680 INFO status has been updated to running
+2026-07-15 07:07:49,891 INFO status has been updated to successful
+2026-07-15 07:07:52,322 INFO Request ID is d07d5027-3f5f-4680-a80c-2d387e9259b8           
+2026-07-15 07:07:53,615 INFO status has been updated to accepted
+2026-07-15 07:08:17,964 INFO status has been updated to running
+2026-07-15 07:08:31,556 INFO status has been updated to successful
+2026-07-15 07:08:34,659 INFO Request ID is 6ffc3352-ad24-4d08-9352-78c9c621f7f3           
+2026-07-15 07:08:34,685 INFO status has been updated to accepted
+2026-07-15 07:08:48,753 INFO status has been updated to running
+2026-07-15 07:08:56,375 INFO status has been updated to successful
+2026-07-15 07:08:58,826 INFO Request ID is c69293fd-a489-4108-a75b-8c51577129ad          
+2026-07-15 07:08:58,951 INFO status has been updated to accepted
+2026-07-15 07:10:53,048 INFO status has been updated to successful
+2026-07-15 07:10:54,032 INFO Request ID is e6d250b7-8094-46a4-a0ca-0e25c8a18be1           
+2026-07-15 07:10:54,071 INFO status has been updated to accepted
+2026-07-15 07:11:26,864 INFO status has been updated to successful
+2026-07-15 07:11:28,350 INFO Request ID is 2aafc288-d9c1-49e4-a019-328b6c03be26          
+2026-07-15 07:11:28,370 INFO status has been updated to accepted
+2026-07-15 07:11:41,789 INFO status has been updated to running
+2026-07-15 07:11:49,403 INFO status has been updated to successful
+2026-07-15 07:11:51,382 INFO Request ID is 02f1aa0a-0541-4b3b-8d5f-66873e1a3dd6          
+2026-07-15 07:11:51,398 INFO status has been updated to accepted
+2026-07-15 07:12:04,933 INFO status has been updated to running
+2026-07-15 07:12:12,601 INFO status has been updated to successful
+2026-07-15 07:12:14,076 INFO Request ID is 5f906944-d310-4af6-812f-2893bc6974a9          
+2026-07-15 07:12:14,099 INFO status has been updated to accepted
+2026-07-15 07:12:27,995 INFO status has been updated to running
+2026-07-15 07:12:47,138 INFO status has been updated to successful
+2026-07-15 07:12:53,637 INFO Request ID is 072b3e05-5cac-4114-87fc-d159b37704ea           
+2026-07-15 07:12:53,934 INFO status has been updated to accepted
+2026-07-15 07:13:08,587 INFO status has been updated to successful
+2026-07-15 07:13:09,651 INFO Request ID is 336f1637-5029-4d35-b995-690f1d2bcce2  
+2026-07-15 07:13:09,752 INFO status has been updated to accepted
+2026-07-15 07:13:32,215 INFO status has been updated to running
+2026-07-15 07:13:43,645 INFO status has been updated to successful
+2026-07-15 07:13:44,450 INFO Request ID is b659afa4-90da-4e2b-a34d-8f596285669b           
+2026-07-15 07:13:45,812 INFO status has been updated to accepted
+2026-07-15 07:14:09,303 INFO status has been updated to successful
+2026-07-15 07:14:11,598 INFO Request ID is 2fcb9427-9db8-41b7-9198-bc34a90d459e  
+2026-07-15 07:14:11,638 INFO status has been updated to accepted
+2026-07-15 07:14:33,868 INFO status has been updated to successful
+2026-07-15 07:14:36,531 INFO Request ID is fb56dec9-ef9c-4bc8-9632-02a2e52cd669           
+2026-07-15 07:14:36,556 INFO status has been updated to accepted
+2026-07-15 07:14:57,625 INFO status has been updated to successful
+2026-07-15 07:14:59,116 INFO Request ID is a32876bf-ed0c-434d-80b5-df9cf52c5c8e           
+2026-07-15 07:14:59,134 INFO status has been updated to accepted
+2026-07-15 07:15:33,783 INFO status has been updated to successful
+2026-07-15 07:15:36,048 INFO Request ID is 7fa4e4ab-fbb0-4347-adb7-e20a1662bd02           
+2026-07-15 07:15:42,560 INFO status has been updated to accepted
+2026-07-15 07:15:55,907 INFO status has been updated to running
+2026-07-15 07:16:03,535 INFO status has been updated to successful
+2026-07-15 07:16:04,409 INFO Request ID is abd059bf-ec44-434b-87fe-3425a048d449          
+2026-07-15 07:16:04,471 INFO status has been updated to accepted
+2026-07-15 07:16:25,067 INFO status has been updated to running
+2026-07-15 07:16:34,243 INFO status has been updated to successful
+2026-07-15 07:16:37,021 INFO Request ID is 6f481830-1b7b-44b6-b0a7-7329a10c0c58           
+2026-07-15 07:16:37,055 INFO status has been updated to accepted
+2026-07-15 07:16:50,662 INFO status has been updated to running
+2026-07-15 07:17:10,372 INFO status has been updated to successful
+2026-07-15 07:17:15,795 INFO Request ID is 98335a93-5eb7-44ad-bee3-d7d39a773b29           
+2026-07-15 07:17:15,853 INFO status has been updated to accepted
+2026-07-15 07:17:37,168 INFO status has been updated to running
+2026-07-15 07:17:48,606 INFO status has been updated to successful
+2026-07-15 07:17:49,856 INFO Request ID is c066c100-70d2-4c4e-9d98-2291be545f1c           
+2026-07-15 07:17:49,872 INFO status has been updated to accepted
+2026-07-15 07:18:24,964 INFO status has been updated to successful
+2026-07-15 07:18:25,882 INFO Request ID is 01b6fa61-cfae-43bd-b1dc-32bf830a99b0           
+2026-07-15 07:18:26,048 INFO status has been updated to accepted
+2026-07-15 07:18:41,518 INFO status has been updated to running
+2026-07-15 07:19:18,211 INFO status has been updated to successful
+2026-07-15 07:19:21,282 INFO Request ID is 869bad88-165f-491e-9f3c-ee81b6d7dbb3           
+2026-07-15 07:19:21,341 INFO status has been updated to accepted
+2026-07-15 07:19:38,978 INFO status has been updated to running
+2026-07-15 07:19:49,311 INFO status has been updated to successful
+2026-07-15 07:19:51,791 INFO Request ID is dbc43746-ab36-4941-ba67-ea092601a7f9           
+2026-07-15 07:19:51,827 INFO status has been updated to accepted
+2026-07-15 07:20:08,080 INFO status has been updated to running
+2026-07-15 07:20:15,701 INFO status has been updated to successful
+2026-07-15 07:20:16,738 INFO Request ID is b275719d-3697-493d-a201-a3984b6beaba           
+2026-07-15 07:20:18,657 INFO status has been updated to accepted
+2026-07-15 07:20:40,280 INFO status has been updated to running
+2026-07-15 07:20:51,707 INFO status has been updated to successful
+2026-07-15 07:20:55,051 INFO Request ID is 659f2d25-8c52-4c74-8a2d-5f6879007331           
+2026-07-15 07:20:55,170 INFO status has been updated to accepted
+2026-07-15 07:21:27,662 INFO status has been updated to successful
+2026-07-15 07:21:28,813 INFO Request ID is 16cb124c-a482-4e27-923f-f16c7a3e10dc          
+2026-07-15 07:21:28,930 INFO status has been updated to accepted
+2026-07-15 07:21:51,136 INFO status has been updated to successful
+2026-07-15 07:21:52,071 INFO Request ID is eb4c9e33-8600-4d32-bea7-77029502a8ac          
+2026-07-15 07:21:52,122 INFO status has been updated to accepted
+2026-07-15 07:22:13,542 INFO status has been updated to running
+2026-07-15 07:22:25,108 INFO status has been updated to successful
+2026-07-15 07:22:26,901 INFO Request ID is 75ac7471-7c15-4afb-83db-79bcf244f904           
+2026-07-15 07:22:27,052 INFO status has been updated to accepted
+2026-07-15 07:22:49,175 INFO status has been updated to successful
+2026-07-15 07:22:50,275 INFO Request ID is b0c3a7e7-6c99-4f98-a40c-237ddbb87763           
+2026-07-15 07:22:50,292 INFO status has been updated to accepted
+2026-07-15 07:23:11,840 INFO status has been updated to running
+2026-07-15 07:23:25,988 INFO status has been updated to successful
+2026-07-15 07:23:26,828 INFO Request ID is 8c95c6c7-d926-4c60-8c7f-3370427f57a2          
+2026-07-15 07:23:26,895 INFO status has been updated to accepted
+2026-07-15 07:24:18,674 INFO status has been updated to running
+2026-07-15 07:24:44,351 INFO status has been updated to successful
+2026-07-15 07:24:45,307 INFO Request ID is c17d84de-662a-4370-bbca-73b695c8c60f          
+2026-07-15 07:24:45,472 INFO status has been updated to accepted
+2026-07-15 07:25:08,030 INFO status has been updated to running
+2026-07-15 07:25:19,449 INFO status has been updated to successful
+2026-07-15 07:25:20,297 INFO Request ID is c72274b3-e5cd-41b8-9ccf-35c5ad4e5a6c           
+2026-07-15 07:25:20,315 INFO status has been updated to accepted
+2026-07-15 07:25:34,324 INFO status has been updated to running
+2026-07-15 07:25:41,944 INFO status has been updated to successful
+2026-07-15 07:25:43,707 INFO Request ID is 0c1c12b2-d556-45f0-be6a-2ec54c0f13c9          
+2026-07-15 07:25:43,853 INFO status has been updated to accepted
+2026-07-15 07:25:58,712 INFO status has been updated to running
+2026-07-15 07:26:06,381 INFO status has been updated to successful
+2026-07-15 07:26:07,104 INFO Request ID is 5b943076-33e3-4177-8bda-369019613ce2          
+2026-07-15 07:26:07,127 INFO status has been updated to accepted
+2026-07-15 07:26:28,119 INFO status has been updated to running
+2026-07-15 07:26:39,540 INFO status has been updated to successful
+                                                                                          
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
@@ -888,7 +1085,7 @@ The analysis and results are organised in the following steps, which are detaile
 </section>
 <section id="spatial-weighted-time-series">
 <span id="satellite-satellite-surface-radiation-budget-consistency-q03-plot-spatial-weighted-time-series"></span><h3>3. Spatial weighted time series<a class="headerlink" href="#spatial-weighted-time-series" title="Link to this heading">#</a></h3>
-<p>The analysis shifts to temporal consistency by aggregating the data over the three defined global regions. For each domain (Global, Northern Hemisphere, and Southern Hemisphere), three key plots are generated. The monthly mean climatology plot averages the time series by month to reveal the characteristic annual cycle and effectively quantify any seasonal differences or systematic offsets between CLARA-A3 and ERA5, which are further investigated through the calculation of the climatological bias and Root Mean Square Error (RMSE).</p>
+<p>The analysis shifts to temporal consistency by aggregating the data over the three defined global regions. For each domain (Global, Northern Hemisphere, and Southern Hemisphere), three key plots are generated. The monthly mean climatology plot averages the time series by month to reveal the characteristic annual cycle and effectively quantify any seasonal differences or systematic offsets between CLARA-A3 and ERA5, which are further investigated through the calculation of the climatological bias and the unbiased Root Mean Square Error (uRMSE).</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -970,7 +1167,7 @@ Next, the code plots the resulting monthly climatological bias. A multi panel fi
 In the Northern Hemisphere, the pattern is similar to the global curve but more pronounced: i) in winter (Jan–Feb) CLARA-A3 is <span class="math notranslate nohighlight">\(\sim 2.5 W\, m^{-2}\)</span> lower than ERA5; ii) in summer (Jun–Jul), CLARA-A3 exceeds ERA5 by up to <span class="math notranslate nohighlight">\(\sim +4 W\, m^{-2}\)</span>.
 In the Southern Hemisphere, i) in the Austral summer (Dec–Jan), CLARA-A3 is <span class="math notranslate nohighlight">\(\sim 12–15 W\, m^{-2}\)</span> lower than ERA5; ii) in Austral winter (Jun–Jul), the bias is slightly positive.
 Overall, the bias is seasonally dependent and hemisphere-specific, not constant throughout the year.</p>
-<p>The code below calculates the monthly climatological Root Mean Square Error (RMSE) between the CLARA A3 and ERA5 shortwave flux datasets and then visualizes the result. Next, the code plots the resulting monthly RMSE. A multi panel figure is generated, with a separate plot for each geographic region. The three panels display the monthly Root Mean Square Error (RMSE) between CLARA-A3 and ERA5 for global, Northern Hemisphere, and Southern Hemisphere averages over 1979–2020.</p>
+<p>The code below calculates the monthly climatological unbiased Root Mean Square Error (uRMSE) between the CLARA A3 and ERA5 shortwave flux datasets and then visualizes the result. Next, the code plots the resulting monthly uRMSE. A multi panel figure is generated, with a separate plot for each geographic region. The three panels display the monthly Root Mean Square Error (uRMSE) between CLARA-A3 and ERA5 for global, Northern Hemisphere, and Southern Hemisphere averages over 1979–2020.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -991,19 +1188,19 @@ Overall, the bias is seasonally dependent and hemisphere-specific, not constant 
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clim_rmse</span> <span class="o">=</span> <span class="n">monthly_clim_rmse</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">col</span><span class="o">=</span><span class="s1">&#39;region&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markeredgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Bias (CLARA-A3 - ERA5)&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clim_rmse</span> <span class="o">=</span> <span class="n">monthly_clim_rmse</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">col</span><span class="o">=</span><span class="s1">&#39;region&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markeredgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;uRMSE (CLARA-A3 - ERA5)&#39;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">clim_rmse</span><span class="o">.</span><span class="n">axs</span><span class="o">.</span><span class="n">flatten</span><span class="p">():</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">])</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="s1">&#39;Jan&#39;</span><span class="p">,</span> <span class="s1">&#39;Feb&#39;</span><span class="p">,</span> <span class="s1">&#39;Mar&#39;</span><span class="p">,</span> <span class="s1">&#39;Apr&#39;</span><span class="p">,</span> <span class="s1">&#39;May&#39;</span><span class="p">,</span> <span class="s1">&#39;Jun&#39;</span><span class="p">,</span> <span class="s1">&#39;Jul&#39;</span><span class="p">,</span> <span class="s1">&#39;Aug&#39;</span><span class="p">,</span> <span class="s1">&#39;Sep&#39;</span><span class="p">,</span> <span class="s1">&#39;Oct&#39;</span><span class="p">,</span> <span class="s1">&#39;Nov&#39;</span><span class="p">,</span> <span class="s1">&#39;Dec&#39;</span><span class="p">])</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;RMSE [W m-2]&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;uRMSE [W m-2]&#39;</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/e054485272a419143a0380fa9a577a3a96740ded5bd41b515c6ed075b0f8036f.png" src="../../_images/e054485272a419143a0380fa9a577a3a96740ded5bd41b515c6ed075b0f8036f.png" />
+<img alt="../../_images/a9f25d48541e30f680fef431de9a59017eaa2cbedf48c7cf2b65f8ce9004e826.png" src="../../_images/a9f25d48541e30f680fef431de9a59017eaa2cbedf48c7cf2b65f8ce9004e826.png" />
 </div>
 </div>
 <p>The most evident feature is the pronounced “U-shape” in the Southern Hemisphere plot. The error does not remain constant but scales drastically with the solar cycle, peaking at <span class="math notranslate nohighlight">\(\sim 8.5 W\, m^{-2}\)</span> during the austral summer (December–January) and dropping to <span class="math notranslate nohighlight">\(\sim 2.2 W\, m^{-2}\)</span> in the austral winter (June).
@@ -1056,8 +1253,8 @@ The Northern Hemisphere shows a much flatter and lower error profile, fluctuatin
 <img alt="../../_images/4254d15b78e6037901a71b829e3e7084189a6d7ba66275f669624dcb4875b84a.png" src="../../_images/4254d15b78e6037901a71b829e3e7084189a6d7ba66275f669624dcb4875b84a.png" />
 </div>
 </div>
-<p>Both datasets exhibit similar spatial patterns, with maximum values over the subtropical oceans and continental low-latitude regions, and minima near the poles. The Intertropical Convergence Zone (ITCZ) appears as a pronounced high-radiation band across the equator in both products. Differences are subtle but visible: ERA5 tends to show slightly higher fluxes over tropical land areas and in the Southern Hemisphere (Antarctica), compared to CLARA-A3. Overall, the spatial agreement is strong, confirming that both datasets capture the global radiation climatology well, with minor systematic differences likely linked to clouds, which are probably too few in ERA5 (<a class="reference external" href="https://doi.org/10.1007/s00382-024-07182-6" rel="noreferrer" target="_blank">[3]</a>).</p>
-<p>This code performs a multi-step analysis in order to compare the CLARA-A3 Surface Incoming Shortwave product with the ERA5 Shortwave Radiation Flux data over the period 1979–2020: masking CLARA-A3, calculating the mean bias and the  Root Mean Square Error (RMSE), and generating a geographical map each.</p>
+<p>Both datasets exhibit similar spatial patterns, with maximum values over the subtropical oceans and continental low-latitude regions, and minima near the poles. The Intertropical Convergence Zone (ITCZ) appears as a pronounced low-radiation band across the equator in both products. Differences are subtle but visible: ERA5 tends to show slightly higher fluxes over tropical land areas and in the Southern Hemisphere (Antarctica), compared to CLARA-A3. Overall, the spatial agreement is strong, confirming that both datasets capture the global radiation climatology well, with minor systematic differences likely linked to clouds, which are probably too few in ERA5 (<a class="reference external" href="https://doi.org/10.1007/s00382-024-07182-6" rel="noreferrer" target="_blank">[3]</a>).</p>
+<p>This code performs a multi-step analysis in order to compare the CLARA-A3 Surface Incoming Shortwave product with the ERA5 Shortwave Radiation Flux data over the period 1979–2020: masking CLARA-A3, calculating the mean bias and the  unbiased Root Mean Square Error (uRMSE), and generating a geographical map each.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1108,7 +1305,7 @@ The Northern Hemisphere shows a much flatter and lower error profile, fluctuatin
 <img alt="../../_images/5eb035cba46f19fee7394cb5ab7bb6823a0524b7e78b75531bed36b3314d8e61.png" src="../../_images/5eb035cba46f19fee7394cb5ab7bb6823a0524b7e78b75531bed36b3314d8e61.png" />
 </div>
 </div>
-<p>A strong, consistent negative bias (blue) dominates the entire Southern Ocean and Antarctica. This means the CLARA-A3 product is consistently lower than the ERA5 product. Particularly, ERA5 has higher insolation over China and the Tibetan Plateau area, which can be addressed to the underestimation of the cloud cover (see <a class="reference external" href="https://doi.org/10.1155/adme/5002403" rel="noreferrer" target="_blank">[4]</a>).</p>
+<p>A strong, consistent negative bias (blue) dominates the entire Southern Ocean and Antarctica. This means the CLARA-A3 product is consistently lower than the ERA5 product. Particularly, ERA5 has higher insolation over China and the Tibetan Plateau area, which can be addressed to the underestimation of the cloud cover (see <a class="reference external" href="https://doi.org/10.1155/adme/5002403" rel="noreferrer" target="_blank">[4]</a>). Also, aerosols may introduce some difference in the products as well: over west Africa, ERA5 values are higher than CLARA-A3 observations, suggesting that in ERA5 the aerosol effect is underestimated in dusty areas, which therefore do not reflect enough radiation back to space as the observations do <a class="reference external" href="https://doi.org/10.5194/acp-25-997-2025" rel="noreferrer" target="_blank">[11]</a>.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1129,19 +1326,19 @@ The Northern Hemisphere shows a much flatter and lower error profile, fluctuatin
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p3</span> <span class="o">=</span> <span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span><span class="n">time_rmse</span><span class="p">,</span> <span class="n">show_stats</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;BuGn&#39;</span><span class="p">,</span> <span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;shrink&#39;</span><span class="p">:</span><span class="mf">0.6</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;RMSE [W m-2]&#39;</span><span class="p">},</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
-<span class="n">p3</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Time RMSE (CLARA-A3 - ERA5) </span><span class="si">{</span><span class="n">times</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="si">}</span><span class="s1">-</span><span class="si">{</span><span class="n">times</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p3</span> <span class="o">=</span> <span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span><span class="n">time_rmse</span><span class="p">,</span> <span class="n">show_stats</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;BuGn&#39;</span><span class="p">,</span> <span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;shrink&#39;</span><span class="p">:</span><span class="mf">0.6</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;uRMSE [W m-2]&#39;</span><span class="p">},</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="n">p3</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Time uRMSE (CLARA-A3 - ERA5) </span><span class="si">{</span><span class="n">times</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="si">}</span><span class="s1">-</span><span class="si">{</span><span class="n">times</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 <span class="n">p3</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../../_images/6950a9d1e3b92f052e8f84eaeb5a4d2348f33e36b8c0c279973dc7e4d671bcc0.png" src="../../_images/6950a9d1e3b92f052e8f84eaeb5a4d2348f33e36b8c0c279973dc7e4d671bcc0.png" />
+<img alt="../../_images/b7a09c286be3656789a11d7df78c7a6deea9ad39b942e1f7c261455aa53d31da.png" src="../../_images/b7a09c286be3656789a11d7df78c7a6deea9ad39b942e1f7c261455aa53d31da.png" />
 </div>
 </div>
-<p>RMSE measures the magnitude of the typical difference or variability over time, with higher values indicating greater time-varying differences between the two products.
-The most apparent pattern is the RMSE significantly higher in the polar and high latitude regions, especially over the Southern Ocean and Antarctica, compared to the generally lower values seen over the tropics and mid-latitudes. This indicates the two datasets have the greatest temporal disagreement and variability in their differences near the poles.</p>
+<p>uRMSE measures the magnitude of the typical difference or variability over time, with higher values indicating greater time-varying differences between the two products.
+The most apparent pattern is the RMSE significantly higher in the polar and high latitude regions, especially over the Southern Ocean, Antarctica and over subtropical stratocumulus areas, particularly the North East Pacific (off California), the South East Pacific (off Peru/Chile) and the South East Atlantic (off Namibia), compared to the generally lower values seen over the tropics and other mid-latitudes areas. This indicates the two datasets have the greatest temporal disagreement and variability in their differences near the poles.</p>
 </section>
 <section id="spatially-weighted-zonal-mean-profiles">
 <span id="satellite-satellite-surface-radiation-budget-consistency-q03-plot-spatial-weighted-zonal-means"></span><h3>5. Spatially weighted zonal mean profiles<a class="headerlink" href="#spatially-weighted-zonal-mean-profiles" title="Link to this heading">#</a></h3>
@@ -1210,6 +1407,7 @@ The most apparent pattern is the RMSE significantly higher in the polar and high
 <p><a class="reference external" href="https://doi.org/10.5194/esd-16-1169-2025" rel="noreferrer" target="_blank">[8]</a> Devasthale, A., Andersson, S., Engström, E., Kaspar, F., Trentmann, J., Duguay-Tetzlaff, A., Meirink, J. F., Kjellström, E., Landelius, T., Thomas, M. A., and Karlsson, K.-G.: Leveraging the satellite-based climate data record CLARA-A3 to understand the climatic trend regimes relevant for solar energy applications over Europe, Earth Syst. Dynam., 16, 1169–1182, 2025. <a class="reference external" href="https://doi.org/10.5194/esd-16-1169-2025" rel="noreferrer" target="_blank">https://doi.org/10.5194/esd-16-1169-2025</a></p>
 <p><a class="reference external" href="https://doi.org/10.1016/j.rse.2024.114472" rel="noreferrer" target="_blank">[9]</a> Urraca, R., Trentmann, J., Pfeifroth, U., &amp; Gobron, N. (2024). Can satellite products monitor solar brightening in Europe?. Remote Sensing of Environment, 315, 114472. <a class="reference external" href="https://doi.org/10.1016/j.rse.2024.114472" rel="noreferrer" target="_blank">https://doi.org/10.1016/j.rse.2024.114472</a></p>
 <p><a class="reference external" href="https://doi.org/10.1109/JSTARS.2023.3346032" rel="noreferrer" target="_blank">[10]</a> Tian, Q., Zhang, S., Duan, W., &amp; Ming, G. (2023). Evaluation of downward shortwave radiation products over the Loess Plateau. IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing, 17, 3167-3180. <a class="reference external" href="https://doi.org/10.1109/JSTARS.2023.3346032" rel="noreferrer" target="_blank">https://doi.org/10.1109/JSTARS.2023.3346032</a></p>
+<p><a class="reference external" href="https://doi.org/10.5194/acp-25-997-2025" rel="noreferrer" target="_blank">[11]</a> Clauzel, L., Anquetin, S., Lavaysse, C., Bergametti, G., Bouet, C., Siour, G., … &amp; Thomas, J. (2025). Solar radiation estimation in West Africa: impact of dust conditions during the 2021 dry season. Atmospheric Chemistry and Physics, 25(2), 997-1021. <a class="reference external" href="https://doi.org/10.5194/acp-25-997-2025" rel="noreferrer" target="_blank">https://doi.org/10.5194/acp-25-997-2025</a></p>
 </section>
 </section>
 </section>
@@ -1269,14 +1467,16 @@ The most apparent pattern is the RMSE significantly higher in the polar and high
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
   </div>
-  <nav class="bd-toc-nav page-toc">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-use-of-satellite-radiation-data-in-the-solar-energy-sector">🌍 Use case: Use of satellite radiation data in the solar energy sector</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question-s">❓ Quality assessment question(s)</a></li>
@@ -1346,8 +1546,8 @@ By the Copernicus Climate Change Service (C3S), entrusted to ECMWF (European Cen
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>
