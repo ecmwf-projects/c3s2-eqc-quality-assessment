@@ -5,12 +5,12 @@ import nbformat
 
 
 def is_stderr(output: nbformat.notebooknode.NotebookNode) -> bool:
-    """ Check if an output is an stderr. """
-    return (output.output_type == "stream" and output.name == "stderr")
+    """Check if an output is an stderr."""
+    return output.output_type == "stream" and output.name == "stderr"
 
 
 def remove_stderr(notebook: nbformat.notebooknode.NotebookNode) -> None:
-    """ Go through all cells in a notebook and, where relevant, remove stderr outputs. Edits the notebook in-place. """
+    """Go through all cells in a notebook and remove stderr outputs in-place."""
     for cell in notebook.cells:
         # Skip markdown cells
         if cell["cell_type"] != "code":
@@ -21,7 +21,7 @@ def remove_stderr(notebook: nbformat.notebooknode.NotebookNode) -> None:
 
 
 def remove_stderr_file(path: Path | str) -> None:
-    """ Open a file, remove stderr outputs, overwrite original. """
+    """Open a file, remove stderr outputs, overwrite original."""
     # Read file
     notebook = nbformat.read(path, nbformat.NO_CONVERT)
 
@@ -33,7 +33,7 @@ def remove_stderr_file(path: Path | str) -> None:
 
 
 def main(paths: list[Path]) -> None:
-    """ Apply remove_stderr_file to all files. """
+    """Apply remove_stderr_file to all files."""
     for path in paths:
         remove_stderr_file(path)
 
