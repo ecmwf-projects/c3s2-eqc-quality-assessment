@@ -76,8 +76,14 @@ def validate_urls(path: Path, *, verbose: bool = False) -> None:
                 response.raise_for_status()
 
             except requests.exceptions.SSLError as exc:
+                if verbose:
+                    print("    ->", "SSLError")
+
                 if not url.startswith(KNOWN_SSL_ISSUES):
                     exceptions[url] = exc
+                else:
+                    if verbose:
+                        print("    ->", "Known SSL issue, allowing exception.")
 
             except Exception as exc:
                 exceptions[url] = exc
