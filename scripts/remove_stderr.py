@@ -4,12 +4,12 @@ from pathlib import Path
 import nbformat
 
 
-def is_stderr(output: nbformat.notebooknode.NotebookNode) -> bool:
+def is_stderr(output: nbformat.NotebookNode) -> bool:
     """Check if an output is an stderr."""
     return output.output_type == "stream" and output.name == "stderr"
 
 
-def remove_stderr(notebook: nbformat.notebooknode.NotebookNode) -> None:
+def remove_stderr(notebook: nbformat.NotebookNode) -> None:
     """Go through all cells in a notebook and remove stderr outputs in-place."""
     for cell in notebook.cells:
         # Skip markdown cells
