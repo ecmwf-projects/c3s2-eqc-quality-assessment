@@ -29,6 +29,7 @@ KNOWN_403_ISSUES = (
     "https://web.unisa.it",
 )
 
+ARROW = "    ->"
 CROSSREF_URL = "https://api.crossref.org/works/"
 URL_PATTERN = r"https?://(?:[^\s()]+|\([^\s()]*\))+"  # Allow pairs of brackets in link
 
@@ -46,55 +47,77 @@ def find_urls(notebook: nbformat.NotebookNode) -> list[str]:
     return sorted(unique_urls)
 
 
+def validate_url(url: str, *, verbose: bool = False) -> Exception | None:
+    """Validate a single URL, checking for HTTP status and SSL errors."""
+    result: Exception | requests.exceptions.SSLError | None
+    if verbose:
+        url_orig = url  # Copy so can be reused later
+        print(url)
+
+    url = url.replace("https://doi.org/", CROSSREF_URL)
+    if verbose:
+        if url != url_orig:  # If url has been changed
+            print(ARROW, url)
+
+    try:
+        response = requests.head(url, allow_redirects=True)
+        match response.status_code:
+            case 403:
+                response = requests.head(
+                    url,
+                    allow_redirects=True,
+                    headers={"User-Agent": USER_AGENT},
+                )
+            case 404 | 405:
+                if url.startswith(CROSSREF_URL):
+                    url = url.rstrip("/") + "/agency"
+                response = requests.get(url, allow_redirects=True)
+
+        if verbose:
+            print(ARROW, response.status_code)
+
+        if response.status_code == 429 or (
+            response.status_code == 403 and url.startswith(KNOWN_403_ISSUES)
+        ):
+            if verbose:
+                print(
+                    ARROW,
+                    "Too many requests (429) or known forbidden (403) page, allowing exception.",
+                )
+
+        # Raise Exception corresponding to HTTP status
+        response.raise_for_status()
+
+    except requests.exceptions.SSLError as exc:
+        result = exc
+        if verbose:
+            print(ARROW, "SSLError")
+
+        if url.startswith(KNOWN_SSL_ISSUES):
+            result = None
+            if verbose:
+                print(ARROW, "Known SSL issue, allowing exception.")
+
+    except Exception as exc:
+        result = exc
+        if verbose:
+            print(ARROW, exc)
+
+    else:
+        result = None
+
+    finally:
+        return result
+
+
 def validate_urls(path: Path, *, verbose: bool = False) -> None:
     notebook = nbformat.read(path, nbformat.NO_CONVERT)
 
-    exceptions: dict[str, Exception] = {}
-    for url in find_urls(notebook):
-        if verbose:
-            url_orig = url  # Copy so can be reused later
-            print(url)
-
-        url = url.replace("https://doi.org/", CROSSREF_URL)
-        if verbose:
-            if url != url_orig:  # If url has been changed
-                print("    ->", url)
-
-        try:
-            response = requests.head(url, allow_redirects=True)
-            match response.status_code:
-                case 403:
-                    response = requests.head(
-                        url,
-                        allow_redirects=True,
-                        headers={"User-Agent": USER_AGENT},
-                    )
-                case 404 | 405:
-                    if url.startswith(CROSSREF_URL):
-                        url = url.rstrip("/") + "/agency"
-                    response = requests.get(url, allow_redirects=True)
-
-            if verbose:
-                print("    ->", response.status_code)
-
-            if response.status_code == 429 or (
-                response.status_code == 403 and url.startswith(KNOWN_403_ISSUES)
-            ):
-                continue
-            response.raise_for_status()
-
-        except requests.exceptions.SSLError as exc:
-            if verbose:
-                print("    ->", "SSLError")
-
-            if not url.startswith(KNOWN_SSL_ISSUES):
-                exceptions[url] = exc
-            else:
-                if verbose:
-                    print("    ->", "Known SSL issue, allowing exception.")
-
-        except Exception as exc:
-            exceptions[url] = exc
+    # Process all unique URLs, remove Nones
+    exceptions = {
+        url: validate_url(url, verbose=verbose) for url in find_urls(notebook)
+    }
+    exceptions = {url: exc for url, exc in exceptions.items() if exc}
 
     if exceptions:
         raise RuntimeError(
