@@ -110,32 +110,49 @@ def validate_url(url: str, *, verbose: bool = False) -> Exception | None:
         return result
 
 
-def validate_urls(path: Path, *, verbose: bool = False) -> None:
-    notebook = nbformat.read(path, nbformat.NO_CONVERT)
+def main(paths: list[Path], verbose: bool = False) -> None:
+    # Setup
+    if verbose:
+        print("Testing notebooks:")
+        print("\n".join(f"    {path}" for path in paths))
 
-    # Process all unique URLs, remove Nones
-    exceptions = {
-        url: validate_url(url, verbose=verbose) for url in find_urls(notebook)
+    # Find all unique URLs in all notebooks
+    urls_by_notebook = {
+        path: find_urls(nbformat.read(path, nbformat.NO_CONVERT)) for path in paths
     }
-    exceptions = {url: exc for url, exc in exceptions.items() if exc}
-
-    if exceptions:
-        raise RuntimeError(
-            "\n\n".join(
-                [f"Invalid URLs in {path=!s}"]
-                + [f"{url=}\n{exc!s}" for url, exc in exceptions.items()]
-            )
+    unique_urls = sorted(
+        {url for path, url_list in urls_by_notebook.items() for url in url_list}
+    )
+    notebooks_by_url = {
+        url: sorted(
+            path for path, url_list in urls_by_notebook.items() if url in url_list
         )
+        for url in unique_urls
+    }
+
+    # Check each unique URL
+    url_checks = {url: validate_url(url, verbose=verbose) for url in unique_urls}
+
+    # Output: Raise error describing failing URLs
+    url_has_errors = {
+        url: check for url, check in url_checks.items() if check is not None
+    }
+
+    if url_has_errors:
+        raise RuntimeError(
+            "\n\n"
+            + "\n\n".join(
+                "\n".join(
+                    [f"Failing URL: {url}", "  Occurring in notebooks:"]
+                    + [f"    {path}" for path in notebooks_by_url[url]]
+                    + ["  Error:", f"    {exc!s}"]
+                )
+                for url, exc in url_has_errors.items()
+            )
+        ) from None
     else:  # No exceptions
         if verbose:
-            print("--- No errors found ✓ ---")
-
-
-def main(paths: list[Path], verbose: bool = False) -> None:
-    for path in paths:
-        if verbose:
-            print("\n---", path, "---")
-        validate_urls(path, verbose=verbose)
+            print("--- All URLs pass ✓ ---")
 
 
 if __name__ == "__main__":
