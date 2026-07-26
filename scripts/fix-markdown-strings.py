@@ -42,6 +42,7 @@ STRING_MAPPER = {
     "/rmets.onlinelibrary.wiley.com/doi/": "/doi.org/",
     "/dx.doi.org/": "/doi.org/",
     "/link.springer.com/article/": "/doi.org/",
+    "/link.springer.com/book/": "/doi.org/",
     "/iopscience.iop.org/article/": "/doi.org/",
     "www.science.org/doi/": "doi.org/",
     "www.nature.com/articles/": "doi.org/10.1038/",

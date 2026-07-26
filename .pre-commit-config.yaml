@@ -29,7 +29,7 @@ repos:
 - repo: local
   hooks:
   - id: fix-markdown-strings
-    name: fix-markdown-strings
+    name: fix markdown strings
     entry: python scripts/fix-markdown-strings.py
     language: python
     types: [jupyter]
@@ -37,7 +37,7 @@ repos:
 - repo: local
   hooks:
   - id: validate-headings
-    name: validate-headings
+    name: validate headings
     entry: python scripts/validate-headings.py
     language: python
     types: [jupyter]
@@ -45,7 +45,7 @@ repos:
 - repo: local
   hooks:
   - id: validate-references
-    name: validate-references
+    name: validate references
     entry: python scripts/validate-references.py
     language: python
     types: [jupyter]
@@ -61,3 +61,30 @@ repos:
   hooks:
   - id: nbstripout
     args: [--drop-empty-cells, --keep-count, --keep-output, --extra-keys, metadata.kernelspec]
+- repo: local
+  hooks:
+  - id: validate-filenames
+    name: validate filenames
+    entry: python scripts/validate-filenames.py
+    language: python
+    types: [jupyter]
+    exclude: ^(templates/|Applications/)
+    additional_dependencies: [requests, requests-cache]
+- repo: local
+  hooks:
+  - id: check-notebook-links
+    name: check notebook links
+    entry: pytest
+    language: python
+    types_or: [jupyter, markdown]
+    additional_dependencies: ["pytest-check-links[cache]"]
+    require_serial: true
+- repo: local
+  hooks:
+  - id: validate-dois
+    name: validate DOIs
+    entry: python scripts/validate-dois.py
+    language: python
+    types: [jupyter]
+    additional_dependencies: [nbformat, requests, requests-cache]
+    require_serial: true
