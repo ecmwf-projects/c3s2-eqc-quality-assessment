@@ -46,8 +46,8 @@ STRING_MAPPER = {
     "/iopscience.iop.org/article/": "/doi.org/",
     "www.science.org/doi/": "doi.org/",
     "www.nature.com/articles/": "doi.org/10.1038/",
-    "http://doi.org": "https://doi.org",
     # URLs
+    "http://": "https://",
     (
         "https://ec.europa.eu/eurostat/web/gisco/geodata/reference-data"
         "/administrative-units-statistical-units/nuts"
