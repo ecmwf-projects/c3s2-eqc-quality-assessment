@@ -17,8 +17,8 @@ jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
-    - uses: actions/setup-python@v6
+    - uses: actions/checkout@v7
+    - uses: actions/setup-python@v7
       with:
         python-version: '3.x'
     - name: Install pre-commit
@@ -26,13 +26,10 @@ jobs:
     - name: Run autoupdate
       run: |
         pre-commit autoupdate
-        pre-commit autoupdate -c .pre-commit-config-weekly.yaml
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v8
       with:
         title: pre-commit autoupdate
-    - name: Run weekly checks
-      run: |
-        pre-commit run --all
-        pre-commit run -c .pre-commit-config-weekly.yaml --all
+    - uses: pre-commit/action@v3.0.1
+      timeout-minutes: 60
 
