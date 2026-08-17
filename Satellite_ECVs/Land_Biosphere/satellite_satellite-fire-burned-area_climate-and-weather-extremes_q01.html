@@ -255,6 +255,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../Cryosphere/satellite_satellite-ice-sheet-elevation-change_trend-assessment_q01.html">1.3.8. Uncertainty of ice sheet surface elevation change data over Greenland for volume and mass change trend assessments</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Cryosphere/satellite_satellite-ice-sheet-mass-balance_trend-assessment_q02.html">1.3.9. Gravimetric mass balance data from satellite observations: utility analysis for mass change monitoring of the ice sheets</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Cryosphere/satellite_satellite-ice-sheet-mass-balance_uncertainty_q01.html">1.3.10. Gravimetric mass changes from satellite data: assessment of resolution and uncertainty of Greenland ice sheet mass changes for glaciological applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Cryosphere/satellite_satellite-sea-ice-drift_uncertainty-quality-flags_q01.html">1.3.11. Sea ice drift from satellite observations: resolution and uncertainty of Arctic sea ice drift for large-scale sea ice transport analysis</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="Land_Biosphere.html">1.4. Land Biosphere</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
@@ -692,7 +693,7 @@ If you already have the CDS API installed, you can skip or comment this step.</p
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">utils</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;seaborn-v0_8-notebook&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"seaborn-v0_8-notebook"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -735,7 +736,7 @@ If you already have the CDS API installed, you can skip or comment this step.</p
 <span class="n">lat_slice</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">45</span><span class="p">,</span> <span class="mi">36</span><span class="p">)</span>
 
 <span class="c1"># Shapefile with regions</span>
-<span class="n">shapefile_url</span> <span class="o">=</span> <span class="s2">&quot;https://gisco-services.ec.europa.eu/distribution/v2/nuts/shp/NUTS_RG_20M_2021_4326.shp.zip&quot;</span>
+<span class="n">shapefile_url</span> <span class="o">=</span> <span class="s2">"https://gisco-services.ec.europa.eu/distribution/v2/nuts/shp/NUTS_RG_20M_2021_4326.shp.zip"</span>
 </pre></div>
 </div>
 </div>
@@ -750,16 +751,16 @@ If you already have the CDS API installed, you can skip or comment this step.</p
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define request</span>
 <span class="n">request</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="s2">&quot;satellite-fire-burned-area&quot;</span><span class="p">,</span>
+    <span class="s2">"satellite-fire-burned-area"</span><span class="p">,</span>
     <span class="p">{</span>
-        <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;zip&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;origin&quot;</span><span class="p">:</span> <span class="s2">&quot;esa_cci&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;sensor&quot;</span><span class="p">:</span> <span class="s2">&quot;modis&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;5_1_1cds&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span>
-        <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="s2">&quot;grid_variables&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;06&quot;</span><span class="p">,</span> <span class="s2">&quot;07&quot;</span><span class="p">,</span> <span class="s2">&quot;08&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;nominal_day&quot;</span><span class="p">:</span> <span class="s2">&quot;01&quot;</span><span class="p">,</span>
+        <span class="s2">"format"</span><span class="p">:</span> <span class="s2">"zip"</span><span class="p">,</span>
+        <span class="s2">"origin"</span><span class="p">:</span> <span class="s2">"esa_cci"</span><span class="p">,</span>
+        <span class="s2">"sensor"</span><span class="p">:</span> <span class="s2">"modis"</span><span class="p">,</span>
+        <span class="s2">"version"</span><span class="p">:</span> <span class="s2">"5_1_1cds"</span><span class="p">,</span>
+        <span class="s2">"year"</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span>
+        <span class="s2">"variable"</span><span class="p">:</span> <span class="s2">"grid_variables"</span><span class="p">,</span>
+        <span class="s2">"month"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"06"</span><span class="p">,</span> <span class="s2">"07"</span><span class="p">,</span> <span class="s2">"08"</span><span class="p">],</span>
+        <span class="s2">"nominal_day"</span><span class="p">:</span> <span class="s2">"01"</span><span class="p">,</span>
     <span class="p">},</span>
 <span class="p">)</span>
 </pre></div>
@@ -778,22 +779,22 @@ If you already have the CDS API installed, you can skip or comment this step.</p
 <span class="n">ds</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
     <span class="o">*</span><span class="n">request</span><span class="p">,</span>
     <span class="n">transform_func</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">regionalise</span><span class="p">,</span>
-    <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lon_slice&quot;</span><span class="p">:</span> <span class="n">lon_slice</span><span class="p">,</span> <span class="s2">&quot;lat_slice&quot;</span><span class="p">:</span> <span class="n">lat_slice</span><span class="p">},</span>
-    <span class="n">chunks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">"lon_slice"</span><span class="p">:</span> <span class="n">lon_slice</span><span class="p">,</span> <span class="s2">"lat_slice"</span><span class="p">:</span> <span class="n">lat_slice</span><span class="p">},</span>
+    <span class="n">chunks</span><span class="o">=</span><span class="p">{</span><span class="s2">"year"</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
 <span class="p">)</span>
 
 <span class="c1"># Reindex using year/month (shift months + 1)</span>
 <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span>
-    <span class="n">year</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
-    <span class="n">month</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">values</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="n">year</span><span class="o">=</span><span class="p">(</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
+    <span class="n">month</span><span class="o">=</span><span class="p">(</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">values</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
 <span class="p">)</span>
-<span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="s2">&quot;month&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="p">(</span><span class="s2">"year"</span><span class="p">,</span> <span class="s2">"month"</span><span class="p">))</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s2">"time"</span><span class="p">)</span>
 
 <span class="c1"># Convert units from m2 to km2</span>
-<span class="n">da</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;burned_area&quot;</span><span class="p">]</span>
+<span class="n">da</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"burned_area"</span><span class="p">]</span>
 <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="n">da</span> <span class="o">*=</span> <span class="mf">1.0e-6</span> <span class="c1"># Conversion factor</span>
-<span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;km2&quot;</span>
+<span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"km2"</span>
 </pre></div>
 </div>
 </div>
@@ -812,7 +813,7 @@ If you already have the CDS API installed, you can skip or comment this step.</p
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;hide-input&#39;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="s1">'hide-input'</span>
 </pre></div>
 </div>
 </div>
@@ -826,20 +827,20 @@ If you already have the CDS API installed, you can skip or comment this step.</p
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot BA time series</span>
-<span class="n">da_sum</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">-</span> <span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">},</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">sum_max_year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">da_sum</span><span class="o">.</span><span class="n">idxmax</span><span class="p">(</span><span class="s2">&quot;year&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-<span class="n">sum_min_year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">da_sum</span><span class="o">.</span><span class="n">idxmin</span><span class="p">(</span><span class="s2">&quot;year&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-<span class="n">da_sum</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xticks</span><span class="o">=</span><span class="n">da</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">])</span>
+<span class="n">da_sum</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">-</span> <span class="p">{</span><span class="s2">"year"</span><span class="p">},</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sum_max_year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">da_sum</span><span class="o">.</span><span class="n">idxmax</span><span class="p">(</span><span class="s2">"year"</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">sum_min_year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">da_sum</span><span class="o">.</span><span class="n">idxmin</span><span class="p">(</span><span class="s2">"year"</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">da_sum</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xticks</span><span class="o">=</span><span class="n">da</span><span class="p">[</span><span class="s2">"year"</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Yearly Sum: </span><span class="si">{</span><span class="n">sum_max_year</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">sum_min_year</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Yearly Sum: </span><span class="si">{</span><span class="n">sum_max_year</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">sum_min_year</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="n">facet</span> <span class="o">=</span> <span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span>
     <span class="n">da</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="p">[</span><span class="n">sum_max_year</span><span class="p">,</span> <span class="n">sum_min_year</span><span class="p">]),</span>
-    <span class="n">plot_func</span><span class="o">=</span><span class="s2">&quot;imshow&quot;</span><span class="p">,</span>
-    <span class="n">col</span><span class="o">=</span><span class="s2">&quot;year&quot;</span><span class="p">,</span>
-    <span class="n">row</span><span class="o">=</span><span class="s2">&quot;month&quot;</span><span class="p">,</span>
-    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Reds&quot;</span><span class="p">,</span>
+    <span class="n">plot_func</span><span class="o">=</span><span class="s2">"imshow"</span><span class="p">,</span>
+    <span class="n">col</span><span class="o">=</span><span class="s2">"year"</span><span class="p">,</span>
+    <span class="n">row</span><span class="o">=</span><span class="s2">"month"</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">"Reds"</span><span class="p">,</span>
     <span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
 <span class="p">)</span>
 <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">facet</span><span class="o">.</span><span class="n">axs</span><span class="o">.</span><span class="n">flatten</span><span class="p">():</span>
@@ -870,22 +871,22 @@ If you already have the CDS API installed, you can skip or comment this step.</p
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Merging BA with NUTS 2 geodataframe</span>
 <span class="n">lon_bounds</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">10.18</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
 <span class="n">lat_bounds</span> <span class="o">=</span> <span class="p">[</span><span class="mf">36.5</span><span class="p">,</span> <span class="mi">43</span><span class="p">]</span>
-<span class="n">crs</span> <span class="o">=</span> <span class="s2">&quot;epsg:4326&quot;</span>
+<span class="n">crs</span> <span class="o">=</span> <span class="s2">"epsg:4326"</span>
 
 <span class="n">lon_bounds</span> <span class="o">+=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">lon_bounds</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">lat_bounds</span> <span class="o">=</span> <span class="p">[</span><span class="n">lat</span> <span class="k">for</span> <span class="n">lat</span> <span class="ow">in</span> <span class="n">lat_bounds</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
 <span class="n">bbox</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">Polygon</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">lon_bounds</span><span class="p">,</span> <span class="n">lat_bounds</span><span class="p">))</span>
 
 <span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">shapefile_url</span><span class="p">)</span>
-<span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="n">gdf</span><span class="p">[</span><span class="s2">&quot;LEVL_CODE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="n">gdf</span><span class="p">[</span><span class="s2">"LEVL_CODE"</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span>
 <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="n">gdf</span><span class="o">.</span><span class="n">intersects</span><span class="p">(</span><span class="n">bbox</span><span class="p">)]</span>
-<span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="n">gdf</span><span class="p">[</span><span class="s2">&quot;NUTS_ID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">&quot;ES&quot;</span><span class="p">,</span> <span class="s2">&quot;PT&quot;</span><span class="p">))]</span>
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="n">gdf</span><span class="p">[</span><span class="s2">"NUTS_ID"</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">"ES"</span><span class="p">,</span> <span class="s2">"PT"</span><span class="p">))]</span>
 <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>
 
 <span class="n">ds</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">write_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="n">regions</span> <span class="o">=</span> <span class="n">regionmask</span><span class="o">.</span><span class="n">from_geopandas</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s2">&quot;NUTS_NAME&quot;</span><span class="p">)</span>
-<span class="n">mask</span> <span class="o">=</span> <span class="n">regions</span><span class="o">.</span><span class="n">mask</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">],</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">])</span>
+<span class="n">regions</span> <span class="o">=</span> <span class="n">regionmask</span><span class="o">.</span><span class="n">from_geopandas</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s2">"NUTS_NAME"</span><span class="p">)</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">regions</span><span class="o">.</span><span class="n">mask</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">],</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -913,20 +914,20 @@ If you already have the CDS API installed, you can skip or comment this step.</p
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ploting maps and bar charts of annual BA by NUTS 2 region, considering the Summer season</span>
-<span class="n">da_grouped</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">mask</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;region&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">))</span>
+<span class="n">da_grouped</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">mask</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">"region"</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="s2">"latitude"</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">))</span>
 <span class="n">da_grouped</span> <span class="o">=</span> <span class="n">da_grouped</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">region</span><span class="o">=</span><span class="n">regions</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
-<span class="n">ylim</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">da_grouped</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s2">&quot;month&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-<span class="n">ylabel</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Sum of </span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;long_name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">]&quot;</span>
-<span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">da_grouped_year</span> <span class="ow">in</span> <span class="n">da_grouped</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;year&quot;</span><span class="p">):</span>
+<span class="n">ylim</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">da_grouped</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s2">"month"</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">ylabel</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Sum of </span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'long_name'</span><span class="p">]</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'units'</span><span class="p">]</span><span class="si">}</span><span class="s2">]"</span>
+<span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">da_grouped_year</span> <span class="ow">in</span> <span class="n">da_grouped</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"year"</span><span class="p">):</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">da_grouped_year</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
         <span class="n">df</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-        <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;YlOrRd&quot;</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s2">"YlOrRd"</span><span class="p">,</span>
         <span class="n">vmin</span><span class="o">=</span><span class="n">ylim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
         <span class="n">vmax</span><span class="o">=</span><span class="n">ylim</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-        <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+        <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span>
         <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">legend_kwds</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">ylabel</span><span class="p">},</span>
+        <span class="n">legend_kwds</span><span class="o">=</span><span class="p">{</span><span class="s2">"label"</span><span class="p">:</span> <span class="n">ylabel</span><span class="p">},</span>
     <span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -937,7 +938,7 @@ If you already have the CDS API installed, you can skip or comment this step.</p
         <span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">ylim</span><span class="o">=</span><span class="n">ylim</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">"y"</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -996,13 +997,13 @@ If you already have the CDS API installed, you can skip or comment this step.</p
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ploting annual timeseries of BA by NUTS 2 regions, considering the Summer season</span>
-<span class="n">da_grouped_yearly</span> <span class="o">=</span> <span class="n">da_grouped</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s2">&quot;month&quot;</span><span class="p">,</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">da_grouped_yearly</span> <span class="o">=</span> <span class="n">da_grouped</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s2">"month"</span><span class="p">,</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">lines</span> <span class="o">=</span> <span class="n">da_grouped_yearly</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-    <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;region&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">xticks</span><span class="o">=</span><span class="n">da</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">],</span> <span class="n">add_legend</span><span class="o">=</span><span class="kc">False</span>
+    <span class="n">hue</span><span class="o">=</span><span class="s2">"region"</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span> <span class="n">xticks</span><span class="o">=</span><span class="n">da</span><span class="p">[</span><span class="s2">"year"</span><span class="p">],</span> <span class="n">add_legend</span><span class="o">=</span><span class="kc">False</span>
 <span class="p">)</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">da_grouped</span><span class="p">[</span><span class="s2">&quot;region&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">da_grouped</span><span class="p">[</span><span class="s2">"region"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Annual sum&quot;</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Annual sum"</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1021,10 +1022,10 @@ If you already have the CDS API installed, you can skip or comment this step.</p
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># List of regions with higher BA</span>
-<span class="n">regions_to_plot</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Andalucía&quot;</span><span class="p">,</span> <span class="s2">&quot;Centro (PT)&quot;</span><span class="p">]</span>
+<span class="n">regions_to_plot</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Andalucía"</span><span class="p">,</span> <span class="s2">"Centro (PT)"</span><span class="p">]</span>
 
 <span class="c1"># Ploting annual timeseries of BA by NUTS 2 regions and months, considering the Summer season</span>
-<span class="k">for</span> <span class="n">region</span><span class="p">,</span> <span class="n">da_grouped_region</span> <span class="ow">in</span> <span class="n">da_grouped</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;region&quot;</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">region</span><span class="p">,</span> <span class="n">da_grouped_region</span> <span class="ow">in</span> <span class="n">da_grouped</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"region"</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">region</span> <span class="ow">in</span> <span class="n">regions_to_plot</span><span class="p">:</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">da_grouped_region</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
@@ -1033,7 +1034,7 @@ If you already have the CDS API installed, you can skip or comment this step.</p
             <span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">ylim</span><span class="o">=</span><span class="n">ylim</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">"y"</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
         <span class="c1"># print(region)</span>
 </pre></div>
@@ -1056,22 +1057,22 @@ If you already have the CDS API installed, you can skip or comment this step.</p
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">da_climatology</span> <span class="o">=</span> <span class="n">da_grouped_yearly</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;year&quot;</span><span class="p">)</span>
-<span class="n">ylabel</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;long_name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">]&quot;</span>
-<span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Climatology (</span><span class="si">{</span><span class="n">year_start</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">year_stop</span><span class="si">}</span><span class="s2">)&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">da_climatology</span> <span class="o">=</span> <span class="n">da_grouped_yearly</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">"year"</span><span class="p">)</span>
+<span class="n">ylabel</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'long_name'</span><span class="p">]</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'units'</span><span class="p">]</span><span class="si">}</span><span class="s2">]"</span>
+<span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Climatology (</span><span class="si">{</span><span class="n">year_start</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">year_stop</span><span class="si">}</span><span class="s2">)"</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
     <span class="n">da_climatology</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;YlOrRd&quot;</span><span class="p">,</span>
-    <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">"YlOrRd"</span><span class="p">,</span>
+    <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span>
     <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">legend_kwds</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">ylabel</span><span class="p">},</span>
+    <span class="n">legend_kwds</span><span class="o">=</span><span class="p">{</span><span class="s2">"label"</span><span class="p">:</span> <span class="n">ylabel</span><span class="p">},</span>
 <span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 <span class="n">ax</span> <span class="o">=</span> <span class="n">da_climatology</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">ylabel</span><span class="o">=</span><span class="n">ylabel</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">"y"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

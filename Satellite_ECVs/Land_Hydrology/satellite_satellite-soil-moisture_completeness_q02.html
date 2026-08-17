@@ -257,6 +257,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../Cryosphere/satellite_satellite-ice-sheet-elevation-change_trend-assessment_q01.html">1.3.8. Uncertainty of ice sheet surface elevation change data over Greenland for volume and mass change trend assessments</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Cryosphere/satellite_satellite-ice-sheet-mass-balance_trend-assessment_q02.html">1.3.9. Gravimetric mass balance data from satellite observations: utility analysis for mass change monitoring of the ice sheets</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Cryosphere/satellite_satellite-ice-sheet-mass-balance_uncertainty_q01.html">1.3.10. Gravimetric mass changes from satellite data: assessment of resolution and uncertainty of Greenland ice sheet mass changes for glaciological applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Cryosphere/satellite_satellite-sea-ice-drift_uncertainty-quality-flags_q01.html">1.3.11. Sea ice drift from satellite observations: resolution and uncertainty of Arctic sea ice drift for large-scale sea ice transport analysis</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../Land_Biosphere/Land_Biosphere.html">1.4. Land Biosphere</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -719,7 +720,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">display</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.animation</span><span class="w"> </span><span class="kn">import</span> <span class="n">FuncAnimation</span><span class="p">,</span> <span class="n">PillowWriter</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;seaborn-v0_8-notebook&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"seaborn-v0_8-notebook"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -735,33 +736,33 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">collection_id</span> <span class="o">=</span> <span class="s2">&quot;satellite-soil-moisture&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">collection_id</span> <span class="o">=</span> <span class="s2">"satellite-soil-moisture"</span>
 <span class="n">request</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;volumetric_surface_soil_moisture&quot;</span><span class="p">],</span>
-    <span class="s2">&quot;type_of_sensor&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;combined_passive_and_active&quot;</span><span class="p">],</span>
-    <span class="s2">&quot;time_aggregation&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;10_day_average&quot;</span><span class="p">],</span>
-    <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;1991&quot;</span><span class="p">,</span> <span class="s2">&quot;1992&quot;</span><span class="p">,</span> <span class="s2">&quot;1993&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;1994&quot;</span><span class="p">,</span> <span class="s2">&quot;1995&quot;</span><span class="p">,</span> <span class="s2">&quot;1996&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;1997&quot;</span><span class="p">,</span> <span class="s2">&quot;1998&quot;</span><span class="p">,</span> <span class="s2">&quot;1999&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;2000&quot;</span><span class="p">,</span> <span class="s2">&quot;2001&quot;</span><span class="p">,</span> <span class="s2">&quot;2002&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;2003&quot;</span><span class="p">,</span> <span class="s2">&quot;2004&quot;</span><span class="p">,</span> <span class="s2">&quot;2005&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;2006&quot;</span><span class="p">,</span> <span class="s2">&quot;2007&quot;</span><span class="p">,</span> <span class="s2">&quot;2008&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;2009&quot;</span><span class="p">,</span> <span class="s2">&quot;2010&quot;</span><span class="p">,</span> <span class="s2">&quot;2011&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;2012&quot;</span><span class="p">,</span> <span class="s2">&quot;2013&quot;</span><span class="p">,</span> <span class="s2">&quot;2014&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;2015&quot;</span><span class="p">,</span> <span class="s2">&quot;2016&quot;</span><span class="p">,</span> <span class="s2">&quot;2017&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;2018&quot;</span><span class="p">,</span> <span class="s2">&quot;2019&quot;</span><span class="p">,</span> <span class="s2">&quot;2020&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;2023&quot;</span>
+    <span class="s2">"variable"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"volumetric_surface_soil_moisture"</span><span class="p">],</span>
+    <span class="s2">"type_of_sensor"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"combined_passive_and_active"</span><span class="p">],</span>
+    <span class="s2">"time_aggregation"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"10_day_average"</span><span class="p">],</span>
+    <span class="s2">"year"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">"1991"</span><span class="p">,</span> <span class="s2">"1992"</span><span class="p">,</span> <span class="s2">"1993"</span><span class="p">,</span>
+        <span class="s2">"1994"</span><span class="p">,</span> <span class="s2">"1995"</span><span class="p">,</span> <span class="s2">"1996"</span><span class="p">,</span>
+        <span class="s2">"1997"</span><span class="p">,</span> <span class="s2">"1998"</span><span class="p">,</span> <span class="s2">"1999"</span><span class="p">,</span>
+        <span class="s2">"2000"</span><span class="p">,</span> <span class="s2">"2001"</span><span class="p">,</span> <span class="s2">"2002"</span><span class="p">,</span>
+        <span class="s2">"2003"</span><span class="p">,</span> <span class="s2">"2004"</span><span class="p">,</span> <span class="s2">"2005"</span><span class="p">,</span>
+        <span class="s2">"2006"</span><span class="p">,</span> <span class="s2">"2007"</span><span class="p">,</span> <span class="s2">"2008"</span><span class="p">,</span>
+        <span class="s2">"2009"</span><span class="p">,</span> <span class="s2">"2010"</span><span class="p">,</span> <span class="s2">"2011"</span><span class="p">,</span>
+        <span class="s2">"2012"</span><span class="p">,</span> <span class="s2">"2013"</span><span class="p">,</span> <span class="s2">"2014"</span><span class="p">,</span>
+        <span class="s2">"2015"</span><span class="p">,</span> <span class="s2">"2016"</span><span class="p">,</span> <span class="s2">"2017"</span><span class="p">,</span>
+        <span class="s2">"2018"</span><span class="p">,</span> <span class="s2">"2019"</span><span class="p">,</span> <span class="s2">"2020"</span><span class="p">,</span>
+        <span class="s2">"2023"</span>
     <span class="p">],</span>
-    <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;01&quot;</span><span class="p">,</span> <span class="s2">&quot;02&quot;</span><span class="p">,</span> <span class="s2">&quot;03&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;04&quot;</span><span class="p">,</span> <span class="s2">&quot;05&quot;</span><span class="p">,</span> <span class="s2">&quot;06&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;07&quot;</span><span class="p">,</span> <span class="s2">&quot;08&quot;</span><span class="p">,</span> <span class="s2">&quot;09&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;10&quot;</span><span class="p">,</span> <span class="s2">&quot;11&quot;</span><span class="p">,</span> <span class="s2">&quot;12&quot;</span>
+    <span class="s2">"month"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">"01"</span><span class="p">,</span> <span class="s2">"02"</span><span class="p">,</span> <span class="s2">"03"</span><span class="p">,</span>
+        <span class="s2">"04"</span><span class="p">,</span> <span class="s2">"05"</span><span class="p">,</span> <span class="s2">"06"</span><span class="p">,</span>
+        <span class="s2">"07"</span><span class="p">,</span> <span class="s2">"08"</span><span class="p">,</span> <span class="s2">"09"</span><span class="p">,</span>
+        <span class="s2">"10"</span><span class="p">,</span> <span class="s2">"11"</span><span class="p">,</span> <span class="s2">"12"</span>
     <span class="p">],</span>
-    <span class="s2">&quot;day&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;01&quot;</span><span class="p">,</span> <span class="s2">&quot;11&quot;</span><span class="p">,</span> <span class="s2">&quot;21&quot;</span><span class="p">],</span>
-    <span class="s2">&quot;type_of_record&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;cdr&quot;</span><span class="p">],</span>
-    <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;v202312&quot;</span><span class="p">]</span>
+    <span class="s2">"day"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"01"</span><span class="p">,</span> <span class="s2">"11"</span><span class="p">,</span> <span class="s2">"21"</span><span class="p">],</span>
+    <span class="s2">"type_of_record"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"cdr"</span><span class="p">],</span>
+    <span class="s2">"version"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"v202312"</span><span class="p">]</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -772,7 +773,7 @@
 <section id="download-data">
 <h4>Download data<a class="headerlink" href="#download-data" title="Link to this heading">#</a></h4>
 <p>Administrative boundaries were obtained from the Eurostat GISCO database, ensuring consistency with official European statistical geographies <a class="reference external" href="https://ec.europa.eu/eurostat/web/gisco/geodata/administrative-units" rel="noreferrer" target="_blank">[1]</a>.</p>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -783,14 +784,14 @@
 <span class="n">ds</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
     <span class="n">collection_id</span><span class="p">,</span>
     <span class="n">request</span><span class="p">,</span>
-    <span class="n">chunks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="n">chunks</span><span class="o">=</span><span class="p">{</span><span class="s2">"year"</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
     <span class="n">transform_chunks</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="n">shapefile_url</span> <span class="o">=</span> <span class="s2">&quot;https://gisco-services.ec.europa.eu/distribution/v2/countries/shp/CNTR_RG_01M_2024_4326.shp.zip&quot;</span>
+<span class="n">shapefile_url</span> <span class="o">=</span> <span class="s2">"https://gisco-services.ec.europa.eu/distribution/v2/countries/shp/CNTR_RG_01M_2024_4326.shp.zip"</span>
 
 <span class="c1"># Shapefile</span>
-<span class="k">with</span> <span class="n">fsspec</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;simplecache::</span><span class="si">{</span><span class="n">shapefile_url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="k">with</span> <span class="n">fsspec</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">"simplecache::</span><span class="si">{</span><span class="n">shapefile_url</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
     <span class="n">world_shape</span> <span class="o">=</span> <span class="n">geopandas</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -819,7 +820,7 @@
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Select soil mouisture variable</span>
-<span class="n">da</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;sm&quot;</span><span class="p">]</span>
+<span class="n">da</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="s2">"sm"</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -833,14 +834,14 @@
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filter the shapefile to keep only Europe</span>
-<span class="n">europe_shape</span> <span class="o">=</span> <span class="n">world_shape</span><span class="p">[</span><span class="n">world_shape</span><span class="p">[</span><span class="s2">&quot;CNTR_ID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span>
+<span class="n">europe_shape</span> <span class="o">=</span> <span class="n">world_shape</span><span class="p">[</span><span class="n">world_shape</span><span class="p">[</span><span class="s2">"CNTR_ID"</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span>
     <span class="c1"># EU + nearby Europe (adjust if needed)</span>
-    <span class="s2">&quot;AL&quot;</span><span class="p">,</span><span class="s2">&quot;AD&quot;</span><span class="p">,</span><span class="s2">&quot;AT&quot;</span><span class="p">,</span><span class="s2">&quot;BY&quot;</span><span class="p">,</span><span class="s2">&quot;BE&quot;</span><span class="p">,</span><span class="s2">&quot;BA&quot;</span><span class="p">,</span><span class="s2">&quot;BG&quot;</span><span class="p">,</span><span class="s2">&quot;CH&quot;</span><span class="p">,</span><span class="s2">&quot;CY&quot;</span><span class="p">,</span><span class="s2">&quot;CZ&quot;</span><span class="p">,</span><span class="s2">&quot;DE&quot;</span><span class="p">,</span><span class="s2">&quot;DK&quot;</span><span class="p">,</span><span class="s2">&quot;EE&quot;</span><span class="p">,</span><span class="s2">&quot;ES&quot;</span><span class="p">,</span><span class="s2">&quot;FI&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;FR&quot;</span><span class="p">,</span><span class="s2">&quot;GB&quot;</span><span class="p">,</span><span class="s2">&quot;GR&quot;</span><span class="p">,</span><span class="s2">&quot;HR&quot;</span><span class="p">,</span><span class="s2">&quot;HU&quot;</span><span class="p">,</span><span class="s2">&quot;IE&quot;</span><span class="p">,</span><span class="s2">&quot;IS&quot;</span><span class="p">,</span><span class="s2">&quot;IT&quot;</span><span class="p">,</span><span class="s2">&quot;LI&quot;</span><span class="p">,</span><span class="s2">&quot;LT&quot;</span><span class="p">,</span><span class="s2">&quot;LU&quot;</span><span class="p">,</span><span class="s2">&quot;LV&quot;</span><span class="p">,</span><span class="s2">&quot;MC&quot;</span><span class="p">,</span><span class="s2">&quot;MD&quot;</span><span class="p">,</span><span class="s2">&quot;ME&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;MK&quot;</span><span class="p">,</span><span class="s2">&quot;MT&quot;</span><span class="p">,</span><span class="s2">&quot;NL&quot;</span><span class="p">,</span><span class="s2">&quot;NO&quot;</span><span class="p">,</span><span class="s2">&quot;PL&quot;</span><span class="p">,</span><span class="s2">&quot;PT&quot;</span><span class="p">,</span><span class="s2">&quot;RO&quot;</span><span class="p">,</span><span class="s2">&quot;RS&quot;</span><span class="p">,</span><span class="s2">&quot;SE&quot;</span><span class="p">,</span><span class="s2">&quot;SI&quot;</span><span class="p">,</span><span class="s2">&quot;SK&quot;</span><span class="p">,</span><span class="s2">&quot;SM&quot;</span><span class="p">,</span><span class="s2">&quot;UA&quot;</span><span class="p">,</span><span class="s2">&quot;VA&quot;</span><span class="p">,</span><span class="s2">&quot;XK&quot;</span><span class="p">,</span><span class="s2">&quot;UK&quot;</span>
+    <span class="s2">"AL"</span><span class="p">,</span><span class="s2">"AD"</span><span class="p">,</span><span class="s2">"AT"</span><span class="p">,</span><span class="s2">"BY"</span><span class="p">,</span><span class="s2">"BE"</span><span class="p">,</span><span class="s2">"BA"</span><span class="p">,</span><span class="s2">"BG"</span><span class="p">,</span><span class="s2">"CH"</span><span class="p">,</span><span class="s2">"CY"</span><span class="p">,</span><span class="s2">"CZ"</span><span class="p">,</span><span class="s2">"DE"</span><span class="p">,</span><span class="s2">"DK"</span><span class="p">,</span><span class="s2">"EE"</span><span class="p">,</span><span class="s2">"ES"</span><span class="p">,</span><span class="s2">"FI"</span><span class="p">,</span>
+    <span class="s2">"FR"</span><span class="p">,</span><span class="s2">"GB"</span><span class="p">,</span><span class="s2">"GR"</span><span class="p">,</span><span class="s2">"HR"</span><span class="p">,</span><span class="s2">"HU"</span><span class="p">,</span><span class="s2">"IE"</span><span class="p">,</span><span class="s2">"IS"</span><span class="p">,</span><span class="s2">"IT"</span><span class="p">,</span><span class="s2">"LI"</span><span class="p">,</span><span class="s2">"LT"</span><span class="p">,</span><span class="s2">"LU"</span><span class="p">,</span><span class="s2">"LV"</span><span class="p">,</span><span class="s2">"MC"</span><span class="p">,</span><span class="s2">"MD"</span><span class="p">,</span><span class="s2">"ME"</span><span class="p">,</span>
+    <span class="s2">"MK"</span><span class="p">,</span><span class="s2">"MT"</span><span class="p">,</span><span class="s2">"NL"</span><span class="p">,</span><span class="s2">"NO"</span><span class="p">,</span><span class="s2">"PL"</span><span class="p">,</span><span class="s2">"PT"</span><span class="p">,</span><span class="s2">"RO"</span><span class="p">,</span><span class="s2">"RS"</span><span class="p">,</span><span class="s2">"SE"</span><span class="p">,</span><span class="s2">"SI"</span><span class="p">,</span><span class="s2">"SK"</span><span class="p">,</span><span class="s2">"SM"</span><span class="p">,</span><span class="s2">"UA"</span><span class="p">,</span><span class="s2">"VA"</span><span class="p">,</span><span class="s2">"XK"</span><span class="p">,</span><span class="s2">"UK"</span>
 <span class="p">])]</span>
 <span class="c1"># Ensure soil_moisture has CRS information compatible with europe_shape (e.g., EPSG:4326)</span>
-<span class="n">da</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">write_crs</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">da</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">write_crs</span><span class="p">(</span><span class="s2">"EPSG:4326"</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="c1"># Clip soil moisture data to the Europe shape</span>
 <span class="n">da_eu</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">europe_shape</span><span class="o">.</span><span class="n">geometry</span><span class="p">,</span> <span class="n">europe_shape</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
@@ -864,7 +865,7 @@
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Keep only the baseline period</span>
-<span class="n">da_baseline</span> <span class="o">=</span> <span class="n">da_eu</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;1991-01-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2020-12-31&quot;</span><span class="p">))</span>
+<span class="n">da_baseline</span> <span class="o">=</span> <span class="n">da_eu</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="s2">"1991-01-01"</span><span class="p">,</span> <span class="s2">"2020-12-31"</span><span class="p">))</span>
 
 <span class="c1"># Build a dekad-of-year index from the timestamp</span>
 <span class="c1"># Dekads:</span>
@@ -872,24 +873,24 @@
 <span class="c1"># day 11 -&gt; dekad 2 of month</span>
 <span class="c1"># day 21 -&gt; dekad 3 of month</span>
 <span class="c1"># Then combine months into 1..36 across the year</span>
-<span class="n">month</span> <span class="o">=</span> <span class="n">da_baseline</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span>
-<span class="n">day</span> <span class="o">=</span> <span class="n">da_baseline</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">day</span>
+<span class="n">month</span> <span class="o">=</span> <span class="n">da_baseline</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span>
+<span class="n">day</span> <span class="o">=</span> <span class="n">da_baseline</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">day</span>
 
 <span class="n">dekad_in_month</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">day</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
                   <span class="n">xr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">day</span> <span class="o">&lt;=</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 
 <span class="n">dekad_of_year</span> <span class="o">=</span> <span class="p">(</span><span class="n">month</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">dekad_in_month</span>
-<span class="n">dekad_of_year</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;dekad_of_year&quot;</span>
+<span class="n">dekad_of_year</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">"dekad_of_year"</span>
 
 <span class="c1"># Attach year and dekad_of_year as coordinates</span>
 <span class="n">da_baseline</span> <span class="o">=</span> <span class="n">da_baseline</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span>
-    <span class="n">year</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">da_baseline</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">data</span><span class="p">),</span>
-    <span class="n">dekad_of_year</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">dekad_of_year</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">year</span><span class="o">=</span><span class="p">(</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">da_baseline</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">data</span><span class="p">),</span>
+    <span class="n">dekad_of_year</span><span class="o">=</span><span class="p">(</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">dekad_of_year</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 <span class="p">)</span>
 
 <span class="c1"># Count valid observations across years for each dekad-of-year and pixel</span>
 <span class="c1"># Result dims: dekad_of_year, latitude, longitude</span>
-<span class="n">baseline_valid_years</span> <span class="o">=</span> <span class="n">da_baseline</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;dekad_of_year&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+<span class="n">baseline_valid_years</span> <span class="o">=</span> <span class="n">da_baseline</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"dekad_of_year"</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">"time"</span><span class="p">)</span>
 
 <span class="c1"># Ensure integer type for plotting / storage</span>
 <span class="n">baseline_valid_years</span> <span class="o">=</span> <span class="n">baseline_valid_years</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
@@ -910,18 +911,18 @@
 
 <span class="c1"># Optional labels</span>
 <span class="n">dekad_labels</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="mi">1</span><span class="p">:</span>  <span class="s2">&quot;Jan-1&quot;</span><span class="p">,</span>
-    <span class="mi">4</span><span class="p">:</span>  <span class="s2">&quot;Feb-1&quot;</span><span class="p">,</span>
-    <span class="mi">7</span><span class="p">:</span>  <span class="s2">&quot;Mar-1&quot;</span><span class="p">,</span>
-    <span class="mi">10</span><span class="p">:</span> <span class="s2">&quot;Apr-1&quot;</span><span class="p">,</span>
-    <span class="mi">13</span><span class="p">:</span> <span class="s2">&quot;May-1&quot;</span><span class="p">,</span>
-    <span class="mi">16</span><span class="p">:</span> <span class="s2">&quot;Jun-1&quot;</span><span class="p">,</span>
-    <span class="mi">19</span><span class="p">:</span> <span class="s2">&quot;Jul-1&quot;</span><span class="p">,</span>
-    <span class="mi">22</span><span class="p">:</span> <span class="s2">&quot;Aug-1&quot;</span><span class="p">,</span>
-    <span class="mi">25</span><span class="p">:</span> <span class="s2">&quot;Sep-1&quot;</span><span class="p">,</span>
-    <span class="mi">28</span><span class="p">:</span> <span class="s2">&quot;Oct-1&quot;</span><span class="p">,</span>
-    <span class="mi">31</span><span class="p">:</span> <span class="s2">&quot;Nov-1&quot;</span><span class="p">,</span>
-    <span class="mi">34</span><span class="p">:</span> <span class="s2">&quot;Dec-1&quot;</span><span class="p">,</span>
+    <span class="mi">1</span><span class="p">:</span>  <span class="s2">"Jan-1"</span><span class="p">,</span>
+    <span class="mi">4</span><span class="p">:</span>  <span class="s2">"Feb-1"</span><span class="p">,</span>
+    <span class="mi">7</span><span class="p">:</span>  <span class="s2">"Mar-1"</span><span class="p">,</span>
+    <span class="mi">10</span><span class="p">:</span> <span class="s2">"Apr-1"</span><span class="p">,</span>
+    <span class="mi">13</span><span class="p">:</span> <span class="s2">"May-1"</span><span class="p">,</span>
+    <span class="mi">16</span><span class="p">:</span> <span class="s2">"Jun-1"</span><span class="p">,</span>
+    <span class="mi">19</span><span class="p">:</span> <span class="s2">"Jul-1"</span><span class="p">,</span>
+    <span class="mi">22</span><span class="p">:</span> <span class="s2">"Aug-1"</span><span class="p">,</span>
+    <span class="mi">25</span><span class="p">:</span> <span class="s2">"Sep-1"</span><span class="p">,</span>
+    <span class="mi">28</span><span class="p">:</span> <span class="s2">"Oct-1"</span><span class="p">,</span>
+    <span class="mi">31</span><span class="p">:</span> <span class="s2">"Nov-1"</span><span class="p">,</span>
+    <span class="mi">34</span><span class="p">:</span> <span class="s2">"Dec-1"</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -931,17 +932,17 @@
 
     <span class="n">im</span> <span class="o">=</span> <span class="n">da_plot</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
         <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
-        <span class="n">x</span><span class="o">=</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
-        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
+        <span class="n">x</span><span class="o">=</span><span class="s2">"longitude"</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="s2">"latitude"</span><span class="p">,</span>
         <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">vmax</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
-        <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;plasma&quot;</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s2">"plasma"</span><span class="p">,</span>
         <span class="n">add_colorbar</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">)</span>
 
     <span class="c1"># Optional: overlay borders if world_shape already exists</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">world_shape</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+        <span class="n">world_shape</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
         <span class="k">pass</span>
 
@@ -949,20 +950,20 @@
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">45</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">72</span><span class="p">)</span>
 
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dekad_labels</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="sa">f</span><span class="s1">&#39;Dekad </span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">dekad_labels</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="sa">f</span><span class="s1">'Dekad </span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
 
 <span class="c1"># Hide any unused axes</span>
 <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="o">.</span><span class="n">flat</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">selected_dekads</span><span class="p">):]:</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
-<span class="n">cbar</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;horizontal&quot;</span><span class="p">,</span> <span class="n">fraction</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.04</span><span class="p">)</span>
-<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s2">&quot;Number of valid baseline years per pixel (1991–2020)&quot;</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s2">"horizontal"</span><span class="p">,</span> <span class="n">fraction</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.04</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s2">"Number of valid baseline years per pixel (1991–2020)"</span><span class="p">)</span>
 
 <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span>
-    <span class="s2">&quot;Baseline support across selected dekads of the year</span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="s2">&quot;Count of valid years per pixel used for dekadal climatology&quot;</span><span class="p">,</span>
+    <span class="s2">"Baseline support across selected dekads of the year</span><span class="se">\n</span><span class="s2">"</span>
+    <span class="s2">"Count of valid years per pixel used for dekadal climatology"</span><span class="p">,</span>
     <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span>
 <span class="p">)</span>
 
@@ -994,22 +995,22 @@
     <span class="n">end_year</span><span class="o">=</span><span class="mi">2023</span><span class="p">,</span>
     <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Plot a heatmap of completeness (% valid land pixels) by year and dekad of year.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">da_sel</span> <span class="o">=</span> <span class="n">da_eu</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">start_year</span><span class="si">}</span><span class="s2">-01-01&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">end_year</span><span class="si">}</span><span class="s2">-12-31&quot;</span><span class="p">))</span>
+    <span class="n">da_sel</span> <span class="o">=</span> <span class="n">da_eu</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">start_year</span><span class="si">}</span><span class="s2">-01-01"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">end_year</span><span class="si">}</span><span class="s2">-12-31"</span><span class="p">))</span>
 
     <span class="c1"># Land mask from first timestep</span>
     <span class="n">dummy</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">da_sel</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">dummy</span> <span class="o">=</span> <span class="n">dummy</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">write_crs</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span>
+    <span class="n">dummy</span> <span class="o">=</span> <span class="n">dummy</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">write_crs</span><span class="p">(</span><span class="s2">"EPSG:4326"</span><span class="p">)</span>
 
     <span class="n">clipped</span> <span class="o">=</span> <span class="n">dummy</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">europe_shape</span><span class="o">.</span><span class="n">geometry</span><span class="p">,</span> <span class="n">europe_shape</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">land_mask</span> <span class="o">=</span> <span class="n">clipped</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span>
 
     <span class="n">total_land_pixels</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">land_mask</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
     <span class="k">if</span> <span class="n">total_land_pixels</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No land pixels found in the selected domain.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"No land pixels found in the selected domain."</span><span class="p">)</span>
 
     <span class="c1"># Keep only land pixels</span>
     <span class="n">da_land</span> <span class="o">=</span> <span class="n">da_sel</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">land_mask</span><span class="p">)</span>
@@ -1040,30 +1041,30 @@
 
             <span class="n">da_sub</span> <span class="o">=</span> <span class="n">da_land</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">time_mask</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="n">da_sub</span><span class="o">.</span><span class="n">sizes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">da_sub</span><span class="o">.</span><span class="n">sizes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"time"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">continue</span>
 
-            <span class="n">valid_pixels</span> <span class="o">=</span> <span class="n">da_sub</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-            <span class="n">possible_pixels</span> <span class="o">=</span> <span class="n">da_sub</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">total_land_pixels</span>
+            <span class="n">valid_pixels</span> <span class="o">=</span> <span class="n">da_sub</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s2">"time"</span><span class="p">,</span> <span class="s2">"latitude"</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">])</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+            <span class="n">possible_pixels</span> <span class="o">=</span> <span class="n">da_sub</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">*</span> <span class="n">total_land_pixels</span>
 
             <span class="n">completeness</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">valid_pixels</span> <span class="o">/</span> <span class="n">possible_pixels</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">if</span> <span class="n">possible_pixels</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span>
     <span class="n">im</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
         <span class="n">completeness</span><span class="p">,</span>
-        <span class="n">aspect</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
-        <span class="n">origin</span><span class="o">=</span><span class="s2">&quot;lower&quot;</span><span class="p">,</span>
+        <span class="n">aspect</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span>
+        <span class="n">origin</span><span class="o">=</span><span class="s2">"lower"</span><span class="p">,</span>
         <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">vmax</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Valid land pixels (%)&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Dekad of year&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Year&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Valid land pixels (%)"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Dekad of year"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Year"</span><span class="p">)</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span>
         <span class="n">ticks</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">33</span><span class="p">],</span>
-        <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Jan&quot;</span><span class="p">,</span> <span class="s2">&quot;Feb&quot;</span><span class="p">,</span> <span class="s2">&quot;Mar&quot;</span><span class="p">,</span> <span class="s2">&quot;Apr&quot;</span><span class="p">,</span> <span class="s2">&quot;May&quot;</span><span class="p">,</span> <span class="s2">&quot;Jun&quot;</span><span class="p">,</span> <span class="s2">&quot;Jul&quot;</span><span class="p">,</span> <span class="s2">&quot;Aug&quot;</span><span class="p">,</span> <span class="s2">&quot;Sep&quot;</span><span class="p">,</span> <span class="s2">&quot;Oct&quot;</span><span class="p">,</span> <span class="s2">&quot;Nov&quot;</span><span class="p">,</span> <span class="s2">&quot;Dec&quot;</span><span class="p">]</span>
+        <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">"Jan"</span><span class="p">,</span> <span class="s2">"Feb"</span><span class="p">,</span> <span class="s2">"Mar"</span><span class="p">,</span> <span class="s2">"Apr"</span><span class="p">,</span> <span class="s2">"May"</span><span class="p">,</span> <span class="s2">"Jun"</span><span class="p">,</span> <span class="s2">"Jul"</span><span class="p">,</span> <span class="s2">"Aug"</span><span class="p">,</span> <span class="s2">"Sep"</span><span class="p">,</span> <span class="s2">"Oct"</span><span class="p">,</span> <span class="s2">"Nov"</span><span class="p">,</span> <span class="s2">"Dec"</span><span class="p">]</span>
     <span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span>
         <span class="n">ticks</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">years</span><span class="p">),</span> <span class="mi">2</span><span class="p">),</span>
@@ -1071,7 +1072,7 @@
     <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Completeness over land pixels by year and dekad&quot;</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s2">"Completeness over land pixels by year and dekad"</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -1092,7 +1093,7 @@
     <span class="n">europe_shape</span><span class="o">=</span><span class="n">europe_shape</span><span class="p">,</span>
     <span class="n">start_year</span><span class="o">=</span><span class="mi">1991</span><span class="p">,</span>
     <span class="n">end_year</span><span class="o">=</span><span class="mi">2023</span><span class="p">,</span>
-    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Completeness over land pixels by year and dekad (1991–2023)&quot;</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">"Completeness over land pixels by year and dekad (1991–2023)"</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -1127,13 +1128,13 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">compute_ssma_with_threshold</span><span class="p">(</span>
     <span class="n">da_eu</span><span class="p">,</span>
-    <span class="n">baseline_start</span><span class="o">=</span><span class="s2">&quot;1991-01-01&quot;</span><span class="p">,</span>
-    <span class="n">baseline_end</span><span class="o">=</span><span class="s2">&quot;2020-12-21&quot;</span><span class="p">,</span>
-    <span class="n">target_start</span><span class="o">=</span><span class="s2">&quot;2023-01-01&quot;</span><span class="p">,</span>
-    <span class="n">target_end</span><span class="o">=</span><span class="s2">&quot;2023-12-21&quot;</span><span class="p">,</span>
+    <span class="n">baseline_start</span><span class="o">=</span><span class="s2">"1991-01-01"</span><span class="p">,</span>
+    <span class="n">baseline_end</span><span class="o">=</span><span class="s2">"2020-12-21"</span><span class="p">,</span>
+    <span class="n">target_start</span><span class="o">=</span><span class="s2">"2023-01-01"</span><span class="p">,</span>
+    <span class="n">target_end</span><span class="o">=</span><span class="s2">"2023-12-21"</span><span class="p">,</span>
     <span class="n">threshold</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Compute standardized soil moisture anomalies (SSMA) with an optional</span>
 <span class="sd">    baseline completeness threshold.</span>
 
@@ -1166,20 +1167,20 @@
 <span class="sd">        Minimum number of years required under the selected threshold.</span>
 <span class="sd">    total_years : int</span>
 <span class="sd">        Number of years in the baseline period.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Select long-term (baseline) and target period</span>
     <span class="n">da_long_term</span> <span class="o">=</span> <span class="n">da_eu</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">baseline_start</span><span class="p">,</span> <span class="n">baseline_end</span><span class="p">))</span>
     <span class="n">da_target</span> <span class="o">=</span> <span class="n">da_eu</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">target_start</span><span class="p">,</span> <span class="n">target_end</span><span class="p">))</span>
 
     <span class="c1"># Group baseline by day-of-year</span>
-    <span class="n">doy_long_term</span> <span class="o">=</span> <span class="n">da_long_term</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.dayofyear&quot;</span><span class="p">)</span>
+    <span class="n">doy_long_term</span> <span class="o">=</span> <span class="n">da_long_term</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"time.dayofyear"</span><span class="p">)</span>
 
     <span class="c1"># Count valid (non-NaN) years for each DOY at each pixel</span>
-    <span class="n">valid_counts</span> <span class="o">=</span> <span class="n">doy_long_term</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+    <span class="n">valid_counts</span> <span class="o">=</span> <span class="n">doy_long_term</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">"time"</span><span class="p">)</span>
 
     <span class="c1"># Total number of years in the baseline</span>
-    <span class="n">total_years</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">da_long_term</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+    <span class="n">total_years</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">da_long_term</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
 
     <span class="c1"># Build completeness mask</span>
     <span class="k">if</span> <span class="n">threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1190,15 +1191,15 @@
         <span class="n">complete_mask</span> <span class="o">=</span> <span class="n">valid_counts</span> <span class="o">&gt;=</span> <span class="n">min_required_years</span>
 
     <span class="c1"># Compute long-term mean and std</span>
-    <span class="n">mean_long_term</span> <span class="o">=</span> <span class="n">doy_long_term</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">std_long_term</span> <span class="o">=</span> <span class="n">doy_long_term</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">mean_long_term</span> <span class="o">=</span> <span class="n">doy_long_term</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">std_long_term</span> <span class="o">=</span> <span class="n">doy_long_term</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="c1"># Avoid division by zero</span>
     <span class="n">std_long_term_safe</span> <span class="o">=</span> <span class="n">std_long_term</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">std_long_term</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
 
     <span class="c1"># Group target year by DOY</span>
-    <span class="n">doy_target</span> <span class="o">=</span> <span class="n">da_target</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.dayofyear&quot;</span><span class="p">)</span>
-    <span class="n">sm_target</span> <span class="o">=</span> <span class="n">doy_target</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">doy_target</span> <span class="o">=</span> <span class="n">da_target</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"time.dayofyear"</span><span class="p">)</span>
+    <span class="n">sm_target</span> <span class="o">=</span> <span class="n">doy_target</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="c1"># Compute standardized anomaly</span>
     <span class="n">ssma_raw</span> <span class="o">=</span> <span class="p">(</span><span class="n">sm_target</span> <span class="o">-</span> <span class="n">mean_long_term</span><span class="p">)</span> <span class="o">/</span> <span class="n">std_long_term_safe</span>
@@ -1266,19 +1267,19 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define custom colormap and boundaries</span>
 <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;#b35806ff&quot;</span><span class="p">,</span>  <span class="c1"># &lt;-2</span>
-    <span class="s2">&quot;#f1a340ff&quot;</span><span class="p">,</span>  <span class="c1"># -2 to -1.5</span>
-    <span class="s2">&quot;#fee0b6ff&quot;</span><span class="p">,</span>  <span class="c1"># -1.5 to -1</span>
-    <span class="s2">&quot;#ffffffff&quot;</span><span class="p">,</span>  <span class="c1"># -1 to 1</span>
-    <span class="s2">&quot;#d1e5f0ff&quot;</span><span class="p">,</span>  <span class="c1"># 1 to 1.5</span>
-    <span class="s2">&quot;#67a9cfff&quot;</span><span class="p">,</span>  <span class="c1"># 1.5 to 2</span>
-    <span class="s2">&quot;#2166acff&quot;</span>   <span class="c1"># &gt;= 2</span>
+    <span class="s2">"#b35806ff"</span><span class="p">,</span>  <span class="c1"># &lt;-2</span>
+    <span class="s2">"#f1a340ff"</span><span class="p">,</span>  <span class="c1"># -2 to -1.5</span>
+    <span class="s2">"#fee0b6ff"</span><span class="p">,</span>  <span class="c1"># -1.5 to -1</span>
+    <span class="s2">"#ffffffff"</span><span class="p">,</span>  <span class="c1"># -1 to 1</span>
+    <span class="s2">"#d1e5f0ff"</span><span class="p">,</span>  <span class="c1"># 1 to 1.5</span>
+    <span class="s2">"#67a9cfff"</span><span class="p">,</span>  <span class="c1"># 1.5 to 2</span>
+    <span class="s2">"#2166acff"</span>   <span class="c1"># &gt;= 2</span>
 <span class="p">]</span>
 <span class="n">bounds</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>  <span class="c1"># Define boundaries</span>
 
 <span class="c1"># Create colormap and norm</span>
 <span class="n">cmap</span> <span class="o">=</span> <span class="n">mcolors</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
-<span class="n">cmap</span><span class="o">.</span><span class="n">set_bad</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightgray&#39;</span><span class="p">)</span>  <span class="c1"># Gray for no data</span>
+<span class="n">cmap</span><span class="o">.</span><span class="n">set_bad</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'lightgray'</span><span class="p">)</span>  <span class="c1"># Gray for no data</span>
 <span class="n">norm</span> <span class="o">=</span> <span class="n">mcolors</span><span class="o">.</span><span class="n">BoundaryNorm</span><span class="p">(</span><span class="n">bounds</span><span class="p">,</span> <span class="n">ncolors</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">),</span> <span class="n">clip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1294,35 +1295,35 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">boxes</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">{</span>
-        <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;Iberian Peninsula&#39;</span><span class="p">,</span> 
-        <span class="s1">&#39;min_lat&#39;</span><span class="p">:</span> <span class="mi">35</span><span class="p">,</span> <span class="s1">&#39;max_lat&#39;</span><span class="p">:</span> <span class="mi">44</span><span class="p">,</span> 
-        <span class="s1">&#39;min_lon&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;max_lon&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> 
-        <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;red&#39;</span>
+        <span class="s1">'label'</span><span class="p">:</span> <span class="s1">'Iberian Peninsula'</span><span class="p">,</span> 
+        <span class="s1">'min_lat'</span><span class="p">:</span> <span class="mi">35</span><span class="p">,</span> <span class="s1">'max_lat'</span><span class="p">:</span> <span class="mi">44</span><span class="p">,</span> 
+        <span class="s1">'min_lon'</span><span class="p">:</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="s1">'max_lon'</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> 
+        <span class="s1">'color'</span><span class="p">:</span> <span class="s1">'red'</span>
     <span class="p">},</span>
     <span class="p">{</span>
-        <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;Great Britain and Ireland&#39;</span><span class="p">,</span> 
-        <span class="s1">&#39;min_lat&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s1">&#39;max_lat&#39;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span> 
-        <span class="s1">&#39;min_lon&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">11</span><span class="p">,</span> <span class="s1">&#39;max_lon&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> 
-        <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;orange&#39;</span><span class="p">},</span>
+        <span class="s1">'label'</span><span class="p">:</span> <span class="s1">'Great Britain and Ireland'</span><span class="p">,</span> 
+        <span class="s1">'min_lat'</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s1">'max_lat'</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span> 
+        <span class="s1">'min_lon'</span><span class="p">:</span> <span class="o">-</span><span class="mi">11</span><span class="p">,</span> <span class="s1">'max_lon'</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> 
+        <span class="s1">'color'</span><span class="p">:</span> <span class="s1">'orange'</span><span class="p">},</span>
 
     <span class="p">{</span>
-        <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;Southern Balkans and Italy&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;min_lat&#39;</span><span class="p">:</span> <span class="mi">36</span><span class="p">,</span> <span class="s1">&#39;max_lat&#39;</span><span class="p">:</span> <span class="mi">47</span><span class="p">,</span>
-        <span class="s1">&#39;min_lon&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;max_lon&#39;</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span>
-        <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;green&#39;</span>
+        <span class="s1">'label'</span><span class="p">:</span> <span class="s1">'Southern Balkans and Italy'</span><span class="p">,</span>
+        <span class="s1">'min_lat'</span><span class="p">:</span> <span class="mi">36</span><span class="p">,</span> <span class="s1">'max_lat'</span><span class="p">:</span> <span class="mi">47</span><span class="p">,</span>
+        <span class="s1">'min_lon'</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="s1">'max_lon'</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span>
+        <span class="s1">'color'</span><span class="p">:</span> <span class="s1">'green'</span>
     <span class="p">},</span>
     <span class="p">{</span>
-        <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;Nordic and Baltic region&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;min_lat&#39;</span><span class="p">:</span> <span class="mi">55</span><span class="p">,</span> <span class="s1">&#39;max_lat&#39;</span><span class="p">:</span> <span class="mi">71</span><span class="p">,</span>
-        <span class="s1">&#39;min_lon&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;max_lon&#39;</span><span class="p">:</span> <span class="mi">28</span><span class="p">,</span>
-        <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;blue&#39;</span>
+        <span class="s1">'label'</span><span class="p">:</span> <span class="s1">'Nordic and Baltic region'</span><span class="p">,</span>
+        <span class="s1">'min_lat'</span><span class="p">:</span> <span class="mi">55</span><span class="p">,</span> <span class="s1">'max_lat'</span><span class="p">:</span> <span class="mi">71</span><span class="p">,</span>
+        <span class="s1">'min_lon'</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">'max_lon'</span><span class="p">:</span> <span class="mi">28</span><span class="p">,</span>
+        <span class="s1">'color'</span><span class="p">:</span> <span class="s1">'blue'</span>
     <span class="p">},</span>
 
     <span class="p">{</span>
-        <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;Germany–Benelux–Poland&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;min_lat&#39;</span><span class="p">:</span> <span class="mi">48</span><span class="p">,</span> <span class="s1">&#39;max_lat&#39;</span><span class="p">:</span> <span class="mi">54</span><span class="p">,</span>
-        <span class="s1">&#39;min_lon&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;max_lon&#39;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span>
-        <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;purple&#39;</span>
+        <span class="s1">'label'</span><span class="p">:</span> <span class="s1">'Germany–Benelux–Poland'</span><span class="p">,</span>
+        <span class="s1">'min_lat'</span><span class="p">:</span> <span class="mi">48</span><span class="p">,</span> <span class="s1">'max_lat'</span><span class="p">:</span> <span class="mi">54</span><span class="p">,</span>
+        <span class="s1">'min_lon'</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">'max_lon'</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span>
+        <span class="s1">'color'</span><span class="p">:</span> <span class="s1">'purple'</span>
     <span class="p">}</span>
 <span class="p">]</span>
 </pre></div>
@@ -1343,15 +1344,15 @@
     <span class="n">cmap</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">norm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">main_title</span><span class="o">=</span><span class="s2">&quot;Surface Soil Moisture Anomaly&quot;</span><span class="p">,</span>
+    <span class="n">main_title</span><span class="o">=</span><span class="s2">"Surface Soil Moisture Anomaly"</span><span class="p">,</span>
     <span class="n">projection</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">15</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">72</span><span class="p">),</span>
     <span class="n">dpi</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Plot SSMA maps for the 3rd dekad of April, May, June, and July 2023</span>
 <span class="sd">    in a 2x2 panel layout.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">if</span> <span class="n">projection</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">projection</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
@@ -1362,27 +1363,27 @@
     <span class="n">panel_labels</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="n">month_names</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;April&quot;</span><span class="p">,</span>
-        <span class="mi">5</span><span class="p">:</span> <span class="s2">&quot;May&quot;</span><span class="p">,</span>
-        <span class="mi">6</span><span class="p">:</span> <span class="s2">&quot;June&quot;</span><span class="p">,</span>
-        <span class="mi">7</span><span class="p">:</span> <span class="s2">&quot;July&quot;</span>
+        <span class="mi">4</span><span class="p">:</span> <span class="s2">"April"</span><span class="p">,</span>
+        <span class="mi">5</span><span class="p">:</span> <span class="s2">"May"</span><span class="p">,</span>
+        <span class="mi">6</span><span class="p">:</span> <span class="s2">"June"</span><span class="p">,</span>
+        <span class="mi">7</span><span class="p">:</span> <span class="s2">"July"</span>
     <span class="p">}</span>
 
     <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="n">selected_months</span><span class="p">:</span>
         <span class="n">doy</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;2023-</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">-21&quot;</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;datetime64[D]&quot;</span><span class="p">)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="sa">f</span><span class="s2">"2023-</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">-21"</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"datetime64[D]"</span><span class="p">)</span>
             <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
             <span class="o">.</span><span class="n">timetuple</span><span class="p">()</span>
             <span class="o">.</span><span class="n">tm_yday</span>
         <span class="p">)</span>
         <span class="n">selected_doys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doy</span><span class="p">)</span>
-        <span class="n">panel_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">month_names</span><span class="p">[</span><span class="n">month</span><span class="p">]</span><span class="si">}</span><span class="s2"> - 3rd Dekad&quot;</span><span class="p">)</span>
+        <span class="n">panel_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">month_names</span><span class="p">[</span><span class="n">month</span><span class="p">]</span><span class="si">}</span><span class="s2"> - 3rd Dekad"</span><span class="p">)</span>
 
     <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
         <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>
         <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">10.5</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
-        <span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;projection&quot;</span><span class="p">:</span> <span class="n">projection</span><span class="p">},</span>
+        <span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">"projection"</span><span class="p">:</span> <span class="n">projection</span><span class="p">},</span>
         <span class="n">dpi</span><span class="o">=</span><span class="n">dpi</span>
     <span class="p">)</span>
 
@@ -1390,15 +1391,15 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_rectangles</span><span class="p">(</span><span class="n">ax</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">box</span> <span class="ow">in</span> <span class="n">boxes</span><span class="p">:</span>
-            <span class="n">width</span> <span class="o">=</span> <span class="n">box</span><span class="p">[</span><span class="s2">&quot;max_lon&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">box</span><span class="p">[</span><span class="s2">&quot;min_lon&quot;</span><span class="p">]</span>
-            <span class="n">height</span> <span class="o">=</span> <span class="n">box</span><span class="p">[</span><span class="s2">&quot;max_lat&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">box</span><span class="p">[</span><span class="s2">&quot;min_lat&quot;</span><span class="p">]</span>
+            <span class="n">width</span> <span class="o">=</span> <span class="n">box</span><span class="p">[</span><span class="s2">"max_lon"</span><span class="p">]</span> <span class="o">-</span> <span class="n">box</span><span class="p">[</span><span class="s2">"min_lon"</span><span class="p">]</span>
+            <span class="n">height</span> <span class="o">=</span> <span class="n">box</span><span class="p">[</span><span class="s2">"max_lat"</span><span class="p">]</span> <span class="o">-</span> <span class="n">box</span><span class="p">[</span><span class="s2">"min_lat"</span><span class="p">]</span>
             <span class="n">rect</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">(</span>
-                <span class="p">(</span><span class="n">box</span><span class="p">[</span><span class="s2">&quot;min_lon&quot;</span><span class="p">],</span> <span class="n">box</span><span class="p">[</span><span class="s2">&quot;min_lat&quot;</span><span class="p">]),</span>
+                <span class="p">(</span><span class="n">box</span><span class="p">[</span><span class="s2">"min_lon"</span><span class="p">],</span> <span class="n">box</span><span class="p">[</span><span class="s2">"min_lat"</span><span class="p">]),</span>
                 <span class="n">width</span><span class="p">,</span>
                 <span class="n">height</span><span class="p">,</span>
                 <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                <span class="n">edgecolor</span><span class="o">=</span><span class="n">box</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">],</span>
-                <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+                <span class="n">edgecolor</span><span class="o">=</span><span class="n">box</span><span class="p">[</span><span class="s2">"color"</span><span class="p">],</span>
+                <span class="n">facecolor</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span>
                 <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
                 <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span>
             <span class="p">)</span>
@@ -1408,10 +1409,10 @@
 
     <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">doy</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">selected_doys</span><span class="p">,</span> <span class="n">panel_labels</span><span class="p">):</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">(</span><span class="n">extent</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">BORDERS</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">BORDERS</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">COASTLINE</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">LAND</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;lightgray&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">OCEAN</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;lightgray&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">LAND</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">"lightgray"</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">OCEAN</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">"lightgray"</span><span class="p">)</span>
 
         <span class="n">add_rectangles</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
 
@@ -1432,14 +1433,14 @@
             <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
             <span class="n">draw_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
-            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">"gray"</span><span class="p">,</span>
             <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
-            <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span>
+            <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span>
         <span class="p">)</span>
         <span class="n">gl</span><span class="o">.</span><span class="n">top_labels</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">gl</span><span class="o">.</span><span class="n">right_labels</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">gl</span><span class="o">.</span><span class="n">xlabel_style</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">}</span>
-        <span class="n">gl</span><span class="o">.</span><span class="n">ylabel_style</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">}</span>
+        <span class="n">gl</span><span class="o">.</span><span class="n">xlabel_style</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"size"</span><span class="p">:</span> <span class="mi">8</span><span class="p">}</span>
+        <span class="n">gl</span><span class="o">.</span><span class="n">ylabel_style</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"size"</span><span class="p">:</span> <span class="mi">8</span><span class="p">}</span>
 
     <span class="n">ticks</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">bounds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
 
@@ -1457,18 +1458,18 @@
     <span class="n">cbar</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span>
         <span class="n">im</span><span class="p">,</span>
         <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span>
-        <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;horizontal&quot;</span><span class="p">,</span>
+        <span class="n">orientation</span><span class="o">=</span><span class="s2">"horizontal"</span><span class="p">,</span>
         <span class="n">fraction</span><span class="o">=</span><span class="mf">0.045</span><span class="p">,</span>
         <span class="n">pad</span><span class="o">=</span><span class="mf">0.08</span><span class="p">,</span>
         <span class="n">shrink</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
         <span class="n">ticks</span><span class="o">=</span><span class="n">ticks</span><span class="p">,</span>
-        <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span>
+        <span class="n">extend</span><span class="o">=</span><span class="s2">"both"</span>
     <span class="p">)</span>
     <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-    <span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s2">&quot;SSMA&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+    <span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s2">"SSMA"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
 
     <span class="c1"># Main title + year</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">main_title</span><span class="si">}</span><span class="s2"> (2023)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.97</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">main_title</span><span class="si">}</span><span class="s2"> (2023)"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.97</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">fig</span>
 </pre></div>
@@ -1489,7 +1490,7 @@
     <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span>
     <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span>
     <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
-    <span class="n">main_title</span><span class="o">=</span><span class="s2">&quot;Surface Soil Moisture Anomaly</span><span class="se">\n</span><span class="s2">No baseline threshold&quot;</span>
+    <span class="n">main_title</span><span class="o">=</span><span class="s2">"Surface Soil Moisture Anomaly</span><span class="se">\n</span><span class="s2">No baseline threshold"</span>
 <span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -1514,7 +1515,7 @@
     <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span>
     <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span>
     <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
-    <span class="n">main_title</span><span class="o">=</span><span class="s2">&quot;Surface Soil Moisture Anomaly</span><span class="se">\n</span><span class="s2">Baseline threshold = 50%&quot;</span>
+    <span class="n">main_title</span><span class="o">=</span><span class="s2">"Surface Soil Moisture Anomaly</span><span class="se">\n</span><span class="s2">Baseline threshold = 50%"</span>
 <span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -1539,7 +1540,7 @@
     <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span>
     <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span>
     <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
-    <span class="n">main_title</span><span class="o">=</span><span class="s2">&quot;Surface Soil Moisture Anomaly</span><span class="se">\n</span><span class="s2">Baseline threshold = 70%&quot;</span>
+    <span class="n">main_title</span><span class="o">=</span><span class="s2">"Surface Soil Moisture Anomaly</span><span class="se">\n</span><span class="s2">Baseline threshold = 70%"</span>
 <span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -1579,7 +1580,7 @@
     <span class="n">end_doy</span><span class="o">=</span><span class="mi">233</span><span class="p">,</span>
     <span class="n">year</span><span class="o">=</span><span class="mi">2023</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Prepare regional SSMA statistics over land pixels only.</span>
 
 <span class="sd">    Returns</span>
@@ -1589,51 +1590,51 @@
 <span class="sd">    q25_ssma : xr.DataArray</span>
 <span class="sd">    q75_ssma : xr.DataArray</span>
 <span class="sd">    completeness_perc : xr.DataArray</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Subset region</span>
     <span class="n">ssma_subset</span> <span class="o">=</span> <span class="n">ssma_data</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span>
-        <span class="n">longitude</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">box</span><span class="p">[</span><span class="s2">&quot;min_lon&quot;</span><span class="p">],</span> <span class="n">box</span><span class="p">[</span><span class="s2">&quot;max_lon&quot;</span><span class="p">]),</span>
-        <span class="n">latitude</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">box</span><span class="p">[</span><span class="s2">&quot;max_lat&quot;</span><span class="p">],</span> <span class="n">box</span><span class="p">[</span><span class="s2">&quot;min_lat&quot;</span><span class="p">])</span>  <span class="c1"># latitude descending</span>
+        <span class="n">longitude</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">box</span><span class="p">[</span><span class="s2">"min_lon"</span><span class="p">],</span> <span class="n">box</span><span class="p">[</span><span class="s2">"max_lon"</span><span class="p">]),</span>
+        <span class="n">latitude</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">box</span><span class="p">[</span><span class="s2">"max_lat"</span><span class="p">],</span> <span class="n">box</span><span class="p">[</span><span class="s2">"min_lat"</span><span class="p">])</span>  <span class="c1"># latitude descending</span>
     <span class="p">)</span>
 
     <span class="c1"># Subset time</span>
     <span class="n">available_doys</span> <span class="o">=</span> <span class="n">ssma_subset</span><span class="o">.</span><span class="n">dayofyear</span><span class="o">.</span><span class="n">values</span>
     <span class="n">target_doys</span> <span class="o">=</span> <span class="p">[</span><span class="n">doy</span> <span class="k">for</span> <span class="n">doy</span> <span class="ow">in</span> <span class="n">available_doys</span> <span class="k">if</span> <span class="n">start_doy</span> <span class="o">&lt;=</span> <span class="n">doy</span> <span class="o">&lt;=</span> <span class="n">end_doy</span><span class="p">]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">target_doys</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No matching DOYs in range </span><span class="si">{</span><span class="n">start_doy</span><span class="si">}</span><span class="s2">–</span><span class="si">{</span><span class="n">end_doy</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"No matching DOYs in range </span><span class="si">{</span><span class="n">start_doy</span><span class="si">}</span><span class="s2">–</span><span class="si">{</span><span class="n">end_doy</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
 
     <span class="n">ssma_subset</span> <span class="o">=</span> <span class="n">ssma_subset</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">dayofyear</span><span class="o">=</span><span class="n">target_doys</span><span class="p">)</span>
 
     <span class="c1"># Land mask</span>
     <span class="n">dummy</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">ssma_subset</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">dayofyear</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">dummy</span> <span class="o">=</span> <span class="n">dummy</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">write_crs</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span>
+    <span class="n">dummy</span> <span class="o">=</span> <span class="n">dummy</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">write_crs</span><span class="p">(</span><span class="s2">"EPSG:4326"</span><span class="p">)</span>
 
     <span class="n">clipped</span> <span class="o">=</span> <span class="n">dummy</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">europe_shape</span><span class="o">.</span><span class="n">geometry</span><span class="p">,</span> <span class="n">europe_shape</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">land_mask</span> <span class="o">=</span> <span class="n">clipped</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span>
 
     <span class="n">total_land_pixels</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">land_mask</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
     <span class="k">if</span> <span class="n">total_land_pixels</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No land pixels found in </span><span class="si">{</span><span class="n">box</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"No land pixels found in </span><span class="si">{</span><span class="n">box</span><span class="p">[</span><span class="s1">'label'</span><span class="p">]</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
 
     <span class="c1"># Keep only land pixels</span>
     <span class="n">ssma_land</span> <span class="o">=</span> <span class="n">ssma_subset</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">land_mask</span><span class="p">)</span>
 
     <span class="c1"># Stack spatial dims</span>
-    <span class="n">stacked</span> <span class="o">=</span> <span class="n">ssma_land</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">pixel</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">))</span>
+    <span class="n">stacked</span> <span class="o">=</span> <span class="n">ssma_land</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">pixel</span><span class="o">=</span><span class="p">(</span><span class="s2">"latitude"</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">))</span>
 
-    <span class="n">median_ssma</span> <span class="o">=</span> <span class="n">stacked</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;pixel&quot;</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
-    <span class="n">q25_ssma</span> <span class="o">=</span> <span class="n">stacked</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;pixel&quot;</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
-    <span class="n">q75_ssma</span> <span class="o">=</span> <span class="n">stacked</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;pixel&quot;</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+    <span class="n">median_ssma</span> <span class="o">=</span> <span class="n">stacked</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">"pixel"</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+    <span class="n">q25_ssma</span> <span class="o">=</span> <span class="n">stacked</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">"pixel"</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+    <span class="n">q75_ssma</span> <span class="o">=</span> <span class="n">stacked</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">"pixel"</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
 
     <span class="c1"># Completeness over land only</span>
     <span class="n">valid_mask</span> <span class="o">=</span> <span class="n">ssma_land</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span>
-    <span class="n">valid_count</span> <span class="o">=</span> <span class="n">valid_mask</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+    <span class="n">valid_count</span> <span class="o">=</span> <span class="n">valid_mask</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">])</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
     <span class="n">completeness_perc</span> <span class="o">=</span> <span class="p">(</span><span class="n">valid_count</span> <span class="o">/</span> <span class="n">total_land_pixels</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
 
     <span class="c1"># Dates</span>
     <span class="n">date_index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
-        <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">doy</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">doy</span> <span class="ow">in</span> <span class="n">ssma_subset</span><span class="o">.</span><span class="n">dayofyear</span><span class="o">.</span><span class="n">values</span><span class="p">],</span>
-        <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y-%j&quot;</span>
+        <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">doy</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">doy</span> <span class="ow">in</span> <span class="n">ssma_subset</span><span class="o">.</span><span class="n">dayofyear</span><span class="o">.</span><span class="n">values</span><span class="p">],</span>
+        <span class="nb">format</span><span class="o">=</span><span class="s2">"%Y-%j"</span>
     <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">date_index</span><span class="p">,</span> <span class="n">median_ssma</span><span class="p">,</span> <span class="n">q25_ssma</span><span class="p">,</span> <span class="n">q75_ssma</span><span class="p">,</span> <span class="n">completeness_perc</span>
@@ -1650,7 +1651,7 @@
     <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">),</span>
     <span class="n">suptitle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Plot 3 side-by-side panels of regional SSMA over land pixels only:</span>
 <span class="sd">    - median line</span>
 <span class="sd">    - IQR shading (25th–75th percentile)</span>
@@ -1675,16 +1676,16 @@
 <span class="sd">        Figure size.</span>
 <span class="sd">    suptitle : str or None</span>
 <span class="sd">        Optional overall title.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ssma_list</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;This function expects exactly 3 SSMA DataArrays.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"This function expects exactly 3 SSMA DataArrays."</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">panel_titles</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Please provide exactly 3 panel titles.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Please provide exactly 3 panel titles."</span><span class="p">)</span>
 
     <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">color</span> <span class="o">=</span> <span class="n">box</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;color&quot;</span><span class="p">,</span> <span class="s2">&quot;blue&quot;</span><span class="p">)</span>
-    <span class="n">label</span> <span class="o">=</span> <span class="n">box</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="s2">&quot;Region&quot;</span><span class="p">)</span>
+    <span class="n">color</span> <span class="o">=</span> <span class="n">box</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"color"</span><span class="p">,</span> <span class="s2">"blue"</span><span class="p">)</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">box</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"label"</span><span class="p">,</span> <span class="s2">"Region"</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">ssma_data</span><span class="p">,</span> <span class="n">panel_title</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">ssma_list</span><span class="p">,</span> <span class="n">panel_titles</span><span class="p">)):</span>
         <span class="n">date_index</span><span class="p">,</span> <span class="n">median_ssma</span><span class="p">,</span> <span class="n">q25_ssma</span><span class="p">,</span> <span class="n">q75_ssma</span><span class="p">,</span> <span class="n">completeness_perc</span> <span class="o">=</span> <span class="n">_prepare_region_ssma_stats</span><span class="p">(</span>
@@ -1700,11 +1701,11 @@
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
             <span class="n">date_index</span><span class="p">,</span>
             <span class="n">median_ssma</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-            <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
-            <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+            <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span>
+            <span class="n">linestyle</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span>
             <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
             <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
-            <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Median SSMA&quot;</span>
+            <span class="n">label</span><span class="o">=</span><span class="s2">"Median SSMA"</span>
         <span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span>
             <span class="n">date_index</span><span class="p">,</span>
@@ -1712,49 +1713,49 @@
             <span class="n">q75_ssma</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
             <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
             <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span>
-            <span class="n">label</span><span class="o">=</span><span class="s2">&quot;IQR&quot;</span>
+            <span class="n">label</span><span class="o">=</span><span class="s2">"IQR"</span>
         <span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
         <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">panel_title</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Date&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Date"</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;SSMA&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"SSMA"</span><span class="p">)</span>
 
         <span class="c1"># Right axis: completeness</span>
         <span class="n">ax2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
         <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
             <span class="n">date_index</span><span class="p">,</span>
             <span class="n">completeness_perc</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span>
-            <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span>
-            <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">"gray"</span><span class="p">,</span>
+            <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span>
+            <span class="n">marker</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span>
             <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
-            <span class="n">label</span><span class="o">=</span><span class="s2">&quot;% Completeness&quot;</span>
+            <span class="n">label</span><span class="o">=</span><span class="s2">"% Completeness"</span>
         <span class="p">)</span>
         <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;% Completeness (land only)&quot;</span><span class="p">)</span>
+            <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"% Completeness (land only)"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
 
         <span class="c1"># X ticks on dekad starts</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">MonthLocator</span><span class="p">())</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">DateFormatter</span><span class="p">(</span><span class="s1">&#39;%b&#39;</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">DateFormatter</span><span class="p">(</span><span class="s1">'%b'</span><span class="p">))</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">(),</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="c1"># Only one combined legend, placed in first panel</span>
         <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">lines1</span><span class="p">,</span> <span class="n">labels1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
             <span class="n">lines2</span><span class="p">,</span> <span class="n">labels2</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">lines1</span> <span class="o">+</span> <span class="n">lines2</span><span class="p">,</span> <span class="n">labels1</span> <span class="o">+</span> <span class="n">labels2</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">lines1</span> <span class="o">+</span> <span class="n">lines2</span><span class="p">,</span> <span class="n">labels1</span> <span class="o">+</span> <span class="n">labels2</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"upper right"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">suptitle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">suptitle</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">: regional SSMA across land pixels only</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;Median and interquartile range, </span><span class="si">{</span><span class="n">date_index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%b </span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">–</span><span class="si">{</span><span class="n">date_index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%b </span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">: regional SSMA across land pixels only</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"Median and interquartile range, </span><span class="si">{</span><span class="n">date_index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%b </span><span class="si">%d</span><span class="s1">'</span><span class="p">)</span><span class="si">}</span><span class="s2">–</span><span class="si">{</span><span class="n">date_index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%b </span><span class="si">%d</span><span class="s1">'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span>
 
     <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">suptitle</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.03</span><span class="p">)</span>
@@ -1774,7 +1775,7 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_ssma_median_iqr_three_panels</span><span class="p">(</span>
     <span class="n">ssma_list</span><span class="o">=</span><span class="p">[</span><span class="n">ssma_none</span><span class="p">,</span> <span class="n">ssma_05</span><span class="p">,</span> <span class="n">ssma_07</span><span class="p">],</span>
-    <span class="n">panel_titles</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;No threshold&quot;</span><span class="p">,</span> <span class="s2">&quot;Threshold = 0.5&quot;</span><span class="p">,</span> <span class="s2">&quot;Threshold = 0.7&quot;</span><span class="p">],</span>
+    <span class="n">panel_titles</span><span class="o">=</span><span class="p">[</span><span class="s2">"No threshold"</span><span class="p">,</span> <span class="s2">"Threshold = 0.5"</span><span class="p">,</span> <span class="s2">"Threshold = 0.7"</span><span class="p">],</span>
     <span class="n">box</span><span class="o">=</span><span class="n">boxes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>  <span class="c1"># Iberian Peninsula</span>
     <span class="n">europe_shape</span><span class="o">=</span><span class="n">europe_shape</span><span class="p">,</span>
     <span class="n">start_doy</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>   <span class="c1"># March 1st dekad</span>
@@ -1803,7 +1804,7 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_ssma_median_iqr_three_panels</span><span class="p">(</span>
     <span class="n">ssma_list</span><span class="o">=</span><span class="p">[</span><span class="n">ssma_none</span><span class="p">,</span> <span class="n">ssma_05</span><span class="p">,</span> <span class="n">ssma_07</span><span class="p">],</span>
-    <span class="n">panel_titles</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;No threshold&quot;</span><span class="p">,</span> <span class="s2">&quot;Threshold = 0.5&quot;</span><span class="p">,</span> <span class="s2">&quot;Threshold = 0.7&quot;</span><span class="p">],</span>
+    <span class="n">panel_titles</span><span class="o">=</span><span class="p">[</span><span class="s2">"No threshold"</span><span class="p">,</span> <span class="s2">"Threshold = 0.5"</span><span class="p">,</span> <span class="s2">"Threshold = 0.7"</span><span class="p">],</span>
     <span class="n">box</span><span class="o">=</span><span class="n">boxes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
     <span class="n">europe_shape</span><span class="o">=</span><span class="n">europe_shape</span><span class="p">,</span>
     <span class="n">start_doy</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>   <span class="c1"># March 1st dekad</span>
@@ -1829,7 +1830,7 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_ssma_median_iqr_three_panels</span><span class="p">(</span>
     <span class="n">ssma_list</span><span class="o">=</span><span class="p">[</span><span class="n">ssma_none</span><span class="p">,</span> <span class="n">ssma_05</span><span class="p">,</span> <span class="n">ssma_07</span><span class="p">],</span>
-    <span class="n">panel_titles</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;No threshold&quot;</span><span class="p">,</span> <span class="s2">&quot;Threshold = 0.5&quot;</span><span class="p">,</span> <span class="s2">&quot;Threshold = 0.7&quot;</span><span class="p">],</span>
+    <span class="n">panel_titles</span><span class="o">=</span><span class="p">[</span><span class="s2">"No threshold"</span><span class="p">,</span> <span class="s2">"Threshold = 0.5"</span><span class="p">,</span> <span class="s2">"Threshold = 0.7"</span><span class="p">],</span>
     <span class="n">box</span><span class="o">=</span><span class="n">boxes</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
     <span class="n">europe_shape</span><span class="o">=</span><span class="n">europe_shape</span><span class="p">,</span>
     <span class="n">start_doy</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>   <span class="c1"># March 1st dekad</span>
@@ -1856,7 +1857,7 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_ssma_median_iqr_three_panels</span><span class="p">(</span>
     <span class="n">ssma_list</span><span class="o">=</span><span class="p">[</span><span class="n">ssma_none</span><span class="p">,</span> <span class="n">ssma_05</span><span class="p">,</span> <span class="n">ssma_07</span><span class="p">],</span>
-    <span class="n">panel_titles</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;No threshold&quot;</span><span class="p">,</span> <span class="s2">&quot;Threshold = 0.5&quot;</span><span class="p">,</span> <span class="s2">&quot;Threshold = 0.7&quot;</span><span class="p">],</span>
+    <span class="n">panel_titles</span><span class="o">=</span><span class="p">[</span><span class="s2">"No threshold"</span><span class="p">,</span> <span class="s2">"Threshold = 0.5"</span><span class="p">,</span> <span class="s2">"Threshold = 0.7"</span><span class="p">],</span>
     <span class="n">box</span><span class="o">=</span><span class="n">boxes</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
     <span class="n">europe_shape</span><span class="o">=</span><span class="n">europe_shape</span><span class="p">,</span>
     <span class="n">start_doy</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>   <span class="c1"># March 1st dekad</span>
@@ -1883,7 +1884,7 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_ssma_median_iqr_three_panels</span><span class="p">(</span>
     <span class="n">ssma_list</span><span class="o">=</span><span class="p">[</span><span class="n">ssma_none</span><span class="p">,</span> <span class="n">ssma_05</span><span class="p">,</span> <span class="n">ssma_07</span><span class="p">],</span>
-    <span class="n">panel_titles</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;No threshold&quot;</span><span class="p">,</span> <span class="s2">&quot;Threshold = 0.5&quot;</span><span class="p">,</span> <span class="s2">&quot;Threshold = 0.7&quot;</span><span class="p">],</span>
+    <span class="n">panel_titles</span><span class="o">=</span><span class="p">[</span><span class="s2">"No threshold"</span><span class="p">,</span> <span class="s2">"Threshold = 0.5"</span><span class="p">,</span> <span class="s2">"Threshold = 0.7"</span><span class="p">],</span>
     <span class="n">box</span><span class="o">=</span><span class="n">boxes</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span>
     <span class="n">europe_shape</span><span class="o">=</span><span class="n">europe_shape</span><span class="p">,</span>
     <span class="n">start_doy</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>   <span class="c1"># March 1st dekad</span>

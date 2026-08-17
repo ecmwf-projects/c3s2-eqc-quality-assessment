@@ -257,6 +257,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../Cryosphere/satellite_satellite-ice-sheet-elevation-change_trend-assessment_q01.html">1.3.8. Uncertainty of ice sheet surface elevation change data over Greenland for volume and mass change trend assessments</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Cryosphere/satellite_satellite-ice-sheet-mass-balance_trend-assessment_q02.html">1.3.9. Gravimetric mass balance data from satellite observations: utility analysis for mass change monitoring of the ice sheets</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Cryosphere/satellite_satellite-ice-sheet-mass-balance_uncertainty_q01.html">1.3.10. Gravimetric mass changes from satellite data: assessment of resolution and uncertainty of Greenland ice sheet mass changes for glaciological applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Cryosphere/satellite_satellite-sea-ice-drift_uncertainty-quality-flags_q01.html">1.3.11. Sea ice drift from satellite observations: resolution and uncertainty of Arctic sea ice drift for large-scale sea ice transport analysis</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../Land_Biosphere/Land_Biosphere.html">1.4. Land Biosphere</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -682,35 +683,35 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">utils</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;seaborn-v0_8-notebook&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"seaborn-v0_8-notebook"</span><span class="p">)</span>
 
 <span class="c1"># Time frame for the analysis</span>
 <span class="n">year_start</span> <span class="o">=</span> <span class="mi">1996</span>
 <span class="n">year_stop</span> <span class="o">=</span> <span class="mi">2022</span>
 
 <span class="c1"># Variable to show</span>
-<span class="n">varname</span> <span class="o">=</span> <span class="s2">&quot;total_ozone_column&quot;</span>
+<span class="n">varname</span> <span class="o">=</span> <span class="s2">"total_ozone_column"</span>
 
-<span class="n">collection_id</span> <span class="o">=</span> <span class="s2">&quot;satellite-ozone-v1&quot;</span>
+<span class="n">collection_id</span> <span class="o">=</span> <span class="s2">"satellite-ozone-v1"</span>
 <span class="n">requests</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;zip&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;processing_level&quot;</span><span class="p">:</span> <span class="s2">&quot;level_3&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="s2">&quot;atmosphere_mole_content_of_ozone&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;sensor&quot;</span><span class="p">:</span> <span class="s2">&quot;merged_uv&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;vertical_aggregation&quot;</span><span class="p">:</span> <span class="s2">&quot;total_column&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span>
-    <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">12</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span>
-    <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;v2000&quot;</span><span class="p">,</span>
+    <span class="s2">"format"</span><span class="p">:</span> <span class="s2">"zip"</span><span class="p">,</span>
+    <span class="s2">"processing_level"</span><span class="p">:</span> <span class="s2">"level_3"</span><span class="p">,</span>
+    <span class="s2">"variable"</span><span class="p">:</span> <span class="s2">"atmosphere_mole_content_of_ozone"</span><span class="p">,</span>
+    <span class="s2">"sensor"</span><span class="p">:</span> <span class="s2">"merged_uv"</span><span class="p">,</span>
+    <span class="s2">"vertical_aggregation"</span><span class="p">:</span> <span class="s2">"total_column"</span><span class="p">,</span>
+    <span class="s2">"year"</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span>
+    <span class="s2">"month"</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">12</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span>
+    <span class="s2">"version"</span><span class="p">:</span> <span class="s2">"v2000"</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="c1"># Regions</span>
 <span class="n">region_slices</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;global&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;lat_slice&quot;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">),</span> <span class="s2">&quot;lon_slice&quot;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">)},</span>
-    <span class="s2">&quot;tropics&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;lat_slice&quot;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">),</span> <span class="s2">&quot;lon_slice&quot;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">)},</span>
-    <span class="s2">&quot;NH mid-latitudes&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;lat_slice&quot;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span> <span class="s2">&quot;lon_slice&quot;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">)},</span>
-    <span class="s2">&quot;SH mid-latitudes&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;lat_slice&quot;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="o">-</span><span class="mi">60</span><span class="p">),</span> <span class="s2">&quot;lon_slice&quot;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">)},</span>
-    <span class="s2">&quot;NH polar&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;lat_slice&quot;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">90</span><span class="p">),</span> <span class="s2">&quot;lon_slice&quot;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">)},</span>
-    <span class="s2">&quot;SH polar&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;lat_slice&quot;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">),</span> <span class="s2">&quot;lon_slice&quot;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">)},</span>
+    <span class="s2">"global"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"lat_slice"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">),</span> <span class="s2">"lon_slice"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">)},</span>
+    <span class="s2">"tropics"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"lat_slice"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">),</span> <span class="s2">"lon_slice"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">)},</span>
+    <span class="s2">"NH mid-latitudes"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"lat_slice"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span> <span class="s2">"lon_slice"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">)},</span>
+    <span class="s2">"SH mid-latitudes"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"lat_slice"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="o">-</span><span class="mi">60</span><span class="p">),</span> <span class="s2">"lon_slice"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">)},</span>
+    <span class="s2">"NH polar"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"lat_slice"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">90</span><span class="p">),</span> <span class="s2">"lon_slice"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">)},</span>
+    <span class="s2">"SH polar"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"lat_slice"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">),</span> <span class="s2">"lon_slice"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">)},</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -730,7 +731,7 @@ The function <code class="docutils literal notranslate"><span class="pre">spatia
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">add_time_dim</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
-    <span class="n">time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;time_coverage_start&quot;</span><span class="p">][:</span><span class="mi">6</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y%m&quot;</span><span class="p">)</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"time_coverage_start"</span><span class="p">][:</span><span class="mi">6</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s2">"%Y%m"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="p">[</span><span class="n">time</span><span class="p">])</span>
 
 
@@ -756,32 +757,32 @@ The function <code class="docutils literal notranslate"><span class="pre">spatia
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;collection_id&quot;</span><span class="p">:</span> <span class="n">collection_id</span><span class="p">,</span>
-    <span class="s2">&quot;requests&quot;</span><span class="p">:</span> <span class="n">requests</span><span class="p">,</span>
-    <span class="s2">&quot;chunks&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
-    <span class="s2">&quot;preprocess&quot;</span><span class="p">:</span> <span class="n">add_time_dim</span><span class="p">,</span>
+    <span class="s2">"collection_id"</span><span class="p">:</span> <span class="n">collection_id</span><span class="p">,</span>
+    <span class="s2">"requests"</span><span class="p">:</span> <span class="n">requests</span><span class="p">,</span>
+    <span class="s2">"chunks"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"year"</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="s2">"preprocess"</span><span class="p">:</span> <span class="n">add_time_dim</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="c1"># Full dataset</span>
 <span class="n">ds_full</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 <span class="n">da</span> <span class="o">=</span> <span class="n">ds_full</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span>
 <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="n">da</span> <span class="o">=</span> <span class="n">da</span> <span class="o">*</span> <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;multiplication_factor_to_convert_to_DU&quot;</span><span class="p">]</span>
-<span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;DU&quot;</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">da</span> <span class="o">*</span> <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"multiplication_factor_to_convert_to_DU"</span><span class="p">]</span>
+<span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"DU"</span>
 
 <span class="c1"># Timeseries</span>
 <span class="n">datasets</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">region</span><span class="p">,</span> <span class="n">transform_func_kwargs</span> <span class="ow">in</span> <span class="n">region_slices</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">region</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">region</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="n">transform_func</span><span class="o">=</span><span class="n">spatial_weighted_mean</span><span class="p">,</span>
         <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="n">transform_func_kwargs</span><span class="p">,</span>
-        <span class="n">drop_variables</span><span class="o">=</span><span class="s2">&quot;time_bounds&quot;</span><span class="p">,</span>
+        <span class="n">drop_variables</span><span class="o">=</span><span class="s2">"time_bounds"</span><span class="p">,</span>
         <span class="n">quiet</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">region</span><span class="o">=</span><span class="p">[</span><span class="n">region</span><span class="p">]))</span>
-<span class="n">ds_timeseries</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="s2">&quot;region&quot;</span><span class="p">)</span>
+<span class="n">ds_timeseries</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="s2">"region"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -790,12 +791,12 @@ The function <code class="docutils literal notranslate"><span class="pre">spatia
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 27/27 [00:00&lt;00:00, 59.02it/s]
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>region=&#39;global&#39;
-region=&#39;tropics&#39;
-region=&#39;NH mid-latitudes&#39;
-region=&#39;SH mid-latitudes&#39;
-region=&#39;NH polar&#39;
-region=&#39;SH polar&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>region='global'
+region='tropics'
+region='NH mid-latitudes'
+region='SH mid-latitudes'
+region='NH polar'
+region='SH polar'
 </pre></div>
 </div>
 </div>
@@ -814,14 +815,14 @@ region=&#39;SH polar&#39;
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">da_obs</span> <span class="o">=</span> <span class="n">ds_full</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">varname</span><span class="si">}</span><span class="s2">_number_of_observations&quot;</span><span class="p">]</span>
-<span class="n">da_obs</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">da_obs</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;use&quot;</span><span class="p">,</span><span class="s2">&quot;used&quot;</span><span class="p">)</span>
-<span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span><span class="n">da_obs</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">show_stats</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">da_obs</span> <span class="o">=</span> <span class="n">ds_full</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">varname</span><span class="si">}</span><span class="s2">_number_of_observations"</span><span class="p">]</span>
+<span class="n">da_obs</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"long_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">da_obs</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"long_name"</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"use"</span><span class="p">,</span><span class="s2">"used"</span><span class="p">)</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span><span class="n">da_obs</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">show_stats</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s1">'both'</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="n">da_sum</span> <span class="o">=</span> <span class="n">da_obs</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">/</span> <span class="n">da_obs</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">da_sum</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+    <span class="n">da_sum</span> <span class="o">=</span> <span class="n">da_obs</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s2">"longitude"</span><span class="p">,</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">/</span> <span class="n">da_obs</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">da_sum</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">"time"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -843,10 +844,10 @@ region=&#39;SH polar&#39;
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">contour_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;levels&quot;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">420</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="s2">&quot;extend&quot;</span><span class="p">:</span> <span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="s2">&quot;cmap&quot;</span><span class="p">:</span> <span class="s2">&quot;turbo&quot;</span><span class="p">}</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">contour_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"levels"</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">420</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="s2">"extend"</span><span class="p">:</span> <span class="s2">"both"</span><span class="p">,</span> <span class="s2">"cmap"</span><span class="p">:</span> <span class="s2">"turbo"</span><span class="p">}</span>
 <span class="nb">map</span> <span class="o">=</span> <span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span>
-    <span class="n">da</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-    <span class="n">plot_func</span><span class="o">=</span><span class="s2">&quot;contourf&quot;</span><span class="p">,</span>
+    <span class="n">da</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="n">plot_func</span><span class="o">=</span><span class="s2">"contourf"</span><span class="p">,</span>
     <span class="n">show_stats</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="o">**</span><span class="n">contour_kwargs</span><span class="p">,</span>
 <span class="p">)</span>
@@ -865,11 +866,11 @@ region=&#39;SH polar&#39;
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">da_annual_cycle</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.month&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">],</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">da_annual_cycle</span><span class="p">[</span><span class="s2">&quot;month&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">calendar</span><span class="o">.</span><span class="n">month_abbr</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">da_annual_cycle</span><span class="p">[</span><span class="s2">&quot;month&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">da_annual_cycle</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"time.month"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="s2">"time"</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">],</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">da_annual_cycle</span><span class="p">[</span><span class="s2">"month"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">calendar</span><span class="o">.</span><span class="n">month_abbr</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">da_annual_cycle</span><span class="p">[</span><span class="s2">"month"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 <span class="p">]</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">da_annual_cycle</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;month&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">contour_kwargs</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">da_annual_cycle</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">"month"</span><span class="p">,</span> <span class="o">**</span><span class="n">contour_kwargs</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -891,12 +892,12 @@ region=&#39;SH polar&#39;
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="n">da_anomaly</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">ds_timeseries</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.month&quot;</span><span class="p">)</span>
-        <span class="o">-</span> <span class="n">ds_timeseries</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.month&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="n">ds_timeseries</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"time.month"</span><span class="p">)</span>
+        <span class="o">-</span> <span class="n">ds_timeseries</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"time.month"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
     <span class="p">)</span>
-    <span class="n">da_anomaly</span> <span class="o">*=</span> <span class="n">da_anomaly</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;multiplication_factor_to_convert_to_DU&quot;</span><span class="p">]</span>
-<span class="n">da_anomaly</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;DU&quot;</span>
-<span class="n">facet</span> <span class="o">=</span> <span class="n">da_anomaly</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="s2">&quot;region&quot;</span><span class="p">,</span> <span class="n">col_wrap</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">da_anomaly</span> <span class="o">*=</span> <span class="n">da_anomaly</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"multiplication_factor_to_convert_to_DU"</span><span class="p">]</span>
+<span class="n">da_anomaly</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"DU"</span>
+<span class="n">facet</span> <span class="o">=</span> <span class="n">da_anomaly</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="s2">"region"</span><span class="p">,</span> <span class="n">col_wrap</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">facet</span><span class="o">.</span><span class="n">axs</span><span class="o">.</span><span class="n">flatten</span><span class="p">():</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
 <span class="n">facet</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">autofmt_xdate</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>

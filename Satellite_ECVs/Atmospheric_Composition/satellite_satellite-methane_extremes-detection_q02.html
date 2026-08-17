@@ -257,6 +257,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../Cryosphere/satellite_satellite-ice-sheet-elevation-change_trend-assessment_q01.html">1.3.8. Uncertainty of ice sheet surface elevation change data over Greenland for volume and mass change trend assessments</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Cryosphere/satellite_satellite-ice-sheet-mass-balance_trend-assessment_q02.html">1.3.9. Gravimetric mass balance data from satellite observations: utility analysis for mass change monitoring of the ice sheets</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Cryosphere/satellite_satellite-ice-sheet-mass-balance_uncertainty_q01.html">1.3.10. Gravimetric mass changes from satellite data: assessment of resolution and uncertainty of Greenland ice sheet mass changes for glaciological applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Cryosphere/satellite_satellite-sea-ice-drift_uncertainty-quality-flags_q01.html">1.3.11. Sea ice drift from satellite observations: resolution and uncertainty of Arctic sea ice drift for large-scale sea ice transport analysis</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../Land_Biosphere/Land_Biosphere.html">1.4. Land Biosphere</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -685,7 +686,7 @@
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CDSAPI_RC&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~/cristofanelli_paolo/.cdsapirc&quot;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"CDSAPI_RC"</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">"~/cristofanelli_paolo/.cdsapirc"</span><span class="p">)</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -699,7 +700,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">utils</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">xarray.groupers</span><span class="w"> </span><span class="kn">import</span> <span class="n">BinGrouper</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;seaborn-v0_8-notebook&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"seaborn-v0_8-notebook"</span><span class="p">)</span>
 
 <span class="n">download</span><span class="o">.</span><span class="n">INVALIDATE_CACHE</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1">#Set True to invalidate the caching</span>
 </pre></div>
@@ -727,20 +728,20 @@
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sensors</span>
-<span class="n">sensors</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;iasi_metop_b_nlis&quot;</span><span class="p">,</span> <span class="s2">&quot;iasi_metop_c_nlis&quot;</span><span class="p">]</span>
+<span class="n">sensors</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"iasi_metop_b_nlis"</span><span class="p">,</span> <span class="s2">"iasi_metop_c_nlis"</span><span class="p">]</span>
 
 <span class="c1"># Region to plot</span>
 <span class="n">lat_slice</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">45</span><span class="p">,</span> <span class="mi">75</span><span class="p">)</span>
 <span class="n">lon_slice</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
 
 <span class="c1"># Variable to plot</span>
-<span class="n">varname</span> <span class="o">=</span> <span class="s2">&quot;ch4&quot;</span>
-<span class="n">vertical_profile</span> <span class="o">=</span> <span class="s2">&quot;ch4_averaging_kernel&quot;</span>
-<span class="n">varname_cloud</span> <span class="o">=</span> <span class="s2">&quot;cfc&quot;</span>
+<span class="n">varname</span> <span class="o">=</span> <span class="s2">"ch4"</span>
+<span class="n">vertical_profile</span> <span class="o">=</span> <span class="s2">"ch4_averaging_kernel"</span>
+<span class="n">varname_cloud</span> <span class="o">=</span> <span class="s2">"cfc"</span>
 
-<span class="c1"># List of days to be considered (format &#39;YYYY-MM-DD&#39;)</span>
-<span class="n">selected_days</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;2022-09-26&quot;</span><span class="p">,</span><span class="s2">&quot;2022-09-27&quot;</span><span class="p">,</span><span class="s2">&quot;2022-09-28&quot;</span><span class="p">]</span>
-<span class="n">selected_days_AK</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;2022-09-28&quot;</span><span class="p">]</span>
+<span class="c1"># List of days to be considered (format 'YYYY-MM-DD')</span>
+<span class="n">selected_days</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"2022-09-26"</span><span class="p">,</span><span class="s2">"2022-09-27"</span><span class="p">,</span><span class="s2">"2022-09-28"</span><span class="p">]</span>
+<span class="n">selected_days_AK</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"2022-09-28"</span><span class="p">]</span>
 
 <span class="c1"># To define the range of map legend</span>
 <span class="n">vmin</span> <span class="o">=</span> <span class="mi">1875</span>  <span class="c1"># Min value</span>
@@ -758,25 +759,25 @@
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">time_request</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;2022&quot;</span><span class="p">],</span>
-    <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;09&quot;</span><span class="p">],</span>
-    <span class="s2">&quot;day&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">day</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">day</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">31</span><span class="p">)],</span>
+    <span class="s2">"year"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"2022"</span><span class="p">],</span>
+    <span class="s2">"month"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"09"</span><span class="p">],</span>
+    <span class="s2">"day"</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">day</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">day</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">31</span><span class="p">)],</span>
 <span class="p">}</span>
 
-<span class="n">collection_id</span> <span class="o">=</span> <span class="s2">&quot;satellite-methane&quot;</span>
+<span class="n">collection_id</span> <span class="o">=</span> <span class="s2">"satellite-methane"</span>
 <span class="n">request</span> <span class="o">=</span> <span class="n">time_request</span> <span class="o">|</span> <span class="p">{</span>
-    <span class="s2">&quot;processing_level&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;level_2&quot;</span><span class="p">],</span>
-    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="s2">&quot;ch4&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;10_2&quot;</span><span class="p">],</span>
+    <span class="s2">"processing_level"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"level_2"</span><span class="p">],</span>
+    <span class="s2">"variable"</span><span class="p">:</span> <span class="s2">"ch4"</span><span class="p">,</span>
+    <span class="s2">"version"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"10_2"</span><span class="p">],</span>
 <span class="p">}</span>
 
-<span class="n">collection_id_cloud</span> <span class="o">=</span> <span class="s2">&quot;satellite-cloud-properties&quot;</span>
+<span class="n">collection_id_cloud</span> <span class="o">=</span> <span class="s2">"satellite-cloud-properties"</span>
 <span class="n">request_cloud</span> <span class="o">=</span> <span class="n">time_request</span> <span class="o">|</span> <span class="p">{</span>
-    <span class="s2">&quot;product_family&quot;</span><span class="p">:</span> <span class="s2">&quot;clara_a3&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;origin&quot;</span><span class="p">:</span> <span class="s2">&quot;eumetsat&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;cloud_fraction&quot;</span><span class="p">],</span>
-    <span class="s2">&quot;climate_data_record_type&quot;</span><span class="p">:</span> <span class="s2">&quot;interim_climate_data_record&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;time_aggregation&quot;</span><span class="p">:</span> <span class="s2">&quot;daily_mean&quot;</span><span class="p">,</span>
+    <span class="s2">"product_family"</span><span class="p">:</span> <span class="s2">"clara_a3"</span><span class="p">,</span>
+    <span class="s2">"origin"</span><span class="p">:</span> <span class="s2">"eumetsat"</span><span class="p">,</span>
+    <span class="s2">"variable"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"cloud_fraction"</span><span class="p">],</span>
+    <span class="s2">"climate_data_record_type"</span><span class="p">:</span> <span class="s2">"interim_climate_data_record"</span><span class="p">,</span>
+    <span class="s2">"time_aggregation"</span><span class="p">:</span> <span class="s2">"daily_mean"</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -800,12 +801,12 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">arithmetic_unweighted_average</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">d_lon</span><span class="p">,</span> <span class="n">d_lat</span><span class="p">,</span> <span class="n">lon1</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">lon1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">180</span><span class="p">,</span> <span class="mi">360</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;lon1 must be 180 or 360. </span><span class="si">{</span><span class="n">lon1</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"lon1 must be 180 or 360. </span><span class="si">{</span><span class="n">lon1</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">lon0</span> <span class="o">=</span> <span class="o">-</span><span class="mi">180</span> <span class="k">if</span> <span class="n">lon1</span> <span class="o">==</span> <span class="mi">180</span> <span class="k">else</span> <span class="mi">0</span>
 
     <span class="n">coords</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
-        <span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="n">lon0</span><span class="p">],</span> <span class="p">[</span><span class="mi">90</span><span class="p">,</span> <span class="n">lon1</span><span class="p">],</span> <span class="p">[</span><span class="n">d_lat</span><span class="p">,</span> <span class="n">d_lon</span><span class="p">]</span>
+        <span class="p">[</span><span class="s2">"latitude"</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="n">lon0</span><span class="p">],</span> <span class="p">[</span><span class="mi">90</span><span class="p">,</span> <span class="n">lon1</span><span class="p">],</span> <span class="p">[</span><span class="n">d_lat</span><span class="p">,</span> <span class="n">d_lon</span><span class="p">]</span>
     <span class="p">):</span>
         <span class="n">coords</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">BinGrouper</span><span class="p">(</span>
             <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">+</span> <span class="n">step</span><span class="p">,</span> <span class="n">step</span><span class="p">),</span>
@@ -813,22 +814,22 @@
             <span class="n">labels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">start</span> <span class="o">+</span> <span class="n">step</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">stop</span> <span class="o">+</span> <span class="n">step</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">step</span><span class="p">),</span>
         <span class="p">)</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="o">**</span><span class="n">coords</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">coord</span><span class="si">}</span><span class="s2">_bins&quot;</span><span class="p">:</span> <span class="n">coord</span> <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">coords</span><span class="p">})</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">coord</span><span class="si">}</span><span class="s2">_bins"</span><span class="p">:</span> <span class="n">coord</span> <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">coords</span><span class="p">})</span>
     <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">coords</span><span class="p">:</span>
-        <span class="n">ds</span><span class="p">[</span><span class="n">coord</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;standard_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">coord</span>
+        <span class="n">ds</span><span class="p">[</span><span class="n">coord</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"standard_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">coord</span>
     <span class="k">return</span> <span class="n">ds</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">regionalised_daily_bin_grouper</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">d_lon</span><span class="p">,</span> <span class="n">d_lat</span><span class="p">,</span> <span class="n">lon_slice</span><span class="p">,</span> <span class="n">lat_slice</span><span class="p">,</span> <span class="n">lon1</span><span class="o">=</span><span class="mi">180</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">dim</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
-        <span class="p">[</span><span class="s2">&quot;level_dim&quot;</span><span class="p">,</span> <span class="s2">&quot;layer_dim&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;pressure_levels&quot;</span><span class="p">,</span> <span class="s2">&quot;pressure_weight&quot;</span><span class="p">]</span>
+        <span class="p">[</span><span class="s2">"level_dim"</span><span class="p">,</span> <span class="s2">"layer_dim"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"pressure_levels"</span><span class="p">,</span> <span class="s2">"pressure_weight"</span><span class="p">]</span>
     <span class="p">):</span>
         <span class="k">assert</span> <span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">==</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
         <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">swap_dims</span><span class="p">({</span><span class="n">dim</span><span class="p">:</span> <span class="n">var</span><span class="p">})</span>
 
-    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">set_coords</span><span class="p">([</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;pressure_levels&quot;</span><span class="p">])</span>
-    <span class="n">ds_out</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;1D&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">set_coords</span><span class="p">([</span><span class="s2">"longitude"</span><span class="p">,</span> <span class="s2">"latitude"</span><span class="p">,</span> <span class="s2">"pressure_levels"</span><span class="p">])</span>
+    <span class="n">ds_out</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">"1D"</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
         <span class="n">arithmetic_unweighted_average</span><span class="p">,</span> <span class="n">d_lon</span><span class="o">=</span><span class="n">d_lon</span><span class="p">,</span> <span class="n">d_lat</span><span class="o">=</span><span class="n">d_lat</span><span class="p">,</span> <span class="n">lon1</span><span class="o">=</span><span class="n">lon1</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">utils</span><span class="o">.</span><span class="n">regionalise</span><span class="p">(</span><span class="n">ds_out</span><span class="p">,</span> <span class="n">lat_slice</span><span class="o">=</span><span class="n">lat_slice</span><span class="p">,</span> <span class="n">lon_slice</span><span class="o">=</span><span class="n">lon_slice</span><span class="p">)</span>
@@ -851,30 +852,30 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unks</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
-<span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;lon_slice&quot;</span><span class="p">:</span> <span class="n">lon_slice</span><span class="p">,</span> <span class="s2">&quot;lat_slice&quot;</span><span class="p">:</span> <span class="n">lat_slice</span><span class="p">}</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unks</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"year"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"month"</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"lon_slice"</span><span class="p">:</span> <span class="n">lon_slice</span><span class="p">,</span> <span class="s2">"lat_slice"</span><span class="p">:</span> <span class="n">lat_slice</span><span class="p">}</span>
 
 <span class="c1"># Methane</span>
 <span class="n">datasets</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">sensor</span> <span class="ow">in</span> <span class="n">sensors</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sensor</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">sensor</span><span class="w"> </span><span class="si">= }</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
         <span class="n">collection_id</span><span class="p">,</span>
-        <span class="n">request</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;sensor_and_algorithm&quot;</span><span class="p">:</span> <span class="n">sensor</span><span class="p">},</span>
+        <span class="n">request</span> <span class="o">|</span> <span class="p">{</span><span class="s2">"sensor_and_algorithm"</span><span class="p">:</span> <span class="n">sensor</span><span class="p">},</span>
         <span class="n">transform_func</span><span class="o">=</span><span class="n">regionalised_daily_bin_grouper</span><span class="p">,</span>
         <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="n">kwargs</span>
         <span class="o">|</span> <span class="p">{</span>
-            <span class="s2">&quot;d_lon&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="c1">#This define the spatial resolution of longitude for the regular grid</span>
-            <span class="s2">&quot;d_lat&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="c1">#This define the spatial resolution of Latitude for the regular grid</span>
-            <span class="s2">&quot;lon1&quot;</span><span class="p">:</span> <span class="mi">180</span><span class="p">,</span>
+            <span class="s2">"d_lon"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="c1">#This define the spatial resolution of longitude for the regular grid</span>
+            <span class="s2">"d_lat"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="c1">#This define the spatial resolution of Latitude for the regular grid</span>
+            <span class="s2">"lon1"</span><span class="p">:</span> <span class="mi">180</span><span class="p">,</span>
         <span class="p">},</span>
         <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">sensor</span><span class="o">=</span><span class="p">[</span><span class="n">sensor</span><span class="p">]))</span>
-<span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="s2">&quot;sensor&quot;</span><span class="p">)</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="s2">"sensor"</span><span class="p">)</span>
 
 <span class="c1"># Cloud</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cloud cover&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"cloud cover"</span><span class="p">)</span>
 <span class="n">ds_cloud</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
     <span class="n">collection_id_cloud</span><span class="p">,</span>
     <span class="n">request_cloud</span><span class="p">,</span>
@@ -887,13 +888,13 @@
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sensor = &#39;iasi_metop_b_nlis&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sensor = 'iasi_metop_b_nlis'
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 [00:00&lt;00:00,  1.63it/s]
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sensor = &#39;iasi_metop_c_nlis&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sensor = 'iasi_metop_c_nlis'
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1/1 [00:00&lt;00:00,  5.96it/s]
@@ -924,11 +925,11 @@ As described by <a class="reference external" href="https://doi.org/10.5194/acp-
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># To plot CH4 data for sensors and selected days</span>
-<span class="k">for</span> <span class="n">sensor</span><span class="p">,</span> <span class="n">ds_sensor</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;sensor&quot;</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">sensor</span><span class="p">,</span> <span class="n">ds_sensor</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"sensor"</span><span class="p">):</span>
         <span class="c1"># Select days of interest</span>
         <span class="n">ds_sensor_filtered</span> <span class="o">=</span> <span class="n">ds_sensor</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">selected_days</span><span class="p">)</span>
-        <span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span><span class="n">ds_sensor_filtered</span><span class="p">[</span><span class="s2">&quot;ch4&quot;</span><span class="p">],</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">col_wrap</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sensor</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span><span class="n">ds_sensor_filtered</span><span class="p">[</span><span class="s2">"ch4"</span><span class="p">],</span> <span class="n">col</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">col_wrap</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">sensor</span><span class="w"> </span><span class="si">= }</span><span class="s2">"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -953,17 +954,17 @@ As described by <a class="reference external" href="https://doi.org/10.5194/acp-
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Colormap</span>
-<span class="n">cmap</span> <span class="o">=</span> <span class="n">mcolors</span><span class="o">.</span><span class="n">LinearSegmentedColormap</span><span class="o">.</span><span class="n">from_list</span><span class="p">(</span><span class="s2">&quot;custom_cmap&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;darkblue&quot;</span><span class="p">,</span> <span class="s2">&quot;white&quot;</span><span class="p">])</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="n">mcolors</span><span class="o">.</span><span class="n">LinearSegmentedColormap</span><span class="o">.</span><span class="n">from_list</span><span class="p">(</span><span class="s2">"custom_cmap"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"darkblue"</span><span class="p">,</span> <span class="s2">"white"</span><span class="p">])</span>
 
 <span class="c1"># Filter data for selected days</span>
 <span class="n">ds_cloud_filtered</span> <span class="o">=</span> <span class="n">ds_cloud</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">selected_days</span><span class="p">)</span>
 
 <span class="c1"># Setting plot view</span>
-<span class="n">plot_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;col&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;col_wrap&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="n">plot_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"col"</span><span class="p">:</span> <span class="s2">"time"</span><span class="p">,</span> <span class="s2">"col_wrap"</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
 
 <span class="c1"># Plotting cloud cover data</span>
 <span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span><span class="n">ds_cloud_filtered</span><span class="p">[</span><span class="n">varname_cloud</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="o">**</span><span class="n">plot_kwargs</span><span class="p">)</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Cloud cover&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">"Cloud cover"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -989,31 +990,31 @@ As described by <a class="reference external" href="https://doi.org/10.5194/acp-
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setting plot view</span>
-<span class="n">plot_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;col&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;col_wrap&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="n">plot_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"col"</span><span class="p">:</span> <span class="s2">"time"</span><span class="p">,</span> <span class="s2">"col_wrap"</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
 
-<span class="k">for</span> <span class="n">sensor</span><span class="p">,</span> <span class="n">da_sensor</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">[</span><span class="n">vertical_profile</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;sensor&quot;</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">sensor</span><span class="p">,</span> <span class="n">da_sensor</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">[</span><span class="n">vertical_profile</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"sensor"</span><span class="p">):</span>
     <span class="n">da_mean</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">da_sensor</span><span class="p">)</span>
     <span class="n">da_std</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_std</span><span class="p">(</span><span class="n">da_sensor</span><span class="p">)</span>
     <span class="n">da</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
         <span class="p">[</span>
-            <span class="n">da_mean</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mean&quot;</span><span class="p">]),</span>
-            <span class="p">(</span><span class="n">da_mean</span> <span class="o">+</span> <span class="n">da_std</span><span class="p">)</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mean $+$ std&quot;</span><span class="p">]),</span>
-            <span class="p">(</span><span class="n">da_mean</span> <span class="o">-</span> <span class="n">da_std</span><span class="p">)</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mean $-$ std&quot;</span><span class="p">]),</span>
+            <span class="n">da_mean</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="p">[</span><span class="s2">"mean"</span><span class="p">]),</span>
+            <span class="p">(</span><span class="n">da_mean</span> <span class="o">+</span> <span class="n">da_std</span><span class="p">)</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="p">[</span><span class="s2">"mean $+$ std"</span><span class="p">]),</span>
+            <span class="p">(</span><span class="n">da_mean</span> <span class="o">-</span> <span class="n">da_std</span><span class="p">)</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="p">[</span><span class="s2">"mean $-$ std"</span><span class="p">]),</span>
         <span class="p">],</span>
-        <span class="s2">&quot;label&quot;</span><span class="p">,</span>
+        <span class="s2">"label"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">da_filtered</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">selected_days_AK</span><span class="p">)</span>
     <span class="n">facet</span> <span class="o">=</span> <span class="n">da_filtered</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;pressure_weight&quot;</span><span class="p">,</span>
-        <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;label&quot;</span><span class="p">,</span>
-        <span class="n">yscale</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="s2">"pressure_weight"</span><span class="p">,</span>
+        <span class="n">hue</span><span class="o">=</span><span class="s2">"label"</span><span class="p">,</span>
+        <span class="n">yscale</span><span class="o">=</span><span class="s2">"log"</span><span class="p">,</span>
         <span class="n">yincrease</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>  <span class="c1"># Limit y axis to 1</span>
         <span class="o">**</span><span class="n">plot_kwargs</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">facet</span><span class="o">.</span><span class="n">axs</span><span class="o">.</span><span class="n">flatten</span><span class="p">():</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sensor</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.01</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">sensor</span><span class="w"> </span><span class="si">= }</span><span class="s2">"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.01</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1038,19 +1039,19 @@ It can be seen that despite the occurrence of the Nord Stream leak and the effec
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">sensor</span><span class="p">,</span> <span class="n">ds_sensor</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;sensor&quot;</span><span class="p">):</span>
-    <span class="n">da_sensor</span> <span class="o">=</span> <span class="n">ds_sensor</span><span class="p">[</span><span class="s2">&quot;ch4&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">sensor</span><span class="p">,</span> <span class="n">ds_sensor</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"sensor"</span><span class="p">):</span>
+    <span class="n">da_sensor</span> <span class="o">=</span> <span class="n">ds_sensor</span><span class="p">[</span><span class="s2">"ch4"</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
     <span class="n">df_sensor</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">da_sensor</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">))</span>
-        <span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="s2">&quot;location&quot;</span><span class="p">)</span>
+        <span class="n">da_sensor</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="p">(</span><span class="s2">"latitude"</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">))</span>
+        <span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="s2">"location"</span><span class="p">)</span>
         <span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
     <span class="p">)</span>
-    <span class="n">df_sensor</span> <span class="o">=</span> <span class="n">df_sensor</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()[[</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;ch4&quot;</span><span class="p">]]</span>
-    <span class="n">df_sensor</span><span class="p">[</span><span class="s2">&quot;day&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_sensor</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">day</span>
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">df_sensor</span><span class="p">[[</span><span class="s2">&quot;day&quot;</span><span class="p">,</span> <span class="s2">&quot;ch4&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;day&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sensor</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;day&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">da_sensor</span><span class="o">.</span><span class="n">long_name</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">da_sensor</span><span class="o">.</span><span class="n">units</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+    <span class="n">df_sensor</span> <span class="o">=</span> <span class="n">df_sensor</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()[[</span><span class="s2">"time"</span><span class="p">,</span> <span class="s2">"ch4"</span><span class="p">]]</span>
+    <span class="n">df_sensor</span><span class="p">[</span><span class="s2">"day"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_sensor</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">day</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">df_sensor</span><span class="p">[[</span><span class="s2">"day"</span><span class="p">,</span> <span class="s2">"ch4"</span><span class="p">]]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">"day"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">sensor</span><span class="w"> </span><span class="si">= }</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"day"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">da_sensor</span><span class="o">.</span><span class="n">long_name</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">da_sensor</span><span class="o">.</span><span class="n">units</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>

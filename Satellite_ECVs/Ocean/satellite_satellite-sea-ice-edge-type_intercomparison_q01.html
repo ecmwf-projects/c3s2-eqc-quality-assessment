@@ -257,6 +257,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../Cryosphere/satellite_satellite-ice-sheet-elevation-change_trend-assessment_q01.html">1.3.8. Uncertainty of ice sheet surface elevation change data over Greenland for volume and mass change trend assessments</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Cryosphere/satellite_satellite-ice-sheet-mass-balance_trend-assessment_q02.html">1.3.9. Gravimetric mass balance data from satellite observations: utility analysis for mass change monitoring of the ice sheets</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Cryosphere/satellite_satellite-ice-sheet-mass-balance_uncertainty_q01.html">1.3.10. Gravimetric mass changes from satellite data: assessment of resolution and uncertainty of Greenland ice sheet mass changes for glaciological applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Cryosphere/satellite_satellite-sea-ice-drift_uncertainty-quality-flags_q01.html">1.3.11. Sea ice drift from satellite observations: resolution and uncertainty of Arctic sea ice drift for large-scale sea ice transport analysis</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../Land_Biosphere/Land_Biosphere.html">1.4. Land Biosphere</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -686,7 +687,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">interp1d</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;seaborn-v0_8-notebook&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"seaborn-v0_8-notebook"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -718,7 +719,7 @@
 <span class="n">conc_threshold</span> <span class="o">=</span> <span class="mi">30</span> <span class="c1"># %</span>
 
 <span class="c1"># Define path to NERSC data</span>
-<span class="n">NERSC_PATH</span> <span class="o">=</span> <span class="s2">&quot;/data/wp5/mangini_fabio/nersc_ice_age_v2p1&quot;</span>
+<span class="n">NERSC_PATH</span> <span class="o">=</span> <span class="s2">"/data/wp5/mangini_fabio/nersc_ice_age_v2p1"</span>
 </pre></div>
 </div>
 </div>
@@ -735,27 +736,27 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">collection_id</span> <span class="o">=</span> <span class="s2">&quot;satellite-sea-ice-edge-type&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">collection_id</span> <span class="o">=</span> <span class="s2">"satellite-sea-ice-edge-type"</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">get_requests</span><span class="p">(</span><span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span><span class="p">):</span>
     <span class="n">common_request</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;cdr_type&quot;</span><span class="p">:</span> <span class="s2">&quot;cdr&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="s2">&quot;sea_ice_type&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;region&quot;</span><span class="p">:</span> <span class="s2">&quot;northern_hemisphere&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;3_0&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;day&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">day</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">day</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">)],</span>
+        <span class="s2">"cdr_type"</span><span class="p">:</span> <span class="s2">"cdr"</span><span class="p">,</span>
+        <span class="s2">"variable"</span><span class="p">:</span> <span class="s2">"sea_ice_type"</span><span class="p">,</span>
+        <span class="s2">"region"</span><span class="p">:</span> <span class="s2">"northern_hemisphere"</span><span class="p">,</span>
+        <span class="s2">"version"</span><span class="p">:</span> <span class="s2">"3_0"</span><span class="p">,</span>
+        <span class="s2">"day"</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">day</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">day</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">)],</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="p">[</span>
         <span class="n">common_request</span>
         <span class="o">|</span> <span class="p">{</span>
-            <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span><span class="p">)],</span>
-            <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">13</span><span class="p">)],</span>
+            <span class="s2">"year"</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span><span class="p">)],</span>
+            <span class="s2">"month"</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">13</span><span class="p">)],</span>
         <span class="p">},</span>
         <span class="n">common_request</span>
         <span class="o">|</span> <span class="p">{</span>
-            <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span><span class="p">)],</span>
-            <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)],</span>
+            <span class="s2">"year"</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span><span class="p">)],</span>
+            <span class="s2">"month"</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)],</span>
         <span class="p">},</span>
     <span class="p">]</span>
 
@@ -766,7 +767,7 @@
 
 <span class="n">requests_periods</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">period</span> <span class="ow">in</span> <span class="n">periods</span><span class="p">:</span>
-    <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Oct </span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2"> - Apr </span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">stop</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Oct </span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2"> - Apr </span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">stop</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">"</span>
     <span class="n">requests_periods</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_requests</span><span class="p">(</span><span class="n">period</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">period</span><span class="o">.</span><span class="n">stop</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -791,20 +792,20 @@
     <span class="k">if</span> <span class="n">nersc_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">nersc_path</span> <span class="o">=</span> <span class="n">NERSC_PATH</span>
 
-    <span class="n">paths</span> <span class="o">=</span> <span class="n">ds_cds</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">nersc_path</span><span class="si">}</span><span class="s2">/%Y/arctic25km_sea_ice_age_v2p1_%Y%m%d.nc&quot;</span>
+    <span class="n">paths</span> <span class="o">=</span> <span class="n">ds_cds</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">nersc_path</span><span class="si">}</span><span class="s2">/%Y/arctic25km_sea_ice_age_v2p1_%Y%m%d.nc"</span>
     <span class="p">)</span>
     <span class="n">ds_nersc</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span>
         <span class="nb">set</span><span class="p">(</span><span class="n">paths</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
-        <span class="n">concat_dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span>
-        <span class="n">combine</span><span class="o">=</span><span class="s2">&quot;nested&quot;</span><span class="p">,</span>
-        <span class="n">data_vars</span><span class="o">=</span><span class="s2">&quot;minimal&quot;</span><span class="p">,</span>
-        <span class="n">coords</span><span class="o">=</span><span class="s2">&quot;minimal&quot;</span><span class="p">,</span>
-        <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;override&quot;</span><span class="p">,</span>
+        <span class="n">concat_dim</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span>
+        <span class="n">combine</span><span class="o">=</span><span class="s2">"nested"</span><span class="p">,</span>
+        <span class="n">data_vars</span><span class="o">=</span><span class="s2">"minimal"</span><span class="p">,</span>
+        <span class="n">coords</span><span class="o">=</span><span class="s2">"minimal"</span><span class="p">,</span>
+        <span class="n">compat</span><span class="o">=</span><span class="s2">"override"</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">ds_nersc</span> <span class="o">=</span> <span class="n">ds_nersc</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;xc&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;yc&quot;</span><span class="p">)</span>
+    <span class="n">ds_nersc</span> <span class="o">=</span> <span class="n">ds_nersc</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">"xc"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"yc"</span><span class="p">)</span>
     <span class="n">ds_nersc</span> <span class="o">=</span> <span class="n">ds_nersc</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span>
-        <span class="p">{</span><span class="n">coord</span><span class="p">:</span> <span class="n">ds_cds</span><span class="p">[</span><span class="n">coord</span><span class="p">]</span> <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;xc&quot;</span><span class="p">,</span> <span class="s2">&quot;yc&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">)}</span>
+        <span class="p">{</span><span class="n">coord</span><span class="p">:</span> <span class="n">ds_cds</span><span class="p">[</span><span class="n">coord</span><span class="p">]</span> <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"xc"</span><span class="p">,</span> <span class="s2">"yc"</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">,</span> <span class="s2">"latitude"</span><span class="p">)}</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">ds_nersc</span>
 
@@ -821,20 +822,20 @@
     <span class="k">if</span> <span class="n">age_threshold</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">assert</span> <span class="ow">not</span> <span class="n">use_fyi</span>
         <span class="k">assert</span> <span class="n">conc_threshold</span> <span class="ow">is</span> <span class="kc">None</span>
-        <span class="k">return</span> <span class="n">ds_nersc</span><span class="p">[</span><span class="s2">&quot;sia&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">age_threshold</span>
+        <span class="k">return</span> <span class="n">ds_nersc</span><span class="p">[</span><span class="s2">"sia"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">age_threshold</span>
 
     <span class="k">assert</span> <span class="n">conc_threshold</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 
-    <span class="n">conc_myi</span> <span class="o">=</span> <span class="n">ds_nersc</span><span class="p">[</span><span class="s2">&quot;conc_2yi&quot;</span><span class="p">]</span>
+    <span class="n">conc_myi</span> <span class="o">=</span> <span class="n">ds_nersc</span><span class="p">[</span><span class="s2">"conc_2yi"</span><span class="p">]</span>
     <span class="n">n</span> <span class="o">=</span> <span class="mi">3</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">varname</span> <span class="o">:=</span> <span class="sa">f</span><span class="s2">&quot;conc_</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">yi&quot;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">ds_nersc</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">varname</span> <span class="o">:=</span> <span class="sa">f</span><span class="s2">"conc_</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">yi"</span><span class="p">)</span> <span class="ow">in</span> <span class="n">ds_nersc</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
         <span class="n">conc_myi</span> <span class="o">+=</span> <span class="n">ds_nersc</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">use_fyi</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">conc_myi</span> <span class="o">&gt;</span> <span class="n">conc_threshold</span>
 
-    <span class="n">conc_fyi</span> <span class="o">=</span> <span class="n">ds_nersc</span><span class="p">[</span><span class="s2">&quot;conc_1yi&quot;</span><span class="p">]</span>
+    <span class="n">conc_fyi</span> <span class="o">=</span> <span class="n">ds_nersc</span><span class="p">[</span><span class="s2">"conc_1yi"</span><span class="p">]</span>
     <span class="k">return</span> <span class="p">((</span><span class="n">conc_myi</span> <span class="o">+</span> <span class="n">conc_fyi</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">conc_threshold</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">conc_myi</span> <span class="o">&gt;</span> <span class="n">conc_fyi</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -858,7 +859,7 @@
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_classification_mask</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">use_ambiguous</span><span class="p">):</span>
-    <span class="n">da</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;ice_type&quot;</span><span class="p">]</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"ice_type"</span><span class="p">]</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">da</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">)</span> <span class="k">if</span> <span class="n">use_ambiguous</span> <span class="k">else</span> <span class="p">(</span><span class="n">da</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
 
 
@@ -875,20 +876,20 @@
         <span class="p">[</span><span class="mf">10.1074</span><span class="p">,</span> <span class="mf">80.0277</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">25.1367</span><span class="p">,</span> <span class="mf">71.131</span><span class="p">],</span> <span class="c1"># near Gjesvaer Norway</span>
     <span class="p">])</span><span class="o">.</span><span class="n">T</span>
-    <span class="n">interp_func</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">lon_pts</span><span class="p">,</span> <span class="n">lat_pts</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">interp_func</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">lon_pts</span><span class="p">,</span> <span class="n">lat_pts</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">'linear'</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-    <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">broadcast</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;longitude&#39;</span><span class="p">],</span> <span class="n">obj</span><span class="p">[</span><span class="s1">&#39;latitude&#39;</span><span class="p">])</span>
+    <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">broadcast</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s1">'longitude'</span><span class="p">],</span> <span class="n">obj</span><span class="p">[</span><span class="s1">'latitude'</span><span class="p">])</span>
     <span class="n">lat_threshold</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">apply_ufunc</span><span class="p">(</span>
         <span class="n">interp_func</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span>
         <span class="n">input_core_dims</span><span class="o">=</span><span class="p">[[]],</span>
         <span class="n">vectorize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">dask</span><span class="o">=</span><span class="s2">&quot;parallelized&quot;</span><span class="p">,</span>
+        <span class="n">dask</span><span class="o">=</span><span class="s2">"parallelized"</span><span class="p">,</span>
         <span class="n">output_dtypes</span><span class="o">=</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">lat</span> <span class="o">&lt;</span> <span class="n">lat_threshold</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">lat_threshold</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">compute_spatial_sum</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">grid_cell_area</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;xc&quot;</span><span class="p">,</span> <span class="s2">&quot;yc&quot;</span><span class="p">)):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_spatial_sum</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">grid_cell_area</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s2">"xc"</span><span class="p">,</span> <span class="s2">"yc"</span><span class="p">)):</span>
     <span class="k">return</span> <span class="n">grid_cell_area</span> <span class="o">*</span> <span class="n">da</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">)</span>
 
 
@@ -900,7 +901,7 @@
     <span class="n">conc_threshold</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="c1"># grid cell area of sea ice edge grid</span>
-    <span class="p">(</span><span class="n">dx</span><span class="p">,)</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;xc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="s2">&quot;xc&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">dx</span><span class="p">,)</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">"xc"</span><span class="p">]</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="s2">"xc"</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
     <span class="n">grid_cell_area</span> <span class="o">=</span> <span class="p">(</span><span class="n">dx</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.0e-6</span>  <span class="c1"># 10^6 km2</span>
 
     <span class="c1"># Mask for inside central Arctic</span>
@@ -917,36 +918,36 @@
     <span class="p">)</span> <span class="o">&amp;</span> <span class="n">mask</span>
 
     <span class="c1"># Fill variables</span>
-    <span class="n">units</span> <span class="o">=</span> <span class="s2">&quot;$10^6$km$^2$&quot;</span>
+    <span class="n">units</span> <span class="o">=</span> <span class="s2">"$10^6$km$^2$"</span>
     <span class="n">dataarrays</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">dataarrays</span><span class="p">[</span><span class="s2">&quot;mysi_extent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compute_spatial_sum</span><span class="p">(</span><span class="n">da_cds</span><span class="p">,</span> <span class="n">grid_cell_area</span><span class="p">)</span>
-    <span class="n">dataarrays</span><span class="p">[</span><span class="s2">&quot;mysi_extent&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;multi_year_sea_ice_extent&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="n">units</span><span class="p">,</span>
-        <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Multi-year sea ice extent from CDS dataset&quot;</span><span class="p">,</span>
+    <span class="n">dataarrays</span><span class="p">[</span><span class="s2">"mysi_extent"</span><span class="p">]</span> <span class="o">=</span> <span class="n">compute_spatial_sum</span><span class="p">(</span><span class="n">da_cds</span><span class="p">,</span> <span class="n">grid_cell_area</span><span class="p">)</span>
+    <span class="n">dataarrays</span><span class="p">[</span><span class="s2">"mysi_extent"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"standard_name"</span><span class="p">:</span> <span class="s2">"multi_year_sea_ice_extent"</span><span class="p">,</span>
+        <span class="s2">"units"</span><span class="p">:</span> <span class="n">units</span><span class="p">,</span>
+        <span class="s2">"long_name"</span><span class="p">:</span> <span class="s2">"Multi-year sea ice extent from CDS dataset"</span><span class="p">,</span>
     <span class="p">}</span>
 
-    <span class="n">dataarrays</span><span class="p">[</span><span class="s2">&quot;mysi_extent_age&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compute_spatial_sum</span><span class="p">(</span><span class="n">da_nersc</span><span class="p">,</span> <span class="n">grid_cell_area</span><span class="p">)</span>
-    <span class="n">dataarrays</span><span class="p">[</span><span class="s2">&quot;mysi_extent_age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;multi_year_sea_ice_extent_age&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="n">units</span><span class="p">,</span>
-        <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Multi-year sea ice extent from NERSC sea ice age product&quot;</span><span class="p">,</span>
+    <span class="n">dataarrays</span><span class="p">[</span><span class="s2">"mysi_extent_age"</span><span class="p">]</span> <span class="o">=</span> <span class="n">compute_spatial_sum</span><span class="p">(</span><span class="n">da_nersc</span><span class="p">,</span> <span class="n">grid_cell_area</span><span class="p">)</span>
+    <span class="n">dataarrays</span><span class="p">[</span><span class="s2">"mysi_extent_age"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"standard_name"</span><span class="p">:</span> <span class="s2">"multi_year_sea_ice_extent_age"</span><span class="p">,</span>
+        <span class="s2">"units"</span><span class="p">:</span> <span class="n">units</span><span class="p">,</span>
+        <span class="s2">"long_name"</span><span class="p">:</span> <span class="s2">"Multi-year sea ice extent from NERSC sea ice age product"</span><span class="p">,</span>
     <span class="p">}</span>
 
     <span class="n">over</span> <span class="o">=</span> <span class="n">compute_spatial_sum</span><span class="p">(</span><span class="n">da_cds</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">da_nersc</span><span class="p">,</span> <span class="n">grid_cell_area</span><span class="p">)</span>
     <span class="n">under</span> <span class="o">=</span> <span class="n">compute_spatial_sum</span><span class="p">(</span><span class="o">~</span><span class="n">da_cds</span> <span class="o">&amp;</span> <span class="n">da_nersc</span><span class="p">,</span> <span class="n">grid_cell_area</span><span class="p">)</span>
-    <span class="n">dataarrays</span><span class="p">[</span><span class="s2">&quot;mysi_extent_bias&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">over</span> <span class="o">-</span> <span class="n">under</span>
-    <span class="n">dataarrays</span><span class="p">[</span><span class="s2">&quot;mysi_extent_bias&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;multi_year_sea_ice_extent_bias&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="n">units</span><span class="p">,</span>
-        <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Multi-year sea ice extent bias&quot;</span><span class="p">,</span>
+    <span class="n">dataarrays</span><span class="p">[</span><span class="s2">"mysi_extent_bias"</span><span class="p">]</span> <span class="o">=</span> <span class="n">over</span> <span class="o">-</span> <span class="n">under</span>
+    <span class="n">dataarrays</span><span class="p">[</span><span class="s2">"mysi_extent_bias"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"standard_name"</span><span class="p">:</span> <span class="s2">"multi_year_sea_ice_extent_bias"</span><span class="p">,</span>
+        <span class="s2">"units"</span><span class="p">:</span> <span class="n">units</span><span class="p">,</span>
+        <span class="s2">"long_name"</span><span class="p">:</span> <span class="s2">"Multi-year sea ice extent bias"</span><span class="p">,</span>
     <span class="p">}</span>
 
-    <span class="n">dataarrays</span><span class="p">[</span><span class="s2">&quot;iite&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">over</span> <span class="o">+</span> <span class="n">under</span>
-    <span class="n">dataarrays</span><span class="p">[</span><span class="s2">&quot;iite&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;integrated_ice_type_error&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="n">units</span><span class="p">,</span>
-        <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Integrated ice type error&quot;</span><span class="p">,</span>
+    <span class="n">dataarrays</span><span class="p">[</span><span class="s2">"iite"</span><span class="p">]</span> <span class="o">=</span> <span class="n">over</span> <span class="o">+</span> <span class="n">under</span>
+    <span class="n">dataarrays</span><span class="p">[</span><span class="s2">"iite"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"standard_name"</span><span class="p">:</span> <span class="s2">"integrated_ice_type_error"</span><span class="p">,</span>
+        <span class="s2">"units"</span><span class="p">:</span> <span class="n">units</span><span class="p">,</span>
+        <span class="s2">"long_name"</span><span class="p">:</span> <span class="s2">"Integrated ice type error"</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">dataarrays</span><span class="p">)</span>
 </pre></div>
@@ -970,87 +971,87 @@
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">rearrange_year_vs_monthday</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
-    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">convert_calendar</span><span class="p">(</span><span class="s2">&quot;noleap&quot;</span><span class="p">)</span>
-    <span class="n">year</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span>
-    <span class="n">year</span> <span class="o">=</span> <span class="n">year</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">year</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">convert_calendar</span><span class="p">(</span><span class="s2">"noleap"</span><span class="p">)</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="n">year</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">year</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">coords</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">year</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
-        <span class="s2">&quot;monthday&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
+        <span class="s2">"year"</span><span class="p">:</span> <span class="p">(</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">year</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
+        <span class="s2">"monthday"</span><span class="p">:</span> <span class="p">(</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%m-</span><span class="si">%d</span><span class="s2">"</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
     <span class="p">}</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">coords</span><span class="p">))</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">coords</span><span class="p">))</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s2">"time"</span><span class="p">)</span>
     
     
 <span class="k">def</span><span class="w"> </span><span class="nf">split_dataset_ambiguous</span><span class="p">(</span><span class="n">ds_timeseries</span><span class="p">):</span>
     <span class="n">ds_timeseries_doy</span> <span class="o">=</span> <span class="n">rearrange_year_vs_monthday</span><span class="p">(</span><span class="n">ds_timeseries</span><span class="p">)</span>
-    <span class="n">ds_no_ambig</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds_timeseries_doy</span><span class="p">[</span><span class="s2">&quot;mysi_extent&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">use_ambiguous</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                  <span class="o">-</span> <span class="n">ds_timeseries_doy</span><span class="p">[</span><span class="s2">&quot;mysi_extent&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">use_ambiguous</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-                  <span class="p">)</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">()</span><span class="o">.</span><span class="n">rename_vars</span><span class="p">({</span><span class="s2">&quot;mysi_extent&quot;</span><span class="p">:</span> <span class="s2">&quot;ambiguous_extent&quot;</span><span class="p">})</span>
-    <span class="n">ds_no_ambig</span><span class="p">[</span><span class="s2">&quot;ambiguous_extent&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;ambiguous_extent&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Ambiguous Extent&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;$10^6$km$^2$&quot;</span><span class="p">,</span>
+    <span class="n">ds_no_ambig</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds_timeseries_doy</span><span class="p">[</span><span class="s2">"mysi_extent"</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">use_ambiguous</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                  <span class="o">-</span> <span class="n">ds_timeseries_doy</span><span class="p">[</span><span class="s2">"mysi_extent"</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">use_ambiguous</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                  <span class="p">)</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">()</span><span class="o">.</span><span class="n">rename_vars</span><span class="p">({</span><span class="s2">"mysi_extent"</span><span class="p">:</span> <span class="s2">"ambiguous_extent"</span><span class="p">})</span>
+    <span class="n">ds_no_ambig</span><span class="p">[</span><span class="s2">"ambiguous_extent"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"standard_name"</span><span class="p">:</span> <span class="s2">"ambiguous_extent"</span><span class="p">,</span>
+        <span class="s2">"long_name"</span><span class="p">:</span> <span class="s2">"Ambiguous Extent"</span><span class="p">,</span>
+        <span class="s2">"units"</span><span class="p">:</span> <span class="s2">"$10^6$km$^2$"</span><span class="p">,</span>
     <span class="p">}</span>
-    <span class="n">ds_no_ambig</span><span class="p">[</span><span class="s2">&quot;mysi_extent_age&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_timeseries_doy</span><span class="p">[</span><span class="s2">&quot;mysi_extent_age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
-        <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;use_ambiguous&quot;</span><span class="p">,</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">ds_timeseries_doy</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">([</span><span class="s2">&quot;mysi_extent_age&quot;</span><span class="p">]),</span> <span class="n">ds_no_ambig</span>
+    <span class="n">ds_no_ambig</span><span class="p">[</span><span class="s2">"mysi_extent_age"</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_timeseries_doy</span><span class="p">[</span><span class="s2">"mysi_extent_age"</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+        <span class="n">dim</span><span class="o">=</span><span class="s2">"use_ambiguous"</span><span class="p">,</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ds_timeseries_doy</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">([</span><span class="s2">"mysi_extent_age"</span><span class="p">]),</span> <span class="n">ds_no_ambig</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_against_monthday</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">single_row</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;viridis&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_against_monthday</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">single_row</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">"viridis"</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">defaults</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;row&quot;</span><span class="p">:</span> <span class="s2">&quot;variable&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;col&quot;</span><span class="p">:</span> <span class="s2">&quot;use_ambiguous&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;hue&quot;</span><span class="p">:</span> <span class="s2">&quot;year&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;add_legend&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="s2">&quot;figsize&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">27</span><span class="p">,</span> <span class="mi">18</span><span class="p">),</span>
-        <span class="s2">&quot;sharey&quot;</span><span class="p">:</span> <span class="s1">&#39;row&#39;</span><span class="p">,</span>
+        <span class="s2">"row"</span><span class="p">:</span> <span class="s2">"variable"</span><span class="p">,</span>
+        <span class="s2">"col"</span><span class="p">:</span> <span class="s2">"use_ambiguous"</span><span class="p">,</span>
+        <span class="s2">"x"</span><span class="p">:</span> <span class="s2">"time"</span><span class="p">,</span>
+        <span class="s2">"hue"</span><span class="p">:</span> <span class="s2">"year"</span><span class="p">,</span>
+        <span class="s2">"add_legend"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"figsize"</span><span class="p">:</span> <span class="p">(</span><span class="mi">27</span><span class="p">,</span> <span class="mi">18</span><span class="p">),</span>
+        <span class="s2">"sharey"</span><span class="p">:</span> <span class="s1">'row'</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="n">cbar_kwargs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;Year&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;shrink&quot;</span><span class="p">:</span> <span class="mf">.7</span><span class="p">,</span>
+        <span class="s2">"label"</span><span class="p">:</span> <span class="s2">"Year"</span><span class="p">,</span>
+        <span class="s2">"shrink"</span><span class="p">:</span> <span class="mf">.7</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="k">if</span> <span class="n">single_row</span><span class="p">:</span>
         <span class="n">defaults</span> <span class="o">|=</span> <span class="p">{</span>
-            <span class="s2">&quot;row&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="s2">&quot;col&quot;</span><span class="p">:</span> <span class="s2">&quot;variable&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;figsize&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
-            <span class="s2">&quot;sharey&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">"row"</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">"col"</span><span class="p">:</span> <span class="s2">"variable"</span><span class="p">,</span>
+            <span class="s2">"figsize"</span><span class="p">:</span> <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+            <span class="s2">"sharey"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="n">cbar_kwargs</span> <span class="o">|=</span> <span class="p">{</span>
-            <span class="s2">&quot;pad&quot;</span><span class="p">:</span> <span class="mf">0.025</span><span class="p">,</span>
-            <span class="s2">&quot;shrink&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">"pad"</span><span class="p">:</span> <span class="mf">0.025</span><span class="p">,</span>
+            <span class="s2">"shrink"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
         <span class="p">}</span>
     
     <span class="n">da</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span>
     <span class="n">time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
         <span class="p">[</span>
-            <span class="sa">f</span><span class="s2">&quot;200</span><span class="si">{</span><span class="s1">&#39;1&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="n">monthday</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;2&#39;</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">monthday</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="k">for</span> <span class="n">monthday</span> <span class="ow">in</span> <span class="n">da</span><span class="p">[</span><span class="s2">&quot;monthday&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+            <span class="sa">f</span><span class="s2">"200</span><span class="si">{</span><span class="s1">'1'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="n">monthday</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'2'</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">monthday</span><span class="si">}</span><span class="s2">"</span>
+            <span class="k">for</span> <span class="n">monthday</span> <span class="ow">in</span> <span class="n">da</span><span class="p">[</span><span class="s2">"monthday"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
         <span class="p">]</span>
     <span class="p">)</span>
-    <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;monthday&quot;</span><span class="p">,</span> <span class="n">time</span><span class="p">))</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
-    <span class="n">colors</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="n">cmap</span><span class="p">,</span> <span class="n">da</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">colors</span>
-    <span class="k">with</span> <span class="n">plt</span><span class="o">.</span><span class="n">rc_context</span><span class="p">({</span><span class="s2">&quot;axes.prop_cycle&quot;</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">cycler</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">)}):</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="p">(</span><span class="s2">"monthday"</span><span class="p">,</span> <span class="n">time</span><span class="p">))</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="s2">"time"</span><span class="p">)</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="n">cmap</span><span class="p">,</span> <span class="n">da</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">"year"</span><span class="p">])</span><span class="o">.</span><span class="n">colors</span>
+    <span class="k">with</span> <span class="n">plt</span><span class="o">.</span><span class="n">rc_context</span><span class="p">({</span><span class="s2">"axes.prop_cycle"</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">cycler</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">)}):</span>
         <span class="n">facet</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="p">(</span><span class="n">defaults</span> <span class="o">|</span> <span class="n">kwargs</span><span class="p">))</span>
 
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">sel_dict</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">facet</span><span class="o">.</span><span class="n">axs</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">facet</span><span class="o">.</span><span class="n">name_dicts</span><span class="o">.</span><span class="n">flatten</span><span class="p">())):</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">DateFormatter</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> %b&quot;</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">''</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">DateFormatter</span><span class="p">(</span><span class="s2">"</span><span class="si">%d</span><span class="s2"> %b"</span><span class="p">))</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">single_row</span><span class="p">:</span>
             <span class="k">continue</span>
 
-        <span class="n">title</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">sel_dict</span><span class="p">[</span><span class="s2">&quot;variable&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; NERSC&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">NERSC&quot;</span><span class="p">)</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">sel_dict</span><span class="p">[</span><span class="s2">"variable"</span><span class="p">]]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"long_name"</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">" NERSC"</span><span class="p">,</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">NERSC"</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;[</span><span class="si">%s</span><span class="s2">]&quot;</span> <span class="o">%</span><span class="k">ds</span>[sel_dict[&quot;variable&quot;]].attrs[&quot;units&quot;]
+            <span class="n">label</span> <span class="o">=</span> <span class="s2">"[</span><span class="si">%s</span><span class="s2">]"</span> <span class="o">%</span><span class="k">ds</span>[sel_dict["variable"]].attrs["units"]
             <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 
     <span class="n">scalar_mappable</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">ScalarMappable</span><span class="p">(</span>
         <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span>
-        <span class="n">norm</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">da</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">vmax</span><span class="o">=</span><span class="n">da</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()),</span>
+        <span class="n">norm</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">da</span><span class="p">[</span><span class="s2">"year"</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">vmax</span><span class="o">=</span><span class="n">da</span><span class="p">[</span><span class="s2">"year"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()),</span>
     <span class="p">)</span>
     <span class="n">cbar</span> <span class="o">=</span> <span class="n">facet</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">scalar_mappable</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">facet</span><span class="o">.</span><span class="n">axs</span><span class="p">,</span> <span class="o">**</span><span class="n">cbar_kwargs</span><span class="p">)</span> 
     <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
@@ -1063,19 +1064,19 @@
         <span class="n">ax</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="mi">18</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">facet</span><span class="o">.</span><span class="n">axs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]:</span>
-        <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;[</span><span class="si">%s</span><span class="s2">]&quot;</span> <span class="o">%</span><span class="k">ds</span>[sel_dict[&quot;variable&quot;]].attrs[&quot;units&quot;]
+        <span class="n">label</span> <span class="o">=</span> <span class="s2">"[</span><span class="si">%s</span><span class="s2">]"</span> <span class="o">%</span><span class="k">ds</span>[sel_dict["variable"]].attrs["units"]
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">facet</span><span class="o">.</span><span class="n">row_labels</span><span class="p">:</span>
         <span class="o">*</span><span class="n">_</span><span class="p">,</span> <span class="n">variable</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-        <span class="n">long_name</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;from&quot;</span><span class="p">,</span> <span class="s2">&quot;from</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>            
+        <span class="n">long_name</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"long_name"</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"from"</span><span class="p">,</span> <span class="s2">"from</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>            
         <span class="n">label</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="n">long_name</span><span class="p">)</span>
         <span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">facet</span><span class="o">.</span><span class="n">col_labels</span><span class="p">:</span>
-        <span class="n">txt</span> <span class="o">=</span> <span class="s2">&quot;U&quot;</span> <span class="k">if</span> <span class="s2">&quot;true&quot;</span> <span class="ow">in</span> <span class="n">label</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;Not u&quot;</span>
-        <span class="n">txt</span> <span class="o">+=</span> <span class="s2">&quot;sing ambiguous pixels&quot;</span>
+        <span class="n">txt</span> <span class="o">=</span> <span class="s2">"U"</span> <span class="k">if</span> <span class="s2">"true"</span> <span class="ow">in</span> <span class="n">label</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">else</span> <span class="s2">"Not u"</span>
+        <span class="n">txt</span> <span class="o">+=</span> <span class="s2">"sing ambiguous pixels"</span>
         <span class="n">label</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
         <span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
 </pre></div>
@@ -1099,14 +1100,14 @@
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">compute_multiyear_ice_percentage</span><span class="p">(</span><span class="n">da</span><span class="p">):</span>
-    <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.month&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="n">da</span><span class="p">:</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">da</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="n">da</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"time.month"</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">da</span><span class="p">:</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">da</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s2">"time"</span><span class="p">)</span> <span class="o">/</span> <span class="n">da</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span>
     <span class="p">)</span>
     <span class="n">da</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;%&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Multi-year sea ice percentage&quot;</span><span class="p">,</span>
+        <span class="s2">"units"</span><span class="p">:</span> <span class="s2">"%"</span><span class="p">,</span>
+        <span class="s2">"long_name"</span><span class="p">:</span> <span class="s2">"Multi-year sea ice percentage"</span><span class="p">,</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="n">da</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;percentage&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">da</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"percentage"</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_cds_multiyear_ice_percentage</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">use_ambiguous</span><span class="p">):</span>
@@ -1144,16 +1145,16 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">plot_maps</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">coastline_color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">plot_maps</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">coastline_color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">defaults</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;col&quot;</span><span class="p">:</span> <span class="s2">&quot;period&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;row&quot;</span><span class="p">:</span> <span class="s2">&quot;month&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;projection&quot;</span><span class="p">:</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">Stereographic</span><span class="p">(</span><span class="n">central_latitude</span><span class="o">=</span><span class="mf">90.0</span><span class="p">),</span>
-        <span class="s2">&quot;cmap&quot;</span><span class="p">:</span> <span class="n">cmocean</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">ice</span><span class="p">,</span>
-        <span class="s2">&quot;cbar_kwargs&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;shrink&quot;</span> <span class="p">:</span> <span class="mf">.4</span><span class="p">,</span>
-            <span class="s2">&quot;pad&quot;</span><span class="p">:</span> <span class="mf">.1</span><span class="p">,</span>
-            <span class="s2">&quot;anchor&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">.5</span><span class="p">),</span> <span class="c1"># .5 to center vertically</span>
+        <span class="s2">"col"</span><span class="p">:</span> <span class="s2">"period"</span><span class="p">,</span>
+        <span class="s2">"row"</span><span class="p">:</span> <span class="s2">"month"</span><span class="p">,</span>
+        <span class="s2">"projection"</span><span class="p">:</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">Stereographic</span><span class="p">(</span><span class="n">central_latitude</span><span class="o">=</span><span class="mf">90.0</span><span class="p">),</span>
+        <span class="s2">"cmap"</span><span class="p">:</span> <span class="n">cmocean</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">ice</span><span class="p">,</span>
+        <span class="s2">"cbar_kwargs"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"shrink"</span> <span class="p">:</span> <span class="mf">.4</span><span class="p">,</span>
+            <span class="s2">"pad"</span><span class="p">:</span> <span class="mf">.1</span><span class="p">,</span>
+            <span class="s2">"anchor"</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">.5</span><span class="p">),</span> <span class="c1"># .5 to center vertically</span>
         <span class="p">},</span>
     <span class="p">}</span>
     <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span>
@@ -1161,19 +1162,19 @@
         <span class="n">yc</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mf">2.5e3</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.5e3</span><span class="p">),</span>
         <span class="n">month</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
     <span class="p">)</span>
-    <span class="n">da</span><span class="p">[</span><span class="s2">&quot;month&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">calendar</span><span class="o">.</span><span class="n">month_abbr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">da</span><span class="p">[</span><span class="s2">&quot;month&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
+    <span class="n">da</span><span class="p">[</span><span class="s2">"month"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">calendar</span><span class="o">.</span><span class="n">month_abbr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">da</span><span class="p">[</span><span class="s2">"month"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
     <span class="n">facet</span> <span class="o">=</span> <span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="o">**</span><span class="p">(</span><span class="n">defaults</span> <span class="o">|</span> <span class="n">kwargs</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">facet</span><span class="o">.</span><span class="n">axs</span><span class="o">.</span><span class="n">flatten</span><span class="p">():</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">coastline_color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">LAND</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gainsboro&#39;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">set_edgecolor</span><span class="p">(</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>  
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">LAND</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'gainsboro'</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">set_edgecolor</span><span class="p">(</span><span class="s1">'black'</span><span class="p">)</span>  
         <span class="n">ax</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> 
    
     <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">facet</span><span class="o">.</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]:</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">facet</span><span class="o">.</span><span class="n">col_labels</span><span class="p">):</span>
-        <span class="n">long_name</span> <span class="o">=</span> <span class="n">da</span><span class="p">[</span><span class="s2">&quot;period&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">long_name</span> <span class="o">=</span> <span class="n">da</span><span class="p">[</span><span class="s2">"period"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="n">label</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="n">long_name</span><span class="p">)</span>
         <span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">facet</span><span class="o">.</span><span class="n">row_labels</span><span class="p">):</span>
@@ -1181,14 +1182,14 @@
 
     <span class="n">facet</span><span class="o">.</span><span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
     <span class="n">facet</span><span class="o">.</span><span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
-    <span class="n">facet</span><span class="o">.</span><span class="n">set_titles</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{value}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">facet</span><span class="o">.</span><span class="n">set_titles</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s2">"</span><span class="si">{value}</span><span class="s2">"</span><span class="p">)</span>
     
     <span class="k">return</span> <span class="n">facet</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">plot_cds_maps</span><span class="p">(</span><span class="n">ds_cds</span><span class="p">,</span> <span class="n">ambiguous</span><span class="p">,</span> <span class="o">**</span><span class="n">kw_sup</span><span class="p">):</span>
-    <span class="n">facet</span> <span class="o">=</span> <span class="n">plot_maps</span><span class="p">(</span><span class="n">ds_cds</span><span class="p">[</span><span class="s2">&quot;percentage&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">use_ambiguous</span><span class="o">=</span><span class="n">ambiguous</span><span class="p">))</span>
-    <span class="n">facet</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CDS MYI percentage;</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">ambiguous</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39; not&#39;</span><span class="si">}</span><span class="s2"> using ambiguous pixels&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kw_sup</span><span class="p">)</span>
+    <span class="n">facet</span> <span class="o">=</span> <span class="n">plot_maps</span><span class="p">(</span><span class="n">ds_cds</span><span class="p">[</span><span class="s2">"percentage"</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">use_ambiguous</span><span class="o">=</span><span class="n">ambiguous</span><span class="p">))</span>
+    <span class="n">facet</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">"CDS MYI percentage;</span><span class="si">{</span><span class="s1">''</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">ambiguous</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">' not'</span><span class="si">}</span><span class="s2"> using ambiguous pixels"</span><span class="p">,</span> <span class="o">**</span><span class="n">kw_sup</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 
@@ -1201,23 +1202,23 @@
         <span class="n">xc</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mf">2.5e3</span><span class="p">,</span> <span class="mf">2.5e3</span><span class="p">),</span>
         <span class="n">yc</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mf">2.5e3</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.5e3</span><span class="p">),</span>
     <span class="p">)</span>
-    <span class="n">da</span> <span class="o">=</span> <span class="n">ds_cds</span><span class="p">[</span><span class="s2">&quot;percentage&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">sel_dict</span><span class="p">)</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">ds_cds</span><span class="p">[</span><span class="s2">"percentage"</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">sel_dict</span><span class="p">)</span>
     <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">mask_outside_central_arctic</span><span class="p">(</span><span class="n">da</span><span class="p">))</span>
     
     <span class="n">ax</span> <span class="o">=</span> <span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">Stereographic</span><span class="p">(</span><span class="n">central_latitude</span><span class="o">=</span><span class="mf">90.0</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmocean</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">ice</span><span class="p">,</span> <span class="n">show_stats</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">axes</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">LAND</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gainsboro&#39;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">set_edgecolor</span><span class="p">(</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>  
+    <span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">LAND</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'gainsboro'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">set_edgecolor</span><span class="p">(</span><span class="s1">'black'</span><span class="p">)</span>  
     <span class="n">ax</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 
-    <span class="n">title</span> <span class="o">=</span> <span class="n">sel_dict</span><span class="p">[</span><span class="s1">&#39;period&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-    <span class="n">title</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;Oct&quot;</span><span class="p">)</span>
-    <span class="n">title</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;Apr&quot;</span><span class="p">)</span>
-    <span class="n">title</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">calendar</span><span class="o">.</span><span class="n">month_abbr</span><span class="p">[</span><span class="n">sel_dict</span><span class="p">[</span><span class="s2">&quot;month&quot;</span><span class="p">]])</span>
-    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">title</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">sel_dict</span><span class="p">[</span><span class="s1">&#39;use_ambiguous&#39;</span><span class="p">]:</span>
-        <span class="n">title</span> <span class="o">+=</span> <span class="s2">&quot; not&quot;</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span> <span class="o">+</span> <span class="s2">&quot; using ambiguous data&quot;</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">sel_dict</span><span class="p">[</span><span class="s1">'period'</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">title</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">"Oct"</span><span class="p">)</span>
+    <span class="n">title</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">"Apr"</span><span class="p">)</span>
+    <span class="n">title</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">calendar</span><span class="o">.</span><span class="n">month_abbr</span><span class="p">[</span><span class="n">sel_dict</span><span class="p">[</span><span class="s2">"month"</span><span class="p">]])</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">title</span><span class="p">)</span> <span class="o">+</span> <span class="s2">";"</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">sel_dict</span><span class="p">[</span><span class="s1">'use_ambiguous'</span><span class="p">]:</span>
+        <span class="n">title</span> <span class="o">+=</span> <span class="s2">" not"</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span> <span class="o">+</span> <span class="s2">" using ambiguous data"</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 
@@ -1225,7 +1226,7 @@
     <span class="n">facet</span> <span class="o">=</span> <span class="n">plot_maps</span><span class="p">(</span>
         <span class="n">da_bias</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">use_ambiguous</span><span class="o">=</span><span class="n">ambiguous</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmocean</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">balance</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">30</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">facet</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bias (CDS - NERSC);</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">ambiguous</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39; not&#39;</span><span class="si">}</span><span class="s2"> using ambiguous pixels&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kw_sup</span><span class="p">)</span>
+    <span class="n">facet</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Bias (CDS - NERSC);</span><span class="si">{</span><span class="s1">''</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">ambiguous</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">' not'</span><span class="si">}</span><span class="s2"> using ambiguous pixels"</span><span class="p">,</span> <span class="o">**</span><span class="n">kw_sup</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1245,17 +1246,17 @@
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nersc_kwargs</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;use_fyi&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="s2">&quot;age_threshold&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="s2">&quot;conc_threshold&quot;</span><span class="p">:</span> <span class="n">conc_threshold</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">"use_fyi"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="s2">"age_threshold"</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">"conc_threshold"</span><span class="p">:</span> <span class="n">conc_threshold</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span>
 <span class="p">}</span>
 <span class="n">download_kwargs</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;chunks&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
-    <span class="s2">&quot;concat_dim&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;combine&quot;</span><span class="p">:</span> <span class="s2">&quot;nested&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;data_vars&quot;</span><span class="p">:</span> <span class="s2">&quot;minimal&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;coords&quot;</span><span class="p">:</span> <span class="s2">&quot;minimal&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;compat&quot;</span><span class="p">:</span> <span class="s2">&quot;override&quot;</span><span class="p">,</span>
+    <span class="s2">"chunks"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"year"</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="s2">"concat_dim"</span><span class="p">:</span> <span class="s2">"time"</span><span class="p">,</span>
+    <span class="s2">"combine"</span><span class="p">:</span> <span class="s2">"nested"</span><span class="p">,</span>
+    <span class="s2">"data_vars"</span><span class="p">:</span> <span class="s2">"minimal"</span><span class="p">,</span>
+    <span class="s2">"coords"</span><span class="p">:</span> <span class="s2">"minimal"</span><span class="p">,</span>
+    <span class="s2">"compat"</span><span class="p">:</span> <span class="s2">"override"</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -1272,16 +1273,16 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Timeseries</span>
 <span class="n">datasets</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">use_ambiguous</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Timeseries: </span><span class="si">{</span><span class="n">use_ambiguous</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Timeseries: </span><span class="si">{</span><span class="n">use_ambiguous</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
         <span class="n">collection_id</span><span class="p">,</span>
         <span class="n">request_timeseries</span><span class="p">,</span>
         <span class="n">transform_func</span><span class="o">=</span><span class="n">compute_sea_ice_evaluation_diagnostics</span><span class="p">,</span>
-        <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="n">nersc_kwargs</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;use_ambiguous&quot;</span><span class="p">:</span> <span class="n">use_ambiguous</span><span class="p">},</span>
+        <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="n">nersc_kwargs</span> <span class="o">|</span> <span class="p">{</span><span class="s2">"use_ambiguous"</span><span class="p">:</span> <span class="n">use_ambiguous</span><span class="p">},</span>
         <span class="o">**</span><span class="n">download_kwargs</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">use_ambiguous</span><span class="o">=</span><span class="p">[</span><span class="n">use_ambiguous</span><span class="p">])</span><span class="o">.</span><span class="n">compute</span><span class="p">())</span>
-<span class="n">ds_timeseries_ambig</span><span class="p">,</span> <span class="n">ds_timeseries_no_ambig</span>  <span class="o">=</span> <span class="n">split_dataset_ambiguous</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="s2">&quot;use_ambiguous&quot;</span><span class="p">))</span>
+<span class="n">ds_timeseries_ambig</span><span class="p">,</span> <span class="n">ds_timeseries_no_ambig</span>  <span class="o">=</span> <span class="n">split_dataset_ambiguous</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="s2">"use_ambiguous"</span><span class="p">))</span>
 <span class="k">del</span> <span class="n">datasets</span>
 </pre></div>
 </div>
@@ -1298,7 +1299,7 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># NERSC Maps</span>
 <span class="n">datasets</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">period</span><span class="p">,</span> <span class="n">requests</span> <span class="ow">in</span> <span class="n">requests_periods</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;NERSC Maps: </span><span class="si">{</span><span class="n">period</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"NERSC Maps: </span><span class="si">{</span><span class="n">period</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
         <span class="n">collection_id</span><span class="p">,</span>
         <span class="n">requests</span><span class="p">,</span>
@@ -1308,7 +1309,7 @@
         <span class="o">**</span><span class="n">download_kwargs</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="p">[</span><span class="n">period</span><span class="p">]))</span>
-<span class="n">ds_nersc</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="s2">&quot;period&quot;</span><span class="p">)</span>
+<span class="n">ds_nersc</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="s2">"period"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1325,12 +1326,12 @@
 <span class="n">datasets</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">period</span><span class="p">,</span> <span class="n">requests</span> <span class="ow">in</span> <span class="n">requests_periods</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="k">for</span> <span class="n">use_ambiguous</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CDS Maps: </span><span class="si">{</span><span class="n">period</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">use_ambiguous</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"CDS Maps: </span><span class="si">{</span><span class="n">period</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">use_ambiguous</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">ds</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
             <span class="n">collection_id</span><span class="p">,</span>
             <span class="n">requests</span><span class="p">,</span>
             <span class="n">transform_func</span><span class="o">=</span><span class="n">compute_cds_multiyear_ice_percentage</span><span class="p">,</span>
-            <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;use_ambiguous&quot;</span><span class="p">:</span> <span class="n">use_ambiguous</span><span class="p">},</span>
+            <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">"use_ambiguous"</span><span class="p">:</span> <span class="n">use_ambiguous</span><span class="p">},</span>
             <span class="n">transform_chunks</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="o">**</span><span class="n">download_kwargs</span><span class="p">,</span>
         <span class="p">)</span>
@@ -1339,8 +1340,8 @@
 
 <span class="c1"># Bias compared to NERSC product</span>
 <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="n">da_bias</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds_cds</span> <span class="o">-</span> <span class="n">ds_nersc</span><span class="p">)[</span><span class="s2">&quot;percentage&quot;</span><span class="p">]</span>
-<span class="n">da_bias</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Bias of &quot;</span> <span class="o">+</span> <span class="n">da_bias</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span>
+    <span class="n">da_bias</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds_cds</span> <span class="o">-</span> <span class="n">ds_nersc</span><span class="p">)[</span><span class="s2">"percentage"</span><span class="p">]</span>
+<span class="n">da_bias</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"long_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Bias of "</span> <span class="o">+</span> <span class="n">da_bias</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"long_name"</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -1432,9 +1433,9 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kw_sup</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;fontsize&quot;</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="mf">.37</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="mf">1.0125</span><span class="p">}</span>
-<span class="n">facet</span> <span class="o">=</span> <span class="n">plot_maps</span><span class="p">(</span><span class="n">ds_nersc</span><span class="p">[</span><span class="s2">&quot;percentage&quot;</span><span class="p">])</span>
-<span class="n">facet</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;NERSC MYI percentage&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kw_sup</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kw_sup</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"fontsize"</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">:</span> <span class="mf">.37</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">:</span> <span class="mf">1.0125</span><span class="p">}</span>
+<span class="n">facet</span> <span class="o">=</span> <span class="n">plot_maps</span><span class="p">(</span><span class="n">ds_nersc</span><span class="p">[</span><span class="s2">"percentage"</span><span class="p">])</span>
+<span class="n">facet</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">"NERSC MYI percentage"</span><span class="p">,</span> <span class="o">**</span><span class="n">kw_sup</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>

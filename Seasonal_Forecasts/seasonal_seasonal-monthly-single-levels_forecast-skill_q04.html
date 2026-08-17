@@ -257,6 +257,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../Satellite_ECVs/Cryosphere/satellite_satellite-ice-sheet-elevation-change_trend-assessment_q01.html">1.3.8. Uncertainty of ice sheet surface elevation change data over Greenland for volume and mass change trend assessments</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Satellite_ECVs/Cryosphere/satellite_satellite-ice-sheet-mass-balance_trend-assessment_q02.html">1.3.9. Gravimetric mass balance data from satellite observations: utility analysis for mass change monitoring of the ice sheets</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../Satellite_ECVs/Cryosphere/satellite_satellite-ice-sheet-mass-balance_uncertainty_q01.html">1.3.10. Gravimetric mass changes from satellite data: assessment of resolution and uncertainty of Greenland ice sheet mass changes for glaciological applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Satellite_ECVs/Cryosphere/satellite_satellite-sea-ice-drift_uncertainty-quality-flags_q01.html">1.3.11. Sea ice drift from satellite observations: resolution and uncertainty of Arctic sea ice drift for large-scale sea ice transport analysis</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Land_Biosphere/Land_Biosphere.html">1.4. Land Biosphere</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -717,7 +718,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ListedColormap</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;seaborn-v0_8-notebook&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"seaborn-v0_8-notebook"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -755,74 +756,74 @@
 
 <span class="c1"># Variable</span>
 <span class="n">variables</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;2m_temperature&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;total_precipitation&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;surface_solar_radiation_downwards&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;10m_wind_speed&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;2m_dewpoint_temperature&quot;</span><span class="p">,</span>
+    <span class="s2">"2m_temperature"</span><span class="p">,</span>
+    <span class="s2">"total_precipitation"</span><span class="p">,</span>
+    <span class="s2">"surface_solar_radiation_downwards"</span><span class="p">,</span>
+    <span class="s2">"10m_wind_speed"</span><span class="p">,</span>
+    <span class="s2">"2m_dewpoint_temperature"</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="c1"># Define centres with missing variables</span>
-<span class="n">missing_variables</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;eccc&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;2m_dewpoint_temperature&quot;</span><span class="p">]}</span>
+<span class="n">missing_variables</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"eccc"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"2m_dewpoint_temperature"</span><span class="p">]}</span>
 
 <span class="c1"># Centres</span>
 <span class="n">centres</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;cmcc&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;system&quot;</span><span class="p">:</span> <span class="s2">&quot;35&quot;</span><span class="p">},</span>
-    <span class="s2">&quot;dwd&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;system&quot;</span><span class="p">:</span> <span class="s2">&quot;21&quot;</span><span class="p">},</span>
-    <span class="s2">&quot;eccc&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;system&quot;</span><span class="p">:</span> <span class="s2">&quot;3&quot;</span><span class="p">},</span>
-    <span class="s2">&quot;ecmwf&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;system&quot;</span><span class="p">:</span> <span class="s2">&quot;51&quot;</span><span class="p">},</span>
-    <span class="s2">&quot;jma&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;system&quot;</span><span class="p">:</span> <span class="s2">&quot;3&quot;</span><span class="p">},</span>
-    <span class="s2">&quot;meteo_france&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;system&quot;</span><span class="p">:</span> <span class="s2">&quot;8&quot;</span><span class="p">},</span>
-    <span class="s2">&quot;ncep&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;system&quot;</span><span class="p">:</span> <span class="s2">&quot;2&quot;</span><span class="p">},</span>
-    <span class="s2">&quot;ukmo&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;system&quot;</span><span class="p">:</span> <span class="s2">&quot;601&quot;</span><span class="p">},</span>
+    <span class="s2">"cmcc"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"system"</span><span class="p">:</span> <span class="s2">"35"</span><span class="p">},</span>
+    <span class="s2">"dwd"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"system"</span><span class="p">:</span> <span class="s2">"21"</span><span class="p">},</span>
+    <span class="s2">"eccc"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"system"</span><span class="p">:</span> <span class="s2">"3"</span><span class="p">},</span>
+    <span class="s2">"ecmwf"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"system"</span><span class="p">:</span> <span class="s2">"51"</span><span class="p">},</span>
+    <span class="s2">"jma"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"system"</span><span class="p">:</span> <span class="s2">"3"</span><span class="p">},</span>
+    <span class="s2">"meteo_france"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"system"</span><span class="p">:</span> <span class="s2">"8"</span><span class="p">},</span>
+    <span class="s2">"ncep"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"system"</span><span class="p">:</span> <span class="s2">"2"</span><span class="p">},</span>
+    <span class="s2">"ukmo"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"system"</span><span class="p">:</span> <span class="s2">"601"</span><span class="p">},</span>
 <span class="p">}</span>
-<span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="s2">&quot;system&quot;</span> <span class="ow">in</span> <span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">centres</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+<span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="s2">"system"</span> <span class="ow">in</span> <span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">centres</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
 <span class="k">assert</span> <span class="nb">set</span><span class="p">(</span><span class="n">centres</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="p">{</span>
-    <span class="s2">&quot;cmcc&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;dwd&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;eccc&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;ecmwf&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;jma&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;meteo_france&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;ncep&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;ukmo&quot;</span><span class="p">,</span>
+    <span class="s2">"cmcc"</span><span class="p">,</span>
+    <span class="s2">"dwd"</span><span class="p">,</span>
+    <span class="s2">"eccc"</span><span class="p">,</span>
+    <span class="s2">"ecmwf"</span><span class="p">,</span>
+    <span class="s2">"jma"</span><span class="p">,</span>
+    <span class="s2">"meteo_france"</span><span class="p">,</span>
+    <span class="s2">"ncep"</span><span class="p">,</span>
+    <span class="s2">"ukmo"</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="c1"># Regions</span>
-<span class="n">defined_regions_module_name</span> <span class="o">=</span> <span class="s2">&quot;ar6.land&quot;</span>
+<span class="n">defined_regions_module_name</span> <span class="o">=</span> <span class="s2">"ar6.land"</span>
 <span class="n">regions</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;ENA&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;MED&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;NEAF&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;NES&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;NWS&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;SAS&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;SEA&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;WNA&quot;</span><span class="p">,</span>
+    <span class="s2">"ENA"</span><span class="p">,</span>
+    <span class="s2">"MED"</span><span class="p">,</span>
+    <span class="s2">"NEAF"</span><span class="p">,</span>
+    <span class="s2">"NES"</span><span class="p">,</span>
+    <span class="s2">"NWS"</span><span class="p">,</span>
+    <span class="s2">"SAS"</span><span class="p">,</span>
+    <span class="s2">"SEA"</span><span class="p">,</span>
+    <span class="s2">"WNA"</span><span class="p">,</span>
 <span class="p">]</span>
 
 
 <span class="c1"># Define data requests</span>
-<span class="n">chunks</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="n">chunks</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"year"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"variable"</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
 <span class="n">common_request</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;grib&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;area&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">89.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">179.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">89.5</span><span class="p">,</span> <span class="mf">179.5</span><span class="p">],</span>
-    <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">year_start_hindcast</span><span class="p">,</span> <span class="n">year_stop_hindcast</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span>
+    <span class="s2">"format"</span><span class="p">:</span> <span class="s2">"grib"</span><span class="p">,</span>
+    <span class="s2">"area"</span><span class="p">:</span> <span class="p">[</span><span class="mf">89.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">179.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">89.5</span><span class="p">,</span> <span class="mf">179.5</span><span class="p">],</span>
+    <span class="s2">"year"</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">year_start_hindcast</span><span class="p">,</span> <span class="n">year_stop_hindcast</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span>
 <span class="p">}</span>
 
-<span class="n">collection_id_reanalysis</span> <span class="o">=</span> <span class="s2">&quot;reanalysis-era5-single-levels-monthly-means&quot;</span>
+<span class="n">collection_id_reanalysis</span> <span class="o">=</span> <span class="s2">"reanalysis-era5-single-levels-monthly-means"</span>
 <span class="n">request_reanalysis</span> <span class="o">=</span> <span class="n">common_request</span> <span class="o">|</span> <span class="p">{</span>
-    <span class="s2">&quot;product_type&quot;</span><span class="p">:</span> <span class="s2">&quot;monthly_averaged_reanalysis&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">)],</span>
-    <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;00:00&quot;</span><span class="p">,</span>
+    <span class="s2">"product_type"</span><span class="p">:</span> <span class="s2">"monthly_averaged_reanalysis"</span><span class="p">,</span>
+    <span class="s2">"month"</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">)],</span>
+    <span class="s2">"time"</span><span class="p">:</span> <span class="s2">"00:00"</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="n">collection_id_seasonal</span> <span class="o">=</span> <span class="s2">&quot;seasonal-monthly-single-levels&quot;</span>
+<span class="n">collection_id_seasonal</span> <span class="o">=</span> <span class="s2">"seasonal-monthly-single-levels"</span>
 <span class="n">request_seasonal</span> <span class="o">=</span> <span class="n">common_request</span> <span class="o">|</span> <span class="p">{</span>
-    <span class="s2">&quot;product_type&quot;</span><span class="p">:</span> <span class="s2">&quot;monthly_mean&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;leadtime_month&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">))),</span>
-    <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">)],</span>
-    <span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="s2">&quot;1/1&quot;</span><span class="p">,</span>
+    <span class="s2">"product_type"</span><span class="p">:</span> <span class="s2">"monthly_mean"</span><span class="p">,</span>
+    <span class="s2">"leadtime_month"</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">))),</span>
+    <span class="s2">"month"</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">)],</span>
+    <span class="s2">"grid"</span><span class="p">:</span> <span class="s2">"1/1"</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -842,7 +843,7 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_defined_regions</span><span class="p">(</span><span class="n">defined_regions_module_name</span><span class="p">):</span>
     <span class="n">defined_regions</span> <span class="o">=</span> <span class="n">regionmask</span><span class="o">.</span><span class="n">defined_regions</span>
-    <span class="k">for</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">defined_regions_module_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">defined_regions_module_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">):</span>
         <span class="n">defined_regions</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">defined_regions</span><span class="p">,</span> <span class="n">module</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">defined_regions</span>
 
@@ -852,7 +853,7 @@
 
 <span class="n">ax</span> <span class="o">=</span> <span class="n">defined_regions</span><span class="p">[</span><span class="n">regions</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
     <span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">Robinson</span><span class="p">(),</span>
-    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;abbrev&quot;</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">"abbrev"</span><span class="p">,</span>
     <span class="n">add_ocean</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_global</span><span class="p">()</span>
@@ -904,32 +905,32 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">reindex_seasonal_forecast</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
     <span class="c1"># Stack starting_time and leading_month</span>
-    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">forecast_reference_time</span><span class="o">=</span><span class="s2">&quot;starting_time&quot;</span><span class="p">)</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">forecast_reference_time</span><span class="o">=</span><span class="s2">"starting_time"</span><span class="p">)</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span>
-        <span class="n">time</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;starting_time&quot;</span><span class="p">,</span> <span class="s2">&quot;leadtime_month&quot;</span><span class="p">),</span>
+        <span class="n">time</span><span class="o">=</span><span class="p">(</span><span class="s2">"starting_time"</span><span class="p">,</span> <span class="s2">"leadtime_month"</span><span class="p">),</span>
         <span class="n">create_index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="c1"># Shift valid_time</span>
-    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;starting_time&quot;</span><span class="p">)</span>
-    <span class="n">valid_time</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">shift</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;leadtime_month&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
-        <span class="n">shifted</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">shift</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;MS&quot;</span><span class="p">)</span>
-        <span class="n">valid_time</span> <span class="o">=</span> <span class="n">valid_time</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;leadtime_month&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">shift</span><span class="p">,</span> <span class="n">shifted</span><span class="p">)</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">"starting_time"</span><span class="p">)</span>
+    <span class="n">valid_time</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">shift</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">"leadtime_month"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+        <span class="n">shifted</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">shift</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"MS"</span><span class="p">)</span>
+        <span class="n">valid_time</span> <span class="o">=</span> <span class="n">valid_time</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">"leadtime_month"</span><span class="p">]</span> <span class="o">!=</span> <span class="n">shift</span><span class="p">,</span> <span class="n">shifted</span><span class="p">)</span>
 
     <span class="c1"># Reindex: valid_time and starting_month</span>
     <span class="n">coords</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;valid_time&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">valid_time</span><span class="p">),</span>
-        <span class="s2">&quot;starting_month&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="o">.</span><span class="n">data</span><span class="p">),</span>
+        <span class="s2">"valid_time"</span><span class="p">:</span> <span class="p">(</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">valid_time</span><span class="p">),</span>
+        <span class="s2">"starting_month"</span><span class="p">:</span> <span class="p">(</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="o">.</span><span class="n">data</span><span class="p">),</span>
     <span class="p">}</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
-    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">set_index</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">coords</span><span class="p">)})</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">set_index</span><span class="p">({</span><span class="s2">"time"</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">coords</span><span class="p">)})</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="s2">"time"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">plot_tercile_analysis</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">cmap</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;cmap&quot;</span><span class="p">,</span> <span class="s2">&quot;RdYlBu_r&quot;</span><span class="p">)</span>
-    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cmap&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="n">cmap</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-    <span class="n">cbar_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;ticks&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">]}</span>
+    <span class="n">cmap</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"cmap"</span><span class="p">,</span> <span class="s2">"RdYlBu_r"</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">"cmap"</span><span class="p">]</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="n">cmap</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">cbar_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"ticks"</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">]}</span>
 
     <span class="n">plot_obj</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cbar_kwargs</span><span class="o">=</span><span class="n">cbar_kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -938,7 +939,7 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">plot_obj</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">facetgrid</span><span class="o">.</span><span class="n">FacetGrid</span><span class="p">)</span>
         <span class="k">else</span> <span class="n">plot_obj</span><span class="o">.</span><span class="n">colorbar</span>
     <span class="p">)</span>
-    <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([</span><span class="s2">&quot;Below normal&quot;</span><span class="p">,</span> <span class="s2">&quot;Normal&quot;</span><span class="p">,</span> <span class="s2">&quot;Above Normal&quot;</span><span class="p">])</span>
+    <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([</span><span class="s2">"Below normal"</span><span class="p">,</span> <span class="s2">"Normal"</span><span class="p">,</span> <span class="s2">"Above Normal"</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">plot_obj</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">tercile_analysis</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">defined_regions_module_name</span><span class="p">,</span> <span class="n">detrend</span><span class="p">):</span>
@@ -952,36 +953,36 @@
     <span class="c1"># Spatial mean</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="s2">&quot;leadtime_month&quot;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">"leadtime_month"</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
         <span class="n">ds</span> <span class="o">=</span> <span class="n">reindex_seasonal_forecast</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">forecast_reference_time</span><span class="o">=</span><span class="s2">&quot;valid_time&quot;</span><span class="p">)</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">forecast_reference_time</span><span class="o">=</span><span class="s2">"valid_time"</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">detrend</span><span class="p">:</span>
         <span class="c1"># Detrend timeseries</span>
-        <span class="n">time</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;valid_time&quot;</span><span class="p">]</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"valid_time"</span><span class="p">]</span>
         <span class="n">fit</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">deg</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">days_in_month</span><span class="p">)</span>
         <span class="n">fit</span> <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
-            <span class="p">{</span><span class="n">var</span><span class="p">:</span> <span class="n">var</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_polyfit_coefficients&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">fit</span><span class="o">.</span><span class="n">data_vars</span><span class="p">}</span>
+            <span class="p">{</span><span class="n">var</span><span class="p">:</span> <span class="n">var</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"_polyfit_coefficients"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">fit</span><span class="o">.</span><span class="n">data_vars</span><span class="p">}</span>
         <span class="p">)</span>
         <span class="n">ds</span> <span class="o">-=</span> <span class="n">xr</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">fit</span><span class="p">)</span>
 
     <span class="c1"># Compute anomaly</span>
-    <span class="n">climatology</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">time_weighted_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">time_name</span><span class="o">=</span><span class="s2">&quot;valid_time&quot;</span><span class="p">)</span>
-    <span class="n">climatology</span> <span class="o">=</span> <span class="n">climatology</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">climatology</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">{</span><span class="s2">&quot;realization&quot;</span><span class="p">})</span>
+    <span class="n">climatology</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">time_weighted_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">time_name</span><span class="o">=</span><span class="s2">"valid_time"</span><span class="p">)</span>
+    <span class="n">climatology</span> <span class="o">=</span> <span class="n">climatology</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">climatology</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">{</span><span class="s2">"realization"</span><span class="p">})</span>
     <span class="n">ds</span> <span class="o">-=</span> <span class="n">climatology</span>
 
     <span class="c1"># Reindex using valid year/month month</span>
-    <span class="n">time</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;valid_time&quot;</span><span class="p">]</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"valid_time"</span><span class="p">]</span>
     <span class="n">coords</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;valid_year&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">data</span><span class="p">),</span>
-        <span class="s2">&quot;valid_month&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="o">.</span><span class="n">data</span><span class="p">),</span>
+        <span class="s2">"valid_year"</span><span class="p">:</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">data</span><span class="p">),</span>
+        <span class="s2">"valid_month"</span><span class="p">:</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="o">.</span><span class="n">data</span><span class="p">),</span>
     <span class="p">}</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">set_index</span><span class="p">({</span><span class="n">time</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">coords</span><span class="p">)})</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
     <span class="c1"># Get quantiles</span>
-    <span class="n">quantiles</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="n">valid_year</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">quantile</span><span class="p">([</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">],</span> <span class="s2">&quot;valid_year&quot;</span><span class="p">)</span>
+    <span class="n">quantiles</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="n">valid_year</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">quantile</span><span class="p">([</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">],</span> <span class="s2">"valid_year"</span><span class="p">)</span>
     <span class="n">low</span> <span class="o">=</span> <span class="n">quantiles</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">quantile</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
     <span class="n">high</span> <span class="o">=</span> <span class="n">quantiles</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">quantile</span><span class="o">=</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
     <span class="n">mask</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -989,9 +990,9 @@
     <span class="n">mask</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">ds</span> <span class="o">&gt;=</span> <span class="n">low</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">ds</span> <span class="o">&lt;=</span> <span class="n">high</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
     <span class="n">mask</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds</span> <span class="o">&gt;</span> <span class="n">high</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="s2">&quot;realization&quot;</span> <span class="ow">in</span> <span class="n">mask</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">"realization"</span> <span class="ow">in</span> <span class="n">mask</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
         <span class="c1"># Get mode</span>
-        <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;realization&quot;</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">"realization"</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">mask</span><span class="o">.</span><span class="n">reset_coords</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
@@ -1027,24 +1028,24 @@
 <span class="k">for</span> <span class="n">region</span> <span class="ow">in</span> <span class="n">regions</span><span class="p">:</span>
     <span class="n">dataarrays</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">region</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">variable</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">region</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">variable</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">ds</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
             <span class="n">collection_id_reanalysis</span><span class="p">,</span>
-            <span class="n">request_reanalysis</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">variable</span><span class="p">},</span>
+            <span class="n">request_reanalysis</span> <span class="o">|</span> <span class="p">{</span><span class="s2">"variable"</span><span class="p">:</span> <span class="n">variable</span><span class="p">},</span>
             <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">,</span>
             <span class="n">transform_chunks</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">transform_func</span><span class="o">=</span><span class="n">tercile_analysis</span><span class="p">,</span>
             <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;region&quot;</span><span class="p">:</span> <span class="n">region</span><span class="p">,</span>
-                <span class="s2">&quot;defined_regions_module_name&quot;</span><span class="p">:</span> <span class="n">defined_regions_module_name</span><span class="p">,</span>
-                <span class="s2">&quot;detrend&quot;</span><span class="p">:</span> <span class="n">detrend</span><span class="p">,</span>
+                <span class="s2">"region"</span><span class="p">:</span> <span class="n">region</span><span class="p">,</span>
+                <span class="s2">"defined_regions_module_name"</span><span class="p">:</span> <span class="n">defined_regions_module_name</span><span class="p">,</span>
+                <span class="s2">"detrend"</span><span class="p">:</span> <span class="n">detrend</span><span class="p">,</span>
             <span class="p">},</span>
         <span class="p">)</span>
         <span class="p">(</span><span class="n">da</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
         <span class="n">dataarrays</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">variable</span><span class="p">))</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">dataarrays</span><span class="p">)</span>
     <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
-<span class="n">ds_reanalysis</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="s2">&quot;region&quot;</span><span class="p">)</span>
+<span class="n">ds_reanalysis</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="s2">"region"</span><span class="p">)</span>
 <span class="k">del</span> <span class="n">datasets</span>
 </pre></div>
 </div>
@@ -1079,32 +1080,32 @@
     <span class="k">for</span> <span class="n">region</span> <span class="ow">in</span> <span class="n">regions</span><span class="p">:</span>
         <span class="n">dataarrays</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">centre</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">region</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">variable</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">centre</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">region</span><span class="si">=}</span><span class="s2"> </span><span class="si">{</span><span class="n">variable</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">missing_variables</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">centre</span><span class="p">,</span> <span class="p">[]):</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SKIP&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"SKIP"</span><span class="p">)</span>
                 <span class="k">continue</span>
 
             <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">TMPDIR</span><span class="p">:</span>
                 <span class="n">ds</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
                     <span class="n">collection_id_seasonal</span><span class="p">,</span>
                     <span class="n">request_seasonal</span>
-                    <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;originating_centre&quot;</span><span class="p">:</span> <span class="n">centre</span><span class="p">,</span> <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">variable</span><span class="p">}</span>
+                    <span class="o">|</span> <span class="p">{</span><span class="s2">"originating_centre"</span><span class="p">:</span> <span class="n">centre</span><span class="p">,</span> <span class="s2">"variable"</span><span class="p">:</span> <span class="n">variable</span><span class="p">}</span>
                     <span class="o">|</span> <span class="n">request_kwargs</span><span class="p">,</span>
                     <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">,</span>
                     <span class="n">transform_chunks</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                     <span class="n">transform_func</span><span class="o">=</span><span class="n">tercile_analysis</span><span class="p">,</span>
                     <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="p">{</span>
-                        <span class="s2">&quot;region&quot;</span><span class="p">:</span> <span class="n">region</span><span class="p">,</span>
-                        <span class="s2">&quot;defined_regions_module_name&quot;</span><span class="p">:</span> <span class="n">defined_regions_module_name</span><span class="p">,</span>
-                        <span class="s2">&quot;detrend&quot;</span><span class="p">:</span> <span class="n">detrend</span><span class="p">,</span>
+                        <span class="s2">"region"</span><span class="p">:</span> <span class="n">region</span><span class="p">,</span>
+                        <span class="s2">"defined_regions_module_name"</span><span class="p">:</span> <span class="n">defined_regions_module_name</span><span class="p">,</span>
+                        <span class="s2">"detrend"</span><span class="p">:</span> <span class="n">detrend</span><span class="p">,</span>
                     <span class="p">},</span>
                     <span class="n">backend_kwargs</span><span class="o">=</span><span class="p">{</span>
-                        <span class="s2">&quot;time_dims&quot;</span><span class="p">:</span> <span class="p">(</span>
-                            <span class="s2">&quot;forecastMonth&quot;</span><span class="p">,</span>
+                        <span class="s2">"time_dims"</span><span class="p">:</span> <span class="p">(</span>
+                            <span class="s2">"forecastMonth"</span><span class="p">,</span>
                             <span class="p">(</span>
-                                <span class="s2">&quot;indexing_time&quot;</span>
-                                <span class="k">if</span> <span class="n">centre</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;ukmo&quot;</span><span class="p">,</span> <span class="s2">&quot;jma&quot;</span><span class="p">,</span> <span class="s2">&quot;ncep&quot;</span><span class="p">]</span>
-                                <span class="k">else</span> <span class="s2">&quot;time&quot;</span>
+                                <span class="s2">"indexing_time"</span>
+                                <span class="k">if</span> <span class="n">centre</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"ukmo"</span><span class="p">,</span> <span class="s2">"jma"</span><span class="p">,</span> <span class="s2">"ncep"</span><span class="p">]</span>
+                                <span class="k">else</span> <span class="s2">"time"</span>
                             <span class="p">),</span>
                         <span class="p">)</span>
                     <span class="p">},</span>
@@ -1140,16 +1141,16 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">variable</span><span class="o">=</span><span class="s1">&#39;2m_temperature&#39;</span>
-<span class="n">centre</span><span class="o">=</span><span class="s1">&#39;ecmwf&#39;</span>
-<span class="n">region</span><span class="o">=</span><span class="s1">&#39;SEA&#39;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">variable</span><span class="o">=</span><span class="s1">'2m_temperature'</span>
+<span class="n">centre</span><span class="o">=</span><span class="s1">'ecmwf'</span>
+<span class="n">region</span><span class="o">=</span><span class="s1">'SEA'</span>
 <span class="k">assert</span> <span class="p">(</span><span class="n">variable</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">region</span> <span class="ow">in</span> <span class="n">regions</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">centre</span> <span class="ow">in</span> <span class="n">centres</span><span class="p">)</span>
 
 <span class="n">plot_tercile_analysis</span><span class="p">(</span>
     <span class="n">ds_reanalysis</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">region</span><span class="o">=</span><span class="n">region</span><span class="p">),</span>
     <span class="n">xticks</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span>
 <span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;ERA5&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">"ERA5"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1174,7 +1175,7 @@
     <span class="n">ds_seasonal</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">region</span><span class="o">=</span><span class="n">region</span><span class="p">,</span><span class="n">centre</span><span class="o">=</span><span class="n">centre</span><span class="p">,</span><span class="n">valid_year</span><span class="o">=</span><span class="n">year</span><span class="p">),</span>
     <span class="n">xticks</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span>
 <span class="p">)</span>
-<span class="c1">#plt.suptitle(&quot;ERA5&quot;)</span>
+<span class="c1">#plt.suptitle("ERA5")</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1209,28 +1210,28 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute hit rates</span>
 <span class="n">mask_threshold</span> <span class="o">=</span> <span class="mf">50.</span>
 <span class="n">masked_ds_seasonal</span> <span class="o">=</span> <span class="n">ds_seasonal</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds_seasonal</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">hit_rate</span> <span class="o">=</span> <span class="p">(</span><span class="n">masked_ds_seasonal</span> <span class="o">==</span> <span class="n">ds_reanalysis</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s2">&quot;valid_year&quot;</span><span class="p">)</span>
-<span class="n">hit_rate</span> <span class="o">*=</span> <span class="mi">100</span> <span class="o">/</span> <span class="n">masked_ds_seasonal</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s2">&quot;valid_year&quot;</span><span class="p">)</span>
+<span class="n">hit_rate</span> <span class="o">=</span> <span class="p">(</span><span class="n">masked_ds_seasonal</span> <span class="o">==</span> <span class="n">ds_reanalysis</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s2">"valid_year"</span><span class="p">)</span>
+<span class="n">hit_rate</span> <span class="o">*=</span> <span class="mi">100</span> <span class="o">/</span> <span class="n">masked_ds_seasonal</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s2">"valid_year"</span><span class="p">)</span>
 
 <span class="n">hit_rate_mask</span> <span class="o">=</span> <span class="n">hit_rate</span>
 <span class="n">hit_rate_mask</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">hit_rate</span> <span class="o">&lt;</span> <span class="n">mask_threshold</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">hit_rate</span><span class="p">)</span>
 
 
 <span class="c1"># Define the custom colormap</span>
-<span class="n">hr_cmap</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;#eeeeee&#39;</span><span class="p">,</span><span class="s1">&#39;#fcc5c0&#39;</span><span class="p">,</span><span class="s1">&#39;#fa9fb5&#39;</span><span class="p">,</span><span class="s1">&#39;#f768a1&#39;</span><span class="p">,</span><span class="s1">&#39;#c51b8a&#39;</span><span class="p">,</span><span class="s1">&#39;#7a0177&#39;</span><span class="p">,</span><span class="s1">&#39;#7a0177&#39;</span><span class="p">]</span>
+<span class="n">hr_cmap</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'#eeeeee'</span><span class="p">,</span><span class="s1">'#fcc5c0'</span><span class="p">,</span><span class="s1">'#fa9fb5'</span><span class="p">,</span><span class="s1">'#f768a1'</span><span class="p">,</span><span class="s1">'#c51b8a'</span><span class="p">,</span><span class="s1">'#7a0177'</span><span class="p">,</span><span class="s1">'#7a0177'</span><span class="p">]</span>
 <span class="n">custom_cmap</span> <span class="o">=</span> <span class="n">ListedColormap</span><span class="p">(</span><span class="n">hr_cmap</span><span class="p">)</span>
 
 
 <span class="c1">#This adjustment allow maz hit-rate values to be correctly represented with the color palette</span>
 <span class="c1">#hit_rate_mask = xr.where(hit_rate == 100., 99.9, hit_rate)</span>
 
-<span class="n">hit_rate_mask</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Hit-Rate&quot;</span><span class="p">,</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;%&quot;</span><span class="p">}</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">hit_rate_mask</span><span class="p">[</span><span class="s2">&quot;2m_temperature&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">centre</span><span class="o">=</span><span class="n">centre</span><span class="p">,</span><span class="n">region</span><span class="o">=</span><span class="n">region</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;valid_month&quot;</span><span class="p">,</span>
+<span class="n">hit_rate_mask</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"long_name"</span><span class="p">:</span> <span class="s2">"Hit-Rate"</span><span class="p">,</span> <span class="s2">"units"</span><span class="p">:</span> <span class="s2">"%"</span><span class="p">}</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">hit_rate_mask</span><span class="p">[</span><span class="s2">"2m_temperature"</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">centre</span><span class="o">=</span><span class="n">centre</span><span class="p">,</span><span class="n">region</span><span class="o">=</span><span class="n">region</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">"valid_month"</span><span class="p">,</span>
                                                                            <span class="n">cmap</span><span class="o">=</span><span class="n">custom_cmap</span><span class="p">,</span> 
                                                                            <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">mask_threshold</span><span class="p">,</span><span class="mf">110.</span><span class="p">,</span><span class="mf">10.</span><span class="p">),</span>
-                                                                           <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">colorbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">hit_rate_mask</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;variable: </span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2"> - centre: </span><span class="si">{</span><span class="n">centre</span><span class="si">}</span><span class="s2"> - region: </span><span class="si">{</span><span class="n">region</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.01</span><span class="p">)</span>
+                                                                           <span class="n">extend</span><span class="o">=</span><span class="s1">'both'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">colorbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[</span><span class="si">{</span><span class="n">hit_rate_mask</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'units'</span><span class="p">]</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"variable: </span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2"> - centre: </span><span class="si">{</span><span class="n">centre</span><span class="si">}</span><span class="s2"> - region: </span><span class="si">{</span><span class="n">region</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.01</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1260,20 +1261,20 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cbar_width</span> <span class="o">=</span> <span class="n">cbar_pad</span> <span class="o">=</span> <span class="mf">0.02</span>
 
 <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">da</span> <span class="ow">in</span> <span class="n">hit_rate_mask</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-  <span class="k">if</span> <span class="n">var</span> <span class="o">==</span> <span class="s1">&#39;2m_temperature&#39;</span><span class="p">:</span>
-    <span class="n">da</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Hit-Rate&quot;</span><span class="p">,</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;%&quot;</span><span class="p">}</span>
+  <span class="k">if</span> <span class="n">var</span> <span class="o">==</span> <span class="s1">'2m_temperature'</span><span class="p">:</span>
+    <span class="n">da</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"long_name"</span><span class="p">:</span> <span class="s2">"Hit-Rate"</span><span class="p">,</span> <span class="s2">"units"</span><span class="p">:</span> <span class="s2">"%"</span><span class="p">}</span>
     <span class="n">facet</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-        <span class="n">col</span><span class="o">=</span><span class="s2">&quot;centre&quot;</span><span class="p">,</span>
-        <span class="n">row</span><span class="o">=</span><span class="s2">&quot;region&quot;</span><span class="p">,</span>
-        <span class="n">x</span><span class="o">=</span><span class="s2">&quot;valid_month&quot;</span><span class="p">,</span>
+        <span class="n">col</span><span class="o">=</span><span class="s2">"centre"</span><span class="p">,</span>
+        <span class="n">row</span><span class="o">=</span><span class="s2">"region"</span><span class="p">,</span>
+        <span class="n">x</span><span class="o">=</span><span class="s2">"valid_month"</span><span class="p">,</span>
         <span class="n">xticks</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span>
         <span class="n">yticks</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span>
         <span class="n">cmap</span><span class="o">=</span><span class="n">custom_cmap</span><span class="p">,</span>
-        <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span>
+        <span class="n">extend</span><span class="o">=</span><span class="s1">'both'</span><span class="p">,</span>
         <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">60.</span><span class="p">,</span><span class="mf">110.</span><span class="p">,</span><span class="mf">10.</span><span class="p">),</span>
         <span class="n">add_colorbar</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">)</span>
-    <span class="n">facet</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="n">y</span><span class="o">=</span><span class="mf">1.02</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+    <span class="n">facet</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'_'</span><span class="p">,</span><span class="w"> </span><span class="s1">' '</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>  <span class="n">y</span><span class="o">=</span><span class="mf">1.02</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
     <span class="n">facet</span><span class="o">.</span><span class="n">set_titles</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
 
     <span class="c1"># Create a colorbar for each row</span>
@@ -1283,7 +1284,7 @@
         <span class="n">facet</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">collections</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
             <span class="n">cax</span><span class="o">=</span><span class="n">cax</span><span class="p">,</span>
-            <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">]&quot;</span>
+            <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"[</span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'units'</span><span class="p">]</span><span class="si">}</span><span class="s2">]"</span>
         <span class="p">)</span>
         
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -1319,20 +1320,20 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cbar_width</span> <span class="o">=</span> <span class="n">cbar_pad</span> <span class="o">=</span> <span class="mf">0.02</span>
 
 <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">da</span> <span class="ow">in</span> <span class="n">hit_rate_mask</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-  <span class="k">if</span> <span class="n">var</span> <span class="o">!=</span> <span class="s1">&#39;2m_temperature&#39;</span><span class="p">:</span>
-    <span class="n">da</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Hit-Rate&quot;</span><span class="p">,</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;%&quot;</span><span class="p">}</span>
+  <span class="k">if</span> <span class="n">var</span> <span class="o">!=</span> <span class="s1">'2m_temperature'</span><span class="p">:</span>
+    <span class="n">da</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"long_name"</span><span class="p">:</span> <span class="s2">"Hit-Rate"</span><span class="p">,</span> <span class="s2">"units"</span><span class="p">:</span> <span class="s2">"%"</span><span class="p">}</span>
     <span class="n">facet</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-        <span class="n">col</span><span class="o">=</span><span class="s2">&quot;centre&quot;</span><span class="p">,</span>
-        <span class="n">row</span><span class="o">=</span><span class="s2">&quot;region&quot;</span><span class="p">,</span>
-        <span class="n">x</span><span class="o">=</span><span class="s2">&quot;valid_month&quot;</span><span class="p">,</span>
+        <span class="n">col</span><span class="o">=</span><span class="s2">"centre"</span><span class="p">,</span>
+        <span class="n">row</span><span class="o">=</span><span class="s2">"region"</span><span class="p">,</span>
+        <span class="n">x</span><span class="o">=</span><span class="s2">"valid_month"</span><span class="p">,</span>
         <span class="n">xticks</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span>
         <span class="n">yticks</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span>
         <span class="n">cmap</span><span class="o">=</span><span class="n">custom_cmap</span><span class="p">,</span>
-        <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span>
+        <span class="n">extend</span><span class="o">=</span><span class="s1">'both'</span><span class="p">,</span>
         <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">60.</span><span class="p">,</span><span class="mf">110.</span><span class="p">,</span><span class="mf">10.</span><span class="p">),</span>
         <span class="n">add_colorbar</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">)</span>
-    <span class="n">facet</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="n">y</span><span class="o">=</span><span class="mf">1.02</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+    <span class="n">facet</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'_'</span><span class="p">,</span><span class="w"> </span><span class="s1">' '</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>  <span class="n">y</span><span class="o">=</span><span class="mf">1.02</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
     <span class="n">facet</span><span class="o">.</span><span class="n">set_titles</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
 
     <span class="c1"># Create a colorbar for each row</span>
@@ -1342,7 +1343,7 @@
         <span class="n">facet</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">collections</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
             <span class="n">cax</span><span class="o">=</span><span class="n">cax</span><span class="p">,</span>
-            <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">]&quot;</span>
+            <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"[</span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'units'</span><span class="p">]</span><span class="si">}</span><span class="s2">]"</span>
         <span class="p">)</span>
         
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
