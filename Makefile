@@ -13,6 +13,10 @@ help: ## Show this help menu
 
 qa: ## Run code quality tools
 	pre-commit run --all-files
+	pre-commit run --hook-stage manual --from-ref origin/main --to-ref HEAD
+
+qa-all: ## Run code quality tools on all files
+	pre-commit run --all-files --hook-stage manual
 
 clean-book: ## Remove temporary build directory
 	rm -fr $(PRE_BUILD_DIR)
