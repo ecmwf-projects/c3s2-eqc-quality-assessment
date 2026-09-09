@@ -1,0 +1,1527 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3.1. Accuracy of CERRA 10m wind data for energy application. &#8212; eqcbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Reanalyses/reanalysis_reanalysis-cerra-single-levels_validation_q03';</script>
+    <link rel="icon" href="../_static/C3S_favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4. Seasonal forecasts" href="../Seasonal_Forecasts/seasonal.html" />
+    <link rel="prev" title="3. Reanalysis" href="reanalysis.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">⚠️This is under development!⚠️</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/C3S–POS–LINE.png" class="logo__image only-light" alt="eqcbook - Home"/>
+    <script>document.write(`<img src="../_static/C3S–POS–LINE.png" class="logo__image only-dark" alt="eqcbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    C3S EQC quality assessments
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Satellite Observations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Satellite_ECVs/satellite.html">1. Quality assessments for Satellite Observations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Atmosphere_Physics/Atmosphere_Physics.html">1.1. Atmosphere Physics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Atmospheric_Composition/Atmospheric_Composition.html">1.2. Atmospheric Composition</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Cryosphere/Cryosphere.html">1.3. Cryosphere</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Land_Biosphere/Land_Biosphere.html">1.4. Land Biosphere</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Land_Hydrology/Land_Hydrology.html">1.5. Land Hydrology</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Ocean/Ocean.html">1.6. Ocean</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Insitu Observations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../In_Situ/insitu.html">2. Quality assessments for Insitu Observations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Reanalysis</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="reanalysis.html">3. Quality assessments for Reanalysis</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.1. Accuracy of CERRA 10m wind data for energy application.</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Seasonal Forecasts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Seasonal_Forecasts/seasonal.html">4. Quality assessments for Seasonal Forecasts</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Climate Projections</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Climate_Projections/climate.html">5. Quality assessments for Climate Projections</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Climate_Projections/CMIP6/CMIP6.html">5.1. CMIP6</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Climate_Projections/CORDEX/CORDEX.html">5.2. CORDEX</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Climate Indicators</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Indicators/indicator.html">6. Quality assessments for Climate Indicators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Derived Datasets</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Derived_Datasets/derived.html">7. Quality assessments for Derived Datasets</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Applications</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Applications/application.html">8. Quality assessments for C3S Applications</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quality assessment template</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../templates/template_instructions.html">Template instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../templates/template.html">Template</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment/issues/new?title=Issue%20on%20page%20%2FReanalyses/reanalysis_reanalysis-cerra-single-levels_validation_q03.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Reanalyses/reanalysis_reanalysis-cerra-single-levels_validation_q03.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Accuracy of CERRA 10m wind data for energy application.</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-wind-energy-company-using-cerra-data-for-the-preliminary-evaluation-of-energy-production">🌍 Use case: wind-energy company using CERRA data for the preliminary evaluation of energy production</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-of-the-analysis">1. Set-up of the analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-libraries">Import libraries</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#set-parameters">Set parameters</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#define-data-request">Define data request</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#define-functions-to-cache">Define functions to cache</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-and-filter-weather-station-data">2. Import and filter weather station data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-metadata-and-filter-best-quality-weather-stations">Import metadata and filter best quality weather stations</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-daily-weather-station-data-for-target-country-norway">Import daily weather station data for target country (Norway)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#filter-weather-stations-with-sufficient-high-rate-of-available-records">Filter weather stations with sufficient high-rate of available records</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#map-weather-stations">Map weather stations</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-reanalysis-and-extract-data-at-weather-station-sites">3. Import reanalysis and extract data at weather station sites</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-cerra">Import CERRA</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-era5">Import ERA5</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#results">4. Results</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#organize-data-for-the-analysis">Organize data for the analysis</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-weather-station-data-with-reanalyses">Compare weather station data with reanalyses</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">Discussion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-resources">Key resources</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><img alt="logo" src="../_images/LogoLine_horizon_C3S1.png" /></p>
+<div class="alert alert-block alert-warning">
+Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
+</div><section class="tex2jax_ignore mathjax_ignore" id="accuracy-of-cerra-10m-wind-data-for-energy-application">
+<h1><span class="section-number">3.1. </span>Accuracy of CERRA 10m wind data for energy application.<a class="headerlink" href="#accuracy-of-cerra-10m-wind-data-for-energy-application" title="Link to this heading">#</a></h1>
+<p>Production date: 09-07-2025</p>
+<p>Produced by: Sandro Calmanti (ENEA)</p>
+<section id="use-case-wind-energy-company-using-cerra-data-for-the-preliminary-evaluation-of-energy-production">
+<h2>🌍 Use case: wind-energy company using CERRA data for the preliminary evaluation of energy production<a class="headerlink" href="#use-case-wind-energy-company-using-cerra-data-for-the-preliminary-evaluation-of-energy-production" title="Link to this heading">#</a></h2>
+</section>
+<section id="quality-assessment-question">
+<h2>❓ Quality assessment question<a class="headerlink" href="#quality-assessment-question" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>How well does CERRA describe the intensity and variability of 10m wind compared to weather station data?</strong></p></li>
+<li><p><strong>What is the added value of CERRA 10m wind data compared to ERA5?</strong></p></li>
+</ul>
+<p>The global transition towards renewable energy systems has intensified the demand for highly accurate and reliable wind resource assessments, which are fundamental for project financing, grid integration, and optimizing energy output. reanalysis datasets have emerged as indispensable tools, offering spatially and temporally comprehensive meteorological data crucial for understanding wind characteristics over extended periods <a class="reference external" href="https://doi.org/10.1002/we.2759" rel="noreferrer" target="_blank">[1]</a>.</p>
+<p>A growing body of literature substantiates CERRA’s value for wind energy applications. Studies consistently highlight its superior performance in regional to local-scale offshore wind assessments. For instance, CERRA has demonstrated a enhanced capability to capture the wind speed variability and extreme wind events critical for energy yield prediction and structural load calculations, outperforming other reanalysis products in European seas <a class="reference external" href="https://doi.org/10.2139/ssrn.5131628" rel="noreferrer" target="_blank">[2]</a>.</p>
+<p>Its high spatial and temporal resolution allows for a better representation of coastal gradients and mesoscale phenomena, leading to reduced biases in mean wind speed and power density estimates <a class="reference external" href="https://doi.org/10.5194/asr-20-109-2023" rel="noreferrer" target="_blank">[3]</a>.</p>
+<p>Furthermore, the utility of CERRA extends beyond pure resource assessment. Recent research has leveraged its detailed data to analyse wind conditions for ensuring the safe operation of maintenance drones within offshore wind farms, particularly in topographically complex areas like the Spanish Atlantic coast <a class="reference external" href="https://doi.org/10.1016/j.energy.2025.136746" rel="noreferrer" target="_blank">[4]</a>. This application underscores CERRA’s versatility and reliability in supporting the entire operational lifecycle of a wind farm, from initial planning to daily maintenance logistics.</p>
+</section>
+<section id="quality-assessment-statement">
+<h2>📢 Quality assessment statement<a class="headerlink" href="#quality-assessment-statement" title="Link to this heading">#</a></h2>
+<div class="note admonition">
+<p class="admonition-title">These are the key outcomes of this assessment</p>
+<ul class="simple">
+<li><p>CERRA demonstrates high accuracy in reproducing 10 m wind intensity and variability across test European sites, matching ground-based weather station data and capturing regional wind characteristics more effectively than coarser global reanalyses such as ERA5.</p></li>
+<li><p>The enhanced spatial and temporal resolution of CERRA significantly improves the representation of wind variance campered to ERA5</p></li>
+<li><p>For wind energy applications, CERRA provides a clear added value through better depiction of local-scale variability and extreme wind events, supporting more reliable energy yield assessments and operational planning.</p></li>
+</ul>
+</div>
+</section>
+<section id="methodology">
+<h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
+<p>This notebook utilises publicly available 10 m wind data from the <a class="reference external" href="https://www.ecad.eu/" rel="noreferrer" target="_blank">European Climate Assessment &amp; Datasets</a> repository (ECA&amp;D) to evaluate the accuracy of CERRA 10 m wind data. It also outlines a sample methodology that can be adapted to assess other key variables. The analysis focuses on Norway, which offers a robust network of weather stations providing daily wind observations. Similar assessments can be extended to other national datasets or broader regional domains.</p>
+<p>The structure of this notebook is as follows:</p>
+<p><strong><a class="reference internal" href="#reanalysis-reanalysis-cerra-single-levels-validation-q03-section-1"><span class="std std-ref">1. Set-up of the analysis</span></a></strong></p>
+<ul class="simple">
+<li><p>Import libraries</p></li>
+<li><p>Set parameters</p></li>
+<li><p>Define data request</p></li>
+<li><p>Define functions to cache</p></li>
+</ul>
+<p><strong><a class="reference internal" href="#reanalysis-reanalysis-cerra-single-levels-validation-q03-section-2"><span class="std std-ref">2. Import and filter weather station data</span></a></strong></p>
+<ul class="simple">
+<li><p>Import metadata nad filter best quality weather stations</p></li>
+<li><p>Import daily weather station data for target country (Norway)</p></li>
+<li><p>Filter weather stations with sufficient high-rate of available records</p></li>
+<li><p>Map weather stations</p></li>
+</ul>
+<p><strong><a class="reference internal" href="#reanalysis-reanalysis-cerra-single-levels-validation-q03-section-3"><span class="std std-ref">3. Import reanalysis and extract data at weather station sites</span></a></strong></p>
+<ul class="simple">
+<li><p>Import CERRA</p></li>
+<li><p>Import ERA5</p></li>
+</ul>
+<p><strong><a class="reference internal" href="#reanalysis-reanalysis-cerra-single-levels-validation-q03-section-4"><span class="std std-ref">4. Results</span></a></strong></p>
+<ul class="simple">
+<li><p>Organize data for the analysis</p></li>
+<li><p>Results</p></li>
+<li><p>Discussion</p></li>
+</ul>
+</section>
+<section id="analysis-and-results">
+<h2>📈 Analysis and results<a class="headerlink" href="#analysis-and-results" title="Link to this heading">#</a></h2>
+<section id="set-up-of-the-analysis">
+<span id="reanalysis-reanalysis-cerra-single-levels-validation-q03-section-1"></span><h3>1. Set-up of the analysis<a class="headerlink" href="#set-up-of-the-analysis" title="Link to this heading">#</a></h3>
+<section id="import-libraries">
+<h4>Import libraries<a class="headerlink" href="#import-libraries" title="Link to this heading">#</a></h4>
+<p>In this notebook, we use standard libraries for handling data from the Climate Data Store, such as <code class="docutils literal notranslate"><span class="pre">xarray</span></code> for NetCDF data, <code class="docutils literal notranslate"><span class="pre">c3s_eqc_automatic_quality_control</span></code> for data retrieval, and <code class="docutils literal notranslate"><span class="pre">matplotlib/cartopy</span></code> for generating charts and maps. In addition to these standard modules, the notebook incorporates weather station observations from an external source. To manage this, we use the <code class="docutils literal notranslate"><span class="pre">pooch</span></code> module, which facilitates the downloading and local storage of data files from remote sources, ensuring version control and integrity checks. We also use <code class="docutils literal notranslate"><span class="pre">pandas</span></code> for effective handling of tabular data. Statistical analyses are carried out using tools from the <code class="docutils literal notranslate"><span class="pre">scipy</span></code> package.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.feature</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cfeature</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pooch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tqdm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ListedColormap</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="set-parameters">
+<h4>Set parameters<a class="headerlink" href="#set-parameters" title="Link to this heading">#</a></h4>
+<p>Metadata for the weather station observations from <a class="reference external" href="https://www.ecad.eu/" rel="noreferrer" target="_blank">ECA&amp;D</a> are provided in a dedicated table, with columnns contain the following parameters:</p>
+<ul class="simple">
+<li><p>ID number and name of the weather station (<code class="docutils literal notranslate"><span class="pre">SOUID</span></code>, <code class="docutils literal notranslate"><span class="pre">SOUNAME</span></code>);</p></li>
+<li><p>country code (<code class="docutils literal notranslate"><span class="pre">CN</span></code>);</p></li>
+<li><p>coordinates and height above sea level of the weather station (<code class="docutils literal notranslate"><span class="pre">LAT</span></code>, <code class="docutils literal notranslate"><span class="pre">LON</span></code>, <code class="docutils literal notranslate"><span class="pre">HGHT</span></code>);</p></li>
+<li><p>quality flag indicating how the daily values is derived from sub-daily records (<code class="docutils literal notranslate"><span class="pre">ELEID</span></code>);</p></li>
+<li><p>starting date and ending date of the data record (<code class="docutils literal notranslate"><span class="pre">START</span></code>, <code class="docutils literal notranslate"><span class="pre">STOP</span></code>);</p></li>
+<li><p>ID number and name of the variable (<code class="docutils literal notranslate"><span class="pre">PARID</span></code>, <code class="docutils literal notranslate"><span class="pre">PARNAME</span></code>).</p></li>
+</ul>
+<p>The ID number (<code class="docutils literal notranslate"><span class="pre">SOUID</span></code>) also corresponds to the name of the file containing the daily observations.
+The structure of the metadata file is described in the following dictionary.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Shape of wind data-files</span>
+<span class="n">col_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;SOUID&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+    <span class="s2">&quot;SOUNAME&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">47</span><span class="p">),</span>
+    <span class="s2">&quot;CN&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+    <span class="s2">&quot;LAT&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">51</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span>
+    <span class="s2">&quot;LON&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">61</span><span class="p">,</span> <span class="mi">71</span><span class="p">),</span>
+    <span class="s2">&quot;HGHT&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">72</span><span class="p">,</span> <span class="mi">76</span><span class="p">),</span>
+    <span class="s2">&quot;ELEID&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">77</span><span class="p">,</span> <span class="mi">81</span><span class="p">),</span>
+    <span class="s2">&quot;START&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">82</span><span class="p">,</span> <span class="mi">90</span><span class="p">),</span>
+    <span class="s2">&quot;STOP&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">91</span><span class="p">,</span> <span class="mi">99</span><span class="p">),</span>
+    <span class="s2">&quot;PARID&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">105</span><span class="p">),</span>
+    <span class="s2">&quot;PARNAME&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">106</span><span class="p">,</span> <span class="mi">156</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="c1"># Threshold for maximum allowed NaNs</span>
+<span class="n">max_nans</span> <span class="o">=</span> <span class="mi">365</span> <span class="o">*</span> <span class="mi">5</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="define-data-request">
+<h4>Define data request<a class="headerlink" href="#define-data-request" title="Link to this heading">#</a></h4>
+<p>In this notebook, we compare weather station observations with the European reanalysis <strong>CERRA</strong> and the global reanalysis <strong>ERA5</strong>. The period over which the data are compared is constrained by the time span of CERRA, which, at the time of developing this notebook, covered the years 1984 to 2024. However, since the first and last years of CERRA’s coverage are incomplete (1984 begins in September, while 2024 ends in June), the reanalysis is limited to the period for which complete years are available — namely, <strong>1985 to 2023</strong>.</p>
+<p>The variable analysed in the notebook is daily 10m wind speed which is available from the ECA&amp;D repository.</p>
+<p>For CERRA, the daily value of 10m wind speed needs to be computed from the 6-hourly data available from the CDS.</p>
+<p>For ERA5, rather than retrieving large portions of the dataset and extracting time series at the nearest grid point to each weather station, it is possible to use the <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview" rel="noreferrer" target="_blank">ERA5 hourly time-series data on single levels from 1940 to present</a>. This resource is a regridded subset of the full ERA5 dataset, specifically formatted to facilitate the efficient retrieval of long time series for individual locations. Note, however, that the 10 m wind speed variable is not directly available from ERA5 and must be computed from the u and v wind components.</p>
+<p>The data requests are defined accordingly below.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Time</span>
+<span class="n">start</span> <span class="o">=</span> <span class="s2">&quot;1985-01-01&quot;</span>
+<span class="n">stop</span> <span class="o">=</span> <span class="s2">&quot;2020-12-31&quot;</span>
+
+<span class="c1"># CERRA</span>
+<span class="n">cerra_id</span> <span class="o">=</span> <span class="s2">&quot;reanalysis-cerra-single-levels&quot;</span>
+<span class="n">cerra_request</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;product_type&quot;</span><span class="p">:</span> <span class="s2">&quot;analysis&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;reanalysis&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;level_type&quot;</span><span class="p">:</span> <span class="s2">&quot;surface_or_atmosphere&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;10m_wind_speed&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;00:00&quot;</span><span class="p">,</span> <span class="s2">&quot;06:00&quot;</span><span class="p">,</span> <span class="s2">&quot;12:00&quot;</span><span class="p">,</span> <span class="s2">&quot;18:00&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;data_format&quot;</span><span class="p">:</span> <span class="s2">&quot;grib&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># ERA5</span>
+<span class="n">era5_id</span> <span class="o">=</span> <span class="s2">&quot;reanalysis-era5-single-levels-timeseries&quot;</span>
+<span class="n">era5_request</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;10m_u_component_of_wind&quot;</span><span class="p">,</span> <span class="s2">&quot;10m_v_component_of_wind&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">start</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">stop</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;data_format&quot;</span><span class="p">:</span> <span class="s2">&quot;netcdf&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># ECA European Climate Assessment &amp; Dataset</span>
+<span class="n">eca_url</span> <span class="o">=</span> <span class="s2">&quot;https://knmi-ecad-assets-prd.s3.amazonaws.com/download/ECA_nonblend_fg.zip&quot;</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="define-functions-to-cache">
+<h4>Define functions to cache<a class="headerlink" href="#define-functions-to-cache" title="Link to this heading">#</a></h4>
+<p>A few utility functions are defined below to perform the analysis.</p>
+<ul class="simple">
+<li><p><strong>dms_to_decimal</strong> converts the coordinates of weather stations, which are stored in a degree/minutes/seconds format into decimal degrees that can be used to extract the corresponding time series from the reanalyses.</p></li>
+<li><p><strong>extract_daily_stations</strong> performs two key operations during the retrieval of CERRA: extract the time series close to the selected weather stations and compute the daily avereges.</p></li>
+<li><p><strong>compute_wind_speeds</strong> computes 10m wind speed from the u and v components of the wind.</p></li>
+<li><p><strong>compare_statistics_scatter</strong> uses scatter plots to visually compare the mean wind speed between a reference dataset and more reanalysis datasets. This function performs linear regression, computes the coefficient of determination (R²), identifies potential outliers, and annotates them on the plot.</p></li>
+<li><p><strong>model_fit</strong> performs a simple linear regression between two data arrays and returns the estimated slope and intercept along with their corresponding confidence intervals at a specified significance level.</p></li>
+</ul>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">dms_to_decimal</span><span class="p">(</span><span class="n">dms_str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a DMS (degrees:minutes:seconds) string to decimal degrees.</span>
+
+<span class="sd">    Example input: &#39;+54:19:32&#39; -&gt; 54.32555556</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sign</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">dms_str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="mi">1</span>
+    <span class="n">dms_str</span> <span class="o">=</span> <span class="n">dms_str</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;+-&quot;</span><span class="p">)</span>  <span class="c1"># Remove sign for splitting</span>
+    <span class="n">degrees</span><span class="p">,</span> <span class="n">minutes</span><span class="p">,</span> <span class="n">seconds</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">dms_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">sign</span> <span class="o">*</span> <span class="p">(</span><span class="n">degrees</span> <span class="o">+</span> <span class="n">minutes</span> <span class="o">/</span> <span class="mi">60</span> <span class="o">+</span> <span class="n">seconds</span> <span class="o">/</span> <span class="mi">3600</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">extract_daily_stations</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">grid_out</span><span class="p">,</span> <span class="o">**</span><span class="n">xesmf_kwargs</span><span class="p">):</span>
+    <span class="p">(</span><span class="n">da</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">regrid</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">grid_out</span><span class="p">,</span> <span class="o">**</span><span class="n">xesmf_kwargs</span><span class="p">)</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">forecast_reference_time</span><span class="o">=</span><span class="s2">&quot;1D&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="n">forecast_reference_time</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">station</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">da</span><span class="o">.</span><span class="n">encoding</span><span class="p">[</span><span class="s2">&quot;chunksizes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">max</span><span class="p">,</span> <span class="n">da</span><span class="o">.</span><span class="n">chunks</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">da</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_wind_speed</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;u10&quot;</span><span class="p">],</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;v10&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;1D&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">da</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;10 metre wind speed&quot;</span><span class="p">,</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;u10&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">units</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">da</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;wind_speed&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">model_fit</span><span class="p">(</span><span class="n">da_reference</span><span class="p">,</span> <span class="n">da_target</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
+    
+<span class="c1"># stats.linregress gives you the slope, intercept, and the standard error of the slope in one call.</span>
+<span class="c1"># The critical-t multiplier converts standard errors into two-sided 95 % intervals (df = n–2 for simple linear regression).</span>
+<span class="c1"># The intercept standard error depends on the spread of the x values, so we compute it explicitly from the residual variance</span>
+
+<span class="c1">#Fit the model  y = m·x + b</span>
+    <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">r_value</span><span class="p">,</span> <span class="n">p_value</span><span class="p">,</span> <span class="n">slope_std_err</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">linregress</span><span class="p">(</span>
+        <span class="n">da_reference</span><span class="p">,</span> <span class="n">da_target</span>
+    <span class="p">)</span>
+
+<span class="c1"># 1-alpha % confidence limits</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span>
+    <span class="n">n</span>      <span class="o">=</span> <span class="n">da_reference</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">df</span>     <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">2</span>                         <span class="c1"># degrees of freedom</span>
+    <span class="n">t_crit</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>  <span class="c1"># two-sided critical t value</span>
+
+    <span class="n">slope_ci</span> <span class="o">=</span> <span class="p">(</span><span class="n">slope</span> <span class="o">-</span> <span class="n">t_crit</span><span class="o">*</span><span class="n">slope_std_err</span><span class="p">,</span>
+            <span class="n">slope</span> <span class="o">+</span> <span class="n">t_crit</span><span class="o">*</span><span class="n">slope_std_err</span><span class="p">)</span>
+
+    <span class="n">y_hat</span>   <span class="o">=</span> <span class="n">slope</span><span class="o">*</span><span class="n">da_reference</span> <span class="o">+</span> <span class="n">intercept</span>
+    <span class="n">resid</span>   <span class="o">=</span> <span class="n">da_target</span> <span class="o">-</span> <span class="n">y_hat</span>
+    <span class="n">sse</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">resid</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">sigma2</span>  <span class="o">=</span> <span class="n">sse</span> <span class="o">/</span> <span class="n">df</span>
+    <span class="n">x_bar</span>   <span class="o">=</span> <span class="n">da_reference</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">Sxx</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">da_reference</span> <span class="o">-</span> <span class="n">x_bar</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">intercept_std_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sigma2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">n</span> <span class="o">+</span> <span class="n">x_bar</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">Sxx</span><span class="p">))</span>
+    <span class="n">intercept_ci</span>      <span class="o">=</span> <span class="p">(</span><span class="n">intercept</span> <span class="o">-</span> <span class="n">t_crit</span><span class="o">*</span><span class="n">intercept_std_err</span><span class="p">,</span>
+                     <span class="n">intercept</span> <span class="o">+</span> <span class="n">t_crit</span><span class="o">*</span><span class="n">intercept_std_err</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">slope</span><span class="p">,</span><span class="n">slope_ci</span><span class="p">,</span><span class="n">intercept</span><span class="p">,</span><span class="n">intercept_ci</span>
+    
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">compare_statistic_scatter</span><span class="p">(</span>
+    <span class="n">da</span><span class="p">,</span> <span class="n">reference</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span> <span class="n">top_n_outliers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">season</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
+    <span class="n">season_months</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;DJF&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+        <span class="s2">&quot;MAM&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+        <span class="s2">&quot;JJA&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
+        <span class="s2">&quot;JAS&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
+        <span class="s2">&quot;SON&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span>
+        <span class="s2">&quot;OND&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>
+    <span class="p">}</span>
+    <span class="c1"># Apply month and positivity filter</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">da</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">season</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">da</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">season_months</span><span class="p">[</span><span class="n">season</span><span class="p">]))</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">stat</span><span class="p">)(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+    <span class="n">da_reference</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="n">reference</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">target</span><span class="p">,</span><span class="n">colour</span> <span class="ow">in</span> <span class="n">targets</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+      <span class="n">da_target</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
+
+      <span class="c1"># Perform linear regression: fit y = m*x + b</span>
+      <span class="n">slope</span><span class="p">,</span> <span class="n">slope_ci</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">intercept_ci</span> <span class="o">=</span> <span class="n">model_fit</span><span class="p">(</span><span class="n">da_reference</span><span class="p">,</span> <span class="n">da_target</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+      <span class="c1">#slope, intercept = np.polyfit(da_reference, da_target, 1)</span>
+      <span class="n">fit_line</span> <span class="o">=</span> <span class="n">slope</span> <span class="o">*</span> <span class="n">da_reference</span> <span class="o">+</span> <span class="n">intercept</span>
+
+      <span class="c1"># Compute R^2</span>
+      <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">da_target</span> <span class="o">-</span> <span class="n">fit_line</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+      <span class="n">tot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">da_target</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">da_target</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+      <span class="n">r_squared</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">res</span> <span class="o">/</span> <span class="n">tot</span>
+
+    <span class="c1"># Compute residuals and find 4 largest outliers</span>
+      <span class="n">residuals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">da_target</span> <span class="o">-</span> <span class="n">fit_line</span><span class="p">)</span>
+      <span class="n">outlier_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">residuals</span><span class="p">)[</span><span class="o">-</span><span class="n">top_n_outliers</span><span class="p">:]</span>  <span class="c1"># n largest residuals</span>
+
+    <span class="c1"># Create plot</span>
+      <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+          <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+        <span class="c1"># Create scatter plot</span>
+      <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">da_reference</span><span class="p">,</span> <span class="n">da_target</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colour</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+      <span class="n">min_val</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">da_target</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">da_reference</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+      <span class="n">max_val</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">da_target</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">da_reference</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+      <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">min_val</span><span class="p">,</span> <span class="n">max_val</span><span class="p">],</span> <span class="p">[</span><span class="n">min_val</span><span class="p">,</span> <span class="n">max_val</span><span class="p">],</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+      <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+        <span class="n">da_reference</span><span class="p">,</span>
+        <span class="n">fit_line</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">colour</span><span class="si">}</span><span class="s2">-&quot;</span><span class="p">,</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;m = </span><span class="si">{</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">s</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">slope_ci</span><span class="p">]</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;b = </span><span class="si">{</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">b</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">intercept_ci</span><span class="p">]</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;(R² = </span><span class="si">{</span><span class="n">r_squared</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="p">)</span>
+      <span class="p">)</span>
+        
+    <span class="c1"># Annotate outliers</span>
+      <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">outlier_indices</span><span class="p">:</span>
+          <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">da</span><span class="p">[</span><span class="s2">&quot;SOUNAME&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">da_reference</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">da_target</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>
+            <span class="n">textcoords</span><span class="o">=</span><span class="s2">&quot;offset points&quot;</span><span class="p">,</span>
+            <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+            <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+            <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;darkred&quot;</span><span class="p">,</span>
+          <span class="p">)</span>
+
+    <span class="c1"># Plot labels and title</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">min_val</span><span class="p">,</span> <span class="n">max_val</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">min_val</span><span class="p">,</span> <span class="n">max_val</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">reference</span><span class="si">}</span><span class="s2"> [m/s]&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reanalysis [m/s]&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">season</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+</section>
+<section id="import-and-filter-weather-station-data">
+<span id="reanalysis-reanalysis-cerra-single-levels-validation-q03-section-2"></span><h3>2. Import and filter weather station data<a class="headerlink" href="#import-and-filter-weather-station-data" title="Link to this heading">#</a></h3>
+<p>The assessment begins with the acquisition of in-situ wind observations from the <a class="reference external" href="https://www.ecad.eu/" rel="noreferrer" target="_blank">European Climate Assessment &amp; Dataset (ECA&amp;D)</a> repository. This dataset provides homogenized daily records of wind speed and other essential climate variables from a dense network of meteorological stations across Europe.</p>
+<p>This section focuses on acquiring and preparing the ground-truth observational data from weather stations, which will serve as the benchmark for evaluating the reanalysis products.</p>
+<section id="import-metadata-and-filter-best-quality-weather-stations">
+<h4>Import metadata and filter best quality weather stations<a class="headerlink" href="#import-metadata-and-filter-best-quality-weather-stations" title="Link to this heading">#</a></h4>
+<p>After importing the full metadata catalogue, the analysis filters stations according to several quality criteria:</p>
+<ul class="simple">
+<li><p>only stations with a high percentage of available records within the target period are retained;</p></li>
+<li><p>flagged or incomplete records are excluded to minimize observational uncertainty;</p></li>
+<li><p>duplicate or relocated stations are removed using metadata consistency checks.</p></li>
+</ul>
+<p>For this quality asseessment, the reliability of data is ensured by is filtering for stations with the highest quality control flags (FG1 and FG2), which indicate the most robust methods for deriving daily values from sub-daily records. An initial plot of the number of FG1 and FG2 stations per country reveals that Norway (NO) possesses a dense and high-quality network, making it an ideal region for this assessment. The relatively high number of stations available for Norway provides a solid foundation for a statistically significant comparison against the gridded reanalysis data.</p>
+<p>However, similar assessments can be replicated over different areas, as well as over the entire area covered by the regional reanalysis.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---------------</span>
+<span class="c1"># Import metadata</span>
+<span class="c1"># ---------------</span>
+
+<span class="n">fnames</span> <span class="o">=</span> <span class="n">pooch</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">eca_url</span><span class="p">,</span> <span class="n">known_hash</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">processor</span><span class="o">=</span><span class="n">pooch</span><span class="o">.</span><span class="n">Unzip</span><span class="p">())</span>
+
+<span class="c1"># ------------------------------</span>
+<span class="c1"># Extract metadata in df_sources</span>
+<span class="c1"># ------------------------------</span>
+
+<span class="p">(</span><span class="n">fname</span><span class="p">,)</span> <span class="o">=</span> <span class="p">[</span><span class="n">fname</span> <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fnames</span> <span class="k">if</span> <span class="s2">&quot;sources&quot;</span> <span class="ow">in</span> <span class="n">fname</span><span class="p">]</span>
+<span class="n">df_sources</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_fwf</span><span class="p">(</span>
+    <span class="n">fname</span><span class="p">,</span>
+    <span class="n">colspecs</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">col_dict</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
+    <span class="n">skiprows</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span>
+    <span class="n">names</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">col_dict</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="c1"># -------------------------------------------------------------------------------</span>
+<span class="c1"># Convert latitutde and longitude from degrees:minutes:seconds to decimal degrees</span>
+<span class="c1"># -------------------------------------------------------------------------------</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;LAT&quot;</span><span class="p">,</span> <span class="s2">&quot;LON&quot;</span><span class="p">]:</span>
+    <span class="n">df_sources</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_sources</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">dms_to_decimal</span><span class="p">)</span>
+
+<span class="c1"># ----------------------------------</span>
+<span class="c1"># Convert START and STOP to datetime</span>
+<span class="c1"># ----------------------------------</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;START&quot;</span><span class="p">,</span> <span class="s2">&quot;STOP&quot;</span><span class="p">]:</span>
+    <span class="n">df_sources</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_sources</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># ---------------------------------</span>
+<span class="c1"># Filter FG1 and FG2 (best quality)</span>
+<span class="c1"># ---------------------------------</span>
+<span class="n">df_plot</span> <span class="o">=</span> <span class="n">df_sources</span><span class="p">[</span><span class="n">df_sources</span><span class="p">[</span><span class="s2">&quot;ELEID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;FG1&quot;</span><span class="p">,</span> <span class="s2">&quot;FG2&quot;</span><span class="p">])]</span>
+
+<span class="c1"># ---------------------------------------------------------------</span>
+<span class="c1"># Group by country (CN) and quality flag (ELEID) to count entries</span>
+<span class="c1"># ---------------------------------------------------------------</span>
+
+<span class="n">df_plot</span> <span class="o">=</span> <span class="n">df_plot</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;CN&quot;</span><span class="p">,</span> <span class="s2">&quot;ELEID&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># ------------------------------</span>
+<span class="c1"># Add total count and sort by it</span>
+<span class="c1"># ------------------------------</span>
+<span class="n">df_plot</span><span class="p">[</span><span class="s2">&quot;Total&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_plot</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df_plot</span> <span class="o">=</span> <span class="n">df_plot</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;Total&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s2">&quot;Total&quot;</span><span class="p">)</span>
+
+<span class="c1"># ------------------------------------------------------</span>
+<span class="c1"># Plot number of stations by country and by quality flag</span>
+<span class="c1"># ------------------------------------------------------</span>
+
+<span class="n">df_plot</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;bar&quot;</span><span class="p">,</span>
+    <span class="n">stacked</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;FG1&quot;</span><span class="p">:</span> <span class="s2">&quot;cornflowerblue&quot;</span><span class="p">,</span> <span class="s2">&quot;FG2&quot;</span><span class="p">:</span> <span class="s2">&quot;lightcoral&quot;</span><span class="p">},</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="c1"># Customize the plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Number of FG1 and FG2 ELEID per Country&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Country&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Count&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;ELEID&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+<span class="k">del</span> <span class="n">df_plot</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/c93f794c54f7facc01e601061557d11c0b5d342b239071aff95279d2d8154c54.png" src="../_images/c93f794c54f7facc01e601061557d11c0b5d342b239071aff95279d2d8154c54.png" />
+</div>
+</div>
+</section>
+<section id="import-daily-weather-station-data-for-target-country-norway">
+<h4>Import daily weather station data for target country (Norway)<a class="headerlink" href="#import-daily-weather-station-data-for-target-country-norway" title="Link to this heading">#</a></h4>
+<p>Following the filtering based on metadata, the daily 10m wind speed observations for all qualifying stations in Norway are imported. The data retrieval process involves:</p>
+<ul class="simple">
+<li><p>downloading individual station files;</p></li>
+<li><p>converting them into a structured xarray dataset;</p></li>
+<li><p>subset the time dimension to align with the core analysis period of 1985 to 2023</p></li>
+<li><p>convert the coordinates of the stations, originally in degrees-minutes-seconds format, to decimal degrees in orderto facilitate the subsequent extraction of reanalysis data at these precise locations.</p></li>
+</ul>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------------------------------------------------------</span>
+<span class="c1"># Identify filenames for weather stations in Norway (NO)</span>
+<span class="c1"># ------------------------------------------------------</span>
+<span class="n">country_code</span> <span class="o">=</span> <span class="s2">&quot;NO&quot;</span>
+<span class="n">country_stations_meta</span> <span class="o">=</span> <span class="n">df_sources</span><span class="p">[</span><span class="n">df_sources</span><span class="p">[</span><span class="s2">&quot;CN&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">country_code</span><span class="p">]</span>
+
+<span class="c1"># Ensure the source id&#39;s SOUID values are strings (in case some are not)</span>
+<span class="n">country_stations_id</span> <span class="o">=</span> <span class="n">country_stations_meta</span><span class="p">[</span><span class="s2">&quot;SOUID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="c1"># Filter filenames that contain any of the SOUID string in the selected stations</span>
+<span class="n">country_fnames</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">fname</span>
+    <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fnames</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SOUID</span><span class="si">{</span><span class="n">id_</span><span class="si">}</span><span class="s2">&quot;</span> <span class="ow">in</span> <span class="n">fname</span> <span class="k">for</span> <span class="n">id_</span> <span class="ow">in</span> <span class="n">country_stations_id</span><span class="p">)</span>
+<span class="p">]</span>
+
+
+<span class="c1"># -----------------</span>
+<span class="c1"># Import daily data </span>
+<span class="c1"># -----------------</span>
+
+<span class="c1"># Each weather station derives attrbutes from the corresponding row of country_stations</span>
+
+
+<span class="n">dataarrays</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">country_fnames</span><span class="p">):</span>
+    <span class="c1"># Read CSV into a DataFrame</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">skipinitialspace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+
+    <span class="c1"># Convert DATE to datetime format</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;DATE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;DATE&quot;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Filter out missing values</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;FG&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">9999</span><span class="p">]</span>
+
+    <span class="c1"># Optionally use SOUID or STAID as the label if available</span>
+    <span class="n">souid</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;SOUID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Extract metadata for the current stattion</span>
+    <span class="n">meta</span> <span class="o">=</span> <span class="n">country_stations_meta</span><span class="p">[</span><span class="n">country_stations_meta</span><span class="p">[</span><span class="s2">&quot;SOUID&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">souid</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Convert to DataArray</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;FG&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+        <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;DATE&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">},</span>
+        <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;FG&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">souid</span><span class="p">)])</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;station&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">meta</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
+    <span class="n">dataarrays</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">da</span><span class="p">)</span>
+
+<span class="n">obs</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dataarrays</span><span class="p">,</span> <span class="s2">&quot;station&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">))</span>
+<span class="n">obs</span><span class="p">[</span><span class="s2">&quot;LON&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;standard_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;longitude&quot;</span>
+<span class="n">obs</span><span class="p">[</span><span class="s2">&quot;LAT&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;standard_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;latitude&quot;</span>
+<span class="n">grid_out</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">()</span><span class="o">.</span><span class="n">drop_dims</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)[[</span><span class="s2">&quot;LAT&quot;</span><span class="p">,</span> <span class="s2">&quot;LON&quot;</span><span class="p">]]</span>
+<span class="k">del</span> <span class="n">dataarrays</span><span class="p">,</span> <span class="n">df_sources</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 821/821 [01:05&lt;00:00, 12.48it/s]
+/data/wp5/.tmp/ipykernel_3685741/336796630.py:53: FutureWarning: In a future version of xarray the default value for join will change from join=&#39;outer&#39; to join=&#39;exact&#39;. This change will result in the following ValueError: cannot be aligned with join=&#39;exact&#39; because index/labels/sizes are not equal along these coordinates (dimensions): &#39;time&#39; (&#39;time&#39;,) The recommendation is to set join explicitly for this case.
+  obs = xr.concat(dataarrays, &quot;station&quot;).sel(time=slice(start, stop))
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="filter-weather-stations-with-sufficient-high-rate-of-available-records">
+<h4>Filter weather stations with sufficient high-rate of available records<a class="headerlink" href="#filter-weather-stations-with-sufficient-high-rate-of-available-records" title="Link to this heading">#</a></h4>
+<p>To maintain the integrity of the statistical analysis, a final quality filter is applied to the station data. Stations with an excessive number of missing records (defined as more than 5 years’ worth of daily data, or 1825 missing values) over the 39-year period are excluded from the analysis. This step ensures that the computed statistics for each station (e.g., mean wind speed, variability) are representative and not unduly biased by data gaps. The application of this filter results in a refined set of weather stations that are both high-quality and data-rich, providing a reliable observational baseline for comparison.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">obs</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">obs</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">max_nans</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># ----</span>
+<span class="c1"># Plot</span>
+<span class="c1"># ----</span>
+
+<span class="n">cmap</span> <span class="o">=</span> <span class="n">ListedColormap</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>  <span class="c1"># Transparent for NaN    (0)</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>  <span class="c1"># Red for available data (1)</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="n">obs</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">&quot;station&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
+    <span class="n">obs</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span>
+    <span class="n">aspect</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+    <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+    <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="o">*</span><span class="n">obs</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="mi">0</span><span class="p">,</span> <span class="n">obs</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">&quot;station&quot;</span><span class="p">]],</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Ticks and labels</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">obs</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">&quot;station&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">obs</span><span class="p">[</span><span class="s2">&quot;SOUNAME&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Station&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Data Availability Over Time by Station&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Data Present (1=Yes, 0=No)&quot;</span><span class="p">,</span> <span class="n">ticks</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/7fef9396e8cd3649baff3e10dd18389b7ae84f66c7be6f9a41214b89bb2cea48.png" src="../_images/7fef9396e8cd3649baff3e10dd18389b7ae84f66c7be6f9a41214b89bb2cea48.png" />
+</div>
+</div>
+</section>
+<section id="map-weather-stations">
+<h4>Map weather stations<a class="headerlink" href="#map-weather-stations" title="Link to this heading">#</a></h4>
+<p>A map of the selected stations is then generated, which confirms a well-distributed network suitable for comparing with CERRA’s spatial grid.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------------------------</span>
+<span class="c1"># Extract station metadata</span>
+<span class="c1"># ------------------------</span>
+
+<span class="n">lats</span> <span class="o">=</span> <span class="n">obs</span><span class="p">[</span><span class="s2">&quot;LAT&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>  <span class="c1"># latitude  (shape: n_stations,)</span>
+<span class="n">lons</span> <span class="o">=</span> <span class="n">obs</span><span class="p">[</span><span class="s2">&quot;LON&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>  <span class="c1"># longitude</span>
+<span class="n">names</span> <span class="o">=</span> <span class="n">obs</span><span class="p">[</span><span class="s2">&quot;SOUNAME&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>  <span class="c1"># station names</span>
+
+<span class="c1"># ----------</span>
+<span class="c1"># Create map</span>
+<span class="c1"># ----------</span>
+
+<span class="c1"># Define the Lambert-Conformal projection</span>
+<span class="n">proj</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">LambertConformal</span><span class="p">(</span>
+    <span class="n">central_longitude</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>  <span class="c1"># roughly the middle of Norway</span>
+    <span class="n">central_latitude</span><span class="o">=</span><span class="mi">67</span><span class="p">,</span>  <span class="c1"># latitude of balance</span>
+    <span class="n">standard_parallels</span><span class="o">=</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">80</span><span class="p">),</span>  <span class="c1"># secant cone cuts; tweak if needed</span>
+<span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">proj</span><span class="p">)</span>
+
+<span class="c1"># Focus on mainland and northern Norway</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">([</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">80</span><span class="p">],</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">LAND</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;#f0f0f0&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">COASTLINE</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">BORDERS</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span><span class="n">draw_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+
+<span class="c1"># Plot the station locations</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">lons</span><span class="p">,</span>
+    <span class="n">lats</span><span class="p">,</span>
+    <span class="n">s</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;darkred&quot;</span><span class="p">,</span>
+    <span class="n">edgecolors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+    <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
+<span class="p">)</span>
+
+ <span class="c1">#Optional Annotate each station</span>
+<span class="c1">#for lon, lat, name in zip(lons, lats, names):</span>
+<span class="c1">#    ax.text(</span>
+<span class="c1">#        lon + 0.25, lat + 0.15, name,</span>
+<span class="c1">#        fontsize=6, transform=ccrs.PlateCarree(), zorder=4</span>
+<span class="c1">#    )</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Weather Stations with quality wind data in Norway&quot;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/417626302e88aaece323fbb3f3934bd0299b9fde76e9d8741d342a54e22bc976.png" src="../_images/417626302e88aaece323fbb3f3934bd0299b9fde76e9d8741d342a54e22bc976.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="import-reanalysis-and-extract-data-at-weather-station-sites">
+<span id="reanalysis-reanalysis-cerra-single-levels-validation-q03-section-3"></span><h3>3. Import reanalysis and extract data at weather station sites<a class="headerlink" href="#import-reanalysis-and-extract-data-at-weather-station-sites" title="Link to this heading">#</a></h3>
+<p>Reanalysis data from CERRA and ERA5 are imported from the Copernicus Climate Data Store (CDS) using the c3s_eqc_automatic_quality_control module.
+To ensure a fair comparison with the point-based station observations, gridpoint values from each reanalysis are extracted at the nearest grid cell to every station location.</p>
+<ul class="simple">
+<li><p>For CERRA, which has a horizontal resolution of 5.5 km, the nearest-neighbour extraction method (nearest_s2d) provides locally representative values.</p></li>
+<li><p>For ERA5, with a coarser 31 km grid, the pre-processed single-point time series are obtained directly from the CDS.</p></li>
+</ul>
+<p>All datasets are harmonized in time (daily means) and variable naming conventions. The data are stored as xarray objects, ready for temporal and statistical comparison with the observed station records.</p>
+<section id="import-cerra">
+<h4>Import CERRA<a class="headerlink" href="#import-cerra" title="Link to this heading">#</a></h4>
+<p>As CERRA is produced at high temporal resolution (6-hourly), the data is downloaded for the four synoptic times (00:00, 06:00, 12:00, 18:00 UTC) covering the period 1985-2023. A critical processing step involves regridding the CERRA data onto the locations of the weather stations using a nearest neighbour remapping method. Following regridding, the 6-hourly values are averaged to compute the daily mean wind speed, thereby creating a daily time series at each station location that is directly comparable to the daily station observations.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import CERRA at the nearest grid points to se</span>
+<span class="n">request</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">update_request_date</span><span class="p">(</span><span class="n">cerra_request</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">stringify_dates</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
+    <span class="n">cerra_id</span><span class="p">,</span>
+    <span class="n">request</span><span class="p">,</span>
+    <span class="n">transform_func</span><span class="o">=</span><span class="n">extract_daily_stations</span><span class="p">,</span>
+    <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;grid_out&quot;</span><span class="p">:</span> <span class="n">grid_out</span><span class="p">,</span>
+        <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;nearest_s2d&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;locstream_out&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">chunks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="n">drop_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;step&quot;</span><span class="p">],</span>
+    <span class="n">cached_open_mfdataset_kwargs</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;concat_dim&quot;</span><span class="p">:</span> <span class="s2">&quot;forecast_reference_time&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;combine&quot;</span><span class="p">:</span> <span class="s2">&quot;nested&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;data_vars&quot;</span><span class="p">:</span> <span class="s2">&quot;minimal&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;coords&quot;</span><span class="p">:</span> <span class="s2">&quot;minimal&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;compat&quot;</span><span class="p">:</span> <span class="s2">&quot;override&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+<span class="p">(</span><span class="n">cerra</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="n">obs</span><span class="p">[</span><span class="s2">&quot;station&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 432/432 [00:41&lt;00:00, 10.49it/s]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="import-era5">
+<h4>Import ERA5<a class="headerlink" href="#import-era5" title="Link to this heading">#</a></h4>
+<p>For a broader context, data from the global ERA5 reanalysis is also incorporated. To efficiently obtain long time series for specific points, the pre-processed ERA5 hourly time-series dataset is used. Since 10m wind speed is not a direct variable in this product, the u and v components of the 10m wind are retrieved. The daily mean wind speed is then calculated from these components, and subsequently averaged to a daily resolution.</p>
+<p>This results in a parallel set of daily wind speed time series for the ERA5 reanalysis at the same weather station locations.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datasets</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">station</span><span class="p">,</span> <span class="n">da_station</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">obs</span><span class="p">[</span><span class="s2">&quot;station&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;station&quot;</span><span class="p">)):</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
+        <span class="n">era5_id</span><span class="p">,</span>
+        <span class="n">era5_request</span>
+        <span class="o">|</span> <span class="p">{</span>
+            <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;longitude&quot;</span><span class="p">:</span> <span class="n">da_station</span><span class="p">[</span><span class="s2">&quot;LON&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span>
+                <span class="s2">&quot;latitude&quot;</span><span class="p">:</span> <span class="n">da_station</span><span class="p">[</span><span class="s2">&quot;LAT&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="n">transform_func</span><span class="o">=</span><span class="n">compute_wind_speed</span><span class="p">,</span>
+        <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="p">[</span><span class="n">station</span><span class="p">]))</span>
+<span class="p">(</span><span class="n">era5</span><span class="p">,)</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="s2">&quot;station&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 66/66 [00:03&lt;00:00, 16.72it/s]
+/data/wp5/.tmp/ipykernel_3685741/345914223.py:16: FutureWarning: In a future version of xarray the default value for coords will change from coords=&#39;different&#39; to coords=&#39;minimal&#39;. This is likely to lead to different results when multiple datasets have matching variables with overlapping values. To opt in to new defaults and get rid of these warnings now use `set_options(use_new_combine_kwarg_defaults=True) or set coords explicitly.
+  (era5,) = xr.concat(datasets, &quot;station&quot;).data_vars.values()
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="results">
+<span id="reanalysis-reanalysis-cerra-single-levels-validation-q03-section-4"></span><h3>4. Results<a class="headerlink" href="#results" title="Link to this heading">#</a></h3>
+<p>This section shows the core findings of the intercomparison of the performance of the CERRA and ERA5 reanalyses against the weather station observations.</p>
+<section id="organize-data-for-the-analysis">
+<h4>Organize data for the analysis<a class="headerlink" href="#organize-data-for-the-analysis" title="Link to this heading">#</a></h4>
+<p>To facilitate a streamlined comparison, the observational and reanalysis datasets are consolidated into a single data structure. The daily time series of 10m wind speed from the weather stations (OBS), CERRA, and ERA5 are combined, aligning them chronologically and by station. This unified dataset allows for the direct computation of comparative statistics and the generation of insightful visualizations.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">da</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">cerra</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;CERRA&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">forecast_reference_time</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">),</span>
+        <span class="n">obs</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;OBS&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">cerra</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">era5</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ERA5&quot;</span><span class="p">]),</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;product&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">da</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">}</span>
+<span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+<span class="c1">#del cerra, era5, obs</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/data/wp5/.tmp/ipykernel_3685741/1269578046.py:1: FutureWarning: In a future version of xarray the default value for join will change from join=&#39;outer&#39; to join=&#39;exact&#39;. This change will result in the following ValueError: cannot be aligned with join=&#39;exact&#39; because index/labels/sizes are not equal along these coordinates (dimensions): &#39;station&#39; (&#39;station&#39;,) The recommendation is to set join explicitly for this case.
+  da = xr.concat(
+/data/wp5/.tmp/ipykernel_3685741/1269578046.py:1: FutureWarning: In a future version of xarray the default value for join will change from join=&#39;outer&#39; to join=&#39;exact&#39;. This change will result in the following ValueError: cannot be aligned with join=&#39;exact&#39; because index/labels/sizes are not equal along these coordinates (dimensions): &#39;time&#39; (&#39;time&#39;,) The recommendation is to set join explicitly for this case.
+  da = xr.concat(
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="compare-weather-station-data-with-reanalyses">
+<h4>Compare weather station data with reanalyses<a class="headerlink" href="#compare-weather-station-data-with-reanalyses" title="Link to this heading">#</a></h4>
+<p>The two reanalyses are compared with observations using scatterplots. For every season, and for different statistics of the wind speed (mean, variance, minimum and maximum), CERRA and ERA5 values are plotted against the observed counterparts. The visualization used to present these results is a scatter plot, which compares the long-term statistical metric from the reanalysis against the same metric from the observations for all stations.</p>
+<p>The plots show the observed the wind speed statistics on the x-axis and the corresponding statistics for the reanalysis on the y-axis. A perfect agreement would see all points lying on the 1:1 line. Each plot shows:</p>
+<ul class="simple">
+<li><p><em>linear regression</em>  fitted to the data points for both reanalyses, providing a quantitative measure of the relationship;</p></li>
+<li><p><em>the coefficient of Determination (R²)</em> computed to indicate how well the variability in the observations is explained by the reanalysis;</p></li>
+<li><p><em>outlier identification</em> corresponding to the stations with the largest residuals (difference between the reanalysis value and the observed value) annotated on the plot, helping to identify locations where the models perform poorly, potentially due to local topography or exposure issues not captured by the model grid;</p></li>
+<li><p><em>seasonal analysis</em>  conducted for different seasons (e.g., DJF, MAM, JJA, SON) to assess whether the performance of the reanalyses is consistent year-round or exhibits seasonal dependencies.</p></li>
+</ul>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># List of statistics to compare</span>
+<span class="n">statistics</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span> <span class="s2">&quot;var&quot;</span><span class="p">,</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">]</span>
+<span class="n">seasons</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;DJF&quot;</span><span class="p">,</span> <span class="s2">&quot;MAM&quot;</span><span class="p">,</span> <span class="s2">&quot;JJA&quot;</span><span class="p">,</span> <span class="s2">&quot;SON&quot;</span><span class="p">]</span>
+<span class="n">targets</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;CERRA&quot;</span><span class="p">:</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;ERA5&quot;</span><span class="p">:</span> <span class="s2">&quot;g&quot;</span><span class="p">}</span>
+
+<span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">stat</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">statistics</span><span class="p">):</span>
+    <span class="c1"># Create subplots</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+    <span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+    <span class="c1"># Plot each statistic in a subplot</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">season</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">seasons</span><span class="p">):</span>
+        <span class="n">compare_statistic_scatter</span><span class="p">(</span>
+            <span class="n">da</span><span class="p">,</span>
+            <span class="s2">&quot;OBS&quot;</span><span class="p">,</span>
+            <span class="n">targets</span><span class="p">,</span>
+            <span class="n">stat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span>
+            <span class="n">top_n_outliers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+            <span class="n">season</span><span class="o">=</span><span class="n">season</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Reanalysis vs. observations  </span><span class="si">{</span><span class="n">stat</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2"> Wind Speed Statistics&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span>
+    <span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/2771f43d39ca35f60f3553adbff8911021d4a35f1941818352970d8a86c2b598.png" src="../_images/2771f43d39ca35f60f3553adbff8911021d4a35f1941818352970d8a86c2b598.png" />
+<img alt="../_images/47d5f4d0183f03b3e99bf58e1dfbc13bc53286c67c820a1f10225e7460c9def0.png" src="../_images/47d5f4d0183f03b3e99bf58e1dfbc13bc53286c67c820a1f10225e7460c9def0.png" />
+<img alt="../_images/22da6009eda2596cb553ec38a36fe9cd7d6f2c2b270fd7514dc2fe44a7d57dd0.png" src="../_images/22da6009eda2596cb553ec38a36fe9cd7d6f2c2b270fd7514dc2fe44a7d57dd0.png" />
+<img alt="../_images/da04c938d97bfdeb59ddfe866be6b1f48c571f70a214dc2e4433b6d6d52f96b6.png" src="../_images/da04c938d97bfdeb59ddfe866be6b1f48c571f70a214dc2e4433b6d6d52f96b6.png" />
+</div>
+</div>
+</section>
+<section id="discussion">
+<h4>Discussion<a class="headerlink" href="#discussion" title="Link to this heading">#</a></h4>
+<p>The statistical analysis of daily wind speed data reveals a nuanced performance difference between the CERRA and ERA5 reanalysis datasets. For mean wind speeds at each station, the differences between CERRA and ERA5 are not significant. However, a marked contrast emerges in their ability to represent wind speed variance, a critical metric for atmospheric variability.</p>
+<p>The comparison of seasonal wind speed variance against station observations demonstrates that CERRA (represented in red) consistently outperforms ERA5 (green). Across all seasons, CERRA’s data points align more closely with the 1:1 reference line, indicating a superior representation of the observed spread in daily wind speeds. This is quantitatively supported by higher coefficients of determination (R²), which range from approximately 0.68 to 0.79 for CERRA compared to 0.65–0.70 for ERA5. Furthermore, the regression slopes for variance in CERRA (approximately 0.6–0.7) are consistently steeper than those for ERA5 (0.5–0.54). This indicates that CERRA captures a greater portion of the observed variance and mitigates the systematic underestimation (variance damping) evident in ERA5, a common issue in coarser-resolution global models that struggle to resolve mesoscale processes <a class="reference external" href="https://doi.org/10.1002/qj.3616" rel="noreferrer" target="_blank">5</a>.</p>
+<p>Seasonally, the strongest agreement is observed in autumn (SON), where CERRA’s R² peaks at 0.79. While performance dips during summer (JJA) for both models, CERRA maintains a relative advantage, particularly at sites with higher observed variance. A persistent outlier is noted for the Rygge station, which may be attributable to local topographic effects not fully resolved by either reanalysis system <a class="reference external" href="https://doi.org/10.1175/JAMC-D-11-084.1" rel="noreferrer" target="_blank">6</a>.</p>
+<p>The performance diverges further for extreme wind statistics. For maximum wind speeds, CERRA shows consistently better performance, which is crucial for load and resilience calculations. Conversely, both reanalyses perform poorly in replicating minimum wind speeds (calm conditions), with R² values as low as 0.02, suggesting that physical processes like stable boundary layer dynamics remain a significant challenge for modern reanalysis products.</p>
+<p>From an energy assessment perspective, these findings are highly relevant. Wind power generation is non-linearly related to wind speed and is critically dependent on its variability, which dictates intermittency and ramp events. CERRA’s enhanced ability to reproduce observed variance and extreme values translates to greater reliability for key applications such as wind resource assessment, turbine siting, power output forecasting, and grid integration studies. The reduced variance bias in CERRA suggests it can provide a more realistic forcing for regional climate and energy system models, ultimately leading to lower uncertainty in energy yield predictions.</p>
+</section>
+</section>
+</section>
+<section id="i-if-you-want-to-know-more">
+<h2>ℹ️ If you want to know more<a class="headerlink" href="#i-if-you-want-to-know-more" title="Link to this heading">#</a></h2>
+<section id="key-resources">
+<h3>Key resources<a class="headerlink" href="#key-resources" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>The <a class="reference external" href="https://www.ecad.eu/" rel="noreferrer" target="_blank">Equropean Climate Assessment &amp; Dataset</a> provides daily observations at meteorological stations throughout Europe and the Mediterranean.</p></li>
+<li><p>The <a class="reference external" href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview" rel="noreferrer" target="_blank">ERA5 hourly time-series data on single levels from 1940 to present</a> is a regridded subset of the full ERA5 that is stored in a format designed for retrieving long time-series for a single point.</p></li>
+</ul>
+<p>Code libraries used:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/bopen/c3s-eqc-automatic-quality-control/tree/main/c3s_eqc_automatic_quality_control" rel="noreferrer" target="_blank">C3S EQC custom functions</a>, <code class="docutils literal notranslate"><span class="pre">c3s_eqc_automatic_quality_control</span></code>,  prepared by <a class="reference external" href="https://www.bopen.eu/" rel="noreferrer" target="_blank">B-Open</a></p></li>
+</ul>
+</section>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://doi.org/10.1002/we.2759" rel="noreferrer" target="_blank">[1]</a> Davidson, M. R., &amp; Millstein, D. (2022). Limitations of reanalysis data for wind power applications. Wind Energy, 25(9), 1646-1653.</p>
+<p><a class="reference external" href="https://doi.org/10.2139/ssrn.5131628" rel="noreferrer" target="_blank">[2]</a> Patra, A., Oueslati, B., Chevallier, T., Renaud, P., Kervella, Y., &amp; DUBUS, L. Evaluation of Era5, Cosmo-Rea6 and Cerra in Simulating Wind Speed Along the French Coastline for Wind Energy Applications. Cosmo-Rea6 and Cerra in Simulating Wind Speed Along the French Coastline for Wind Energy Applications.</p>
+<p><a class="reference external" href="https://doi.org/10.5194/asr-20-109-2023" rel="noreferrer" target="_blank">[3]</a> Spangehl, T., Borsche, M., Niermann, D., Kaspar, F., Schimanke, S., Brienen, S., … &amp; Brast, M. (2023). Intercomparing the quality of recent reanalyses for offshore wind farm planning in Germany’s exclusive economic zone of the North Sea. Advances in Science and Research, 20, 109-128.</p>
+<p><a class="reference external" href="https://doi.org/10.1016/j.energy.2025.136746" rel="noreferrer" target="_blank">[4]</a> Pereira, H., Alvarez, I., Aldao, E., Sousa, M. C., Picado, A., Lorenzo, N., … &amp; Dias, J. M. (2025). Analysis of wind conditions for safe drone operation in offshore wind farms on the Spanish Atlantic coast. Energy, 136746.</p>
+<p><a class="reference external" href="https://doi.org/10.1002/qj.3616" rel="noreferrer" target="_blank">[5]</a> Ramon, J., Lledó, L., Torralba, V., Soret, A., &amp; Doblas-Reyes, F. J. (2019). What global reanalysis best represents near-surface winds?. Quarterly Journal of the Royal Meteorological Society, 145(724), 3236-3251.</p>
+<p><a class="reference external" href="https://doi.org/10.1175/JAMC-D-11-084.1" rel="noreferrer" target="_blank">[6]</a> Jiménez, P. A., &amp; Dudhia, J. (2012). Improving the representation of resolved and unresolved topographic effects on surface wind in the WRF model. Journal of Applied Meteorology and Climatology, 51(2), 300-316.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Reanalyses"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="reanalysis.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Reanalysis</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../Seasonal_Forecasts/seasonal.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Seasonal forecasts</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-wind-energy-company-using-cerra-data-for-the-preliminary-evaluation-of-energy-production">🌍 Use case: wind-energy company using CERRA data for the preliminary evaluation of energy production</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-of-the-analysis">1. Set-up of the analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-libraries">Import libraries</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#set-parameters">Set parameters</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#define-data-request">Define data request</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#define-functions-to-cache">Define functions to cache</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-and-filter-weather-station-data">2. Import and filter weather station data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-metadata-and-filter-best-quality-weather-stations">Import metadata and filter best quality weather stations</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-daily-weather-station-data-for-target-country-norway">Import daily weather station data for target country (Norway)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#filter-weather-stations-with-sufficient-high-rate-of-available-records">Filter weather stations with sufficient high-rate of available records</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#map-weather-stations">Map weather stations</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-reanalysis-and-extract-data-at-weather-station-sites">3. Import reanalysis and extract data at weather station sites</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-cerra">Import CERRA</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-era5">Import ERA5</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#results">4. Results</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#organize-data-for-the-analysis">Organize data for the analysis</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-weather-station-data-with-reanalyses">Compare weather station data with reanalyses</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">Discussion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-resources">Key resources</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By the Copernicus Climate Change Service (C3S), entrusted to ECMWF (European Centre for Medium-Range Weather Forecasts)
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,998 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4.1. Investigating the variability of extreme rainfall events during the monsoon season in different forecasting systems &#8212; eqcbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Seasonal_Forecasts/seasonal_seasonal-monthly-single-levels_extremes-detection_q10';</script>
+    <link rel="icon" href="../_static/C3S_favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5. Climate projections" href="../Climate_Projections/climate.html" />
+    <link rel="prev" title="4. Seasonal forecasts" href="seasonal.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">⚠️This is under development!⚠️</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/C3S–POS–LINE.png" class="logo__image only-light" alt="eqcbook - Home"/>
+    <img src="../_static/C3S–POS–LINE.png" class="logo__image only-dark pst-js-only" alt="eqcbook - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    C3S EQC quality assessments
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Satellite Observations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Satellite_ECVs/satellite.html">1. Quality assessments for Satellite Observations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Atmosphere_Physics/Atmosphere_Physics.html">1.1. Atmosphere Physics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Atmospheric_Composition/Atmospheric_Composition.html">1.2. Atmospheric Composition</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Cryosphere/Cryosphere.html">1.3. Cryosphere</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Land_Biosphere/Land_Biosphere.html">1.4. Land Biosphere</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Land_Hydrology/Land_Hydrology.html">1.5. Land Hydrology</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Satellite_ECVs/Ocean/Ocean.html">1.6. Ocean</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Insitu Observations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../In_Situ/insitu.html">2. Quality assessments for Insitu Observations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Reanalysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Reanalyses/reanalysis.html">3. Quality assessments for Reanalysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Seasonal Forecasts</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="seasonal.html">4. Quality assessments for Seasonal Forecasts</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.1. Investigating the variability of extreme rainfall events during the monsoon season in different forecasting systems</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Climate Projections</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Climate_Projections/climate.html">5. Quality assessments for Climate Projections</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Climate_Projections/CMIP6/CMIP6.html">5.1. CMIP6</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Climate_Projections/CORDEX/CORDEX.html">5.2. CORDEX</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Climate Indicators</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Indicators/indicator.html">6. Quality assessments for Climate Indicators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Derived Datasets</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Derived_Datasets/derived.html">7. Quality assessments for Derived Datasets</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">➡️ Applications</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Applications/application.html">8. Quality assessments for C3S Applications</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quality assessment template</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../templates/template_instructions.html">Template instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../templates/template.html">Template</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment/issues/new?title=Issue%20on%20page%20%2FSeasonal_Forecasts/seasonal_seasonal-monthly-single-levels_extremes-detection_q10.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Seasonal_Forecasts/seasonal_seasonal-monthly-single-levels_extremes-detection_q10.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Investigating the variability of extreme rainfall events during the monsoon season in different forecasting systems</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-investigating-the-probability-of-extreme-precipitation-events-for-the-indian-subcontinent-in-different-forecasting-systems">🌍 Use case: Investigating the probability of extreme precipitation events for the Indian subcontinent in different forecasting systems.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-data-selecting-region-and-models-of-interest">1. Download data, selecting region, and models of interest</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-model-specific-extreme-precipitation">2. Calculate model specific extreme precipitation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-often-and-where-does-percentile-exceeding-precipitation-occur">3. How often and where does percentile exceeding precipitation occur?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">4. Discussion</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-resources">Key resources</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code-libraries-used">Code libraries used:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><img alt="logo" src="../_images/LogoLine_horizon_C3S1.png" /></p>
+<div class="alert alert-block alert-warning">
+Please note that this repository is used for development and review, so quality assessments should be considered work in progress until they are merged into the main branch
+</div><section class="tex2jax_ignore mathjax_ignore" id="investigating-the-variability-of-extreme-rainfall-events-during-the-monsoon-season-in-different-forecasting-systems">
+<h1><span class="section-number">4.1. </span>Investigating the variability of extreme rainfall events during the monsoon season in different forecasting systems<a class="headerlink" href="#investigating-the-variability-of-extreme-rainfall-events-during-the-monsoon-season-in-different-forecasting-systems" title="Link to this heading">#</a></h1>
+<p>Production date: 30.04.2026</p>
+<p>Produced by: Johanna Tjernström (METNorway), Johannes Langvatn (METNorway)</p>
+<section id="use-case-investigating-the-probability-of-extreme-precipitation-events-for-the-indian-subcontinent-in-different-forecasting-systems">
+<h2>🌍 Use case: Investigating the probability of extreme precipitation events for the Indian subcontinent in different forecasting systems.<a class="headerlink" href="#use-case-investigating-the-probability-of-extreme-precipitation-events-for-the-indian-subcontinent-in-different-forecasting-systems" title="Link to this heading">#</a></h2>
+</section>
+<section id="quality-assessment-question">
+<h2>❓ Quality assessment question<a class="headerlink" href="#quality-assessment-question" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>How does the frequency and placement of extreme rainfall events vary between forecasting systems?</strong></p></li>
+<li><p><strong>How does the forecast skill, as determined by comparison with reanalysis, vary between different forecasting systems?</strong></p></li>
+</ul>
+<p>During the summer monsoon many parts of the Indian subcontinent receive heavy rainfall, however, within that period there are both temporal and geographical variations in intensity (<a class="reference external" href="https://doi.org/10.1002/met.164" rel="noreferrer" target="_blank">Pattanaik, D.R. and Rajeevan, M. (2010) [1]</a>) . These fluctuations between wet and dry spells has the potential to impact agriculture, water resources and other infrastructure. (<a class="reference external" href="https://doi.org/10.1029/2009JD012795" rel="noreferrer" target="_blank">Singh, D., Tsiang, M., Rajaratnam, B. et al. (2009) [2]</a>)</p>
+<p>This notebook considers the probability of extreme precipitation events for the Indian subcontinent in different forecasting systems. Comparing their results, both spatially and the frequency of extreme rainfall events, between forecasting systems and evaluating them against ERA5.</p>
+</section>
+<section id="quality-assessment-statement">
+<h2>📢 Quality assessment statement<a class="headerlink" href="#quality-assessment-statement" title="Link to this heading">#</a></h2>
+<div class="note admonition">
+<p class="admonition-title">These are the key outcomes of this assessment</p>
+<ul class="simple">
+<li><p>Some regions are identified to have increased probability of precipiation for a forecast length of two months, but there is varying skill in the different forecast models for 2 month</p></li>
+<li><p>Using a multi model approach gives some signal, but the spatial placement of the strongest forecasted signal is shifted from its corresponding signal in the reanalysis</p></li>
+</ul>
+</div>
+</section>
+<section id="methodology">
+<h2>📋 Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
+<p>This notebook investigates monsoon onset by using total precipitation rate from <a class="reference external" href="https://doi.org/10.24381/cds.68dd14c3" rel="noreferrer" target="_blank">Seasonal forecast monthly statistics on single levels</a>, this is integrated to total precipitation to later compare with data from <a class="reference external" href="https://doi.org/10.24381/cds.adbb2d47" rel="noreferrer" target="_blank">ERA5 Reanalysis</a>.</p>
+<p>To correctly identify the monsoon signal in each forecast model we define a treshold for extreme precipitation, and calculate the exceedence of this threshold for each model individually since the models have different climatologies.</p>
+<p>The probability of exceedence of this treshold is then plotted against reanalysis and compared to check for skill.</p>
+<p><strong><a class="reference internal" href="#seasonal-seasonal-monthly-single-levels-extremes-detection-q10-section-1"><span class="std std-ref">1. Download data, selecting region, and models of interest</span></a></strong></p>
+<ul class="simple">
+<li><p>Choose a region of interest, a selection of forecast systems and versions, and leadtimes to investigate</p></li>
+<li><p>Choose a hindcast period (typically 1993-2016) to compute a climatology</p></li>
+<li><p>Choose percentile for extreme precipitation</p></li>
+<li><p>Total precipitation rate is converted to total precipitation for the forecast models</p></li>
+</ul>
+<p><strong><a class="reference internal" href="#seasonal-seasonal-monthly-single-levels-extremes-detection-q10-section-2"><span class="std std-ref">2. Calculate model specific extreme precipitation</span></a></strong></p>
+<ul class="simple">
+<li><p>The exceedence of extreme precipitation per forecast model and the reanalysis is computed</p></li>
+</ul>
+<p><strong><a class="reference internal" href="#seasonal-seasonal-monthly-single-levels-extremes-detection-q10-section-3"><span class="std std-ref">3. How often and where does percentile exceeding precipitation occur?</span></a></strong></p>
+<ul class="simple">
+<li><p>The extreme precipitation is plotted for each forecast model, with exceedence in reanalysis also plotted for comparison</p></li>
+</ul>
+<p><strong><a class="reference internal" href="#seasonal-seasonal-monthly-single-levels-extremes-detection-q10-section-4"><span class="std std-ref">4. Discussion</span></a></strong></p>
+<p>Key limitations:
+Some models were disregarded due to discrepancies in data formatting in regards to time. The models chosen were selected based on their cohesion, and models that deviated from this shared structure were removed for ease of use. During this investigation several percentiles were tested, but 90% as “extreme rainfall” was chosen as this gave the best consistensy between the forecasting systems.</p>
+</section>
+<section id="analysis-and-results">
+<h2>📈 Analysis and results<a class="headerlink" href="#analysis-and-results" title="Link to this heading">#</a></h2>
+<section id="download-data-selecting-region-and-models-of-interest">
+<span id="seasonal-seasonal-monthly-single-levels-extremes-detection-q10-section-1"></span><h3>1. Download data, selecting region, and models of interest<a class="headerlink" href="#download-data-selecting-region-and-models-of-interest" title="Link to this heading">#</a></h3>
+<p>Import packages and define functions needed for the analysis</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">utils</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">tprate_to_tp</span><span class="p">(</span><span class="n">dataarray</span><span class="p">):</span>
+    <span class="n">secs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">earlier_seconds</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataarray</span><span class="o">.</span><span class="n">leadtime</span><span class="p">)):</span>
+        <span class="n">seconds</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dataarray</span><span class="o">.</span><span class="n">leadtime</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span><span class="o">/</span><span class="p">(</span><span class="mf">1e9</span><span class="p">))</span>
+        <span class="n">leadtime_seconds</span> <span class="o">=</span> <span class="n">seconds</span><span class="o">-</span><span class="n">earlier_seconds</span>
+        <span class="n">secs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">leadtime_seconds</span><span class="p">)</span>
+        <span class="n">earlier_seconds</span> <span class="o">=</span> <span class="n">seconds</span>
+    <span class="n">secs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">secs</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">6</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+    <span class="c1"># days_per_month = secs/(60*60*24)</span>
+    <span class="n">tp</span> <span class="o">=</span> <span class="p">(</span><span class="n">secs</span><span class="o">*</span><span class="n">dataarray</span><span class="p">)</span>
+    <span class="n">tp</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;m&quot;</span>
+    <span class="n">tp</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Monthly Total precipitation amount&quot;</span>
+    <span class="k">return</span> <span class="n">tp</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>Define the region of interest by giving a bounding box of north, west, south, east extent. Also choose the extreme perenctile treshold</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bbox</span> <span class="o">=</span> <span class="p">[</span><span class="mi">39</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">99</span><span class="p">]</span>
+<span class="n">extreme_percentile</span> <span class="o">=</span> <span class="mf">.90</span>
+<span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;chunks&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="s2">&quot;n_jobs&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>   
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>Download the reanalysis for hindcast and forecast period</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="s2">&quot;reanalysis-era5-single-levels-monthly-means&quot;</span>
+<span class="n">era_request</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;product_type&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;monthly_averaged_reanalysis&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;total_precipitation&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;1993&quot;</span><span class="p">,</span> <span class="s2">&quot;1994&quot;</span><span class="p">,</span> <span class="s2">&quot;1995&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;1996&quot;</span><span class="p">,</span> <span class="s2">&quot;1997&quot;</span><span class="p">,</span> <span class="s2">&quot;1998&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;1999&quot;</span><span class="p">,</span> <span class="s2">&quot;2000&quot;</span><span class="p">,</span> <span class="s2">&quot;2001&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;2002&quot;</span><span class="p">,</span> <span class="s2">&quot;2003&quot;</span><span class="p">,</span> <span class="s2">&quot;2004&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;2005&quot;</span><span class="p">,</span> <span class="s2">&quot;2006&quot;</span><span class="p">,</span> <span class="s2">&quot;2007&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;2008&quot;</span><span class="p">,</span> <span class="s2">&quot;2009&quot;</span><span class="p">,</span> <span class="s2">&quot;2010&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;2011&quot;</span><span class="p">,</span> <span class="s2">&quot;2012&quot;</span><span class="p">,</span> <span class="s2">&quot;2013&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;2014&quot;</span><span class="p">,</span> <span class="s2">&quot;2015&quot;</span><span class="p">,</span> <span class="s2">&quot;2016&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;05&quot;</span><span class="p">,</span> <span class="s2">&quot;06&quot;</span><span class="p">,</span> <span class="s2">&quot;07&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;08&quot;</span><span class="p">,</span> <span class="s2">&quot;09&quot;</span><span class="p">,</span> <span class="s2">&quot;10&quot;</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;00:00&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;data_format&quot;</span><span class="p">:</span> <span class="s2">&quot;grib&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="s2">&quot;1/1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;download_format&quot;</span><span class="p">:</span> <span class="s2">&quot;unarchived&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;area&quot;</span><span class="p">:</span> <span class="n">bbox</span>
+<span class="p">}</span>
+<span class="n">era5_hindcast</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
+        <span class="n">dataset</span><span class="p">,</span>
+        <span class="n">era_request</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">)</span>
+<span class="n">era_request</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;2025&quot;</span><span class="p">]</span>
+<span class="n">era5</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
+        <span class="n">dataset</span><span class="p">,</span>
+        <span class="n">era_request</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>Download the seasonal forecast models for the hindcast period</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="s2">&quot;seasonal-monthly-single-levels&quot;</span>
+<span class="n">hindcast_request</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;total_precipitation&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;1993&quot;</span><span class="p">,</span> <span class="s2">&quot;1994&quot;</span><span class="p">,</span> <span class="s2">&quot;1995&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;1996&quot;</span><span class="p">,</span> <span class="s2">&quot;1997&quot;</span><span class="p">,</span> <span class="s2">&quot;1998&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;1999&quot;</span><span class="p">,</span> <span class="s2">&quot;2000&quot;</span><span class="p">,</span> <span class="s2">&quot;2001&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;2002&quot;</span><span class="p">,</span> <span class="s2">&quot;2003&quot;</span><span class="p">,</span> <span class="s2">&quot;2004&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;2005&quot;</span><span class="p">,</span> <span class="s2">&quot;2006&quot;</span><span class="p">,</span> <span class="s2">&quot;2007&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;2008&quot;</span><span class="p">,</span> <span class="s2">&quot;2009&quot;</span><span class="p">,</span> <span class="s2">&quot;2010&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;2011&quot;</span><span class="p">,</span> <span class="s2">&quot;2012&quot;</span><span class="p">,</span> <span class="s2">&quot;2013&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;2014&quot;</span><span class="p">,</span> <span class="s2">&quot;2015&quot;</span><span class="p">,</span> <span class="s2">&quot;2016&quot;</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;05&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;area&quot;</span><span class="p">:</span> <span class="n">bbox</span><span class="p">,</span>
+    <span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="s2">&quot;1/1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;product_type&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;monthly_mean&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;leadtime_month&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span> <span class="s2">&quot;4&quot;</span><span class="p">,</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span> <span class="s2">&quot;6&quot;</span>
+    <span class="p">],</span>
+<span class="p">}</span>
+
+<span class="n">models</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;ecmwf&quot;</span><span class="p">:</span> <span class="s2">&quot;51&quot;</span><span class="p">,</span>
+    <span class="c1">#&quot;ukmo&quot;: &quot;604&quot;,</span>
+    <span class="s2">&quot;meteo_france&quot;</span><span class="p">:</span> <span class="s2">&quot;9&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dwd&quot;</span><span class="p">:</span> <span class="s2">&quot;22&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cmcc&quot;</span><span class="p">:</span> <span class="s2">&quot;35&quot;</span><span class="p">,</span>
+    <span class="c1">#&quot;ncep&quot;: &quot;2&quot;,</span>
+    <span class="c1">#&quot;jma&quot;: &quot;3&quot;, </span>
+    <span class="s2">&quot;eccc&quot;</span><span class="p">:</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span> <span class="c1">#4 is also an option</span>
+    <span class="c1">#&quot;bom&quot;: &quot;2&quot;,</span>
+<span class="p">}</span>
+<span class="c1"># &quot;area&quot;: [3, -4, -1, 2]</span>
+<span class="n">hindcast_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+<span class="k">for</span> <span class="n">model</span><span class="p">,</span> <span class="n">system</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">system</span><span class="p">)</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">hindcast_request</span>
+    <span class="n">request</span><span class="p">[</span><span class="s2">&quot;system&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">system</span>
+    <span class="n">request</span><span class="p">[</span><span class="s2">&quot;originating_centre&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
+        <span class="n">dataset</span><span class="p">,</span>
+        <span class="n">request</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span>
+    <span class="c1"># convert tprate to total precipitation</span>
+    <span class="n">da</span><span class="p">[</span><span class="s2">&quot;tp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tprate_to_tp</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">tprate</span><span class="p">)</span>
+    <span class="n">hindcast_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">da</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>Download the seasonal forecast models for the forecast period</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">forecast_request</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;total_precipitation&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;2025&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;05&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;area&quot;</span><span class="p">:</span> <span class="n">bbox</span><span class="p">,</span>
+    <span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="s2">&quot;1/1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;product_type&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;monthly_mean&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;leadtime_month&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span> <span class="s2">&quot;4&quot;</span><span class="p">,</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span> <span class="s2">&quot;6&quot;</span>
+    <span class="p">],</span>
+<span class="p">}</span>
+
+<span class="n">forecast_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">model</span><span class="p">,</span> <span class="n">system</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">system</span><span class="p">)</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">forecast_request</span>
+    <span class="n">request</span><span class="p">[</span><span class="s2">&quot;system&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">system</span>
+    <span class="n">request</span><span class="p">[</span><span class="s2">&quot;originating_centre&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
+        <span class="n">dataset</span><span class="p">,</span>
+        <span class="n">request</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># convert tprate to total precipitation</span>
+    <span class="n">da</span><span class="p">[</span><span class="s2">&quot;tp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tprate_to_tp</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">tprate</span><span class="p">)</span>
+    <span class="n">forecast_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">da</span><span class="p">)</span>
+    
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="calculate-model-specific-extreme-precipitation">
+<span id="seasonal-seasonal-monthly-single-levels-extremes-detection-q10-section-2"></span><h3>2. Calculate model specific extreme precipitation<a class="headerlink" href="#calculate-model-specific-extreme-precipitation" title="Link to this heading">#</a></h3>
+<p>For each chosen leadtime, compute each model specific value of extreme precipitation including all hindcast realizations. Also compute the reanalysis treshold value</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_dict</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">hindcast_list</span><span class="p">:</span>
+    <span class="n">clim_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">GRIB_centre</span><span class="p">,</span><span class="n">model</span><span class="o">.</span><span class="n">GRIB_centreDescription</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">leadtime</span><span class="p">)):</span>
+        <span class="n">clim_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">leadtime</span><span class="o">=</span><span class="n">ind</span><span class="p">)</span><span class="o">.</span><span class="n">tp</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">extreme_percentile</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;realization&quot;</span><span class="p">,</span> <span class="s2">&quot;forecast_reference_time&quot;</span><span class="p">]))</span>
+    <span class="n">model_dict</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">GRIB_centre</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">clim_list</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;leadtime&quot;</span><span class="p">)</span>
+<span class="n">total_month</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">leadtime</span><span class="p">)</span>
+<span class="n">model_dict</span><span class="p">[</span><span class="s2">&quot;era5&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">total_month</span><span class="p">):</span>
+    <span class="n">model_dict</span><span class="p">[</span><span class="s2">&quot;era5&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">era5_hindcast</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">forecast_reference_time</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="o">+</span><span class="n">month</span><span class="p">,</span><span class="mi">96</span><span class="o">+</span><span class="n">month</span><span class="p">,</span><span class="n">total_month</span><span class="p">))</span><span class="o">.</span><span class="n">tp</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">extreme_percentile</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;forecast_reference_time&quot;</span><span class="p">]))</span>
+
+
+<span class="n">era5_perc</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">model_dict</span><span class="p">[</span><span class="s2">&quot;era5&quot;</span><span class="p">],</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span>
+    <span class="s2">&quot;forecast_reference_time&quot;</span><span class="p">:</span> <span class="n">era5</span><span class="o">.</span><span class="n">forecast_reference_time</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">:</span> <span class="n">model_dict</span><span class="p">[</span><span class="s2">&quot;era5&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">latitude</span><span class="p">,</span>
+    <span class="s2">&quot;longitude&quot;</span><span class="p">:</span> <span class="n">model_dict</span><span class="p">[</span><span class="s2">&quot;era5&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">longitude</span> <span class="p">},</span> 
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;tp&quot;</span><span class="p">,</span> <span class="n">attrs</span> <span class="o">=</span> <span class="n">model_dict</span><span class="p">[</span><span class="s2">&quot;era5&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ecmf European Centre for Medium-Range Weather Forecasts
+lfpw French Weather Service - Toulouse
+edzw Offenbach
+cnmc Rome
+cwao Canadian Meteorological Service - Montreal
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="how-often-and-where-does-percentile-exceeding-precipitation-occur">
+<span id="seasonal-seasonal-monthly-single-levels-extremes-detection-q10-section-3"></span><h3>3. How often and where does percentile exceeding precipitation occur?<a class="headerlink" href="#how-often-and-where-does-percentile-exceeding-precipitation-occur" title="Link to this heading">#</a></h3>
+<p>First the exceedence in the reanalysis is computed, then the exceedence of the forecast systems are computed. This is then plotted together, with the colorbar showing the probability of extreme precipitation from the forecast model, and the red hatches shows where there is extreme precipiation in the reanalysis.
+Lastly the combined (mean) probability of extreme precipitation is plotted compared to the reanalysis</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">leadtime</span><span class="o">=</span> <span class="mi">2</span>
+<span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">da_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">era5</span><span class="o">.</span><span class="n">tp</span> <span class="o">&gt;</span> <span class="n">era5_perc</span><span class="p">)</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">forecast_reference_time</span><span class="o">=</span><span class="n">leadtime</span><span class="p">)</span>
+<span class="n">mask_np</span> <span class="o">=</span> <span class="n">da_mask</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+<span class="n">lat_coords</span> <span class="o">=</span> <span class="n">mask_np</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">lon_coords</span> <span class="o">=</span> <span class="n">mask_np</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+<span class="n">lat_points</span><span class="p">,</span> <span class="n">lon_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask_np</span><span class="o">.</span><span class="n">values</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">lat_selected</span> <span class="o">=</span> <span class="n">lat_coords</span><span class="p">[</span><span class="n">lat_points</span><span class="p">]</span>
+<span class="n">lon_selected</span> <span class="o">=</span> <span class="n">lon_coords</span><span class="p">[</span><span class="n">lon_points</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">da_list</span><span class="p">:</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+    <span class="n">model_exceedence</span> <span class="o">=</span> <span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">tp</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">leadtime</span><span class="o">=</span><span class="n">leadtime</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">model_dict</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">GRIB_centre</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">leadtime</span><span class="o">=</span><span class="n">leadtime</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;realization&quot;</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">model_exceedence</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">.5</span><span class="p">)</span>
+    <span class="n">total</span> <span class="o">+=</span> <span class="n">model_exceedence</span>
+    
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">lon_selected</span><span class="p">,</span> <span class="n">lat_selected</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exceedence of total precipitation from hindcast 90th percentile for </span><span class="si">{</span><span class="n">leadtime</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> month forecast, model=</span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">GRIB_centre</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+<span class="p">(</span><span class="n">total</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">da_list</span><span class="p">))</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">lon_selected</span><span class="p">,</span> <span class="n">lat_selected</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exceedence of total precipitation from hindcast 90th percentile for </span><span class="si">{</span><span class="n">leadtime</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> month forecast, all models&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/ec84e9b4454abac858ba3dad313a18232a8118bd78d9faef8ebe228bf6ceeedd.png" src="../_images/ec84e9b4454abac858ba3dad313a18232a8118bd78d9faef8ebe228bf6ceeedd.png" />
+<img alt="../_images/ab12d1548b6d67c5d92d7dd4371905b7788de4026e9f1ebf764f29f58e5e51ed.png" src="../_images/ab12d1548b6d67c5d92d7dd4371905b7788de4026e9f1ebf764f29f58e5e51ed.png" />
+<img alt="../_images/44c8a90c8dca83c3cc0dcf45c2f90768634980aa6c241d13791398f40b1b2ad4.png" src="../_images/44c8a90c8dca83c3cc0dcf45c2f90768634980aa6c241d13791398f40b1b2ad4.png" />
+<img alt="../_images/9610aaf8bdb0296624f596e44fe7ba25ce5620cd16cfaaeb405c4246210890dd.png" src="../_images/9610aaf8bdb0296624f596e44fe7ba25ce5620cd16cfaaeb405c4246210890dd.png" />
+<img alt="../_images/b3ddbf4b4a69f38ee29f23cebf11f667257194ead2d08fdd03f129447ed7c6ed.png" src="../_images/b3ddbf4b4a69f38ee29f23cebf11f667257194ead2d08fdd03f129447ed7c6ed.png" />
+<img alt="../_images/f288c6bb1d8481c1799e11c5ce24f88f4783f6cf02a26643771875340718fd95.png" src="../_images/f288c6bb1d8481c1799e11c5ce24f88f4783f6cf02a26643771875340718fd95.png" />
+</div>
+</div>
+</section>
+<section id="discussion">
+<span id="seasonal-seasonal-monthly-single-levels-extremes-detection-q10-section-4"></span><h3>4. Discussion<a class="headerlink" href="#discussion" title="Link to this heading">#</a></h3>
+<p>The central region, as outlined by ERA5 is not captured by any of the models in a meaningful way. The northern region, outlined by ERA5 is more visible in most of the forecasting systems, especially in the model from the Canadian Meteorological Service (cwao) and the model from ECMWF (ecmf). The southernmost region is only really visible in the model from DWD (edzw), and somewhat in cwao. However as a whole, none of the models capture the full regions as outlined by ERA5. Looking at the mean of the probabilities in the last plot, we see that only the northern region has some signal, but it is also a bit shifted from the reanalysis</p>
+</section>
+</section>
+<section id="i-if-you-want-to-know-more">
+<h2>ℹ️ If you want to know more<a class="headerlink" href="#i-if-you-want-to-know-more" title="Link to this heading">#</a></h2>
+<section id="key-resources">
+<h3>Key resources<a class="headerlink" href="#key-resources" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Seasonal forecast monthly statistics on single levels: <a class="reference external" href="https://doi.org/10.24381/cds.68dd14c3" rel="noreferrer" target="_blank">10.24381/cds.68dd14c3</a></p></li>
+<li><p>ERA5 monthly averaged data on single levels from 1940 to present:  <a class="reference external" href="https://doi.org/10.24381/cds.f17050d7" rel="noreferrer" target="_blank">10.24381/cds.f17050d7</a></p></li>
+</ul>
+</section>
+<section id="code-libraries-used">
+<h3>Code libraries used:<a class="headerlink" href="#code-libraries-used" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/bopen/c3s-eqc-automatic-quality-control/tree/main/c3s_eqc_automatic_quality_control" rel="noreferrer" target="_blank">C3S EQC custom functions</a>, <code class="docutils literal notranslate"><span class="pre">c3s_eqc_automatic_quality_control</span></code>,  prepared by <a class="reference external" href="https://www.bopen.eu/" rel="noreferrer" target="_blank">B-Open</a></p></li>
+<li><p>xarray</p></li>
+<li><p>numpy</p></li>
+<li><p>matplotlib</p></li>
+</ul>
+</section>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://doi.org/10.1002/met.164" rel="noreferrer" target="_blank">[1]</a> Pattanaik, D.R. and Rajeevan, M. (2010), Variability of extreme rainfall events over India during southwest monsoon season. Met. Apps, 17: 88-104.</p>
+<p><a class="reference external" href="https://doi.org/10.1038/nclimate2208" rel="noreferrer" target="_blank">[2]</a> Singh, D., Tsiang, M., Rajaratnam, B. et al. Observed changes in extreme wet and dry spells during the South Asian summer monsoon season. Nature Clim Change 4, 456–461 (2014).</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Seasonal_Forecasts"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="seasonal.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Seasonal forecasts</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../Climate_Projections/climate.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">5. </span>Climate projections</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case-investigating-the-probability-of-extreme-precipitation-events-for-the-indian-subcontinent-in-different-forecasting-systems">🌍 Use case: Investigating the probability of extreme precipitation events for the Indian subcontinent in different forecasting systems.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-question">❓ Quality assessment question</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-assessment-statement">📢 Quality assessment statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">📋 Methodology</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-and-results">📈 Analysis and results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-data-selecting-region-and-models-of-interest">1. Download data, selecting region, and models of interest</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-model-specific-extreme-precipitation">2. Calculate model specific extreme precipitation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-often-and-where-does-percentile-exceeding-precipitation-occur">3. How often and where does percentile exceeding precipitation occur?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">4. Discussion</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#i-if-you-want-to-know-more">ℹ️ If you want to know more</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-resources">Key resources</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code-libraries-used">Code libraries used:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By the Copernicus Climate Change Service (C3S), entrusted to ECMWF (European Centre for Medium-Range Weather Forecasts)
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
