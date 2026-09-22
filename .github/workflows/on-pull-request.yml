@@ -20,18 +20,20 @@ defaults:
     shell: bash -l {0}
 
 jobs:
-  pre-commit:
+  qa:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - run: git fetch origin main
-    - uses: actions/setup-python@v6
+    - uses: actions/setup-python@v7
       with:
         python-version: '3.x'
-    - uses: pre-commit/action@v3.0.1
-    - uses: pre-commit/action@v3.0.1
+    - name: QA on all files
+      uses: pre-commit/action@v3.0.1
+    - name: Manual QA on modified files
+      uses: pre-commit/action@v3.0.1
       with:
-        extra_args: '-c .pre-commit-config-weekly.yaml --from-ref origin/main --to-ref HEAD'
+        extra_args: --hook-stage manual --from-ref origin/main --to-ref HEAD
 
   deploy-preview:
     runs-on: ubuntu-latest
@@ -39,13 +41,13 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - run: git fetch origin gh-pages
-    - uses: actions/setup-python@v6
+    - uses: actions/setup-python@v7
       with:
         python-version: '3.x'
         cache: 'pip'
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - name: Get changed notebooks
       id: changed-files
       uses: tj-actions/changed-files@v47
@@ -76,7 +78,7 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - name: Get changed notebooks
       id: changed-files
       uses: tj-actions/changed-files@v47
