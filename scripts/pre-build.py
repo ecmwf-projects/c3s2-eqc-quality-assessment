@@ -6,7 +6,7 @@ from pathlib import Path
 import nbformat
 import nbformat.v4
 
-LOGO_NAME = "LogoLine_horizon_C3S.png"
+LOGO_NAME = "logoline_c3s.svg"
 MANDATORY_TAGS: dict[str, set[str]] = {"code": {"hide-input"}}
 README_PATH = Path("./README.md")
 
