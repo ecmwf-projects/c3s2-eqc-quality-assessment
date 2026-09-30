@@ -24,6 +24,7 @@ STRING_MAPPER = {
     "BOpen": "B-Open",
     # CADS
     "/cdsapp#!/dataset/": "/datasets/",
+    "http://cds.climate.copernicus.eu": "https://cds.climate.copernicus.eu",
     "https://ads-beta.atmosphere.copernicus.eu": "https://ads.atmosphere.copernicus.eu",
     "http://ads-beta.atmosphere.copernicus.eu": "https://ads.atmosphere.copernicus.eu",
     "https://cds-beta.climate.copernicus.eu": "https://cds.climate.copernicus.eu",
@@ -41,10 +42,12 @@ STRING_MAPPER = {
     "/rmets.onlinelibrary.wiley.com/doi/": "/doi.org/",
     "/dx.doi.org/": "/doi.org/",
     "/link.springer.com/article/": "/doi.org/",
+    "/link.springer.com/book/": "/doi.org/",
+    "/iopscience.iop.org/article/": "/doi.org/",
     "www.science.org/doi/": "doi.org/",
     "www.nature.com/articles/": "doi.org/10.1038/",
-    "http://doi.org": "https://doi.org",
     # URLs
+    "http://": "https://",
     (
         "https://ec.europa.eu/eurostat/web/gisco/geodata/reference-data"
         "/administrative-units-statistical-units/nuts"
@@ -55,6 +58,24 @@ ADMONITION_TITLE = "These are the key outcomes of this assessment"
 
 CLASS_NOTE = ":class: note"
 URL_PATTERN = r"https?://[^\s)]+"
+COPERNICUS_ARTICLE_PATTERN = re.compile(
+    r"https?://([a-z]+)\.copernicus\.org/articles/"
+    r"(\d+)/(\d+)/(\d+)/"
+    r"(?:[^)\s/]+)?"
+)
+
+
+def copernicus_to_doi(text: str) -> tuple[str, bool]:
+    """Convert copernicus.org URLs to DOI."""
+    # subn: Make changes, return number of changes
+    new_text, n = COPERNICUS_ARTICLE_PATTERN.subn(
+        lambda m: (
+            f"https://doi.org/10.5194/"
+            f"{m.group(1)}-{m.group(2)}-{m.group(3)}-{m.group(4)}"
+        ),
+        text,
+    )
+    return new_text, n > 0
 
 
 def fix_template_divergences(path: Path) -> None:
@@ -78,6 +99,10 @@ def fix_template_divergences(path: Path) -> None:
             if old in (source := cell.get("source", "")):
                 cell["source"] = source.replace(old, new)
                 write = True
+
+        cell["source"], copernicus_changed = copernicus_to_doi(cell["source"])
+        if copernicus_changed:
+            write = True
 
         sections = []
         for section in cell.get("source", "").split("## "):
