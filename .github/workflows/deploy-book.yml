@@ -20,9 +20,9 @@ jobs:
     - uses: astral-sh/setup-uv@v10.2.0
     - run: make build-book PRE_BUILD_DIR=${{ env.PRE_BUILD_DIR }}
     - run: touch ${{ env.PRE_BUILD_DIR }}/_build/html/.nojekyll
-    - uses: JamesIves/github-pages-deploy-action@v4
+    - uses: actions/checkout@v7
       with:
-        folder: "${{ env.PRE_BUILD_DIR }}/_build/html"
-        # See: https://github.com/marketplace/actions/deploy-pr-preview#ensure-your-main-deployment-is-compatible
-        clean-exclude: pr-preview/
-        force: false
+        ref: gh-pages
+        path: _gh-pages
+    - name: Deploy to GitHub Pages
+      run: scripts/deploy-gh-pages.sh _gh-pages . "Deploy book from ${{ github.sha }}" ${{ env.PRE_BUILD_DIR }}/_build/html
