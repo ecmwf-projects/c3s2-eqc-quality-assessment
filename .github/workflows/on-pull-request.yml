@@ -142,6 +142,7 @@ jobs:
       run: |
         .github/scripts/deploy-gh-pages.sh _gh-pages "pr-preview/pr-$PR" "Remove preview for PR #$PR"
         .github/scripts/pr-comment.sh update previews "**Previews:** removed because the pull request was closed."
+        .github/scripts/pr-comment.sh delete-legacy
 
   comment-pr:
     if: needs.changed-notebooks.outputs.files != '' && github.event.pull_request.head.repo.full_name == github.repository
@@ -172,3 +173,4 @@ jobs:
         done <<<"$CHANGED_NOTEBOOKS"
         .github/scripts/pr-comment.sh upsert permalinks "**Permalinks:**"$'\n'"$permalinks</ul>"
         .github/scripts/pr-comment.sh upsert previews "**Previews:**"$'\n'"$previews</ul>"
+        .github/scripts/pr-comment.sh delete-legacy
