@@ -57,16 +57,14 @@ jobs:
         } >>"$GITHUB_OUTPUT"
 
   deploy-preview:
+    if: github.event.action != 'closed'
     needs: changed-notebooks
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pull-requests: write
     steps:
     - uses: actions/checkout@v7
-    - run: git fetch origin gh-pages
     - uses: astral-sh/setup-uv@v10.2.0
-    - uses: actions/checkout@v7
     - name: Remove untouched notebooks
       id: remove-untouched-notebooks
       env:
@@ -80,10 +78,34 @@ jobs:
             mv "$file".keep "$file"
         done
     - run: make build-book PRE_BUILD_DIR=${{ env.PRE_BUILD_DIR }} PRE_BUILD_FLAGS=${{ env.PRE_BUILD_FLAGS }}
-    - uses: rossjrw/pr-preview-action@v1
+    - uses: actions/checkout@v7
       if: needs.changed-notebooks.outputs.files != ''
       with:
-        source-dir: "${{ env.PRE_BUILD_DIR }}/_build/html"
+        ref: gh-pages
+        path: _gh-pages
+    - name: Deploy preview
+      if: needs.changed-notebooks.outputs.files != ''
+      env:
+        PR: ${{ github.event.number }}
+      run: |
+        scripts/deploy-gh-pages.sh _gh-pages "pr-preview/pr-$PR" "Deploy preview for PR #$PR" "$PRE_BUILD_DIR/_build/html"
+
+  remove-preview:
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v7
+    - uses: actions/checkout@v7
+      with:
+        ref: gh-pages
+        path: _gh-pages
+    - name: Remove preview
+      env:
+        PR: ${{ github.event.number }}
+      run: |
+        scripts/deploy-gh-pages.sh _gh-pages "pr-preview/pr-$PR" "Remove preview for PR #$PR"
 
   comment-pr:
     if: github.event.pull_request.user.login != 'dependabot[bot]'
