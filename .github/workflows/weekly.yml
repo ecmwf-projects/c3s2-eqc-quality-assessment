@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  pre-commit:
+  autoupdate:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -27,8 +27,7 @@ jobs:
       with:
         version-file: uv.lock
     - name: Run autoupdate
-      run: |
-        uv run pre-commit autoupdate
+      run: uv run pre-commit autoupdate
     - name: Create Pull Request
       env:
         GH_TOKEN: ${{ github.token }}
@@ -47,6 +46,19 @@ jobs:
             gh pr create --head "$BRANCH" --title "pre-commit autoupdate" \
                 --body "Automated \`pre-commit autoupdate\` by the weekly workflow."
         fi
+
+  # Runs the updated hooks without write access, as they are not reviewed yet
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      with:
+        version-file: uv.lock
+    - name: Run autoupdate
+      run: uv run pre-commit autoupdate
     - name: Get Python version
       id: python
       run: echo "version=$(uv run python -c 'import platform; print(platform.python_version())')" >>"$GITHUB_OUTPUT"
