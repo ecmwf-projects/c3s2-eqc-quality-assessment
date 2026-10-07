@@ -19,6 +19,9 @@ on:
 jobs:
   pre-commit:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
     - uses: actions/checkout@v7
     - uses: astral-sh/setup-uv@v10.2.0
@@ -26,9 +29,24 @@ jobs:
       run: |
         uv run pre-commit autoupdate
     - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v8
-      with:
-        title: pre-commit autoupdate
+      env:
+        GH_TOKEN: ${{ github.token }}
+        BRANCH: pre-commit-autoupdate
+      run: |
+        set -euo pipefail
+        if git diff --quiet; then
+            echo "No updates"
+            exit 0
+        fi
+        git switch -C "$BRANCH"
+        git -c user.name="github-actions[bot]" \
+            -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -qam "pre-commit autoupdate"
+        git push --force origin "$BRANCH"
+        if [[ -z $(gh pr list --head "$BRANCH" --json number --jq '.[].number') ]]; then
+            gh pr create --head "$BRANCH" --title "pre-commit autoupdate" \
+                --body "Automated \`pre-commit autoupdate\` by the weekly workflow."
+        fi
     - uses: actions/cache@v6
       with:
         path: ~/.cache/pre-commit
