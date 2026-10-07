@@ -146,18 +146,17 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
     - name: Build URLs
       id: build-urls
       env:
         ALL_CHANGED_FILES: ${{ needs.changed-notebooks.outputs.files }}
+        HEAD_SHA: ${{ github.event.pull_request.head.sha }}
       run: |-
         permalinks="<ul>"
         previews="<ul>"
         for fullfile in ${ALL_CHANGED_FILES}; do
-            commit=$(git rev-list -1 HEAD "$fullfile")
             suffix="${fullfile//&/%26}"
-            permalink=${{ github.server_url }}/${{ github.repository }}/blob/$commit/$suffix
+            permalink=${{ github.server_url }}/${{ github.repository }}/blob/$HEAD_SHA/$suffix
             permalinks+="<li><a href=\"$permalink\">$permalink</a></li>"
             suffix="${fullfile/.ipynb/.html}"
             preview=https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-preview/pr-${{ github.event.number }}/$suffix
