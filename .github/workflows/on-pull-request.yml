@@ -56,12 +56,14 @@ jobs:
       id: changed-notebooks
       env:
         GH_TOKEN: ${{ github.token }}
+        PR: ${{ github.event.number }}
       run: |-
+        delimiter=$(openssl rand -hex 16)
         {
-            echo "files<<EOF"
-            gh api --paginate "repos/$GITHUB_REPOSITORY/pulls/${{ github.event.number }}/files" \
-                --jq '.[] | select(.status != "removed") | .filename | select(endswith(".ipynb"))'
-            echo EOF
+            echo "files<<$delimiter"
+            gh api --paginate "repos/$GITHUB_REPOSITORY/pulls/$PR/files" \
+                --jq '.[] | select(.status != "removed") | .filename | select(endswith(".ipynb") and (contains("\n") | not))'
+            echo "$delimiter"
         } >>"$GITHUB_OUTPUT"
 
   build-preview:
