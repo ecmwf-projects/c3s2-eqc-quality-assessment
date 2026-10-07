@@ -2,6 +2,7 @@
 # Manage the bot's comments on a pull request.
 #
 # Usage: pr-comment.sh upsert TAG BODY   create the comment tagged TAG, or update it in place
+#        pr-comment.sh update TAG BODY   update the comment tagged TAG if there is one
 #
 # Comments are found by a hidden marker containing TAG. It matches the marker used by
 # thollander/actions-comment-pull-request, so comments posted by that action are reused.
@@ -17,13 +18,13 @@ find_comments() {
 }
 
 case $1 in
-upsert)
+upsert | update)
     marker="<!-- thollander/actions-comment-pull-request \"$2\" -->"
     body="$3"$'\n'"$marker"
     id=$(find_comments "$marker" | sed -n 1p)
     if [[ -n $id ]]; then
         gh api -X PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$id" -f body="$body" >/dev/null
-    else
+    elif [[ $1 == upsert ]]; then
         gh api "$comments" -f body="$body" >/dev/null
     fi
     ;;

@@ -45,6 +45,7 @@ jobs:
       run: uv run pre-commit run --show-diff-on-failure --color=always --hook-stage manual --from-ref origin/main --to-ref HEAD
 
   changed-notebooks:
+    if: github.event.action != 'closed'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: read
@@ -124,6 +125,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
@@ -135,9 +137,11 @@ jobs:
         path: _gh-pages
     - name: Remove preview
       env:
+        GH_TOKEN: ${{ github.token }}
         PR: ${{ github.event.number }}
       run: |
         .github/scripts/deploy-gh-pages.sh _gh-pages "pr-preview/pr-$PR" "Remove preview for PR #$PR"
+        .github/scripts/pr-comment.sh update previews "**Previews:** removed because the pull request was closed."
 
   comment-pr:
     if: needs.changed-notebooks.outputs.files != '' && github.event.pull_request.head.repo.full_name == github.repository
