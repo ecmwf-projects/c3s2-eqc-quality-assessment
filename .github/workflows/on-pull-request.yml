@@ -77,18 +77,10 @@ jobs:
     - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
       with:
         version-file: uv.lock
-    - name: Remove untouched notebooks
-      id: remove-untouched-notebooks
+    - name: Remove notebooks the preview doesn't need
       env:
-        ALL_CHANGED_FILES: ${{ needs.changed-notebooks.outputs.files }}
-      run: |-
-        for file in ${ALL_CHANGED_FILES}; do
-            mv "$file" "$file".keep
-        done
-        find . -type f -name "*.ipynb" -not -path "./templates/*" -exec rm -f {} +
-        for file in ${ALL_CHANGED_FILES}; do
-            mv "$file".keep "$file"
-        done
+        CHANGED_NOTEBOOKS: ${{ needs.changed-notebooks.outputs.files }}
+      run: uv run python .github/scripts/prune-notebooks.py
     - run: make build-book PRE_BUILD_DIR=${{ env.PRE_BUILD_DIR }} PRE_BUILD_FLAGS=${{ env.PRE_BUILD_FLAGS }}
     - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
       if: needs.changed-notebooks.outputs.files != '' && github.event.pull_request.head.repo.full_name == github.repository
