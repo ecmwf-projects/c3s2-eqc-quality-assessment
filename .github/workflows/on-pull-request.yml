@@ -108,7 +108,7 @@ jobs:
         .github/scripts/deploy-gh-pages.sh _gh-pages "pr-preview/pr-$PR" "Remove preview for PR #$PR"
 
   comment-pr:
-    if: github.event.pull_request.user.login != 'dependabot[bot]'
+    if: needs.changed-notebooks.outputs.files != ''
     needs: changed-notebooks
     runs-on: ubuntu-latest
     permissions:
