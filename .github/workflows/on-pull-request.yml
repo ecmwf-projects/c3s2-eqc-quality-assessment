@@ -112,17 +112,27 @@ jobs:
         echo "permalinks=$permalinks" >>"$GITHUB_OUTPUT"
         previews+="</ul>"
         echo "previews=$previews" >>"$GITHUB_OUTPUT"
-    - name: Comment PR with permalinks
-      uses: thollander/actions-comment-pull-request@v3
-      with:
-        message: |
-          **Permalinks:**
-          ${{ steps.build-urls.outputs.permalinks }}
-        comment-tag: permalinks
-    - name: Comment PR with previews
-      uses: thollander/actions-comment-pull-request@v3
-      with:
-        message: |
-          **Previews:**
-          ${{ steps.build-urls.outputs.previews }}
-        comment-tag: previews
+    - name: Comment PR
+      env:
+        GH_TOKEN: ${{ github.token }}
+        PR_COMMENTS: repos/${{ github.repository }}/issues/${{ github.event.number }}/comments
+        PERMALINKS: ${{ steps.build-urls.outputs.permalinks }}
+        PREVIEWS: ${{ steps.build-urls.outputs.previews }}
+      run: |-
+        set -euo pipefail
+        # Create the comment tagged $1 or update it in place. The marker matches the
+        # one used by thollander/actions-comment-pull-request, so existing comments are reused.
+        comment() {
+            local marker="<!-- thollander/actions-comment-pull-request \"$1\" -->"
+            local body="$2"$'\n'"$marker"
+            local id
+            id=$(gh api --paginate "$PR_COMMENTS" | jq -rs --arg marker "$marker" \
+                'add | map(select(.user.login == "github-actions[bot]" and (.body | contains($marker)))) | first | .id // empty')
+            if [[ -n $id ]]; then
+                gh api -X PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$id" -f body="$body" >/dev/null
+            else
+                gh api "$PR_COMMENTS" -f body="$body" >/dev/null
+            fi
+        }
+        comment permalinks "**Permalinks:**"$'\n'"$PERMALINKS"
+        comment previews "**Previews:**"$'\n'"$PREVIEWS"
