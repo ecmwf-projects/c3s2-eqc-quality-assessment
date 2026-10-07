@@ -44,10 +44,13 @@ jobs:
             gh pr create --head "$BRANCH" --title "pre-commit autoupdate" \
                 --body "Automated \`pre-commit autoupdate\` by the weekly workflow."
         fi
+    - name: Get Python version
+      id: python
+      run: echo "version=$(uv run python -c 'import platform; print(platform.python_version())')" >>"$GITHUB_OUTPUT"
     - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
         path: ~/.cache/pre-commit
-        key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+        key: pre-commit-${{ steps.python.outputs.version }}-${{ hashFiles('.pre-commit-config.yaml') }}
     - name: Run all checks on all files
       timeout-minutes: 60
       run: uv run pre-commit run --show-diff-on-failure --color=always --all-files --hook-stage manual
