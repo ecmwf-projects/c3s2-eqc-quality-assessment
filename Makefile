@@ -25,7 +25,7 @@ pre-build-book: clean-book ## Prepare temporary files and run pre-build script
 	cp -r * $(PRE_BUILD_TMPDIR)
 	rm -fr $(PRE_BUILD_TMPDIR)/$(UNWANTED_DIR)
 	mv $(PRE_BUILD_TMPDIR) $(PRE_BUILD_DIR)
-	python scripts/pre-build.py $(PRE_BUILD_DIR) $(PRE_BUILD_FLAGS)
+	uv run --group book python scripts/pre-build.py $(PRE_BUILD_DIR) $(PRE_BUILD_FLAGS)
 
 build-book: pre-build-book ## Build the Jupyter Book
-	jupyter-book build -W -n --keep-going $(PRE_BUILD_DIR)
+	uv run --group book jupyter-book build -W -n --keep-going $(PRE_BUILD_DIR)
