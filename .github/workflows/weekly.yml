@@ -7,10 +7,6 @@ concurrency:
 env:
   UV_LOCKED: "1"
 
-defaults:
-  run:
-    shell: bash -l {0}
-
 on:
   schedule:
   - cron: '0 9 * * 1'
@@ -33,7 +29,6 @@ jobs:
         GH_TOKEN: ${{ github.token }}
         BRANCH: pre-commit-autoupdate
       run: |
-        set -euo pipefail
         if git diff --quiet; then
             echo "No updates"
             exit 0

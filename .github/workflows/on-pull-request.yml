@@ -16,10 +16,6 @@ env:
   PRE_BUILD_FLAGS: "--disclaimer"
   UV_LOCKED: "1"
 
-defaults:
-  run:
-    shell: bash -l {0}
-
 jobs:
   qa:
     runs-on: ubuntu-latest
@@ -48,7 +44,6 @@ jobs:
       env:
         GH_TOKEN: ${{ github.token }}
       run: |-
-        set -euo pipefail
         {
             echo "files<<EOF"
             gh api --paginate "repos/$GITHUB_REPOSITORY/pulls/${{ github.event.number }}/files" \
@@ -142,7 +137,6 @@ jobs:
         PERMALINKS: ${{ steps.build-urls.outputs.permalinks }}
         PREVIEWS: ${{ steps.build-urls.outputs.previews }}
       run: |-
-        set -euo pipefail
         # Create the comment tagged $1 or update it in place. The marker matches the
         # one used by thollander/actions-comment-pull-request, so existing comments are reused.
         comment() {
