@@ -1,5 +1,4 @@
 PRE_BUILD_DIR := _pre_build
-PRE_BUILD_TMPDIR := $(shell mktemp -d)
 PRE_BUILD_FLAGS := "--no-disclaimer"
 UNWANTED_DIR := __MACOSX
 
@@ -22,9 +21,7 @@ clean-book: ## Remove temporary build directory
 	rm -fr $(PRE_BUILD_DIR)
 
 pre-build-book: clean-book ## Prepare temporary files and run pre-build script
-	cp -r * $(PRE_BUILD_TMPDIR)
-	rm -fr $(PRE_BUILD_TMPDIR)/$(UNWANTED_DIR)
-	mv $(PRE_BUILD_TMPDIR) $(PRE_BUILD_DIR)
+	tmpdir=$$(mktemp -d) && cp -r * "$$tmpdir" && rm -fr "$$tmpdir/$(UNWANTED_DIR)" && mv "$$tmpdir" $(PRE_BUILD_DIR)
 	uv run --group book python scripts/pre-build.py $(PRE_BUILD_DIR) $(PRE_BUILD_FLAGS)
 
 build-book: pre-build-book ## Build the Jupyter Book
