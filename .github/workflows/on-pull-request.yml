@@ -26,15 +26,15 @@ jobs:
     steps:
     - uses: actions/checkout@v7
     - run: git fetch origin main
-    - uses: actions/setup-python@v7
+    - uses: astral-sh/setup-uv@v10.2.0
+    - uses: actions/cache@v6
       with:
-        python-version: '3.x'
+        path: ~/.cache/pre-commit
+        key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
     - name: QA on all files
-      uses: pre-commit/action@v3.0.1
+      run: uv run pre-commit run --show-diff-on-failure --color=always --all-files
     - name: Manual QA on modified files
-      uses: pre-commit/action@v3.0.1
-      with:
-        extra_args: --hook-stage manual --from-ref origin/main --to-ref HEAD
+      run: uv run pre-commit run --show-diff-on-failure --color=always --hook-stage manual --from-ref origin/main --to-ref HEAD
 
   deploy-preview:
     runs-on: ubuntu-latest

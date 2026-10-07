@@ -13,7 +13,6 @@ Install [uv](https://docs.astral.sh/uv/getting-started/installation/).
 To run the quality assurance checks:
 
 ```bash
-pip install pre-commit
 make qa
 ```
 

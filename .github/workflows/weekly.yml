@@ -4,6 +4,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  UV_LOCKED: "1"
+
 defaults:
   run:
     shell: bash -l {0}
@@ -18,19 +21,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v7
-    - uses: actions/setup-python@v7
-      with:
-        python-version: '3.x'
-    - name: Install pre-commit
-      run: pip install pre-commit
+    - uses: astral-sh/setup-uv@v10.2.0
     - name: Run autoupdate
       run: |
-        pre-commit autoupdate
+        uv run pre-commit autoupdate
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v8
       with:
         title: pre-commit autoupdate
-    - uses: pre-commit/action@v3.0.1
-      timeout-minutes: 60
+    - uses: actions/cache@v6
       with:
-        extra_args: --all-files --hook-stage manual
+        path: ~/.cache/pre-commit
+        key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+    - name: Run all checks on all files
+      timeout-minutes: 60
+      run: uv run pre-commit run --show-diff-on-failure --color=always --all-files --hook-stage manual
