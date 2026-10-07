@@ -41,9 +41,18 @@ def add_tags(cell: nbformat.NotebookNode) -> None:
 def decode_attachmets(cell: nbformat.NotebookNode, path: Path) -> None:
     attachments = cell.pop("attachments", {})
     for name, data in attachments.items():
+        # Attachment names come from the notebook, so keep them inside its directory
+        if name in {"", ".", ".."} or Path(name).name != name:
+            raise ValueError(f"{path}: invalid attachment name {name!r}")
         cell["source"] = cell["source"].replace(f"attachment:{name}", f"{name}")
+        target = path.parent / name
         for encoded in data.values():
-            (path.parent / name).write_bytes(base64.b64decode(encoded))
+            content = base64.b64decode(encoded)
+            if target.exists() and target.read_bytes() != content:
+                raise ValueError(
+                    f"{path}: attachment {name!r} would overwrite {target}"
+                )
+            target.write_bytes(content)
 
 
 def add_disclaimer(notebook: nbformat.NotebookNode) -> None:
