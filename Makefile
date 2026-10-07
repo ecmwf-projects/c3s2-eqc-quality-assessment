@@ -3,7 +3,7 @@ PRE_BUILD_FLAGS := "--no-disclaimer"
 UNWANTED_DIR := __MACOSX
 
 
-.PHONY: help qa clean-book pre-build-book build-book
+.PHONY: help qa qa-all clean-book pre-build-book build-book
 
 .DEFAULT_GOAL := help
 
