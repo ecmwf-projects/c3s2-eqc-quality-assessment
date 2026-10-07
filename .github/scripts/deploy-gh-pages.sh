@@ -12,9 +12,10 @@ checkout=$1
 target=$2
 message=$3
 src=${4:+$(realpath "$4")}
+attempts=5
 
 cd "$checkout"
-for attempt in 1 2 3 4 5; do
+for attempt in $(seq "$attempts"); do
     git fetch --depth 1 origin gh-pages
     git reset --hard FETCH_HEAD
     git clean -fdx
@@ -40,7 +41,9 @@ for attempt in 1 2 3 4 5; do
     if git push origin HEAD:gh-pages; then
         exit 0
     fi
-    sleep $((attempt * 10))
+    if ((attempt < attempts)); then
+        sleep $((attempt * 10))
+    fi
 done
 
 echo "Failed to push to gh-pages" >&2
