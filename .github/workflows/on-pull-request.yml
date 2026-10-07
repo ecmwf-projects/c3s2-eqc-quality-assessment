@@ -146,46 +146,25 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-    - name: Build URLs
-      id: build-urls
-      env:
-        ALL_CHANGED_FILES: ${{ needs.changed-notebooks.outputs.files }}
-        HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-      run: |-
-        permalinks="<ul>"
-        previews="<ul>"
-        for fullfile in ${ALL_CHANGED_FILES}; do
-            suffix="${fullfile//&/%26}"
-            permalink=${{ github.server_url }}/${{ github.repository }}/blob/$HEAD_SHA/$suffix
-            permalinks+="<li><a href=\"$permalink\">$permalink</a></li>"
-            suffix="${fullfile/.ipynb/.html}"
-            preview=https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-preview/pr-${{ github.event.number }}/$suffix
-            previews+="<li><a href=\"$preview\">$preview</a></li>"
-        done
-        permalinks+="</ul>"
-        echo "permalinks=$permalinks" >>"$GITHUB_OUTPUT"
-        previews+="</ul>"
-        echo "previews=$previews" >>"$GITHUB_OUTPUT"
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+        sparse-checkout: .github/scripts
     - name: Comment PR
       env:
         GH_TOKEN: ${{ github.token }}
-        PR_COMMENTS: repos/${{ github.repository }}/issues/${{ github.event.number }}/comments
-        PERMALINKS: ${{ steps.build-urls.outputs.permalinks }}
-        PREVIEWS: ${{ steps.build-urls.outputs.previews }}
-      run: |-
-        # Create the comment tagged $1 or update it in place. The marker matches the
-        # one used by thollander/actions-comment-pull-request, so existing comments are reused.
-        comment() {
-            local marker="<!-- thollander/actions-comment-pull-request \"$1\" -->"
-            local body="$2"$'\n'"$marker"
-            local id
-            id=$(gh api --paginate "$PR_COMMENTS" | jq -rs --arg marker "$marker" \
-                'add | map(select(.user.login == "github-actions[bot]" and (.body | contains($marker)))) | first | .id // empty')
-            if [[ -n $id ]]; then
-                gh api -X PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$id" -f body="$body" >/dev/null
-            else
-                gh api "$PR_COMMENTS" -f body="$body" >/dev/null
-            fi
-        }
-        comment permalinks "**Permalinks:**"$'\n'"$PERMALINKS"
-        comment previews "**Previews:**"$'\n'"$PREVIEWS"
+        PR: ${{ github.event.number }}
+        HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        CHANGED_NOTEBOOKS: ${{ needs.changed-notebooks.outputs.files }}
+        PAGES_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+      run: |
+        permalinks="<ul>"
+        previews="<ul>"
+        while IFS= read -r file; do
+            permalink="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/blob/$HEAD_SHA/${file//&/%26}"
+            preview="$PAGES_URL/pr-preview/pr-$PR/${file%.ipynb}.html"
+            permalinks+="<li><a href=\"$permalink\">$permalink</a></li>"
+            previews+="<li><a href=\"$preview\">$preview</a></li>"
+        done <<<"$CHANGED_NOTEBOOKS"
+        .github/scripts/pr-comment.sh upsert permalinks "**Permalinks:**"$'\n'"$permalinks</ul>"
+        .github/scripts/pr-comment.sh upsert previews "**Previews:**"$'\n'"$previews</ul>"
