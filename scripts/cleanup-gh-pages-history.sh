@@ -1,18 +1,8 @@
 #!/bin/sh
+# Replace the gh-pages history with a single commit containing its current content.
+# Works on the remote branch directly, so nothing in the local checkout gets committed.
 set -e
 
-# Checkout
-git checkout gh-pages
-git pull origin gh-pages
-
-# Create a branch with no history
-git checkout --orphan gh-pages-clean
-
-# Commit and push
-git add .
-git commit -m "purge historical binary bloat from gh-pages"
-git push origin gh-pages-clean:gh-pages --force
-
-# Local cleanup
-git checkout main
-git branch -D gh-pages-clean
+git fetch origin +gh-pages:refs/remotes/origin/gh-pages
+commit=$(git commit-tree "refs/remotes/origin/gh-pages^{tree}" -m "purge historical binary bloat from gh-pages")
+git push --force-with-lease=gh-pages:refs/remotes/origin/gh-pages origin "$commit:refs/heads/gh-pages"
