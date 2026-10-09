@@ -46,13 +46,13 @@ def decode_attachmets(cell: nbformat.NotebookNode, path: Path) -> None:
             raise ValueError(f"{path}: invalid attachment name {name!r}")
         cell["source"] = cell["source"].replace(f"attachment:{name}", f"{name}")
         target = path.parent / name
-        for encoded in data.values():
-            content = base64.b64decode(encoded)
-            if target.exists() and target.read_bytes() != content:
-                raise ValueError(
-                    f"{path}: attachment {name!r} would overwrite {target}"
-                )
-            target.write_bytes(content)
+        if not data:
+            continue
+        # An attachment can carry several MIME representations; the last one wins
+        content = base64.b64decode(list(data.values())[-1])
+        if target.exists() and target.read_bytes() != content:
+            raise ValueError(f"{path}: attachment {name!r} would overwrite {target}")
+        target.write_bytes(content)
 
 
 def add_disclaimer(notebook: nbformat.NotebookNode) -> None:
