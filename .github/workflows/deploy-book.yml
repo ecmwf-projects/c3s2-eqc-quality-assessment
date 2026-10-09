@@ -6,26 +6,55 @@ on:
     - main
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 env:
   PRE_BUILD_DIR: "_pre_build"
+  UV_LOCKED: "1"
 
 jobs:
+  build-book:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      with:
+        version-file: uv.lock
+    - run: make build-book PRE_BUILD_DIR=${{ env.PRE_BUILD_DIR }}
+    - run: touch ${{ env.PRE_BUILD_DIR }}/_build/html/.nojekyll
+    - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+      with:
+        name: book
+        path: ${{ env.PRE_BUILD_DIR }}/_build/html
+        include-hidden-files: true
+        retention-days: 1
+
   deploy-book:
+    needs: build-book
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-    - uses: actions/checkout@v7
-    - uses: actions/setup-python@v7
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
-        python-version: '3.x'
-        cache: 'pip'
-    - run: pip install -r requirements.txt
-    - run: make build-book PRE_BUILD_DIR=${{ env.PRE_BUILD_DIR }}
-    - run: touch ${{ env.PRE_BUILD_DIR }}/_build/html/.nojekyll
-    - uses: JamesIves/github-pages-deploy-action@v4
+        persist-credentials: false
+        sparse-checkout: .github/scripts
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
-        folder: "${{ env.PRE_BUILD_DIR }}/_build/html"
-        # See: https://github.com/marketplace/actions/deploy-pr-preview#ensure-your-main-deployment-is-compatible
-        clean-exclude: pr-preview/
-        force: false
+        ref: gh-pages
+        path: _gh-pages
+        persist-credentials: true # the deploy script pushes to gh-pages
+    - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+      with:
+        name: book
+        path: _book
+    - name: Deploy to GitHub Pages
+      run: .github/scripts/deploy-gh-pages.sh _gh-pages . "Deploy book from $GITHUB_SHA" _book
