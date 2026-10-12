@@ -1,7 +1,16 @@
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [
+#     "requests",
+#     "requests-cache",
+# ]
+# ///
+
 import argparse
 from pathlib import Path
 
 import requests
+import requests_cache
 
 DATA_TYPES = {
     "application": "Applications",
@@ -52,7 +61,8 @@ ASSESSMENT_CATEGORIES = (
 API_URL = "https://cds.climate.copernicus.eu/api/catalogue/v1/collections"
 
 
-def main(paths: list[Path]) -> None:
+def main(paths: list[Path], expire_after: int) -> None:
+    requests_cache.install_cache(".validate-filenames", expire_after=expire_after)
     for path in paths:
         assert path.stem.islower(), f"{path=!s}: Invalid {path.name=}"
         segments = path.stem.split("_")
@@ -93,5 +103,11 @@ def main(paths: list[Path]) -> None:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("paths", action="store", type=Path, nargs="*")
+    parser.add_argument(
+        "--expire-after",
+        type=int,
+        default=86400,
+        help="Cache expiration time in seconds (default: 86400).",
+    )
     args = parser.parse_args()
-    main(args.paths)
+    main(args.paths, args.expire_after)
