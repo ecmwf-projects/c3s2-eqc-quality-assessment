@@ -70,5 +70,12 @@ jobs:
         path: ~/.cache/pre-commit
         key: pre-commit-${{ steps.python.outputs.version }}-${{ hashFiles('.pre-commit-config.yaml') }}
     - name: Run all checks on all files
+      id: qa
       timeout-minutes: 60
-      run: uv run pre-commit run --show-diff-on-failure --color=always --all-files --hook-stage manual
+      shell: bash # sets pipefail, so `| tee` keeps the exit status of pre-commit
+      run: uv run pre-commit run --show-diff-on-failure --color=always --all-files --hook-stage manual 2>&1 | tee "$RUNNER_TEMP/qa.log"
+    - name: Summarise
+      if: ${{ !cancelled() }}
+      env:
+        OUTCOME: ${{ steps.qa.outcome }}
+      run: python3 .github/scripts/qa-summary.py "All files:$OUTCOME=$RUNNER_TEMP/qa.log" >>"$GITHUB_STEP_SUMMARY"
