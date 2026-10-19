@@ -23,6 +23,21 @@ repos:
     types_or: [python, pyi]
   - id: ruff-format
     types_or: [python, pyi]
+  # Notebooks: most existing ones predate these checks, so they are in the manual stage
+  # (CI and `make qa` run it on changed files only) and are skipped by `make qa-all`
+  # and the weekly workflow. Unused imports are reported but not removed: imports such
+  # as rioxarray are needed for their side effects.
+  - id: ruff-check
+    alias: ruff-check-notebooks
+    name: ruff check (notebooks)
+    args: [--fix, --show-fixes, --unfixable=F401, --output-format=concise]
+    types_or: [jupyter]
+    stages: [manual]
+  - id: ruff-format
+    alias: ruff-format-notebooks
+    name: ruff format (notebooks)
+    types_or: [jupyter]
+    stages: [manual]
 - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
   rev: v2.16.0
   hooks:

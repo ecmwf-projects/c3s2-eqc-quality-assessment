@@ -17,8 +17,8 @@ qa: ## Run code quality tools
 	uv run pre-commit run --all-files
 	uv run pre-commit run --hook-stage manual --from-ref origin/main --to-ref HEAD
 
-qa-all: ## Run code quality tools on all files
-	uv run pre-commit run --all-files --hook-stage manual
+qa-all: ## Run code quality tools on all files (ruff is only enforced on changed notebooks)
+	SKIP=ruff-check-notebooks,ruff-format-notebooks uv run pre-commit run --all-files --hook-stage manual
 
 clean-book: ## Remove temporary build directory
 	rm -fr $(PRE_BUILD_DIR)

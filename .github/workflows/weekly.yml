@@ -71,4 +71,6 @@ jobs:
         key: pre-commit-${{ steps.python.outputs.version }}-${{ hashFiles('.pre-commit-config.yaml') }}
     - name: Run all checks on all files
       timeout-minutes: 60
+      env:
+        SKIP: ruff-check-notebooks,ruff-format-notebooks # only enforced on changed notebooks
       run: uv run pre-commit run --show-diff-on-failure --color=always --all-files --hook-stage manual
