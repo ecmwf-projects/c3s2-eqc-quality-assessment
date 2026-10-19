@@ -26,6 +26,11 @@ jobs:
   qa:
     if: github.event.action != 'closed'
     runs-on: ubuntu-latest
+    outputs:
+      summary: ${{ steps.summary.outputs.markdown }}
+    defaults:
+      run:
+        shell: bash # sets pipefail, so `| tee` keeps the exit status of pre-commit
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
@@ -42,9 +47,46 @@ jobs:
         path: ~/.cache/pre-commit
         key: pre-commit-${{ steps.python.outputs.version }}-${{ hashFiles('.pre-commit-config.yaml') }}
     - name: QA on all files
-      run: uv run pre-commit run --show-diff-on-failure --color=always --all-files
+      id: all
+      run: uv run pre-commit run --show-diff-on-failure --color=always --all-files 2>&1 | tee "$RUNNER_TEMP/qa-all.log"
     - name: Manual QA on modified files
-      run: uv run pre-commit run --show-diff-on-failure --color=always --hook-stage manual --from-ref origin/main --to-ref HEAD
+      if: ${{ !cancelled() && steps.all.conclusion != 'skipped' }}
+      run: uv run pre-commit run --show-diff-on-failure --color=always --hook-stage manual --from-ref origin/main --to-ref HEAD 2>&1 | tee "$RUNNER_TEMP/qa-changed.log"
+    - name: Summarise
+      id: summary
+      if: ${{ !cancelled() && steps.all.conclusion != 'skipped' }}
+      run: |
+        python3 .github/scripts/qa-summary.py "All files=$RUNNER_TEMP/qa-all.log" "Changed files=$RUNNER_TEMP/qa-changed.log" >"$RUNNER_TEMP/qa-summary.md"
+        cat "$RUNNER_TEMP/qa-summary.md" >>"$GITHUB_STEP_SUMMARY"
+        delimiter=$(openssl rand -hex 16)
+        {
+            echo "markdown<<$delimiter"
+            cat "$RUNNER_TEMP/qa-summary.md"
+            echo "$delimiter"
+        } >>"$GITHUB_OUTPUT"
+
+  # The summary is built from the output of PR code, so it is only ever passed on as data
+  comment-qa:
+    if: ${{ !cancelled() && needs.qa.outputs.summary != '' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.user.login != 'dependabot[bot]' }}
+    needs: qa
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+        sparse-checkout: .github/scripts
+    - name: Comment PR
+      env:
+        GH_TOKEN: ${{ github.token }}
+        PR: ${{ github.event.number }}
+        QA_RESULT: ${{ needs.qa.result }}
+        SUMMARY: ${{ needs.qa.outputs.summary }}
+      run: |
+        # Start commenting when something fails; afterwards keep the comment current
+        if [[ $QA_RESULT == failure ]]; then verb=upsert; else verb=update; fi
+        .github/scripts/pr-comment.sh "$verb" qa "$SUMMARY"
 
   changed-notebooks:
     if: github.event.action != 'closed'

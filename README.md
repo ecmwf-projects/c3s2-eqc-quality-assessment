@@ -26,6 +26,8 @@ uv run pre-commit run --hook-stage manual --files path/to/notebook.ipynb
 Ruff reformats code cells and fixes what it can: review and commit the result.
 Unused imports are reported but not removed, because some imports are needed for their side effects. Delete the ones that are not.
 
+The same checks run on pull requests, where failures are summarised in a comment.
+
 To build the book:
 
 ```bash
