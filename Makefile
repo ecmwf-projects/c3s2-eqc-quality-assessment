@@ -13,9 +13,12 @@ export UV_PROJECT_ENVIRONMENT ?= .venv-tools
 help: ## Show this help menu
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-16s\033[0m %s\n", $$1, $$2}'
 
+# Both runs always happen, so changed notebooks are checked even when the first run fails
 qa: ## Run code quality tools
-	uv run pre-commit run --all-files
-	uv run pre-commit run --hook-stage manual --from-ref origin/main --to-ref HEAD
+	status=0; \
+	uv run pre-commit run --all-files || status=1; \
+	uv run pre-commit run --hook-stage manual --from-ref origin/main --to-ref HEAD || status=1; \
+	exit $$status
 
 qa-all: ## Run code quality tools on all files
 	uv run pre-commit run --all-files --hook-stage manual

@@ -16,6 +16,16 @@ To run the quality assurance checks:
 make qa
 ```
 
+This checks every file, and additionally checks the notebooks you changed relative to `origin/main` (commit them first) with ruff and the link, DOI and filename checks.
+To check a single notebook before committing:
+
+```bash
+uv run pre-commit run --hook-stage manual --files path/to/notebook.ipynb
+```
+
+Ruff reformats code cells and fixes what it can: review and commit the result.
+Unused imports are reported but not removed, because some imports are needed for their side effects. Delete the ones that are not.
+
 To build the book:
 
 ```bash
