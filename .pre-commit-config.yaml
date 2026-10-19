@@ -57,6 +57,14 @@ repos:
     language: python
     types: [jupyter]
     additional_dependencies: [nbformat]
+  - id: validate-production-date
+    name: 'validate production date (expected "Production date: DD-MM-YYYY" below the title)'
+    language: pygrep
+    entry: 'Production date[^"]*\d{1,4}[-/.]\d{1,2}[-/.]\d{2,4}'
+    args: [--negate, --ignore-case]
+    types: [jupyter]
+    # The template has a placeholder; the other one predates the check
+    exclude: ^(templates/|Satellite_ECVs/Land_Biosphere/satellite_satellite-lai-fapar_extremes-detection_q02\.ipynb$)
 - repo: https://github.com/executablebooks/mdformat
   rev: 1.0.0
   hooks:
