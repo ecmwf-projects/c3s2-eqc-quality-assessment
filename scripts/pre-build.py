@@ -38,7 +38,7 @@ def add_tags(cell: nbformat.NotebookNode) -> None:
     cell["metadata"]["tags"] = list(tags | mandatory_tags)
 
 
-def decode_attachmets(cell: nbformat.NotebookNode, path: Path) -> None:
+def decode_attachments(cell: nbformat.NotebookNode, path: Path) -> None:
     attachments = cell.pop("attachments", {})
     for name, data in attachments.items():
         # Attachment names come from the notebook, so keep them inside its directory
@@ -96,7 +96,7 @@ def convert_notebook(path: Path, disclaimer: bool) -> None:
 
     for cell in notebook.cells:
         add_tags(cell)
-        decode_attachmets(cell, path)
+        decode_attachments(cell, path)
 
     edit_section_references(notebook, path)
 
