@@ -2,6 +2,9 @@ PRE_BUILD_DIR := _pre_build
 PRE_BUILD_FLAGS := "--no-disclaimer"
 UNWANTED_DIR := __MACOSX
 
+# Keep the tooling out of .venv, which may hold a notebook development environment
+export UV_PROJECT_ENVIRONMENT ?= .venv-tools
+
 
 .PHONY: help qa qa-all clean-book pre-build-book build-book
 
