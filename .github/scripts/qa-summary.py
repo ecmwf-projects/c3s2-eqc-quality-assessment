@@ -31,6 +31,8 @@ FOOTER = (
     "Reproduce locally with `make qa`. Hooks that modify files have already fixed"
     " them: review and commit the changes.\n"
 )
+# Scheduled and manual runs check every file and leave nothing to commit
+FOOTER_ALL_FILES = "Reproduce locally with `make qa-all`.\n"
 
 
 def read(path: Path) -> str | None:
@@ -126,7 +128,11 @@ def main(args: list[str]) -> None:
                 f"pre-commit reported no hook results for {cell(label)}:\n\n"
                 f"{excerpt(lines)}\n"
             )
-    footer = FOOTER if failed else "All checks passed.\n" if names else "Not run.\n"
+    pull_request = os.environ.get("GITHUB_EVENT_NAME", "pull_request") == "pull_request"
+    failed_footer = FOOTER if pull_request else FOOTER_ALL_FILES
+    footer = (
+        failed_footer if failed else "All checks passed.\n" if names else "Not run.\n"
+    )
 
     # Only whole chunks are written, so a fence or a character is never cut
     budget = MAX_BYTES - len(TRUNCATED.encode()) - len(footer.encode())
