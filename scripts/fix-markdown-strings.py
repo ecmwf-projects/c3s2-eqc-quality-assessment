@@ -36,9 +36,13 @@ STRING_MAPPER = {
     "https://dast.data.compute.cci2.ecmwf.int": "https://dast.copernicus-climate.eu",
     "http://dast.data.compute.cci2.ecmwf.int": "https://dast.copernicus-climate.eu",
     # DOIs
+    # Article views go before the bare /doi/ rule, or they end up in the DOI
+    **{
+        f"/{journal}.onlinelibrary.wiley.com/doi/{view}/": "/doi.org/"
+        for journal in ("agupubs", "aslopubs", "rmets")
+        for view in ("full", "abs", "pdf", "epdf")
+    },
     "/agupubs.onlinelibrary.wiley.com/doi/": "/doi.org/",
-    "/aslopubs.onlinelibrary.wiley.com/doi/pdf/": "/doi.org/",
-    "/rmets.onlinelibrary.wiley.com/doi/full/": "/doi.org/",
     "/rmets.onlinelibrary.wiley.com/doi/": "/doi.org/",
     "/dx.doi.org/": "/doi.org/",
     "/link.springer.com/article/": "/doi.org/",
