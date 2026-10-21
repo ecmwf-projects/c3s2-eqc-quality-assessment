@@ -22,6 +22,12 @@ To build the book:
 make build-book
 ```
 
+To install the book dependencies (including `myst-nb`, used for glue) in your own environment:
+
+```bash
+pip install --group book  # pip >= 25.1
+```
+
 ## Naming convention
 
 `{data-type}_{dataset-id}_{assessment-category}_q{question-number}.ipynb`
