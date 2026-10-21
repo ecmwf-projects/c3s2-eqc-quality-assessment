@@ -4,9 +4,11 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-defaults:
-  run:
-    shell: bash -l {0}
+permissions:
+  contents: read
+
+env:
+  UV_LOCKED: "1"
 
 on:
   schedule:
@@ -14,23 +16,59 @@ on:
   workflow_dispatch:
 
 jobs:
-  pre-commit:
+  autoupdate:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: true # the autoupdate branch is pushed below
+    - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      with:
+        version-file: uv.lock
+    - name: Run autoupdate
+      run: uv run pre-commit autoupdate
+    - name: Create Pull Request
+      env:
+        GH_TOKEN: ${{ github.token }}
+        BRANCH: pre-commit-autoupdate
+      run: |
+        if git diff --quiet; then
+            echo "No updates"
+            exit 0
+        fi
+        git switch -C "$BRANCH"
+        git -c user.name="github-actions[bot]" \
+            -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -qam "pre-commit autoupdate"
+        git push --force origin "$BRANCH"
+        if [[ -z $(gh pr list --head "$BRANCH" --json number --jq '.[].number') ]]; then
+            gh pr create --head "$BRANCH" --title "pre-commit autoupdate" \
+                --body "Automated \`pre-commit autoupdate\` by the weekly workflow."
+        fi
+
+  # Runs the updated hooks without write access, as they are not reviewed yet
+  checks:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v7
-    - uses: actions/setup-python@v7
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
-        python-version: '3.x'
-    - name: Install pre-commit
-      run: pip install pre-commit
+        persist-credentials: false
+    - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      with:
+        version-file: uv.lock
     - name: Run autoupdate
-      run: |
-        pre-commit autoupdate
-    - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v8
+      run: uv run pre-commit autoupdate
+    - name: Get Python version
+      id: python
+      run: echo "version=$(uv run python -c 'import platform; print(platform.python_version())')" >>"$GITHUB_OUTPUT"
+    - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
-        title: pre-commit autoupdate
-    - uses: pre-commit/action@v3.0.1
+        path: ~/.cache/pre-commit
+        key: pre-commit-${{ steps.python.outputs.version }}-${{ hashFiles('.pre-commit-config.yaml') }}
+    - name: Run all checks on all files
       timeout-minutes: 60
-      with:
-        extra_args: --hook-stage manual
+      run: uv run pre-commit run --show-diff-on-failure --color=always --all-files --hook-stage manual
