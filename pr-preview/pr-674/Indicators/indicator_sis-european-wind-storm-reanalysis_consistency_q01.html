@@ -1198,36 +1198,34 @@ such as manipulating their indices:</p>
     <span class="k">return</span> <span class="n">yearly_mean</span>
 
 <span class="c1"># Display yearly means in Jupyter Book-friendly style</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">display_yearly_mean</span><span class="p">(</span><span class="n">yearly_mean</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HTML</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">display_yearly_mean</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HTML</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">""" Display the yearly mean DataFrame with nice styling in a scrollable HTML element. """</span>
     <span class="c1"># Setup: Colour by element on the first index (e.g. by country)</span>
-    <span class="n">regions</span> <span class="o">=</span> <span class="n">indicators_yearly_mean</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+    <span class="n">first</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+    <span class="n">first_colours</span> <span class="o">=</span> <span class="p">{</span><span class="n">index_value</span><span class="p">:</span> <span class="s2">"#f2f2f2"</span> <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">"#ffffff"</span>
+                     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">index_value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">first</span><span class="p">)}</span>
 
-    <span class="n">region_colours</span> <span class="o">=</span> <span class="p">{</span><span class="n">region</span><span class="p">:</span> <span class="s2">"#f2f2f2"</span> <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">"#ffffff"</span>
-                      <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">region</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">regions</span><span class="p">)}</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">colour_region_row</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
-        <span class="n">colour</span> <span class="o">=</span> <span class="n">region_colours</span><span class="p">[</span><span class="n">row</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">colour_row</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+        <span class="n">colour</span> <span class="o">=</span> <span class="n">first_colours</span><span class="p">[</span><span class="n">row</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
         <span class="k">return</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"background-color: </span><span class="si">{</span><span class="n">colour</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">colour_region_index</span><span class="p">(</span><span class="n">index</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"background-color: </span><span class="si">{</span><span class="n">region_colours</span><span class="p">[</span><span class="n">region</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
-                <span class="k">for</span> <span class="n">region</span> <span class="ow">in</span> <span class="n">indicators_yearly_mean</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">colour_index</span><span class="p">(</span><span class="n">index</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"background-color: </span><span class="si">{</span><span class="n">first_colours</span><span class="p">[</span><span class="n">index_value</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+                <span class="k">for</span> <span class="n">index_value</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span>
 
     <span class="c1"># Apply Pandas style</span>
     <span class="n">styler</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">yearly_mean</span><span class="o">.</span><span class="n">style</span>  <span class="c1"># Setup styler object</span>
-        <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">"</span><span class="si">{:.2f}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># Round data to 2 digits</span>
-        <span class="o">.</span><span class="n">format_index</span><span class="p">(</span>     <span class="c1"># Round column labels (threshold) to 1 digit</span>
-            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="k">else</span> <span class="n">x</span><span class="p">,</span>
-            <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">colour_region_row</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Colour data according to region</span>
-        <span class="o">.</span><span class="n">apply_index</span><span class="p">(</span>                      <span class="c1"># Colour index according to region</span>
-            <span class="n">colour_region_index</span><span class="p">,</span>
-            <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="n">level</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-        <span class="p">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">style</span>  <span class="c1"># Setup styler object</span>
+            <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">"</span><span class="si">{:.2f}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># Round data to 2 digits</span>
+            <span class="o">.</span><span class="n">format_index</span><span class="p">(</span>     <span class="c1"># Round column labels (threshold) to 1 digit</span>
+                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="k">else</span> <span class="n">x</span><span class="p">,</span>
+                <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">colour_row</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Colour data  according to first index level</span>
+            <span class="o">.</span><span class="n">apply_index</span><span class="p">(</span>               <span class="c1"># Colour index according to first index level</span>
+                <span class="n">colour_index</span><span class="p">,</span>
+                <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="p">)</span>
     <span class="p">)</span>
 
     <span class="c1"># Format in HTML, return</span>
@@ -2054,7 +2052,7 @@ In either case (earthkit-data or cdsapi), it is required to set up a CDS account
 with 2.2× the storm count.</p>
 <p>Next, we compare storm counts over monthly, seasonal, and yearly time scales.
 For this, each individual storm is assigned a single timestamp based on when it was first detected.</p>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2437,7 +2435,7 @@ which works as follows:</p>
 <li><p>For each remaining pair of tracks, compute the mean distances between matched-up timestamps.</p></li>
 <li><p>Keep only those pairs where the mean distance is &lt;300 km.</p></li>
 </ul>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2620,7 +2618,7 @@ which works as follows:</p>
 </div></div></div>
 </details>
 </div>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -3097,7 +3095,7 @@ the data are loaded into a Pandas <a class="reference external" href="https://pa
 which can be retrieved from <a class="reference external" href="https://ec.europa.eu/eurostat/web/nuts" rel="noreferrer" target="_blank">GISCO</a>.
 These ancillary data are loaded into a GeoPandas <a class="reference external" href="https://geopandas.org/en/latest/docs/reference/api/geopandas.GeoDataFrame.html" rel="noreferrer" target="_blank">GeoDataFrame</a>
 and combined with the indicators table:</p>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -3361,7 +3359,7 @@ and combined with the indicators table:</p>
 <p>We calculate the per-point difference and ratio between algorithms
 (Hodges – TempestExtremes, Hodges / TempestExtremes)
 and append them to the GeoDataFrame as additional entries along the <code class="docutils literal notranslate"><span class="pre">algorithm</span></code> index:</p>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
