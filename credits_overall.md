@@ -1,3 +1,5 @@
+![logo](logoline_c3s.svg)
+
 # Contributors
 
 C3S EQC content has been developed by independent evaluators over multiple tenders,
