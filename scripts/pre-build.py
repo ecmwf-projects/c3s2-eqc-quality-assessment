@@ -15,8 +15,11 @@ GLUE_PNG_MIME = "application/papermill.record/image/png"
 GLUE_FIGURE_PATTERN = re.compile(
     r"^(\s*(?:`{3,}|:{3,})\{)glue:figure\}[ \t]+(\S+)", re.M
 )
-# Empty HTML anchors become links without a URL in MyST; nothing links to them
+# MyST turns empty HTML anchors into links without a URL (nothing links to them),
+# and <center> into a paragraph
 EMPTY_ANCHOR_PATTERN = re.compile(r"<a\s+id=(['\"])[^'\"]*\1\s*>\s*</a>")
+CENTER_PATTERN = re.compile(r"<center>(.*?)</center>", re.I | re.S)
+CENTERED_SPAN = r'<span style="display: block; text-align: center">\1</span>'
 # MyST ignores labels that do not match its target syntax
 MYST_LABEL_PATTERN = re.compile(r"[a-zA-Z0-9|@<>*./_\-+:]{1,100}")
 
@@ -115,9 +118,10 @@ def replace_glue_figures(
         cell["source"] = GLUE_FIGURE_PATTERN.sub(replace, cell["source"])
 
 
-def remove_empty_anchors(cell: nbformat.NotebookNode) -> None:
+def replace_unsupported_html(cell: nbformat.NotebookNode) -> None:
     if cell["cell_type"] == "markdown":
-        cell["source"] = EMPTY_ANCHOR_PATTERN.sub("", cell["source"])
+        source = EMPTY_ANCHOR_PATTERN.sub("", cell["source"])
+        cell["source"] = CENTER_PATTERN.sub(CENTERED_SPAN, source)
 
 
 def make_cell_ids_unique(
@@ -184,7 +188,7 @@ def convert_notebook(path: Path, root: Path, disclaimer: bool) -> None:
         add_tags(cell)
         decode_attachments(cell, path)
         replace_glue_figures(cell, glue_figures, path)
-        remove_empty_anchors(cell)
+        replace_unsupported_html(cell)
 
     edit_section_references(notebook, path)
     make_cell_ids_unique(notebook, path, root)
