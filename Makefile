@@ -28,4 +28,5 @@ pre-build-book: clean-book ## Prepare temporary files and run pre-build script
 	uv run --group book python scripts/pre-build.py $(PRE_BUILD_DIR) $(PRE_BUILD_FLAGS)
 
 build-book: pre-build-book ## Build the Jupyter Book
-	uv run --group book jupyter-book build -W -n --keep-going $(PRE_BUILD_DIR)
+	cd $(PRE_BUILD_DIR) && uv run --project $(CURDIR) --group book jupyter-book build --html --strict
+	uv run python scripts/post-build.py $(PRE_BUILD_DIR)/_build/html
