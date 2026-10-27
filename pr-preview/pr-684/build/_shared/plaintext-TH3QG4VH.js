@@ -1,0 +1,1 @@
+import{c as e}from"/c3s2-eqc-quality-assessment/pr-preview/pr-684/build/_shared/chunk-RAQ24GF6.js";var n=e((l,t)=>{function a(i){return{name:"Plain text",aliases:["text","txt"],disableAutodetect:!0}}t.exports=a});export default n();

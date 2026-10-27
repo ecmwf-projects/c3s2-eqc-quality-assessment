@@ -1,0 +1,1 @@
+import{b as m,j as o}from"/c3s2-eqc-quality-assessment/pr-preview/pr-684/build/_shared/chunk-DYFJVR7X.js";var g=m((t,e)=>{let n;return e==="sandbox"&&(n=o("#i"+t)),(e==="sandbox"?o(n.nodes()[0].contentDocument.body):o("body")).select(`[id="${t}"]`)},"getDiagramElement");export{g as a};

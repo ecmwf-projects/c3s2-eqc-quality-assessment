@@ -1,0 +1,1 @@
+import{c as s}from"/c3s2-eqc-quality-assessment/pr-preview/pr-684/build/_shared/chunk-RAQ24GF6.js";var t=s((i,n)=>{function a(e){return{aliases:["pycon"],contains:[{className:"meta",starts:{end:/ |$/,starts:{end:"$",subLanguage:"python"}},variants:[{begin:/^>>>(?=[ ]|$)/},{begin:/^\.\.\.(?=[ ]|$)/}]}]}}n.exports=a});export default t();

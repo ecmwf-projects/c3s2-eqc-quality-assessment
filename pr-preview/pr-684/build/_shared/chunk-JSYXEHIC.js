@@ -1,0 +1,1 @@
+import{b as t}from"/c3s2-eqc-quality-assessment/pr-preview/pr-684/build/_shared/chunk-DYFJVR7X.js";var s=class{constructor(i){this.init=i,this.records=this.init()}static{t(this,"ImperativeState")}reset(){this.records=this.init()}};export{s as a};

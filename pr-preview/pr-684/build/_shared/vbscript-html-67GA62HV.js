@@ -1,0 +1,1 @@
+import{c as t}from"/c3s2-eqc-quality-assessment/pr-preview/pr-684/build/_shared/chunk-RAQ24GF6.js";var i=t((a,n)=>{function e(s){return{name:"VBScript in HTML",subLanguage:"xml",contains:[{begin:"<%",end:"%>",subLanguage:"vbscript"}]}}n.exports=e});export default i();

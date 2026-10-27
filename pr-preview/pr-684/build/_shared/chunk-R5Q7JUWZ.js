@@ -1,0 +1,1 @@
+import{b as i}from"/c3s2-eqc-quality-assessment/pr-preview/pr-684/build/_shared/chunk-DYFJVR7X.js";function t(c,e){c.accDescr&&e.setAccDescription?.(c.accDescr),c.accTitle&&e.setAccTitle?.(c.accTitle),c.title&&e.setDiagramTitle?.(c.title)}i(t,"populateCommonDb");export{t as a};
