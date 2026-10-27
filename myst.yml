@@ -1,0 +1,112 @@
+# See docs at: https://mystmd.org/guide/frontmatter
+version: 1
+project:
+  id: b503872c-fbdd-4ee2-b4fd-c0452d025111
+  title: eqcbook
+  github: https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment
+  # The book is built from a copy of the repository, so these links would be wrong
+  edit_url:
+  source_url:
+  exclude: [_build, Thumbs.db, .DS_Store, "**.ipynb_checkpoints"]
+  plugins:
+  - plugins/plain-doi-links.mjs
+  error_rules:
+  # In_Situ has no assessments yet, and PR previews only keep the notebooks they change
+  - rule: toc-contents-exist
+    severity: warn
+  # Remote images are downloaded at build time; do not fail on one that is down
+  - rule: image-downloads
+    severity: warn
+  - rule: image-format-converts
+    severity: warn
+  # Broken and ambiguous cross-references fail the build
+  - rule: reference-target-resolves
+    severity: error
+  - rule: identifier-is-unique
+    severity: error
+  toc:
+  - file: intro.md
+  - title: ➡️ Satellite Observations
+    children:
+    - file: Satellite_ECVs/satellite.md
+      title: Quality assessments for Satellite Observations
+      children:
+      - file: Satellite_ECVs/Atmosphere_Physics/Atmosphere_Physics.md
+        children:
+        - pattern: Satellite_ECVs/Atmosphere_Physics/*.{ipynb,md}
+      - file: Satellite_ECVs/Atmospheric_Composition/Atmospheric_Composition.md
+        children:
+        - pattern: Satellite_ECVs/Atmospheric_Composition/*.{ipynb,md}
+      - file: Satellite_ECVs/Cryosphere/Cryosphere.md
+        children:
+        - pattern: Satellite_ECVs/Cryosphere/*.{ipynb,md}
+      - file: Satellite_ECVs/Land_Biosphere/Land_Biosphere.md
+        children:
+        - pattern: Satellite_ECVs/Land_Biosphere/*.{ipynb,md}
+      - file: Satellite_ECVs/Land_Hydrology/Land_Hydrology.md
+        children:
+        - pattern: Satellite_ECVs/Land_Hydrology/*.{ipynb,md}
+      - file: Satellite_ECVs/Ocean/Ocean.md
+        children:
+        - pattern: Satellite_ECVs/Ocean/*.{ipynb,md}
+  - title: ➡️ Insitu Observations
+    children:
+    - file: In_Situ/insitu.md
+      title: Quality assessments for Insitu Observations
+      children:
+      - pattern: In_Situ/*.{ipynb,md}
+  - title: ➡️ Reanalysis
+    children:
+    - file: Reanalyses/reanalysis.md
+      title: Quality assessments for Reanalysis
+      children:
+      - pattern: Reanalyses/*.{ipynb,md}
+  - title: ➡️ Seasonal Forecasts
+    children:
+    - file: Seasonal_Forecasts/seasonal.md
+      title: Quality assessments for Seasonal Forecasts
+      children:
+      - pattern: Seasonal_Forecasts/*.{ipynb,md}
+  - title: ➡️ Climate Projections
+    children:
+    - file: Climate_Projections/climate.md
+      title: Quality assessments for Climate Projections
+      children:
+      - file: Climate_Projections/CMIP6/CMIP6.md
+        children:
+        - pattern: Climate_Projections/CMIP6/*.{ipynb,md}
+      - file: Climate_Projections/CORDEX/CORDEX.md
+        children:
+        - pattern: Climate_Projections/CORDEX/*.{ipynb,md}
+  - title: ➡️ Climate Indicators
+    children:
+    - file: Indicators/indicator.md
+      title: Quality assessments for Climate Indicators
+      children:
+      - pattern: Indicators/*.{ipynb,md}
+  - title: ➡️ Derived Datasets
+    children:
+    - file: Derived_Datasets/derived.md
+      title: Quality assessments for Derived Datasets
+      children:
+      - pattern: Derived_Datasets/*.{ipynb,md}
+  - title: ➡️ Applications
+    children:
+    - file: Applications/application.md
+      title: Quality assessments for C3S Applications
+      children:
+      - pattern: Applications/*.{ipynb,md}
+  - title: Quality assessment template
+    children:
+    - file: templates/template_instructions.md
+    - file: templates/template.ipynb
+      title: Template
+site:
+  template: book-theme
+  options:
+    logo: C3S_POS_LINE.svg
+    logo_alt: Copernicus Climate Change Service
+    favicon: C3S_favicon.png
+    folders: true
+  parts:
+    footer: By the Copernicus Climate Change Service (C3S), implemented by ECMWF on behalf of the European Commission. © Copyright 2024–2026.
