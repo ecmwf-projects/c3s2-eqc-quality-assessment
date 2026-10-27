@@ -1,6 +1,6 @@
-![logo](../logoline_c3s.svg)
-
 # Template instructions
+
+![logo](../logoline_c3s.svg)
 
 ```{note}
 If anything is unclear with the templates, or if you encounter any problems, please report them at [GH164](https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment/issues/164).
