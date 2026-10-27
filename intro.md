@@ -1,6 +1,6 @@
-![logo](logoline_c3s.svg)
-
 # C3S EQC quality assessments
+
+![logo](logoline_c3s.svg)
 
 This Jupyter Book contains a collection of quality assessments of C3S data and applications produced by external evaluators under the C3S2_520 and C3S2_521 contracts, which provide an **evaluation and quality control (EQC)** function for selected datasets on the climate data store (CDS) and C3S applications.
 
@@ -11,7 +11,6 @@ C3S has established an EQC framework for all its products and services to ensure
 The revised EQC framework makes a distinction between quality assurance, quality assessment and fitness for purpose.
 
 ::::{grid}
-:gutter: 3
 
 :::{grid-item-card} ✅ Quality assurance
 data quality checks against key requirements
