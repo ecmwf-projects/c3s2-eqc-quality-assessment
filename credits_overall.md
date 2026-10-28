@@ -9,26 +9,14 @@ This page lists all contributors in alphabetical order.
 **Pros & Cons**\
 Pro:
 
-- Easiest to implement.
+- Easy to implement.
 - Neutral.
+- Can include affiliations without a name, if needed.
 
 Con:
 
 - Might become quite long.
-- Option B: Changes in affiliation, or people without affiliation (unlikely but possible).
-
-## Option A – Fully flattened list
-
-- Claudia Stubenrauch
-- Enis Gerxhalija
-- Giulio Mandorli
-- Hélène Brogniez
-- Joanne Nightingale
-- Nicole Reynolds
-- Olivier Burggraaff
-- Sullivan Carbone
-
-etc...
+- Changes in affiliation, or people without affiliation (unlikely but possible).
 
 ## Option B – By affiliation
 
