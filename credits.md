@@ -6,6 +6,12 @@ C3S EQC content has been developed by independent evaluators over multiple tende
 as well as voluntary contributions from third parties.
 This page lists all contributing institutions and authors in alphabetical order.
 
+- [B-Open](https://www.bopen.eu/)
+
+  - Mattia Almansi
+  - Michele Guerreri
+  - Nicola Masotti
+
 - [CMCC foundation – Euro-Mediterranean Center on Climate Change](https://www.cmcc.it/)
 
   - Albert Martinez Boti
@@ -61,6 +67,12 @@ This page lists all contributing institutions and authors in alphabetical order.
   - Joanne Nightingale
   - Nicole Reynolds
   - Olivier Burggraaff
+
+- [Oxidian](https://www.oxidian.com/)
+
+  - Dušan Figala
+  - Jakub Recman
+  - Peter Boxall
 
 - [UVSQ/LSCE-IPSL](https://www.lsce.ipsl.fr/) <!-- Laboratoire des Sciences du Climat et de l’Environnement / Institut Pierre-Simon Laplace -->
 
