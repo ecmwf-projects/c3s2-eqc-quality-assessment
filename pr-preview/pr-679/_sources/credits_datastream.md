@@ -15,6 +15,7 @@ Pro:
 Con:
 
 - Implicitly puts one data stream before another (following table of contents).
+- Repetition between data streams.
 
 ## Satellite Observations
 
