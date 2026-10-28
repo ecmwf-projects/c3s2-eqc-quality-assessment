@@ -36,4 +36,7 @@ This page lists all contributing institutions and authors in alphabetical order.
 
   - Hélène Brogniez
 
-etc...
+- [Vrije Universiteit Brussel](https://www.vub.be/)
+
+  - Philippe Huybrechts
+  - Yoni Verhaegen
