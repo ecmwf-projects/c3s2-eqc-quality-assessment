@@ -28,6 +28,7 @@ This page lists all contributing institutions and authors in alphabetical order.
 
 - [ENEA](https://www.enea.it/) <!-- Agenzia nazionale per le nuove tecnologie, l'energia e lo sviluppo economico sostenibile -->
 
+  - Alessandro Dell'Aquila
   - Chiara Volta
   - Irene Cionni
   - Sandro Calmanti
@@ -37,6 +38,12 @@ This page lists all contributing institutions and authors in alphabetical order.
   - Antonio Sánchez-Román
   - Blanca Fernández-Álvarez
   - Joan Armajach
+
+- [MET Norway](https://www.met.no/)
+
+  - Johanna Tjernström
+  - Johannes Langvatn
+  - Helene B. Erlandsen
 
 - [Nansen Environmental and Remote Sensing Center (NERSC)](https://nersc.no/)
 
