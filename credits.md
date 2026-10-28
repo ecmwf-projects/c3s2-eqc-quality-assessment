@@ -12,12 +12,13 @@ This page lists all contributing institutions and authors in alphabetical order.
   - Luís Figueiredo
   - Rita Cunha
 
-- [Consiglio Nazionale delle Ricerche (CNR)](https://www.cnr.it/)
+- [Consiglio Nazionale delle Ricerche (CNR)](https://www.cnr.it/) <!-- Inconsistent with CNR vs individual institutes; sticking with just CNR for now -->
 
   - Davide Putero
   - Fabio Madonna
   - Faezeh Karimian
   - Paolo Cristofanelli
+  - Salvatore Marullo
 
 - [CNRS/LMD-IPSL](https://www.lmd.ipsl.fr/) <!-- Laboratoire de Météorologie Dynamique / Institut Pierre-Simon Laplace -->
 
@@ -30,6 +31,17 @@ This page lists all contributing institutions and authors in alphabetical order.
   - Chiara Volta
   - Irene Cionni
   - Sandro Calmanti
+
+- [IMEDEA (CSIC-UIB)](https://imedea.uib-csic.es/)
+
+  - Antonio Sánchez-Román
+  - Blanca Fernández-Álvarez
+  - Joan Armajach
+
+- [Nansen Environmental and Remote Sensing Center (NERSC)](https://nersc.no/)
+
+  - Fabio Mangini
+  - Timothy Williams
 
 - [National Physical Laboratory (NPL)](https://www.npl.co.uk/)
 
