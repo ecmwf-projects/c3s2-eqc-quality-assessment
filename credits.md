@@ -20,20 +20,20 @@ Con:
 
 ## Option B – By affiliation
 
-- CNRS/LMD-PSL
+- [CNRS/LMD-IPSL](https://www.lmd.ipsl.fr/) <!-- Laboratoire de Météorologie Dynamique / Institut Pierre-Simon Laplace -->
 
   - Claudia Stubenrauch
   - Giulio Mandorli
   - Sullivan Carbone
 
-- National Physical Laboratory (NPL)
+- [National Physical Laboratory (NPL)](https://www.npl.co.uk/)
 
   - Enis Gerxhalija
   - Joanne Nightingale
   - Nicole Reynolds
   - Olivier Burggraaff
 
-- UVSQ/LSCE-IPSL
+- [UVSQ/LSCE-IPSL](https://www.lsce.ipsl.fr/) <!-- Laboratoire des Sciences du Climat et de l’Environnement / Institut Pierre-Simon Laplace -->
 
   - Hélène Brogniez
 
