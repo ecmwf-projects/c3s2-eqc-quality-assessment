@@ -44,5 +44,7 @@ This page lists all contributing institutions and authors in alphabetical order.
 
 - [Vrije Universiteit Brussel](https://www.vub.be/)
 
+  - Amaya Camila Trigoso Barrientos
   - Philippe Huybrechts
+  - Victor Couplet
   - Yoni Verhaegen
