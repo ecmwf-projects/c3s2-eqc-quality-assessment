@@ -6,6 +6,12 @@ C3S EQC content has been developed by independent evaluators over multiple tende
 as well as voluntary contributions from third parties.
 This page lists all contributing institutions and authors in alphabetical order.
 
+- [CNRS/LMD-IPSL](https://www.lmd.ipsl.fr/) <!-- Laboratoire de Météorologie Dynamique / Institut Pierre-Simon Laplace -->
+
+  - Claudia Stubenrauch
+  - Giulio Mandorli
+  - Sullivan Carbone
+
 - [CoLAB +ATLANTIC](https://colabatlantic.com/)
 
   - Inês Girão
@@ -19,12 +25,6 @@ This page lists all contributing institutions and authors in alphabetical order.
   - Faezeh Karimian
   - Paolo Cristofanelli
   - Salvatore Marullo
-
-- [CNRS/LMD-IPSL](https://www.lmd.ipsl.fr/) <!-- Laboratoire de Météorologie Dynamique / Institut Pierre-Simon Laplace -->
-
-  - Claudia Stubenrauch
-  - Giulio Mandorli
-  - Sullivan Carbone
 
 - [ENEA](https://www.enea.it/) <!-- Agenzia nazionale per le nuove tecnologie, l'energia e lo sviluppo economico sostenibile -->
 
