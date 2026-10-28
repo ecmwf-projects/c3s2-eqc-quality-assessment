@@ -6,6 +6,12 @@ C3S EQC content has been developed by independent evaluators over multiple tende
 as well as voluntary contributions from third parties.
 This page lists all contributing institutions and authors in alphabetical order.
 
+- [CoLAB +ATLANTIC](https://colabatlantic.com/)
+
+  - Inês Girão
+  - Luís Figueiredo
+  - Rita Cunha
+
 - [Consiglio Nazionale delle Ricerche (CNR)](https://www.cnr.it/)
 
   - Davide Putero
