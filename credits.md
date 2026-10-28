@@ -6,6 +6,11 @@ C3S EQC content has been developed by independent evaluators over multiple tende
 as well as voluntary contributions from third parties.
 This page lists all contributing institutions and authors in alphabetical order.
 
+- [CMCC foundation – Euro-Mediterranean Center on Climate Change](https://www.cmcc.it/)
+
+  - Albert Martinez Boti
+  - Lorenzo Sangelantoni
+
 - [CNRS/LMD-IPSL](https://www.lmd.ipsl.fr/) <!-- Laboratoire de Météorologie Dynamique / Institut Pierre-Simon Laplace -->
 
   - Claudia Stubenrauch
