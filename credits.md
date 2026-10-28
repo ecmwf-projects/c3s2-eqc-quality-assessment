@@ -4,21 +4,7 @@
 
 C3S EQC content has been developed by independent evaluators over multiple tenders,
 as well as voluntary contributions from third parties.
-This page lists all contributors in alphabetical order.
-
-**Pros & Cons**\
-Pro:
-
-- Easy to implement.
-- Neutral.
-- Can include affiliations without a name, if needed.
-
-Con:
-
-- Might become quite long.
-- Changes in affiliation, or people without affiliation (unlikely but possible).
-
-## Option B – By affiliation
+This page lists all contributing institutions and authors in alphabetical order.
 
 - [CNRS/LMD-IPSL](https://www.lmd.ipsl.fr/) <!-- Laboratoire de Météorologie Dynamique / Institut Pierre-Simon Laplace -->
 
