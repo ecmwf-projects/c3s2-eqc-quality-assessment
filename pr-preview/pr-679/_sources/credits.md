@@ -25,17 +25,23 @@ This page lists all contributing institutions and authors in alphabetical order.
 
 - [CoLAB +ATLANTIC](https://colabatlantic.com/)
 
+  - Ana Oliveira
   - Inês Girão
   - Luís Figueiredo
   - Rita Cunha
+  - Vitor Miranda
 
 - [Consiglio Nazionale delle Ricerche (CNR)](https://www.cnr.it/) <!-- Inconsistent with CNR vs individual institutes; sticking with just CNR for now -->
 
+  - Chunxue Yang
+  - Costanza Bartucca
   - Davide Putero
   - Fabio Madonna
   - Faezeh Karimian
+  - Federico Serva
   - Paolo Cristofanelli
   - Salvatore Marullo
+  - Vincenzo de Toma
 
 - [ENEA](https://www.enea.it/) <!-- Agenzia nazionale per le nuove tecnologie, l'energia e lo sviluppo economico sostenibile -->
 
