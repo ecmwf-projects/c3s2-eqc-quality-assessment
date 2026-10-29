@@ -1,8 +1,8 @@
 """Remove the notebooks a pull request preview doesn't need.
 
-Keeps the notebooks listed in $CHANGED_NOTEBOOKS (one per line), the templates and
-every notebook they link to or cross-reference, so the preview only renders what the
-pull request touches while all its references still resolve.
+Keeps the notebooks among the files listed in $CHANGED_FILES (one per line), the
+templates and every notebook they link to or cross-reference, so the preview only
+renders what the pull request touches while all its references still resolve.
 """
 
 import json
@@ -54,7 +54,7 @@ def main() -> None:
     sources = {
         Path(name): read_sources(Path(name)) for name in listed.split("\0") if name
     }
-    changed = os.environ.get("CHANGED_NOTEBOOKS", "").splitlines()
+    changed = os.environ.get("CHANGED_FILES", "").splitlines()
     keep = {Path(name) for name in changed if Path(name) in sources}
     queue = list(keep)
     while queue:
