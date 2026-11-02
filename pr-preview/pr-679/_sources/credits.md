@@ -58,9 +58,9 @@ This page lists all contributing institutions and authors in alphabetical order.
 
 - [MET Norway](https://www.met.no/)
 
+  - Helene B. Erlandsen
   - Johanna Tjernström
   - Johannes Langvatn
-  - Helene B. Erlandsen
 
 - [Nansen Environmental and Remote Sensing Center (NERSC)](https://nersc.no/)
 
