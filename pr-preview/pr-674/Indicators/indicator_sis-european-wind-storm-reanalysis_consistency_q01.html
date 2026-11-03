@@ -66,7 +66,7 @@
     <link rel="icon" href="../_static/C3S_favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="7. Derived Datasets" href="../Derived_Datasets/derived.html" />
+    <link rel="next" title="6.2. Consistency between windstorm tracking algorithms – Duration" href="indicator_sis-european-wind-storm-reanalysis_consistency_q02.html" />
     <link rel="prev" title="6. Indicators" href="indicator.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -279,6 +279,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="indicator.html">6. Quality assessments for Climate Indicators</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">6.1. Consistency between windstorm tracking algorithms – Sensitivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="indicator_sis-european-wind-storm-reanalysis_consistency_q02.html">6.2. Consistency between windstorm tracking algorithms – Duration</a></li>
 </ul>
 </details></li>
 </ul>
@@ -294,7 +295,11 @@
 </ul>
 </details></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quality assessment template</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">About EQC</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">Contributors</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">For evaluators</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../templates/template_instructions.html">Template instructions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../templates/template.html">Template</a></li>
@@ -541,7 +546,6 @@ Please note that this repository is used for development and review, so quality 
 </div><section class="tex2jax_ignore mathjax_ignore" id="consistency-between-windstorm-tracking-algorithms-sensitivity">
 <h1><span class="section-number">6.1. </span>Consistency between windstorm tracking algorithms – Sensitivity<a class="headerlink" href="#consistency-between-windstorm-tracking-algorithms-sensitivity" title="Link to this heading">#</a></h1>
 <p>Production date: 2026-10-21.</p>
-<p>Produced by: Enis Gerxhalija &amp; Olivier Burggraaff (National Physical Laboratory).</p>
 <section id="use-case-c3s-enhanced-windstorm-service-ews">
 <h2>🌍 Use case: C3S Enhanced Windstorm Service (EWS)<a class="headerlink" href="#use-case-c3s-enhanced-windstorm-service-ews" title="Link to this heading">#</a></h2>
 </section>
@@ -2052,7 +2056,7 @@ In either case (earthkit-data or cdsapi), it is required to set up a CDS account
 with 2.2× the storm count.</p>
 <p>Next, we compare storm counts over monthly, seasonal, and yearly time scales.
 For this, each individual storm is assigned a single timestamp based on when it was first detected.</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2435,7 +2439,7 @@ which works as follows:</p>
 <li><p>For each remaining pair of tracks, compute the mean distances between matched-up timestamps.</p></li>
 <li><p>Keep only those pairs where the mean distance is &lt;300 km.</p></li>
 </ul>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2618,7 +2622,7 @@ which works as follows:</p>
 </div></div></div>
 </details>
 </div>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2809,10 +2813,15 @@ this calculation is performed on a coarsened grid (2.5° × 2.5°).</p>
 <p>Both algorithms show a visually similar distribution
 (Figure <a class="reference internal" href="#indicator-sis-european-wind-storm-reanalysis-consistency-q01-fig-track-density"><span class="std std-numref">6.1.6</span></a>).
 The main difference is that TempestExtremes has relatively more density over the seas just west of mainland Europe (Iceland–Spain) while Hodges has more over northern and eastern Europe (Norway–Belarus).
-This is likely the result of the Hodges algorithm tracking storms for longer
+Since there is no systematic bias in track duration for matched-up windstorms
 (as discussed in
-a forthcoming quality assessment for this dataset),
-thus capturing the tail ends of storms over these areas.</p>
+a <a class="reference internal" href="indicator_sis-european-wind-storm-reanalysis_consistency_q02.html"><span class="doc std std-doc">separate quality assessment</span></a>),
+this difference in track density distribution is likely caused by
+a real difference in sensitivity in different locations
+– since windstorms in different locations tend to have different properties –
+and/or a difference in the timing and location of the first/last timestamp for individual windstorms.
+The regions with the greatest differences do not correspond to the explicit latitude/longitude limits required by TempestExtremes [<a class="reference external" href="https://doi.org/10.5194/gmd-14-5023-2021" rel="noreferrer" target="_blank">Ullrich+21</a>],
+so these limits are unlikely to be the cause.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -3095,7 +3104,7 @@ the data are loaded into a Pandas <a class="reference external" href="https://pa
 which can be retrieved from <a class="reference external" href="https://ec.europa.eu/eurostat/web/nuts" rel="noreferrer" target="_blank">GISCO</a>.
 These ancillary data are loaded into a GeoPandas <a class="reference external" href="https://geopandas.org/en/latest/docs/reference/api/geopandas.GeoDataFrame.html" rel="noreferrer" target="_blank">GeoDataFrame</a>
 and combined with the indicators table:</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -3359,7 +3368,7 @@ and combined with the indicators table:</p>
 <p>We calculate the per-point difference and ratio between algorithms
 (Hodges – TempestExtremes, Hodges / TempestExtremes)
 and append them to the GeoDataFrame as additional entries along the <code class="docutils literal notranslate"><span class="pre">algorithm</span></code> index:</p>
-<div class="cell tag_hide-input tag_hide-output docutils container">
+<div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -4907,7 +4916,12 @@ Includes only storms that affected the “IE” NUTS 0 region (Éire/Ireland).</
 <h3>Key resources<a class="headerlink" href="#key-resources" title="Link to this heading">#</a></h3>
 <p>The CDS catalogue entries for the data used were:</p>
 <ul class="simple">
-<li><p>Windstorm tracks and footprints derived from reanalysis over Europe between 1940 to present: <a class="reference external" href="https://doi.org/10.24381/bf1f06a9" rel="noreferrer" target="_blank">sis-european-wind-storm-reanalysis</a></p></li>
+<li><p>Windstorm tracks and footprints derived from reanalysis over Europe between 1940 to present: <a class="reference external" href="https://doi.org/10.24381/bf1f06a9" rel="noreferrer" target="_blank">sis-european-wind-storm-reanalysis</a></p>
+<ul>
+<li><p><strong>Consistency between windstorm tracking algorithms – Sensitivity</strong></p></li>
+<li><p><a class="reference internal" href="indicator_sis-european-wind-storm-reanalysis_consistency_q02.html"><span class="doc std std-doc">Consistency between windstorm tracking algorithms – Duration</span></a></p></li>
+</ul>
+</li>
 </ul>
 <p>More about windstorm tracking algorithms:</p>
 <ul class="simple">
@@ -4994,11 +5008,11 @@ Includes only storms that affected the “IE” NUTS 0 region (Éire/Ireland).</
       </div>
     </a>
     <a class="right-next"
-       href="../Derived_Datasets/derived.html"
+       href="indicator_sis-european-wind-storm-reanalysis_consistency_q02.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">7. </span>Derived Datasets</p>
+        <p class="prev-next-title"><span class="section-number">6.2. </span>Consistency between windstorm tracking algorithms – Duration</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
