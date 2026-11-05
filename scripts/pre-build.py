@@ -11,7 +11,7 @@ import nbformat.v4
 LOGO_NAME = "logoline_c3s.svg"
 MANDATORY_TAGS: dict[str, set[str]] = {"code": {"hide-input"}}
 README_PATH = Path("./README.md")
-GLUE_PNG_MIME = "application/papermill.record/image/png"
+GLUE_MIME_PREFIX = "application/papermill.record/"
 GLUE_FIGURE_PATTERN = re.compile(
     r"^(\s*(?:`{3,}|:{3,})\{)glue:figure\}[ \t]+(\S+)", re.M
 )
@@ -96,11 +96,18 @@ def extract_glue_figures(notebook: nbformat.NotebookNode, path: Path) -> dict[st
         outputs = []
         for output in cell["outputs"]:
             name = output.get("metadata", {}).get("scrapbook", {}).get("name")
-            if name is None:
+            data = output.get("data", {})
+            # glue(..., display=False) hides its output behind a MIME prefix
+            prefix = (
+                GLUE_MIME_PREFIX
+                if any(k.startswith(GLUE_MIME_PREFIX) for k in data)
+                else ""
+            )
+            if name is None or not prefix:
                 outputs.append(output)
-            elif (data := output.get("data", {}).get(GLUE_PNG_MIME)) is not None:
+            if name is not None and (png := data.get(f"{prefix}image/png")) is not None:
                 check_file_name(f"{name}.png", path)
-                write_file(base64.b64decode(data), path.parent / f"{name}.png", path)
+                write_file(base64.b64decode(png), path.parent / f"{name}.png", path)
                 figures[name] = f"{name}.png"
         cell["outputs"] = outputs
     return figures
