@@ -18,6 +18,8 @@ on:
 jobs:
   checks:
     runs-on: ubuntu-latest
+    outputs:
+      links: ${{ steps.links.outcome }}
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
@@ -34,4 +36,43 @@ jobs:
         key: pre-commit-${{ steps.python.outputs.version }}-${{ hashFiles('.pre-commit-config.yaml') }}
     - name: Run all checks on all files
       timeout-minutes: 60
+      env:
+        SKIP: check-notebook-links
       run: uv run pre-commit run --show-diff-on-failure --color=always --all-files --hook-stage manual
+    # Broken links are reported in an issue instead of failing the workflow
+    - name: Check links on all files
+      id: links
+      if: ${{ !cancelled() }}
+      continue-on-error: true
+      timeout-minutes: 60
+      env:
+        PYTEST_ADDOPTS: --junitxml=${{ runner.temp }}/links.xml -o junit_family=xunit1
+      run: uv run pre-commit run --color=always --all-files --hook-stage manual check-notebook-links
+    - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+      if: ${{ !cancelled() && steps.links.outcome == 'failure' }}
+      with:
+        name: links
+        path: ${{ runner.temp }}/links.xml
+        if-no-files-found: error
+        retention-days: 7
+
+  # Only runs the reviewed script on the report of the checks, never the updated hooks
+  report-links:
+    if: ${{ !cancelled() && github.ref == 'refs/heads/main' && needs.checks.outputs.links == 'failure' }}
+    needs: checks
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+        sparse-checkout: .github/scripts
+    - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+      with:
+        name: links
+        path: ${{ runner.temp }}
+    - name: Report broken links
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python3 .github/scripts/report-broken-links.py "$RUNNER_TEMP/links.xml"
