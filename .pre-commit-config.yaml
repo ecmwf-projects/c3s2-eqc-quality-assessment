@@ -108,6 +108,16 @@ repos:
     stages: [manual]
 - repo: local
   hooks:
+  - id: validate-images
+    name: validate external images
+    entry: python scripts/validate-images.py
+    language: python
+    types: [jupyter]
+    additional_dependencies: [nbformat, requests]
+    require_serial: true
+    stages: [manual]
+- repo: local
+  hooks:
   - id: validate-dois
     name: validate DOIs
     entry: python scripts/validate-dois.py
