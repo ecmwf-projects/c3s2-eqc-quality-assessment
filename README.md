@@ -16,10 +16,16 @@ To run the quality assurance checks:
 make qa
 ```
 
-To build the book:
+To build the book with [Jupyter Book](https://jupyterbook.org) (it needs [Node.js](https://nodejs.org) 18 or later, and offers to install it if it is missing):
 
 ```bash
 make build-book
+```
+
+The site is written to `_pre_build/_build/html`. Its links start at the site root, so serve it instead of opening the files:
+
+```bash
+python -m http.server -d _pre_build/_build/html
 ```
 
 To install the book dependencies (including `myst-nb`, used for glue) in your own environment:

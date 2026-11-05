@@ -1,19 +1,19 @@
-![logo](../logoline_c3s.svg)
-
 # Template instructions
+
+![logo](../logoline_c3s.svg)
 
 ```{note}
 If anything is unclear with the templates, or if you encounter any problems, please report them at [GH164](https://github.com/ecmwf-projects/c3s2-eqc-quality-assessment/issues/164).
 ```
 
-Instructions for the [Jupyter Notebook template for quality assessments](./template.ipynb). This template aims to ensure consistency in content and the look and feel of the assessment once it is included in the [Jupyter Book](https://ecmwf-projects.github.io/c3s2-eqc-quality-assessment/intro.html). The syntax includes MyST formatting needed for the Jupyter Book which will not render in all Jupyter Notebook viewers, or GitHub, but works in Jupyter Lab on the Virtual Machine.
+Instructions for the [Jupyter Notebook template for quality assessments](./template.ipynb). This template aims to ensure consistency in content and the look and feel of the assessment once it is included in the [Jupyter Book](https://ecmwf-projects.github.io/c3s2-eqc-quality-assessment/). The syntax includes MyST formatting needed for the Jupyter Book which will not render in all Jupyter Notebook viewers, or GitHub, but works in Jupyter Lab on the Virtual Machine.
 
 ```{note}
 Some additional formatting required for the Jupyter Book will be automatically applied when the page for a given assessment is built, and so are not included in the template. This includes the extraction of embedded images, 'collapsing' the code cells, and adding a logo line.
 ```
 
 ```{note}
-Please follow the headings and subheadings approach used in the template. The level of the heading is determined by the number of hashes before it (#Title, ##Use case, etc.). The following link should be helpful: https://jupyterbook.org/en/stable/reference/cheatsheet.html
+Please follow the headings and subheadings approach used in the template. The level of the heading is determined by the number of hashes before it (#Title, ##Use case, etc.). The following link should be helpful: https://mystmd.org/guide/quickstart-myst-markdown
 
 Also note that icons have been added to most of the headings. These are standardised so should be the same for each assessment.
 ```
@@ -73,7 +73,7 @@ Drag and drop the image from a file browser into the cell. If the image file alr
 The figure should always include an explanatory caption and/or title.
 
 ```{note}
-The figure formatting will not render in Github, but will work when the Jupyter Book page is built. Also note that the figure numbering is automatic, and applied across the whole Book (each Notebook does not start at 1 - this may be changed in the future). 
+The figure formatting will not render in Github, but will work when the Jupyter Book page is built. Also note that the figure numbering is automatic, and starts at 1 in each Notebook.
 ```
 
 ## 📋 Methodology
