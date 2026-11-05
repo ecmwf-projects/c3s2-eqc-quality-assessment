@@ -198,6 +198,9 @@ def convert_notebook(path: Path, root: Path, disclaimer: bool) -> None:
 
 def main(path: Path, disclaimer: bool) -> None:
     for notebook_path in path.glob("**/*.ipynb"):
+        # Hidden folders, such as Jupyter's .ipynb_checkpoints, are not part of the book
+        if any(part.startswith(".") for part in notebook_path.relative_to(path).parts):
+            continue
         convert_notebook(path=notebook_path, root=path, disclaimer=disclaimer)
 
 
