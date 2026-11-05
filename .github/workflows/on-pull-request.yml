@@ -16,7 +16,8 @@ permissions:
 
 env:
   PRE_BUILD_DIR: "_pre_build"
-  PRE_BUILD_FLAGS: "--disclaimer"
+  # TEMPORARY for #684: production pages, revert before merging
+  PRE_BUILD_FLAGS: "--no-disclaimer"
   UV_LOCKED: "1"
 
 # PRs from forks only run the checks and a test build whose output is discarded:
@@ -80,6 +81,8 @@ jobs:
       with:
         version-file: uv.lock
     - name: Remove notebooks the preview doesn't need
+      # TEMPORARY for #684: build the whole book, revert before merging
+      if: false
       env:
         CHANGED_NOTEBOOKS: ${{ needs.changed-notebooks.outputs.files }}
       run: uv run python .github/scripts/prune-notebooks.py
