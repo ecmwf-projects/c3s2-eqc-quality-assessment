@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Print the Markdown of a notebook or Markdown file, for lychee to find its links.
+"""Print the Markdown of a notebook, for lychee to find its links.
 
-lychee runs this on each file (see `preprocess` in lychee.toml) and scans the output as
-plain text, as it can't parse notebooks. Code blocks, code spans and HTML comments are
-dropped, as they aren't rendered as links, and character references and backslash
-escapes are decoded, as plain text extraction would keep them in the URLs.
+lychee runs this on each file (see `preprocess` in lychee.toml) and scans the output of
+notebooks as plain text, as it can't parse them. Code blocks, code spans and HTML
+comments are dropped, as they aren't rendered as links, and character references and
+backslash escapes are decoded, as plain text extraction would keep them in the URLs.
+Markdown files are printed unchanged, as lychee parses them itself.
 """
 
 import html
@@ -24,8 +25,6 @@ ESCAPE = re.compile(r"\\([!-/:-@\[-`{-~])")
 
 def read_markdown(path: str) -> str:
     with open(path, encoding="utf-8") as file:
-        if not path.endswith(".ipynb"):
-            return file.read()
         cells = json.load(file)["cells"]
     return "\n\n".join(
         "".join(cell["source"]) for cell in cells if cell["cell_type"] == "markdown"
@@ -62,6 +61,10 @@ def drop_code_blocks(markdown: str) -> str:
 
 
 def main(path: str) -> None:
+    if not path.endswith(".ipynb"):
+        with open(path, encoding="utf-8") as file:
+            print(file.read(), end="")
+        return
     text = COMMENT.sub(" ", drop_code_blocks(read_markdown(path)))
     text = CODE_SPAN.sub(" ", text)
     text = REFERENCE.sub(lambda match: html.unescape(match[0]), text)
