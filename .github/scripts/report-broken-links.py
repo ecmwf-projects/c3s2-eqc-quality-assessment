@@ -5,8 +5,9 @@ Usage: report-broken-links.py JUNIT_XML
 Reads the JUnit report (xunit1 family) of the check-notebook-links hook and lists each
 broken link once per file. If the bot's issue from a previous run is still open, only the
 links missing from it are appended, so edits and ticked items are kept.
-Fails when the report lists no broken links or has errors, as the link check then
-failed for another reason. Needs GH_TOKEN and GITHUB_REPOSITORY in the environment.
+Fails when the report lists no broken links, or has errors or failures it can't parse,
+as the link check then failed for another reason or would drop some broken links.
+Needs GH_TOKEN and GITHUB_REPOSITORY in the environment.
 """
 
 import json
@@ -25,7 +26,7 @@ FILE = re.compile(r"[\w./-]+\.(?:ipynb|md)")
 
 
 def broken_links(report: str) -> tuple[dict[str, str], int]:
-    """Map each entry to the error of its link, and count the errored tests."""
+    """Map each entry to the error of its link, and count the errored or unparsed tests."""
     entries: dict[str, str] = {}
     errors = 0
     for case in ET.parse(report).iter("testcase"):
@@ -36,7 +37,8 @@ def broken_links(report: str) -> tuple[dict[str, str], int]:
         link = ELEMENT.search(case.get("name", ""))
         path = case.get("file", "")
         if not link or not FILE.fullmatch(path):
-            print(f"Skipping unexpected test: {case.attrib}", file=sys.stderr)
+            print(f"Can't parse failed test: {case.attrib}", file=sys.stderr)
+            errors += 1
             continue
         url = link.group(1)
         error = failure.get("message", "").removeprefix(f"{url}: ").replace("`", "'")
