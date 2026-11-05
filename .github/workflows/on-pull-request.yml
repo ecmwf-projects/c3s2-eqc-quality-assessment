@@ -46,16 +46,16 @@ jobs:
     - name: Manual QA on modified files
       run: uv run pre-commit run --show-diff-on-failure --color=always --hook-stage manual --from-ref origin/main --to-ref HEAD
 
-  changed-notebooks:
+  changed-files:
     if: github.event.action != 'closed'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: read
     outputs:
-      files: ${{ steps.changed-notebooks.outputs.files }}
+      files: ${{ steps.changed-files.outputs.files }}
     steps:
-    - name: Get changed notebooks
-      id: changed-notebooks
+    - name: Get changed notebooks and Markdown pages
+      id: changed-files
       env:
         GH_TOKEN: ${{ github.token }}
         PR: ${{ github.event.number }}
@@ -64,13 +64,13 @@ jobs:
         {
             echo "files<<$delimiter"
             gh api --paginate "repos/$GITHUB_REPOSITORY/pulls/$PR/files" \
-                --jq '.[] | select(.status != "removed") | .filename | select(endswith(".ipynb") and (contains("\n") | not))'
+                --jq '.[] | select(.status != "removed") | .filename | select((endswith(".ipynb") or endswith(".md")) and . != "README.md" and (contains("\n") | not))'
             echo "$delimiter"
         } >>"$GITHUB_OUTPUT"
 
   build-preview:
     if: github.event.action != 'closed'
-    needs: changed-notebooks
+    needs: changed-files
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -81,19 +81,19 @@ jobs:
         version-file: uv.lock
     - name: Remove notebooks the preview doesn't need
       env:
-        CHANGED_NOTEBOOKS: ${{ needs.changed-notebooks.outputs.files }}
+        CHANGED_FILES: ${{ needs.changed-files.outputs.files }}
       run: uv run python .github/scripts/prune-notebooks.py
     - run: make build-book PRE_BUILD_DIR=${{ env.PRE_BUILD_DIR }} PRE_BUILD_FLAGS=${{ env.PRE_BUILD_FLAGS }}
     - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-      if: needs.changed-notebooks.outputs.files != '' && github.event.pull_request.head.repo.full_name == github.repository
+      if: needs.changed-files.outputs.files != '' && github.event.pull_request.head.repo.full_name == github.repository
       with:
         name: preview
         path: ${{ env.PRE_BUILD_DIR }}/_build/html
         retention-days: 1
 
   deploy-preview:
-    if: needs.changed-notebooks.outputs.files != '' && github.event.pull_request.head.repo.full_name == github.repository
-    needs: [changed-notebooks, build-preview]
+    if: needs.changed-files.outputs.files != '' && github.event.pull_request.head.repo.full_name == github.repository
+    needs: [changed-files, build-preview]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -143,8 +143,8 @@ jobs:
         .github/scripts/pr-comment.sh delete-legacy
 
   comment-pr:
-    if: needs.changed-notebooks.outputs.files != '' && github.event.pull_request.head.repo.full_name == github.repository
-    needs: [changed-notebooks, deploy-preview]
+    if: needs.changed-files.outputs.files != '' && github.event.pull_request.head.repo.full_name == github.repository
+    needs: [changed-files, deploy-preview]
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -158,17 +158,17 @@ jobs:
         GH_TOKEN: ${{ github.token }}
         PR: ${{ github.event.number }}
         HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-        CHANGED_NOTEBOOKS: ${{ needs.changed-notebooks.outputs.files }}
+        CHANGED_FILES: ${{ needs.changed-files.outputs.files }}
         PAGES_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
       run: |
         permalinks="<ul>"
         previews="<ul>"
         while IFS= read -r file; do
             permalink="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/blob/$HEAD_SHA/${file//&/%26}"
-            preview="$PAGES_URL/pr-preview/pr-$PR/${file%.ipynb}.html"
+            preview="$PAGES_URL/pr-preview/pr-$PR/${file%.*}.html"
             permalinks+="<li><a href=\"$permalink\">$permalink</a></li>"
             previews+="<li><a href=\"$preview\">$preview</a></li>"
-        done <<<"$CHANGED_NOTEBOOKS"
+        done <<<"$CHANGED_FILES"
         .github/scripts/pr-comment.sh upsert permalinks "**Permalinks:**"$'\n'"$permalinks</ul>"
         .github/scripts/pr-comment.sh upsert previews "**Previews:**"$'\n'"$previews</ul>"
         .github/scripts/pr-comment.sh delete-legacy
