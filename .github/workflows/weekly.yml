@@ -52,14 +52,15 @@ jobs:
       if: ${{ !cancelled() }}
       continue-on-error: true
       timeout-minutes: 60
-      env:
-        PYTEST_ADDOPTS: --junitxml=${{ runner.temp }}/links.xml -o junit_family=xunit1
-      run: uv run pre-commit run --color=always --all-files --hook-stage manual check-notebook-links
+      # Same command as the check-notebook-links hook, with a report for the issue
+      run: |
+        git ls-files '*.ipynb' '*.md' |
+            uv run --group check-links lychee --config lychee.toml --format json --output "$RUNNER_TEMP/links.json" --files-from -
     - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
       if: ${{ !cancelled() && steps.links.outcome == 'failure' }}
       with:
         name: links
-        path: ${{ runner.temp }}/links.xml
+        path: ${{ runner.temp }}/links.json
         if-no-files-found: error
         retention-days: 7
 
@@ -82,4 +83,4 @@ jobs:
     - name: Report broken links
       env:
         GH_TOKEN: ${{ github.token }}
-      run: python3 .github/scripts/report-broken-links.py "$RUNNER_TEMP/links.xml"
+      run: python3 .github/scripts/report-broken-links.py "$RUNNER_TEMP/links.json"

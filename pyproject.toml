@@ -6,10 +6,7 @@ book = [
   "sphinx-new-tab-link>=0.8.2"
 ]
 check-links = [
-  "pytest>=8.4.2",
-  "pytest-check-links[cache]>=0.10.1",
-  "pytest-rerunfailures>=16.7",
-  "requests>=2.34.2"
+  "lychee-bin>=0.24.2"
 ]
 dev = [
   "pre-commit>=4.6.1"
@@ -25,36 +22,6 @@ name = "c3s2-eqc-quality-assessment"
 readme = "README.md"
 requires-python = ">=3.14"
 version = "0.1.0"
-
-[tool.pytest.ini_options]
-addopts = [
-  "-vv",
-  "--check-links",
-  "--check-anchors",
-  "--check-links-ignore=^(?!https?://)|^https?://doi\\.org/",
-  "--check-links-cache",
-  "--check-links-cache-expire-after=86400",
-  "--check-links-cache-backend-opt=allowable_codes:[200,403]",
-  # Retry links that fail, in case the failure is transient, except cached 403s and slow timeouts
-  "--reruns=2",
-  "--reruns-delay=30",
-  "--rerun-except=\\b403: ",
-  "--rerun-except=Timeout",
-  # Known 403s
-  "--check-links-ignore=https://www.volkskrant.nl/wetenschap/~b301f81f2/",
-  "--check-links-ignore=https://glisa.umich.edu/lake-superior-retrospective/",
-  "--check-links-ignore=https://psycnet.apa.org/record/1948-15040-000",
-  "--check-links-ignore=https://sealevel.nasa.gov/understanding-sea-level/global-sea-level/overview/",
-  "--check-links-ignore=https://earthobservatory.nasa.gov/images/148414/lake-victorias-rising-waters",
-  "--check-links-ignore=https://timesofmalta.com/article/february-marks-9th-straight-month-recordsmashing-global-heat.1087990",
-  # Sites that rate-limit, block or time out on GitHub runners, or fail TLS there
-  "--check-links-ignore=^https://api\\.semanticscholar\\.org/",
-  "--check-links-ignore=^https://www\\.earthdata\\.nasa\\.gov/",
-  "--check-links-ignore=^https://www\\.ipcc\\.ch/",
-  "--check-links-ignore=^https://www\\.cnr\\.it/",
-  "--check-links-ignore=^https://nmme\\.earth\\.miami\\.edu/",
-  "--check-links-ignore=^https://www\\.senamhi\\.gob\\.pe/"
-]
 
 [tool.ruff]
 indent-width = 4
@@ -77,10 +44,6 @@ select = [
   # pydocstyle
   "D"
 ]
-
-[tool.ruff.lint.per-file-ignores]
-# Notebooks: line length is left to the formatter; docstring style and import position are not enforced
-"*.ipynb" = ["D", "E402", "E501"]
 
 [tool.ruff.lint.pycodestyle]
 max-line-length = 110

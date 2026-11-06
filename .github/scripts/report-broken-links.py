@@ -1,12 +1,13 @@
 """Open or update the issue that lists the broken links found by the link check.
 
-Usage: report-broken-links.py JUNIT_XML
+Usage: report-broken-links.py LYCHEE_JSON
 
-Reads the JUnit report (xunit1 family) of the check-notebook-links hook and lists each
-broken link once per file. If the bot's issue from a previous run is still open, only the
-links missing from it are appended, so edits and ticked items are kept.
-Fails when the report lists no broken links, or has errors or failures it can't parse,
-as the link check then failed for another reason or would drop some broken links.
+Reads the JSON report of lychee, as run by the weekly link check, and lists each broken
+link once per file. If the bot's issue from a previous run is still open, only the links
+missing from it are appended, so edits and ticked items are kept.
+Fails when the report lists no broken links, or has entries it can't parse, such as
+files that lychee couldn't read, as the link check then failed for another reason or
+would drop some broken links.
 Needs GH_TOKEN and GITHUB_REPOSITORY in the environment.
 """
 
@@ -15,34 +16,37 @@ import os
 import re
 import subprocess
 import sys
-import xml.etree.ElementTree as ET
 
 BOT = "github-actions[bot]"
 MARKER = "<!-- report-broken-links -->"
 TITLE = "Broken links in notebooks"
-# Test names end with the checked element, e.g. "Cell 7 <a href=https://example.com>"
-ELEMENT = re.compile(r"<(?:a href|img src|iframe src)=(https?://[^\s`<>]+)>$")
+URL = re.compile(r"https?://[^\s`<>]+")
 FILE = re.compile(r"[\w./-]+\.(?:ipynb|md)")
 
 
 def broken_links(report: str) -> tuple[dict[str, str], int]:
-    """Map each entry to the error of its link, and count the errored or unparsed tests."""
-    entries: dict[str, str] = {}
+    """Map each entry to the error of its link, and count the unparsed entries."""
+    with open(report) as file:
+        results = json.load(file)
+    links: list[tuple[str, str]] = []
+    messages: dict[str, str] = {}
     errors = 0
-    for case in ET.parse(report).iter("testcase"):
-        errors += len(case.findall("error"))
-        failure = case.find("failure")
-        if failure is None:
-            continue
-        link = ELEMENT.search(case.get("name", ""))
-        path = case.get("file", "")
-        if not link or not FILE.fullmatch(path):
-            print(f"Can't parse failed test: {case.attrib}", file=sys.stderr)
-            errors += 1
-            continue
-        url = link.group(1)
-        error = failure.get("message", "").removeprefix(f"{url}: ").replace("`", "'")
-        entries.setdefault(f"{url} in `{path}`", error[:300])
+    for path, items in [*results["error_map"].items(), *results["timeout_map"].items()]:
+        for item in items:
+            url, status = item.get("url", ""), item.get("status", {})
+            if not URL.fullmatch(url) or not FILE.fullmatch(path):
+                print(f"Can't parse broken link of {path}: {item}", file=sys.stderr)
+                errors += 1
+                continue
+            links.append((url, path))
+            # Later files with the same link only get "Error (cached)"
+            if not status.get("text", "").endswith("(cached)"):
+                message = status.get("details") or status.get("text", "")
+                messages.setdefault(url, " ".join(message.split()))
+    entries = {
+        f"{url} in `{path}`": messages.get(url, "Error").replace("`", "'")[:300]
+        for url, path in sorted(links)
+    }
     return entries, errors
 
 
@@ -100,7 +104,7 @@ def main() -> None:
                 "The [weekly checks](" + workflow + ") found these broken links,"
                 " and add any new ones here while this issue is open.",
                 "Fix them, or ignore links that only fail in CI with"
-                " `--check-links-ignore` in `pyproject.toml`.",
+                " `exclude` in `lychee.toml`.",
                 "",
                 *new,
                 "",
