@@ -18,6 +18,7 @@ on:
 jobs:
   checks:
     runs-on: ubuntu-latest
+    timeout-minutes: 150
     outputs:
       links: ${{ steps.links.outcome }}
     steps:
@@ -69,6 +70,7 @@ jobs:
     if: ${{ !cancelled() && github.ref == 'refs/heads/main' && needs.checks.outputs.links == 'failure' }}
     needs: checks
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       issues: write
     steps:
