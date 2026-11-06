@@ -46,7 +46,14 @@ addopts = [
   "--check-links-ignore=https://psycnet.apa.org/record/1948-15040-000",
   "--check-links-ignore=https://sealevel.nasa.gov/understanding-sea-level/global-sea-level/overview/",
   "--check-links-ignore=https://earthobservatory.nasa.gov/images/148414/lake-victorias-rising-waters",
-  "--check-links-ignore=https://timesofmalta.com/article/february-marks-9th-straight-month-recordsmashing-global-heat.1087990"
+  "--check-links-ignore=https://timesofmalta.com/article/february-marks-9th-straight-month-recordsmashing-global-heat.1087990",
+  # Sites that rate-limit, block or time out on GitHub runners, or fail TLS there
+  "--check-links-ignore=^https://api\\.semanticscholar\\.org/",
+  "--check-links-ignore=^https://www\\.earthdata\\.nasa\\.gov/",
+  "--check-links-ignore=^https://www\\.ipcc\\.ch/",
+  "--check-links-ignore=^https://www\\.cnr\\.it/",
+  "--check-links-ignore=^https://nmme\\.earth\\.miami\\.edu/",
+  "--check-links-ignore=^https://www\\.senamhi\\.gob\\.pe/"
 ]
 
 [tool.ruff]
@@ -70,6 +77,10 @@ select = [
   # pydocstyle
   "D"
 ]
+
+[tool.ruff.lint.per-file-ignores]
+# Notebooks: line length is left to the formatter; docstring style and import position are not enforced
+"*.ipynb" = ["D", "E402", "E501"]
 
 [tool.ruff.lint.pycodestyle]
 max-line-length = 110

@@ -14,6 +14,7 @@ repos:
   rev: v1.31.1
   hooks:
   - id: zizmor
+    args: [--config, .github/zizmor.yml] # not found automatically when pre-commit passes file paths
 - repo: https://github.com/astral-sh/ruff-pre-commit
   rev: v0.17.3
   hooks:
@@ -22,6 +23,21 @@ repos:
     types_or: [python, pyi]
   - id: ruff-format
     types_or: [python, pyi]
+  # Notebooks: many existing ones do not pass yet, so these are in the manual stage.
+  # Pull requests and `make qa` check changed notebooks; the weekly workflow and
+  # `make qa-all` check all of them and report what is left to fix. Unused imports are
+  # reported but not removed: imports such as rioxarray are needed for their side effects.
+  - id: ruff-check
+    alias: ruff-check-notebooks
+    name: ruff check (notebooks)
+    args: [--fix, --show-fixes, --unfixable=F401, --output-format=concise]
+    types_or: [jupyter]
+    stages: [manual]
+  - id: ruff-format
+    alias: ruff-format-notebooks
+    name: ruff format (notebooks)
+    types_or: [jupyter]
+    stages: [manual]
 - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
   rev: v2.16.0
   hooks:
