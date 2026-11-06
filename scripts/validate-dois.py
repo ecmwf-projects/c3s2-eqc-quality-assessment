@@ -16,8 +16,6 @@ from pathlib import Path
 import nbformat
 import requests
 import requests_cache
-from requests.adapters import HTTPAdapter
-from urllib3.util import Retry
 
 # Matches https://doi.org/ URLs while including balanced inner parentheses
 # and trimming trailing punctuation or outer wrapping parens.
@@ -40,15 +38,6 @@ def find_dois_in_notebook(path: Path, verbose: bool) -> set[str]:
 
 
 def find_broken_dois(dois: list[str], verbose: bool) -> dict[str, str]:
-    # Crossref rate limits when many DOIs are checked at once
-    retry = Retry(
-        total=5,
-        backoff_factor=2,
-        status_forcelist=[429, 500, 502, 503, 504],
-        raise_on_status=False,
-    )
-    session = requests.Session()
-    session.mount("https://", HTTPAdapter(max_retries=retry))
     broken_dois = {}
     for doi in dois:
         if verbose:
@@ -56,7 +45,7 @@ def find_broken_dois(dois: list[str], verbose: bool) -> dict[str, str]:
 
         status_code = None
         try:
-            response = session.get(
+            response = requests.get(
                 doi,
                 headers={"Accept": "text/x-bibliography"},
                 allow_redirects=True,
