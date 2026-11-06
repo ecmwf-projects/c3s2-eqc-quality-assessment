@@ -679,24 +679,29 @@ We will also need libraries for plotting and viewing data.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">dask.array</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">da</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>  <span class="c1"># import vector geospatial data</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>  <span class="c1"># plot graphs</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>  <span class="c1"># perform trigonometric calculations</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span> <span class="c1"># import vector geospatial data</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span> <span class="c1"># plot graphs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">patches</span> 
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span> <span class="c1"># perform trigonometric calculations</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shapely.geometry</span> <span class="c1"># work with geometric shapes</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">regionmask</span> <span class="c1"># transform attributes and geometries into specific regions</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">utils</span> 
+<span class="kn">from</span><span class="w"> </span><span class="nn">shapely.vectorized</span><span class="w"> </span><span class="kn">import</span> <span class="n">contains</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dask.array</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">da</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">plotly.graph_objects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">go</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">plotly.io</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pio</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">regionmask</span>  <span class="c1"># transform attributes and geometries into specific regions</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">shapely.geometry</span>  <span class="c1"># work with geometric shapes</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dask.array</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">da</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.graph_objects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">go</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"seaborn-v0_8-notebook"</span><span class="p">)</span>  <span class="c1"># predifined style of all graphical outputs</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"seaborn-v0_8-notebook"</span><span class="p">)</span> <span class="c1"># predifined style of all graphical outputs</span>
 <span class="n">pio</span><span class="o">.</span><span class="n">renderers</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="s2">"notebook"</span>
 
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"HOME"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"/data/wp5/girao_ines"</span>  <span class="c1"># set the path for you own CDSAPI file</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"HOME"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"/data/wp5/girao_ines"</span> <span class="c1"># set the path for you own CDSAPI file</span>
 </pre></div>
 </div>
 </div>
@@ -722,8 +727,8 @@ We will also need libraries for plotting and viewing data.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Years to download</span>
-<span class="n">years</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2009</span><span class="p">,</span> <span class="mi">2012</span><span class="p">,</span> <span class="mi">2015</span><span class="p">,</span> <span class="mi">2018</span><span class="p">,</span> <span class="mi">2022</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Years to download</span>
+<span class="n">years</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2009</span><span class="p">,</span><span class="mi">2012</span><span class="p">,</span><span class="mi">2015</span><span class="p">,</span><span class="mi">2018</span><span class="p">,</span><span class="mi">2022</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -744,7 +749,7 @@ We will also need libraries for plotting and viewing data.</p>
         <span class="s2">"format"</span><span class="p">:</span> <span class="s2">"zip"</span><span class="p">,</span>
         <span class="s2">"version"</span><span class="p">:</span> <span class="s2">"v2_0_7cds"</span> <span class="k">if</span> <span class="n">year</span> <span class="o">&lt;</span> <span class="mi">2016</span> <span class="k">else</span> <span class="s2">"v2_1_1"</span><span class="p">,</span>
         <span class="s2">"year"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">),</span>
-        <span class="s2">"area"</span><span class="p">:</span> <span class="p">[</span><span class="mi">44</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>  <span class="c1"># Region of interest (Iberian Peninsula)</span>
+        <span class="s2">"area"</span><span class="p">:</span> <span class="p">[</span><span class="mi">44</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="c1"># Region of interest (Iberian Peninsula)</span>
     <span class="p">}</span>
     <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">years</span>
 <span class="p">]</span>
@@ -803,11 +808,9 @@ In a future version of xarray the default value for data_vars will change from d
 
 <span class="n">lccs_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">values</span><span class="p">)}</span>
 
-
 <span class="c1"># Helper function to format the labels text</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">format_key</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">key</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"_"</span><span class="p">,</span> <span class="s2">" "</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
-
 
 <span class="n">lccs_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">format_key</span><span class="p">(</span><span class="n">key</span><span class="p">):</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">lccs_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 <span class="n">lccs_dict</span>
@@ -876,7 +879,7 @@ In a future version of xarray the default value for data_vars will change from d
     <span class="s2">"Other"</span><span class="p">:</span> <span class="p">(</span><span class="s2">"#0000ff"</span><span class="p">,</span> <span class="p">[</span><span class="mi">120</span><span class="p">,</span> <span class="mi">121</span><span class="p">,</span> <span class="mi">122</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">151</span><span class="p">,</span> <span class="mi">152</span><span class="p">,</span> <span class="mi">153</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">201</span><span class="p">,</span> <span class="mi">202</span><span class="p">,</span> <span class="mi">210</span><span class="p">]),</span>
 <span class="p">}</span>
 
-<span class="n">ipcc_dict</span>
+<span class="n">ipcc_dict</span> 
 </pre></div>
 </div>
 </div>
@@ -907,12 +910,11 @@ In a future version of xarray the default value for data_vars will change from d
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">selected_year</span> <span class="o">=</span> <span class="mi">2009</span>  <span class="c1"># choose the year you want to inspect</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">selected_year</span> <span class="o">=</span> <span class="mi">2009</span> <span class="c1">#choose the year you want to inspect</span>
 <span class="n">lccs_selected</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"lccs_class"</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">selected_year</span><span class="p">)</span>
 
 <span class="c1"># unique codes</span>
 <span class="n">present_codes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">da</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">lccs_selected</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()))</span>
-
 
 <span class="k">def</span><span class="w"> </span><span class="nf">filter_lccs_legend_to_present</span><span class="p">(</span><span class="n">lccs_dict</span><span class="p">,</span> <span class="n">present_codes</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""</span>
@@ -928,7 +930,6 @@ In a future version of xarray the default value for data_vars will change from d
             <span class="n">filtered</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="n">code_int</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">filtered</span>
 
-
 <span class="k">def</span><span class="w"> </span><span class="nf">filter_ipcc_legend_to_present</span><span class="p">(</span><span class="n">ipcc_dict</span><span class="p">,</span> <span class="n">present_codes</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    ipcc_dict format:</span>
@@ -942,30 +943,19 @@ In a future version of xarray the default value for data_vars will change from d
             <span class="n">filtered</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="n">codes_present</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">filtered</span>
 
-
 <span class="c1"># Filter both legends</span>
 <span class="n">lccs_present_legend</span> <span class="o">=</span> <span class="n">filter_lccs_legend_to_present</span><span class="p">(</span><span class="n">lccs_dict</span><span class="p">,</span> <span class="n">present_codes</span><span class="p">)</span>
 <span class="n">ipcc_present_legend</span> <span class="o">=</span> <span class="n">filter_ipcc_legend_to_present</span><span class="p">(</span><span class="n">ipcc_dict</span><span class="p">,</span> <span class="n">present_codes</span><span class="p">)</span>
 
 <span class="c1"># 1) LCCS map (only present classes in legend)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
-<span class="n">plot</span><span class="o">.</span><span class="n">lccs_map</span><span class="p">(</span>
-    <span class="n">lccs_selected</span><span class="p">,</span>
-    <span class="n">legend_dict</span><span class="o">=</span><span class="n">lccs_present_legend</span><span class="p">,</span>
-    <span class="n">interpolation</span><span class="o">=</span><span class="s2">"antialiased"</span><span class="p">,</span>
-    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
-<span class="p">)</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">lccs_map</span><span class="p">(</span><span class="n">lccs_selected</span><span class="p">,</span> <span class="n">legend_dict</span><span class="o">=</span><span class="n">lccs_present_legend</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">"antialiased"</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
 <span class="c1"># 2) IPCC map (only present groups in legend)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
-<span class="n">plot</span><span class="o">.</span><span class="n">lccs_map</span><span class="p">(</span>
-    <span class="n">lccs_selected</span><span class="p">,</span>
-    <span class="n">legend_dict</span><span class="o">=</span><span class="n">ipcc_present_legend</span><span class="p">,</span>
-    <span class="n">interpolation</span><span class="o">=</span><span class="s2">"antialiased"</span><span class="p">,</span>
-    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
-<span class="p">)</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">lccs_map</span><span class="p">(</span><span class="n">lccs_selected</span><span class="p">,</span> <span class="n">legend_dict</span><span class="o">=</span><span class="n">ipcc_present_legend</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">"antialiased"</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
@@ -1001,7 +991,7 @@ In a future version of xarray the default value for data_vars will change from d
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Shapefile with regions (NUTS2)</span>
-<span class="n">shapefile_url</span> <span class="o">=</span> <span class="s2">"https://gisco-services.ec.europa.eu/distribution/v2/nuts/shp/NUTS_RG_20M_2021_4326.shp.zip"</span>  <span class="c1"># NUTS2 download path</span>
+<span class="n">shapefile_url</span> <span class="o">=</span> <span class="s2">"https://gisco-services.ec.europa.eu/distribution/v2/nuts/shp/NUTS_RG_20M_2021_4326.shp.zip"</span> <span class="c1">#NUTS2 download path</span>
 </pre></div>
 </div>
 </div>
@@ -1019,27 +1009,19 @@ In a future version of xarray the default value for data_vars will change from d
 
 <span class="c1"># Data filter: load the shapefile and filter for NUTS2 regions in Spain and Portugal</span>
 <span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">shapefile_url</span><span class="p">)</span>  <span class="c1"># Read the shapefile NUTS2</span>
-<span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span>
-    <span class="n">gdf</span><span class="p">[</span><span class="s2">"LEVL_CODE"</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span>
-<span class="p">]</span>  <span class="c1"># Keep only features at the second administrative level (NUTS2)</span>
-<span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span>
-    <span class="n">gdf</span><span class="p">[</span><span class="s2">"NUTS_ID"</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">"ES"</span><span class="p">,</span> <span class="s2">"PT"</span><span class="p">))</span>
-<span class="p">]</span>  <span class="c1"># Keep only NUTS2 regions for Spain (ES) and Portugal (PT)</span>
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="n">gdf</span><span class="p">[</span><span class="s2">"LEVL_CODE"</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span>  <span class="c1"># Keep only features at the second administrative level (NUTS2)</span>
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="n">gdf</span><span class="p">[</span><span class="s2">"NUTS_ID"</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">"ES"</span><span class="p">,</span> <span class="s2">"PT"</span><span class="p">))]</span>  <span class="c1"># Keep only NUTS2 regions for Spain (ES) and Portugal (PT)</span>
 <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">)</span>  <span class="c1"># Ensure CRS is consistent with the dataset</span>
 
 <span class="c1"># Create a mask for the NUTS2 regions that intersect with the Iberian Peninsula</span>
-<span class="n">regions</span> <span class="o">=</span> <span class="n">regionmask</span><span class="o">.</span><span class="n">from_geopandas</span><span class="p">(</span>
-    <span class="n">gdf</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s2">"NUTS_NAME"</span>
-<span class="p">)</span>  <span class="c1"># Create regions mask based on GeoPandas DataFrame</span>
+<span class="n">regions</span> <span class="o">=</span> <span class="n">regionmask</span><span class="o">.</span><span class="n">from_geopandas</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s2">"NUTS_NAME"</span><span class="p">)</span>  <span class="c1"># Create regions mask based on GeoPandas DataFrame</span>
 
 <span class="c1"># Apply the mask to the dataset</span>
 <span class="n">mask</span> <span class="o">=</span> <span class="n">regions</span><span class="o">.</span><span class="n">mask</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">],</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">])</span>
 
 <span class="c1"># Only keep land areas (not ocean) by applying the mask</span>
 <span class="c1"># This ensures that only land pixels are used in the area calculations</span>
-<span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
-    <span class="n">mask</span><span class="o">.</span><span class="n">notnull</span><span class="p">(),</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>  <span class="c1"># Drop ocean pixels that are outside the NUTS2 regions</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="o">.</span><span class="n">notnull</span><span class="p">(),</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Drop ocean pixels that are outside the NUTS2 regions</span>
 </pre></div>
 </div>
 </div>
@@ -1059,12 +1041,8 @@ In a future version of xarray the default value for data_vars will change from d
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate Pixel Area after applying the mask</span>
 <span class="n">scaling_factor</span> <span class="o">=</span> <span class="mf">0.002778</span>  <span class="c1"># Define a scaling factor for conversion</span>
-<span class="n">resolution_km</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">scaling_factor</span> <span class="o">*</span> <span class="mf">111.195</span>
-<span class="p">)</span>  <span class="c1"># Calculate the grid cell resolution in kilometers</span>
-<span class="n">indexes</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-    <span class="nb">range</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]),</span> <span class="n">dims</span><span class="o">=</span><span class="s2">"latitude"</span>
-<span class="p">)</span>  <span class="c1"># Create an array of latitude indexes</span>
+<span class="n">resolution_km</span> <span class="o">=</span> <span class="n">scaling_factor</span> <span class="o">*</span> <span class="mf">111.195</span>  <span class="c1"># Calculate the grid cell resolution in kilometers</span>
+<span class="n">indexes</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]),</span> <span class="n">dims</span><span class="o">=</span><span class="s2">"latitude"</span><span class="p">)</span>  <span class="c1"># Create an array of latitude indexes</span>
 <span class="n">lats</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">indexes</span> <span class="o">*</span> <span class="n">scaling_factor</span>
 <span class="n">grid_cell_area</span> <span class="o">=</span> <span class="n">resolution_km</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">lats</span><span class="p">))</span>
 <span class="n">grid_cell_area</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
@@ -1096,23 +1074,20 @@ In a future version of xarray the default value for data_vars will change from d
 <span class="k">def</span><span class="w"> </span><span class="nf">calculate_area_by_class</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">cell_area</span><span class="p">,</span> <span class="n">year</span><span class="p">):</span>
     <span class="c1"># Select the data for the given year</span>
     <span class="n">ds_year</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">)</span>
-
+    
     <span class="c1"># Initialize a dictionary to store the area for each land cover class</span>
     <span class="n">area_by_class</span> <span class="o">=</span> <span class="p">{}</span>
-
+    
     <span class="c1"># Loop over each unique land cover class (lccs_class)</span>
-    <span class="k">for</span> <span class="n">lc_class</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">ds_year</span><span class="p">[</span><span class="s2">"lccs_class"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">lc_class</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">ds_year</span><span class="p">[</span><span class="s1">'lccs_class'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
         <span class="c1"># Create a mask for the current LC class</span>
-        <span class="n">mask</span> <span class="o">=</span> <span class="n">ds_year</span><span class="p">[</span><span class="s2">"lccs_class"</span><span class="p">]</span> <span class="o">==</span> <span class="n">lc_class</span>
-
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">ds_year</span><span class="p">[</span><span class="s1">'lccs_class'</span><span class="p">]</span> <span class="o">==</span> <span class="n">lc_class</span>
+        
         <span class="c1"># Calculate the total area for the current LC class</span>
-        <span class="n">total_area</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">cell_area</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
-        <span class="p">)</span>  <span class="c1"># Use .compute() to get the result</span>
+        <span class="n">total_area</span> <span class="o">=</span> <span class="n">cell_area</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>  <span class="c1"># Use .compute() to get the result</span>
         <span class="n">area_by_class</span><span class="p">[</span><span class="n">lc_class</span><span class="p">]</span> <span class="o">=</span> <span class="n">total_area</span>
-
+    
     <span class="k">return</span> <span class="n">area_by_class</span>
-
 
 <span class="c1"># Calculate areas for 1992 and 2022</span>
 <span class="n">area_2009</span> <span class="o">=</span> <span class="n">calculate_area_by_class</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"cell_area"</span><span class="p">],</span> <span class="mi">2009</span><span class="p">)</span>
@@ -1138,15 +1113,11 @@ In a future version of xarray the default value for data_vars will change from d
     <span class="mi">2012</span><span class="p">:</span> <span class="n">area_2012</span><span class="p">,</span>
     <span class="mi">2015</span><span class="p">:</span> <span class="n">area_2015</span><span class="p">,</span>
     <span class="mi">2018</span><span class="p">:</span> <span class="n">area_2018</span><span class="p">,</span>
-    <span class="mi">2022</span><span class="p">:</span> <span class="n">area_2022</span><span class="p">,</span>
+    <span class="mi">2022</span><span class="p">:</span> <span class="n">area_2022</span>
 <span class="p">}</span>
 
 <span class="c1"># Ensure lc_classes excludes NaN</span>
-<span class="n">lc_classes</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">lc_class</span>
-    <span class="k">for</span> <span class="n">lc_class</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">"lccs_class"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">lc_class</span><span class="p">)</span>
-<span class="p">]</span>
+<span class="n">lc_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">lc_class</span> <span class="k">for</span> <span class="n">lc_class</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">"lccs_class"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">lc_class</span><span class="p">)]</span>
 
 <span class="c1"># Prepare area lists for plotting</span>
 <span class="n">area_lists</span> <span class="o">=</span> <span class="p">{</span>
@@ -1157,8 +1128,8 @@ In a future version of xarray the default value for data_vars will change from d
 <span class="c1"># Get class names and colors from the mapping dictionaries</span>
 <span class="n">numeric_to_name</span> <span class="o">=</span> <span class="p">{</span><span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">key</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">lccs_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 <span class="n">numeric_to_color</span> <span class="o">=</span> <span class="p">{</span><span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">lccs_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-<span class="n">class_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">numeric_to_name</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">lc_class</span><span class="p">),</span> <span class="s2">"Unknown"</span><span class="p">)</span> <span class="k">for</span> <span class="n">lc_class</span> <span class="ow">in</span> <span class="n">lc_classes</span><span class="p">]</span>
-<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">numeric_to_color</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">lc_class</span><span class="p">),</span> <span class="s2">"#000000"</span><span class="p">)</span> <span class="k">for</span> <span class="n">lc_class</span> <span class="ow">in</span> <span class="n">lc_classes</span><span class="p">]</span>
+<span class="n">class_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">numeric_to_name</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">lc_class</span><span class="p">),</span> <span class="s1">'Unknown'</span><span class="p">)</span> <span class="k">for</span> <span class="n">lc_class</span> <span class="ow">in</span> <span class="n">lc_classes</span><span class="p">]</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">numeric_to_color</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">lc_class</span><span class="p">),</span> <span class="s1">'#000000'</span><span class="p">)</span> <span class="k">for</span> <span class="n">lc_class</span> <span class="ow">in</span> <span class="n">lc_classes</span><span class="p">]</span>
 
 <span class="c1"># Bar plot settings</span>
 <span class="n">bar_width</span> <span class="o">=</span> <span class="mf">0.2</span>
@@ -1166,7 +1137,13 @@ In a future version of xarray the default value for data_vars will change from d
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
 
 <span class="c1"># Unique hatching patterns for visual separation by year</span>
-<span class="n">hatch_patterns</span> <span class="o">=</span> <span class="p">{</span><span class="mi">2009</span><span class="p">:</span> <span class="s2">"."</span><span class="p">,</span> <span class="mi">2012</span><span class="p">:</span> <span class="s2">"/"</span><span class="p">,</span> <span class="mi">2015</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span> <span class="mi">2018</span><span class="p">:</span> <span class="s2">"x"</span><span class="p">,</span> <span class="mi">2022</span><span class="p">:</span> <span class="s2">"."</span><span class="p">}</span>
+<span class="n">hatch_patterns</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">2009</span><span class="p">:</span> <span class="s1">'.'</span><span class="p">,</span>
+    <span class="mi">2012</span><span class="p">:</span> <span class="s1">'/'</span><span class="p">,</span>
+    <span class="mi">2015</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span>
+    <span class="mi">2018</span><span class="p">:</span> <span class="s1">'x'</span><span class="p">,</span>
+    <span class="mi">2022</span><span class="p">:</span> <span class="s1">'.'</span>
+<span class="p">}</span>
 
 <span class="c1"># Plot bars for each year</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">area_by_year</span><span class="p">)):</span>
@@ -1176,19 +1153,17 @@ In a future version of xarray the default value for data_vars will change from d
         <span class="n">bar_width</span><span class="p">,</span>
         <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">),</span>
         <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
-        <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span>
+        <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'black'</span><span class="p">,</span>
         <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="n">hatch</span><span class="o">=</span><span class="n">hatch_patterns</span><span class="p">[</span><span class="n">year</span><span class="p">],</span>
+        <span class="n">hatch</span><span class="o">=</span><span class="n">hatch_patterns</span><span class="p">[</span><span class="n">year</span><span class="p">]</span>
     <span class="p">)</span>
 
 <span class="c1"># Final plot customization</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Land Cover Class"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Sum of Area [km²]"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
-    <span class="s2">"Comparison of Land Cover Classes in 2009, 2012, 2015, 2018 and 2022"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span>
-<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Land Cover Class'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Sum of Area [km²]'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Comparison of Land Cover Classes in 2009, 2012, 2015, 2018 and 2022'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="n">bar_width</span> <span class="o">*</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">class_names</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Year"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Year'</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -1253,7 +1228,6 @@ In a future version of xarray the default value for data_vars will change from d
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_map_codes_to_idx</span><span class="p">(</span><span class="n">a_da</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">"""Map raw class codes (float with NaNs possible) -&gt; contiguous indices via LUT, dask-safe."""</span>
-
         <span class="k">def</span><span class="w"> </span><span class="nf">_map_block</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">lut</span><span class="o">=</span><span class="n">lut</span><span class="p">,</span> <span class="n">max_code</span><span class="o">=</span><span class="n">max_code</span><span class="p">):</span>
             <span class="n">finite</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
             <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
@@ -1273,7 +1247,7 @@ In a future version of xarray the default value for data_vars will change from d
     <span class="k">def</span><span class="w"> </span><span class="nf">_pair_matrix</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">y1</span><span class="p">):</span>
         <span class="n">a0</span> <span class="o">=</span> <span class="n">lccs</span><span class="o">.</span><span class="n">sel</span><span class="p">({</span><span class="n">year_var</span><span class="p">:</span> <span class="n">y0</span><span class="p">})</span><span class="o">.</span><span class="n">data</span>
         <span class="n">a1</span> <span class="o">=</span> <span class="n">lccs</span><span class="o">.</span><span class="n">sel</span><span class="p">({</span><span class="n">year_var</span><span class="p">:</span> <span class="n">y1</span><span class="p">})</span><span class="o">.</span><span class="n">data</span>
-        <span class="n">w</span> <span class="o">=</span> <span class="n">area_km2_2d</span><span class="o">.</span><span class="n">data</span>
+        <span class="n">w</span>  <span class="o">=</span> <span class="n">area_km2_2d</span><span class="o">.</span><span class="n">data</span>
 
         <span class="n">idx0</span> <span class="o">=</span> <span class="n">_map_codes_to_idx</span><span class="p">(</span><span class="n">a0</span><span class="p">)</span>
         <span class="n">idx1</span> <span class="o">=</span> <span class="n">_map_codes_to_idx</span><span class="p">(</span><span class="n">a1</span><span class="p">)</span>
@@ -1304,7 +1278,6 @@ In a future version of xarray the default value for data_vars will change from d
 
 
 <span class="c1"># Aggregate class→class transitions to IPCC groups</span>
-
 
 <span class="k">def</span><span class="w"> </span><span class="nf">aggregate_transitions_to_ipcc</span><span class="p">(</span>
     <span class="n">transitions_km2</span><span class="p">,</span>
@@ -1361,8 +1334,7 @@ In a future version of xarray the default value for data_vars will change from d
     <span class="k">return</span> <span class="n">transitions_km2_ipcc</span><span class="p">,</span> <span class="n">group_order</span><span class="p">,</span> <span class="n">class_to_group</span>
 
 
-<span class="c1">#  Sankey: km² + ONLY % of source outflow;</span>
-
+<span class="c1">#  Sankey: km² + ONLY % of source outflow; </span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">plot_ipcc_sankey_outflow_pct</span><span class="p">(</span>
     <span class="n">pair</span><span class="p">,</span>
@@ -1371,7 +1343,7 @@ In a future version of xarray the default value for data_vars will change from d
     <span class="n">min_value_km2</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="n">title_suffix</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
     <span class="n">show_source_totals_in_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># &lt;- CHANGED default: don't show totals</span>
-    <span class="n">disable_node_hover</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># &lt;- NEW: no hover on lateral bars</span>
+    <span class="n">disable_node_hover</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>            <span class="c1"># &lt;- NEW: no hover on lateral bars</span>
     <span class="n">width</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span>
     <span class="n">height</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>
 <span class="p">):</span>
@@ -1404,7 +1376,8 @@ In a future version of xarray the default value for data_vars will change from d
     <span class="c1"># Labels: optionally show totals for sources (outflow only)</span>
     <span class="k">if</span> <span class="n">show_source_totals_in_labels</span><span class="p">:</span>
         <span class="n">src_labels</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">g</span><span class="si">}</span><span class="s2">&lt;br&gt;</span><span class="si">{</span><span class="n">row_outflow</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2"> km² changed"</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">g</span><span class="si">}</span><span class="s2">&lt;br&gt;</span><span class="si">{</span><span class="n">row_outflow</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2"> km² changed"</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
         <span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">src_labels</span> <span class="o">=</span> <span class="n">rows</span>
@@ -1431,7 +1404,9 @@ In a future version of xarray the default value for data_vars will change from d
             <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">km2</span><span class="p">)</span>
 
             <span class="n">hover</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">src</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">dst</span><span class="si">}</span><span class="s2">&lt;br&gt;</span><span class="si">{</span><span class="n">km2</span><span class="si">:</span><span class="s2">,.1f</span><span class="si">}</span><span class="s2"> km²&lt;br&gt;</span><span class="si">{</span><span class="n">pct_out</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">% of </span><span class="si">{</span><span class="n">src</span><span class="si">}</span><span class="s2"> outflow"</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">src</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">dst</span><span class="si">}</span><span class="s2">&lt;br&gt;"</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">km2</span><span class="si">:</span><span class="s2">,.1f</span><span class="si">}</span><span class="s2"> km²&lt;br&gt;"</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">pct_out</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">% of </span><span class="si">{</span><span class="n">src</span><span class="si">}</span><span class="s2"> outflow"</span>
             <span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">values</span><span class="p">:</span>
@@ -1500,7 +1475,10 @@ In a future version of xarray the default value for data_vars will change from d
 
 <span class="k">def</span><span class="w"> </span><span class="nf">get_ipcc_colors</span><span class="p">(</span><span class="n">ipcc_dict</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Extract IPCC class colours from ipcc_dict."""</span>
-    <span class="k">return</span> <span class="p">{</span><span class="n">class_name</span><span class="p">:</span> <span class="n">class_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">class_name</span><span class="p">,</span> <span class="n">class_info</span> <span class="ow">in</span> <span class="n">ipcc_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="n">class_name</span><span class="p">:</span> <span class="n">class_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">class_name</span><span class="p">,</span> <span class="n">class_info</span> <span class="ow">in</span> <span class="n">ipcc_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="p">}</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">get_ipcc_class_from_label</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">ipcc_colors</span><span class="p">):</span>
@@ -1531,7 +1509,7 @@ In a future version of xarray the default value for data_vars will change from d
     <span class="n">node_colors</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">ipcc_colors</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
             <span class="n">get_ipcc_class_from_label</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">ipcc_colors</span><span class="p">),</span>
-            <span class="n">ipcc_colors</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Other"</span><span class="p">,</span> <span class="s2">"#808080"</span><span class="p">),</span>
+            <span class="n">ipcc_colors</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Other"</span><span class="p">,</span> <span class="s2">"#808080"</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span>
     <span class="p">]</span>
@@ -1540,9 +1518,9 @@ In a future version of xarray the default value for data_vars will change from d
         <span class="n">hex_to_rgba</span><span class="p">(</span>
             <span class="n">ipcc_colors</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
                 <span class="n">get_ipcc_class_from_label</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">source_idx</span><span class="p">],</span> <span class="n">ipcc_colors</span><span class="p">),</span>
-                <span class="n">ipcc_colors</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Other"</span><span class="p">,</span> <span class="s2">"#808080"</span><span class="p">),</span>
+                <span class="n">ipcc_colors</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Other"</span><span class="p">,</span> <span class="s2">"#808080"</span><span class="p">)</span>
             <span class="p">),</span>
-            <span class="n">alpha</span><span class="o">=</span><span class="mf">0.45</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="mf">0.45</span>
         <span class="p">)</span>
         <span class="k">for</span> <span class="n">source_idx</span> <span class="ow">in</span> <span class="n">sankey</span><span class="o">.</span><span class="n">link</span><span class="o">.</span><span class="n">source</span>
     <span class="p">]</span>
@@ -1550,7 +1528,7 @@ In a future version of xarray the default value for data_vars will change from d
     <span class="n">fig</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span>
         <span class="n">node</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">node_colors</span><span class="p">),</span>
         <span class="n">link</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">link_colors</span><span class="p">),</span>
-        <span class="n">selector</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">"sankey"</span><span class="p">),</span>
+        <span class="n">selector</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">"sankey"</span><span class="p">)</span>
     <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">fig</span>
@@ -1597,7 +1575,10 @@ In a future version of xarray the default value for data_vars will change from d
         <span class="n">fig</span> <span class="o">=</span> <span class="n">apply_ipcc_colors_to_sankey</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">ipcc_dict</span><span class="p">)</span>
 
         <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
-            <span class="n">autosize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">700</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">450</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+            <span class="n">autosize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">width</span><span class="o">=</span><span class="mi">700</span><span class="p">,</span>
+            <span class="n">height</span><span class="o">=</span><span class="mi">450</span><span class="p">,</span>
+            <span class="n">margin</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
         <span class="p">)</span>
 
         <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -5630,22 +5611,16 @@ if (outputEl) {{
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filter the GeoDataFrame to include only the regions of interest</span>
-<span class="n">regions</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">"Comunidad de Madrid"</span><span class="p">,</span>
-    <span class="s2">"Cataluña"</span><span class="p">,</span>
-    <span class="s2">"Área Metropolitana de Lisboa"</span><span class="p">,</span>
-    <span class="s2">"Comunitat Valenciana"</span><span class="p">,</span>
-    <span class="s2">"Norte"</span><span class="p">,</span>
-<span class="p">]</span>
+<span class="n">regions</span><span class="o">=</span> <span class="p">[</span><span class="s2">"Comunidad de Madrid"</span><span class="p">,</span> <span class="s2">"Cataluña"</span><span class="p">,</span> <span class="s2">"Área Metropolitana de Lisboa"</span><span class="p">,</span> <span class="s2">"Comunitat Valenciana"</span><span class="p">,</span> <span class="s2">"Norte"</span><span class="p">]</span>
 
-<span class="n">gdf_filtered</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="n">gdf</span><span class="p">[</span><span class="s2">"NUTS_NAME"</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">regions</span><span class="p">)]</span>
+<span class="n">gdf_filtered</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="n">gdf</span><span class="p">[</span><span class="s1">'NUTS_NAME'</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">regions</span><span class="p">)]</span>
 <span class="n">gdf_filtered</span> <span class="o">=</span> <span class="n">gdf_filtered</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="s2">"EPSG:4326"</span><span class="p">)</span>
 
 <span class="c1"># Expand cell_area ONCE outside the loops</span>
 <span class="n">cell_area</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"cell_area"</span><span class="p">]</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">({</span><span class="s2">"longitude"</span><span class="p">:</span> <span class="n">ds</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="c1"># Prepare latitude and longitude grids ONCE</span>
-<span class="n">lat</span><span class="p">,</span> <span class="n">lon</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">lat</span><span class="p">,</span> <span class="n">lon</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">'latitude'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s1">'longitude'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 <span class="n">lon_grid</span><span class="p">,</span> <span class="n">lat_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">)</span>  <span class="c1"># avoid recalculating inside mask function</span>
 </pre></div>
 </div>
@@ -5661,39 +5636,28 @@ if (outputEl) {{
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create region mask using shapely</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">create_region_mask</span><span class="p">(</span><span class="n">region_geom</span><span class="p">,</span> <span class="n">lon_grid</span><span class="p">,</span> <span class="n">lat_grid</span><span class="p">):</span>
-    <span class="n">points</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">lon_grid</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">lat_grid</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
-    <span class="p">]</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">lon_grid</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">lat_grid</span><span class="o">.</span><span class="n">ravel</span><span class="p">())]</span>
     <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">region_geom</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span> <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">points</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">lon_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="p">[</span><span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">],</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">])</span>
-
 
 <span class="c1"># Calculate IPCC class % coverage for a given year and region</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">calculate_ipcc_coverage</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">region_mask</span><span class="p">,</span> <span class="n">cell_area</span><span class="p">,</span> <span class="n">ipcc_dict</span><span class="p">,</span> <span class="n">total_area</span><span class="p">):</span>
     <span class="n">lccs</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"lccs_class"</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">region_mask</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">{</span>
-        <span class="n">group</span><span class="p">:</span> <span class="p">(</span>
-            <span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">lccs</span><span class="p">,</span> <span class="n">codes</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">cell_area</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">/</span> <span class="n">total_area</span>
-        <span class="p">)</span>
-        <span class="o">*</span> <span class="mi">100</span>
+        <span class="n">group</span><span class="p">:</span> <span class="p">((</span><span class="n">xr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">lccs</span><span class="p">,</span> <span class="n">codes</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">cell_area</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">/</span> <span class="n">total_area</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
         <span class="k">for</span> <span class="n">group</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">codes</span><span class="p">)</span> <span class="ow">in</span> <span class="n">ipcc_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
     <span class="p">}</span>
-
 
 <span class="c1"># Compute absolute and relative differences</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_differences</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
     <span class="n">abs_diff</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">target</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">-</span> <span class="n">base</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">base</span><span class="p">}</span>
-    <span class="n">rel_diff</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">k</span><span class="p">:</span> <span class="p">((</span><span class="n">target</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">-</span> <span class="n">base</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="o">/</span> <span class="n">base</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">if</span> <span class="n">base</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">base</span>
-    <span class="p">}</span>
+    <span class="n">rel_diff</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="p">((</span><span class="n">target</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">-</span> <span class="n">base</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="o">/</span> <span class="n">base</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">if</span> <span class="n">base</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">base</span><span class="p">}</span>
     <span class="k">return</span> <span class="n">abs_diff</span><span class="p">,</span> <span class="n">rel_diff</span>
-
 
 <span class="c1"># Padded y-axis limits</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">padded_limits</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
     <span class="n">finite_vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">v</span><span class="p">)]</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">finite_vals</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">finite_vals</span><span class="p">:</span> <span class="k">return</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
     <span class="n">min_v</span><span class="p">,</span> <span class="n">max_v</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">finite_vals</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">finite_vals</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">min_v</span><span class="p">,</span> <span class="n">max_v</span> <span class="o">+</span> <span class="p">(</span><span class="n">max_v</span> <span class="o">-</span> <span class="n">min_v</span><span class="p">)</span> <span class="o">*</span> <span class="n">pad</span>
 </pre></div>
@@ -5708,58 +5672,49 @@ if (outputEl) {{
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ploting fuctions</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ploting fuctions </span>
 <span class="k">def</span><span class="w"> </span><span class="nf">plot_coverage</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">cov_2009</span><span class="p">,</span> <span class="n">cov_2022</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">ymax</span><span class="p">):</span>
-    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">cov_2009</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">"No Data"</span><span class="p">]</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">cov_2009</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s1">'No Data'</span><span class="p">]</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
     <span class="n">width</span> <span class="o">=</span> <span class="mf">0.35</span>
     <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">ipcc_dict</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span>
     <span class="n">y1</span> <span class="o">=</span> <span class="p">[</span><span class="n">cov_2009</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span>
     <span class="n">y2</span> <span class="o">=</span> <span class="p">[</span><span class="n">cov_2022</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span>
 
-    <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"2009"</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
-        <span class="n">x</span> <span class="o">+</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
-        <span class="n">y2</span><span class="p">,</span>
-        <span class="n">width</span><span class="p">,</span>
-        <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
-        <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span>
-        <span class="n">hatch</span><span class="o">=</span><span class="s2">"//"</span><span class="p">,</span>
-        <span class="n">label</span><span class="o">=</span><span class="s2">"2022"</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Coverage Area (%)"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'black'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'2009'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'black'</span><span class="p">,</span> <span class="n">hatch</span><span class="o">=</span><span class="s1">'//'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'2022'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Coverage Area (%)'</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'"</span><span class="si">{</span><span class="n">region</span><span class="si">}</span><span class="s1">" NUTS2'</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">"right"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'right'</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymax</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-
 
 <span class="c1"># Plot absolute and relative differences (side-by-side bars)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">plot_differences</span><span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">abs_d</span><span class="p">,</span> <span class="n">rel_d</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">lims_abs</span><span class="p">,</span> <span class="n">lims_rel</span><span class="p">):</span>
-    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">abs_d</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">"No Data"</span><span class="p">]</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">abs_d</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s1">'No Data'</span><span class="p">]</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
     <span class="n">width</span> <span class="o">=</span> <span class="mf">0.35</span>
     <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">ipcc_dict</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span>
 
     <span class="c1"># Absolute difference</span>
-    <span class="n">ax1</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="n">abs_d</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">],</span> <span class="n">width</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span>
-    <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Absolute Change (%)"</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="n">abs_d</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">],</span> <span class="n">width</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'black'</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Absolute Change (%)'</span><span class="p">)</span>
     <span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Abs Diff "</span><span class="si">{</span><span class="n">region</span><span class="si">}</span><span class="s1">"'</span><span class="p">)</span>
     <span class="n">ax1</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">ax1</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">"right"</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'right'</span><span class="p">)</span>
     <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">*</span><span class="n">lims_abs</span><span class="p">)</span>
-    <span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
 
     <span class="c1"># Relative difference</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="n">rel_d</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">],</span> <span class="n">width</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Relative Change (%)"</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="n">rel_d</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">],</span> <span class="n">width</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'black'</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Relative Change (%)'</span><span class="p">)</span>
     <span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Rel Diff "</span><span class="si">{</span><span class="n">region</span><span class="si">}</span><span class="s1">"'</span><span class="p">)</span>
     <span class="n">ax2</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">"right"</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'right'</span><span class="p">)</span>
     <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">*</span><span class="n">lims_rel</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -5772,9 +5727,9 @@ if (outputEl) {{
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot change</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Plot change</span>
 <span class="c1"># Year to check</span>
-<span class="n">years_to_check</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2009</span><span class="p">,</span> <span class="mi">2012</span><span class="p">,</span> <span class="mi">2015</span><span class="p">,</span> <span class="mi">2018</span><span class="p">,</span> <span class="mi">2022</span><span class="p">]</span>
+<span class="n">years_to_check</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2009</span><span class="p">,</span> <span class="mi">2012</span><span class="p">,</span> <span class="mi">2015</span><span class="p">,</span> <span class="mi">2018</span><span class="p">,</span><span class="mi">2022</span><span class="p">]</span>
 <span class="n">global_cov</span><span class="p">,</span> <span class="n">global_abs</span><span class="p">,</span> <span class="n">global_rel</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
 
 <span class="c1"># Storage dictionary for later reuse</span>
@@ -5976,10 +5931,8 @@ if (outputEl) {{
 
 <span class="c1"># Combined table for all classes and years</span>
 
-
 <span class="k">def</span><span class="w"> </span><span class="nf">eu_get</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">year</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">region</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">)),</span> <span class="kc">None</span><span class="p">)</span>
-
 
 <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">region</span> <span class="ow">in</span> <span class="n">regions</span><span class="p">:</span>
@@ -5993,36 +5946,20 @@ if (outputEl) {{
             <span class="s2">"Year"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">),</span>
             <span class="s2">"C3S Settlement (%)"</span><span class="p">:</span> <span class="n">cov</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Settlement"</span><span class="p">),</span>
             <span class="s2">"EUROSTAT Artificial (%)"</span><span class="p">:</span> <span class="n">eu_get</span><span class="p">(</span><span class="n">eurostat_artificial</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">year</span><span class="p">),</span>
-            <span class="s2">"Δ Settlement (%)"</span><span class="p">:</span> <span class="kc">None</span>
-            <span class="k">if</span> <span class="p">(</span>
-                <span class="n">cov</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Settlement"</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
-                <span class="ow">or</span> <span class="n">eu_get</span><span class="p">(</span><span class="n">eurostat_artificial</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">year</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
-            <span class="p">)</span>
-            <span class="k">else</span> <span class="n">cov</span><span class="p">[</span><span class="s2">"Settlement"</span><span class="p">]</span> <span class="o">-</span> <span class="n">eu_get</span><span class="p">(</span><span class="n">eurostat_artificial</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">year</span><span class="p">),</span>
+            <span class="s2">"Δ Settlement (%)"</span><span class="p">:</span> <span class="kc">None</span> <span class="k">if</span> <span class="p">(</span><span class="n">cov</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Settlement"</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">eu_get</span><span class="p">(</span><span class="n">eurostat_artificial</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">year</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span>
+                                <span class="k">else</span> <span class="n">cov</span><span class="p">[</span><span class="s2">"Settlement"</span><span class="p">]</span> <span class="o">-</span> <span class="n">eu_get</span><span class="p">(</span><span class="n">eurostat_artificial</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">year</span><span class="p">),</span>
             <span class="s2">"C3S Forest (%)"</span><span class="p">:</span> <span class="n">cov</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Forest"</span><span class="p">),</span>
             <span class="s2">"EUROSTAT Woodland (%)"</span><span class="p">:</span> <span class="n">eu_get</span><span class="p">(</span><span class="n">eurostat_woodland</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">year</span><span class="p">),</span>
-            <span class="s2">"Δ Forest (%)"</span><span class="p">:</span> <span class="kc">None</span>
-            <span class="k">if</span> <span class="p">(</span>
-                <span class="n">cov</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Forest"</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
-                <span class="ow">or</span> <span class="n">eu_get</span><span class="p">(</span><span class="n">eurostat_woodland</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">year</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
-            <span class="p">)</span>
-            <span class="k">else</span> <span class="n">cov</span><span class="p">[</span><span class="s2">"Forest"</span><span class="p">]</span> <span class="o">-</span> <span class="n">eu_get</span><span class="p">(</span><span class="n">eurostat_woodland</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">year</span><span class="p">),</span>
+            <span class="s2">"Δ Forest (%)"</span><span class="p">:</span> <span class="kc">None</span> <span class="k">if</span> <span class="p">(</span><span class="n">cov</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Forest"</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">eu_get</span><span class="p">(</span><span class="n">eurostat_woodland</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">year</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span>
+                              <span class="k">else</span> <span class="n">cov</span><span class="p">[</span><span class="s2">"Forest"</span><span class="p">]</span> <span class="o">-</span> <span class="n">eu_get</span><span class="p">(</span><span class="n">eurostat_woodland</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">year</span><span class="p">),</span>
             <span class="s2">"C3S Grassland (%)"</span><span class="p">:</span> <span class="n">cov</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Grassland"</span><span class="p">),</span>
             <span class="s2">"EUROSTAT Grassland (%)"</span><span class="p">:</span> <span class="n">eu_get</span><span class="p">(</span><span class="n">eurostat_grassland</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">year</span><span class="p">),</span>
-            <span class="s2">"Δ Grassland (%)"</span><span class="p">:</span> <span class="kc">None</span>
-            <span class="k">if</span> <span class="p">(</span>
-                <span class="n">cov</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Grassland"</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
-                <span class="ow">or</span> <span class="n">eu_get</span><span class="p">(</span><span class="n">eurostat_grassland</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">year</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
-            <span class="p">)</span>
-            <span class="k">else</span> <span class="n">cov</span><span class="p">[</span><span class="s2">"Grassland"</span><span class="p">]</span> <span class="o">-</span> <span class="n">eu_get</span><span class="p">(</span><span class="n">eurostat_grassland</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">year</span><span class="p">),</span>
+            <span class="s2">"Δ Grassland (%)"</span><span class="p">:</span> <span class="kc">None</span> <span class="k">if</span> <span class="p">(</span><span class="n">cov</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Grassland"</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">eu_get</span><span class="p">(</span><span class="n">eurostat_grassland</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">year</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span>
+                                 <span class="k">else</span> <span class="n">cov</span><span class="p">[</span><span class="s2">"Grassland"</span><span class="p">]</span> <span class="o">-</span> <span class="n">eu_get</span><span class="p">(</span><span class="n">eurostat_grassland</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">year</span><span class="p">),</span>
             <span class="s2">"C3S Agriculture (%)"</span><span class="p">:</span> <span class="n">cov</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Agriculture"</span><span class="p">),</span>
             <span class="s2">"EUROSTAT Cropland (%)"</span><span class="p">:</span> <span class="n">eu_get</span><span class="p">(</span><span class="n">eurostat_cropland</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">year</span><span class="p">),</span>
-            <span class="s2">"Δ Agriculture (%)"</span><span class="p">:</span> <span class="kc">None</span>
-            <span class="k">if</span> <span class="p">(</span>
-                <span class="n">cov</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Agriculture"</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
-                <span class="ow">or</span> <span class="n">eu_get</span><span class="p">(</span><span class="n">eurostat_cropland</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">year</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
-            <span class="p">)</span>
-            <span class="k">else</span> <span class="n">cov</span><span class="p">[</span><span class="s2">"Agriculture"</span><span class="p">]</span> <span class="o">-</span> <span class="n">eu_get</span><span class="p">(</span><span class="n">eurostat_cropland</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">year</span><span class="p">),</span>
+            <span class="s2">"Δ Agriculture (%)"</span><span class="p">:</span> <span class="kc">None</span> <span class="k">if</span> <span class="p">(</span><span class="n">cov</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Agriculture"</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">eu_get</span><span class="p">(</span><span class="n">eurostat_cropland</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">year</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span>
+                                  <span class="k">else</span> <span class="n">cov</span><span class="p">[</span><span class="s2">"Agriculture"</span><span class="p">]</span> <span class="o">-</span> <span class="n">eu_get</span><span class="p">(</span><span class="n">eurostat_cropland</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">year</span><span class="p">),</span>
         <span class="p">}</span>
         <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
 

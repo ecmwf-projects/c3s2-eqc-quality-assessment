@@ -687,12 +687,10 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import packages</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">calendar</span>
-
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">utils</span>
-
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"seaborn-v0_8-notebook"</span><span class="p">)</span>
 
 <span class="c1"># Time frame for the analysis</span>
@@ -789,7 +787,7 @@ The function <code class="docutils literal notranslate"><span class="pre">spatia
         <span class="n">transform_func</span><span class="o">=</span><span class="n">spatial_weighted_mean</span><span class="p">,</span>
         <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="n">transform_func_kwargs</span><span class="p">,</span>
         <span class="n">drop_variables</span><span class="o">=</span><span class="s2">"time_bounds"</span><span class="p">,</span>
-        <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">quiet</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="p">)</span>
     <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">region</span><span class="o">=</span><span class="p">[</span><span class="n">region</span><span class="p">]))</span>
 <span class="n">ds_timeseries</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="s2">"region"</span><span class="p">)</span>
@@ -826,10 +824,8 @@ region='SH polar'
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">da_obs</span> <span class="o">=</span> <span class="n">ds_full</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">varname</span><span class="si">}</span><span class="s2">_number_of_observations"</span><span class="p">]</span>
-<span class="n">da_obs</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"long_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">da_obs</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"long_name"</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"use"</span><span class="p">,</span> <span class="s2">"used"</span><span class="p">)</span>
-<span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span>
-    <span class="n">da_obs</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">show_stats</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s2">"both"</span>
-<span class="p">)</span>
+<span class="n">da_obs</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"long_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">da_obs</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"long_name"</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"use"</span><span class="p">,</span><span class="s2">"used"</span><span class="p">)</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span><span class="n">da_obs</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">show_stats</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s1">'both'</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>

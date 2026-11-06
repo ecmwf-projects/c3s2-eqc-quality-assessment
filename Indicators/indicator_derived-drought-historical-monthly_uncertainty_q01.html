@@ -789,16 +789,15 @@ so you can download it and apply it to your preferred domain.</p>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Input / Output</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">earthkit.data</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ekd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.patheffects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">path_effects</span>
-
-<span class="c1"># Visualisation</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
 <span class="c1"># General data handling</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">Line2D</span>
 
+<span class="c1"># Visualisation</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.patheffects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">path_effects</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">Line2D</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">"axes.grid"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">"grid.linestyle"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"--"</span>
 
@@ -832,12 +831,11 @@ so you can download it and apply it to your preferred domain.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Constants</span>
 <span class="n">MONTHS</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span>  <span class="c1"># January to December (inclusive)</span>
 
-
 <span class="c1"># Geographical</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">request_data_for_one_site</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">half_width</span><span class="o">=</span><span class="mf">0.25</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Return a CDS request for a bounding box around a point (lon, lat)."""</span>
+<span class="w">    </span><span class="sd">""" Return a CDS request for a bounding box around a point (lon, lat). """</span>
     <span class="n">north</span><span class="p">,</span> <span class="n">south</span> <span class="o">=</span> <span class="n">lat</span> <span class="o">+</span> <span class="n">half_width</span><span class="p">,</span> <span class="n">lat</span> <span class="o">-</span> <span class="n">half_width</span>
-    <span class="n">east</span><span class="p">,</span> <span class="n">west</span> <span class="o">=</span> <span class="n">lon</span> <span class="o">+</span> <span class="n">half_width</span><span class="p">,</span> <span class="n">lon</span> <span class="o">-</span> <span class="n">half_width</span>
+    <span class="n">east</span> <span class="p">,</span> <span class="n">west</span>  <span class="o">=</span> <span class="n">lon</span> <span class="o">+</span> <span class="n">half_width</span><span class="p">,</span> <span class="n">lon</span> <span class="o">-</span> <span class="n">half_width</span>
     <span class="n">box</span> <span class="o">=</span> <span class="p">[</span><span class="n">north</span><span class="p">,</span> <span class="n">west</span><span class="p">,</span> <span class="n">south</span><span class="p">,</span> <span class="n">east</span><span class="p">]</span>
     <span class="n">box</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">box</span><span class="p">]</span>  <span class="c1"># Round all coordinates to 2 digits</span>
     <span class="n">request_box</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"area"</span><span class="p">:</span> <span class="n">box</span><span class="p">}</span>
@@ -859,39 +857,33 @@ so you can download it and apply it to your preferred domain.</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">CATEGORIES_SPI</span> <span class="o">=</span> <span class="p">[</span>  <span class="c1"># Approximates the GDO scheme</span>
-    <span class="p">(</span><span class="mf">2.00</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">"Extremely wet"</span><span class="p">,</span> <span class="s2">"#7a007b"</span><span class="p">),</span>  <span class="c1"># deepest purple</span>
-    <span class="p">(</span><span class="mf">1.50</span><span class="p">,</span> <span class="mf">2.00</span><span class="p">,</span> <span class="s2">"Severely wet"</span><span class="p">,</span> <span class="s2">"#af51c3"</span><span class="p">),</span>  <span class="c1"># dark purple</span>
-    <span class="p">(</span><span class="mf">1.00</span><span class="p">,</span> <span class="mf">1.50</span><span class="p">,</span> <span class="s2">"Moderately wet"</span><span class="p">,</span> <span class="s2">"#eaccf8"</span><span class="p">),</span>  <span class="c1"># medium purple</span>
-    <span class="p">(</span><span class="mf">0.00</span><span class="p">,</span> <span class="mf">1.00</span><span class="p">,</span> <span class="s2">"Near‑normal / mildly wet"</span><span class="p">,</span> <span class="s2">"#ffffff"</span><span class="p">),</span>  <span class="c1"># white</span>
-    <span class="p">(</span><span class="o">-</span><span class="mf">1.00</span><span class="p">,</span> <span class="mf">0.00</span><span class="p">,</span> <span class="s2">"Near‑normal / mildly dry"</span><span class="p">,</span> <span class="s2">"#ffffff"</span><span class="p">),</span>  <span class="c1"># white</span>
-    <span class="p">(</span><span class="o">-</span><span class="mf">1.50</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.00</span><span class="p">,</span> <span class="s2">"Moderately dry"</span><span class="p">,</span> <span class="s2">"#fffc03"</span><span class="p">),</span>  <span class="c1"># yellow</span>
-    <span class="p">(</span><span class="o">-</span><span class="mf">2.00</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.50</span><span class="p">,</span> <span class="s2">"Severely dry"</span><span class="p">,</span> <span class="s2">"#feaa00"</span><span class="p">),</span>  <span class="c1"># orange</span>
-    <span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.00</span><span class="p">,</span> <span class="s2">"Extremely dry"</span><span class="p">,</span> <span class="s2">"#ff0100"</span><span class="p">),</span>  <span class="c1"># red</span>
+    <span class="p">(</span>   <span class="mf">2.00</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span>     <span class="s2">"Extremely wet"</span><span class="p">,</span>            <span class="s2">"#7a007b"</span><span class="p">),</span>  <span class="c1"># deepest purple </span>
+    <span class="p">(</span>   <span class="mf">1.50</span><span class="p">,</span>   <span class="mf">2.00</span><span class="p">,</span>  <span class="s2">"Severely wet"</span><span class="p">,</span>             <span class="s2">"#af51c3"</span><span class="p">),</span>  <span class="c1"># dark purple</span>
+    <span class="p">(</span>   <span class="mf">1.00</span><span class="p">,</span>   <span class="mf">1.50</span><span class="p">,</span>  <span class="s2">"Moderately wet"</span><span class="p">,</span>           <span class="s2">"#eaccf8"</span><span class="p">),</span>  <span class="c1"># medium purple</span>
+    <span class="p">(</span>   <span class="mf">0.00</span><span class="p">,</span>   <span class="mf">1.00</span><span class="p">,</span>  <span class="s2">"Near‑normal / mildly wet"</span><span class="p">,</span> <span class="s2">"#ffffff"</span><span class="p">),</span>  <span class="c1"># white</span>
+    <span class="p">(</span>  <span class="o">-</span><span class="mf">1.00</span><span class="p">,</span>   <span class="mf">0.00</span><span class="p">,</span>  <span class="s2">"Near‑normal / mildly dry"</span><span class="p">,</span> <span class="s2">"#ffffff"</span><span class="p">),</span>  <span class="c1"># white</span>
+    <span class="p">(</span>  <span class="o">-</span><span class="mf">1.50</span><span class="p">,</span>  <span class="o">-</span><span class="mf">1.00</span><span class="p">,</span>  <span class="s2">"Moderately dry"</span><span class="p">,</span>           <span class="s2">"#fffc03"</span><span class="p">),</span>  <span class="c1"># yellow</span>
+    <span class="p">(</span>  <span class="o">-</span><span class="mf">2.00</span><span class="p">,</span>  <span class="o">-</span><span class="mf">1.50</span><span class="p">,</span>  <span class="s2">"Severely dry"</span><span class="p">,</span>             <span class="s2">"#feaa00"</span><span class="p">),</span>  <span class="c1"># orange</span>
+    <span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span>     <span class="o">-</span><span class="mf">2.00</span><span class="p">,</span>  <span class="s2">"Extremely dry"</span><span class="p">,</span>            <span class="s2">"#ff0100"</span><span class="p">),</span>  <span class="c1"># red</span>
 <span class="p">]</span>
 
 <span class="n">CATEGORIES_SPEI</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">(</span><span class="mf">2.33</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">"Extremely wet"</span><span class="p">,</span> <span class="s2">"#01148b"</span><span class="p">),</span>  <span class="c1"># very dark navy</span>
-    <span class="p">(</span><span class="mf">1.65</span><span class="p">,</span> <span class="mf">2.33</span><span class="p">,</span> <span class="s2">"Severely wet"</span><span class="p">,</span> <span class="s2">"#1871de"</span><span class="p">),</span>  <span class="c1"># strong blue</span>
-    <span class="p">(</span><span class="mf">1.28</span><span class="p">,</span> <span class="mf">1.65</span><span class="p">,</span> <span class="s2">"Moderately wet"</span><span class="p">,</span> <span class="s2">"#14acf4"</span><span class="p">),</span>  <span class="c1"># medium blue</span>
-    <span class="p">(</span><span class="mf">0.84</span><span class="p">,</span> <span class="mf">1.28</span><span class="p">,</span> <span class="s2">"Mildly wet"</span><span class="p">,</span> <span class="s2">"#00f2fe"</span><span class="p">),</span>  <span class="c1"># cyan</span>
-    <span class="p">(</span><span class="o">-</span><span class="mf">0.84</span><span class="p">,</span> <span class="mf">0.84</span><span class="p">,</span> <span class="s2">"Near-normal"</span><span class="p">,</span> <span class="s2">"#9afa93"</span><span class="p">),</span>  <span class="c1"># light green</span>
-    <span class="p">(</span><span class="o">-</span><span class="mf">1.28</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.84</span><span class="p">,</span> <span class="s2">"Mildly dry"</span><span class="p">,</span> <span class="s2">"#fdc403"</span><span class="p">),</span>  <span class="c1"># yellow</span>
-    <span class="p">(</span><span class="o">-</span><span class="mf">1.65</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.28</span><span class="p">,</span> <span class="s2">"Moderately dry"</span><span class="p">,</span> <span class="s2">"#f2631d"</span><span class="p">),</span>  <span class="c1"># orange</span>
-    <span class="p">(</span><span class="o">-</span><span class="mf">2.33</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.65</span><span class="p">,</span> <span class="s2">"Severely dry"</span><span class="p">,</span> <span class="s2">"#df2929"</span><span class="p">),</span>  <span class="c1"># red</span>
-    <span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.33</span><span class="p">,</span> <span class="s2">"Extremely dry"</span><span class="p">,</span> <span class="s2">"#8c1b1a"</span><span class="p">),</span>  <span class="c1"># dark red</span>
+    <span class="p">(</span>   <span class="mf">2.33</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span>    <span class="s2">"Extremely wet"</span><span class="p">,</span>  <span class="s2">"#01148b"</span><span class="p">),</span>  <span class="c1"># very dark navy</span>
+    <span class="p">(</span>   <span class="mf">1.65</span><span class="p">,</span>   <span class="mf">2.33</span><span class="p">,</span> <span class="s2">"Severely wet"</span><span class="p">,</span>   <span class="s2">"#1871de"</span><span class="p">),</span>  <span class="c1"># strong blue</span>
+    <span class="p">(</span>   <span class="mf">1.28</span><span class="p">,</span>   <span class="mf">1.65</span><span class="p">,</span> <span class="s2">"Moderately wet"</span><span class="p">,</span> <span class="s2">"#14acf4"</span><span class="p">),</span>  <span class="c1"># medium blue</span>
+    <span class="p">(</span>   <span class="mf">0.84</span><span class="p">,</span>   <span class="mf">1.28</span><span class="p">,</span> <span class="s2">"Mildly wet"</span><span class="p">,</span>     <span class="s2">"#00f2fe"</span><span class="p">),</span>  <span class="c1"># cyan</span>
+    <span class="p">(</span>  <span class="o">-</span><span class="mf">0.84</span><span class="p">,</span>   <span class="mf">0.84</span><span class="p">,</span> <span class="s2">"Near-normal"</span><span class="p">,</span>    <span class="s2">"#9afa93"</span><span class="p">),</span>  <span class="c1"># light green</span>
+    <span class="p">(</span>  <span class="o">-</span><span class="mf">1.28</span><span class="p">,</span>  <span class="o">-</span><span class="mf">0.84</span><span class="p">,</span> <span class="s2">"Mildly dry"</span><span class="p">,</span>     <span class="s2">"#fdc403"</span><span class="p">),</span>  <span class="c1"># yellow</span>
+    <span class="p">(</span>  <span class="o">-</span><span class="mf">1.65</span><span class="p">,</span>  <span class="o">-</span><span class="mf">1.28</span><span class="p">,</span> <span class="s2">"Moderately dry"</span><span class="p">,</span> <span class="s2">"#f2631d"</span><span class="p">),</span>  <span class="c1"># orange</span>
+    <span class="p">(</span>  <span class="o">-</span><span class="mf">2.33</span><span class="p">,</span>  <span class="o">-</span><span class="mf">1.65</span><span class="p">,</span> <span class="s2">"Severely dry"</span><span class="p">,</span>   <span class="s2">"#df2929"</span><span class="p">),</span>  <span class="c1"># red</span>
+    <span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span>     <span class="o">-</span><span class="mf">2.33</span><span class="p">,</span> <span class="s2">"Extremely dry"</span><span class="p">,</span>  <span class="s2">"#8c1b1a"</span><span class="p">),</span>  <span class="c1"># dark red</span>
 <span class="p">]</span>
 
-<span class="n">CATEGORIES</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"SPI"</span><span class="p">:</span> <span class="n">CATEGORIES_SPI</span><span class="p">,</span>
-    <span class="s2">"SPEI"</span><span class="p">:</span> <span class="n">CATEGORIES_SPEI</span><span class="p">,</span>
-<span class="p">}</span>  <span class="c1"># Combined dictionary for easy access</span>
+<span class="n">CATEGORIES</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"SPI"</span><span class="p">:</span> <span class="n">CATEGORIES_SPI</span><span class="p">,</span> <span class="s2">"SPEI"</span><span class="p">:</span> <span class="n">CATEGORIES_SPEI</span><span class="p">,}</span>  <span class="c1"># Combined dictionary for easy access</span>
 
 <span class="c1"># ERA5–Drought provides data in former format (SPI6)</span>
 <span class="c1"># But figures should be labelled in the latter (SPI-6)</span>
-<span class="n">INDEXES_NAMED</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"SPI6"</span><span class="p">:</span> <span class="s2">"SPI-6"</span><span class="p">,</span>
-    <span class="s2">"SPEI6"</span><span class="p">:</span> <span class="s2">"SPEI-6"</span><span class="p">,</span>
-<span class="p">}</span>
+<span class="n">INDEXES_NAMED</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"SPI6"</span><span class="p">:</span> <span class="s2">"SPI-6"</span><span class="p">,</span> <span class="s2">"SPEI6"</span><span class="p">:</span> <span class="s2">"SPEI-6"</span><span class="p">,}</span>
 </pre></div>
 </div>
 </div>
@@ -911,22 +903,17 @@ so you can download it and apply it to your preferred domain.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Constants</span>
 <span class="n">P0_THRESHOLD</span> <span class="o">=</span> <span class="mf">0.1</span>  <span class="c1"># Threshold for masking based on p0 (probability of zero precipitation); from Keune+25</span>
 
-
 <span class="c1"># Functions</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">apply_quality_flags</span><span class="p">(</span>
-    <span class="n">data</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="o">*</span><span class="n">masks</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">time_dimension</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"time"</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">apply_quality_flags</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="o">*</span><span class="n">masks</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span>
+                        <span class="n">time_dimension</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">"time"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Apply any number of monthly quality flag `masks` to the data array `data` (e.g. SPI6).</span>
 <span class="sd">    Flagged values are set to NaN.</span>
 <span class="sd">    """</span>
     <span class="c1"># 12‑month mask -&gt; Month dimension</span>
-    <span class="n">masks</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">mask</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">month</span><span class="o">=</span><span class="p">(</span><span class="n">time_dimension</span><span class="p">,</span> <span class="n">mask</span><span class="p">[</span><span class="n">time_dimension</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-        <span class="o">.</span><span class="n">swap_dims</span><span class="p">({</span><span class="n">time_dimension</span><span class="p">:</span> <span class="s2">"month"</span><span class="p">})</span>
-        <span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="n">time_dimension</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">mask</span> <span class="ow">in</span> <span class="n">masks</span>
-    <span class="p">]</span>
+    <span class="n">masks</span> <span class="o">=</span> <span class="p">[</span><span class="n">mask</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span>
+                 <span class="n">month</span><span class="o">=</span><span class="p">(</span><span class="n">time_dimension</span><span class="p">,</span> <span class="n">mask</span><span class="p">[</span><span class="n">time_dimension</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">swap_dims</span><span class="p">({</span><span class="n">time_dimension</span><span class="p">:</span> <span class="s2">"month"</span><span class="p">})</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="n">time_dimension</span><span class="p">)</span> <span class="k">for</span> <span class="n">mask</span> <span class="ow">in</span> <span class="n">masks</span><span class="p">]</span>
 
     <span class="c1"># Add month coordinate to `data`</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">month</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">time_dimension</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="p">)</span>
@@ -963,15 +950,13 @@ so you can download it and apply it to your preferred domain.</p>
     <span class="k">finally</span><span class="p">:</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-
 <span class="k">def</span><span class="w"> </span><span class="nf">plot_zero_line</span><span class="p">(</span><span class="o">*</span><span class="n">axs</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">Axes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Plot the y=0 line with consistent styling."""</span>
+<span class="w">    </span><span class="sd">""" Plot the y=0 line with consistent styling. """</span>
     <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axs</span><span class="p">:</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mf">1.9</span><span class="p">)</span>
 
-
 <span class="k">def</span><span class="w"> </span><span class="nf">tight_xlims_year</span><span class="p">(</span><span class="n">time</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""Take a time axis (number or datetime) and return its min()-1 and max()+1 years."""</span>
+<span class="w">    </span><span class="sd">""" Take a time axis (number or datetime) and return its min()-1 and max()+1 years. """</span>
     <span class="c1"># Find min, max</span>
     <span class="n">tlim</span> <span class="o">=</span> <span class="p">[</span><span class="n">time</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">time</span><span class="o">.</span><span class="n">max</span><span class="p">()]</span>
 
@@ -986,17 +971,15 @@ so you can download it and apply it to your preferred domain.</p>
 
     <span class="c1"># Convert back to datetime if desired</span>
     <span class="k">if</span> <span class="n">input_is_datetime</span><span class="p">:</span>
-        <span class="n">tlim</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">tlim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">-01-01"</span><span class="p">),</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">tlim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">-12-31"</span><span class="p">),</span>
-        <span class="p">]</span>
+        <span class="n">tlim</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">tlim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">-01-01"</span><span class="p">),</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">tlim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">-12-31"</span><span class="p">),</span>
+               <span class="p">]</span>
 
     <span class="k">return</span> <span class="n">tlim</span>
 
-
 <span class="c1"># Display SPI / SPEI categories</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">plot_index_categories</span><span class="p">(</span><span class="n">ax</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">Axes</span><span class="p">,</span> <span class="n">categories</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Iterable</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Display SPI / SPEI categories (e.g. "extreme drought") on an Axes panel."""</span>
+<span class="w">    </span><span class="sd">""" Display SPI / SPEI categories (e.g. "extreme drought") on an Axes panel. """</span>
     <span class="k">for</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">colour</span> <span class="ow">in</span> <span class="n">categories</span><span class="p">:</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">axhspan</span><span class="p">(</span><span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">colour</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
 </pre></div>
@@ -1013,33 +996,22 @@ so you can download it and apply it to your preferred domain.</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Constants for visualisation</span>
-<span class="n">kwargs_reanalysis</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"color"</span><span class="p">:</span> <span class="s2">"yellow"</span><span class="p">,</span>
-    <span class="s2">"linewidth"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="s2">"path_effects"</span><span class="p">:</span> <span class="p">[</span>
-        <span class="n">path_effects</span><span class="o">.</span><span class="n">Stroke</span><span class="p">(</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">foreground</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">),</span>
-        <span class="n">path_effects</span><span class="o">.</span><span class="n">Normal</span><span class="p">(),</span>
-    <span class="p">],</span>
-<span class="p">}</span>
-<span class="n">kwargs_ensemble_members</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"color"</span><span class="p">:</span> <span class="s2">"black"</span><span class="p">,</span>
-    <span class="s2">"alpha"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="s2">"linewidth"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-<span class="p">}</span>
-
+<span class="n">kwargs_reanalysis</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"color"</span><span class="p">:</span> <span class="s2">"yellow"</span><span class="p">,</span>
+                     <span class="s2">"linewidth"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                     <span class="s2">"path_effects"</span><span class="p">:</span> <span class="p">[</span><span class="n">path_effects</span><span class="o">.</span><span class="n">Stroke</span><span class="p">(</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">foreground</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">),</span> <span class="n">path_effects</span><span class="o">.</span><span class="n">Normal</span><span class="p">(),</span> <span class="p">],</span>
+                    <span class="p">}</span>
+<span class="n">kwargs_ensemble_members</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"color"</span><span class="p">:</span> <span class="s2">"black"</span><span class="p">,</span>
+                           <span class="s2">"alpha"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                           <span class="s2">"linewidth"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                          <span class="p">}</span>
 
 <span class="c1"># Plot members as individual lines</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_ensemble_members</span><span class="p">(</span>
-    <span class="n">data_ensemble</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span>
-    <span class="n">var</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="o">*</span><span class="p">,</span>
-    <span class="n">data_reanalysis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">time_dimension</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"time"</span><span class="p">,</span>
-    <span class="n">ensemble_dimension</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"realization"</span><span class="p">,</span>
-    <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
-    <span class="n">glue_label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Display ensemble members (and optionally deterministic reanalysis) time series for one variable `var`."""</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_ensemble_members</span><span class="p">(</span><span class="n">data_ensemble</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
+                          <span class="n">data_reanalysis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">time_dimension</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">ensemble_dimension</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">"realization"</span><span class="p">,</span>
+                          <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+                          <span class="n">glue_label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">""" Display ensemble members (and optionally deterministic reanalysis) time series for one variable `var`. """</span>
     <span class="c1"># Find indicator name and colours from `var`</span>
     <span class="n">var_label</span> <span class="o">=</span> <span class="n">INDEXES_NAMED</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
     <span class="n">indicator</span> <span class="o">=</span> <span class="n">var_label</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"-"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># e.g. SPI-6 -&gt; SPI</span>
@@ -1049,23 +1021,15 @@ so you can download it and apply it to your preferred domain.</p>
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">layout</span><span class="o">=</span><span class="s2">"constrained"</span><span class="p">)</span>
 
     <span class="c1"># Display individual members</span>
-    <span class="n">data_ensemble</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span>
-        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">time_dimension</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs_ensemble_members</span><span class="p">,</span> <span class="n">add_legend</span><span class="o">=</span><span class="kc">False</span>
-    <span class="p">)</span>
+    <span class="n">data_ensemble</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">time_dimension</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs_ensemble_members</span><span class="p">,</span> <span class="n">add_legend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="c1"># Create dummy lines for legend</span>
-    <span class="n">lines_for_legend</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs_ensemble_members</span><span class="p">),</span>
-    <span class="p">]</span>
-    <span class="n">labels_for_legend</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">"Ensemble"</span><span class="p">,</span>
-    <span class="p">]</span>
+    <span class="n">lines_for_legend</span> <span class="o">=</span> <span class="p">[</span><span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs_ensemble_members</span><span class="p">),</span> <span class="p">]</span>
+    <span class="n">labels_for_legend</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Ensemble"</span><span class="p">,</span> <span class="p">]</span>
 
     <span class="c1"># Optional: Display reanalysis</span>
     <span class="k">if</span> <span class="n">data_reanalysis</span><span class="p">:</span>
-        <span class="p">(</span><span class="n">line_reanalysis</span><span class="p">,)</span> <span class="o">=</span> <span class="n">data_reanalysis</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span>
-            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">time_dimension</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs_reanalysis</span>
-        <span class="p">)</span>
+        <span class="p">(</span><span class="n">line_reanalysis</span><span class="p">,)</span> <span class="o">=</span> <span class="n">data_reanalysis</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">time_dimension</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs_reanalysis</span><span class="p">)</span>
         <span class="n">lines_for_legend</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line_reanalysis</span><span class="p">)</span>
         <span class="n">labels_for_legend</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Deterministic reanalysis"</span><span class="p">)</span>
 
@@ -1099,20 +1063,13 @@ so you can download it and apply it to your preferred domain.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Constants</span>
 <span class="n">COLOUR_INDEMNITY</span> <span class="o">=</span> <span class="s2">"#AAC95E"</span>
 
-
 <span class="c1"># Display indemnity and SPI</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_indemnity</span><span class="p">(</span>
-    <span class="n">indemnity_reanalysis</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span>
-    <span class="n">spi_reanalysis</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span>
-    <span class="o">*</span><span class="p">,</span>
-    <span class="n">indemnity_ensemble</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">spi_ensemble</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">time_dimension</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"year"</span><span class="p">,</span>
-    <span class="n">ensemble_dimension</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"realization"</span><span class="p">,</span>
-    <span class="n">spi_trigger</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
-    <span class="n">glue_label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_indemnity</span><span class="p">(</span><span class="n">indemnity_reanalysis</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">spi_reanalysis</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
+                   <span class="n">indemnity_ensemble</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">spi_ensemble</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">time_dimension</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">"year"</span><span class="p">,</span> <span class="n">ensemble_dimension</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">"realization"</span><span class="p">,</span>
+                   <span class="n">spi_trigger</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+                   <span class="n">glue_label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    In two panels, display the indemnity (top) and underlying aggregated SPI (bottom).</span>
 <span class="sd">    Requires data from the deterministic reanalysis, optionally also displays ensemble.</span>
@@ -1121,9 +1078,7 @@ so you can download it and apply it to your preferred domain.</p>
     <span class="c1"># Note: There is some copypasting between this function and `plot_ensemble_members` which should ideally be refactored.</span>
     <span class="c1"># Setup: Figure</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">layout</span><span class="o">=</span><span class="s2">"constrained"</span><span class="p">)</span>
-    <span class="p">(</span><span class="n">ax_indemnity</span><span class="p">,</span> <span class="n">ax_spi</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">axs</span>  <span class="c1"># Done in two steps so axs[-1] can still be accessed for labels etc</span>
-    <span class="p">)</span>
+    <span class="p">(</span><span class="n">ax_indemnity</span><span class="p">,</span> <span class="n">ax_spi</span><span class="p">)</span> <span class="o">=</span> <span class="n">axs</span>  <span class="c1"># Done in two steps so axs[-1] can still be accessed for labels etc</span>
 
     <span class="c1">## INDEMNITY</span>
     <span class="c1"># Normalise to millions of USD</span>
@@ -1132,60 +1087,35 @@ so you can download it and apply it to your preferred domain.</p>
         <span class="n">indemnity_ensemble</span> <span class="o">=</span> <span class="n">indemnity_ensemble</span> <span class="o">/</span> <span class="mf">1e6</span>
 
     <span class="c1"># Display deterministic indemnity</span>
-    <span class="n">indemnity_reanalysis</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
-        <span class="n">ax</span><span class="o">=</span><span class="n">ax_indemnity</span><span class="p">,</span>
-        <span class="n">x</span><span class="o">=</span><span class="n">time_dimension</span><span class="p">,</span>
-        <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-        <span class="n">marker</span><span class="o">=</span><span class="s2">"D"</span><span class="p">,</span>
-        <span class="n">zorder</span><span class="o">=</span><span class="mf">2.1</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs_reanalysis</span><span class="p">,</span>
-        <span class="n">label</span><span class="o">=</span><span class="s2">"Deterministic reanalysis"</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="n">indemnity_reanalysis</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax_indemnity</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">time_dimension</span><span class="p">,</span>
+                                      <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">"D"</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mf">2.1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs_reanalysis</span><span class="p">,</span>
+                                      <span class="n">label</span><span class="o">=</span><span class="s2">"Deterministic reanalysis"</span><span class="p">,)</span>
 
     <span class="c1"># Optional: Display ensemble indemnity</span>
     <span class="k">if</span> <span class="n">indemnity_ensemble</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Prepare data in matplotlib's preferred format</span>
         <span class="n">years</span> <span class="o">=</span> <span class="n">indemnity_ensemble</span><span class="p">[</span><span class="n">time_dimension</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-        <span class="n">box_data</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">indemnity_ensemble</span><span class="o">.</span><span class="n">sel</span><span class="p">({</span><span class="n">time_dimension</span><span class="p">:</span> <span class="n">y</span><span class="p">})</span>
-            <span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">ensemble_dimension</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">values</span>
-            <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">years</span>
-        <span class="p">]</span>
+        <span class="n">box_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">indemnity_ensemble</span><span class="o">.</span><span class="n">sel</span><span class="p">({</span><span class="n">time_dimension</span><span class="p">:</span> <span class="n">y</span><span class="p">})</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">ensemble_dimension</span><span class="p">)</span><span class="o">.</span><span class="n">values</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">years</span><span class="p">]</span>
 
         <span class="c1"># Display</span>
-        <span class="n">ax_indemnity</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span>
-            <span class="n">box_data</span><span class="p">,</span>
-            <span class="n">positions</span><span class="o">=</span><span class="n">years</span><span class="p">,</span>
-            <span class="n">vert</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">showfliers</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">patch_artist</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">manage_ticks</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">whis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
-            <span class="n">boxprops</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">"facecolor"</span><span class="p">:</span> <span class="n">COLOUR_INDEMNITY</span><span class="p">,</span>
-                <span class="s2">"edgecolor"</span><span class="p">:</span> <span class="s2">"black"</span><span class="p">,</span>
-            <span class="p">},</span>
-            <span class="n">medianprops</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">"color"</span><span class="p">:</span> <span class="s2">"black"</span><span class="p">,</span>
-                <span class="s2">"zorder"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-            <span class="p">},</span>
-            <span class="n">flierprops</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">"marker"</span><span class="p">:</span> <span class="s2">"o"</span><span class="p">,</span>
-                <span class="s2">"markersize"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-                <span class="s2">"markerfacecolor"</span><span class="p">:</span> <span class="s2">"none"</span><span class="p">,</span>
-                <span class="s2">"markeredgecolor"</span><span class="p">:</span> <span class="n">COLOUR_INDEMNITY</span><span class="p">,</span>
-                <span class="s2">"linestyle"</span><span class="p">:</span> <span class="s2">"none"</span><span class="p">,</span>
-            <span class="p">},</span>
-            <span class="n">label</span><span class="o">=</span><span class="s2">"Ensemble"</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="n">box_ensemble</span> <span class="o">=</span> <span class="n">ax_indemnity</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">box_data</span><span class="p">,</span> <span class="n">positions</span><span class="o">=</span><span class="n">years</span><span class="p">,</span>
+                                            <span class="n">vert</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">showfliers</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">patch_artist</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">manage_ticks</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                            <span class="n">whis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+                                            <span class="n">boxprops</span><span class="o">=</span>   <span class="p">{</span><span class="s2">"facecolor"</span><span class="p">:</span> <span class="n">COLOUR_INDEMNITY</span><span class="p">,</span> <span class="s2">"edgecolor"</span><span class="p">:</span> <span class="s2">"black"</span><span class="p">,},</span>
+                                            <span class="n">medianprops</span><span class="o">=</span><span class="p">{</span><span class="s2">"color"</span><span class="p">:</span> <span class="s2">"black"</span><span class="p">,</span> <span class="s2">"zorder"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,},</span>
+                                            <span class="n">flierprops</span><span class="o">=</span> <span class="p">{</span><span class="s2">"marker"</span><span class="p">:</span> <span class="s2">"o"</span><span class="p">,</span> <span class="s2">"markersize"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                                                         <span class="s2">"markerfacecolor"</span><span class="p">:</span> <span class="s2">"none"</span><span class="p">,</span> <span class="s2">"markeredgecolor"</span><span class="p">:</span> <span class="n">COLOUR_INDEMNITY</span><span class="p">,</span>
+                                                         <span class="s2">"linestyle"</span><span class="p">:</span> <span class="s2">"none"</span><span class="p">,</span>
+                                                        <span class="p">},</span>
+                                            <span class="n">label</span><span class="o">=</span><span class="s2">"Ensemble"</span><span class="p">,</span>
+                                           <span class="p">)</span>
 
     <span class="c1"># Decorate panel</span>
     <span class="n">ax_indemnity</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">tight_xlims_year</span><span class="p">(</span><span class="n">indemnity_reanalysis</span><span class="p">[</span><span class="n">time_dimension</span><span class="p">]))</span>
     <span class="n">ax_indemnity</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">indemnity_units</span> <span class="o">=</span> <span class="n">indemnity_reanalysis</span><span class="o">.</span><span class="n">units</span>
-    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">except</span><span class="p">:</span>
         <span class="n">indemnity_units</span> <span class="o">=</span> <span class="s2">"USD"</span>
     <span class="n">ax_indemnity</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Indemnity [million </span><span class="si">{</span><span class="n">indemnity_units</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
     <span class="n">ax_indemnity</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">"upper right"</span><span class="p">)</span>
@@ -1194,24 +1124,16 @@ so you can download it and apply it to your preferred domain.</p>
     <span class="n">spi_label</span> <span class="o">=</span> <span class="n">INDEXES_NAMED</span><span class="p">[</span><span class="n">spi_reanalysis</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>  <span class="c1"># SPI-6</span>
 
     <span class="c1"># Display SPI</span>
-    <span class="p">(</span><span class="n">line_reanalysis</span><span class="p">,)</span> <span class="o">=</span> <span class="n">spi_reanalysis</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span>
-        <span class="n">ax</span><span class="o">=</span><span class="n">ax_spi</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">time_dimension</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mf">2.1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs_reanalysis</span>
-    <span class="p">)</span>
+    <span class="p">(</span><span class="n">line_reanalysis</span><span class="p">,)</span> <span class="o">=</span> <span class="n">spi_reanalysis</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax_spi</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">time_dimension</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mf">2.1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs_reanalysis</span><span class="p">)</span>
 
     <span class="c1"># Create dummy lines for legend</span>
-    <span class="n">lines_for_legend</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">line_reanalysis</span><span class="p">,</span>
-    <span class="p">]</span>
-    <span class="n">labels_for_legend</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">"Deterministic reanalysis"</span><span class="p">,</span>
-    <span class="p">]</span>
+    <span class="n">lines_for_legend</span> <span class="o">=</span> <span class="p">[</span><span class="n">line_reanalysis</span><span class="p">,</span> <span class="p">]</span>
+    <span class="n">labels_for_legend</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Deterministic reanalysis"</span><span class="p">,</span> <span class="p">]</span>
 
     <span class="c1"># Optional: Display ensemble SPI</span>
     <span class="k">if</span> <span class="n">spi_ensemble</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Display individual ensemble members</span>
-        <span class="n">spi_ensemble</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span>
-            <span class="n">ax</span><span class="o">=</span><span class="n">ax_spi</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">time_dimension</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs_ensemble_members</span><span class="p">,</span> <span class="n">add_legend</span><span class="o">=</span><span class="kc">False</span>
-        <span class="p">)</span>
+        <span class="n">spi_ensemble</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax_spi</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">time_dimension</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs_ensemble_members</span><span class="p">,</span> <span class="n">add_legend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="c1"># Add dummy item to legend</span>
         <span class="n">lines_for_legend</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs_ensemble_members</span><span class="p">))</span>
@@ -1219,9 +1141,7 @@ so you can download it and apply it to your preferred domain.</p>
 
     <span class="c1"># Decorate panel</span>
     <span class="n">plot_zero_line</span><span class="p">(</span><span class="n">ax_spi</span><span class="p">)</span>
-    <span class="n">ax_spi</span><span class="o">.</span><span class="n">axhspan</span><span class="p">(</span>
-        <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="n">spi_trigger</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">COLOUR_INDEMNITY</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span>
-    <span class="p">)</span>
+    <span class="n">ax_spi</span><span class="o">.</span><span class="n">axhspan</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="n">spi_trigger</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">COLOUR_INDEMNITY</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
     <span class="n">ax_spi</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
     <span class="n">ax_spi</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Aggregated </span><span class="si">{</span><span class="n">spi_label</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">ax_spi</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">lines_for_legend</span><span class="p">,</span> <span class="n">labels_for_legend</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"lower right"</span><span class="p">)</span>
@@ -1231,9 +1151,7 @@ so you can download it and apply it to your preferred domain.</p>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
     <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
-    <span class="n">axs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span>
-        <span class="s2">"Time"</span>
-    <span class="p">)</span>  <span class="c1"># axs[-1] -&gt; Always bottom panel, even if indemnity/spi panels are switched</span>
+    <span class="n">axs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Time"</span><span class="p">)</span>  <span class="c1"># axs[-1] -&gt; Always bottom panel, even if indemnity/spi panels are switched</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">align_ylabels</span><span class="p">()</span>
 
     <span class="c1"># Show result</span>
@@ -1280,10 +1198,7 @@ and can be edited when running this notebook yourself:</p>
 
 <span class="c1"># Define your preferred variables (SPI and/or SPEI; both by default)</span>
 <span class="n">indicators</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"SPI"</span><span class="p">,</span> <span class="s2">"SPEI"</span><span class="p">]</span>
-<span class="n">indicators_long</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">"standardised_precipitation_index"</span><span class="p">,</span>
-    <span class="s2">"standardised_precipitation_evapotranspiration_index"</span><span class="p">,</span>
-<span class="p">]</span>  <span class="c1"># CDS request format</span>
+<span class="n">indicators_long</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"standardised_precipitation_index"</span><span class="p">,</span> <span class="s2">"standardised_precipitation_evapotranspiration_index"</span><span class="p">]</span>  <span class="c1"># CDS request format</span>
 
 <span class="c1"># Define your preferred accumulation period, e.g. `6` for SPI-6</span>
 <span class="c1"># ERA5–Drought provides the following options: 1, 3, 6, 12, 24, 36, 48</span>
@@ -1313,26 +1228,20 @@ Additional information to download specific data variables will be mixed into th
 <span class="n">ID_ERA5_DROUGHT</span> <span class="o">=</span> <span class="s2">"derived-drought-historical-monthly"</span>
 
 <span class="c1"># Add margins around central location to make downloading and pre-processing easier</span>
-<span class="n">request_site</span> <span class="o">=</span> <span class="n">request_data_for_one_site</span><span class="p">(</span><span class="o">**</span><span class="n">site</span><span class="p">)</span>
+<span class="n">request_site</span> <span class="o">=</span> <span class="n">request_data_for_one_site</span><span class="p">(</span><span class="o">**</span><span class="n">site</span><span class="p">)</span>  
 
 <span class="c1"># Main template</span>
 <span class="n">request_era5drought_template</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"version"</span><span class="p">:</span> <span class="s2">"1_0"</span><span class="p">,</span>
     <span class="s2">"dataset_type"</span><span class="p">:</span> <span class="s2">"consolidated_dataset"</span><span class="p">,</span>
-    <span class="s2">"accumulation_period"</span><span class="p">:</span> <span class="p">[</span>
-        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">accumulation_period</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s2">"year"</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">years</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">years</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span>
+    <span class="s2">"accumulation_period"</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">accumulation_period</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="p">],</span>
+    <span class="s2">"year"</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">years</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">years</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)],</span>
     <span class="s2">"month"</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="n">MONTHS</span><span class="p">],</span>
 <span class="p">}</span> <span class="o">|</span> <span class="n">request_site</span>
 
 <span class="c1"># Templates for reanalysis, ensemble</span>
-<span class="n">request_reanalysis</span> <span class="o">=</span> <span class="n">request_era5drought_template</span> <span class="o">|</span> <span class="p">{</span>
-    <span class="s2">"product_type"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"reanalysis"</span><span class="p">],</span>
-<span class="p">}</span>
-<span class="n">request_ensemble</span> <span class="o">=</span> <span class="n">request_era5drought_template</span> <span class="o">|</span> <span class="p">{</span>
-    <span class="s2">"product_type"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"ensemble_members"</span><span class="p">],</span>
-<span class="p">}</span>
+<span class="n">request_reanalysis</span> <span class="o">=</span> <span class="n">request_era5drought_template</span> <span class="o">|</span> <span class="p">{</span><span class="s2">"product_type"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"reanalysis"</span><span class="p">],}</span>
+<span class="n">request_ensemble</span>   <span class="o">=</span> <span class="n">request_era5drought_template</span> <span class="o">|</span> <span class="p">{</span><span class="s2">"product_type"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"ensemble_members"</span><span class="p">],}</span>
 </pre></div>
 </div>
 </div>
@@ -1345,7 +1254,7 @@ Additional information to download specific data variables will be mixed into th
 the SPI-6 and SPEI-6 time series
 in the deterministic reanalysis and ensemble
 are downloaded from the CDS:</p>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -1358,26 +1267,18 @@ are downloaded from the CDS:</p>
 
 <span class="c1"># Define requests for reanalysis and ensemble based on templates defined earlier</span>
 <span class="n">request_indicators_reanalysis</span> <span class="o">=</span> <span class="n">request_reanalysis</span> <span class="o">|</span> <span class="n">request_indicators</span>
-<span class="n">request_indicators_ensemble</span> <span class="o">=</span> <span class="n">request_ensemble</span> <span class="o">|</span> <span class="n">request_indicators</span>
+<span class="n">request_indicators_ensemble</span>   <span class="o">=</span> <span class="n">request_ensemble</span>   <span class="o">|</span> <span class="n">request_indicators</span>
 
 <span class="c1"># Download data and load into xarray</span>
-<span class="n">data_indicators_reanalysis</span> <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span>
-    <span class="s2">"cds"</span><span class="p">,</span> <span class="n">ID_ERA5_DROUGHT</span><span class="p">,</span> <span class="n">request_indicators_reanalysis</span>
-<span class="p">)</span>  <span class="c1"># Download as field list</span>
-<span class="n">data_indicators_reanalysis</span> <span class="o">=</span> <span class="n">data_indicators_reanalysis</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span>
-    <span class="n">compat</span><span class="o">=</span><span class="s2">"equals"</span>
-<span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>  <span class="c1"># Convert to xarray dataset, without dask</span>
+<span class="n">data_indicators_reanalysis</span> <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span><span class="s2">"cds"</span><span class="p">,</span> <span class="n">ID_ERA5_DROUGHT</span><span class="p">,</span> <span class="n">request_indicators_reanalysis</span><span class="p">)</span>  <span class="c1"># Download as field list</span>
+<span class="n">data_indicators_reanalysis</span> <span class="o">=</span> <span class="n">data_indicators_reanalysis</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">compat</span><span class="o">=</span><span class="s2">"equals"</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>  <span class="c1"># Convert to xarray dataset, without dask</span>
 
-<span class="n">data_indicators_ensemble</span> <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span>
-    <span class="s2">"cds"</span><span class="p">,</span> <span class="n">ID_ERA5_DROUGHT</span><span class="p">,</span> <span class="n">request_indicators_ensemble</span>
-<span class="p">)</span>  <span class="c1"># Download as field list</span>
-<span class="n">data_indicators_ensemble</span> <span class="o">=</span> <span class="n">data_indicators_ensemble</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span>
-    <span class="n">compat</span><span class="o">=</span><span class="s2">"equals"</span>
-<span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>  <span class="c1"># Convert to xarray dataset, without dask</span>
+<span class="n">data_indicators_ensemble</span>   <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span><span class="s2">"cds"</span><span class="p">,</span> <span class="n">ID_ERA5_DROUGHT</span><span class="p">,</span> <span class="n">request_indicators_ensemble</span><span class="p">)</span>  <span class="c1"># Download as field list</span>
+<span class="n">data_indicators_ensemble</span>   <span class="o">=</span> <span class="n">data_indicators_ensemble</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">compat</span><span class="o">=</span><span class="s2">"equals"</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>  <span class="c1"># Convert to xarray dataset, without dask</span>
 
 <span class="c1"># Extract desired site only</span>
 <span class="n">data_indicators_reanalysis</span> <span class="o">=</span> <span class="n">data_indicators_reanalysis</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="o">**</span><span class="n">site</span><span class="p">)</span>
-<span class="n">data_indicators_ensemble</span> <span class="o">=</span> <span class="n">data_indicators_ensemble</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="o">**</span><span class="n">site</span><span class="p">)</span>
+<span class="n">data_indicators_ensemble</span>   <span class="o">=</span> <span class="n">data_indicators_ensemble</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="o">**</span><span class="n">site</span><span class="p">)</span>
 
 <span class="c1"># Display in notebook</span>
 <span class="n">data_indicators_reanalysis</span>
@@ -2497,7 +2398,7 @@ to fit into the datetime format, which requires a year and day.
 However, the flags are applicable to the corresponding calendar month
 (January, February, etc.)
 across the entire timespan.</p>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -2505,40 +2406,28 @@ across the entire timespan.</p>
 </summary>
 <div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define request for p0</span>
-<span class="n">request_p0</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"variable"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"probability_of_zero_precipitation_spi"</span><span class="p">],</span>
-<span class="p">}</span>
-<span class="n">request_p0_reanalysis</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">request_reanalysis</span> <span class="o">|</span> <span class="n">request_p0</span>
-<span class="p">)</span>  <span class="c1"># Note: request_reanalysis specifies years but these are ignored</span>
-<span class="n">request_p0_ensemble</span> <span class="o">=</span> <span class="n">request_ensemble</span> <span class="o">|</span> <span class="n">request_p0</span>
+<span class="n">request_p0</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"variable"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"probability_of_zero_precipitation_spi"</span><span class="p">],</span> <span class="p">}</span>
+<span class="n">request_p0_reanalysis</span> <span class="o">=</span> <span class="n">request_reanalysis</span> <span class="o">|</span> <span class="n">request_p0</span>  <span class="c1"># Note: request_reanalysis specifies years but these are ignored</span>
+<span class="n">request_p0_ensemble</span>   <span class="o">=</span> <span class="n">request_ensemble</span>   <span class="o">|</span> <span class="n">request_p0</span>
 
 <span class="c1"># Download data and load into xarray</span>
-<span class="n">data_p0_reanalysis</span> <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span>
-    <span class="s2">"cds"</span><span class="p">,</span> <span class="n">ID_ERA5_DROUGHT</span><span class="p">,</span> <span class="n">request_p0_reanalysis</span>
-<span class="p">)</span>  <span class="c1"># Download as field list</span>
-<span class="n">data_p0_reanalysis</span> <span class="o">=</span> <span class="n">data_p0_reanalysis</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span>
-    <span class="n">compat</span><span class="o">=</span><span class="s2">"equals"</span>
-<span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>  <span class="c1"># Convert to xarray dataset, without dask</span>
+<span class="n">data_p0_reanalysis</span> <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span><span class="s2">"cds"</span><span class="p">,</span> <span class="n">ID_ERA5_DROUGHT</span><span class="p">,</span> <span class="n">request_p0_reanalysis</span><span class="p">)</span>  <span class="c1"># Download as field list</span>
+<span class="n">data_p0_reanalysis</span> <span class="o">=</span> <span class="n">data_p0_reanalysis</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">compat</span><span class="o">=</span><span class="s2">"equals"</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>  <span class="c1"># Convert to xarray dataset, without dask</span>
 
-<span class="n">data_p0_ensemble</span> <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span>
-    <span class="s2">"cds"</span><span class="p">,</span> <span class="n">ID_ERA5_DROUGHT</span><span class="p">,</span> <span class="n">request_p0_ensemble</span>
-<span class="p">)</span>  <span class="c1"># Download as field list</span>
-<span class="n">data_p0_ensemble</span> <span class="o">=</span> <span class="n">data_p0_ensemble</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span>
-    <span class="n">compat</span><span class="o">=</span><span class="s2">"equals"</span>
-<span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>  <span class="c1"># Convert to xarray dataset, without dask</span>
+<span class="n">data_p0_ensemble</span>   <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span><span class="s2">"cds"</span><span class="p">,</span> <span class="n">ID_ERA5_DROUGHT</span><span class="p">,</span> <span class="n">request_p0_ensemble</span><span class="p">)</span>  <span class="c1"># Download as field list</span>
+<span class="n">data_p0_ensemble</span>   <span class="o">=</span> <span class="n">data_p0_ensemble</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">compat</span><span class="o">=</span><span class="s2">"equals"</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>  <span class="c1"># Convert to xarray dataset, without dask</span>
 
 <span class="c1"># Extract desired site only</span>
 <span class="n">data_p0_reanalysis</span> <span class="o">=</span> <span class="n">data_p0_reanalysis</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="o">**</span><span class="n">site</span><span class="p">)</span>
-<span class="n">data_p0_ensemble</span> <span class="o">=</span> <span class="n">data_p0_ensemble</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="o">**</span><span class="n">site</span><span class="p">)</span>
+<span class="n">data_p0_ensemble</span>   <span class="o">=</span> <span class="n">data_p0_ensemble</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="o">**</span><span class="n">site</span><span class="p">)</span>
 
 <span class="c1"># Generate mask: Allow data where p0 &lt; 0.1</span>
-<span class="n">mask_p0_reanalysis</span> <span class="o">=</span> <span class="n">data_p0_reanalysis</span> <span class="o">&lt;</span> <span class="n">P0_THRESHOLD</span>
-<span class="n">mask_p0_ensemble</span> <span class="o">=</span> <span class="n">data_p0_ensemble</span> <span class="o">&lt;</span> <span class="n">P0_THRESHOLD</span>
+<span class="n">mask_p0_reanalysis</span> <span class="o">=</span> <span class="p">(</span><span class="n">data_p0_reanalysis</span> <span class="o">&lt;</span> <span class="n">P0_THRESHOLD</span><span class="p">)</span>
+<span class="n">mask_p0_ensemble</span>   <span class="o">=</span> <span class="p">(</span><span class="n">data_p0_ensemble</span>   <span class="o">&lt;</span> <span class="n">P0_THRESHOLD</span><span class="p">)</span>
 
 <span class="c1"># Extract DataArray</span>
 <span class="n">mask_p0_reanalysis</span> <span class="o">=</span> <span class="n">mask_p0_reanalysis</span><span class="p">[</span><span class="s2">"pzero"</span><span class="p">]</span>
-<span class="n">mask_p0_ensemble</span> <span class="o">=</span> <span class="n">mask_p0_ensemble</span><span class="p">[</span><span class="s2">"pzero"</span><span class="p">]</span>
+<span class="n">mask_p0_ensemble</span>   <span class="o">=</span> <span class="n">mask_p0_ensemble</span><span class="p">[</span><span class="s2">"pzero"</span><span class="p">]</span>
 
 <span class="c1"># Display in notebook</span>
 <span class="n">mask_p0_ensemble</span>
@@ -3059,7 +2948,7 @@ Coordinates:
               dtype=&#x27;datetime64[ns]&#x27;, name=&#x27;time&#x27;, freq=None))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-1633d2f6-f3a6-4ca3-86c6-06cccfbd490a' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-1633d2f6-f3a6-4ca3-86c6-06cccfbd490a' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div></div></div>
 </details>
 </div>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -3067,40 +2956,28 @@ Coordinates:
 </summary>
 <div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define request for normality</span>
-<span class="n">request_normality</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"variable"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"test_for_normality_spi"</span><span class="p">],</span>
-<span class="p">}</span>
-<span class="n">request_normality_reanalysis</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">request_reanalysis</span> <span class="o">|</span> <span class="n">request_normality</span>
-<span class="p">)</span>  <span class="c1"># Note: request_reanalysis specifies years but these are ignored</span>
-<span class="n">request_normality_ensemble</span> <span class="o">=</span> <span class="n">request_ensemble</span> <span class="o">|</span> <span class="n">request_normality</span>
+<span class="n">request_normality</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"variable"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"test_for_normality_spi"</span><span class="p">],</span> <span class="p">}</span>
+<span class="n">request_normality_reanalysis</span> <span class="o">=</span> <span class="n">request_reanalysis</span> <span class="o">|</span> <span class="n">request_normality</span>  <span class="c1"># Note: request_reanalysis specifies years but these are ignored</span>
+<span class="n">request_normality_ensemble</span>   <span class="o">=</span> <span class="n">request_ensemble</span>   <span class="o">|</span> <span class="n">request_normality</span>
 
 <span class="c1"># Download data and load into xarray</span>
-<span class="n">mask_normality_reanalysis_spi</span> <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span>
-    <span class="s2">"cds"</span><span class="p">,</span> <span class="n">ID_ERA5_DROUGHT</span><span class="p">,</span> <span class="n">request_normality_reanalysis</span>
-<span class="p">)</span>  <span class="c1"># Download as field list</span>
-<span class="n">mask_normality_reanalysis_spi</span> <span class="o">=</span> <span class="n">mask_normality_reanalysis_spi</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span>
-    <span class="n">compat</span><span class="o">=</span><span class="s2">"equals"</span>
-<span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>  <span class="c1"># Convert to xarray dataset, without dask</span>
+<span class="n">mask_normality_reanalysis_spi</span> <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span><span class="s2">"cds"</span><span class="p">,</span> <span class="n">ID_ERA5_DROUGHT</span><span class="p">,</span> <span class="n">request_normality_reanalysis</span><span class="p">)</span>  <span class="c1"># Download as field list</span>
+<span class="n">mask_normality_reanalysis_spi</span> <span class="o">=</span> <span class="n">mask_normality_reanalysis_spi</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">compat</span><span class="o">=</span><span class="s2">"equals"</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>  <span class="c1"># Convert to xarray dataset, without dask</span>
 
-<span class="n">mask_normality_ensemble_spi</span> <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span>
-    <span class="s2">"cds"</span><span class="p">,</span> <span class="n">ID_ERA5_DROUGHT</span><span class="p">,</span> <span class="n">request_normality_ensemble</span>
-<span class="p">)</span>  <span class="c1"># Download as field list</span>
-<span class="n">mask_normality_ensemble_spi</span> <span class="o">=</span> <span class="n">mask_normality_ensemble_spi</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span>
-    <span class="n">compat</span><span class="o">=</span><span class="s2">"equals"</span>
-<span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>  <span class="c1"># Convert to xarray dataset, without dask</span>
+<span class="n">mask_normality_ensemble_spi</span>   <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span><span class="s2">"cds"</span><span class="p">,</span> <span class="n">ID_ERA5_DROUGHT</span><span class="p">,</span> <span class="n">request_normality_ensemble</span><span class="p">)</span>  <span class="c1"># Download as field list</span>
+<span class="n">mask_normality_ensemble_spi</span>   <span class="o">=</span> <span class="n">mask_normality_ensemble_spi</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">compat</span><span class="o">=</span><span class="s2">"equals"</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>  <span class="c1"># Convert to xarray dataset, without dask</span>
 
 <span class="c1"># Extract desired site only</span>
 <span class="n">mask_normality_reanalysis_spi</span> <span class="o">=</span> <span class="n">mask_normality_reanalysis_spi</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="o">**</span><span class="n">site</span><span class="p">)</span>
-<span class="n">mask_normality_ensemble_spi</span> <span class="o">=</span> <span class="n">mask_normality_ensemble_spi</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="o">**</span><span class="n">site</span><span class="p">)</span>
+<span class="n">mask_normality_ensemble_spi</span>   <span class="o">=</span> <span class="n">mask_normality_ensemble_spi</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="o">**</span><span class="n">site</span><span class="p">)</span>
 
 <span class="c1"># Convert to boolean mask</span>
 <span class="n">mask_normality_reanalysis_spi</span> <span class="o">=</span> <span class="n">mask_normality_reanalysis_spi</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
-<span class="n">mask_normality_ensemble_spi</span> <span class="o">=</span> <span class="n">mask_normality_ensemble_spi</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+<span class="n">mask_normality_ensemble_spi</span>   <span class="o">=</span> <span class="n">mask_normality_ensemble_spi</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
 
 <span class="c1"># Extract DataArray</span>
 <span class="n">mask_normality_reanalysis_spi</span> <span class="o">=</span> <span class="n">mask_normality_reanalysis_spi</span><span class="p">[</span><span class="s2">"significance"</span><span class="p">]</span>
-<span class="n">mask_normality_ensemble_spi</span> <span class="o">=</span> <span class="n">mask_normality_ensemble_spi</span><span class="p">[</span><span class="s2">"significance"</span><span class="p">]</span>
+<span class="n">mask_normality_ensemble_spi</span>   <span class="o">=</span> <span class="n">mask_normality_ensemble_spi</span><span class="p">[</span><span class="s2">"significance"</span><span class="p">]</span>
 
 <span class="c1"># Display in notebook</span>
 <span class="n">mask_normality_ensemble_spi</span>
@@ -3624,7 +3501,7 @@ Attributes:
               dtype=&#x27;datetime64[ns]&#x27;, name=&#x27;time&#x27;, freq=None))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-5924334c-4202-4f9f-a613-a21b8da14498' class='xr-section-summary-in' type='checkbox'  checked><label for='section-5924334c-4202-4f9f-a613-a21b8da14498' class='xr-section-summary' >Attributes: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>1</dd><dt><span>long_name :</span></dt><dd>Quality flag that indicates the acceptance of a Shapiro-Wilks test for normality using the derived standardized indices during the reference period; 1 indicates significant values and 0 indicates non-significant values at the alpha=0.05 level.</dd></dl></div></li></ul></div></div></div></div>
 </details>
 </div>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -3632,40 +3509,28 @@ Attributes:
 </summary>
 <div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define request for normality</span>
-<span class="n">request_normality</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"variable"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"test_for_normality_spei"</span><span class="p">],</span>
-<span class="p">}</span>
-<span class="n">request_normality_reanalysis</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">request_reanalysis</span> <span class="o">|</span> <span class="n">request_normality</span>
-<span class="p">)</span>  <span class="c1"># Note: request_reanalysis specifies years but these are ignored</span>
-<span class="n">request_normality_ensemble</span> <span class="o">=</span> <span class="n">request_ensemble</span> <span class="o">|</span> <span class="n">request_normality</span>
+<span class="n">request_normality</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"variable"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"test_for_normality_spei"</span><span class="p">],</span> <span class="p">}</span>
+<span class="n">request_normality_reanalysis</span> <span class="o">=</span> <span class="n">request_reanalysis</span> <span class="o">|</span> <span class="n">request_normality</span>  <span class="c1"># Note: request_reanalysis specifies years but these are ignored</span>
+<span class="n">request_normality_ensemble</span>   <span class="o">=</span> <span class="n">request_ensemble</span>   <span class="o">|</span> <span class="n">request_normality</span>
 
 <span class="c1"># Download data and load into xarray</span>
-<span class="n">mask_normality_reanalysis_spei</span> <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span>
-    <span class="s2">"cds"</span><span class="p">,</span> <span class="n">ID_ERA5_DROUGHT</span><span class="p">,</span> <span class="n">request_normality_reanalysis</span>
-<span class="p">)</span>  <span class="c1"># Download as field list</span>
-<span class="n">mask_normality_reanalysis_spei</span> <span class="o">=</span> <span class="n">mask_normality_reanalysis_spei</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span>
-    <span class="n">compat</span><span class="o">=</span><span class="s2">"equals"</span>
-<span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>  <span class="c1"># Convert to xarray dataset, without dask</span>
+<span class="n">mask_normality_reanalysis_spei</span> <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span><span class="s2">"cds"</span><span class="p">,</span> <span class="n">ID_ERA5_DROUGHT</span><span class="p">,</span> <span class="n">request_normality_reanalysis</span><span class="p">)</span>  <span class="c1"># Download as field list</span>
+<span class="n">mask_normality_reanalysis_spei</span> <span class="o">=</span> <span class="n">mask_normality_reanalysis_spei</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">compat</span><span class="o">=</span><span class="s2">"equals"</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>  <span class="c1"># Convert to xarray dataset, without dask</span>
 
-<span class="n">mask_normality_ensemble_spei</span> <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span>
-    <span class="s2">"cds"</span><span class="p">,</span> <span class="n">ID_ERA5_DROUGHT</span><span class="p">,</span> <span class="n">request_normality_ensemble</span>
-<span class="p">)</span>  <span class="c1"># Download as field list</span>
-<span class="n">mask_normality_ensemble_spei</span> <span class="o">=</span> <span class="n">mask_normality_ensemble_spei</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span>
-    <span class="n">compat</span><span class="o">=</span><span class="s2">"equals"</span>
-<span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>  <span class="c1"># Convert to xarray dataset, without dask</span>
+<span class="n">mask_normality_ensemble_spei</span>   <span class="o">=</span> <span class="n">ekd</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span><span class="s2">"cds"</span><span class="p">,</span> <span class="n">ID_ERA5_DROUGHT</span><span class="p">,</span> <span class="n">request_normality_ensemble</span><span class="p">)</span>  <span class="c1"># Download as field list</span>
+<span class="n">mask_normality_ensemble_spei</span>   <span class="o">=</span> <span class="n">mask_normality_ensemble_spei</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">(</span><span class="n">compat</span><span class="o">=</span><span class="s2">"equals"</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>  <span class="c1"># Convert to xarray dataset, without dask</span>
 
 <span class="c1"># Extract desired site only</span>
 <span class="n">mask_normality_reanalysis_spei</span> <span class="o">=</span> <span class="n">mask_normality_reanalysis_spei</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="o">**</span><span class="n">site</span><span class="p">)</span>
-<span class="n">mask_normality_ensemble_spei</span> <span class="o">=</span> <span class="n">mask_normality_ensemble_spei</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="o">**</span><span class="n">site</span><span class="p">)</span>
+<span class="n">mask_normality_ensemble_spei</span>   <span class="o">=</span> <span class="n">mask_normality_ensemble_spei</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="o">**</span><span class="n">site</span><span class="p">)</span>
 
 <span class="c1"># Convert to boolean mask</span>
 <span class="n">mask_normality_reanalysis_spei</span> <span class="o">=</span> <span class="n">mask_normality_reanalysis_spei</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
-<span class="n">mask_normality_ensemble_spei</span> <span class="o">=</span> <span class="n">mask_normality_ensemble_spei</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+<span class="n">mask_normality_ensemble_spei</span>   <span class="o">=</span> <span class="n">mask_normality_ensemble_spei</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
 
 <span class="c1"># Extract DataArray</span>
 <span class="n">mask_normality_reanalysis_spei</span> <span class="o">=</span> <span class="n">mask_normality_reanalysis_spei</span><span class="p">[</span><span class="s2">"significance"</span><span class="p">]</span>
-<span class="n">mask_normality_ensemble_spei</span> <span class="o">=</span> <span class="n">mask_normality_ensemble_spei</span><span class="p">[</span><span class="s2">"significance"</span><span class="p">]</span>
+<span class="n">mask_normality_ensemble_spei</span>   <span class="o">=</span> <span class="n">mask_normality_ensemble_spei</span><span class="p">[</span><span class="s2">"significance"</span><span class="p">]</span>
 
 <span class="c1"># Display in notebook</span>
 <span class="n">mask_normality_ensemble_spei</span>
@@ -4219,13 +4084,10 @@ First, this is done without applying quality flags:</p>
     <span class="n">glue_label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"indicator_derived-drought-historical-monthly_uncertainty_q01_fig-timeseries-</span><span class="si">{</span><span class="n">indicator</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">-noflags"</span>
 
     <span class="c1"># Plot time series</span>
-    <span class="n">plot_ensemble_members</span><span class="p">(</span>
-        <span class="n">data_indicators_ensemble</span><span class="p">,</span>
-        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">indicator</span><span class="si">}{</span><span class="n">accumulation_period</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
-        <span class="n">data_reanalysis</span><span class="o">=</span><span class="n">data_indicators_reanalysis</span><span class="p">,</span>
-        <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">"ERA5–Drought </span><span class="si">{</span><span class="n">indicator</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">accumulation_period</span><span class="si">}</span><span class="s2"> at </span><span class="si">{</span><span class="n">label_site</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
-        <span class="n">glue_label</span><span class="o">=</span><span class="n">glue_label</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="n">plot_ensemble_members</span><span class="p">(</span><span class="n">data_indicators_ensemble</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">indicator</span><span class="si">}{</span><span class="n">accumulation_period</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                          <span class="n">data_reanalysis</span><span class="o">=</span><span class="n">data_indicators_reanalysis</span><span class="p">,</span>
+                          <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">"ERA5–Drought </span><span class="si">{</span><span class="n">indicator</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">accumulation_period</span><span class="si">}</span><span class="s2"> at </span><span class="si">{</span><span class="n">label_site</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                          <span class="n">glue_label</span><span class="o">=</span><span class="n">glue_label</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -4288,7 +4150,7 @@ it would be better to mask all ensemble members if <em>any</em> are flagged
 to avoid biasing the statistics
 – for example, the <em>p<sub>0</sub></em> flag is more likely to be triggered by drier ensemble members,
 so only masking those could introduce a wet bias in the result.</p>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -4296,21 +4158,15 @@ so only masking those could introduce a wet bias in the result.</p>
 </summary>
 <div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Apply quality flags to SPI6 and SPEI6 (updating original dataset)</span>
-<span class="n">data_indicators_reanalysis</span><span class="p">[</span><span class="s2">"SPI6"</span><span class="p">]</span> <span class="o">=</span> <span class="n">apply_quality_flags</span><span class="p">(</span>
-    <span class="n">data_indicators_reanalysis</span><span class="p">[</span><span class="s2">"SPI6"</span><span class="p">],</span>
-    <span class="n">mask_p0_reanalysis</span><span class="p">,</span>
-    <span class="n">mask_normality_reanalysis_spi</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">data_indicators_reanalysis</span><span class="p">[</span><span class="s2">"SPEI6"</span><span class="p">]</span> <span class="o">=</span> <span class="n">apply_quality_flags</span><span class="p">(</span>
-    <span class="n">data_indicators_reanalysis</span><span class="p">[</span><span class="s2">"SPEI6"</span><span class="p">],</span> <span class="n">mask_normality_reanalysis_spei</span>
-<span class="p">)</span>
+<span class="n">data_indicators_reanalysis</span><span class="p">[</span><span class="s2">"SPI6"</span><span class="p">]</span>  <span class="o">=</span> <span class="n">apply_quality_flags</span><span class="p">(</span><span class="n">data_indicators_reanalysis</span><span class="p">[</span><span class="s2">"SPI6"</span><span class="p">],</span>
+                                                          <span class="n">mask_p0_reanalysis</span><span class="p">,</span> <span class="n">mask_normality_reanalysis_spi</span><span class="p">)</span>
+<span class="n">data_indicators_reanalysis</span><span class="p">[</span><span class="s2">"SPEI6"</span><span class="p">]</span> <span class="o">=</span> <span class="n">apply_quality_flags</span><span class="p">(</span><span class="n">data_indicators_reanalysis</span><span class="p">[</span><span class="s2">"SPEI6"</span><span class="p">],</span>
+                                                          <span class="n">mask_normality_reanalysis_spei</span><span class="p">)</span>
 
-<span class="n">data_indicators_ensemble</span><span class="p">[</span><span class="s2">"SPI6"</span><span class="p">]</span> <span class="o">=</span> <span class="n">apply_quality_flags</span><span class="p">(</span>
-    <span class="n">data_indicators_ensemble</span><span class="p">[</span><span class="s2">"SPI6"</span><span class="p">],</span> <span class="n">mask_p0_ensemble</span><span class="p">,</span> <span class="n">mask_normality_ensemble_spi</span>
-<span class="p">)</span>
-<span class="n">data_indicators_ensemble</span><span class="p">[</span><span class="s2">"SPEI6"</span><span class="p">]</span> <span class="o">=</span> <span class="n">apply_quality_flags</span><span class="p">(</span>
-    <span class="n">data_indicators_ensemble</span><span class="p">[</span><span class="s2">"SPEI6"</span><span class="p">],</span> <span class="n">mask_normality_ensemble_spei</span>
-<span class="p">)</span>
+<span class="n">data_indicators_ensemble</span><span class="p">[</span><span class="s2">"SPI6"</span><span class="p">]</span>  <span class="o">=</span> <span class="n">apply_quality_flags</span><span class="p">(</span><span class="n">data_indicators_ensemble</span><span class="p">[</span><span class="s2">"SPI6"</span><span class="p">],</span>
+                                                        <span class="n">mask_p0_ensemble</span><span class="p">,</span> <span class="n">mask_normality_ensemble_spi</span><span class="p">)</span>
+<span class="n">data_indicators_ensemble</span><span class="p">[</span><span class="s2">"SPEI6"</span><span class="p">]</span> <span class="o">=</span> <span class="n">apply_quality_flags</span><span class="p">(</span><span class="n">data_indicators_ensemble</span><span class="p">[</span><span class="s2">"SPEI6"</span><span class="p">],</span>
+                                                        <span class="n">mask_normality_ensemble_spei</span><span class="p">)</span>
 
 <span class="c1"># Display result</span>
 <span class="n">data_indicators_reanalysis</span>
@@ -4940,13 +4796,10 @@ Attributes: (12/19)
     <span class="n">glue_label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"indicator_derived-drought-historical-monthly_uncertainty_q01_fig-timeseries-</span><span class="si">{</span><span class="n">indicator</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span>
 
     <span class="c1"># Plot time series</span>
-    <span class="n">plot_ensemble_members</span><span class="p">(</span>
-        <span class="n">data_indicators_ensemble</span><span class="p">,</span>
-        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">indicator</span><span class="si">}{</span><span class="n">accumulation_period</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
-        <span class="n">data_reanalysis</span><span class="o">=</span><span class="n">data_indicators_reanalysis</span><span class="p">,</span>
-        <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">"ERA5–Drought </span><span class="si">{</span><span class="n">indicator</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">accumulation_period</span><span class="si">}</span><span class="s2"> at </span><span class="si">{</span><span class="n">label_site</span><span class="si">}</span><span class="s2"> – with quality flags"</span><span class="p">,</span>
-        <span class="n">glue_label</span><span class="o">=</span><span class="n">glue_label</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="n">plot_ensemble_members</span><span class="p">(</span><span class="n">data_indicators_ensemble</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">indicator</span><span class="si">}{</span><span class="n">accumulation_period</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                          <span class="n">data_reanalysis</span><span class="o">=</span><span class="n">data_indicators_reanalysis</span><span class="p">,</span>
+                          <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">"ERA5–Drought </span><span class="si">{</span><span class="n">indicator</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">accumulation_period</span><span class="si">}</span><span class="s2"> at </span><span class="si">{</span><span class="n">label_site</span><span class="si">}</span><span class="s2"> – with quality flags"</span><span class="p">,</span>
+                          <span class="n">glue_label</span><span class="o">=</span><span class="n">glue_label</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -5039,12 +4892,8 @@ First, we define the indemnity and payout functions and their respective paramet
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">aggregate_months</span><span class="p">(</span>
-    <span class="n">data</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span> <span class="o">|</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span>
-    <span class="n">months</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
-    <span class="o">*</span><span class="p">,</span>
-    <span class="n">time_dimension</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"time"</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span> <span class="o">|</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">aggregate_months</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span> <span class="o">|</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">months</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span>
+                     <span class="n">time_dimension</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">"time"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span> <span class="o">|</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Aggregate the given `months` (e.g. 1, 2, 3, 4) of each year.</span>
 <span class="sd">    Adds the `data` along the `time_dimension`.</span>
@@ -5055,12 +4904,9 @@ First, we define the indemnity and payout functions and their respective paramet
     <span class="n">data_in_months</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sel</span><span class="p">({</span><span class="n">time_dimension</span><span class="p">:</span> <span class="n">isin_months</span><span class="p">})</span>
 
     <span class="c1"># Aggregate and return</span>
-    <span class="n">data_aggregated</span> <span class="o">=</span> <span class="n">data_in_months</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span>
-        <span class="n">data_in_months</span><span class="p">[</span><span class="n">time_dimension</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">time_dimension</span><span class="p">)</span>
-
+    <span class="n">data_aggregated</span> <span class="o">=</span> <span class="n">data_in_months</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">data_in_months</span><span class="p">[</span><span class="n">time_dimension</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">time_dimension</span><span class="p">)</span>
+    
     <span class="k">return</span> <span class="n">data_aggregated</span>
-
 
 <span class="k">def</span><span class="w"> </span><span class="nf">payout_single</span><span class="p">(</span><span class="n">spi</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">trigger</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">exit</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
@@ -5071,14 +4917,11 @@ First, we define the indemnity and payout functions and their respective paramet
 <span class="sd">    Variant for a single SPI value. Useful for checking individual values in the array.</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">spi</span> <span class="o">&gt;</span> <span class="n">trigger</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mf">0.0</span>
-    <span class="k">elif</span> <span class="p">(</span>
-        <span class="n">spi</span> <span class="o">&lt;=</span> <span class="n">exit</span>
-    <span class="p">):</span>  <span class="c1"># Assuming typo in World Bank Group report, which says if spi &lt;= trigger</span>
-        <span class="k">return</span> <span class="mf">1.0</span>
+        <span class="k">return</span> <span class="mf">0.</span>
+    <span class="k">elif</span> <span class="n">spi</span> <span class="o">&lt;=</span> <span class="n">exit</span><span class="p">:</span>  <span class="c1"># Assuming typo in World Bank Group report, which says if spi &lt;= trigger</span>
+        <span class="k">return</span> <span class="mf">1.</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">trigger</span> <span class="o">-</span> <span class="n">spi</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">trigger</span> <span class="o">-</span> <span class="n">exit</span><span class="p">)</span>
-
 
 <span class="k">def</span><span class="w"> </span><span class="nf">payout_multi</span><span class="p">(</span><span class="n">spi</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">trigger</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">exit</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
@@ -5097,18 +4940,13 @@ First, we define the indemnity and payout functions and their respective paramet
 
     <span class="k">return</span> <span class="n">payout</span>
 
-
-<span class="k">def</span><span class="w"> </span><span class="nf">indemnity</span><span class="p">(</span>
-    <span class="n">spi</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">trigger</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">exit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">max_indemnity</span><span class="p">:</span> <span class="nb">float</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">indemnity</span><span class="p">(</span><span class="n">spi</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="n">trigger</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">exit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">max_indemnity</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Indemnity in monetary units.</span>
 <span class="sd">    Apply the payout function (`payout_multi`) with the provided parameters and multiply by the maximum indemnity.</span>
 <span class="sd">    """</span>
     <span class="n">indemnity</span> <span class="o">=</span> <span class="n">max_indemnity</span> <span class="o">*</span> <span class="n">payout_multi</span><span class="p">(</span><span class="n">spi</span><span class="p">,</span> <span class="n">trigger</span><span class="p">,</span> <span class="n">exit</span><span class="p">)</span>  <span class="c1"># Calculate indemnity</span>
-    <span class="n">indemnity</span> <span class="o">=</span> <span class="n">indemnity</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">"Indemnity"</span><span class="p">)</span><span class="o">.</span><span class="n">assign_attrs</span><span class="p">(</span>
-        <span class="p">{</span><span class="s2">"units"</span><span class="p">:</span> <span class="s2">"USD"</span><span class="p">}</span>
-    <span class="p">)</span>  <span class="c1"># Assign metadata</span>
+    <span class="n">indemnity</span> <span class="o">=</span> <span class="n">indemnity</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">"Indemnity"</span><span class="p">)</span><span class="o">.</span><span class="n">assign_attrs</span><span class="p">({</span><span class="s2">"units"</span><span class="p">:</span> <span class="s2">"USD"</span><span class="p">})</span>  <span class="c1"># Assign metadata</span>
     <span class="k">return</span> <span class="n">indemnity</span>
 </pre></div>
 </div>
@@ -5125,9 +4963,9 @@ First, we define the indemnity and payout functions and their respective paramet
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Default values based on World Bank Group+18 (Chapter 6) function for rice in Central Java.</span>
 <span class="c1"># These can be customised.</span>
 <span class="n">aggregation_months</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># January, February, March, April</span>
-<span class="n">trigger</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span>  <span class="c1"># Aggregated SPI-6</span>
-<span class="n">exit</span> <span class="o">=</span> <span class="o">-</span><span class="mi">20</span>  <span class="c1"># Aggregated SPI-6</span>
-<span class="n">max_indemnity</span> <span class="o">=</span> <span class="mf">100e6</span>  <span class="c1"># USD</span>
+<span class="n">trigger</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span>                      <span class="c1"># Aggregated SPI-6</span>
+<span class="n">exit</span> <span class="o">=</span> <span class="o">-</span><span class="mi">20</span>                        <span class="c1"># Aggregated SPI-6</span>
+<span class="n">max_indemnity</span> <span class="o">=</span> <span class="mf">100e6</span>             <span class="c1"># USD</span>
 </pre></div>
 </div>
 </div>
@@ -5137,7 +4975,7 @@ First, we define the indemnity and payout functions and their respective paramet
 <h4>Calculate indemnity based on ERA5–Drought data<a class="headerlink" href="#calculate-indemnity-based-on-era5drought-data" title="Link to this heading">#</a></h4>
 <p>We calculate the indemnity using the functions defined above,
 for both the deterministic reanalysis and the ensemble (for each member individually):</p>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -5145,16 +4983,12 @@ for both the deterministic reanalysis and the ensemble (for each member individu
 </summary>
 <div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Aggregate SPI over first 4 months of the year</span>
-<span class="n">aggregate_spi_reanalysis</span> <span class="o">=</span> <span class="n">aggregate_months</span><span class="p">(</span>
-    <span class="n">data_indicators_reanalysis</span><span class="p">[</span><span class="s2">"SPI6"</span><span class="p">],</span> <span class="n">months</span><span class="o">=</span><span class="n">aggregation_months</span>
-<span class="p">)</span>
-<span class="n">aggregate_spi_ensemble</span> <span class="o">=</span> <span class="n">aggregate_months</span><span class="p">(</span>
-    <span class="n">data_indicators_ensemble</span><span class="p">[</span><span class="s2">"SPI6"</span><span class="p">],</span> <span class="n">months</span><span class="o">=</span><span class="n">aggregation_months</span>
-<span class="p">)</span>
+<span class="n">aggregate_spi_reanalysis</span> <span class="o">=</span> <span class="n">aggregate_months</span><span class="p">(</span><span class="n">data_indicators_reanalysis</span><span class="p">[</span><span class="s2">"SPI6"</span><span class="p">],</span> <span class="n">months</span><span class="o">=</span><span class="n">aggregation_months</span><span class="p">)</span>
+<span class="n">aggregate_spi_ensemble</span>   <span class="o">=</span> <span class="n">aggregate_months</span><span class="p">(</span><span class="n">data_indicators_ensemble</span><span class="p">[</span><span class="s2">"SPI6"</span><span class="p">],</span>   <span class="n">months</span><span class="o">=</span><span class="n">aggregation_months</span><span class="p">)</span>
 
 <span class="c1"># Calculate indemnity</span>
 <span class="n">indemnity_reanalysis</span> <span class="o">=</span> <span class="n">indemnity</span><span class="p">(</span><span class="n">aggregate_spi_reanalysis</span><span class="p">,</span> <span class="n">trigger</span><span class="p">,</span> <span class="n">exit</span><span class="p">,</span> <span class="n">max_indemnity</span><span class="p">)</span>
-<span class="n">indemnity_ensemble</span> <span class="o">=</span> <span class="n">indemnity</span><span class="p">(</span><span class="n">aggregate_spi_ensemble</span><span class="p">,</span> <span class="n">trigger</span><span class="p">,</span> <span class="n">exit</span><span class="p">,</span> <span class="n">max_indemnity</span><span class="p">)</span>
+<span class="n">indemnity_ensemble</span>   <span class="o">=</span> <span class="n">indemnity</span><span class="p">(</span><span class="n">aggregate_spi_ensemble</span><span class="p">,</span>   <span class="n">trigger</span><span class="p">,</span> <span class="n">exit</span><span class="p">,</span> <span class="n">max_indemnity</span><span class="p">)</span>
 
 <span class="c1"># Display result</span>
 <span class="n">indemnity_reanalysis</span>
@@ -5716,15 +5550,11 @@ which is likely caused by differences in resolution and thus fundamental to ERA5
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_indemnity</span><span class="p">(</span>
-    <span class="n">indemnity_reanalysis</span><span class="p">,</span>
-    <span class="n">aggregate_spi_reanalysis</span><span class="p">,</span>
-    <span class="n">indemnity_ensemble</span><span class="o">=</span><span class="n">indemnity_ensemble</span><span class="p">,</span>
-    <span class="n">spi_ensemble</span><span class="o">=</span><span class="n">aggregate_spi_ensemble</span><span class="p">,</span>
-    <span class="n">spi_trigger</span><span class="o">=</span><span class="n">trigger</span><span class="p">,</span>
-    <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Indemnity estimates and underpinning aggregate SPI-6</span><span class="se">\n</span><span class="s2">for </span><span class="si">{</span><span class="n">label_site</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
-    <span class="n">glue_label</span><span class="o">=</span><span class="s2">"indicator_derived-drought-historical-monthly_uncertainty_q01_fig-timeseries-indemnity"</span><span class="p">,</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_indemnity</span><span class="p">(</span><span class="n">indemnity_reanalysis</span><span class="p">,</span> <span class="n">aggregate_spi_reanalysis</span><span class="p">,</span>
+               <span class="n">indemnity_ensemble</span><span class="o">=</span><span class="n">indemnity_ensemble</span><span class="p">,</span> <span class="n">spi_ensemble</span><span class="o">=</span><span class="n">aggregate_spi_ensemble</span><span class="p">,</span>
+               <span class="n">spi_trigger</span><span class="o">=</span><span class="n">trigger</span><span class="p">,</span>
+               <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Indemnity estimates and underpinning aggregate SPI-6</span><span class="se">\n</span><span class="s2">for </span><span class="si">{</span><span class="n">label_site</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+               <span class="n">glue_label</span><span class="o">=</span><span class="s2">"indicator_derived-drought-historical-monthly_uncertainty_q01_fig-timeseries-indemnity"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

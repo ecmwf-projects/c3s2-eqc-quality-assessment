@@ -699,16 +699,16 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">)</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">textwrap</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">icclim</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">utils</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">xarrayMannKendall</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mann_Kendall_test</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">textwrap</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"seaborn-v0_8-notebook"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">"hatch.linewidth"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
@@ -748,7 +748,7 @@
 <span class="n">variable</span> <span class="o">=</span> <span class="s2">"temperature"</span>
 <span class="k">assert</span> <span class="n">variable</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"temperature"</span><span class="p">,</span> <span class="s2">"precipitation"</span><span class="p">)</span>
 
-<span class="c1"># Select the family of models</span>
+<span class="c1"># Select the family of models </span>
 <span class="n">collection_id</span> <span class="o">=</span> <span class="s2">"CMIP6"</span>
 <span class="k">assert</span> <span class="n">collection_id</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"CMIP6"</span><span class="p">)</span>
 
@@ -807,20 +807,20 @@ To streamline the current notebook and avoid excessive length and complexity, th
             <span class="s2">"cnrm_esm2_1"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2031</span><span class="p">,</span> <span class="mi">2060</span><span class="p">),</span>
             <span class="s2">"ec_earth3_cc"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="mi">2048</span><span class="p">),</span>
             <span class="s2">"gfdl_esm4"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2037</span><span class="p">,</span> <span class="mi">2066</span><span class="p">),</span>
-            <span class="s2">"inm_cm4_8"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2030</span><span class="p">,</span> <span class="mi">2059</span><span class="p">),</span>
+            <span class="s2">"inm_cm4_8"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2030</span><span class="p">,</span><span class="mi">2059</span><span class="p">),</span>
             <span class="s2">"inm_cm5_0"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2031</span><span class="p">,</span> <span class="mi">2060</span><span class="p">),</span>
-            <span class="s2">"kiost_esm"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2022</span><span class="p">,</span> <span class="mi">2051</span><span class="p">),</span>
+            <span class="s2">"kiost_esm"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2022</span><span class="p">,</span><span class="mi">2051</span><span class="p">),</span>
             <span class="s2">"miroc6"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2039</span><span class="p">,</span> <span class="mi">2068</span><span class="p">),</span>
-            <span class="s2">"miroc_es2l"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2033</span><span class="p">,</span> <span class="mi">2062</span><span class="p">),</span>
+            <span class="s2">"miroc_es2l"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2033</span><span class="p">,</span><span class="mi">2062</span><span class="p">),</span>
             <span class="s2">"mpi_esm1_2_lr"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2034</span><span class="p">,</span> <span class="mi">2063</span><span class="p">),</span>
-            <span class="s2">"mri_esm2_0"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span> <span class="mi">2052</span><span class="p">),</span>
-            <span class="s2">"noresm2_mm"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2040</span><span class="p">,</span> <span class="mi">2069</span><span class="p">),</span>
-            <span class="s2">"nesm3"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">2047</span><span class="p">),</span>
+            <span class="s2">"mri_esm2_0"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span><span class="mi">2052</span><span class="p">),</span>
+            <span class="s2">"noresm2_mm"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2040</span><span class="p">,</span><span class="mi">2069</span><span class="p">),</span>
+            <span class="s2">"nesm3"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span><span class="mi">2047</span><span class="p">),</span>
         <span class="p">}</span>
-        <span class="c1"># Define dictionaries to use in titles and caption</span>
+        <span class="c1">#Define dictionaries to use in titles and caption</span>
         <span class="n">long_name</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">"SU"</span><span class="p">:</span> <span class="s2">"Number of summer days"</span><span class="p">,</span>
-            <span class="s2">"TX90p"</span><span class="p">:</span> <span class="s2">"Number of days with daily maximum temperatures exceeding the daily 90th percentile of maximum temperature for a 5-day moving window"</span><span class="p">,</span>
+            <span class="s2">"SU"</span><span class="p">:</span><span class="s2">"Number of summer days"</span><span class="p">,</span>
+            <span class="s2">"TX90p"</span><span class="p">:</span><span class="s2">"Number of days with daily maximum temperatures exceeding the daily 90th percentile of maximum temperature for a 5-day moving window"</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="c1"># Colormaps</span>
         <span class="n">cmaps</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"SU"</span><span class="p">:</span> <span class="s2">"RdBu_r"</span><span class="p">,</span> <span class="s2">"TX90p"</span><span class="p">:</span> <span class="s2">"Reds"</span><span class="p">}</span>
@@ -837,30 +837,30 @@ To streamline the current notebook and avoid excessive length and complexity, th
             <span class="s2">"cnrm_esm2_1"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2031</span><span class="p">,</span> <span class="mi">2060</span><span class="p">),</span>
             <span class="s2">"ec_earth3_cc"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="mi">2048</span><span class="p">),</span>
             <span class="s2">"gfdl_esm4"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2037</span><span class="p">,</span> <span class="mi">2066</span><span class="p">),</span>
-            <span class="s2">"inm_cm4_8"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2030</span><span class="p">,</span> <span class="mi">2059</span><span class="p">),</span>
+            <span class="s2">"inm_cm4_8"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2030</span><span class="p">,</span><span class="mi">2059</span><span class="p">),</span>
             <span class="s2">"inm_cm5_0"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2031</span><span class="p">,</span> <span class="mi">2060</span><span class="p">),</span>
             <span class="s2">"miroc6"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2039</span><span class="p">,</span> <span class="mi">2068</span><span class="p">),</span>
-            <span class="s2">"miroc_es2l"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2033</span><span class="p">,</span> <span class="mi">2062</span><span class="p">),</span>
+            <span class="s2">"miroc_es2l"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2033</span><span class="p">,</span><span class="mi">2062</span><span class="p">),</span>
             <span class="s2">"mpi_esm1_2_lr"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2034</span><span class="p">,</span> <span class="mi">2063</span><span class="p">),</span>
-            <span class="s2">"mri_esm2_0"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span> <span class="mi">2052</span><span class="p">),</span>
-            <span class="s2">"noresm2_mm"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2040</span><span class="p">,</span> <span class="mi">2069</span><span class="p">),</span>
-            <span class="s2">"nesm3"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">2047</span><span class="p">),</span>
-            <span class="s2">"ukesm1_0_ll"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2017</span><span class="p">,</span> <span class="mi">2046</span><span class="p">),</span>
+            <span class="s2">"mri_esm2_0"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span><span class="mi">2052</span><span class="p">),</span>
+            <span class="s2">"noresm2_mm"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2040</span><span class="p">,</span><span class="mi">2069</span><span class="p">),</span>
+            <span class="s2">"nesm3"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span><span class="mi">2047</span><span class="p">),</span>
+            <span class="s2">"ukesm1_0_ll"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2017</span><span class="p">,</span><span class="mi">2046</span><span class="p">),</span>
         <span class="p">}</span>
-        <span class="c1"># Define dictionaries to use in titles and caption</span>
+        <span class="c1">#Define dictionaries to use in titles and caption</span>
         <span class="n">long_name</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">"RX1day"</span><span class="p">:</span> <span class="s2">"Maximum 1-day total precipitation"</span><span class="p">,</span>
             <span class="s2">"RX5day"</span><span class="p">:</span> <span class="s2">"Maximum 5-day total precipitation"</span><span class="p">,</span>
-            <span class="s2">"RR1"</span><span class="p">:</span> <span class="s2">"Number of wet days (Precip &gt;= 1mm)"</span><span class="p">,</span>
-            <span class="s2">"R20mm"</span><span class="p">:</span> <span class="s2">"Number of heavy precipitation days (Precip &gt;= 20mm)"</span><span class="p">,</span>
-            <span class="s2">"CWD"</span><span class="p">:</span> <span class="s2">"Maximum consecutive wet days"</span><span class="p">,</span>
+            <span class="s2">"RR1"</span><span class="p">:</span><span class="s2">"Number of wet days (Precip &gt;= 1mm)"</span><span class="p">,</span>
+            <span class="s2">"R20mm"</span><span class="p">:</span><span class="s2">"Number of heavy precipitation days (Precip &gt;= 20mm)"</span><span class="p">,</span>
+            <span class="s2">"CWD"</span><span class="p">:</span><span class="s2">"Maximum consecutive wet days"</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="c1"># Colormaps</span>
         <span class="n">cmaps</span> <span class="o">=</span> <span class="s2">"RdBu"</span>
     <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">variable</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
 
-<span class="n">model_regrid</span> <span class="o">=</span> <span class="s2">"gfdl_esm4"</span>
+<span class="n">model_regrid</span> <span class="o">=</span> <span class="s2">"gfdl_esm4"</span> 
 </pre></div>
 </div>
 </div>
@@ -985,7 +985,7 @@ To streamline the current notebook and avoid excessive length and complexity, th
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">select_timeseries</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">timeseries</span><span class="p">,</span> <span class="n">year_slice</span><span class="p">,</span> <span class="n">index_names</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">timeseries</span> <span class="o">==</span> <span class="s2">"annual"</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">year_slice</span><span class="o">.</span><span class="n">start</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">year_slice</span><span class="o">.</span><span class="n">stop</span><span class="p">)))</span>
-    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">year_slice</span><span class="o">.</span><span class="n">start</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">-12"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">year_slice</span><span class="o">.</span><span class="n">stop</span><span class="si">}</span><span class="s2">-11"</span><span class="p">))</span>
+    <span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">year_slice</span><span class="o">.</span><span class="n">start</span><span class="o">-</span><span class="mi">1</span><span class="si">}</span><span class="s2">-12"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">year_slice</span><span class="o">.</span><span class="n">stop</span><span class="si">}</span><span class="s2">-11"</span><span class="p">))</span>
     <span class="k">if</span> <span class="s2">"RX5day"</span> <span class="ow">in</span> <span class="n">index_names</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ds</span>
     <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">season</span> <span class="o">==</span> <span class="n">timeseries</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1092,8 +1092,8 @@ To streamline the current notebook and avoid excessive length and complexity, th
     <span class="k">else</span><span class="p">:</span>
         <span class="n">bounds</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="n">ds_historical</span> <span class="o">=</span> <span class="n">select_timeseries</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">timeseries</span><span class="p">,</span> <span class="n">historical_slice</span><span class="p">,</span> <span class="n">index_names</span><span class="p">)</span>
-    <span class="n">ds_future</span> <span class="o">=</span> <span class="n">select_timeseries</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">timeseries</span><span class="p">,</span> <span class="n">future_slice</span><span class="p">,</span> <span class="n">index_names</span><span class="p">)</span>
+    <span class="n">ds_historical</span> <span class="o">=</span> <span class="n">select_timeseries</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">timeseries</span><span class="p">,</span> <span class="n">historical_slice</span><span class="p">,</span><span class="n">index_names</span><span class="p">)</span>
+    <span class="n">ds_future</span> <span class="o">=</span> <span class="n">select_timeseries</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">timeseries</span><span class="p">,</span> <span class="n">future_slice</span><span class="p">,</span><span class="n">index_names</span><span class="p">)</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">ds_historical</span><span class="p">,</span> <span class="n">ds_future</span><span class="p">],</span> <span class="s2">"time"</span><span class="p">)</span>
     <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdir</span><span class="p">:</span>
         <span class="n">ds</span> <span class="o">=</span> <span class="n">compute_indices</span><span class="p">(</span>
@@ -1191,9 +1191,7 @@ The thirty year-period corresponding to the 2°C Global Warming Level is differe
         <span class="p">)</span>
     <span class="n">interpolated_datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="p">[</span><span class="n">model</span><span class="p">]))</span>
 
-<span class="n">ds_interpolated</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
-    <span class="n">interpolated_datasets</span><span class="p">,</span> <span class="s2">"model"</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="s2">"minimal"</span><span class="p">,</span> <span class="n">compat</span><span class="o">=</span><span class="s2">"override"</span>
-<span class="p">)</span>
+<span class="n">ds_interpolated</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">interpolated_datasets</span><span class="p">,</span> <span class="s2">"model"</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="s1">'minimal'</span><span class="p">,</span> <span class="n">compat</span><span class="o">=</span><span class="s1">'override'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1264,16 +1262,9 @@ model='nesm3'
 <span class="c1"># Edit attributes</span>
 <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ds_interpolated</span><span class="p">,</span> <span class="o">*</span><span class="n">model_datasets</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
     <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">index_names</span><span class="p">:</span>
-        <span class="n">ds</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">"long_name"</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span>
-            <span class="s2">"units"</span><span class="p">:</span> <span class="s2">"days"</span>
-            <span class="k">if</span> <span class="n">ds</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"d"</span>
-            <span class="k">else</span> <span class="p">(</span>
-                <span class="s2">"mm"</span>
-                <span class="k">if</span> <span class="n">ds</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"mm d-1"</span>
-                <span class="k">else</span> <span class="n">ds</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span>
-            <span class="p">),</span>
-        <span class="p">}</span>
+        <span class="n">ds</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"long_name"</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span> <span class="s2">"units"</span><span class="p">:</span> <span class="s2">"days"</span> <span class="k">if</span> <span class="n">ds</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span><span class="o">==</span><span class="s2">"d"</span> 
+                           <span class="k">else</span> <span class="p">(</span><span class="s2">"mm"</span> <span class="k">if</span> <span class="n">ds</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span><span class="o">==</span><span class="s2">"mm d-1"</span> 
+                                 <span class="k">else</span> <span class="n">ds</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">])}</span>
 </pre></div>
 </div>
 </div>
@@ -1303,9 +1294,9 @@ model='nesm3'
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define function to plot the caption of the figures (for the ensemble case)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Define function to plot the caption of the figures (for the ensemble case)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">add_caption_ensemble</span><span class="p">(</span><span class="n">index</span><span class="p">):</span>
-    <span class="c1"># Add caption to the figure</span>
+    <span class="c1">#Add caption to the figure</span>
     <span class="k">match</span> <span class="n">index</span><span class="p">:</span>
         <span class="k">case</span> <span class="s2">"TX90p"</span><span class="p">:</span>
             <span class="n">caption_text</span> <span class="o">=</span> <span class="p">(</span>
@@ -1315,9 +1306,9 @@ model='nesm3'
                 <span class="sa">f</span><span class="s2">"for the 30-year period corresponding to the 2°C warming level. For this index,  "</span>
                 <span class="sa">f</span><span class="s2">"the daily 90th percentile threshold is calculated based on the historical period (1971-2000). "</span>
                 <span class="sa">f</span><span class="s2">"The layout includes data corresponding to: (a) the ensemble median (understood as the median "</span>
-                <span class="sa">f</span><span class="s2">"of the climate signal values of the chosen subset of models "</span>
+                <span class="sa">f</span><span class="s2">"of the climate signal values of the chosen subset of models "</span> 
                 <span class="sa">f</span><span class="s2">"calculated for each grid cell) and (b) the ensemble spread "</span>
-                <span class="sa">f</span><span class="s2">"(derived as the standard deviation of the distribution of the chosen "</span>
+                <span class="sa">f</span><span class="s2">"(derived as the standard deviation of the distribution of the chosen "</span> 
                 <span class="sa">f</span><span class="s2">"subset of models)."</span>
             <span class="p">)</span>
         <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
@@ -1326,24 +1317,24 @@ model='nesm3'
                 <span class="sa">f</span><span class="s2">"the temporal aggregation of '</span><span class="si">{</span><span class="n">timeseries</span><span class="si">}</span><span class="s2">'. The layout displays "</span>
                 <span class="sa">f</span><span class="s2">"the climate signal of '</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">', i.e., the difference between the mean values of '</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">' "</span>
                 <span class="sa">f</span><span class="s2">"for the 30-year period corresponding to the 2°C warming level and the mean values for the "</span>
-                <span class="sa">f</span><span class="s2">"historical period (1971-2000). "</span>
+                <span class="sa">f</span><span class="s2">"historical period (1971-2000). "</span> 
                 <span class="sa">f</span><span class="s2">"The layout includes data corresponding to: (a) the ensemble median (understood as the median "</span>
-                <span class="sa">f</span><span class="s2">"of the climate signal values of the chosen subset of models "</span>
+                <span class="sa">f</span><span class="s2">"of the climate signal values of the chosen subset of models "</span> 
                 <span class="sa">f</span><span class="s2">"calculated for each grid cell) and (b) the ensemble spread "</span>
-                <span class="sa">f</span><span class="s2">"(derived as the standard deviation of the distribution of the chosen "</span>
+                <span class="sa">f</span><span class="s2">"(derived as the standard deviation of the distribution of the chosen "</span> 
                 <span class="sa">f</span><span class="s2">"subset of models)."</span>
-            <span class="p">)</span>
-
+            <span class="p">)</span> 
+            
     <span class="n">wrapped_lines</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">caption_text</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">105</span><span class="p">)</span>
     <span class="c1"># Add each line to the figure</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">wrapped_lines</span><span class="p">):</span>
-        <span class="n">fig</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span> <span class="n">i</span> <span class="o">*</span> <span class="mf">0.03</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-    <span class="c1"># end captioning</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="o">-</span> <span class="n">i</span> <span class="o">*</span> <span class="mf">0.03</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'left'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="c1">#end captioning</span>
 
 
-<span class="c1"># Define function to plot the cation of the figures (for the individual models case)</span>
+<span class="c1">#Define function to plot the cation of the figures (for the individual models case)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">add_caption_models</span><span class="p">(</span><span class="n">index</span><span class="p">):</span>
-    <span class="c1"># Add caption to the figure</span>
+    <span class="c1">#Add caption to the figure</span>
     <span class="k">match</span> <span class="n">index</span><span class="p">:</span>
         <span class="k">case</span> <span class="s2">"TX90p"</span><span class="p">:</span>
             <span class="n">caption_text</span> <span class="o">=</span> <span class="p">(</span>
@@ -1364,8 +1355,7 @@ model='nesm3'
     <span class="n">wrapped_lines</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">caption_text</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
     <span class="c1"># Add each line to the figure</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">wrapped_lines</span><span class="p">):</span>
-        <span class="n">fig</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span> <span class="n">i</span> <span class="o">*</span> <span class="mf">0.03</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-
+        <span class="n">fig</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="o">-</span> <span class="n">i</span> <span class="o">*</span> <span class="mf">0.03</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'left'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">hatch_p_value</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">default_kwargs</span> <span class="o">=</span> <span class="p">{</span>
@@ -1410,7 +1400,7 @@ model='nesm3'
     <span class="n">data</span><span class="p">,</span>
     <span class="n">da_for_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">p_values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">col_wrap</span><span class="o">=</span><span class="mi">4</span> <span class="k">if</span> <span class="n">collection_id</span> <span class="o">==</span> <span class="s2">"CMIP6"</span> <span class="k">else</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="n">col_wrap</span><span class="o">=</span><span class="mi">4</span> <span class="k">if</span> <span class="n">collection_id</span><span class="o">==</span><span class="s2">"CMIP6"</span> <span class="k">else</span> <span class="mi">3</span><span class="p">,</span>
     <span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">"projection"</span><span class="p">:</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()},</span>
     <span class="n">figsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">layout</span><span class="o">=</span><span class="s2">"constrained"</span><span class="p">,</span>
@@ -1512,9 +1502,7 @@ model='nesm3'
     <span class="p">)</span>
     <span class="k">if</span> <span class="n">p_value_models</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">hatch_p_value_ensemble</span><span class="p">(</span><span class="n">trend</span><span class="o">=</span><span class="n">da_models</span><span class="p">,</span> <span class="n">p_value</span><span class="o">=</span><span class="n">p_value_models</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
-        <span class="s2">"(b) Ensemble Median"</span> <span class="k">if</span> <span class="n">da_era5</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">"(a) Ensemble Median"</span>
-    <span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"(b) Ensemble Median"</span> <span class="k">if</span> <span class="n">da_era5</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">"(a) Ensemble Median"</span><span class="p">)</span>
 
     <span class="c1"># Bias</span>
     <span class="k">if</span> <span class="n">da_era5</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -1541,11 +1529,7 @@ model='nesm3'
         <span class="n">cbar_kwargs</span><span class="o">=</span><span class="n">cbar_kwargs</span><span class="p">,</span>
         <span class="o">**</span><span class="p">(</span><span class="n">default_kwargs</span> <span class="o">|</span> <span class="p">{</span><span class="s2">"cmap"</span><span class="p">:</span> <span class="n">cmap_std</span><span class="p">}),</span>
     <span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
-        <span class="s2">"(d) Ensemble Standard Deviation"</span>
-        <span class="k">if</span> <span class="n">da_era5</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-        <span class="k">else</span> <span class="s2">"(b) Ensemble Standard Deviation"</span>
-    <span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"(d) Ensemble Standard Deviation"</span> <span class="k">if</span> <span class="n">da_era5</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">"(b) Ensemble Standard Deviation"</span><span class="p">)</span>
 
     <span class="n">set_extent</span><span class="p">(</span><span class="n">da_models</span><span class="p">,</span> <span class="n">axs</span><span class="p">,</span> <span class="n">area</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">fig</span>
@@ -1566,13 +1550,11 @@ model='nesm3'
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fig number counter</span>
-<span class="n">fig_number</span> <span class="o">=</span> <span class="mi">1</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Fig number counter</span>
+<span class="n">fig_number</span><span class="o">=</span><span class="mi">1</span>
 
-<span class="c1"># Common title</span>
-<span class="n">common_title</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="sa">f</span><span class="s2">"2°C Global Warming Level ('SSP5-8.5'). Temporal aggregation: '</span><span class="si">{</span><span class="n">timeseries</span><span class="si">}</span><span class="s2">'"</span>
-<span class="p">)</span>
+<span class="c1">#Common title</span>
+<span class="n">common_title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"2°C Global Warming Level ('SSP5-8.5'). Temporal aggregation: '</span><span class="si">{</span><span class="n">timeseries</span><span class="si">}</span><span class="s2">'"</span>
 
 <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">index_names</span><span class="p">:</span>
     <span class="c1"># Index</span>
@@ -1581,11 +1563,11 @@ model='nesm3'
         <span class="n">da_models</span><span class="o">=</span><span class="n">da</span><span class="p">,</span>
         <span class="n">cmap</span><span class="o">=</span><span class="n">cmaps</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">index</span><span class="p">),</span>
     <span class="p">)</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Climate signal of '</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">'</span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">common_title</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Climate signal of '</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">'</span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">common_title</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
     <span class="n">add_caption_ensemble</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-    <span class="n">fig_number</span> <span class="o">=</span> <span class="n">fig_number</span> <span class="o">+</span> <span class="mi">1</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">fig_number</span><span class="o">=</span><span class="n">fig_number</span><span class="o">+</span><span class="mi">1</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1618,17 +1600,15 @@ model='nesm3'
     <span class="n">da_for_kwargs</span> <span class="o">=</span> <span class="n">ds_interpolated</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
     <span class="n">fig</span> <span class="o">=</span> <span class="n">plot_models</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="n">model</span><span class="p">:</span> <span class="n">ds</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="k">for</span> <span class="n">model</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">model_datasets</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
-        <span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">],</span>
+        <span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">9</span><span class="p">,</span><span class="mf">6.5</span><span class="p">],</span>
         <span class="n">da_for_kwargs</span><span class="o">=</span><span class="n">da_for_kwargs</span><span class="p">,</span>
         <span class="n">cmap</span><span class="o">=</span><span class="n">cmaps</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">index</span><span class="p">),</span>
     <span class="p">)</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">"Climate signal of </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2"> individual models)</span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">common_title</span><span class="si">}</span><span class="s2">"</span>
-    <span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Climate signal of </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2"> individual models)</span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">common_title</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">add_caption_models</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
-    <span class="n">fig_number</span> <span class="o">=</span> <span class="n">fig_number</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">fig_number</span><span class="o">=</span><span class="n">fig_number</span><span class="o">+</span><span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -1662,8 +1642,8 @@ model='nesm3'
     <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="p">[</span><span class="n">model</span><span class="p">]),</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">model</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">model_datasets</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
 <span class="p">]</span>
-<span class="n">mean_ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">mean_datasets</span><span class="p">,</span> <span class="s2">"model"</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="s2">"minimal"</span><span class="p">,</span> <span class="n">compat</span><span class="o">=</span><span class="s2">"override"</span><span class="p">)</span>
-<span class="n">index_str</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">mean_ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">mean_datasets</span><span class="p">,</span> <span class="s2">"model"</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="s1">'minimal'</span><span class="p">,</span> <span class="n">compat</span><span class="o">=</span><span class="s1">'override'</span><span class="p">)</span>
+<span class="n">index_str</span><span class="o">=</span><span class="mi">1</span>
 <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">da</span> <span class="ow">in</span> <span class="n">mean_ds</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">df_slope</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()[[</span><span class="n">index</span><span class="p">]]</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">df_slope</span><span class="o">.</span><span class="n">boxplot</span><span class="p">()</span>
@@ -1687,13 +1667,13 @@ model='nesm3'
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">labels</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">])</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="nb">chr</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">'`'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">index_str</span><span class="p">)</span><span class="si">}</span><span class="s2">) Climate signal of </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">. Global warming level: 2°C. SSP5-8.5. </span><span class="se">\n</span><span class="s2">"</span>
-        <span class="sa">f</span><span class="s2">"region: lon [</span><span class="si">{</span><span class="o">-</span><span class="n">area</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">W, </span><span class="si">{</span><span class="n">area</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="si">}</span><span class="s2">E] x lat [</span><span class="si">{</span><span class="n">area</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">N, </span><span class="si">{</span><span class="n">area</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">N] </span><span class="se">\n</span><span class="s2">"</span>
-        <span class="sa">f</span><span class="s2">"Temporal aggregation: </span><span class="si">{</span><span class="n">timeseries</span><span class="si">}</span><span class="s2">. "</span>
-    <span class="p">)</span>
+            <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="nb">chr</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">'`'</span><span class="p">)</span><span class="o">+</span><span class="n">index_str</span><span class="p">)</span><span class="si">}</span><span class="s2">) Climate signal of </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">. Global warming level: 2°C. SSP5-8.5. </span><span class="se">\n</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"region: lon [</span><span class="si">{</span><span class="o">-</span><span class="n">area</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">W, </span><span class="si">{</span><span class="n">area</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="si">}</span><span class="s2">E] x lat [</span><span class="si">{</span><span class="n">area</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">N, </span><span class="si">{</span><span class="n">area</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">N] </span><span class="se">\n</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"Temporal aggregation: </span><span class="si">{</span><span class="n">timeseries</span><span class="si">}</span><span class="s2">. "</span>
+        <span class="p">)</span>  
     <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-    <span class="n">index_str</span> <span class="o">=</span> <span class="n">index_str</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">index_str</span><span class="o">=</span><span class="n">index_str</span><span class="o">+</span><span class="mi">1</span>
 </pre></div>
 </div>
 </div>

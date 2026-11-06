@@ -686,15 +686,20 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tabulate</span><span class="w"> </span><span class="kn">import</span> <span class="n">tabulate</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">fsspec</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.dates</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mdates</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.cbook</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">download</span>
-
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">utils</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.dates</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mdates</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"seaborn-v0_8-notebook"</span><span class="p">)</span>
 </pre></div>
@@ -726,7 +731,7 @@
 </section>
 <section id="download-data">
 <h4>Download data<a class="headerlink" href="#download-data" title="Link to this heading">#</a></h4>
-<div class="cell tag_hide-output tag_hide-input docutils container">
+<div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
@@ -784,10 +789,8 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate time differences</span>
 <span class="n">time_diff</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">"time"</span><span class="p">)</span>  <span class="c1"># Time differences remain in timedelta64[ns]</span>
 <span class="n">median_timestep</span> <span class="o">=</span> <span class="n">time_diff</span><span class="o">.</span><span class="n">median</span><span class="p">()</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">days</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>  <span class="c1"># Convert to days</span>
-<span class="n">max_timestep</span> <span class="o">=</span> <span class="n">time_diff</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">days</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>  <span class="c1"># Convert to days</span>
-<span class="n">timeseries_duration</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">da</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">da</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">days</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>  <span class="c1"># Total duration in days</span>
+<span class="n">max_timestep</span> <span class="o">=</span> <span class="n">time_diff</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">days</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>        <span class="c1"># Convert to days</span>
+<span class="n">timeseries_duration</span> <span class="o">=</span> <span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">da</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">days</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>  <span class="c1"># Total duration in days</span>
 
 <span class="c1"># Subset for 2014 to 2023</span>
 <span class="n">subset_da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="s2">"2014-01-01"</span><span class="p">,</span> <span class="s2">"2023-12-31"</span><span class="p">))</span>
@@ -805,7 +808,7 @@
 <span class="nb">print</span><span class="p">(</span><span class="s2">"All Data:"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Median Timestep (days): </span><span class="si">{</span><span class="n">median_timestep</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Max Timestep (days): </span><span class="si">{</span><span class="n">max_timestep</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Timeseries Duration (years): </span><span class="si">{</span><span class="n">timeseries_duration</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">365</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Timeseries Duration (years): </span><span class="si">{</span><span class="n">timeseries_duration</span><span class="o">/</span><span class="mi">365</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Subset 2014-2023:"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Median Timestep (days): </span><span class="si">{</span><span class="n">subset_median_timestep</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
@@ -846,19 +849,17 @@ Max Timestep (days): 93
 
 <span class="c1"># Plot as bars</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span>
-<span class="n">monthly_counts_pd</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">"bar"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"skyblue"</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">monthly_counts_pd</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">'bar'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'skyblue'</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Monthly Count of Available Data Values"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Time"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Count of Available Values"</span><span class="p">)</span>
 
 <span class="c1"># Customize the x-axis labels to show only years</span>
-<span class="n">xticks_positions</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span>
-    <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">monthly_counts_pd</span><span class="p">),</span> <span class="mi">12</span>
-<span class="p">)</span>  <span class="c1"># Tick at the start of each year</span>
-<span class="n">xticks_labels</span> <span class="o">=</span> <span class="n">monthly_counts_pd</span><span class="o">.</span><span class="n">index</span><span class="p">[::</span><span class="mi">12</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y"</span><span class="p">)</span>  <span class="c1"># Format as year</span>
+<span class="n">xticks_positions</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">monthly_counts_pd</span><span class="p">),</span> <span class="mi">12</span><span class="p">)</span>  <span class="c1"># Tick at the start of each year</span>
+<span class="n">xticks_labels</span> <span class="o">=</span> <span class="n">monthly_counts_pd</span><span class="o">.</span><span class="n">index</span><span class="p">[::</span><span class="mi">12</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%Y'</span><span class="p">)</span>  <span class="c1"># Format as year</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">ticks</span><span class="o">=</span><span class="n">xticks_positions</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">xticks_labels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">"y"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">'y'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -882,10 +883,8 @@ Max Timestep (days): 93
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate time differences</span>
 <span class="n">time_diff</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">"time"</span><span class="p">)</span>  <span class="c1"># Time differences remain in timedelta64[ns]</span>
 <span class="n">median_timestep</span> <span class="o">=</span> <span class="n">time_diff</span><span class="o">.</span><span class="n">median</span><span class="p">()</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">days</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>  <span class="c1"># Convert to days</span>
-<span class="n">max_timestep</span> <span class="o">=</span> <span class="n">time_diff</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">days</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>  <span class="c1"># Convert to days</span>
-<span class="n">timeseries_duration</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">da</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">da</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">days</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>  <span class="c1"># Total duration in days</span>
+<span class="n">max_timestep</span> <span class="o">=</span> <span class="n">time_diff</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">days</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>        <span class="c1"># Convert to days</span>
+<span class="n">timeseries_duration</span> <span class="o">=</span> <span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">da</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">days</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>  <span class="c1"># Total duration in days</span>
 
 <span class="c1"># Subset for 1995 to 2019</span>
 <span class="n">subset_da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="s2">"1995-01-01"</span><span class="p">,</span> <span class="s2">"2019-12-31"</span><span class="p">))</span>
@@ -959,12 +958,10 @@ Max Timestep (days): 93
 <span class="p">}</span>
 
 <span class="c1"># Convert the mission data into a DataFrame</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-    <span class="p">[</span>
-        <span class="p">{</span><span class="s2">"Mission"</span><span class="p">:</span> <span class="n">mission</span><span class="p">,</span> <span class="s2">"Start"</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">start</span><span class="p">),</span> <span class="s2">"End"</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">end</span><span class="p">)}</span>
-        <span class="k">for</span> <span class="n">mission</span><span class="p">,</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span> <span class="ow">in</span> <span class="n">missions</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-    <span class="p">]</span>
-<span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span>
+    <span class="p">{</span><span class="s2">"Mission"</span><span class="p">:</span> <span class="n">mission</span><span class="p">,</span> <span class="s2">"Start"</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">start</span><span class="p">),</span> <span class="s2">"End"</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">end</span><span class="p">)}</span>
+    <span class="k">for</span> <span class="n">mission</span><span class="p">,</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span> <span class="ow">in</span> <span class="n">missions</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+<span class="p">])</span>
 
 <span class="c1"># Sort the DataFrame by start date</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">"Start"</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -977,27 +974,23 @@ Max Timestep (days): 93
 <span class="n">fig</span><span class="o">.</span><span class="n">set_dpi</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span>
 <span class="c1"># Plot the bars (same as before)</span>
 <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="s2">"Duration"</span><span class="p">],</span> <span class="n">left</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">"Start"</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"skyblue"</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
-        <span class="n">row</span><span class="p">[</span><span class="s2">"Start"</span><span class="p">]</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">"Duration"</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="n">idx</span><span class="p">,</span>
-        <span class="n">row</span><span class="p">[</span><span class="s2">"Mission"</span><span class="p">],</span>
-        <span class="n">va</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span>
-        <span class="n">ha</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span>
-        <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="s2">"Duration"</span><span class="p">],</span> <span class="n">left</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">"Start"</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'skyblue'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">"Start"</span><span class="p">]</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">"Duration"</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="n">idx</span><span class="p">,</span>
+            <span class="n">row</span><span class="p">[</span><span class="s2">"Mission"</span><span class="p">],</span>
+            <span class="n">va</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
 
 <span class="c1"># Create a range of years for ticks</span>
 <span class="n">start_year</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"Start"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
 <span class="n">end_year</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"End"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
-<span class="n">years</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">start_year</span><span class="si">}</span><span class="s2">-01-01"</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">end_year</span><span class="si">}</span><span class="s2">-01-01"</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">"YS"</span><span class="p">)</span>
+<span class="n">years</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">start_year</span><span class="si">}</span><span class="s1">-01-01'</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">end_year</span><span class="si">}</span><span class="s1">-01-01'</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">'YS'</span><span class="p">)</span>
 
 <span class="c1"># Set x-axis ticks to January of each year</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">years</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y"</span><span class="p">)</span> <span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">years</span><span class="p">],</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%Y'</span><span class="p">)</span> <span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">years</span><span class="p">],</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
 
 <span class="c1"># Enable grid for x-axis</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">'x'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 
 <span class="c1"># Axis labels and title</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Year"</span><span class="p">)</span>
@@ -1039,7 +1032,7 @@ Max Timestep (days): 93
 <span class="n">december_values</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">da</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span> <span class="o">==</span> <span class="mi">12</span><span class="p">)</span>
 
 <span class="c1"># Convert DataArray time coordinate to a pandas datetime index</span>
-<span class="n">time_index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">da</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">time_index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">da</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
 
 <span class="c1"># --- Identify extremes ---</span>
 <span class="c1"># Max in 2003</span>
@@ -1060,81 +1053,46 @@ Max Timestep (days): 93
 <span class="c1"># Plot time series</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">set_dpi</span><span class="p">(</span><span class="mi">150</span><span class="p">)</span>  <span class="c1"># Set the display DPI for the figure</span>
-<span class="n">da</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-    <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
-    <span class="n">label</span><span class="o">=</span><span class="s2">"C3S"</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="s2">"purple"</span><span class="p">,</span>
-    <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="n">da</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"C3S"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"purple"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,)</span>
 
 <span class="c1"># Add points for April and December with subtler colors</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">april_values</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">april_values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"orange"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"April values"</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
-    <span class="n">december_values</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">december_values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"lightblue"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"December values"</span>
-<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">december_values</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">december_values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"lightblue"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"December values"</span><span class="p">)</span>
 
 <span class="c1"># --- Add highlighted extremes with safe annotations ---</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
-    <span class="n">t_max_2003</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-    <span class="n">max_2003</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="s2">"darkred"</span><span class="p">,</span>
-    <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
-    <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-    <span class="n">label</span><span class="o">=</span><span class="s2">"Flooding events"</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">"Max 2003</span><span class="se">\n</span><span class="si">{</span><span class="n">max_2003</span><span class="o">.</span><span class="n">values</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
-    <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">t_max_2003</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">max_2003</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
-    <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="o">-</span><span class="mf">27.5</span><span class="p">),</span>
-    <span class="n">textcoords</span><span class="o">=</span><span class="s2">"offset points"</span><span class="p">,</span>
-    <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="s2">"darkred"</span><span class="p">,</span>
-    <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">"-&gt;"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"darkred"</span><span class="p">),</span>
-<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">t_max_2003</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">max_2003</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"darkred"</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Flooding events"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Max 2003</span><span class="se">\n</span><span class="si">{</span><span class="n">max_2003</span><span class="o">.</span><span class="n">values</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> 
+            <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">t_max_2003</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">max_2003</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> 
+            <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="o">-</span><span class="mf">27.5</span><span class="p">),</span> <span class="n">textcoords</span><span class="o">=</span><span class="s2">"offset points"</span><span class="p">,</span> 
+            <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"darkred"</span><span class="p">,</span> 
+            <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">"-&gt;"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"darkred"</span><span class="p">))</span>
 
 <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">t_max_2004</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">max_2004</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"darkred"</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">"Max 2004</span><span class="se">\n</span><span class="si">{</span><span class="n">max_2004</span><span class="o">.</span><span class="n">values</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
-    <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">t_max_2004</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">max_2004</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
-    <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">30</span><span class="p">),</span>
-    <span class="n">textcoords</span><span class="o">=</span><span class="s2">"offset points"</span><span class="p">,</span>
-    <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="s2">"darkred"</span><span class="p">,</span>
-    <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">"-&gt;"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"darkred"</span><span class="p">),</span>
-<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Max 2004</span><span class="se">\n</span><span class="si">{</span><span class="n">max_2004</span><span class="o">.</span><span class="n">values</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> 
+            <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">t_max_2004</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">max_2004</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> 
+            <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">30</span><span class="p">),</span> <span class="n">textcoords</span><span class="o">=</span><span class="s2">"offset points"</span><span class="p">,</span> 
+            <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"darkred"</span><span class="p">,</span> 
+            <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">"-&gt;"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"darkred"</span><span class="p">))</span>
 
 
-<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
-    <span class="n">t_min_2023</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-    <span class="n">min_2023</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span>
-    <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
-    <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-    <span class="n">label</span><span class="o">=</span><span class="s2">"Drought events"</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">"Min 2023</span><span class="se">\n</span><span class="si">{</span><span class="n">min_2023</span><span class="o">.</span><span class="n">values</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
-    <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">t_min_2023</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">min_2023</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
-    <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
-    <span class="n">textcoords</span><span class="o">=</span><span class="s2">"offset points"</span><span class="p">,</span>
-    <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span>
-    <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">"-&gt;"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">),</span>
-<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">t_min_2023</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">min_2023</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Drought events"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Min 2023</span><span class="se">\n</span><span class="si">{</span><span class="n">min_2023</span><span class="o">.</span><span class="n">values</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> 
+            <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">t_min_2023</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">min_2023</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> 
+            <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">textcoords</span><span class="o">=</span><span class="s2">"offset points"</span><span class="p">,</span> 
+            <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span> 
+            <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">"-&gt;"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">))</span>
 <span class="c1"># Remove duplicate labels in the legend</span>
 <span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
-<span class="n">unique_handles_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-    <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">handles</span><span class="p">)</span>
-<span class="p">)</span>  <span class="c1"># Remove duplicates by keeping the first occurrence</span>
+<span class="n">unique_handles_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">handles</span><span class="p">))</span>  <span class="c1"># Remove duplicates by keeping the first occurrence</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">unique_handles_labels</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">unique_handles_labels</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
 
 <span class="c1"># Force x-axis to show every year</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">YearLocator</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>  <span class="c1"># one tick per year</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">YearLocator</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>   <span class="c1"># one tick per year</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">DateFormatter</span><span class="p">(</span><span class="s2">"%Y"</span><span class="p">))</span>  <span class="c1"># format as YYYY</span>
 
 <span class="c1"># Rotate ticks if needed</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">(),</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">"right"</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">"both"</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">"both"</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span> 
 <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">"major"</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">"both"</span><span class="p">)</span>  <span class="c1"># ensures vertical grid lines at each year</span>
 
 <span class="c1"># Add title</span>
@@ -1182,7 +1140,6 @@ Max Timestep (days): 93
     <span class="n">missing_months</span> <span class="o">=</span> <span class="n">all_months</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">counts</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%B %Y"</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">missing_months</span><span class="p">]</span>  <span class="c1"># e.g. ["March 2012"]</span>
-
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Missing months in 2011:"</span><span class="p">,</span> <span class="n">missing_months_in_year</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="mi">2011</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Missing months in 2012:"</span><span class="p">,</span> <span class="n">missing_months_in_year</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="mi">2012</span><span class="p">))</span>
@@ -1251,21 +1208,20 @@ Missing months in 2013: ['April 2013', 'December 2013']
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Rename ENSO column</span>
-<span class="n">df_enso</span><span class="p">[</span><span class="s2">"Date"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_enso</span><span class="p">[</span><span class="s2">"Date"</span><span class="p">])</span>
-<span class="n">df_enso</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"Date"</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df_enso</span><span class="p">[</span><span class="s1">'Date'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_enso</span><span class="p">[</span><span class="s1">'Date'</span><span class="p">])</span>
+<span class="n">df_enso</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'Date'</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">df_enso</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="o">-</span><span class="mf">9999.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
 
 <span class="c1"># Function to compute differences and ENSO-colored bar data</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_diffs</span><span class="p">(</span><span class="n">month_values</span><span class="p">,</span> <span class="n">dec_values</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
     <span class="c1"># Mean per year</span>
-    <span class="n">month_df</span> <span class="o">=</span> <span class="n">month_values</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"value"</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-    <span class="n">month_df</span><span class="p">[</span><span class="s2">"year"</span><span class="p">]</span> <span class="o">=</span> <span class="n">month_df</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span>
-    <span class="n">month_mean</span> <span class="o">=</span> <span class="n">month_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"year"</span><span class="p">)[</span><span class="s2">"value"</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">month_df</span> <span class="o">=</span> <span class="n">month_values</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'value'</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="n">month_df</span><span class="p">[</span><span class="s1">'year'</span><span class="p">]</span> <span class="o">=</span> <span class="n">month_df</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span>
+    <span class="n">month_mean</span> <span class="o">=</span> <span class="n">month_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'year'</span><span class="p">)[</span><span class="s1">'value'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 
-    <span class="n">dec_df</span> <span class="o">=</span> <span class="n">dec_values</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"value"</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-    <span class="n">dec_df</span><span class="p">[</span><span class="s2">"year"</span><span class="p">]</span> <span class="o">=</span> <span class="n">dec_df</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span>
-    <span class="n">dec_mean</span> <span class="o">=</span> <span class="n">dec_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"year"</span><span class="p">)[</span><span class="s2">"value"</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">dec_df</span> <span class="o">=</span> <span class="n">dec_values</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'value'</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="n">dec_df</span><span class="p">[</span><span class="s1">'year'</span><span class="p">]</span> <span class="o">=</span> <span class="n">dec_df</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span>
+    <span class="n">dec_mean</span> <span class="o">=</span> <span class="n">dec_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'year'</span><span class="p">)[</span><span class="s1">'value'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 
     <span class="c1"># Calculate difference</span>
     <span class="n">diffs</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1280,19 +1236,17 @@ Missing months in 2013: ['April 2013', 'December 2013']
     <span class="c1"># Compute ENSO-based bar colors</span>
     <span class="n">colors</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">diff_series</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
-        <span class="n">months</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span>
-            <span class="n">start</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">year</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">-10-01"</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">-04-30"</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">"MS"</span>
-        <span class="p">)</span>
-        <span class="n">nina_vals</span> <span class="o">=</span> <span class="n">df_enso</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">months</span><span class="p">,</span> <span class="s2">"nina34"</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+        <span class="n">months</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">year</span><span class="o">-</span><span class="mi">1</span><span class="si">}</span><span class="s1">-10-01'</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s1">-04-30'</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">'MS'</span><span class="p">)</span>
+        <span class="n">nina_vals</span> <span class="o">=</span> <span class="n">df_enso</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">months</span><span class="p">,</span> <span class="s1">'nina34'</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
         <span class="n">nino_count</span> <span class="o">=</span> <span class="p">(</span><span class="n">nina_vals</span> <span class="o">&gt;</span> <span class="mf">0.75</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
         <span class="n">nina_count</span> <span class="o">=</span> <span class="p">(</span><span class="n">nina_vals</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">0.75</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">nino_count</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="p">:</span>
-            <span class="n">colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"red"</span><span class="p">)</span>
+            <span class="n">colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'red'</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">nina_count</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="p">:</span>
-            <span class="n">colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"blue"</span><span class="p">)</span>
+            <span class="n">colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'blue'</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"gray"</span><span class="p">)</span>
+            <span class="n">colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'gray'</span><span class="p">)</span>
 
     <span class="c1"># Identify missing years</span>
     <span class="n">all_years</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1995</span><span class="p">,</span> <span class="mi">2024</span><span class="p">))</span>
@@ -1300,71 +1254,42 @@ Missing months in 2013: ['April 2013', 'December 2013']
 
     <span class="k">return</span> <span class="n">diff_series</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">missing_years</span>
 
-
 <span class="c1"># Compute all three</span>
-<span class="n">diff_apr</span><span class="p">,</span> <span class="n">colors_apr</span><span class="p">,</span> <span class="n">missing_apr</span> <span class="o">=</span> <span class="n">compute_diffs</span><span class="p">(</span>
-    <span class="n">april_values</span><span class="p">,</span> <span class="n">december_values</span><span class="p">,</span> <span class="s2">"April"</span>
-<span class="p">)</span>
-<span class="n">diff_feb</span><span class="p">,</span> <span class="n">colors_feb</span><span class="p">,</span> <span class="n">missing_feb</span> <span class="o">=</span> <span class="n">compute_diffs</span><span class="p">(</span>
-    <span class="n">feb_values</span><span class="p">,</span> <span class="n">december_values</span><span class="p">,</span> <span class="s2">"February"</span>
-<span class="p">)</span>
-<span class="n">diff_jan</span><span class="p">,</span> <span class="n">colors_jan</span><span class="p">,</span> <span class="n">missing_jan</span> <span class="o">=</span> <span class="n">compute_diffs</span><span class="p">(</span>
-    <span class="n">jan_values</span><span class="p">,</span> <span class="n">december_values</span><span class="p">,</span> <span class="s2">"January"</span>
-<span class="p">)</span>
+<span class="n">diff_apr</span><span class="p">,</span> <span class="n">colors_apr</span><span class="p">,</span> <span class="n">missing_apr</span> <span class="o">=</span> <span class="n">compute_diffs</span><span class="p">(</span><span class="n">april_values</span><span class="p">,</span> <span class="n">december_values</span><span class="p">,</span> <span class="s2">"April"</span><span class="p">)</span>
+<span class="n">diff_feb</span><span class="p">,</span> <span class="n">colors_feb</span><span class="p">,</span> <span class="n">missing_feb</span> <span class="o">=</span> <span class="n">compute_diffs</span><span class="p">(</span><span class="n">feb_values</span><span class="p">,</span> <span class="n">december_values</span><span class="p">,</span> <span class="s2">"February"</span><span class="p">)</span>
+<span class="n">diff_jan</span><span class="p">,</span> <span class="n">colors_jan</span><span class="p">,</span> <span class="n">missing_jan</span> <span class="o">=</span> <span class="n">compute_diffs</span><span class="p">(</span><span class="n">jan_values</span><span class="p">,</span> <span class="n">december_values</span><span class="p">,</span> <span class="s2">"January"</span><span class="p">)</span>
 
 <span class="c1"># Plotting</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">set_dpi</span><span class="p">(</span><span class="mi">300</span><span class="p">)</span>  <span class="c1"># Set the display DPI for the figure</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">diff</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
-    <span class="nb">zip</span><span class="p">(</span>
-        <span class="n">axes</span><span class="p">,</span>
-        <span class="p">[</span><span class="n">diff_apr</span><span class="p">,</span> <span class="n">diff_feb</span><span class="p">,</span> <span class="n">diff_jan</span><span class="p">],</span>
-        <span class="p">[</span><span class="n">colors_apr</span><span class="p">,</span> <span class="n">colors_feb</span><span class="p">,</span> <span class="n">colors_jan</span><span class="p">],</span>
-        <span class="p">[</span><span class="s2">"Apr(n) - Dec(n-1)"</span><span class="p">,</span> <span class="s2">"Feb(n) - Dec(n-1)"</span><span class="p">,</span> <span class="s2">"Jan(n) - Dec(n-1)"</span><span class="p">],</span>
-    <span class="p">)</span>
-<span class="p">):</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">diff</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> 
+                                                  <span class="p">[</span><span class="n">diff_apr</span><span class="p">,</span> <span class="n">diff_feb</span><span class="p">,</span> <span class="n">diff_jan</span><span class="p">],</span>
+                                                  <span class="p">[</span><span class="n">colors_apr</span><span class="p">,</span> <span class="n">colors_feb</span><span class="p">,</span> <span class="n">colors_jan</span><span class="p">],</span>
+                                                  <span class="p">[</span><span class="s1">'Apr(n) - Dec(n-1)'</span><span class="p">,</span> <span class="s1">'Feb(n) - Dec(n-1)'</span><span class="p">,</span> <span class="s1">'Jan(n) - Dec(n-1)'</span><span class="p">])):</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">diff</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">diff</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Water Level Difference (m)"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.25</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">"both"</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"lightgray"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">'both'</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'lightgray'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="c1"># Only for the April plot, add marker and text</span>
     <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="mi">2023</span> <span class="ow">in</span> <span class="n">diff</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
         <span class="n">y_val</span> <span class="o">=</span> <span class="n">diff</span><span class="p">[</span><span class="mi">2023</span><span class="p">]</span>
         <span class="c1"># Horizontal line from y-axis to the bar at y_val</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span>
-            <span class="n">y</span><span class="o">=</span><span class="n">y_val</span><span class="p">,</span>
-            <span class="n">xmin</span><span class="o">=</span><span class="mf">1994.5</span><span class="p">,</span>
-            <span class="n">xmax</span><span class="o">=</span><span class="mi">2023</span><span class="p">,</span>
-            <span class="n">colors</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span>
-            <span class="n">linestyles</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span>
-            <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y_val</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="mf">1994.5</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="mi">2023</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">'black'</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
         <span class="c1"># Add text above the 2023 bar</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
-            <span class="mi">2023</span><span class="p">,</span>
-            <span class="n">y_val</span> <span class="o">+</span> <span class="mf">0.05</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">y_val</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">m"</span><span class="p">,</span>
-            <span class="n">ha</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span>
-            <span class="n">va</span><span class="o">=</span><span class="s2">"bottom"</span><span class="p">,</span>
-            <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
-            <span class="n">fontweight</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span> <span class="n">y_val</span> <span class="o">+</span> <span class="mf">0.05</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">y_val</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">m"</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">'bottom'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
 
 <span class="c1"># Shared x-label</span>
 <span class="n">axes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Year"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 
 <span class="c1"># Legend</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="kn">import</span> <span class="n">Patch</span>
-
-<span class="n">legend_elements</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"El Niño"</span><span class="p">),</span>
-    <span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"La Niña"</span><span class="p">),</span>
-    <span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">"gray"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Neutral"</span><span class="p">),</span>
-<span class="p">]</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">legend_elements</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"upper right"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">legend_elements</span> <span class="o">=</span> <span class="p">[</span><span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'El Niño'</span><span class="p">),</span>
+                   <span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">'blue'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'La Niña'</span><span class="p">),</span>
+                   <span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Neutral'</span><span class="p">)]</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">legend_elements</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">'upper right'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -1415,7 +1340,7 @@ Missing years (no data for Jan(n) or Dec(n-1)): [1995, 1998, 2000, 2011, 2013, 2
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load PQAR table (ANNEX A)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Load PQAR table (ANNEX A)</span>
 <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">"Lake name"</span><span class="p">,</span>
     <span class="s2">"Dispersion 1992-2023 (cm)"</span><span class="p">,</span>
@@ -1876,11 +1801,11 @@ Missing years (no data for Jan(n) or Dec(n-1)): [1995, 1998, 2000, 2011, 2013, 2
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the columns of interest</span>
 <span class="n">columns_of_interest</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">"Median Timestep 1992-2023 (days)"</span><span class="p">,</span>
-    <span class="s2">"Max Timestep 1992-2023 (days)"</span><span class="p">,</span>
-    <span class="s2">"Timeseries duration 1992-2023"</span><span class="p">,</span>
-    <span class="s2">"Median Timestep 2014-2023 (days)"</span><span class="p">,</span>
-    <span class="s2">"Max Timestep 2014-2023 (days)"</span><span class="p">,</span>
+    <span class="s1">'Median Timestep 1992-2023 (days)'</span><span class="p">,</span> 
+    <span class="s1">'Max Timestep 1992-2023 (days)'</span><span class="p">,</span>
+    <span class="s1">'Timeseries duration 1992-2023'</span><span class="p">,</span> 
+    <span class="s1">'Median Timestep 2014-2023 (days)'</span><span class="p">,</span> 
+    <span class="s1">'Max Timestep 2014-2023 (days)'</span>
 <span class="p">]</span>
 
 <span class="c1"># Get the row for Lake Titicaca</span>
@@ -1895,9 +1820,7 @@ Missing years (no data for Jan(n) or Dec(n-1)): [1995, 1998, 2000, 2011, 2013, 2
     <span class="n">percentile_ranks</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">percentile</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
 <span class="c1"># Create a DataFrame for display</span>
-<span class="n">percentile_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span>
-    <span class="n">percentile_ranks</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s2">"index"</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"Titicaca Percentile"</span><span class="p">]</span>
-<span class="p">)</span>
+<span class="n">percentile_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">percentile_ranks</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s2">"index"</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"Titicaca Percentile"</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">percentile_df</span><span class="p">)</span>
 </pre></div>
 </div>

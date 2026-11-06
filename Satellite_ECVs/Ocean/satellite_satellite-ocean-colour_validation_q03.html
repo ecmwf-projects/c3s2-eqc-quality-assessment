@@ -704,19 +704,17 @@ Here, the goal is to evaluate how accurately the Ocean Colour products can ident
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.feature</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cfeature</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">download</span><span class="p">,</span> <span class="n">utils</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">display</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">confusion_matrix</span>
-
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">)</span>
 </pre></div>
@@ -769,45 +767,43 @@ Here, the goal is to evaluate how accurately the Ocean Colour products can ident
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">regionalised_filtred_data</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">lon_slice</span><span class="p">,</span> <span class="n">lat_slice</span><span class="p">,</span> <span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">regionalised_filtred_data</span><span class="p">(</span>
+    <span class="n">ds</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">lon_slice</span><span class="p">,</span> <span class="n">lat_slice</span><span class="p">,</span> <span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span>
+<span class="p">):</span>
     <span class="n">da</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span>
-    <span class="n">da</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">regionalise</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">lon_slice</span><span class="o">=</span><span class="n">lon_slice</span><span class="p">,</span> <span class="n">lat_slice</span><span class="o">=</span><span class="n">lat_slice</span><span class="p">)</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">regionalise</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">lon_slice</span><span class="o">=</span><span class="n">lon_slice</span><span class="p">,</span> <span class="n">lat_slice</span><span class="o">=</span><span class="n">lat_slice</span><span class="p">)</span>    
     <span class="k">if</span> <span class="n">vmin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">da</span> <span class="o">&gt;</span> <span class="n">vmin</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">vmax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">da</span> <span class="o">&lt;</span> <span class="n">vmax</span><span class="p">)</span>
+        <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">da</span> <span class="o">&lt;</span> <span class="n">vmax</span><span class="p">)</span>        
     <span class="k">return</span> <span class="n">da</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">variable</span><span class="p">)</span>
-
-
 <span class="n">datasets</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">region</span><span class="p">,</span> <span class="n">slices</span> <span class="ow">in</span> <span class="n">region_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">current_request</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">update_request_date</span><span class="p">(</span>
-            <span class="n">request</span>
-            <span class="o">|</span> <span class="p">{</span>
-                <span class="s2">"variable"</span><span class="p">:</span> <span class="s2">"remote_sensing_reflectance"</span>
-                <span class="k">if</span> <span class="n">variable</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"Rrs"</span><span class="p">)</span>
+            <span class="n">request</span> <span class="o">|</span> <span class="p">{</span>
+                <span class="s2">"variable"</span><span class="p">:</span> <span class="s2">"remote_sensing_reflectance"</span> 
+                <span class="k">if</span> <span class="n">variable</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"Rrs"</span><span class="p">)</span> 
                 <span class="k">else</span> <span class="s2">"mass_concentration_of_chlorophyll_a"</span>
             <span class="p">},</span>
             <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span>
             <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span>
             <span class="n">stringify_dates</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="p">)</span>        
         <span class="n">ds_var</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
             <span class="n">collection_id</span><span class="p">,</span>
             <span class="n">current_request</span><span class="p">,</span>
             <span class="n">transform_func</span><span class="o">=</span><span class="n">regionalised_filtred_data</span><span class="p">,</span>
-            <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="n">slices</span>
-            <span class="o">|</span> <span class="p">{</span>
+            <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="n">slices</span> <span class="o">|</span> <span class="p">{</span>
                 <span class="s2">"variable"</span><span class="p">:</span> <span class="n">variable</span><span class="p">,</span>
                 <span class="s2">"vmin"</span><span class="p">:</span> <span class="mf">1.0e-2</span> <span class="k">if</span> <span class="n">variable</span> <span class="o">==</span> <span class="s2">"chlor_a"</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
                 <span class="s2">"vmax"</span><span class="p">:</span> <span class="mf">1.0e2</span> <span class="k">if</span> <span class="n">variable</span> <span class="o">==</span> <span class="s2">"chlor_a"</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="p">},</span>
-            <span class="n">chunks</span><span class="o">=</span><span class="p">{</span><span class="s2">"year"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"month"</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+            <span class="n">chunks</span><span class="o">=</span><span class="p">{</span><span class="s2">"year"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"month"</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> 
             <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds_var</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">region</span><span class="o">=</span><span class="p">[</span><span class="n">region</span><span class="p">]))</span>
-
+        
 <span class="n">ds_sat</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -837,9 +833,7 @@ Here, the goal is to evaluate how accurately the Ocean Colour products can ident
         <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"https://gis.myfwc.com/mapping/rest/services/Open_Data/Recent_Harmful_Algal_Bloom__HAB__Events_2024_present/MapServer/</span><span class="si">{</span><span class="n">ds</span><span class="p">[</span><span class="s1">'layer'</span><span class="p">]</span><span class="si">}</span><span class="s2">/query"</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">base_path</span> <span class="o">=</span> <span class="s2">"https://gis.myfwc.com/mapping/rest/services/Open_Data/Historic_Harmful_Algal_Bloom_Events_"</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">base_path</span><span class="si">}{</span><span class="n">ds</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'-'</span><span class="p">,</span><span class="w"> </span><span class="s1">'___'</span><span class="p">)</span><span class="si">}</span><span class="s2">/MapServer/</span><span class="si">{</span><span class="n">ds</span><span class="p">[</span><span class="s1">'layer'</span><span class="p">]</span><span class="si">}</span><span class="s2">/query"</span>
-        <span class="p">)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">base_path</span><span class="si">}{</span><span class="n">ds</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'-'</span><span class="p">,</span><span class="w"> </span><span class="s1">'___'</span><span class="p">)</span><span class="si">}</span><span class="s2">/MapServer/</span><span class="si">{</span><span class="n">ds</span><span class="p">[</span><span class="s1">'layer'</span><span class="p">]</span><span class="si">}</span><span class="s2">/query"</span>
     <span class="n">all_records</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">step</span> <span class="o">=</span> <span class="mi">2000</span>
@@ -865,7 +859,9 @@ Here, the goal is to evaluate how accurately the Ocean Colour products can ident
             <span class="k">break</span>
     <span class="n">temp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">all_records</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">temp_df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
-        <span class="n">date_col</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">temp_df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="s2">"date"</span> <span class="ow">in</span> <span class="n">col</span><span class="o">.</span><span class="n">lower</span><span class="p">()),</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">date_col</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">temp_df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="s2">"date"</span> <span class="ow">in</span> <span class="n">col</span><span class="o">.</span><span class="n">lower</span><span class="p">()),</span> <span class="kc">None</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="n">date_col</span><span class="p">:</span>
             <span class="n">temp_df</span> <span class="o">=</span> <span class="n">temp_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="n">date_col</span><span class="p">:</span> <span class="s2">"SAMPLE_DATE"</span><span class="p">})</span>
             <span class="n">temp_df</span><span class="p">[</span><span class="s2">"SAMPLE_DATE"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
@@ -918,64 +914,50 @@ First, a spatio-temporal binning is applied by averaging all <em>in situ</em> sa
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">extract_hab_pairs_final</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">df_input</span><span class="p">,</span> <span class="n">max_dist_km</span><span class="o">=</span><span class="mf">4.0</span><span class="p">,</span> <span class="n">max_days</span><span class="o">=</span><span class="mi">7</span><span class="p">):</span>
     <span class="n">df_work</span> <span class="o">=</span> <span class="n">df_input</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">df_work</span><span class="p">[</span><span class="s2">"SAMPLE_DATE"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_work</span><span class="p">[</span><span class="s2">"SAMPLE_DATE"</span><span class="p">])</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
-    <span class="n">df_work</span><span class="p">[</span><span class="s2">"lat_bin"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_work</span><span class="p">[</span><span class="s2">"LATITUDE"</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">df_work</span><span class="p">[</span><span class="s2">"lon_bin"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_work</span><span class="p">[</span><span class="s2">"LONGITUDE"</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">df_grouped</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">df_work</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">"SAMPLE_DATE"</span><span class="p">,</span> <span class="s2">"lat_bin"</span><span class="p">,</span> <span class="s2">"lon_bin"</span><span class="p">])</span>
-        <span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s2">"LATITUDE"</span><span class="p">:</span> <span class="s2">"mean"</span><span class="p">,</span> <span class="s2">"LONGITUDE"</span><span class="p">:</span> <span class="s2">"mean"</span><span class="p">,</span> <span class="s2">"COUNT_"</span><span class="p">:</span> <span class="s2">"mean"</span><span class="p">})</span>
-        <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-    <span class="p">)</span>
-    <span class="n">extracted</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">df_work</span><span class="p">[</span><span class="s1">'SAMPLE_DATE'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_work</span><span class="p">[</span><span class="s1">'SAMPLE_DATE'</span><span class="p">])</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
+    <span class="n">df_work</span><span class="p">[</span><span class="s1">'lat_bin'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_work</span><span class="p">[</span><span class="s1">'LATITUDE'</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">df_work</span><span class="p">[</span><span class="s1">'lon_bin'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_work</span><span class="p">[</span><span class="s1">'LONGITUDE'</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>    
+    <span class="n">df_grouped</span> <span class="o">=</span> <span class="n">df_work</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'SAMPLE_DATE'</span><span class="p">,</span> <span class="s1">'lat_bin'</span><span class="p">,</span> <span class="s1">'lon_bin'</span><span class="p">])</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span>
+        <span class="s1">'LATITUDE'</span><span class="p">:</span> <span class="s1">'mean'</span><span class="p">,</span>
+        <span class="s1">'LONGITUDE'</span><span class="p">:</span> <span class="s1">'mean'</span><span class="p">,</span>
+        <span class="s1">'COUNT_'</span><span class="p">:</span> <span class="s1">'mean'</span>
+    <span class="p">})</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="n">extracted</span> <span class="o">=</span> <span class="p">[]</span>    
     <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df_grouped</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
         <span class="n">sample_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">"SAMPLE_DATE"</span><span class="p">])</span>
         <span class="n">time_diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="n">sample_time</span><span class="p">)</span>
-        <span class="n">valid_window</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span>
-            <span class="n">time</span><span class="o">=</span><span class="p">(</span><span class="n">time_diff</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">"D"</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="n">max_days</span>
-        <span class="p">)</span>
+        <span class="n">valid_window</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="p">(</span><span class="n">time_diff</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'D'</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="n">max_days</span><span class="p">)</span>        
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">valid_window</span><span class="o">.</span><span class="n">time</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">continue</span>
+            <span class="k">continue</span>            
         <span class="c1"># Selection of the nearest pixel</span>
         <span class="n">nearest_pixel</span> <span class="o">=</span> <span class="n">valid_window</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span>
-            <span class="n">latitude</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">"LATITUDE"</span><span class="p">],</span> <span class="n">longitude</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">"LONGITUDE"</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s2">"nearest"</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">region</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">latitude</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">"LATITUDE"</span><span class="p">],</span> 
+            <span class="n">longitude</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">"LONGITUDE"</span><span class="p">],</span> 
+            <span class="n">method</span><span class="o">=</span><span class="s2">"nearest"</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">region</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>        
         <span class="c1"># Calculate actual distance to center of nearest pixel</span>
         <span class="n">lat_dist</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">nearest_pixel</span><span class="o">.</span><span class="n">latitude</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="n">row</span><span class="p">[</span><span class="s2">"LATITUDE"</span><span class="p">])</span> <span class="o">*</span> <span class="mi">111</span>
-        <span class="n">lon_dist</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">nearest_pixel</span><span class="o">.</span><span class="n">longitude</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="n">row</span><span class="p">[</span><span class="s2">"LONGITUDE"</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span>
-            <span class="mi">111</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">"LATITUDE"</span><span class="p">]))</span>
-        <span class="p">)</span>
-        <span class="n">total_dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">lat_dist</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">lon_dist</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">lon_dist</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">nearest_pixel</span><span class="o">.</span><span class="n">longitude</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="n">row</span><span class="p">[</span><span class="s2">"LONGITUDE"</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="mi">111</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">"LATITUDE"</span><span class="p">])))</span>
+        <span class="n">total_dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">lat_dist</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">lon_dist</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>        
         <span class="k">if</span> <span class="n">total_dist</span> <span class="o">&gt;</span> <span class="n">max_dist_km</span><span class="p">:</span>
-            <span class="k">continue</span>
-        <span class="n">clear_days</span> <span class="o">=</span> <span class="n">nearest_pixel</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span>
-            <span class="n">dim</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">"any"</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">"chlor_a"</span><span class="p">,</span> <span class="s2">"Rrs_560"</span><span class="p">]</span>
-        <span class="p">)</span>
+            <span class="k">continue</span>            
+        <span class="n">clear_days</span> <span class="o">=</span> <span class="n">nearest_pixel</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'time'</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">'any'</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">'chlor_a'</span><span class="p">,</span> <span class="s1">'Rrs_560'</span><span class="p">])</span>        
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">clear_days</span><span class="o">.</span><span class="n">time</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">continue</span>
-        <span class="n">best_match</span> <span class="o">=</span> <span class="n">clear_days</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">clear_days</span><span class="o">.</span><span class="n">time</span> <span class="o">-</span> <span class="n">sample_time</span><span class="p">))</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span>
-            <span class="n">time</span><span class="o">=</span><span class="mi">0</span>
-        <span class="p">)</span>
-        <span class="n">extracted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-            <span class="p">{</span>
-                <span class="s2">"sample_date"</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">"SAMPLE_DATE"</span><span class="p">],</span>
-                <span class="s2">"sat_date"</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">best_match</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
-                <span class="s2">"lat"</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">"LATITUDE"</span><span class="p">],</span>
-                <span class="s2">"lon"</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">"LONGITUDE"</span><span class="p">],</span>
-                <span class="s2">"avg_in_situ_count"</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">"COUNT_"</span><span class="p">],</span>
-                <span class="s2">"sat_chlor_a"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">best_match</span><span class="o">.</span><span class="n">chlor_a</span><span class="p">),</span>
-                <span class="s2">"sat_Rrs_560"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">best_match</span><span class="o">.</span><span class="n">Rrs_560</span><span class="p">),</span>
-                <span class="s2">"dist_km"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">total_dist</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-                <span class="s2">"days_diff"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span>
-                    <span class="nb">abs</span><span class="p">(</span>
-                        <span class="p">(</span><span class="n">best_match</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="n">sample_time</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">"D"</span><span class="p">)</span>
-                    <span class="p">),</span>
-                    <span class="mi">2</span><span class="p">,</span>
-                <span class="p">),</span>
-            <span class="p">}</span>
-        <span class="p">)</span>
+            <span class="k">continue</span>             
+        <span class="n">best_match</span> <span class="o">=</span> <span class="n">clear_days</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">clear_days</span><span class="o">.</span><span class="n">time</span> <span class="o">-</span> <span class="n">sample_time</span><span class="p">))</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">extracted</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s2">"sample_date"</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">"SAMPLE_DATE"</span><span class="p">],</span>
+            <span class="s2">"sat_date"</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">best_match</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
+            <span class="s2">"lat"</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">"LATITUDE"</span><span class="p">],</span>
+            <span class="s2">"lon"</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">"LONGITUDE"</span><span class="p">],</span>
+            <span class="s2">"avg_in_situ_count"</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">"COUNT_"</span><span class="p">],</span>
+            <span class="s2">"sat_chlor_a"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">best_match</span><span class="o">.</span><span class="n">chlor_a</span><span class="p">),</span>
+            <span class="s2">"sat_Rrs_560"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">best_match</span><span class="o">.</span><span class="n">Rrs_560</span><span class="p">),</span>
+            <span class="s2">"dist_km"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">total_dist</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="s2">"days_diff"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="nb">abs</span><span class="p">((</span><span class="n">best_match</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="n">sample_time</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'D'</span><span class="p">)),</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="p">})</span>
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">extracted</span><span class="p">)</span>
-
-
+    
 <span class="n">matched_df</span> <span class="o">=</span> <span class="n">extract_hab_pairs_final</span><span class="p">(</span><span class="n">ds_sat</span><span class="p">,</span> <span class="n">df_filt</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -998,15 +980,17 @@ The bbp_560_ratio is computed by adapting the equation for bbp ratio at 555 nm f
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_dynamic_baseline</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">full_dataset</span><span class="p">):</span>
     <span class="c1"># Define the 60-day window ending 14 days before the event</span>
     <span class="n">sample_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">"sample_date"</span><span class="p">])</span>
-    <span class="n">end_baseline</span> <span class="o">=</span> <span class="n">sample_time</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="s2">"D"</span><span class="p">)</span>
-    <span class="n">start_baseline</span> <span class="o">=</span> <span class="n">sample_time</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">74</span><span class="p">,</span> <span class="s2">"D"</span><span class="p">)</span>
+    <span class="n">end_baseline</span> <span class="o">=</span> <span class="n">sample_time</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="s1">'D'</span><span class="p">)</span>
+    <span class="n">start_baseline</span> <span class="o">=</span> <span class="n">sample_time</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">74</span><span class="p">,</span> <span class="s1">'D'</span><span class="p">)</span>        
     <span class="c1"># Select the nearest spatial pixel from the xarray dataset</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">pixel_ts</span> <span class="o">=</span> <span class="n">full_dataset</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span>
-            <span class="n">latitude</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">"lat"</span><span class="p">],</span> <span class="n">longitude</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">"lon"</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s2">"nearest"</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">region</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">latitude</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">"lat"</span><span class="p">],</span> 
+            <span class="n">longitude</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">"lon"</span><span class="p">],</span> 
+            <span class="n">method</span><span class="o">=</span><span class="s2">"nearest"</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">region</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>            
         <span class="c1"># Slice the time range for the baseline window</span>
-        <span class="n">baseline_window</span> <span class="o">=</span> <span class="n">pixel_ts</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">start_baseline</span><span class="p">,</span> <span class="n">end_baseline</span><span class="p">))</span>
+        <span class="n">baseline_window</span> <span class="o">=</span> <span class="n">pixel_ts</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">start_baseline</span><span class="p">,</span> <span class="n">end_baseline</span><span class="p">))</span>            
         <span class="c1"># Extract chlor_a values and remove NaNs</span>
         <span class="n">chl_values</span> <span class="o">=</span> <span class="n">baseline_window</span><span class="o">.</span><span class="n">chlor_a</span><span class="o">.</span><span class="n">values</span>
         <span class="n">chl_values</span> <span class="o">=</span> <span class="n">chl_values</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">chl_values</span><span class="p">)]</span>
@@ -1014,31 +998,28 @@ The bbp_560_ratio is computed by adapting the equation for bbp ratio at 555 nm f
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
         <span class="n">chl_values</span> <span class="o">=</span> <span class="n">chl_values</span><span class="p">[</span><span class="n">chl_values</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">chl_values</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>            
         <span class="n">log_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">chl_values</span><span class="p">))</span>
-        <span class="n">mean_val</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">log_mean</span>
-        <span class="k">return</span> <span class="n">mean_val</span>
+        <span class="n">mean_val</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">log_mean</span>         
+        <span class="k">return</span> <span class="n">mean_val</span>    
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
 
-
 <span class="c1"># Calculate the moving baseline</span>
-<span class="n">matched_df</span><span class="p">[</span><span class="s2">"chl_baseline"</span><span class="p">]</span> <span class="o">=</span> <span class="n">matched_df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
-    <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">get_dynamic_baseline</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">ds_sat</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
-<span class="p">)</span>
+<span class="n">matched_df</span><span class="p">[</span><span class="s1">'chl_baseline'</span><span class="p">]</span> <span class="o">=</span> <span class="n">matched_df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">get_dynamic_baseline</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">ds_sat</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="c1"># Calculate Chlorophyll Anomaly</span>
-<span class="n">matched_df</span><span class="p">[</span><span class="s2">"chl_anomaly"</span><span class="p">]</span> <span class="o">=</span> <span class="n">matched_df</span><span class="p">[</span><span class="s2">"sat_chlor_a"</span><span class="p">]</span> <span class="o">-</span> <span class="n">matched_df</span><span class="p">[</span><span class="s2">"chl_baseline"</span><span class="p">]</span>
+<span class="n">matched_df</span><span class="p">[</span><span class="s1">'chl_anomaly'</span><span class="p">]</span> <span class="o">=</span> <span class="n">matched_df</span><span class="p">[</span><span class="s1">'sat_chlor_a'</span><span class="p">]</span> <span class="o">-</span> <span class="n">matched_df</span><span class="p">[</span><span class="s1">'chl_baseline'</span><span class="p">]</span>
 
 <span class="c1"># 3. Calculate bbp_560_ratio</span>
-<span class="n">chl</span> <span class="o">=</span> <span class="n">matched_df</span><span class="p">[</span><span class="s2">"sat_chlor_a"</span><span class="p">]</span>
-<span class="n">rrs</span> <span class="o">=</span> <span class="n">matched_df</span><span class="p">[</span><span class="s2">"sat_Rrs_560"</span><span class="p">]</span>
+<span class="n">chl</span> <span class="o">=</span> <span class="n">matched_df</span><span class="p">[</span><span class="s1">'sat_chlor_a'</span><span class="p">]</span>
+<span class="n">rrs</span> <span class="o">=</span> <span class="n">matched_df</span><span class="p">[</span><span class="s1">'sat_Rrs_560'</span><span class="p">]</span>
 <span class="n">numerator</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.00182</span> <span class="o">+</span> <span class="p">(</span><span class="mf">2.058</span> <span class="o">*</span> <span class="n">rrs</span><span class="p">)</span>
 <span class="n">denom_part1</span> <span class="o">=</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="p">(</span><span class="n">chl</span><span class="o">**</span><span class="mf">0.62</span><span class="p">)</span>
 <span class="n">denom_part2</span> <span class="o">=</span> <span class="mf">0.002</span> <span class="o">+</span> <span class="mf">0.02</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">-</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">chl</span><span class="p">))</span>
-<span class="n">matched_df</span><span class="p">[</span><span class="s2">"bbp_560_ratio"</span><span class="p">]</span> <span class="o">=</span> <span class="n">numerator</span> <span class="o">/</span> <span class="p">(</span><span class="n">denom_part1</span> <span class="o">*</span> <span class="n">denom_part2</span><span class="p">)</span>
+<span class="n">matched_df</span><span class="p">[</span><span class="s1">'bbp_560_ratio'</span><span class="p">]</span> <span class="o">=</span> <span class="n">numerator</span> <span class="o">/</span> <span class="p">(</span><span class="n">denom_part1</span> <span class="o">*</span> <span class="n">denom_part2</span><span class="p">)</span>
 
-<span class="n">final_analysis_df</span> <span class="o">=</span> <span class="n">matched_df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">"chl_baseline"</span><span class="p">,</span> <span class="s2">"bbp_560_ratio"</span><span class="p">])</span>
+<span class="n">final_analysis_df</span> <span class="o">=</span> <span class="n">matched_df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">'chl_baseline'</span><span class="p">,</span> <span class="s1">'bbp_560_ratio'</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1063,28 +1044,19 @@ Furthermore, a cross-comparison is performed to evaluate the consistency between
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">final_analysis_df</span> <span class="o">=</span> <span class="n">final_analysis_df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
 <span class="n">THRESHOLDS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"cell_count"</span><span class="p">:</span> <span class="mi">100000</span><span class="p">,</span>  <span class="c1"># in situ bloom threshold</span>
-    <span class="s2">"chl_anomaly"</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span>  <span class="c1"># satellite chlorophyll anomaly threshold</span>
-    <span class="s2">"bbp_ratio"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>  <span class="c1"># satellite bbp_560_ratio threshold</span>
+    <span class="s2">"cell_count"</span><span class="p">:</span> <span class="mi">100000</span><span class="p">,</span>   <span class="c1"># in situ bloom threshold</span>
+    <span class="s2">"chl_anomaly"</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span>     <span class="c1"># satellite chlorophyll anomaly threshold</span>
+    <span class="s2">"bbp_ratio"</span><span class="p">:</span> <span class="mf">1.0</span>        <span class="c1"># satellite bbp_560_ratio threshold</span>
 <span class="p">}</span>
 
 <span class="c1"># Classify bloom/non-bloom for each pair</span>
-<span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"obs_bloom"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"avg_in_situ_count"</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">THRESHOLDS</span><span class="p">[</span><span class="s2">"cell_count"</span><span class="p">]</span>
-<span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-<span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"sat_bloom_chl"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"chl_anomaly"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">THRESHOLDS</span><span class="p">[</span><span class="s2">"chl_anomaly"</span><span class="p">]</span>
-<span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-<span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"sat_bloom_bbp"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"bbp_560_ratio"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">THRESHOLDS</span><span class="p">[</span><span class="s2">"bbp_ratio"</span><span class="p">]</span>
-<span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"obs_bloom"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"avg_in_situ_count"</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">THRESHOLDS</span><span class="p">[</span><span class="s2">"cell_count"</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"sat_bloom_chl"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"chl_anomaly"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">THRESHOLDS</span><span class="p">[</span><span class="s2">"chl_anomaly"</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"sat_bloom_bbp"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"bbp_560_ratio"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">THRESHOLDS</span><span class="p">[</span><span class="s2">"bbp_ratio"</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 
 <span class="c1"># Create combined indicator (both satellite indicators detect bloom)</span>
-<span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"sat_combined"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="p">(</span><span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"sat_bloom_chl"</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="o">&amp;</span> <span class="p">(</span><span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"sat_bloom_bbp"</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
-<span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-
+<span class="n">final_analysis_df</span><span class="p">[</span><span class="s1">'sat_combined'</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">final_analysis_df</span><span class="p">[</span><span class="s1">'sat_bloom_chl'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> 
+                                     <span class="p">(</span><span class="n">final_analysis_df</span><span class="p">[</span><span class="s1">'sat_bloom_bbp'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 
 <span class="c1"># Accuracy metrics function</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">accuracy_metrics</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="n">predicted</span><span class="p">):</span>
@@ -1092,27 +1064,17 @@ Furthermore, a cross-comparison is performed to evaluate the consistency between
     <span class="n">tn</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">tp</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
     <span class="n">ua_b</span> <span class="o">=</span> <span class="n">tp</span> <span class="o">/</span> <span class="p">(</span><span class="n">tp</span> <span class="o">+</span> <span class="n">fp</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">tp</span> <span class="o">+</span> <span class="n">fp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>  <span class="c1"># HAB user accuracy</span>
     <span class="n">ua_nb</span> <span class="o">=</span> <span class="n">tn</span> <span class="o">/</span> <span class="p">(</span><span class="n">tn</span> <span class="o">+</span> <span class="n">fn</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">tn</span> <span class="o">+</span> <span class="n">fn</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>  <span class="c1"># non-HAB user accuracy</span>
-    <span class="n">oa</span> <span class="o">=</span> <span class="p">(</span><span class="n">tp</span> <span class="o">+</span> <span class="n">tn</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">actual</span><span class="p">)</span>  <span class="c1"># overall accuracy</span>
+    <span class="n">oa</span> <span class="o">=</span> <span class="p">(</span><span class="n">tp</span> <span class="o">+</span> <span class="n">tn</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">actual</span><span class="p">)</span>                          <span class="c1"># overall accuracy</span>
     <span class="k">return</span> <span class="n">tp</span><span class="p">,</span> <span class="n">tn</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">ua_b</span><span class="p">,</span> <span class="n">ua_nb</span><span class="p">,</span> <span class="n">oa</span>
 
-
 <span class="c1"># Compute accuracy metrics for each indicator</span>
-<span class="n">tp_c</span><span class="p">,</span> <span class="n">tn_c</span><span class="p">,</span> <span class="n">fp_c</span><span class="p">,</span> <span class="n">fn_c</span><span class="p">,</span> <span class="n">ua_bc</span><span class="p">,</span> <span class="n">ua_nbc</span><span class="p">,</span> <span class="n">oac</span> <span class="o">=</span> <span class="n">accuracy_metrics</span><span class="p">(</span>
-    <span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"obs_bloom"</span><span class="p">],</span> <span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"sat_bloom_chl"</span><span class="p">]</span>
-<span class="p">)</span>
-<span class="n">tp_b</span><span class="p">,</span> <span class="n">tn_b</span><span class="p">,</span> <span class="n">fp_b</span><span class="p">,</span> <span class="n">fn_b</span><span class="p">,</span> <span class="n">ua_bb</span><span class="p">,</span> <span class="n">ua_nbb</span><span class="p">,</span> <span class="n">oab</span> <span class="o">=</span> <span class="n">accuracy_metrics</span><span class="p">(</span>
-    <span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"obs_bloom"</span><span class="p">],</span> <span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"sat_bloom_bbp"</span><span class="p">]</span>
-<span class="p">)</span>
-<span class="n">tp_comb</span><span class="p">,</span> <span class="n">tn_comb</span><span class="p">,</span> <span class="n">fp_comb</span><span class="p">,</span> <span class="n">fn_comb</span><span class="p">,</span> <span class="n">ua_b_comb</span><span class="p">,</span> <span class="n">ua_nb_comb</span><span class="p">,</span> <span class="n">oa_comb</span> <span class="o">=</span> <span class="n">accuracy_metrics</span><span class="p">(</span>
-    <span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"obs_bloom"</span><span class="p">],</span> <span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"sat_combined"</span><span class="p">]</span>
-<span class="p">)</span>
+<span class="n">tp_c</span><span class="p">,</span> <span class="n">tn_c</span><span class="p">,</span> <span class="n">fp_c</span><span class="p">,</span> <span class="n">fn_c</span><span class="p">,</span> <span class="n">ua_bc</span><span class="p">,</span> <span class="n">ua_nbc</span><span class="p">,</span> <span class="n">oac</span> <span class="o">=</span> <span class="n">accuracy_metrics</span><span class="p">(</span><span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"obs_bloom"</span><span class="p">],</span> <span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"sat_bloom_chl"</span><span class="p">])</span>
+<span class="n">tp_b</span><span class="p">,</span> <span class="n">tn_b</span><span class="p">,</span> <span class="n">fp_b</span><span class="p">,</span> <span class="n">fn_b</span><span class="p">,</span> <span class="n">ua_bb</span><span class="p">,</span> <span class="n">ua_nbb</span><span class="p">,</span> <span class="n">oab</span> <span class="o">=</span> <span class="n">accuracy_metrics</span><span class="p">(</span><span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"obs_bloom"</span><span class="p">],</span> <span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"sat_bloom_bbp"</span><span class="p">])</span>
+<span class="n">tp_comb</span><span class="p">,</span> <span class="n">tn_comb</span><span class="p">,</span> <span class="n">fp_comb</span><span class="p">,</span> <span class="n">fn_comb</span><span class="p">,</span> <span class="n">ua_b_comb</span><span class="p">,</span> <span class="n">ua_nb_comb</span><span class="p">,</span> <span class="n">oa_comb</span> <span class="o">=</span> <span class="n">accuracy_metrics</span><span class="p">(</span><span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"obs_bloom"</span><span class="p">],</span> <span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"sat_combined"</span><span class="p">])</span>
 
 <span class="c1"># Calculate the Inter-Algorithm Confusion Matrix</span>
-<span class="n">cm_inter</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span>
-    <span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"sat_bloom_chl"</span><span class="p">],</span>
-    <span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"sat_bloom_bbp"</span><span class="p">],</span>
-    <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-<span class="p">)</span>
+<span class="n">cm_inter</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"sat_bloom_chl"</span><span class="p">],</span> 
+                            <span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"sat_bloom_bbp"</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="n">tn_i</span><span class="p">,</span> <span class="n">fp_i</span><span class="p">,</span> <span class="n">fn_i</span><span class="p">,</span> <span class="n">tp_i</span> <span class="o">=</span> <span class="n">cm_inter</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1132,86 +1094,49 @@ Furthermore, a cross-comparison is performed to evaluate the consistency between
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Table 1 Data</span>
 <span class="n">total_n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">final_analysis_df</span><span class="p">)</span>
-<span class="n">rows_cm</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">"True Positive (TP)"</span><span class="p">,</span>
-    <span class="s2">"True Negative (TN)"</span><span class="p">,</span>
-    <span class="s2">"False Positive (FP)"</span><span class="p">,</span>
-    <span class="s2">"False Negative (FN)"</span><span class="p">,</span>
-    <span class="s2">"Correctly Classified"</span><span class="p">,</span>
-    <span class="s2">"Incorrectly Classified"</span><span class="p">,</span>
-    <span class="s2">"Total"</span><span class="p">,</span>
-<span class="p">]</span>
+<span class="n">rows_cm</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"True Positive (TP)"</span><span class="p">,</span> <span class="s2">"True Negative (TN)"</span><span class="p">,</span> <span class="s2">"False Positive (FP)"</span><span class="p">,</span> <span class="s2">"False Negative (FN)"</span><span class="p">,</span> 
+           <span class="s2">"Correctly Classified"</span><span class="p">,</span> <span class="s2">"Incorrectly Classified"</span><span class="p">,</span> <span class="s2">"Total"</span><span class="p">]</span>
 <span class="n">data_cm</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">[</span><span class="n">tp_c</span><span class="p">,</span> <span class="n">tp_b</span><span class="p">,</span> <span class="n">tp_comb</span><span class="p">],</span>
-    <span class="p">[</span><span class="n">tn_c</span><span class="p">,</span> <span class="n">tn_b</span><span class="p">,</span> <span class="n">tn_comb</span><span class="p">],</span>
-    <span class="p">[</span><span class="n">fp_c</span><span class="p">,</span> <span class="n">fp_b</span><span class="p">,</span> <span class="n">fp_comb</span><span class="p">],</span>
-    <span class="p">[</span><span class="n">fn_c</span><span class="p">,</span> <span class="n">fn_b</span><span class="p">,</span> <span class="n">fn_comb</span><span class="p">],</span>
+    <span class="p">[</span><span class="n">tp_c</span><span class="p">,</span> <span class="n">tp_b</span><span class="p">,</span> <span class="n">tp_comb</span><span class="p">],</span> <span class="p">[</span><span class="n">tn_c</span><span class="p">,</span> <span class="n">tn_b</span><span class="p">,</span> <span class="n">tn_comb</span><span class="p">],</span> 
+    <span class="p">[</span><span class="n">fp_c</span><span class="p">,</span> <span class="n">fp_b</span><span class="p">,</span> <span class="n">fp_comb</span><span class="p">],</span> <span class="p">[</span><span class="n">fn_c</span><span class="p">,</span> <span class="n">fn_b</span><span class="p">,</span> <span class="n">fn_comb</span><span class="p">],</span>
     <span class="p">[(</span><span class="n">tp_c</span> <span class="o">+</span> <span class="n">tn_c</span><span class="p">),</span> <span class="p">(</span><span class="n">tp_b</span> <span class="o">+</span> <span class="n">tn_b</span><span class="p">),</span> <span class="p">(</span><span class="n">tp_comb</span> <span class="o">+</span> <span class="n">tn_comb</span><span class="p">)],</span>
     <span class="p">[(</span><span class="n">fp_c</span> <span class="o">+</span> <span class="n">fn_c</span><span class="p">),</span> <span class="p">(</span><span class="n">fp_b</span> <span class="o">+</span> <span class="n">fn_b</span><span class="p">),</span> <span class="p">(</span><span class="n">fp_comb</span> <span class="o">+</span> <span class="n">fn_comb</span><span class="p">)],</span>
-    <span class="p">[</span><span class="n">total_n</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="p">[</span><span class="n">total_n</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span>
 <span class="p">]</span>
 
 <span class="c1"># Table 2 Data</span>
 <span class="n">acc_data</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span>
-        <span class="s2">"Indicator"</span><span class="p">:</span> <span class="s2">"chl_anom"</span><span class="p">,</span>
-        <span class="s2">"HAB Accuracy (%)"</span><span class="p">:</span> <span class="n">ua_bc</span><span class="p">,</span>
-        <span class="s2">"non-HAB Accuracy (%)"</span><span class="p">:</span> <span class="n">ua_nbc</span><span class="p">,</span>
-        <span class="s2">"Total Accuracy (%)"</span><span class="p">:</span> <span class="n">oac</span><span class="p">,</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="s2">"Indicator"</span><span class="p">:</span> <span class="s2">"bbp_560_ratio"</span><span class="p">,</span>
-        <span class="s2">"HAB Accuracy (%)"</span><span class="p">:</span> <span class="n">ua_bb</span><span class="p">,</span>
-        <span class="s2">"non-HAB Accuracy (%)"</span><span class="p">:</span> <span class="n">ua_nbb</span><span class="p">,</span>
-        <span class="s2">"Total Accuracy (%)"</span><span class="p">:</span> <span class="n">oab</span><span class="p">,</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="s2">"Indicator"</span><span class="p">:</span> <span class="s2">"Combined (AND)"</span><span class="p">,</span>
-        <span class="s2">"HAB Accuracy (%)"</span><span class="p">:</span> <span class="n">ua_b_comb</span><span class="p">,</span>
-        <span class="s2">"non-HAB Accuracy (%)"</span><span class="p">:</span> <span class="n">ua_nb_comb</span><span class="p">,</span>
-        <span class="s2">"Total Accuracy (%)"</span><span class="p">:</span> <span class="n">oa_comb</span><span class="p">,</span>
-    <span class="p">},</span>
+    <span class="p">{</span><span class="s2">"Indicator"</span><span class="p">:</span> <span class="s2">"chl_anom"</span><span class="p">,</span> <span class="s2">"HAB Accuracy (%)"</span><span class="p">:</span> <span class="n">ua_bc</span><span class="p">,</span> <span class="s2">"non-HAB Accuracy (%)"</span><span class="p">:</span> <span class="n">ua_nbc</span><span class="p">,</span> <span class="s2">"Total Accuracy (%)"</span><span class="p">:</span> <span class="n">oac</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"Indicator"</span><span class="p">:</span> <span class="s2">"bbp_560_ratio"</span><span class="p">,</span> <span class="s2">"HAB Accuracy (%)"</span><span class="p">:</span> <span class="n">ua_bb</span><span class="p">,</span> <span class="s2">"non-HAB Accuracy (%)"</span><span class="p">:</span> <span class="n">ua_nbb</span><span class="p">,</span> <span class="s2">"Total Accuracy (%)"</span><span class="p">:</span> <span class="n">oab</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"Indicator"</span><span class="p">:</span> <span class="s2">"Combined (AND)"</span><span class="p">,</span> <span class="s2">"HAB Accuracy (%)"</span><span class="p">:</span> <span class="n">ua_b_comb</span><span class="p">,</span> <span class="s2">"non-HAB Accuracy (%)"</span><span class="p">:</span> <span class="n">ua_nb_comb</span><span class="p">,</span> <span class="s2">"Total Accuracy (%)"</span><span class="p">:</span> <span class="n">oa_comb</span><span class="p">}</span>
 <span class="p">]</span>
 <span class="n">accuracy_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">acc_data</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"Indicator"</span><span class="p">)</span>
 
 <span class="c1"># Table 3 Data</span>
 <span class="n">inter_data</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"Agreement type"</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">"Agreement (HAB)"</span><span class="p">,</span>
-        <span class="s2">"Agreement (no-HAB)"</span><span class="p">,</span>
-        <span class="s2">"Disagreement (chl_anom: HAB, bbp_560_ratio: no-HAB)"</span><span class="p">,</span>
-        <span class="s2">"Disagreement (chl_anom: no-HAB, bbp_560_ratio: HAB)"</span><span class="p">,</span>
-        <span class="s2">"Overall Agreement"</span><span class="p">,</span>
-    <span class="p">],</span>
+    <span class="s2">"Agreement (HAB)"</span><span class="p">,</span>
+    <span class="s2">"Agreement (no-HAB)"</span><span class="p">,</span>
+    <span class="s2">"Disagreement (chl_anom: HAB, bbp_560_ratio: no-HAB)"</span><span class="p">,</span>
+    <span class="s2">"Disagreement (chl_anom: no-HAB, bbp_560_ratio: HAB)"</span><span class="p">,</span>
+    <span class="s2">"Overall Agreement"</span><span class="p">],</span>
     <span class="s2">"Count"</span><span class="p">:</span> <span class="p">[</span><span class="n">tp_i</span><span class="p">,</span> <span class="n">tn_i</span><span class="p">,</span> <span class="n">fn_i</span><span class="p">,</span> <span class="n">fp_i</span><span class="p">,</span> <span class="p">(</span><span class="n">tp_i</span> <span class="o">+</span> <span class="n">tn_i</span><span class="p">)],</span>
-    <span class="s2">"Percentage (%)"</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">(</span><span class="n">tp_i</span> <span class="o">/</span> <span class="n">total_n</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
-        <span class="p">(</span><span class="n">tn_i</span> <span class="o">/</span> <span class="n">total_n</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
-        <span class="p">(</span><span class="n">fn_i</span> <span class="o">/</span> <span class="n">total_n</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
-        <span class="p">(</span><span class="n">fp_i</span> <span class="o">/</span> <span class="n">total_n</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
-        <span class="p">(</span><span class="n">tp_i</span> <span class="o">+</span> <span class="n">tn_i</span><span class="p">)</span> <span class="o">/</span> <span class="n">total_n</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="p">],</span>
+    <span class="s2">"Percentage (%)"</span><span class="p">:</span> <span class="p">[(</span><span class="n">tp_i</span><span class="o">/</span><span class="n">total_n</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="p">(</span><span class="n">tn_i</span><span class="o">/</span><span class="n">total_n</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="p">(</span><span class="n">fn_i</span><span class="o">/</span><span class="n">total_n</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="p">(</span><span class="n">fp_i</span><span class="o">/</span><span class="n">total_n</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="p">(</span><span class="n">tp_i</span> <span class="o">+</span> <span class="n">tn_i</span><span class="p">)</span> <span class="o">/</span> <span class="n">total_n</span> <span class="o">*</span> <span class="mi">100</span><span class="p">]</span>
 <span class="p">}</span>
 <span class="n">df_inter</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">inter_data</span><span class="p">)</span>
 
 <span class="c1"># Create confusion labels for mapping</span>
-<span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">pred_col</span> <span class="ow">in</span> <span class="p">[</span>
-    <span class="p">(</span><span class="s2">"chl"</span><span class="p">,</span> <span class="s2">"sat_bloom_chl"</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">"bbp"</span><span class="p">,</span> <span class="s2">"sat_bloom_bbp"</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">"combined"</span><span class="p">,</span> <span class="s2">"sat_combined"</span><span class="p">),</span>
-<span class="p">]:</span>
+<span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">pred_col</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">"chl"</span><span class="p">,</span> <span class="s2">"sat_bloom_chl"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"bbp"</span><span class="p">,</span> <span class="s2">"sat_bloom_bbp"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"combined"</span><span class="p">,</span> <span class="s2">"sat_combined"</span><span class="p">)]:</span>
     <span class="n">actual</span> <span class="o">=</span> <span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"obs_bloom"</span><span class="p">]</span>
-    <span class="n">pred</span> <span class="o">=</span> <span class="n">final_analysis_df</span><span class="p">[</span><span class="n">pred_col</span><span class="p">]</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">final_analysis_df</span><span class="p">[</span><span class="n">pred_col</span><span class="p">]</span>   
     <span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">(</span><span class="n">actual</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">pred</span> <span class="o">==</span> <span class="mi">1</span><span class="p">),</span>  <span class="c1"># TP</span>
-        <span class="p">(</span><span class="n">actual</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">pred</span> <span class="o">==</span> <span class="mi">0</span><span class="p">),</span>  <span class="c1"># TN</span>
-        <span class="p">(</span><span class="n">actual</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">pred</span> <span class="o">==</span> <span class="mi">1</span><span class="p">),</span>  <span class="c1"># FP</span>
-        <span class="p">(</span><span class="n">actual</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">pred</span> <span class="o">==</span> <span class="mi">0</span><span class="p">),</span>  <span class="c1"># FN</span>
+        <span class="p">(</span><span class="n">actual</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">pred</span> <span class="o">==</span> <span class="mi">1</span><span class="p">),</span> <span class="c1"># TP</span>
+        <span class="p">(</span><span class="n">actual</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">pred</span> <span class="o">==</span> <span class="mi">0</span><span class="p">),</span> <span class="c1"># TN</span>
+        <span class="p">(</span><span class="n">actual</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">pred</span> <span class="o">==</span> <span class="mi">1</span><span class="p">),</span> <span class="c1"># FP</span>
+        <span class="p">(</span><span class="n">actual</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">pred</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># FN</span>
     <span class="p">]</span>
     <span class="n">choices</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"TP"</span><span class="p">,</span> <span class="s2">"TN"</span><span class="p">,</span> <span class="s2">"FP"</span><span class="p">,</span> <span class="s2">"FN"</span><span class="p">]</span>
-    <span class="n">final_analysis_df</span><span class="p">[</span><span class="sa">f</span><span class="s2">"sat_bloom_</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">_confusion"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
-        <span class="n">conditions</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">"Unknown"</span>
-    <span class="p">)</span>
+    <span class="n">final_analysis_df</span><span class="p">[</span><span class="sa">f</span><span class="s2">"sat_bloom_</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">_confusion"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">conditions</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">"Unknown"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1232,203 +1157,92 @@ Furthermore, a cross-comparison is performed to evaluate the consistency between
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Display Table 1</span>
-<span class="n">columns_cm</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_tuples</span><span class="p">(</span>
-    <span class="p">[</span>
-        <span class="p">(</span><span class="s2">"Satellite-derived indicator (counts):"</span><span class="p">,</span> <span class="s2">"chl_anom"</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">"Satellite-derived indicator (counts):"</span><span class="p">,</span> <span class="s2">"bbp_560_ratio"</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">"Satellite-derived indicator (counts):"</span><span class="p">,</span> <span class="s2">"Combined (AND)"</span><span class="p">),</span>
-    <span class="p">]</span>
-<span class="p">)</span>
+<span class="n">columns_cm</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_tuples</span><span class="p">([</span>
+    <span class="p">(</span><span class="s2">"Satellite-derived indicator (counts):"</span><span class="p">,</span> <span class="s2">"chl_anom"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Satellite-derived indicator (counts):"</span><span class="p">,</span> <span class="s2">"bbp_560_ratio"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Satellite-derived indicator (counts):"</span><span class="p">,</span> <span class="s2">"Combined (AND)"</span><span class="p">)])</span>
 <span class="n">df_cm</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_cm</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">rows_cm</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns_cm</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="s2">"&lt;h3&gt;Table 1: Satellite-in situ match-up counts&lt;/h3&gt;"</span><span class="p">))</span>
-<span class="n">display</span><span class="p">(</span>
-    <span class="n">df_cm</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">set_table_styles</span><span class="p">(</span>
-        <span class="p">[</span>
-            <span class="p">{</span>
-                <span class="s2">"selector"</span><span class="p">:</span> <span class="s2">"th"</span><span class="p">,</span>
-                <span class="s2">"props"</span><span class="p">:</span> <span class="p">[</span>
-                    <span class="p">(</span><span class="s2">"text-align"</span><span class="p">,</span> <span class="s2">"center"</span><span class="p">),</span>
-                    <span class="p">(</span><span class="s2">"background-color"</span><span class="p">,</span> <span class="s2">"2px solid #ccc"</span><span class="p">),</span>
-                <span class="p">],</span>
-            <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="s2">"selector"</span><span class="p">:</span> <span class="s2">"tr:nth-child(5)"</span><span class="p">,</span>
-                <span class="s2">"props"</span><span class="p">:</span> <span class="p">[(</span><span class="s2">"text-align"</span><span class="p">,</span> <span class="s2">"center"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"border-top"</span><span class="p">,</span> <span class="s2">"2px solid #ccc"</span><span class="p">)],</span>
-            <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="s2">"selector"</span><span class="p">:</span> <span class="s2">"tr:nth-child(7)"</span><span class="p">,</span>
-                <span class="s2">"props"</span><span class="p">:</span> <span class="p">[(</span><span class="s2">"text-align"</span><span class="p">,</span> <span class="s2">"center"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"border-top"</span><span class="p">,</span> <span class="s2">"2px solid #ccc"</span><span class="p">)],</span>
-            <span class="p">},</span>
-        <span class="p">]</span>
-    <span class="p">)</span>
-<span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_cm</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">set_table_styles</span><span class="p">([</span>
+    <span class="p">{</span><span class="s1">'selector'</span><span class="p">:</span> <span class="s1">'th'</span><span class="p">,</span> <span class="s1">'props'</span><span class="p">:</span> <span class="p">[(</span><span class="s1">'text-align'</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'background-color'</span><span class="p">,</span> <span class="s1">'2px solid #ccc'</span><span class="p">)]},</span>
+    <span class="p">{</span><span class="s1">'selector'</span><span class="p">:</span> <span class="s1">'tr:nth-child(5)'</span><span class="p">,</span> <span class="s1">'props'</span><span class="p">:</span> <span class="p">[(</span><span class="s1">'text-align'</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'border-top'</span><span class="p">,</span> <span class="s1">'2px solid #ccc'</span><span class="p">)]},</span>
+    <span class="p">{</span><span class="s1">'selector'</span><span class="p">:</span> <span class="s1">'tr:nth-child(7)'</span><span class="p">,</span> <span class="s1">'props'</span><span class="p">:</span> <span class="p">[(</span><span class="s1">'text-align'</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'border-top'</span><span class="p">,</span> <span class="s1">'2px solid #ccc'</span><span class="p">)]}</span>
+<span class="p">]))</span>
 
 <span class="c1"># Display Table 2</span>
 <span class="n">disp_acc</span> <span class="o">=</span> <span class="n">accuracy_df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">disp_acc</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-    <span class="n">disp_acc</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">disp_acc</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">%"</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">else</span> <span class="s2">"NaN"</span>
-    <span class="p">)</span>
-<span class="n">display</span><span class="p">(</span>
-    <span class="n">HTML</span><span class="p">(</span>
-        <span class="s2">"&lt;h3 style='margin-top: 50px; margin-bottom: 10px;'&gt;Table 2: Accuracy Percentage Comparison&lt;/h3&gt;"</span>
-    <span class="p">)</span>
-<span class="p">)</span>
-<span class="n">display</span><span class="p">(</span>
-    <span class="n">disp_acc</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">set_table_styles</span><span class="p">(</span>
-        <span class="p">[</span>
-            <span class="p">{</span>
-                <span class="s2">"selector"</span><span class="p">:</span> <span class="s2">"th"</span><span class="p">,</span>
-                <span class="s2">"props"</span><span class="p">:</span> <span class="p">[</span>
-                    <span class="p">(</span><span class="s2">"background-color"</span><span class="p">,</span> <span class="s2">"#4CAF50"</span><span class="p">),</span>
-                    <span class="p">(</span><span class="s2">"color"</span><span class="p">,</span> <span class="s2">"white"</span><span class="p">),</span>
-                    <span class="p">(</span><span class="s2">"text-align"</span><span class="p">,</span> <span class="s2">"center"</span><span class="p">),</span>
-                <span class="p">],</span>
-            <span class="p">},</span>
-            <span class="p">{</span><span class="s2">"selector"</span><span class="p">:</span> <span class="s2">"td"</span><span class="p">,</span> <span class="s2">"props"</span><span class="p">:</span> <span class="p">[(</span><span class="s2">"text-align"</span><span class="p">,</span> <span class="s2">"center"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"padding"</span><span class="p">,</span> <span class="s2">"8px"</span><span class="p">)]},</span>
-        <span class="p">]</span>
-    <span class="p">)</span>
-<span class="p">)</span>
+    <span class="n">disp_acc</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">disp_acc</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">%"</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">else</span> <span class="s2">"NaN"</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="s2">"&lt;h3 style='margin-top: 50px; margin-bottom: 10px;'&gt;Table 2: Accuracy Percentage Comparison&lt;/h3&gt;"</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">disp_acc</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">set_table_styles</span><span class="p">([</span>
+    <span class="p">{</span><span class="s1">'selector'</span><span class="p">:</span> <span class="s1">'th'</span><span class="p">,</span> <span class="s1">'props'</span><span class="p">:</span> <span class="p">[(</span><span class="s1">'background-color'</span><span class="p">,</span> <span class="s1">'#4CAF50'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'color'</span><span class="p">,</span> <span class="s1">'white'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'text-align'</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">)]},</span>
+    <span class="p">{</span><span class="s1">'selector'</span><span class="p">:</span> <span class="s1">'td'</span><span class="p">,</span> <span class="s1">'props'</span><span class="p">:</span> <span class="p">[(</span><span class="s1">'text-align'</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'padding'</span><span class="p">,</span> <span class="s1">'8px'</span><span class="p">)]}</span>
+<span class="p">]))</span>
 
 <span class="c1"># Display Table 3</span>
-<span class="n">display</span><span class="p">(</span>
-    <span class="n">HTML</span><span class="p">(</span>
-        <span class="s2">"&lt;h3 style='margin-top: 50px; margin-bottom: 10px;'&gt;Table 3: Inter-Algorithm Agreement (chl_anom vs. bbp_560_ratio)&lt;/h3&gt;"</span>
-    <span class="p">)</span>
-<span class="p">)</span>
-<span class="n">display</span><span class="p">(</span>
-    <span class="n">df_inter</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">format</span><span class="p">({</span><span class="s2">"Percentage (%)"</span><span class="p">:</span> <span class="s2">"</span><span class="si">{:.1f}</span><span class="s2">%"</span><span class="p">})</span>
-    <span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">"index"</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">set_table_styles</span><span class="p">(</span>
-        <span class="p">[</span>
-            <span class="p">{</span>
-                <span class="s2">"selector"</span><span class="p">:</span> <span class="s2">"th"</span><span class="p">,</span>
-                <span class="s2">"props"</span><span class="p">:</span> <span class="p">[</span>
-                    <span class="p">(</span><span class="s2">"text-align"</span><span class="p">,</span> <span class="s2">"center"</span><span class="p">),</span>
-                    <span class="p">(</span><span class="s2">"background-color"</span><span class="p">,</span> <span class="s2">"#01579B"</span><span class="p">),</span>
-                    <span class="p">(</span><span class="s2">"color"</span><span class="p">,</span> <span class="s2">"white"</span><span class="p">),</span>
-                <span class="p">],</span>
-            <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="s2">"selector"</span><span class="p">:</span> <span class="s2">"tr:nth-child(5)"</span><span class="p">,</span>
-                <span class="s2">"props"</span><span class="p">:</span> <span class="p">[</span>
-                    <span class="p">(</span><span class="s2">"text-align"</span><span class="p">,</span> <span class="s2">"center"</span><span class="p">),</span>
-                    <span class="p">(</span><span class="s2">"border-top"</span><span class="p">,</span> <span class="s2">"2px solid #333"</span><span class="p">),</span>
-                    <span class="p">(</span><span class="s2">"font-weight"</span><span class="p">,</span> <span class="s2">"bold"</span><span class="p">),</span>
-                <span class="p">],</span>
-            <span class="p">},</span>
-            <span class="p">{</span>
-                <span class="s2">"selector"</span><span class="p">:</span> <span class="s2">"td"</span><span class="p">,</span>
-                <span class="s2">"props"</span><span class="p">:</span> <span class="p">[(</span><span class="s2">"text-align"</span><span class="p">,</span> <span class="s2">"center"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"padding"</span><span class="p">,</span> <span class="s2">"10px"</span><span class="p">)],</span>
-            <span class="p">},</span>
-        <span class="p">]</span>
-    <span class="p">)</span>
-<span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="s2">"&lt;h3 style='margin-top: 50px; margin-bottom: 10px;'&gt;Table 3: Inter-Algorithm Agreement (chl_anom vs. bbp_560_ratio)&lt;/h3&gt;"</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_inter</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">format</span><span class="p">({</span><span class="s2">"Percentage (%)"</span><span class="p">:</span> <span class="s2">"</span><span class="si">{:.1f}</span><span class="s2">%"</span><span class="p">})</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">"index"</span><span class="p">)</span><span class="o">.</span><span class="n">set_table_styles</span><span class="p">([</span>
+    <span class="p">{</span><span class="s1">'selector'</span><span class="p">:</span> <span class="s1">'th'</span><span class="p">,</span> <span class="s1">'props'</span><span class="p">:</span> <span class="p">[(</span><span class="s1">'text-align'</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'background-color'</span><span class="p">,</span> <span class="s1">'#01579B'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'color'</span><span class="p">,</span> <span class="s1">'white'</span><span class="p">)]},</span>
+    <span class="p">{</span><span class="s1">'selector'</span><span class="p">:</span> <span class="s1">'tr:nth-child(5)'</span><span class="p">,</span> <span class="s1">'props'</span><span class="p">:</span> <span class="p">[(</span><span class="s1">'text-align'</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'border-top'</span><span class="p">,</span> <span class="s1">'2px solid #333'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'font-weight'</span><span class="p">,</span> <span class="s1">'bold'</span><span class="p">)]},</span>
+    <span class="p">{</span><span class="s1">'selector'</span><span class="p">:</span> <span class="s1">'td'</span><span class="p">,</span> <span class="s1">'props'</span><span class="p">:</span> <span class="p">[(</span><span class="s1">'text-align'</span><span class="p">,</span> <span class="s1">'center'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'padding'</span><span class="p">,</span> <span class="s1">'10px'</span><span class="p">)]}</span>
+<span class="p">]))</span>
 
 <span class="c1"># Display time series</span>
 <span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="s2">"&lt;br&gt;&lt;br&gt;"</span><span class="p">))</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">indicators</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"sat_bloom_chl"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"label"</span><span class="p">:</span> <span class="s2">"chl_anom"</span><span class="p">,</span> <span class="s2">"color"</span><span class="p">:</span> <span class="s2">"green"</span><span class="p">},</span>
-    <span class="s2">"sat_bloom_bbp"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"label"</span><span class="p">:</span> <span class="s2">"bbp_560_ratio"</span><span class="p">,</span> <span class="s2">"color"</span><span class="p">:</span> <span class="s2">"green"</span><span class="p">},</span>
+    <span class="s1">'sat_bloom_chl'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'label'</span><span class="p">:</span> <span class="s1">'chl_anom'</span><span class="p">,</span> <span class="s1">'color'</span><span class="p">:</span> <span class="s1">'green'</span><span class="p">},</span>
+    <span class="s1">'sat_bloom_bbp'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'label'</span><span class="p">:</span> <span class="s1">'bbp_560_ratio'</span><span class="p">,</span> <span class="s1">'color'</span><span class="p">:</span> <span class="s1">'green'</span><span class="p">}</span>
 <span class="p">}</span>
-<span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"year"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">final_analysis_df</span><span class="p">[</span><span class="s2">"sample_date"</span><span class="p">])</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span>
+<span class="n">final_analysis_df</span><span class="p">[</span><span class="s1">'year'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">final_analysis_df</span><span class="p">[</span><span class="s1">'sample_date'</span><span class="p">])</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">col_name</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">indicators</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
     <span class="n">ax1</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="n">yearly_stats</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">final_analysis_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"year"</span><span class="p">):</span>
-        <span class="n">valid_group</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="n">col_name</span><span class="p">,</span> <span class="s2">"obs_bloom"</span><span class="p">])</span>
+    <span class="n">yearly_stats</span> <span class="o">=</span> <span class="p">[]</span>        
+    <span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">final_analysis_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'year'</span><span class="p">):</span>
+        <span class="n">valid_group</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="n">col_name</span><span class="p">,</span> <span class="s2">"obs_bloom"</span><span class="p">])</span>        
         <span class="k">if</span> <span class="ow">not</span> <span class="n">valid_group</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
-            <span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span>
-                <span class="n">valid_group</span><span class="p">[</span><span class="s2">"obs_bloom"</span><span class="p">],</span> <span class="n">valid_group</span><span class="p">[</span><span class="n">col_name</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-            <span class="p">)</span>
-            <span class="n">tn</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">tp</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+            <span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">valid_group</span><span class="p">[</span><span class="s2">"obs_bloom"</span><span class="p">],</span> <span class="n">valid_group</span><span class="p">[</span><span class="n">col_name</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="n">tn</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">tp</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>                       
             <span class="n">ua_b</span> <span class="o">=</span> <span class="p">(</span><span class="n">tp</span> <span class="o">/</span> <span class="p">(</span><span class="n">tp</span> <span class="o">+</span> <span class="n">fp</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">tp</span> <span class="o">+</span> <span class="n">fp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
             <span class="n">ua_nb</span> <span class="o">=</span> <span class="p">(</span><span class="n">tn</span> <span class="o">/</span> <span class="p">(</span><span class="n">tn</span> <span class="o">+</span> <span class="n">fn</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">tn</span> <span class="o">+</span> <span class="n">fn</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-            <span class="n">oa</span> <span class="o">=</span> <span class="p">(</span><span class="n">tp</span> <span class="o">+</span> <span class="n">tn</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">valid_group</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
-            <span class="n">yearly_stats</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="p">{</span>
-                    <span class="s2">"Year"</span><span class="p">:</span> <span class="n">year</span><span class="p">,</span>
-                    <span class="s2">"HAB_Accuracy"</span><span class="p">:</span> <span class="n">ua_b</span><span class="p">,</span>
-                    <span class="s2">"non_HAB_Accuracy"</span><span class="p">:</span> <span class="n">ua_nb</span><span class="p">,</span>
-                    <span class="s2">"Total_Accuracy"</span><span class="p">:</span> <span class="n">oa</span><span class="p">,</span>
-                    <span class="s2">"Sample_Count"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">valid_group</span><span class="p">),</span>
-                    <span class="s2">"HAB_Count"</span><span class="p">:</span> <span class="n">tp</span><span class="p">,</span>
-                <span class="p">}</span>
-            <span class="p">)</span>
-    <span class="n">y_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">yearly_stats</span><span class="p">)</span>
-    <span class="p">(</span><span class="n">line1</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-        <span class="n">y_df</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">],</span>
-        <span class="n">y_df</span><span class="p">[</span><span class="s2">"HAB_Accuracy"</span><span class="p">],</span>
-        <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span>
-        <span class="n">color</span><span class="o">=</span><span class="n">info</span><span class="p">[</span><span class="s2">"color"</span><span class="p">],</span>
-        <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span>
-        <span class="n">label</span><span class="o">=</span><span class="s2">"HAB Accuracy (%)"</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="p">(</span><span class="n">line2</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-        <span class="n">y_df</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">],</span>
-        <span class="n">y_df</span><span class="p">[</span><span class="s2">"non_HAB_Accuracy"</span><span class="p">],</span>
-        <span class="n">marker</span><span class="o">=</span><span class="s2">"^"</span><span class="p">,</span>
-        <span class="n">color</span><span class="o">=</span><span class="s2">"orange"</span><span class="p">,</span>
-        <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-        <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span>
-        <span class="n">label</span><span class="o">=</span><span class="s2">"non-HAB Accuracy (%)"</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="p">(</span><span class="n">line3</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-        <span class="n">y_df</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">],</span>
-        <span class="n">y_df</span><span class="p">[</span><span class="s2">"Total_Accuracy"</span><span class="p">],</span>
-        <span class="n">marker</span><span class="o">=</span><span class="s2">"s"</span><span class="p">,</span>
-        <span class="n">color</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span>
-        <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
-        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
-        <span class="n">label</span><span class="o">=</span><span class="s2">"Total Accuracy (%)"</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Accuracy (%)"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">)</span>
+            <span class="n">oa</span> <span class="o">=</span> <span class="p">((</span><span class="n">tp</span> <span class="o">+</span> <span class="n">tn</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">valid_group</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>            
+            <span class="n">yearly_stats</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">'Year'</span><span class="p">:</span> <span class="n">year</span><span class="p">,</span>
+                <span class="s1">'HAB_Accuracy'</span><span class="p">:</span> <span class="n">ua_b</span><span class="p">,</span>
+                <span class="s1">'non_HAB_Accuracy'</span><span class="p">:</span> <span class="n">ua_nb</span><span class="p">,</span>
+                <span class="s1">'Total_Accuracy'</span><span class="p">:</span> <span class="n">oa</span><span class="p">,</span>
+                <span class="s1">'Sample_Count'</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">valid_group</span><span class="p">),</span>
+                <span class="s1">'HAB_Count'</span><span class="p">:</span> <span class="n">tp</span> 
+            <span class="p">})</span>               
+    <span class="n">y_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">yearly_stats</span><span class="p">)</span>    
+    <span class="n">line1</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_df</span><span class="p">[</span><span class="s1">'Year'</span><span class="p">],</span> <span class="n">y_df</span><span class="p">[</span><span class="s1">'HAB_Accuracy'</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">info</span><span class="p">[</span><span class="s1">'color'</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'HAB Accuracy (%)'</span><span class="p">)</span>
+    <span class="n">line2</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_df</span><span class="p">[</span><span class="s1">'Year'</span><span class="p">],</span> <span class="n">y_df</span><span class="p">[</span><span class="s1">'non_HAB_Accuracy'</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'^'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'orange'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'non-HAB Accuracy (%)'</span><span class="p">)</span>
+    <span class="n">line3</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_df</span><span class="p">[</span><span class="s1">'Year'</span><span class="p">],</span> <span class="n">y_df</span><span class="p">[</span><span class="s1">'Total_Accuracy'</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'s'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'blue'</span><span class="p">,</span> 
+                      <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Total Accuracy (%)'</span><span class="p">)</span>    
+    <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Accuracy (%)'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
     <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">125</span><span class="p">)</span>
     <span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
-    <span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">"Detection performance of </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">'label'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
-        <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
-        <span class="n">loc</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span>
-        <span class="n">pad</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
-        <span class="n">fontweight</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Detection performance of </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">'left'</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>    
     <span class="n">ax2</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
-    <span class="n">ax1</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">"both"</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">"y"</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
-    <span class="n">bars</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
-        <span class="n">y_df</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">],</span>
-        <span class="n">y_df</span><span class="p">[</span><span class="s2">"Sample_Count"</span><span class="p">],</span>
-        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>
-        <span class="n">color</span><span class="o">=</span><span class="s2">"gray"</span><span class="p">,</span>
-        <span class="n">label</span><span class="o">=</span><span class="s2">"Total Match-ups (of which in situ HABs)"</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Number of Match-ups"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">'both'</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">'y'</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>    
+    <span class="n">bars</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">y_df</span><span class="p">[</span><span class="s1">'Year'</span><span class="p">],</span> <span class="n">y_df</span><span class="p">[</span><span class="s1">'Sample_Count'</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Total Match-ups (of which in situ HABs)'</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Number of Match-ups'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">bar</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bars</span><span class="p">):</span>
         <span class="n">height</span> <span class="o">=</span> <span class="n">bar</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span>
-        <span class="n">hab_val</span> <span class="o">=</span> <span class="n">y_df</span><span class="p">[</span><span class="s2">"HAB_Count"</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
-        <span class="n">ax2</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
-            <span class="n">bar</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span> <span class="o">+</span> <span class="n">bar</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span>
-            <span class="n">height</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">height</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">(</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">hab_val</span><span class="p">)</span><span class="si">}</span><span class="s2">)"</span><span class="p">,</span>
-            <span class="n">ha</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span>
-            <span class="n">va</span><span class="o">=</span><span class="s2">"bottom"</span><span class="p">,</span>
-            <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-            <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span>
-            <span class="n">fontweight</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="n">hab_val</span> <span class="o">=</span> <span class="n">y_df</span><span class="p">[</span><span class="s1">'HAB_Count'</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">bar</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span> <span class="o">+</span> <span class="n">bar</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span><span class="o">/</span><span class="mf">2.</span><span class="p">,</span> <span class="n">height</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span>
+                 <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">height</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s1">(</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">hab_val</span><span class="p">)</span><span class="si">}</span><span class="s1">)'</span><span class="p">,</span> 
+                 <span class="n">ha</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">'bottom'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'black'</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>        
     <span class="n">lines</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
     <span class="n">bars_h</span><span class="p">,</span> <span class="n">bars_l</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Year"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
-    <span class="n">lines</span> <span class="o">+</span> <span class="n">bars_h</span><span class="p">,</span>
-    <span class="n">labels</span> <span class="o">+</span> <span class="n">bars_l</span><span class="p">,</span>
-    <span class="n">loc</span><span class="o">=</span><span class="s2">"lower center"</span><span class="p">,</span>
-    <span class="n">ncol</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-    <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
-    <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">),</span>
-<span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Year'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">lines</span> <span class="o">+</span> <span class="n">bars_h</span><span class="p">,</span> <span class="n">labels</span> <span class="o">+</span> <span class="n">bars_l</span><span class="p">,</span> 
+           <span class="n">loc</span><span class="o">=</span><span class="s1">'lower center'</span><span class="p">,</span> 
+           <span class="n">ncol</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> 
+           <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> 
+           <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+           <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">))</span> 
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
@@ -1436,44 +1250,21 @@ Furthermore, a cross-comparison is performed to evaluate the consistency between
 <span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="s2">"&lt;br&gt;&lt;br&gt;"</span><span class="p">))</span>
 <span class="n">conf_colors</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"TP"</span><span class="p">:</span> <span class="s2">"green"</span><span class="p">,</span> <span class="s2">"FP"</span><span class="p">:</span> <span class="s2">"orange"</span><span class="p">,</span> <span class="s2">"TN"</span><span class="p">:</span> <span class="s2">"cyan"</span><span class="p">,</span> <span class="s2">"FN"</span><span class="p">:</span> <span class="s2">"red"</span><span class="p">}</span>
 <span class="n">conf_markers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"TP"</span><span class="p">:</span> <span class="s2">"o"</span><span class="p">,</span> <span class="s2">"FP"</span><span class="p">:</span> <span class="s2">"s"</span><span class="p">,</span> <span class="s2">"TN"</span><span class="p">:</span> <span class="s2">"d"</span><span class="p">,</span> <span class="s2">"FN"</span><span class="p">:</span> <span class="s2">"v"</span><span class="p">}</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
-    <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">"projection"</span><span class="p">:</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()}</span>
-<span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">alg_col</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
-    <span class="p">[</span>
-        <span class="p">(</span><span class="s2">"sat_bloom_chl_confusion"</span><span class="p">,</span> <span class="s2">"chl_anom"</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">"sat_bloom_bbp_confusion"</span><span class="p">,</span> <span class="s2">"bbp_560_ratio"</span><span class="p">),</span>
-    <span class="p">]</span>
-<span class="p">):</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">'projection'</span><span class="p">:</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()})</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">alg_col</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([(</span><span class="s2">"sat_bloom_chl_confusion"</span><span class="p">,</span> <span class="s2">"chl_anom"</span><span class="p">),</span> 
+                                      <span class="p">(</span><span class="s2">"sat_bloom_bbp_confusion"</span><span class="p">,</span> <span class="s2">"bbp_560_ratio"</span><span class="p">)]):</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">LAND</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">"lightgray"</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="s2">"10m"</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">([</span><span class="o">-</span><span class="mi">86</span><span class="p">,</span> <span class="o">-</span><span class="mi">81</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">31</span><span class="p">],</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">([</span><span class="o">-</span><span class="mi">86</span><span class="p">,</span> <span class="o">-</span><span class="mi">81</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">31</span><span class="p">],</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>    
     <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"TP"</span><span class="p">,</span> <span class="s2">"FP"</span><span class="p">,</span> <span class="s2">"TN"</span><span class="p">,</span> <span class="s2">"FN"</span><span class="p">]:</span>
         <span class="n">subset</span> <span class="o">=</span> <span class="n">final_analysis_df</span><span class="p">[</span><span class="n">final_analysis_df</span><span class="p">[</span><span class="n">alg_col</span><span class="p">]</span> <span class="o">==</span> <span class="n">label</span><span class="p">]</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
-            <span class="n">subset</span><span class="p">[</span><span class="s2">"lon"</span><span class="p">],</span>
-            <span class="n">subset</span><span class="p">[</span><span class="s2">"lat"</span><span class="p">],</span>
-            <span class="n">color</span><span class="o">=</span><span class="n">conf_colors</span><span class="p">[</span><span class="n">label</span><span class="p">],</span>
-            <span class="n">marker</span><span class="o">=</span><span class="n">conf_markers</span><span class="p">[</span><span class="n">label</span><span class="p">],</span>
-            <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-            <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
-            <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span>
-            <span class="n">s</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
-            <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">subset</span><span class="p">[</span><span class="s2">"lon"</span><span class="p">],</span> <span class="n">subset</span><span class="p">[</span><span class="s2">"lat"</span><span class="p">],</span> 
+                   <span class="n">color</span><span class="o">=</span><span class="n">conf_colors</span><span class="p">[</span><span class="n">label</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="n">conf_markers</span><span class="p">[</span><span class="n">label</span><span class="p">],</span>
+                   <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
+                   <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2"> classification"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
-    <span class="p">[</span>
-        <span class="s2">"True Positive (TP)"</span><span class="p">,</span>
-        <span class="s2">"False Positive (FP)"</span><span class="p">,</span>
-        <span class="s2">"True Negative (TN)"</span><span class="p">,</span>
-        <span class="s2">"False Negative (FN)"</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="n">loc</span><span class="o">=</span><span class="s2">"lower center"</span><span class="p">,</span>
-    <span class="n">ncol</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-    <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span>
-<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s2">"True Positive (TP)"</span><span class="p">,</span> <span class="s2">"False Positive (FP)"</span><span class="p">,</span> <span class="s2">"True Negative (TN)"</span><span class="p">,</span> <span class="s2">"False Negative (FN)"</span><span class="p">],</span> <span class="n">loc</span><span class="o">=</span><span class="s1">'lower center'</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>

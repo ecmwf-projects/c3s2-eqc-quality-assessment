@@ -761,16 +761,18 @@ f_{wv} \ = \ \frac{d \ \text{G}_{CS wv}}{d \ TCWV} \ \overline{TCWV} \ \alpha(T)
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">linregress</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">xhistogram.xarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">histogram</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span> 
+<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"CDSAPI_RC"</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">"~/helene_brogniez/.cdsapirc"</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -828,7 +830,7 @@ f_{wv} \ = \ \frac{d \ \text{G}_{CS wv}}{d \ TCWV} \ \overline{TCWV} \ \alpha(T)
     <span class="s2">"temporal_aggregation"</span><span class="p">:</span> <span class="s2">"6_hourly"</span><span class="p">,</span>
     <span class="s2">"year"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"2007"</span><span class="p">],</span>
     <span class="s2">"month"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"07"</span><span class="p">],</span>
-    <span class="s2">"variable"</span><span class="p">:</span> <span class="s2">"all"</span><span class="p">,</span>
+    <span class="s2">"variable"</span><span class="p">:</span> <span class="s2">"all"</span>
 <span class="p">}</span>
 
 <span class="n">requests</span><span class="p">[</span><span class="s2">"satellite-cloud-properties"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
@@ -839,40 +841,17 @@ f_{wv} \ = \ \frac{d \ \text{G}_{CS wv}}{d \ TCWV} \ \overline{TCWV} \ \alpha(T)
     <span class="s2">"time_aggregation"</span><span class="p">:</span> <span class="s2">"daily_mean"</span><span class="p">,</span>
     <span class="s2">"year"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"2007"</span><span class="p">],</span>
     <span class="s2">"month"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"07"</span><span class="p">],</span>
-    <span class="s2">"day"</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">"01"</span><span class="p">,</span>
-        <span class="s2">"02"</span><span class="p">,</span>
-        <span class="s2">"03"</span><span class="p">,</span>
-        <span class="s2">"04"</span><span class="p">,</span>
-        <span class="s2">"05"</span><span class="p">,</span>
-        <span class="s2">"06"</span><span class="p">,</span>
-        <span class="s2">"07"</span><span class="p">,</span>
-        <span class="s2">"08"</span><span class="p">,</span>
-        <span class="s2">"09"</span><span class="p">,</span>
-        <span class="s2">"10"</span><span class="p">,</span>
-        <span class="s2">"11"</span><span class="p">,</span>
-        <span class="s2">"12"</span><span class="p">,</span>
-        <span class="s2">"13"</span><span class="p">,</span>
-        <span class="s2">"14"</span><span class="p">,</span>
-        <span class="s2">"15"</span><span class="p">,</span>
-        <span class="s2">"16"</span><span class="p">,</span>
-        <span class="s2">"17"</span><span class="p">,</span>
-        <span class="s2">"18"</span><span class="p">,</span>
-        <span class="s2">"19"</span><span class="p">,</span>
-        <span class="s2">"20"</span><span class="p">,</span>
-        <span class="s2">"21"</span><span class="p">,</span>
-        <span class="s2">"22"</span><span class="p">,</span>
-        <span class="s2">"23"</span><span class="p">,</span>
-        <span class="s2">"24"</span><span class="p">,</span>
-        <span class="s2">"25"</span><span class="p">,</span>
-        <span class="s2">"26"</span><span class="p">,</span>
-        <span class="s2">"27"</span><span class="p">,</span>
-        <span class="s2">"28"</span><span class="p">,</span>
-        <span class="s2">"29"</span><span class="p">,</span>
-        <span class="s2">"30"</span><span class="p">,</span>
-        <span class="s2">"31"</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s2">"area"</span><span class="p">:</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="mi">180</span><span class="p">],</span>
+    <span class="s2">"day"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"01"</span><span class="p">,</span> <span class="s2">"02"</span><span class="p">,</span> <span class="s2">"03"</span><span class="p">,</span>
+        <span class="s2">"04"</span><span class="p">,</span> <span class="s2">"05"</span><span class="p">,</span> <span class="s2">"06"</span><span class="p">,</span>
+        <span class="s2">"07"</span><span class="p">,</span> <span class="s2">"08"</span><span class="p">,</span> <span class="s2">"09"</span><span class="p">,</span>
+        <span class="s2">"10"</span><span class="p">,</span> <span class="s2">"11"</span><span class="p">,</span> <span class="s2">"12"</span><span class="p">,</span>
+        <span class="s2">"13"</span><span class="p">,</span> <span class="s2">"14"</span><span class="p">,</span> <span class="s2">"15"</span><span class="p">,</span>
+        <span class="s2">"16"</span><span class="p">,</span> <span class="s2">"17"</span><span class="p">,</span> <span class="s2">"18"</span><span class="p">,</span>
+        <span class="s2">"19"</span><span class="p">,</span> <span class="s2">"20"</span><span class="p">,</span> <span class="s2">"21"</span><span class="p">,</span>
+        <span class="s2">"22"</span><span class="p">,</span> <span class="s2">"23"</span><span class="p">,</span> <span class="s2">"24"</span><span class="p">,</span>
+        <span class="s2">"25"</span><span class="p">,</span> <span class="s2">"26"</span><span class="p">,</span> <span class="s2">"27"</span><span class="p">,</span>
+        <span class="s2">"28"</span><span class="p">,</span> <span class="s2">"29"</span><span class="p">,</span> <span class="s2">"30"</span><span class="p">,</span> <span class="s2">"31"</span><span class="p">],</span>
+    <span class="s2">"area"</span><span class="p">:</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="mi">180</span><span class="p">]</span>
 <span class="p">}</span>
 
 <span class="n">requests</span><span class="p">[</span><span class="s2">"satellite-sea-surface-temperature"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
@@ -882,39 +861,16 @@ f_{wv} \ = \ \frac{d \ \text{G}_{CS wv}}{d \ TCWV} \ \overline{TCWV} \ \alpha(T)
     <span class="s2">"version"</span><span class="p">:</span> <span class="s2">"2_1"</span><span class="p">,</span>
     <span class="s2">"year"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"2007"</span><span class="p">],</span>
     <span class="s2">"month"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"07"</span><span class="p">],</span>
-    <span class="s2">"day"</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">"01"</span><span class="p">,</span>
-        <span class="s2">"02"</span><span class="p">,</span>
-        <span class="s2">"03"</span><span class="p">,</span>
-        <span class="s2">"04"</span><span class="p">,</span>
-        <span class="s2">"05"</span><span class="p">,</span>
-        <span class="s2">"06"</span><span class="p">,</span>
-        <span class="s2">"07"</span><span class="p">,</span>
-        <span class="s2">"08"</span><span class="p">,</span>
-        <span class="s2">"09"</span><span class="p">,</span>
-        <span class="s2">"10"</span><span class="p">,</span>
-        <span class="s2">"11"</span><span class="p">,</span>
-        <span class="s2">"12"</span><span class="p">,</span>
-        <span class="s2">"13"</span><span class="p">,</span>
-        <span class="s2">"14"</span><span class="p">,</span>
-        <span class="s2">"15"</span><span class="p">,</span>
-        <span class="s2">"16"</span><span class="p">,</span>
-        <span class="s2">"17"</span><span class="p">,</span>
-        <span class="s2">"18"</span><span class="p">,</span>
-        <span class="s2">"19"</span><span class="p">,</span>
-        <span class="s2">"20"</span><span class="p">,</span>
-        <span class="s2">"21"</span><span class="p">,</span>
-        <span class="s2">"22"</span><span class="p">,</span>
-        <span class="s2">"23"</span><span class="p">,</span>
-        <span class="s2">"24"</span><span class="p">,</span>
-        <span class="s2">"25"</span><span class="p">,</span>
-        <span class="s2">"26"</span><span class="p">,</span>
-        <span class="s2">"27"</span><span class="p">,</span>
-        <span class="s2">"28"</span><span class="p">,</span>
-        <span class="s2">"29"</span><span class="p">,</span>
-        <span class="s2">"30"</span><span class="p">,</span>
-        <span class="s2">"31"</span><span class="p">,</span>
-    <span class="p">],</span>
+    <span class="s2">"day"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"01"</span><span class="p">,</span> <span class="s2">"02"</span><span class="p">,</span> <span class="s2">"03"</span><span class="p">,</span>
+        <span class="s2">"04"</span><span class="p">,</span> <span class="s2">"05"</span><span class="p">,</span> <span class="s2">"06"</span><span class="p">,</span>
+        <span class="s2">"07"</span><span class="p">,</span> <span class="s2">"08"</span><span class="p">,</span> <span class="s2">"09"</span><span class="p">,</span>
+        <span class="s2">"10"</span><span class="p">,</span> <span class="s2">"11"</span><span class="p">,</span> <span class="s2">"12"</span><span class="p">,</span>
+        <span class="s2">"13"</span><span class="p">,</span> <span class="s2">"14"</span><span class="p">,</span> <span class="s2">"15"</span><span class="p">,</span>
+        <span class="s2">"16"</span><span class="p">,</span> <span class="s2">"17"</span><span class="p">,</span> <span class="s2">"18"</span><span class="p">,</span>
+        <span class="s2">"19"</span><span class="p">,</span> <span class="s2">"20"</span><span class="p">,</span> <span class="s2">"21"</span><span class="p">,</span>
+        <span class="s2">"22"</span><span class="p">,</span> <span class="s2">"23"</span><span class="p">,</span> <span class="s2">"24"</span><span class="p">,</span>
+        <span class="s2">"25"</span><span class="p">,</span> <span class="s2">"26"</span><span class="p">,</span> <span class="s2">"27"</span><span class="p">,</span>
+        <span class="s2">"28"</span><span class="p">,</span> <span class="s2">"29"</span><span class="p">,</span> <span class="s2">"30"</span><span class="p">,</span> <span class="s2">"31"</span><span class="p">]</span>
 <span class="p">}</span>
 
 
@@ -926,40 +882,17 @@ f_{wv} \ = \ \frac{d \ \text{G}_{CS wv}}{d \ TCWV} \ \overline{TCWV} \ \alpha(T)
     <span class="s2">"time_aggregation"</span><span class="p">:</span> <span class="s2">"daily_mean"</span><span class="p">,</span>
     <span class="s2">"year"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"2007"</span><span class="p">],</span>
     <span class="s2">"month"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"07"</span><span class="p">],</span>
-    <span class="s2">"day"</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">"01"</span><span class="p">,</span>
-        <span class="s2">"02"</span><span class="p">,</span>
-        <span class="s2">"03"</span><span class="p">,</span>
-        <span class="s2">"04"</span><span class="p">,</span>
-        <span class="s2">"05"</span><span class="p">,</span>
-        <span class="s2">"06"</span><span class="p">,</span>
-        <span class="s2">"07"</span><span class="p">,</span>
-        <span class="s2">"08"</span><span class="p">,</span>
-        <span class="s2">"09"</span><span class="p">,</span>
-        <span class="s2">"10"</span><span class="p">,</span>
-        <span class="s2">"11"</span><span class="p">,</span>
-        <span class="s2">"12"</span><span class="p">,</span>
-        <span class="s2">"13"</span><span class="p">,</span>
-        <span class="s2">"14"</span><span class="p">,</span>
-        <span class="s2">"15"</span><span class="p">,</span>
-        <span class="s2">"16"</span><span class="p">,</span>
-        <span class="s2">"17"</span><span class="p">,</span>
-        <span class="s2">"18"</span><span class="p">,</span>
-        <span class="s2">"19"</span><span class="p">,</span>
-        <span class="s2">"20"</span><span class="p">,</span>
-        <span class="s2">"21"</span><span class="p">,</span>
-        <span class="s2">"22"</span><span class="p">,</span>
-        <span class="s2">"23"</span><span class="p">,</span>
-        <span class="s2">"24"</span><span class="p">,</span>
-        <span class="s2">"25"</span><span class="p">,</span>
-        <span class="s2">"26"</span><span class="p">,</span>
-        <span class="s2">"27"</span><span class="p">,</span>
-        <span class="s2">"28"</span><span class="p">,</span>
-        <span class="s2">"29"</span><span class="p">,</span>
-        <span class="s2">"30"</span><span class="p">,</span>
-        <span class="s2">"31"</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s2">"area"</span><span class="p">:</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="mi">180</span><span class="p">],</span>
+    <span class="s2">"day"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"01"</span><span class="p">,</span> <span class="s2">"02"</span><span class="p">,</span> <span class="s2">"03"</span><span class="p">,</span>
+        <span class="s2">"04"</span><span class="p">,</span> <span class="s2">"05"</span><span class="p">,</span> <span class="s2">"06"</span><span class="p">,</span>
+        <span class="s2">"07"</span><span class="p">,</span> <span class="s2">"08"</span><span class="p">,</span> <span class="s2">"09"</span><span class="p">,</span>
+        <span class="s2">"10"</span><span class="p">,</span> <span class="s2">"11"</span><span class="p">,</span> <span class="s2">"12"</span><span class="p">,</span>
+        <span class="s2">"13"</span><span class="p">,</span> <span class="s2">"14"</span><span class="p">,</span> <span class="s2">"15"</span><span class="p">,</span>
+        <span class="s2">"16"</span><span class="p">,</span> <span class="s2">"17"</span><span class="p">,</span> <span class="s2">"18"</span><span class="p">,</span>
+        <span class="s2">"19"</span><span class="p">,</span> <span class="s2">"20"</span><span class="p">,</span> <span class="s2">"21"</span><span class="p">,</span>
+        <span class="s2">"22"</span><span class="p">,</span> <span class="s2">"23"</span><span class="p">,</span> <span class="s2">"24"</span><span class="p">,</span>
+        <span class="s2">"25"</span><span class="p">,</span> <span class="s2">"26"</span><span class="p">,</span> <span class="s2">"27"</span><span class="p">,</span>
+        <span class="s2">"28"</span><span class="p">,</span> <span class="s2">"29"</span><span class="p">,</span> <span class="s2">"30"</span><span class="p">,</span> <span class="s2">"31"</span><span class="p">],</span>
+    <span class="s2">"area"</span><span class="p">:</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="mi">180</span><span class="p">]</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -980,18 +913,16 @@ f_{wv} \ = \ \frac{d \ \text{G}_{CS wv}}{d \ TCWV} \ \overline{TCWV} \ \alpha(T)
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datasets</span> <span class="o">=</span> <span class="p">{}</span>
 
-<span class="k">for</span> <span class="n">collection_id</span> <span class="ow">in</span> <span class="n">requests</span><span class="p">:</span>
+<span class="k">for</span> <span class="n">collection_id</span> <span class="ow">in</span> <span class="n">requests</span> <span class="p">:</span>
     <span class="n">request</span> <span class="o">=</span> <span class="n">requests</span><span class="p">[</span><span class="n">collection_id</span><span class="p">]</span>
-    <span class="n">datasets</span><span class="p">[</span><span class="n">collection_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
-        <span class="n">collection_id</span><span class="p">,</span>
-        <span class="n">download</span><span class="o">.</span><span class="n">update_request_date</span><span class="p">(</span>
-            <span class="n">request</span> <span class="o">|</span> <span class="p">{</span><span class="s2">"area"</span><span class="p">:</span> <span class="p">[</span><span class="n">lat_max</span><span class="p">,</span> <span class="n">lon_min</span><span class="p">,</span> <span class="n">lat_min</span><span class="p">,</span> <span class="n">lon_max</span><span class="p">]},</span>  <span class="c1"># [N, W, S, E]</span>
-            <span class="n">start</span><span class="p">,</span>
-            <span class="n">stop</span><span class="p">,</span>
-            <span class="n">stringify_dates</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="n">datasets</span><span class="p">[</span><span class="n">collection_id</span><span class="p">]</span> <span class="o">=</span>  <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
+                                    <span class="n">collection_id</span><span class="p">,</span>
+                                    <span class="n">download</span><span class="o">.</span><span class="n">update_request_date</span><span class="p">(</span><span class="n">request</span> <span class="o">|</span> <span class="p">{</span><span class="s1">'area'</span><span class="p">:</span> <span class="p">[</span><span class="n">lat_max</span><span class="p">,</span> <span class="n">lon_min</span><span class="p">,</span> <span class="n">lat_min</span><span class="p">,</span> <span class="n">lon_max</span><span class="p">]},</span> <span class="c1">#[N, W, S, E]</span>
+                                                                 <span class="n">start</span><span class="p">,</span> 
+                                                                 <span class="n">stop</span><span class="p">,</span> 
+                                                                 <span class="n">stringify_dates</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                                        <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">,</span>
+                                    <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1029,26 +960,16 @@ f_{wv} \ = \ \frac{d \ \text{G}_{CS wv}}{d \ TCWV} \ \overline{TCWV} \ \alpha(T)
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># coarsen datasets to 0.5° grid / 1-day</span>
-<span class="n">ds_clouds</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">datasets</span><span class="p">[</span><span class="s2">"satellite-cloud-properties"</span><span class="p">]</span><span class="o">.</span><span class="n">coarsen</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-<span class="p">)</span>
+<span class="n">ds_clouds</span> <span class="o">=</span> <span class="p">(</span><span class="n">datasets</span><span class="p">[</span><span class="s2">"satellite-cloud-properties"</span><span class="p">]</span><span class="o">.</span><span class="n">coarsen</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
 
-<span class="n">ds_sst</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">datasets</span><span class="p">[</span><span class="s2">"satellite-sea-surface-temperature"</span><span class="p">]</span>
-    <span class="o">.</span><span class="n">coarsen</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-<span class="p">)</span>
+<span class="n">ds_sst</span> <span class="o">=</span> <span class="p">(</span><span class="n">datasets</span><span class="p">[</span><span class="s2">"satellite-sea-surface-temperature"</span><span class="p">]</span><span class="o">.</span><span class="n">coarsen</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
 <span class="n">ds_sst</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_sst</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">-</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>  <span class="c1"># 12h shift</span>
 
-<span class="n">ds_flux</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">datasets</span><span class="p">[</span><span class="s2">"satellite-earth-radiation-budget"</span><span class="p">]</span><span class="o">.</span><span class="n">coarsen</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-<span class="p">)</span>
+<span class="n">ds_flux</span> <span class="o">=</span> <span class="p">(</span><span class="n">datasets</span><span class="p">[</span><span class="s2">"satellite-earth-radiation-budget"</span><span class="p">]</span><span class="o">.</span><span class="n">coarsen</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
 
-<span class="n">ds_tmp</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">[</span>
-    <span class="s2">"satellite-total-column-water-vapour-ocean"</span>
-<span class="p">]</span>  <span class="c1">## original dataset available at 0.5° / 6-hourly / latitudes stored from 90N to 90S</span>
-<span class="n">ds_tmp2</span> <span class="o">=</span> <span class="n">ds_tmp</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">ds_tmp</span><span class="o">.</span><span class="n">latitude</span><span class="p">)))</span>
-<span class="n">ds_tcwv</span> <span class="o">=</span> <span class="n">ds_tmp2</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">"1D"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">ds_tmp</span>   <span class="o">=</span> <span class="n">datasets</span><span class="p">[</span><span class="s2">"satellite-total-column-water-vapour-ocean"</span><span class="p">]</span>  <span class="c1">## original dataset available at 0.5° / 6-hourly / latitudes stored from 90N to 90S</span>
+<span class="n">ds_tmp2</span>  <span class="o">=</span> <span class="n">ds_tmp</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">ds_tmp</span><span class="o">.</span><span class="n">latitude</span><span class="p">)))</span>  
+<span class="n">ds_tcwv</span>  <span class="o">=</span> <span class="p">(</span><span class="n">ds_tmp2</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">"1D"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -1073,24 +994,20 @@ f_{wv} \ = \ \frac{d \ \text{G}_{CS wv}}{d \ TCWV} \ \overline{TCWV} \ \alpha(T)
         <span class="n">ds_clouds</span><span class="o">.</span><span class="n">drop_dims</span><span class="p">(</span><span class="s2">"bndsize"</span><span class="p">),</span>
         <span class="n">ds_sst</span><span class="o">.</span><span class="n">drop_dims</span><span class="p">(</span><span class="s2">"bnds"</span><span class="p">),</span>
         <span class="n">ds_flux</span><span class="o">.</span><span class="n">drop_dims</span><span class="p">(</span><span class="s2">"bnds"</span><span class="p">),</span>
-        <span class="n">ds_tcwv</span><span class="p">,</span>
+        <span class="n">ds_tcwv</span>
     <span class="p">]</span>
 <span class="p">)</span>
 <span class="c1"># Compute clear sky greenhouse effect and add to the merged dataset</span>
-<span class="n">ds_daily</span><span class="p">[</span><span class="s2">"GCS"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="mf">5.67</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">ds_daily</span><span class="p">[</span><span class="s2">"analysed_sst"</span><span class="p">]</span> <span class="o">**</span> <span class="mi">4</span><span class="p">)</span> <span class="o">-</span> <span class="n">ds_daily</span><span class="p">[</span><span class="s2">"LW_flux"</span><span class="p">]</span>
-<span class="p">)</span>
+<span class="n">ds_daily</span><span class="p">[</span><span class="s2">"GCS"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">5.67</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">ds_daily</span><span class="p">[</span><span class="s2">"analysed_sst"</span><span class="p">]</span> <span class="o">**</span> <span class="mi">4</span><span class="p">)</span> <span class="o">-</span> <span class="n">ds_daily</span><span class="p">[</span><span class="s2">"LW_flux"</span><span class="p">])</span>
 <span class="n">ds_daily</span><span class="p">[</span><span class="s2">"GCS"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"long_name"</span><span class="p">:</span> <span class="s2">"clear sky greenhouse effect"</span><span class="p">,</span> <span class="s2">"units"</span><span class="p">:</span> <span class="s2">"W m−2"</span><span class="p">}</span>
 
 <span class="c1"># Selection of clear sky regions (at most 10\% of cloud fraction within each grid cell) and quality of retrieved SST and TCVW (SST &gt; 0°K and TCWV &gt; 0 mm)</span>
-<span class="n">mask</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="p">(</span><span class="n">ds_daily</span><span class="p">[</span><span class="s2">"cfc"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">ds_daily</span><span class="p">[</span><span class="s2">"analysed_sst"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">ds_daily</span><span class="p">[</span><span class="s2">"wvpa"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
-<span class="p">)</span>  <span class="c1">## &amp; (ds_daily["GCS"] &gt; 120)</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds_daily</span><span class="p">[</span><span class="s2">"cfc"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">ds_daily</span><span class="p">[</span><span class="s2">"analysed_sst"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">ds_daily</span><span class="p">[</span><span class="s2">"wvpa"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="c1">## &amp; (ds_daily["GCS"] &gt; 120)</span>
 
 <span class="n">ds_daily</span> <span class="o">=</span> <span class="n">ds_daily</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
 
 <span class="c1"># Compute montly mean from daily &amp; masked data</span>
-<span class="n">ds_monthly</span> <span class="o">=</span> <span class="n">ds_daily</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ds_monthly</span> <span class="o">=</span> <span class="n">ds_daily</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">"time"</span><span class="p">,</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1116,12 +1033,7 @@ f_{wv} \ = \ \frac{d \ \text{G}_{CS wv}}{d \ TCWV} \ \overline{TCWV} \ \alpha(T)
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Convert the 3D dataset into a dataframe for the analysis</span>
 <span class="c1">## daily dataset</span>
 <span class="n">series</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="k">for</span> <span class="n">da</span> <span class="ow">in</span> <span class="p">[</span>
-    <span class="n">ds_daily</span><span class="p">[</span><span class="s2">"wvpa"</span><span class="p">],</span>
-    <span class="n">ds_daily</span><span class="p">[</span><span class="s2">"analysed_sst"</span><span class="p">],</span>
-    <span class="n">ds_daily</span><span class="p">[</span><span class="s2">"LW_flux"</span><span class="p">],</span>
-    <span class="n">ds_daily</span><span class="p">[</span><span class="s2">"GCS"</span><span class="p">],</span>
-<span class="p">]:</span>
+<span class="k">for</span> <span class="n">da</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ds_daily</span><span class="p">[</span><span class="s2">"wvpa"</span><span class="p">],</span> <span class="n">ds_daily</span><span class="p">[</span><span class="s2">"analysed_sst"</span><span class="p">],</span> <span class="n">ds_daily</span><span class="p">[</span><span class="s2">"LW_flux"</span><span class="p">],</span> <span class="n">ds_daily</span><span class="p">[</span><span class="s2">"GCS"</span><span class="p">]]:</span>
     <span class="n">series</span><span class="p">[</span><span class="n">da</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">da</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">dims</span><span class="p">))</span>
         <span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">dims</span><span class="p">))</span>
@@ -1131,13 +1043,8 @@ f_{wv} \ = \ \frac{d \ \text{G}_{CS wv}}{d \ TCWV} \ \overline{TCWV} \ \alpha(T)
 <span class="n">df_daily</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">series</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
 
 <span class="c1">## monthly dataset</span>
-<span class="n">series</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="k">for</span> <span class="n">da</span> <span class="ow">in</span> <span class="p">[</span>
-    <span class="n">ds_monthly</span><span class="p">[</span><span class="s2">"wvpa"</span><span class="p">],</span>
-    <span class="n">ds_monthly</span><span class="p">[</span><span class="s2">"analysed_sst"</span><span class="p">],</span>
-    <span class="n">ds_monthly</span><span class="p">[</span><span class="s2">"LW_flux"</span><span class="p">],</span>
-    <span class="n">ds_monthly</span><span class="p">[</span><span class="s2">"GCS"</span><span class="p">],</span>
-<span class="p">]:</span>
+<span class="n">series</span><span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">da</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ds_monthly</span><span class="p">[</span><span class="s2">"wvpa"</span><span class="p">],</span> <span class="n">ds_monthly</span><span class="p">[</span><span class="s2">"analysed_sst"</span><span class="p">],</span> <span class="n">ds_monthly</span><span class="p">[</span><span class="s2">"LW_flux"</span><span class="p">],</span> <span class="n">ds_monthly</span><span class="p">[</span><span class="s2">"GCS"</span><span class="p">]]:</span>
     <span class="n">series</span><span class="p">[</span><span class="n">da</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">da</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">dims</span><span class="p">))</span>
         <span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">dims</span><span class="p">))</span>
@@ -1168,10 +1075,7 @@ f_{wv} \ = \ \frac{d \ \text{G}_{CS wv}}{d \ TCWV} \ \overline{TCWV} \ \alpha(T)
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span>
-    <span class="n">datasets</span><span class="p">[</span><span class="s2">"satellite-total-column-water-vapour-ocean"</span><span class="p">]</span>
-    <span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
-    <span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">"time"</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">compute</span><span class="p">()[</span><span class="s2">"wvpa"</span><span class="p">],</span>
+    <span class="n">datasets</span><span class="p">[</span><span class="s2">"satellite-total-column-water-vapour-ocean"</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'time'</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()[</span><span class="s2">"wvpa"</span><span class="p">],</span>
     <span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
     <span class="n">cmap</span><span class="o">=</span><span class="s2">"YlGnBu"</span><span class="p">,</span>
     <span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1179,8 +1083,8 @@ f_{wv} \ = \ \frac{d \ \text{G}_{CS wv}}{d \ TCWV} \ \overline{TCWV} \ \alpha(T)
     <span class="n">levels</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
     <span class="n">extend</span><span class="o">=</span><span class="s2">"both"</span><span class="p">,</span>
     <span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">"orientation"</span><span class="p">:</span> <span class="s2">"horizontal"</span><span class="p">,</span> <span class="s2">"pad"</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s2">"label"</span><span class="p">:</span> <span class="s2">"TCWV [kg/m$^2$]"</span><span class="p">},</span>
-    <span class="n">show_stats</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<span class="p">)</span>
+    <span class="n">show_stats</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"01 July 2007 - daily average"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
@@ -1192,13 +1096,9 @@ f_{wv} \ = \ \frac{d \ \text{G}_{CS wv}}{d \ TCWV} \ \overline{TCWV} \ \alpha(T)
     <span class="n">center</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">levels</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
     <span class="n">extend</span><span class="o">=</span><span class="s2">"both"</span><span class="p">,</span>
-    <span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">"orientation"</span><span class="p">:</span> <span class="s2">"horizontal"</span><span class="p">,</span>
-        <span class="s2">"pad"</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
-        <span class="s2">"label"</span><span class="p">:</span> <span class="s2">"Cloud Fraction Cover [%]"</span><span class="p">,</span>
-    <span class="p">},</span>
-    <span class="n">show_stats</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<span class="p">)</span>
+    <span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">"orientation"</span><span class="p">:</span> <span class="s2">"horizontal"</span><span class="p">,</span> <span class="s2">"pad"</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s2">"label"</span><span class="p">:</span> <span class="s2">"Cloud Fraction Cover [%]"</span><span class="p">},</span>
+    <span class="n">show_stats</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"01 July 2007 - daily average"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -1226,22 +1126,16 @@ This Climate Data Record cover the entire globe with a resolution of 0.05°.</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span>
-    <span class="n">datasets</span><span class="p">[</span><span class="s2">"satellite-sea-surface-temperature"</span><span class="p">]</span>
-    <span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">compute</span><span class="p">()[</span><span class="s2">"analysed_sst"</span><span class="p">],</span>
+    <span class="n">datasets</span><span class="p">[</span><span class="s2">"satellite-sea-surface-temperature"</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()[</span><span class="s2">"analysed_sst"</span><span class="p">],</span>
     <span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
     <span class="n">cmap</span><span class="o">=</span><span class="s2">"jet"</span><span class="p">,</span>
     <span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">center</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">levels</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
     <span class="n">extend</span><span class="o">=</span><span class="s2">"both"</span><span class="p">,</span>
-    <span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">"orientation"</span><span class="p">:</span> <span class="s2">"horizontal"</span><span class="p">,</span>
-        <span class="s2">"pad"</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
-        <span class="s2">"label"</span><span class="p">:</span> <span class="s2">"Sea Surface Temperature [K]"</span><span class="p">,</span>
-    <span class="p">},</span>
-    <span class="n">show_stats</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<span class="p">)</span>
+    <span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">"orientation"</span><span class="p">:</span> <span class="s2">"horizontal"</span><span class="p">,</span> <span class="s2">"pad"</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s2">"label"</span><span class="p">:</span> <span class="s2">"Sea Surface Temperature [K]"</span><span class="p">},</span>
+    <span class="n">show_stats</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"01 July 2007 - daily average"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
@@ -1253,13 +1147,9 @@ This Climate Data Record cover the entire globe with a resolution of 0.05°.</p>
     <span class="n">center</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">levels</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
     <span class="n">extend</span><span class="o">=</span><span class="s2">"both"</span><span class="p">,</span>
-    <span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">"orientation"</span><span class="p">:</span> <span class="s2">"horizontal"</span><span class="p">,</span>
-        <span class="s2">"pad"</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
-        <span class="s2">"label"</span><span class="p">:</span> <span class="s2">"Outgoing Longwave Radiation [W/m2]"</span><span class="p">,</span>
-    <span class="p">},</span>
-    <span class="n">show_stats</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<span class="p">)</span>
+    <span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">"orientation"</span><span class="p">:</span> <span class="s2">"horizontal"</span><span class="p">,</span> <span class="s2">"pad"</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s2">"label"</span><span class="p">:</span> <span class="s2">"Outgoing Longwave Radiation [W/m2]"</span><span class="p">},</span>
+    <span class="n">show_stats</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"01 July 2007 - daily average"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -1296,13 +1186,9 @@ This Climate Data Record cover the entire globe with a resolution of 0.05°.</p>
     <span class="n">center</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">levels</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
     <span class="n">extend</span><span class="o">=</span><span class="s2">"both"</span><span class="p">,</span>
-    <span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">"orientation"</span><span class="p">:</span> <span class="s2">"horizontal"</span><span class="p">,</span>
-        <span class="s2">"pad"</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
-        <span class="s2">"label"</span><span class="p">:</span> <span class="s2">"Clear sky greenhouse effect [W/m2]"</span><span class="p">,</span>
-    <span class="p">},</span>
-    <span class="n">show_stats</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<span class="p">)</span>
+    <span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">"orientation"</span><span class="p">:</span> <span class="s2">"horizontal"</span><span class="p">,</span> <span class="s2">"pad"</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s2">"label"</span><span class="p">:</span> <span class="s2">"Clear sky greenhouse effect [W/m2]"</span><span class="p">},</span>
+    <span class="n">show_stats</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"July 2007 - monthly average"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
@@ -1315,13 +1201,9 @@ This Climate Data Record cover the entire globe with a resolution of 0.05°.</p>
     <span class="n">center</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">levels</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
     <span class="n">extend</span><span class="o">=</span><span class="s2">"both"</span><span class="p">,</span>
-    <span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">"orientation"</span><span class="p">:</span> <span class="s2">"horizontal"</span><span class="p">,</span>
-        <span class="s2">"pad"</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
-        <span class="s2">"label"</span><span class="p">:</span> <span class="s2">"Total column water vapor [mm]"</span><span class="p">,</span>
-    <span class="p">},</span>
-    <span class="n">show_stats</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<span class="p">)</span>
+    <span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">"orientation"</span><span class="p">:</span> <span class="s2">"horizontal"</span><span class="p">,</span> <span class="s2">"pad"</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s2">"label"</span><span class="p">:</span> <span class="s2">"Total column water vapor [mm]"</span><span class="p">},</span>
+    <span class="n">show_stats</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"July 2007 - monthly average"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -1371,18 +1253,13 @@ This Climate Data Record cover the entire globe with a resolution of 0.05°.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"July 2007 - Daily data"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"sea surface temperature [K]"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"clear-sky greenhouse effect G$_</span><span class="si">{CS}</span><span class="s2">$ [W/m$^2$]"</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">287</span><span class="p">,</span> <span class="mi">190</span><span class="p">,</span> <span class="s2">"(a)"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">287</span><span class="p">,</span><span class="mi">190</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 
 <span class="c1"># Plot linear fit</span>
 <span class="n">slope_daily</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">se</span> <span class="o">=</span> <span class="n">linregress</span><span class="p">(</span><span class="n">df_daily</span><span class="p">[</span><span class="s2">"analysed_sst"</span><span class="p">],</span> <span class="n">df_daily</span><span class="p">[</span><span class="s2">"GCS"</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-    <span class="n">df_daily</span><span class="p">[</span><span class="s2">"analysed_sst"</span><span class="p">],</span>
-    <span class="n">slope_daily</span> <span class="o">*</span> <span class="n">df_daily</span><span class="p">[</span><span class="s2">"analysed_sst"</span><span class="p">]</span> <span class="o">+</span> <span class="n">intercept</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span>
-    <span class="n">linestyle</span><span class="o">=</span><span class="s2">"dashed"</span><span class="p">,</span>
-    <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">label</span><span class="o">=</span><span class="sa">rf</span><span class="s2">"Linear regression = </span><span class="si">{</span><span class="n">slope_daily</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> $\pm$ </span><span class="si">{</span><span class="n">se</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> W/m$^2$/K"</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_daily</span><span class="p">[</span><span class="s2">"analysed_sst"</span><span class="p">],</span><span class="n">slope_daily</span><span class="o">*</span><span class="n">df_daily</span><span class="p">[</span><span class="s2">"analysed_sst"</span><span class="p">]</span><span class="o">+</span><span class="n">intercept</span><span class="p">,</span> 
+         <span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"dashed"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+         <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Linear regression = </span><span class="si">{</span><span class="n">slope_daily</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> $\pm$ </span><span class="si">{</span><span class="n">se</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> W/m$^2$/K"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
@@ -1390,20 +1267,13 @@ This Climate Data Record cover the entire globe with a resolution of 0.05°.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"July 2007 - Monthly data"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"sea surface temperature [K]"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"clear-sky greenhouse effect G$_</span><span class="si">{CS}</span><span class="s2">$ [W/m$^2$]"</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">287</span><span class="p">,</span> <span class="mi">190</span><span class="p">,</span> <span class="s2">"(b)"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">287</span><span class="p">,</span><span class="mi">190</span><span class="p">,</span><span class="s1">'(b)'</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 
 <span class="c1"># Plot linear fit</span>
-<span class="n">slope_monthly</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">se</span> <span class="o">=</span> <span class="n">linregress</span><span class="p">(</span>
-    <span class="n">df_monthly</span><span class="p">[</span><span class="s2">"analysed_sst"</span><span class="p">],</span> <span class="n">df_monthly</span><span class="p">[</span><span class="s2">"GCS"</span><span class="p">]</span>
-<span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-    <span class="n">df_monthly</span><span class="p">[</span><span class="s2">"analysed_sst"</span><span class="p">],</span>
-    <span class="n">slope_monthly</span> <span class="o">*</span> <span class="n">df_monthly</span><span class="p">[</span><span class="s2">"analysed_sst"</span><span class="p">]</span> <span class="o">+</span> <span class="n">intercept</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span>
-    <span class="n">linestyle</span><span class="o">=</span><span class="s2">"dashed"</span><span class="p">,</span>
-    <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">label</span><span class="o">=</span><span class="sa">rf</span><span class="s2">"Linear regression = </span><span class="si">{</span><span class="n">slope_monthly</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> $\pm$ </span><span class="si">{</span><span class="n">se</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> W/m$^2$/K"</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="n">slope_monthly</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">se</span> <span class="o">=</span> <span class="n">linregress</span><span class="p">(</span><span class="n">df_monthly</span><span class="p">[</span><span class="s2">"analysed_sst"</span><span class="p">],</span> <span class="n">df_monthly</span><span class="p">[</span><span class="s2">"GCS"</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_monthly</span><span class="p">[</span><span class="s2">"analysed_sst"</span><span class="p">],</span><span class="n">slope_monthly</span><span class="o">*</span><span class="n">df_monthly</span><span class="p">[</span><span class="s2">"analysed_sst"</span><span class="p">]</span><span class="o">+</span><span class="n">intercept</span><span class="p">,</span> 
+         <span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"dashed"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+         <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Linear regression = </span><span class="si">{</span><span class="n">slope_monthly</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> $\pm$ </span><span class="si">{</span><span class="n">se</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> W/m$^2$/K"</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -1431,18 +1301,13 @@ This Climate Data Record cover the entire globe with a resolution of 0.05°.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"July 2007 - Daily data"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"TCWV [mm]"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"clear-sky greenhouse effect G$_</span><span class="si">{CS}</span><span class="s2">$ [W/m$^2$]"</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="s2">"(a)"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="s1">'(a)'</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 
 <span class="c1"># Plot linear fit</span>
 <span class="n">slope_daily</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">se</span> <span class="o">=</span> <span class="n">linregress</span><span class="p">(</span><span class="n">df_daily</span><span class="p">[</span><span class="s2">"wvpa"</span><span class="p">],</span> <span class="n">df_daily</span><span class="p">[</span><span class="s2">"GCS"</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-    <span class="n">df_daily</span><span class="p">[</span><span class="s2">"wvpa"</span><span class="p">],</span>
-    <span class="n">slope_daily</span> <span class="o">*</span> <span class="n">df_daily</span><span class="p">[</span><span class="s2">"wvpa"</span><span class="p">]</span> <span class="o">+</span> <span class="n">intercept</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span>
-    <span class="n">linestyle</span><span class="o">=</span><span class="s2">"dashed"</span><span class="p">,</span>
-    <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">label</span><span class="o">=</span><span class="sa">rf</span><span class="s2">"Linear regression = </span><span class="si">{</span><span class="n">slope_daily</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> $\pm$ </span><span class="si">{</span><span class="n">se</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> W/m$^2$/mm"</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_daily</span><span class="p">[</span><span class="s2">"wvpa"</span><span class="p">],</span><span class="n">slope_daily</span><span class="o">*</span><span class="n">df_daily</span><span class="p">[</span><span class="s2">"wvpa"</span><span class="p">]</span><span class="o">+</span><span class="n">intercept</span><span class="p">,</span> 
+         <span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"dashed"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+         <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Linear regression = </span><span class="si">{</span><span class="n">slope_daily</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> $\pm$ </span><span class="si">{</span><span class="n">se</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> W/m$^2$/mm"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
@@ -1450,18 +1315,13 @@ This Climate Data Record cover the entire globe with a resolution of 0.05°.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"July 2007 - Monthly data"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"TCWV [mm]"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"clear-sky greenhouse effect G$_</span><span class="si">{CS}</span><span class="s2">$ [W/m$^2$]"</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="s2">"(b)"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="s1">'(b)'</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 
 <span class="c1"># Plot linear fit</span>
 <span class="n">slope_monthly</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">se</span> <span class="o">=</span> <span class="n">linregress</span><span class="p">(</span><span class="n">df_monthly</span><span class="p">[</span><span class="s2">"wvpa"</span><span class="p">],</span> <span class="n">df_monthly</span><span class="p">[</span><span class="s2">"GCS"</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-    <span class="n">df_monthly</span><span class="p">[</span><span class="s2">"wvpa"</span><span class="p">],</span>
-    <span class="n">slope_monthly</span> <span class="o">*</span> <span class="n">df_monthly</span><span class="p">[</span><span class="s2">"wvpa"</span><span class="p">]</span> <span class="o">+</span> <span class="n">intercept</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span>
-    <span class="n">linestyle</span><span class="o">=</span><span class="s2">"dashed"</span><span class="p">,</span>
-    <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">label</span><span class="o">=</span><span class="sa">rf</span><span class="s2">"Linear regression = </span><span class="si">{</span><span class="n">slope_monthly</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> $\pm$ </span><span class="si">{</span><span class="n">se</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> W/m$^2$/mm"</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_monthly</span><span class="p">[</span><span class="s2">"wvpa"</span><span class="p">],</span><span class="n">slope_monthly</span><span class="o">*</span><span class="n">df_monthly</span><span class="p">[</span><span class="s2">"wvpa"</span><span class="p">]</span><span class="o">+</span><span class="n">intercept</span><span class="p">,</span> 
+         <span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"dashed"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+         <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Linear regression = </span><span class="si">{</span><span class="n">slope_monthly</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> $\pm$ </span><span class="si">{</span><span class="n">se</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> W/m$^2$/mm"</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>

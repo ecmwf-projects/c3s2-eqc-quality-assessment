@@ -694,19 +694,23 @@
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-
 <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"CDSAPI_RC"</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">"~/cristofanelli_paolo/.cdsapirc"</span><span class="p">)</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mcolors</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mcolors</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.mpl.ticker</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cticker</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.feature</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cfeature</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">utils</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">xarray.groupers</span><span class="w"> </span><span class="kn">import</span> <span class="n">BinGrouper</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"seaborn-v0_8-notebook"</span><span class="p">)</span>
 
-<span class="n">download</span><span class="o">.</span><span class="n">INVALIDATE_CACHE</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Set True to invalidate the caching</span>
+<span class="n">download</span><span class="o">.</span><span class="n">INVALIDATE_CACHE</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1">#Set True to invalidate the caching</span>
 </pre></div>
 </div>
 </div>
@@ -744,7 +748,7 @@
 <span class="n">varname_cloud</span> <span class="o">=</span> <span class="s2">"cfc"</span>
 
 <span class="c1"># List of days to be considered (format 'YYYY-MM-DD')</span>
-<span class="n">selected_days</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"2022-09-26"</span><span class="p">,</span> <span class="s2">"2022-09-27"</span><span class="p">,</span> <span class="s2">"2022-09-28"</span><span class="p">]</span>
+<span class="n">selected_days</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"2022-09-26"</span><span class="p">,</span><span class="s2">"2022-09-27"</span><span class="p">,</span><span class="s2">"2022-09-28"</span><span class="p">]</span>
 <span class="n">selected_days_AK</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"2022-09-28"</span><span class="p">]</span>
 
 <span class="c1"># To define the range of map legend</span>
@@ -856,7 +860,7 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chunks</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"year"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"month"</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unks</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"year"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"month"</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
 <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"lon_slice"</span><span class="p">:</span> <span class="n">lon_slice</span><span class="p">,</span> <span class="s2">"lat_slice"</span><span class="p">:</span> <span class="n">lat_slice</span><span class="p">}</span>
 
 <span class="c1"># Methane</span>
@@ -869,8 +873,8 @@
         <span class="n">transform_func</span><span class="o">=</span><span class="n">regionalised_daily_bin_grouper</span><span class="p">,</span>
         <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="n">kwargs</span>
         <span class="o">|</span> <span class="p">{</span>
-            <span class="s2">"d_lon"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># This define the spatial resolution of longitude for the regular grid</span>
-            <span class="s2">"d_lat"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># This define the spatial resolution of Latitude for the regular grid</span>
+            <span class="s2">"d_lon"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="c1">#This define the spatial resolution of longitude for the regular grid</span>
+            <span class="s2">"d_lat"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="c1">#This define the spatial resolution of Latitude for the regular grid</span>
             <span class="s2">"lon1"</span><span class="p">:</span> <span class="mi">180</span><span class="p">,</span>
         <span class="p">},</span>
         <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">,</span>
@@ -930,11 +934,11 @@ As described by <a class="reference external" href="https://doi.org/10.5194/acp-
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># To plot CH4 data for sensors and selected days</span>
 <span class="k">for</span> <span class="n">sensor</span><span class="p">,</span> <span class="n">ds_sensor</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"sensor"</span><span class="p">):</span>
-    <span class="c1"># Select days of interest</span>
-    <span class="n">ds_sensor_filtered</span> <span class="o">=</span> <span class="n">ds_sensor</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">selected_days</span><span class="p">)</span>
-    <span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span><span class="n">ds_sensor_filtered</span><span class="p">[</span><span class="s2">"ch4"</span><span class="p">],</span> <span class="n">col</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">col_wrap</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">sensor</span><span class="w"> </span><span class="si">= }</span><span class="s2">"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="c1"># Select days of interest</span>
+        <span class="n">ds_sensor_filtered</span> <span class="o">=</span> <span class="n">ds_sensor</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">selected_days</span><span class="p">)</span>
+        <span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span><span class="n">ds_sensor_filtered</span><span class="p">[</span><span class="s2">"ch4"</span><span class="p">],</span> <span class="n">col</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">col_wrap</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">sensor</span><span class="w"> </span><span class="si">= }</span><span class="s2">"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
