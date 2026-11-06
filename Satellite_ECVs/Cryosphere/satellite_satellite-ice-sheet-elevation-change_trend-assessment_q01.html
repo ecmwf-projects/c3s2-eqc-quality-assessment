@@ -715,18 +715,19 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">colors</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.feature</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cfeature</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">scipy.stats</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">download</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">colors</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"seaborn-v0_8-notebook"</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -765,7 +766,7 @@
         <span class="n">request</span> <span class="o">|</span> <span class="p">{</span><span class="s2">"domain"</span><span class="p">:</span> <span class="n">domain</span><span class="p">},</span>
     <span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">'Download completed.'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Download completed."</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -846,14 +847,16 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">time_bds</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">[</span><span class="s1">'greenland'</span><span class="p">]</span>
-<span class="n">time_bounds_values</span> <span class="o">=</span> <span class="n">time_bds</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-<span class="n">begin_period</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">time_bounds_values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'T'</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">"</span><span class="p">)</span>
-<span class="n">end_period</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">time_bounds_values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'T'</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">"</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">time_bds</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">[</span><span class="s2">"greenland"</span><span class="p">]</span>
+<span class="n">time_bounds_values</span> <span class="o">=</span> <span class="n">time_bds</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">begin_period</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">time_bounds_values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"T"</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">end_period</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">time_bounds_values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"T"</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">"</span><span class="p">)</span>
 <span class="n">time_difference</span> <span class="o">=</span> <span class="n">end_period</span> <span class="o">-</span> <span class="n">begin_period</span>
 <span class="n">decimal_years</span> <span class="o">=</span> <span class="n">time_difference</span><span class="o">.</span><span class="n">days</span> <span class="o">/</span> <span class="mf">365.25</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'The begin period of the dataset is </span><span class="si">{</span><span class="n">begin_period</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s1"> and the end period is </span><span class="si">{</span><span class="n">end_period</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s1">, which is a total of time </span><span class="si">{</span><span class="n">decimal_years</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> years.'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">"The begin period of the dataset is </span><span class="si">{</span><span class="n">begin_period</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2"> and the end period is </span><span class="si">{</span><span class="n">end_period</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">, which is a total of time </span><span class="si">{</span><span class="n">decimal_years</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> years."</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -880,7 +883,7 @@
     <span class="n">da</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">sec_name</span><span class="p">]</span>
     <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"long_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Surface elevation change rate"</span>
 
-    <span class="k">if</span> <span class="s1">'greenland'</span> <span class="ow">in</span> <span class="n">domains</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">"greenland"</span> <span class="ow">in</span> <span class="n">domains</span><span class="p">:</span>
         <span class="n">da_dh</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"dh"</span><span class="p">]</span>
         <span class="n">da_dh</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"long_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Surface elevation change"</span>
         <span class="n">da_dh_ok</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"dhdt_ok"</span><span class="p">]</span>
@@ -918,14 +921,15 @@
         <span class="n">ds</span><span class="p">[</span><span class="s2">"high_slope"</span><span class="p">],</span>
     <span class="p">]</span>
 
-    <span class="k">if</span> <span class="s1">'greenland'</span> <span class="ow">in</span> <span class="n">domains</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">"greenland"</span> <span class="ow">in</span> <span class="n">domains</span><span class="p">:</span>
         <span class="n">data_vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">da_dh</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">"dh"</span><span class="p">))</span>
         <span class="n">data_vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">da_dh_ok</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">"dhdt_ok"</span><span class="p">))</span>
         <span class="n">data_vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">da_dist</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">"dhdt_distance"</span><span class="p">))</span>
 
     <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">data_vars</span> <span class="o">+</span> <span class="n">coeffs</span><span class="p">)</span>
-    
+
     <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
 
 <span class="c1"># Select the specific dataset you want to process, e.g., "greenland"</span>
 <span class="n">datasets_original</span> <span class="o">=</span> <span class="n">datasets</span>
@@ -933,30 +937,57 @@
 <span class="n">datasets</span> <span class="o">=</span> <span class="n">get_maps</span><span class="p">(</span><span class="n">selected_ds</span><span class="p">,</span> <span class="n">domains</span><span class="p">)</span>
 <span class="n">datasets_get_maps</span> <span class="o">=</span> <span class="n">datasets</span>
 
+
 <span class="c1"># Define plotting function</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">plot_maps_single</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">suptitle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"cmap"</span><span class="p">,</span> <span class="s2">"RdBu"</span><span class="p">)</span>
     <span class="c1"># Create subplots with Polar Stereographic projection</span>
-    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">'projection'</span><span class="p">:</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">Stereographic</span><span class="p">(</span><span class="n">central_longitude</span><span class="o">=-</span><span class="mi">45</span><span class="p">,</span> <span class="n">central_latitude</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">true_scale_latitude</span><span class="o">=</span><span class="mi">70</span><span class="p">)})</span>
-    
-    <span class="c1"># Plot the data </span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
+        <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+        <span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">"projection"</span><span class="p">:</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">Stereographic</span><span class="p">(</span>
+                <span class="n">central_longitude</span><span class="o">=-</span><span class="mi">45</span><span class="p">,</span> <span class="n">central_latitude</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">true_scale_latitude</span><span class="o">=</span><span class="mi">70</span>
+            <span class="p">)</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Plot the data</span>
     <span class="n">subset_da</span> <span class="o">=</span> <span class="n">da</span>
     <span class="n">im</span> <span class="o">=</span> <span class="n">subset_da</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">add_colorbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    
+
     <span class="c1"># Set extent and plot features</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">([</span><span class="n">da</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">'x'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">da</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">'x'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">da</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">'y'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">da</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">'y'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">max</span><span class="p">()],</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">Stereographic</span><span class="p">(</span><span class="n">central_longitude</span><span class="o">=-</span><span class="mi">45</span><span class="p">,</span> <span class="n">central_latitude</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">true_scale_latitude</span><span class="o">=</span><span class="mi">70</span><span class="p">))</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">LAND</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'black'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'white'</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">OCEAN</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'lightblue'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">da</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s2">"x"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+            <span class="n">da</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s2">"x"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+            <span class="n">da</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s2">"y"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+            <span class="n">da</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s2">"y"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+        <span class="p">],</span>
+        <span class="n">ccrs</span><span class="o">.</span><span class="n">Stereographic</span><span class="p">(</span>
+            <span class="n">central_longitude</span><span class="o">=-</span><span class="mi">45</span><span class="p">,</span> <span class="n">central_latitude</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">true_scale_latitude</span><span class="o">=</span><span class="mi">70</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">LAND</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"white"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">OCEAN</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"lightblue"</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">suptitle</span><span class="p">:</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">suptitle</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span><span class="n">draw_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">)</span>
-    
+    <span class="n">ax</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span>
+        <span class="n">draw_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"gray"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span>
+    <span class="p">)</span>
+
     <span class="c1"># Add colorbar</span>
-    <span class="n">cb</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s1">'both'</span><span class="p">,</span> <span class="n">shrink</span><span class="o">=</span><span class="mf">0.49</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'long_name'</span><span class="p">]</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'units'</span><span class="p">]</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span>
+        <span class="n">im</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+        <span class="n">extend</span><span class="o">=</span><span class="s2">"both"</span><span class="p">,</span>
+        <span class="n">shrink</span><span class="o">=</span><span class="mf">0.49</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'long_name'</span><span class="p">]</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'units'</span><span class="p">]</span><span class="si">}</span><span class="s2">]"</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
 
 <span class="c1"># Define the function for plotting a time series</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_timeseries</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
@@ -966,11 +997,11 @@
     <span class="n">da</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">sec_name</span><span class="p">]</span>
     <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"long_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Surface elevation change rate"</span>
 
-    <span class="k">if</span> <span class="s1">'greenland'</span> <span class="ow">in</span> <span class="n">domains</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">"greenland"</span> <span class="ow">in</span> <span class="n">domains</span><span class="p">:</span>
         <span class="n">da_dh</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"dh"</span><span class="p">]</span>
         <span class="n">da_dh</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"long_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Surface elevation change"</span>
         <span class="n">da_dh</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"m"</span>
-        <span class="n">da_vol</span> <span class="o">=</span> <span class="p">(</span><span class="n">da</span><span class="o">*</span><span class="n">ds</span><span class="p">[</span><span class="s2">"area"</span><span class="p">])</span><span class="o">/</span><span class="mf">1e9</span>
+        <span class="n">da_vol</span> <span class="o">=</span> <span class="p">(</span><span class="n">da</span> <span class="o">*</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"area"</span><span class="p">])</span> <span class="o">/</span> <span class="mf">1e9</span>
         <span class="n">da_vol</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"long_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Volume change rate"</span>
         <span class="n">da_vol</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"km³"</span>
 
@@ -988,20 +1019,21 @@
         <span class="n">missing</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">"missing"</span><span class="p">),</span>
     <span class="p">]</span>
 
-    <span class="k">if</span> <span class="s1">'greenland'</span> <span class="ow">in</span> <span class="n">domains</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">"greenland"</span> <span class="ow">in</span> <span class="n">domains</span><span class="p">:</span>
         <span class="n">data_vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">da_dh</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">"dh"</span><span class="p">))</span>
         <span class="n">data_vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">da_vol</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">"dvol"</span><span class="p">))</span>
 
     <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">data_vars</span><span class="p">)</span>
 
     <span class="c1"># Apply mean to all variables except 'dvol', which will use sum</span>
-    <span class="n">mean_ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="s1">'dvol'</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="s2">"x"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">),</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">sum_dvol</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">'dvol'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="s2">"x"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">),</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    
+    <span class="n">mean_ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="s2">"dvol"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="s2">"x"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">),</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">sum_dvol</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"dvol"</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="s2">"x"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">),</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
     <span class="c1"># Combine the results</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="n">mean_ds</span><span class="p">,</span> <span class="n">sum_dvol</span><span class="p">])</span>
 
     <span class="k">return</span> <span class="n">ds</span>
+
 
 <span class="n">selected_ds</span> <span class="o">=</span> <span class="n">datasets_original</span><span class="p">[</span><span class="s2">"greenland"</span><span class="p">]</span>
 <span class="n">datasets_timeseries</span> <span class="o">=</span> <span class="n">get_timeseries</span><span class="p">(</span><span class="n">selected_ds</span><span class="p">)</span>
@@ -1060,7 +1092,9 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'The Greenland ice sheet-wide average surface elevation change rate value between </span><span class="si">{</span><span class="n">begin_period</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s1"> and </span><span class="si">{</span><span class="n">end_period</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s1"> is </span><span class="si">{</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">values</span><span class="p">))</span><span class="si">:</span><span class="s1">.5f</span><span class="si">}</span><span class="s1"> m/yr.'</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">"The Greenland ice sheet-wide average surface elevation change rate value between </span><span class="si">{</span><span class="n">begin_period</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">end_period</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">values</span><span class="p">))</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> m/yr."</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1099,14 +1133,14 @@
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Given datasets_original is the dataset dictionary</span>
-<span class="n">greenland_dataset</span> <span class="o">=</span> <span class="n">datasets_original</span><span class="p">[</span><span class="s1">'greenland'</span><span class="p">]</span>
+<span class="n">greenland_dataset</span> <span class="o">=</span> <span class="n">datasets_original</span><span class="p">[</span><span class="s2">"greenland"</span><span class="p">]</span>
 
 <span class="c1"># Extract the 'dh' and 'area' variables</span>
-<span class="n">dh_variable</span> <span class="o">=</span> <span class="n">greenland_dataset</span><span class="p">[</span><span class="s1">'dh'</span><span class="p">]</span>
-<span class="n">area_variable</span> <span class="o">=</span> <span class="n">greenland_dataset</span><span class="p">[</span><span class="s1">'area'</span><span class="p">]</span>
+<span class="n">dh_variable</span> <span class="o">=</span> <span class="n">greenland_dataset</span><span class="p">[</span><span class="s2">"dh"</span><span class="p">]</span>
+<span class="n">area_variable</span> <span class="o">=</span> <span class="n">greenland_dataset</span><span class="p">[</span><span class="s2">"area"</span><span class="p">]</span>
 
 <span class="c1"># Sum over the x and y dimensions and convert to km^3</span>
-<span class="n">dh_summed_time_series</span> <span class="o">=</span> <span class="p">(</span><span class="n">area_variable</span><span class="o">*</span><span class="n">dh_variable</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">'x'</span><span class="p">,</span> <span class="s1">'y'</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="mf">1e9</span><span class="p">)</span>
+<span class="n">dh_summed_time_series</span> <span class="o">=</span> <span class="p">(</span><span class="n">area_variable</span> <span class="o">*</span> <span class="n">dh_variable</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s2">"x"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1e9</span><span class="p">)</span>
 <span class="n">dh_summed_time_series</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"long_name"</span><span class="p">:</span> <span class="sa">r</span><span class="s2">"Cumulative volume change"</span><span class="p">,</span>
     <span class="s2">"units"</span><span class="p">:</span> <span class="s2">"km³"</span><span class="p">,</span>
@@ -1114,12 +1148,12 @@
 
 <span class="c1"># Plot the resulting time series</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="n">dh_summed_time_series</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'black'</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Cumulative altimetric volume change of the Greenland Ice Sheet over time'</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">datasets_timeseries</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]),</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">datasets_timeseries</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]))</span>
+<span class="n">dh_summed_time_series</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Cumulative altimetric volume change of the Greenland Ice Sheet over time"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">datasets_timeseries</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">datasets_timeseries</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]))</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Moving window center time (CE)"</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Cumulative altimetric volume change V$_a$ (km$^3$)'</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'#95a5a6'</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">'-'</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Cumulative altimetric volume change V$_a$ (km$^3$)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"#95a5a6"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1171,12 +1205,16 @@
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="n">error_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">datasets</span><span class="p">[</span><span class="s1">'sec_err'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">error_data</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'black'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Histogram of ice sheet surface elevation change rate error estimates (precision errors)'</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">'Surface elevation change rate error estimate $\varepsilon_{\frac</span><span class="si">{dh}{dt}</span><span class="s1">}$ (m/yr)'</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Frequency'</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'#95a5a6'</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">'-'</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">error_data</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">[</span><span class="s2">"sec_err"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">error_data</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+    <span class="s2">"Histogram of ice sheet surface elevation change rate error estimates (precision errors)"</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s2">"Surface elevation change rate error estimate $\varepsilon_{\frac</span><span class="si">{dh}{dt}</span><span class="s2">}$ (m/yr)"</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Frequency"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"#95a5a6"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1233,7 +1271,9 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'The Greenland ice sheet-wide average surface elevation change rate error (standard deviation) between </span><span class="si">{</span><span class="n">begin_period</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s1"> and </span><span class="si">{</span><span class="n">end_period</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s1"> is </span><span class="si">{</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">values</span><span class="p">))</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> m/yr.'</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">"The Greenland ice sheet-wide average surface elevation change rate error (standard deviation) between </span><span class="si">{</span><span class="n">begin_period</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">end_period</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">values</span><span class="p">))</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> m/yr."</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1253,12 +1293,17 @@
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">datasets_timeseries</span><span class="p">[</span><span class="s2">"time"</span><span class="p">],</span><span class="n">datasets_timeseries</span><span class="p">[</span><span class="s2">"sec_err"</span><span class="p">],</span><span class="s1">'r'</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'#95a5a6'</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">'-'</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">datasets_timeseries</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]),</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">datasets_timeseries</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">datasets_timeseries</span><span class="p">[</span><span class="s2">"time"</span><span class="p">],</span> <span class="n">datasets_timeseries</span><span class="p">[</span><span class="s2">"sec_err"</span><span class="p">],</span> <span class="s2">"r"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"#95a5a6"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">datasets_timeseries</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">datasets_timeseries</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]))</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Moving window center time (CE)"</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"Mean surface elevation change rate error $\overline {\epsilon_{\frac</span><span class="si">{dh}{dt}</span><span class="s2">}}$ (m/yr)"</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Ice sheet-wide average surface elevation change rate error time series"</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">);</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s2">"Mean surface elevation change rate error $\overline {\epsilon_{\frac</span><span class="si">{dh}{dt}</span><span class="s2">}}$ (m/yr)"</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
+    <span class="s2">"Ice sheet-wide average surface elevation change rate error time series"</span><span class="p">,</span>
+    <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1282,28 +1327,32 @@
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datasets</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">'high_slope'</span><span class="p">:</span> <span class="n">datasets</span><span class="p">[</span><span class="s1">'high_slope'</span><span class="p">],</span>  
-    <span class="s1">'sec_err'</span><span class="p">:</span> <span class="n">datasets</span><span class="p">[</span><span class="s1">'sec_err'</span><span class="p">],</span>
-    <span class="s1">'sec'</span><span class="p">:</span> <span class="n">datasets</span><span class="p">[</span><span class="s1">'sec'</span><span class="p">]</span>
+    <span class="s2">"high_slope"</span><span class="p">:</span> <span class="n">datasets</span><span class="p">[</span><span class="s2">"high_slope"</span><span class="p">],</span>
+    <span class="s2">"sec_err"</span><span class="p">:</span> <span class="n">datasets</span><span class="p">[</span><span class="s2">"sec_err"</span><span class="p">],</span>
+    <span class="s2">"sec"</span><span class="p">:</span> <span class="n">datasets</span><span class="p">[</span><span class="s2">"sec"</span><span class="p">],</span>
 <span class="p">}</span>
 
 <span class="c1"># Flatten the arrays and remove NaN values for the boxplot</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-    <span class="s1">'slopemask_gris'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">datasets</span><span class="p">[</span><span class="s2">"high_slope"</span><span class="p">]),</span>
-    <span class="s1">'mean_sec_err_gris'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">datasets</span><span class="p">[</span><span class="s2">"sec_err"</span><span class="p">])</span>
-<span class="p">})</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">"slopemask_gris"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">datasets</span><span class="p">[</span><span class="s2">"high_slope"</span><span class="p">]),</span>
+        <span class="s2">"mean_sec_err_gris"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">datasets</span><span class="p">[</span><span class="s2">"sec_err"</span><span class="p">]),</span>
+    <span class="p">}</span>
+<span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 
 <span class="c1"># Boxplot</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">'slopemask_gris'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">'mean_sec_err_gris'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">'Surface elevation change rate error $\varepsilon_{\frac</span><span class="si">{dh}{dt}</span><span class="s1">}$ (m/yr)'</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Slope class'</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">"slopemask_gris"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"mean_sec_err_gris"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s2">"Surface elevation change rate error $\varepsilon_{\frac</span><span class="si">{dh}{dt}</span><span class="s2">}$ (m/yr)"</span>
+<span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Slope class"</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Surface elevation change rate error vs. slope class"</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="s2">"Slope &lt; 2°"</span><span class="p">,</span> <span class="s2">"2° &lt; Slope &lt; 5°"</span><span class="p">,</span> <span class="s2">"Slope &gt; 5°"</span><span class="p">])</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">'log'</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'#95a5a6'</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">'-'</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">"log"</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"#95a5a6"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
 
 <span class="c1"># Scatter plot</span>
 <span class="n">sec_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">datasets</span><span class="p">[</span><span class="s2">"sec_err"</span><span class="p">])</span>
@@ -1311,13 +1360,17 @@
 
 <span class="c1"># Remove NaN values for the scatter plot</span>
 <span class="n">mask</span> <span class="o">=</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">sec_err</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">sec</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">sec</span><span class="p">[</span><span class="n">mask</span><span class="p">]),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sec_err</span><span class="p">[</span><span class="n">mask</span><span class="p">]),</span> <span class="n">color</span><span class="o">=</span><span class="s1">'blue'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">'Absolute surface elevation change rate $|\frac</span><span class="si">{dh}{dt}</span><span class="s1">|$ (m/yr)'</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">'Surface elevation change rate error $\varepsilon_{\frac</span><span class="si">{dh}{dt}</span><span class="s1">}$ (m/yr)'</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Surface elevation change rate error vs. surface elevation change rate magnitude"</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">'log'</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">'log'</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'#95a5a6'</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">'-'</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">sec</span><span class="p">[</span><span class="n">mask</span><span class="p">]),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sec_err</span><span class="p">[</span><span class="n">mask</span><span class="p">]),</span> <span class="n">color</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"Absolute surface elevation change rate $|\frac</span><span class="si">{dh}{dt}</span><span class="s2">|$ (m/yr)"</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s2">"Surface elevation change rate error $\varepsilon_{\frac</span><span class="si">{dh}{dt}</span><span class="s2">}$ (m/yr)"</span>
+<span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
+    <span class="s2">"Surface elevation change rate error vs. surface elevation change rate magnitude"</span>
+<span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">"log"</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">"log"</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"#95a5a6"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -1339,13 +1392,15 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">datasets_original</span><span class="p">[</span><span class="s1">'greenland'</span><span class="p">]</span>
-<span class="n">dhdt_uncert</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">'dhdt_uncert'</span><span class="p">]</span>
-<span class="n">num_pixels_below_threshold</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">dhdt_uncert</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">datasets_original</span><span class="p">[</span><span class="s2">"greenland"</span><span class="p">]</span>
+<span class="n">dhdt_uncert</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"dhdt_uncert"</span><span class="p">]</span>
+<span class="n">num_pixels_below_threshold</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">dhdt_uncert</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
 <span class="n">total_pixels</span> <span class="o">=</span> <span class="n">dhdt_uncert</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
 <span class="n">percentage_below_threshold</span> <span class="o">=</span> <span class="p">(</span><span class="n">num_pixels_below_threshold</span> <span class="o">/</span> <span class="n">total_pixels</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The absolute number of pixels with a surface elevation change rate precision error (2σ) &lt; 0.1 m/yr is </span><span class="si">{</span><span class="n">num_pixels_below_threshold</span><span class="si">}</span><span class="s2"> pixels or </span><span class="si">{</span><span class="n">percentage_below_threshold</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%."</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">"The absolute number of pixels with a surface elevation change rate precision error (2σ) &lt; 0.1 m/yr is </span><span class="si">{</span><span class="n">num_pixels_below_threshold</span><span class="si">}</span><span class="s2"> pixels or </span><span class="si">{</span><span class="n">percentage_below_threshold</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%."</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1372,7 +1427,9 @@
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Apply the function to the surface elevation change linear trends</span>
-<span class="n">da</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">datasets_get_maps</span><span class="p">[</span><span class="s2">"sec"</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">datasets_get_maps</span><span class="p">[</span><span class="s2">"linear_trend"</span><span class="p">])</span>  
+<span class="n">da</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+    <span class="n">datasets_get_maps</span><span class="p">[</span><span class="s2">"sec"</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">datasets_get_maps</span><span class="p">[</span><span class="s2">"linear_trend"</span><span class="p">]</span>
+<span class="p">)</span>
 <span class="n">da</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"long_name"</span><span class="p">:</span> <span class="sa">r</span><span class="s2">"Surface elevation change rate trend"</span><span class="p">,</span>
     <span class="s2">"units"</span><span class="p">:</span> <span class="s2">"m/yr"</span><span class="p">,</span>
@@ -1405,7 +1462,9 @@
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Apply the function to the surface elevation change quadratic trends</span>
-<span class="n">da</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">datasets_get_maps</span><span class="p">[</span><span class="s2">"sec"</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">datasets_get_maps</span><span class="p">[</span><span class="s2">"acceleration"</span><span class="p">])</span>  
+<span class="n">da</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+    <span class="n">datasets_get_maps</span><span class="p">[</span><span class="s2">"sec"</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">datasets_get_maps</span><span class="p">[</span><span class="s2">"acceleration"</span><span class="p">]</span>
+<span class="p">)</span>
 <span class="n">da</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"long_name"</span><span class="p">:</span> <span class="sa">r</span><span class="s2">"Surface elevation change rate acceleration"</span><span class="p">,</span>
     <span class="s2">"units"</span><span class="p">:</span> <span class="s2">"m yr$^{-2}$"</span><span class="p">,</span>
@@ -1456,7 +1515,7 @@
                 <span class="s2">"Quadratic trend"</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">'blue'</span><span class="p">,</span> <span class="s1">'red'</span><span class="p">),</span>  <span class="c1"># Specify colors for each trend</span>
+            <span class="p">(</span><span class="s2">"blue"</span><span class="p">,</span> <span class="s2">"red"</span><span class="p">),</span>  <span class="c1"># Specify colors for each trend</span>
         <span class="p">):</span>
             <span class="c1"># Compute coefficients</span>
             <span class="n">coeffs</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">degree</span><span class="p">)[</span><span class="s2">"polyfit_coefficients"</span><span class="p">]</span>
@@ -1476,7 +1535,7 @@
                         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">deg</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
                     <span class="nb">print</span><span class="p">(</span>
                         <span class="sa">f</span><span class="s2">"The </span><span class="si">{</span><span class="n">quantity</span><span class="si">}</span><span class="s2"> of the ice sheet </span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'long_name'</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2"> "</span>
-                        <span class="sa">f</span><span class="s2">"is </span><span class="si">{</span><span class="n">degree</span><span class="o">*</span><span class="n">coeff</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">units</span><span class="si">}</span><span class="s2">."</span>
+                        <span class="sa">f</span><span class="s2">"is </span><span class="si">{</span><span class="n">degree</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">coeff</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">units</span><span class="si">}</span><span class="s2">."</span>
                     <span class="p">)</span>
                     <span class="k">if</span> <span class="n">deg</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                         <span class="n">_</span><span class="p">,</span> <span class="n">p_value</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">kendalltau</span><span class="p">(</span><span class="n">da</span><span class="p">[</span><span class="s2">"time"</span><span class="p">],</span> <span class="n">da</span><span class="p">)</span>
@@ -1497,30 +1556,39 @@
                             <span class="p">)</span>
                         <span class="p">)</span>
                 <span class="n">equation</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">coeff</span><span class="p">)</span><span class="si">:</span><span class="s2">+.3f</span><span class="si">}{</span><span class="s1">'x'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">deg</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">''</span><span class="si">}{</span><span class="sa">f</span><span class="s1">'$^</span><span class="si">{</span><span class="n">deg</span><span class="si">}</span><span class="s1">$'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">deg</span><span class="o">&gt;</span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">''</span><span class="si">}</span><span class="s2">"</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">coeff</span><span class="p">)</span><span class="si">:</span><span class="s2">+.3f</span><span class="si">}{</span><span class="s1">'x'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">deg</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">''</span><span class="si">}{</span><span class="sa">f</span><span class="s1">'$^</span><span class="si">{</span><span class="n">deg</span><span class="si">}</span><span class="s1">$'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">deg</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">''</span><span class="si">}</span><span class="s2">"</span>
                 <span class="p">)</span>
             <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="s1">' '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">equation</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="si">}</span><span class="s2">"</span>
             <span class="n">fit</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">da</span><span class="p">[</span><span class="s2">"time"</span><span class="p">],</span> <span class="n">coeffs</span><span class="p">)</span>
             <span class="n">fit</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
-        <span class="n">da</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">"Actual data"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'black'</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">da</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]),</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">da</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]))</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">ds</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'long_name'</span><span class="p">]</span><span class="si">}</span><span class="s2"> of the Greenland Ice Sheet and its trends"</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'#95a5a6'</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">'-'</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+        <span class="n">da</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">"Actual data"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">da</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">da</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">ds</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'long_name'</span><span class="p">]</span><span class="si">}</span><span class="s2"> of the Greenland Ice Sheet and its trends"</span>
+        <span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"#95a5a6"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 
     <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span>
 
-<span class="n">datasets_timeseries_trends</span> <span class="o">=</span> <span class="n">datasets_timeseries</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">([</span><span class="n">var</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">datasets_timeseries</span><span class="o">.</span><span class="n">data_vars</span> <span class="k">if</span> <span class="n">var</span> <span class="o">!=</span> <span class="s1">'sec'</span><span class="p">])</span>
+
+<span class="n">datasets_timeseries_trends</span> <span class="o">=</span> <span class="n">datasets_timeseries</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">var</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">datasets_timeseries</span><span class="o">.</span><span class="n">data_vars</span> <span class="k">if</span> <span class="n">var</span> <span class="o">!=</span> <span class="s2">"sec"</span><span class="p">]</span>
+<span class="p">)</span>
 <span class="n">datasets_timeseries_trends</span><span class="p">[</span><span class="s2">"sec"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"long_name"</span><span class="p">:</span> <span class="sa">r</span><span class="s2">"Cumulative average surface elevation change"</span><span class="p">,</span>
     <span class="s2">"units"</span><span class="p">:</span> <span class="s2">"m"</span><span class="p">,</span>
 <span class="p">}</span>
-<span class="n">datasets_timeseries_trends</span> <span class="o">=</span> <span class="n">datasets_timeseries_trends</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">dh_summed</span><span class="o">=</span><span class="n">datasets_timeseries</span><span class="p">[</span><span class="s2">"dvol"</span><span class="p">])</span>
+<span class="n">datasets_timeseries_trends</span> <span class="o">=</span> <span class="n">datasets_timeseries_trends</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+    <span class="n">dh_summed</span><span class="o">=</span><span class="n">datasets_timeseries</span><span class="p">[</span><span class="s2">"dvol"</span><span class="p">]</span>
+<span class="p">)</span>
 <span class="n">datasets_timeseries_trends</span><span class="p">[</span><span class="s2">"dh_summed"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"long_name"</span><span class="p">:</span> <span class="sa">r</span><span class="s2">"Cumulative altimetric volume change"</span><span class="p">,</span>
     <span class="s2">"units"</span><span class="p">:</span> <span class="s2">"km³"</span><span class="p">,</span>
 <span class="p">}</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plot_trends</span><span class="p">(</span><span class="n">datasets_timeseries_trends</span><span class="p">,</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">datasets_timeseries_trends</span><span class="p">[</span><span class="s2">"sec"</span><span class="p">]))</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plot_trends</span><span class="p">(</span>
+    <span class="n">datasets_timeseries_trends</span><span class="p">,</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">datasets_timeseries_trends</span><span class="p">[</span><span class="s2">"sec"</span><span class="p">])</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>

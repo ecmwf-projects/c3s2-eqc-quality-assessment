@@ -686,25 +686,21 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.feature</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cfeature</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">gzip</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">io</span><span class="w"> </span><span class="kn">import</span> <span class="n">StringIO</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.mpl.ticker</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cticker</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.cbook</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mcolors</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mpatches</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.dates</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mdates</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mpatches</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pymannkendall</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mk</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">utils</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">linregress</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">Line2D</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">utils</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">mean_squared_error</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span><span class="o">,</span><span class="w"> </span><span class="nn">gzip</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">io</span><span class="w"> </span><span class="kn">import</span> <span class="n">StringIO</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"seaborn-v0_8-notebook"</span><span class="p">)</span>
@@ -840,33 +836,30 @@
 <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
 
 <span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span>
-    <span class="n">lons</span><span class="p">,</span>
-    <span class="n">lats</span><span class="p">,</span>
-    <span class="n">indexed_lakeid</span><span class="p">,</span>
-    <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span>
-    <span class="n">shading</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span>
-    <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
+    <span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">indexed_lakeid</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">shading</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
 <span class="p">)</span>
 
 <span class="c1"># ------------------------------------------------------------------</span>
 <span class="c1"># Plot buoys</span>
 <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">)</span> <span class="ow">in</span> <span class="n">buoy_coords</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-        <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span>
+        <span class="n">lon</span><span class="p">,</span>
+        <span class="n">lat</span><span class="p">,</span>
         <span class="n">marker</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span>
         <span class="n">color</span><span class="o">=</span><span class="s2">"C1"</span><span class="p">,</span>
         <span class="n">markersize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
         <span class="n">markeredgewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
-        <span class="n">zorder</span><span class="o">=</span><span class="mi">10</span>
+        <span class="n">zorder</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
-        <span class="n">lon</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span>
+        <span class="n">lon</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">lat</span><span class="p">,</span>
         <span class="n">name</span><span class="p">,</span>
         <span class="n">color</span><span class="o">=</span><span class="s2">"C1"</span><span class="p">,</span>
         <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
         <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
-        <span class="n">zorder</span><span class="o">=</span><span class="mi">11</span>
+        <span class="n">zorder</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span>
     <span class="p">)</span>
 
 <span class="c1"># ------------------------------------------------------------------</span>
@@ -886,12 +879,7 @@
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">uid</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">unique_ids</span><span class="p">)</span>
 <span class="p">]</span>
 
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
-    <span class="n">handles</span><span class="o">=</span><span class="n">legend_handles</span><span class="p">,</span>
-    <span class="n">loc</span><span class="o">=</span><span class="s2">"upper left"</span><span class="p">,</span>
-    <span class="n">title</span><span class="o">=</span><span class="s2">"Lake ID CCI"</span><span class="p">,</span>
-    <span class="n">frameon</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">legend_handles</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"upper left"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Lake ID CCI"</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"ID Identification for Lake Superior and Outliers"</span><span class="p">)</span>
 
@@ -947,8 +935,10 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spatial_mean</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">filtered_ds</span><span class="p">[</span><span class="s2">"lake_surface_water_temperature"</span><span class="p">])</span>
-<span class="n">summer_mean</span> <span class="o">=</span> <span class="n">spatial_mean</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'time.year'</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">time_weighted_mean</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spatial_mean</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span>
+    <span class="n">filtered_ds</span><span class="p">[</span><span class="s2">"lake_surface_water_temperature"</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">summer_mean</span> <span class="o">=</span> <span class="n">spatial_mean</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"time.year"</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">time_weighted_mean</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -964,8 +954,8 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">summer_mean</span><span class="o">.</span><span class="n">values</span><span class="o">-</span><span class="mf">273.15</span>
-<span class="n">years</span> <span class="o">=</span> <span class="n">summer_mean</span><span class="p">[</span><span class="s1">'year'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">summer_mean</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="mf">273.15</span>
+<span class="n">years</span> <span class="o">=</span> <span class="n">summer_mean</span><span class="p">[</span><span class="s2">"year"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 
 <span class="c1"># Run Theil-Sen + Mann-Kendall</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">original_test</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -978,12 +968,17 @@
 <span class="n">trend_line</span> <span class="o">=</span> <span class="n">intercept</span> <span class="o">+</span> <span class="n">slope</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
 
 <span class="c1"># Plot</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="s1">'o-'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Observed temperature'</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">trend_line</span><span class="p">,</span> <span class="s1">'C0--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'Slope: </span><span class="si">{</span><span class="n">slope</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"> K/year</span><span class="se">\n</span><span class="s1">p-value: </span><span class="si">{</span><span class="n">p_value</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Year'</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Mean summer LSWT (K)'</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Summer LSWT trend in Lake Superior'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="s2">"o-"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Observed temperature"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">years</span><span class="p">,</span>
+    <span class="n">trend_line</span><span class="p">,</span>
+    <span class="s2">"C0--"</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Slope: </span><span class="si">{</span><span class="n">slope</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> K/year</span><span class="se">\n</span><span class="s2">p-value: </span><span class="si">{</span><span class="n">p_value</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Year"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Mean summer LSWT (K)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Summer LSWT trend in Lake Superior"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -1026,9 +1021,12 @@
 
     <span class="c1"># Find header: first non-empty line whose first token contains letters</span>
     <span class="n">header_idx</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span>
-        <span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">ln</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">'#'</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ln</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
-         <span class="k">if</span> <span class="n">ln</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="n">ch</span><span class="o">.</span><span class="n">isalpha</span><span class="p">()</span> <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">ln</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">'#'</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])),</span>
-        <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="p">(</span>
+            <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">ln</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">"#"</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ln</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">ln</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="n">ch</span><span class="o">.</span><span class="n">isalpha</span><span class="p">()</span> <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">ln</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">"#"</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="p">),</span>
+        <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
     <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">header</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1036,7 +1034,11 @@
 
     <span class="n">cols</span> <span class="o">=</span> <span class="n">header</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
     <span class="c1"># Extract data lines (non-empty, non-comment lines after header)</span>
-    <span class="n">data_lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">ln</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span> <span class="k">for</span> <span class="n">ln</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="n">header_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span> <span class="k">if</span> <span class="n">ln</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">ln</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'#'</span><span class="p">)]</span>
+    <span class="n">data_lines</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">ln</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">ln</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="n">header_idx</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:]</span>
+        <span class="k">if</span> <span class="n">ln</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">ln</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"#"</span><span class="p">)</span>
+    <span class="p">]</span>
 
     <span class="k">return</span> <span class="n">cols</span><span class="p">,</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_lines</span><span class="p">),</span> <span class="n">header_idx</span>
 
@@ -1054,7 +1056,7 @@
 <span class="sd">        pd.DataFrame: Columns ['datetime', 'WTMP'], or None if no usable data.</span>
 <span class="sd">    """</span>
     <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"https://www.ndbc.noaa.gov/data/historical/stdmet/</span><span class="si">{</span><span class="n">station</span><span class="si">}</span><span class="s2">h</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">.txt.gz"</span>
-    <span class="c1">#print(f"Downloading {url} ...", end=" ")</span>
+    <span class="c1"># print(f"Downloading {url} ...", end=" ")</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
@@ -1112,8 +1114,14 @@
     <span class="c1"># Build datetime column</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">dt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
-            <span class="nb">dict</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">"YEAR"</span><span class="p">],</span> <span class="n">month</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">"MM"</span><span class="p">],</span> <span class="n">day</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">"DD"</span><span class="p">],</span> <span class="n">hour</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">"hh"</span><span class="p">],</span> <span class="n">minute</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">"mm"</span><span class="p">]),</span>
-            <span class="n">errors</span><span class="o">=</span><span class="s2">"coerce"</span>
+            <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">year</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">"YEAR"</span><span class="p">],</span>
+                <span class="n">month</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">"MM"</span><span class="p">],</span>
+                <span class="n">day</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">"DD"</span><span class="p">],</span>
+                <span class="n">hour</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">"hh"</span><span class="p">],</span>
+                <span class="n">minute</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">"mm"</span><span class="p">],</span>
+            <span class="p">),</span>
+            <span class="n">errors</span><span class="o">=</span><span class="s2">"coerce"</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">" → datetime conversion error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
@@ -1131,7 +1139,7 @@
     <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="n">out</span><span class="p">[</span><span class="s2">"WTMP"</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()]</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="p">[(</span><span class="n">out</span><span class="p">[</span><span class="s2">"WTMP"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">5</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s2">"WTMP"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">50</span><span class="p">)]</span>
 
-    <span class="c1">#print(f" → loaded {len(out)} rows")</span>
+    <span class="c1"># print(f" → loaded {len(out)} rows")</span>
     <span class="k">return</span> <span class="n">out</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
@@ -1155,7 +1163,10 @@
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">all_data</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">"No data loaded for any station."</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"WTMP"</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_arrays</span><span class="p">([[],</span> <span class="p">[]],</span> <span class="n">names</span><span class="o">=</span><span class="p">(</span><span class="s2">"station"</span><span class="p">,</span> <span class="s2">"datetime"</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"WTMP"</span><span class="p">],</span>
+            <span class="n">index</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_arrays</span><span class="p">([[],</span> <span class="p">[]],</span> <span class="n">names</span><span class="o">=</span><span class="p">(</span><span class="s2">"station"</span><span class="p">,</span> <span class="s2">"datetime"</span><span class="p">)),</span>
+        <span class="p">)</span>
 
     <span class="c1"># Concatenate all data</span>
     <span class="n">full_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">all_data</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1178,7 +1189,7 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stations</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"45001"</span><span class="p">,</span><span class="s2">"45004"</span><span class="p">,</span><span class="s2">"45006"</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stations</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"45001"</span><span class="p">,</span> <span class="s2">"45004"</span><span class="p">,</span> <span class="s2">"45006"</span><span class="p">]</span>
 <span class="n">buoy_data</span> <span class="o">=</span> <span class="n">load_noaa_range</span><span class="p">(</span><span class="n">stations</span><span class="p">,</span> <span class="mi">1979</span><span class="p">,</span> <span class="mi">2024</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1229,18 +1240,13 @@
 <span class="n">summer_months</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>  <span class="c1"># JAS</span>
 
 
-<span class="n">buoy_df</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">buoy_data</span>
-    <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-    <span class="o">.</span><span class="n">assign</span><span class="p">(</span>
-        <span class="n">year</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s2">"datetime"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="p">,</span>
-        <span class="n">month</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s2">"datetime"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="p">,</span>
-    <span class="p">)</span>
+<span class="n">buoy_df</span> <span class="o">=</span> <span class="n">buoy_data</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+    <span class="n">year</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s2">"datetime"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="p">,</span>
+    <span class="n">month</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s2">"datetime"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">summer_buoy</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">buoy_df</span>
-    <span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">buoy_df</span><span class="p">[</span><span class="s2">"month"</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">summer_months</span><span class="p">)]</span>
+    <span class="n">buoy_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">buoy_df</span><span class="p">[</span><span class="s2">"month"</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">summer_months</span><span class="p">)]</span>
     <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">"station"</span><span class="p">,</span> <span class="s2">"year"</span><span class="p">],</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="s2">"WTMP"</span><span class="p">]</span>
     <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 <span class="p">)</span>
@@ -1251,12 +1257,8 @@
 <span class="n">sat_records</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="k">for</span> <span class="n">station</span><span class="p">,</span> <span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">)</span> <span class="ow">in</span> <span class="n">buoy_coords</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-
     <span class="c1"># Nearest satellite pixel to buoy location</span>
-    <span class="n">ts</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">filtered_ds</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span>
-        <span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"nearest"</span><span class="p">)</span>
-    <span class="p">)</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">filtered_ds</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"nearest"</span><span class="p">)</span>
 
     <span class="c1"># Convert from Kelvin to Celsius</span>
     <span class="n">ts_C</span> <span class="o">=</span> <span class="n">ts</span> <span class="o">-</span> <span class="mf">273.15</span>
@@ -1266,8 +1268,7 @@
 
     <span class="c1"># Compute annual summer mean</span>
     <span class="n">ts_summer_mean</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">ts_summer</span>
-        <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"time.year"</span><span class="p">)</span>
+        <span class="n">ts_summer</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"time.year"</span><span class="p">)</span>
         <span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">"time"</span><span class="p">)</span>
         <span class="o">.</span><span class="n">to_dataframe</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"sat_WTMP"</span><span class="p">)</span>
         <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
@@ -1277,12 +1278,9 @@
     <span class="n">sat_records</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ts_summer_mean</span><span class="p">)</span>
 
 <span class="c1"># Concatenate all stations into a single reusable table</span>
-<span class="n">sat_summer</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">sat_records</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-      <span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s2">"station"</span><span class="p">,</span> <span class="s2">"year"</span><span class="p">])</span>
-<span class="p">)</span>
+<span class="n">sat_summer</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">sat_records</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s2">"station"</span><span class="p">,</span> <span class="s2">"year"</span><span class="p">])</span>
 
-<span class="c1"># Plot comparison </span>
+<span class="c1"># Plot comparison</span>
 
 <span class="n">stations</span> <span class="o">=</span> <span class="n">summer_buoy</span><span class="p">[</span><span class="s2">"station"</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
 
@@ -1294,9 +1292,8 @@
 <span class="p">)</span>
 
 <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">st</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">stations</span><span class="p">):</span>
-
     <span class="n">s_buoy</span> <span class="o">=</span> <span class="n">summer_buoy</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">summer_buoy</span><span class="p">[</span><span class="s2">"station"</span><span class="p">]</span> <span class="o">==</span> <span class="n">st</span><span class="p">]</span>
-    <span class="n">s_sat</span>  <span class="o">=</span> <span class="n">sat_summer</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sat_summer</span><span class="p">[</span><span class="s2">"station"</span><span class="p">]</span> <span class="o">==</span> <span class="n">st</span><span class="p">]</span>
+    <span class="n">s_sat</span> <span class="o">=</span> <span class="n">sat_summer</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sat_summer</span><span class="p">[</span><span class="s2">"station"</span><span class="p">]</span> <span class="o">==</span> <span class="n">st</span><span class="p">]</span>
 
     <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
         <span class="n">s_buoy</span><span class="p">[</span><span class="s2">"year"</span><span class="p">],</span>
@@ -1304,7 +1301,7 @@
         <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span>
         <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">label</span><span class="o">=</span><span class="s2">"Buoy"</span><span class="p">,</span>
-        <span class="n">color</span><span class="o">=</span><span class="s1">'C1'</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">"C1"</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
@@ -1313,7 +1310,7 @@
         <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span>
         <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">label</span><span class="o">=</span><span class="s2">"Satellite"</span><span class="p">,</span>
-        <span class="n">color</span> <span class="o">=</span><span class="s1">'C0'</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">"C0"</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span> <span class="o">=</span> <span class="n">buoy_coords</span><span class="p">[</span><span class="n">st</span><span class="p">]</span>  <span class="c1"># get coordinates</span>
@@ -1396,19 +1393,15 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_diff</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">summer_buoy</span>
-    <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"WTMP"</span><span class="p">:</span> <span class="s2">"buoy"</span><span class="p">})</span>
-    <span class="o">.</span><span class="n">merge</span><span class="p">(</span>
-        <span class="n">sat_summer</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"sat_WTMP"</span><span class="p">:</span> <span class="s2">"sat"</span><span class="p">}),</span>
-        <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">"station"</span><span class="p">,</span> <span class="s2">"year"</span><span class="p">],</span>
-        <span class="n">how</span><span class="o">=</span><span class="s2">"inner"</span><span class="p">,</span>
-    <span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_diff</span> <span class="o">=</span> <span class="n">summer_buoy</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"WTMP"</span><span class="p">:</span> <span class="s2">"buoy"</span><span class="p">})</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="n">sat_summer</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"sat_WTMP"</span><span class="p">:</span> <span class="s2">"sat"</span><span class="p">}),</span>
+    <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">"station"</span><span class="p">,</span> <span class="s2">"year"</span><span class="p">],</span>
+    <span class="n">how</span><span class="o">=</span><span class="s2">"inner"</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">metrics_df</span> <span class="o">=</span> <span class="n">compute_sst_validation_metrics</span><span class="p">(</span><span class="n">df_diff</span><span class="p">)</span>
 
-<span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">float_format</span> <span class="o">=</span> <span class="s1">'</span><span class="si">{:.2f}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">float_format</span> <span class="o">=</span> <span class="s2">"</span><span class="si">{:.2f}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span>
 
 <span class="n">display</span><span class="p">(</span><span class="n">metrics_df</span><span class="p">)</span>
 </pre></div>
@@ -1487,8 +1480,14 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_matched_buoy_sat</span><span class="p">(</span><span class="n">buoy_data</span><span class="p">,</span> <span class="n">filtered_ds</span><span class="p">,</span> <span class="n">varname</span><span class="p">,</span> <span class="n">buoy_coords</span><span class="p">,</span>
-                          <span class="n">summer_months</span><span class="o">=</span><span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="n">tolerance</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="s1">'1h'</span><span class="p">)):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_matched_buoy_sat</span><span class="p">(</span>
+    <span class="n">buoy_data</span><span class="p">,</span>
+    <span class="n">filtered_ds</span><span class="p">,</span>
+    <span class="n">varname</span><span class="p">,</span>
+    <span class="n">buoy_coords</span><span class="p">,</span>
+    <span class="n">summer_months</span><span class="o">=</span><span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
+    <span class="n">tolerance</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="s2">"1h"</span><span class="p">),</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Match buoy and satellite time series by timestamp within a tolerance for multiple stations.</span>
 
@@ -1509,45 +1508,52 @@
 
     <span class="c1"># Flatten buoy data and add year/month</span>
     <span class="n">df_buoy</span> <span class="o">=</span> <span class="n">buoy_data</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-    <span class="n">df_buoy</span><span class="p">[</span><span class="s1">'year'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_buoy</span><span class="p">[</span><span class="s1">'datetime'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span>
-    <span class="n">df_buoy</span><span class="p">[</span><span class="s1">'month'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_buoy</span><span class="p">[</span><span class="s1">'datetime'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span>
+    <span class="n">df_buoy</span><span class="p">[</span><span class="s2">"year"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_buoy</span><span class="p">[</span><span class="s2">"datetime"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span>
+    <span class="n">df_buoy</span><span class="p">[</span><span class="s2">"month"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_buoy</span><span class="p">[</span><span class="s2">"datetime"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span>
 
-    <span class="n">years</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">df_buoy</span><span class="p">[</span><span class="s1">'year'</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+    <span class="n">years</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">df_buoy</span><span class="p">[</span><span class="s2">"year"</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
 
     <span class="k">for</span> <span class="n">st</span><span class="p">,</span> <span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">)</span> <span class="ow">in</span> <span class="n">buoy_coords</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="c1"># Satellite at buoy location</span>
-        <span class="n">ts_sat</span> <span class="o">=</span> <span class="n">filtered_ds</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'nearest'</span><span class="p">)</span> <span class="o">-</span> <span class="mf">273.15</span>
-        <span class="n">df_sat</span> <span class="o">=</span> <span class="n">ts_sat</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'sat'</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-        <span class="n">df_sat</span><span class="p">[</span><span class="s1">'year'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_sat</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span>
-        <span class="n">df_sat</span><span class="p">[</span><span class="s1">'month'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_sat</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span>
-        <span class="n">df_sat_summer</span> <span class="o">=</span> <span class="n">df_sat</span><span class="p">[</span><span class="n">df_sat</span><span class="p">[</span><span class="s1">'month'</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">summer_months</span><span class="p">)]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'time'</span><span class="p">)</span>
+        <span class="n">ts_sat</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">filtered_ds</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"nearest"</span><span class="p">)</span>
+            <span class="o">-</span> <span class="mf">273.15</span>
+        <span class="p">)</span>
+        <span class="n">df_sat</span> <span class="o">=</span> <span class="n">ts_sat</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"sat"</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+        <span class="n">df_sat</span><span class="p">[</span><span class="s2">"year"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_sat</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span>
+        <span class="n">df_sat</span><span class="p">[</span><span class="s2">"month"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_sat</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span>
+        <span class="n">df_sat_summer</span> <span class="o">=</span> <span class="n">df_sat</span><span class="p">[</span><span class="n">df_sat</span><span class="p">[</span><span class="s2">"month"</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">summer_months</span><span class="p">)]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"time"</span><span class="p">)</span>
 
         <span class="c1"># Buoy summer series</span>
-        <span class="n">df_buoy_st</span> <span class="o">=</span> <span class="n">df_buoy</span><span class="p">[(</span><span class="n">df_buoy</span><span class="p">[</span><span class="s1">'station'</span><span class="p">]</span> <span class="o">==</span> <span class="n">st</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_buoy</span><span class="p">[</span><span class="s1">'month'</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">summer_months</span><span class="p">))]</span>
-        <span class="n">df_buoy_st</span> <span class="o">=</span> <span class="n">df_buoy_st</span><span class="p">[[</span><span class="s1">'datetime'</span><span class="p">,</span> <span class="s1">'WTMP'</span><span class="p">]]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'datetime'</span><span class="p">)</span>
+        <span class="n">df_buoy_st</span> <span class="o">=</span> <span class="n">df_buoy</span><span class="p">[</span>
+            <span class="p">(</span><span class="n">df_buoy</span><span class="p">[</span><span class="s2">"station"</span><span class="p">]</span> <span class="o">==</span> <span class="n">st</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_buoy</span><span class="p">[</span><span class="s2">"month"</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">summer_months</span><span class="p">))</span>
+        <span class="p">]</span>
+        <span class="n">df_buoy_st</span> <span class="o">=</span> <span class="n">df_buoy_st</span><span class="p">[[</span><span class="s2">"datetime"</span><span class="p">,</span> <span class="s2">"WTMP"</span><span class="p">]]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"datetime"</span><span class="p">)</span>
 
         <span class="c1"># Match satellite and buoy points year by year</span>
         <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
-            <span class="n">df_sat_year</span> <span class="o">=</span> <span class="n">df_sat_summer</span><span class="p">[</span><span class="n">df_sat_summer</span><span class="p">[</span><span class="s1">'year'</span><span class="p">]</span> <span class="o">==</span> <span class="n">yr</span><span class="p">]</span>
-            <span class="n">df_buoy_year</span> <span class="o">=</span> <span class="n">df_buoy_st</span><span class="p">[</span><span class="n">df_buoy_st</span><span class="p">[</span><span class="s1">'datetime'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span> <span class="o">==</span> <span class="n">yr</span><span class="p">]</span>
-           
+            <span class="n">df_sat_year</span> <span class="o">=</span> <span class="n">df_sat_summer</span><span class="p">[</span><span class="n">df_sat_summer</span><span class="p">[</span><span class="s2">"year"</span><span class="p">]</span> <span class="o">==</span> <span class="n">yr</span><span class="p">]</span>
+            <span class="n">df_buoy_year</span> <span class="o">=</span> <span class="n">df_buoy_st</span><span class="p">[</span><span class="n">df_buoy_st</span><span class="p">[</span><span class="s2">"datetime"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span> <span class="o">==</span> <span class="n">yr</span><span class="p">]</span>
+
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_sat_year</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_buoy_year</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">matched</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge_asof</span><span class="p">(</span>
                     <span class="n">df_sat_year</span><span class="p">,</span>
-                    <span class="n">df_buoy_year</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">'datetime'</span><span class="p">:</span> <span class="s1">'time'</span><span class="p">}),</span>
-                    <span class="n">on</span><span class="o">=</span><span class="s1">'time'</span><span class="p">,</span>
-                    <span class="n">direction</span><span class="o">=</span><span class="s1">'nearest'</span><span class="p">,</span>
-                    <span class="n">tolerance</span><span class="o">=</span><span class="n">tolerance</span>
+                    <span class="n">df_buoy_year</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"datetime"</span><span class="p">:</span> <span class="s2">"time"</span><span class="p">}),</span>
+                    <span class="n">on</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span>
+                    <span class="n">direction</span><span class="o">=</span><span class="s2">"nearest"</span><span class="p">,</span>
+                    <span class="n">tolerance</span><span class="o">=</span><span class="n">tolerance</span><span class="p">,</span>
                 <span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
 
                 <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matched</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-                    <span class="n">records</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-                        <span class="s1">'station'</span><span class="p">:</span> <span class="n">st</span><span class="p">,</span>
-                        <span class="s1">'time'</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">'time'</span><span class="p">],</span>
-                        <span class="s1">'buoy'</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">'WTMP'</span><span class="p">],</span>
-                        <span class="s1">'sat'</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">'sat'</span><span class="p">]</span>
-                    <span class="p">})</span>
-        
+                    <span class="n">records</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="p">{</span>
+                            <span class="s2">"station"</span><span class="p">:</span> <span class="n">st</span><span class="p">,</span>
+                            <span class="s2">"time"</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">"time"</span><span class="p">],</span>
+                            <span class="s2">"buoy"</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">"WTMP"</span><span class="p">],</span>
+                            <span class="s2">"sat"</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">"sat"</span><span class="p">],</span>
+                        <span class="p">}</span>
+                    <span class="p">)</span>
+
     <span class="n">df_matched</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">records</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">df_matched</span>
 </pre></div>
@@ -1568,7 +1574,7 @@
     <span class="n">varname</span><span class="o">=</span><span class="n">varname</span><span class="p">,</span>
     <span class="n">buoy_coords</span><span class="o">=</span><span class="n">buoy_coords</span><span class="p">,</span>
     <span class="n">summer_months</span><span class="o">=</span><span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
-    <span class="n">tolerance</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="s1">'1h'</span><span class="p">)</span>
+    <span class="n">tolerance</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="s2">"1h"</span><span class="p">),</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -1598,42 +1604,50 @@
 <span class="c1"># Buoy: all summer points</span>
 <span class="n">df_buoy_all</span> <span class="o">=</span> <span class="n">buoy_data</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 <span class="n">df_buoy_all</span> <span class="o">=</span> <span class="n">df_buoy_all</span><span class="p">[</span>
-    <span class="p">(</span><span class="n">df_buoy_all</span><span class="p">[</span><span class="s1">'station'</span><span class="p">]</span> <span class="o">==</span> <span class="n">station</span><span class="p">)</span> <span class="o">&amp;</span>
-    <span class="p">(</span><span class="n">df_buoy_all</span><span class="p">[</span><span class="s1">'datetime'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span> <span class="o">==</span> <span class="n">year</span><span class="p">)</span> <span class="o">&amp;</span>
-    <span class="p">(</span><span class="n">df_buoy_all</span><span class="p">[</span><span class="s1">'datetime'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">summer_months</span><span class="p">))</span>
-<span class="p">]</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'datetime'</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">df_buoy_all</span><span class="p">[</span><span class="s2">"station"</span><span class="p">]</span> <span class="o">==</span> <span class="n">station</span><span class="p">)</span>
+    <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_buoy_all</span><span class="p">[</span><span class="s2">"datetime"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span> <span class="o">==</span> <span class="n">year</span><span class="p">)</span>
+    <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_buoy_all</span><span class="p">[</span><span class="s2">"datetime"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">summer_months</span><span class="p">))</span>
+<span class="p">]</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"datetime"</span><span class="p">)</span>
 
 <span class="c1"># Satellite: all summer points at gridcell</span>
 <span class="n">ts_sat_all</span> <span class="o">=</span> <span class="p">(</span>
     <span class="n">filtered_ds</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span>
-    <span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="n">lat_gridcell</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="n">lon_gridcell</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'nearest'</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">filtered_ds</span><span class="p">[</span><span class="s1">'time.year'</span><span class="p">]</span> <span class="o">==</span> <span class="n">year</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="n">lat_gridcell</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="n">lon_gridcell</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"nearest"</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">filtered_ds</span><span class="p">[</span><span class="s2">"time.year"</span><span class="p">]</span> <span class="o">==</span> <span class="n">year</span><span class="p">)</span>
 <span class="p">)</span>
-<span class="n">ts_sat_all</span> <span class="o">=</span> <span class="n">ts_sat_all</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">ts_sat_all</span><span class="p">[</span><span class="s1">'time.month'</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">summer_months</span><span class="p">))</span> <span class="o">-</span> <span class="mf">273.15</span>
+<span class="n">ts_sat_all</span> <span class="o">=</span> <span class="n">ts_sat_all</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">ts_sat_all</span><span class="p">[</span><span class="s2">"time.month"</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">summer_months</span><span class="p">))</span> <span class="o">-</span> <span class="mf">273.15</span>
 
 <span class="c1"># Means for all points</span>
-<span class="n">mean_buoy_all</span> <span class="o">=</span> <span class="n">df_buoy_all</span><span class="p">[</span><span class="s1">'WTMP'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">mean_buoy_all</span> <span class="o">=</span> <span class="n">df_buoy_all</span><span class="p">[</span><span class="s2">"WTMP"</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 <span class="n">mean_sat_all</span> <span class="o">=</span> <span class="n">ts_sat_all</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
 
 <span class="c1"># --------------------------------------------------</span>
 <span class="c1"># 2. Matched points from df_matched</span>
 <span class="c1"># --------------------------------------------------</span>
 <span class="n">df_st_matched</span> <span class="o">=</span> <span class="n">df_matched</span><span class="p">[</span>
-    <span class="p">(</span><span class="n">df_matched</span><span class="p">[</span><span class="s1">'station'</span><span class="p">]</span> <span class="o">==</span> <span class="n">station</span><span class="p">)</span> <span class="o">&amp;</span>
-    <span class="p">(</span><span class="n">df_matched</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span> <span class="o">==</span> <span class="n">year</span><span class="p">)</span> <span class="o">&amp;</span>
-    <span class="p">(</span><span class="n">df_matched</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">summer_months</span><span class="p">))</span>
-<span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'time'</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">df_matched</span><span class="p">[</span><span class="s2">"station"</span><span class="p">]</span> <span class="o">==</span> <span class="n">station</span><span class="p">)</span>
+    <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_matched</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span> <span class="o">==</span> <span class="n">year</span><span class="p">)</span>
+    <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_matched</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">summer_months</span><span class="p">))</span>
+<span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"time"</span><span class="p">)</span>
 
-<span class="n">mean_buoy_matched</span> <span class="o">=</span> <span class="n">df_st_matched</span><span class="p">[</span><span class="s1">'buoy'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-<span class="n">mean_sat_matched</span> <span class="o">=</span> <span class="n">df_st_matched</span><span class="p">[</span><span class="s1">'sat'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">mean_buoy_matched</span> <span class="o">=</span> <span class="n">df_st_matched</span><span class="p">[</span><span class="s2">"buoy"</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">mean_sat_matched</span> <span class="o">=</span> <span class="n">df_st_matched</span><span class="p">[</span><span class="s2">"sat"</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 
 <span class="c1"># --------------------------------------------------</span>
 <span class="c1"># 3. Shared y-axis limits</span>
 <span class="c1"># --------------------------------------------------</span>
-<span class="n">ymin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">df_buoy_all</span><span class="p">[</span><span class="s1">'WTMP'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">ts_sat_all</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">compute</span><span class="p">(),</span>
-           <span class="n">df_st_matched</span><span class="p">[</span><span class="s1">'buoy'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">df_st_matched</span><span class="p">[</span><span class="s1">'sat'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
-<span class="n">ymax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">df_buoy_all</span><span class="p">[</span><span class="s1">'WTMP'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">ts_sat_all</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">compute</span><span class="p">(),</span>
-           <span class="n">df_st_matched</span><span class="p">[</span><span class="s1">'buoy'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">df_st_matched</span><span class="p">[</span><span class="s1">'sat'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="n">ymin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+    <span class="n">df_buoy_all</span><span class="p">[</span><span class="s2">"WTMP"</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+    <span class="n">ts_sat_all</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">compute</span><span class="p">(),</span>
+    <span class="n">df_st_matched</span><span class="p">[</span><span class="s2">"buoy"</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+    <span class="n">df_st_matched</span><span class="p">[</span><span class="s2">"sat"</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="n">ymax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+    <span class="n">df_buoy_all</span><span class="p">[</span><span class="s2">"WTMP"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+    <span class="n">ts_sat_all</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">compute</span><span class="p">(),</span>
+    <span class="n">df_st_matched</span><span class="p">[</span><span class="s2">"buoy"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+    <span class="n">df_st_matched</span><span class="p">[</span><span class="s2">"sat"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+<span class="p">)</span>
 <span class="n">pad</span> <span class="o">=</span> <span class="mf">0.5</span>
 <span class="n">ylim</span> <span class="o">=</span> <span class="p">(</span><span class="n">ymin</span> <span class="o">-</span> <span class="n">pad</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">+</span> <span class="n">pad</span><span class="p">)</span>
 
@@ -1649,34 +1663,67 @@
 <span class="c1"># -------------------------</span>
 <span class="c1"># Top subplot: all summer points</span>
 <span class="c1"># -------------------------</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df_buoy_all</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">df_buoy_all</span><span class="p">[</span><span class="s1">'WTMP'</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C1'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Buoy'</span><span class="p">)</span>
-<span class="n">ts_sat_all</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">'none'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C0'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Satellite'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df_buoy_all</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">df_buoy_all</span><span class="p">[</span><span class="s2">"WTMP"</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"C1"</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Buoy"</span><span class="p">)</span>
+<span class="n">ts_sat_all</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"C0"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Satellite"</span><span class="p">)</span>
 
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">mean_buoy_all</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C1'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'Buoy Mean (</span><span class="si">{</span><span class="n">mean_buoy_all</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> °C)'</span><span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">mean_sat_all</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C0'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'Satellite Mean (</span><span class="si">{</span><span class="n">mean_sat_all</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> °C)'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span>
+    <span class="n">mean_buoy_all</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">"C1"</span><span class="p">,</span>
+    <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Buoy Mean (</span><span class="si">{</span><span class="n">mean_buoy_all</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> °C)"</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span>
+    <span class="n">mean_sat_all</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">"C0"</span><span class="p">,</span>
+    <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Satellite Mean (</span><span class="si">{</span><span class="n">mean_sat_all</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> °C)"</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Buoy </span><span class="si">{</span><span class="n">station</span><span class="si">}</span><span class="s2"> — Summer </span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2"> (All points)"</span><span class="p">)</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"LSWT (°C)"</span><span class="p">)</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ylim</span><span class="p">)</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">'upper left'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">"upper left"</span><span class="p">)</span>
 
 <span class="c1"># -------------------------</span>
 <span class="c1"># Bottom subplot: matched points only</span>
 <span class="c1"># -------------------------</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df_st_matched</span><span class="p">[</span><span class="s1">'time'</span><span class="p">],</span> <span class="n">df_st_matched</span><span class="p">[</span><span class="s1">'buoy'</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C1'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Buoy (matched)'</span><span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df_st_matched</span><span class="p">[</span><span class="s1">'time'</span><span class="p">],</span> <span class="n">df_st_matched</span><span class="p">[</span><span class="s1">'sat'</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C0'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Satellite (matched)'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">df_st_matched</span><span class="p">[</span><span class="s2">"time"</span><span class="p">],</span>
+    <span class="n">df_st_matched</span><span class="p">[</span><span class="s2">"buoy"</span><span class="p">],</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">"C1"</span><span class="p">,</span>
+    <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">"Buoy (matched)"</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">df_st_matched</span><span class="p">[</span><span class="s2">"time"</span><span class="p">],</span>
+    <span class="n">df_st_matched</span><span class="p">[</span><span class="s2">"sat"</span><span class="p">],</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">"C0"</span><span class="p">,</span>
+    <span class="n">s</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+    <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">"Satellite (matched)"</span><span class="p">,</span>
+<span class="p">)</span>
 
-<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">mean_buoy_matched</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C1'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'Buoy Mean (</span><span class="si">{</span><span class="n">mean_buoy_matched</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> °C)'</span><span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">mean_sat_matched</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C0'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'Satellite Mean (</span><span class="si">{</span><span class="n">mean_sat_matched</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> °C)'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span>
+    <span class="n">mean_buoy_matched</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">"C1"</span><span class="p">,</span>
+    <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Buoy Mean (</span><span class="si">{</span><span class="n">mean_buoy_matched</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> °C)"</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span>
+    <span class="n">mean_sat_matched</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">"C0"</span><span class="p">,</span>
+    <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Satellite Mean (</span><span class="si">{</span><span class="n">mean_sat_matched</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> °C)"</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Buoy </span><span class="si">{</span><span class="n">station</span><span class="si">}</span><span class="s2"> — Summer </span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2"> (Matched points)"</span><span class="p">)</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"LSWT (°C)"</span><span class="p">)</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Date"</span><span class="p">)</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ylim</span><span class="p">)</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">'upper left'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">"upper left"</span><span class="p">)</span>
 
 <span class="c1"># ---- Shared x-axis formatting ----</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">locator</span><span class="p">)</span>
@@ -1705,9 +1752,8 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute summer mean per year for each station</span>
 <span class="n">df_diff_matched</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">df_matched</span>
-    <span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'station'</span><span class="p">,</span> <span class="s1">'year'</span><span class="p">])</span>
+    <span class="n">df_matched</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">"station"</span><span class="p">,</span> <span class="s2">"year"</span><span class="p">])</span>
     <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
     <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 <span class="p">)</span>
@@ -1723,20 +1769,34 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stations</span> <span class="o">=</span> <span class="n">df_diff_matched</span><span class="p">[</span><span class="s1">'station'</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stations</span> <span class="o">=</span> <span class="n">df_diff_matched</span><span class="p">[</span><span class="s2">"station"</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">stations</span><span class="p">),</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">st</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">stations</span><span class="p">):</span>
-    <span class="n">df_st</span> <span class="o">=</span> <span class="n">df_diff_matched</span><span class="p">[</span><span class="n">df_diff_matched</span><span class="p">[</span><span class="s1">'station'</span><span class="p">]</span> <span class="o">==</span> <span class="n">st</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'year'</span><span class="p">)</span>
+    <span class="n">df_st</span> <span class="o">=</span> <span class="n">df_diff_matched</span><span class="p">[</span><span class="n">df_diff_matched</span><span class="p">[</span><span class="s2">"station"</span><span class="p">]</span> <span class="o">==</span> <span class="n">st</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"year"</span><span class="p">)</span>
 
     <span class="c1"># Plot buoy data with cross marker</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_st</span><span class="p">[</span><span class="s1">'year'</span><span class="p">],</span> <span class="n">df_st</span><span class="p">[</span><span class="s1">'buoy'</span><span class="p">],</span>
-            <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C1'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Buoy (matched)'</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+        <span class="n">df_st</span><span class="p">[</span><span class="s2">"year"</span><span class="p">],</span>
+        <span class="n">df_st</span><span class="p">[</span><span class="s2">"buoy"</span><span class="p">],</span>
+        <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">"C1"</span><span class="p">,</span>
+        <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">"Buoy (matched)"</span><span class="p">,</span>
+        <span class="n">markersize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="c1"># Plot satellite data with circle marker</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_st</span><span class="p">[</span><span class="s1">'year'</span><span class="p">],</span> <span class="n">df_st</span><span class="p">[</span><span class="s1">'sat'</span><span class="p">],</span>
-            <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'C0'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Satellite (matched)'</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+        <span class="n">df_st</span><span class="p">[</span><span class="s2">"year"</span><span class="p">],</span>
+        <span class="n">df_st</span><span class="p">[</span><span class="s2">"sat"</span><span class="p">],</span>
+        <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">"C0"</span><span class="p">,</span>
+        <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">"Satellite (matched)"</span><span class="p">,</span>
+        <span class="n">markersize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span> <span class="o">=</span> <span class="n">buoy_coords</span><span class="p">[</span><span class="n">st</span><span class="p">]</span>  <span class="c1"># get coordinates</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Buoy </span><span class="si">{</span><span class="n">st</span><span class="si">}</span><span class="s2"> (lat: </span><span class="si">{</span><span class="n">lat</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">°, lon: </span><span class="si">{</span><span class="n">lon</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">°)"</span><span class="p">)</span>
@@ -1855,19 +1915,23 @@
 <span class="n">periods_buoy</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">(</span><span class="mi">1979</span><span class="p">,</span> <span class="mi">2006</span><span class="p">,</span> <span class="s2">"1979–2006"</span><span class="p">,</span> <span class="s2">"dotted"</span><span class="p">),</span>
     <span class="p">(</span><span class="mi">1995</span><span class="p">,</span> <span class="mi">2023</span><span class="p">,</span> <span class="s2">"1995–2023"</span><span class="p">,</span> <span class="s2">"dashed"</span><span class="p">),</span>
-    <span class="p">(</span><span class="mi">1979</span><span class="p">,</span> <span class="mi">2023</span><span class="p">,</span> <span class="s2">"1979–2023"</span><span class="p">,</span> <span class="s2">"solid"</span><span class="p">)</span>
+    <span class="p">(</span><span class="mi">1979</span><span class="p">,</span> <span class="mi">2023</span><span class="p">,</span> <span class="s2">"1979–2023"</span><span class="p">,</span> <span class="s2">"solid"</span><span class="p">),</span>
 <span class="p">]</span>
 
 <span class="c1"># Satellite trend period</span>
 <span class="n">period_sat</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1995</span><span class="p">,</span> <span class="mi">2023</span><span class="p">)</span>
 
+
 <span class="c1"># --------------------------------------------------</span>
 <span class="c1"># Helper function to plot series + trend</span>
 <span class="c1"># --------------------------------------------------</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_series_with_trend</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">line_alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"-"</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_series_with_trend</span><span class="p">(</span>
+    <span class="n">ax</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">line_alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"-"</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Plot a series with markers and optional trend lines."""</span>
-    <span class="n">line</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-        <span class="n">years</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span>
+    <span class="p">(</span><span class="n">line</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+        <span class="n">years</span><span class="p">,</span>
+        <span class="n">values</span><span class="p">,</span>
         <span class="n">linestyle</span><span class="o">=</span><span class="n">linestyle</span><span class="p">,</span>
         <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
@@ -1876,7 +1940,7 @@
         <span class="n">markerfacecolor</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
         <span class="n">markeredgecolor</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
         <span class="n">markersize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
-        <span class="n">label</span><span class="o">=</span><span class="n">label</span>
+        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="c1"># Add trends if periods provided</span>
@@ -1888,46 +1952,48 @@
             <span class="n">data_sel</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">original_test</span><span class="p">(</span><span class="n">data_sel</span><span class="p">)</span>
             <span class="n">slope</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">slope</span>
-            <span class="n">trend_line</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">data_sel</span> <span class="o">-</span> <span class="n">slope</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data_sel</span><span class="p">)))</span> <span class="o">+</span> <span class="n">slope</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data_sel</span><span class="p">))</span>
+            <span class="n">trend_line</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span>
+                <span class="n">data_sel</span> <span class="o">-</span> <span class="n">slope</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data_sel</span><span class="p">))</span>
+            <span class="p">)</span> <span class="o">+</span> <span class="n">slope</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data_sel</span><span class="p">))</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
                 <span class="n">years</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span>
                 <span class="n">trend_line</span><span class="p">,</span>
                 <span class="n">linestyle</span><span class="o">=</span><span class="n">ls</span><span class="p">,</span>
                 <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                 <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
-                <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2"> Trend </span><span class="si">{</span><span class="n">period_label</span><span class="si">}</span><span class="s2"> (slope=</span><span class="si">{</span><span class="n">slope</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> °C/yr, p=</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">p</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)"</span>
+                <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2"> Trend </span><span class="si">{</span><span class="n">period_label</span><span class="si">}</span><span class="s2"> (slope=</span><span class="si">{</span><span class="n">slope</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> °C/yr, p=</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">p</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)"</span><span class="p">,</span>
             <span class="p">)</span>
+
 
 <span class="c1"># --------------------------------------------------</span>
 <span class="c1"># Plotting</span>
 <span class="c1"># --------------------------------------------------</span>
-<span class="n">stations</span> <span class="o">=</span> <span class="n">summer_buoy</span><span class="p">[</span><span class="s1">'station'</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+<span class="n">stations</span> <span class="o">=</span> <span class="n">summer_buoy</span><span class="p">[</span><span class="s2">"station"</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">stations</span><span class="p">),</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">st</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">stations</span><span class="p">):</span>
-
     <span class="c1"># ---- Buoy summer means ----</span>
-    <span class="n">s_buoy</span> <span class="o">=</span> <span class="n">summer_buoy</span><span class="p">[</span><span class="n">summer_buoy</span><span class="p">[</span><span class="s1">'station'</span><span class="p">]</span> <span class="o">==</span> <span class="n">st</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'year'</span><span class="p">)</span>
+    <span class="n">s_buoy</span> <span class="o">=</span> <span class="n">summer_buoy</span><span class="p">[</span><span class="n">summer_buoy</span><span class="p">[</span><span class="s2">"station"</span><span class="p">]</span> <span class="o">==</span> <span class="n">st</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"year"</span><span class="p">)</span>
     <span class="n">plot_series_with_trend</span><span class="p">(</span>
         <span class="n">ax</span><span class="p">,</span>
-        <span class="n">s_buoy</span><span class="p">[</span><span class="s1">'year'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-        <span class="n">s_buoy</span><span class="p">[</span><span class="s1">'WTMP'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-        <span class="n">label</span><span class="o">=</span><span class="s1">'Buoy'</span><span class="p">,</span>
-        <span class="n">color</span><span class="o">=</span><span class="s1">'C1'</span><span class="p">,</span>
+        <span class="n">s_buoy</span><span class="p">[</span><span class="s2">"year"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+        <span class="n">s_buoy</span><span class="p">[</span><span class="s2">"WTMP"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">"Buoy"</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">"C1"</span><span class="p">,</span>
         <span class="n">line_alpha</span><span class="o">=</span><span class="n">LINE_ALPHA</span><span class="p">,</span>
-        <span class="n">periods</span><span class="o">=</span><span class="n">periods_buoy</span>
+        <span class="n">periods</span><span class="o">=</span><span class="n">periods_buoy</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="c1"># ---- Satellite summer means ----</span>
-    <span class="n">s_sat</span> <span class="o">=</span> <span class="n">sat_summer</span><span class="p">[</span><span class="n">sat_summer</span><span class="p">[</span><span class="s1">'station'</span><span class="p">]</span> <span class="o">==</span> <span class="n">st</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'year'</span><span class="p">)</span>
+    <span class="n">s_sat</span> <span class="o">=</span> <span class="n">sat_summer</span><span class="p">[</span><span class="n">sat_summer</span><span class="p">[</span><span class="s2">"station"</span><span class="p">]</span> <span class="o">==</span> <span class="n">st</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"year"</span><span class="p">)</span>
     <span class="n">plot_series_with_trend</span><span class="p">(</span>
         <span class="n">ax</span><span class="p">,</span>
-        <span class="n">s_sat</span><span class="p">[</span><span class="s1">'year'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-        <span class="n">s_sat</span><span class="p">[</span><span class="s1">'sat_WTMP'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-        <span class="n">label</span><span class="o">=</span><span class="s1">'Satellite'</span><span class="p">,</span>
-        <span class="n">color</span><span class="o">=</span><span class="s1">'C0'</span><span class="p">,</span>
+        <span class="n">s_sat</span><span class="p">[</span><span class="s2">"year"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+        <span class="n">s_sat</span><span class="p">[</span><span class="s2">"sat_WTMP"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">"Satellite"</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">"C0"</span><span class="p">,</span>
         <span class="n">line_alpha</span><span class="o">=</span><span class="n">LINE_ALPHA</span><span class="p">,</span>
-        <span class="n">periods</span><span class="o">=</span><span class="p">[(</span><span class="o">*</span><span class="n">period_sat</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">period_sat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">–</span><span class="si">{</span><span class="n">period_sat</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"--"</span><span class="p">)]</span>
+        <span class="n">periods</span><span class="o">=</span><span class="p">[(</span><span class="o">*</span><span class="n">period_sat</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">period_sat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">–</span><span class="si">{</span><span class="n">period_sat</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"--"</span><span class="p">)],</span>
     <span class="p">)</span>
 
     <span class="c1"># ---- Axes settings ----</span>

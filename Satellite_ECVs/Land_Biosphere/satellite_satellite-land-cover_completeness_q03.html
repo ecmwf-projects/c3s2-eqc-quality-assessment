@@ -714,52 +714,40 @@ We will also need libraries for plotting and viewing data.</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#  Import Standard Libraries</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">dask</span>
+
+<span class="c1">#  Import Geospatial Libraries</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>  <span class="c1"># Import vector geospatial data</span>
+
+<span class="c1">#  Import Visualization Libraries</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
 <span class="c1">#  Import Numerical &amp; Statistical Libraries</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">dask</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">linregress</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">kendalltau</span><span class="p">,</span> <span class="n">theilslopes</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">OLS</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.polynomial.polynomial</span><span class="w"> </span><span class="kn">import</span> <span class="n">Polynomial</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pymannkendall</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mk</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">regionmask</span>  <span class="c1"># Transform attributes and geometries into specific regions</span>
 
 <span class="c1"># import ruptures as rpt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">ruptures</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">rpt</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">curve_fit</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">PolynomialFeatures</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">r2_score</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.signal</span><span class="w"> </span><span class="kn">import</span> <span class="n">savgol_filter</span>
-
-<span class="c1">#  Import Geospatial Libraries</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>  <span class="c1"># Import vector geospatial data</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">regionmask</span>  <span class="c1"># Transform attributes and geometries into specific regions</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">shapely.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">box</span><span class="p">,</span> <span class="n">Polygon</span>
-
-
-<span class="c1">#  Import Visualization Libraries</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">colors</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">TwoSlopeNorm</span><span class="p">,</span> <span class="n">Normalize</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="kn">import</span> <span class="n">Patch</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">Line2D</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
 
 <span class="c1">#  Import External Tools</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">utils</span>
-
+<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">download</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">display</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">Normalize</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">Line2D</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="kn">import</span> <span class="n">Patch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">theilslopes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">shapely.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">box</span>
 
 <span class="c1">#  Set Matplotlib Style</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"seaborn-v0_8-notebook"</span><span class="p">)</span>  <span class="c1"># Predefined style for all graphical outputs</span>
 
 <span class="c1"># Set the CDSAPI location</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
 <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"CDSAPI_RC"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"/data/wp5/girao_ines/.cdsapirc"</span>
 </pre></div>
 </div>
@@ -785,18 +773,41 @@ We will also need libraries for plotting and viewing data.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Years to download</span>
-<span class="n">years</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1992</span><span class="p">,</span> <span class="mi">1993</span><span class="p">,</span> <span class="mi">1994</span><span class="p">,</span>
-        <span class="mi">1995</span><span class="p">,</span> <span class="mi">1996</span><span class="p">,</span> <span class="mi">1997</span><span class="p">,</span>
-        <span class="mi">1998</span><span class="p">,</span> <span class="mi">1999</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span>
-        <span class="mi">2001</span><span class="p">,</span> <span class="mi">2002</span><span class="p">,</span> <span class="mi">2003</span><span class="p">,</span>
-        <span class="mi">2004</span><span class="p">,</span> <span class="mi">2005</span><span class="p">,</span> <span class="mi">2006</span><span class="p">,</span>
-        <span class="mi">2007</span><span class="p">,</span> <span class="mi">2008</span><span class="p">,</span> <span class="mi">2009</span><span class="p">,</span>
-        <span class="mi">2010</span><span class="p">,</span> <span class="mi">2011</span><span class="p">,</span> <span class="mi">2012</span><span class="p">,</span>
-        <span class="mi">2013</span><span class="p">,</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">2015</span><span class="p">,</span>
-        <span class="mi">2016</span><span class="p">,</span> <span class="mi">2017</span><span class="p">,</span> <span class="mi">2018</span><span class="p">,</span>
-        <span class="mi">2019</span><span class="p">,</span> <span class="mi">2020</span><span class="p">,</span> <span class="mi">2021</span><span class="p">,</span>
-        <span class="mi">2022</span><span class="p">,</span> <span class="mi">2022</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Years to download</span>
+<span class="n">years</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="mi">1992</span><span class="p">,</span>
+    <span class="mi">1993</span><span class="p">,</span>
+    <span class="mi">1994</span><span class="p">,</span>
+    <span class="mi">1995</span><span class="p">,</span>
+    <span class="mi">1996</span><span class="p">,</span>
+    <span class="mi">1997</span><span class="p">,</span>
+    <span class="mi">1998</span><span class="p">,</span>
+    <span class="mi">1999</span><span class="p">,</span>
+    <span class="mi">2000</span><span class="p">,</span>
+    <span class="mi">2001</span><span class="p">,</span>
+    <span class="mi">2002</span><span class="p">,</span>
+    <span class="mi">2003</span><span class="p">,</span>
+    <span class="mi">2004</span><span class="p">,</span>
+    <span class="mi">2005</span><span class="p">,</span>
+    <span class="mi">2006</span><span class="p">,</span>
+    <span class="mi">2007</span><span class="p">,</span>
+    <span class="mi">2008</span><span class="p">,</span>
+    <span class="mi">2009</span><span class="p">,</span>
+    <span class="mi">2010</span><span class="p">,</span>
+    <span class="mi">2011</span><span class="p">,</span>
+    <span class="mi">2012</span><span class="p">,</span>
+    <span class="mi">2013</span><span class="p">,</span>
+    <span class="mi">2014</span><span class="p">,</span>
+    <span class="mi">2015</span><span class="p">,</span>
+    <span class="mi">2016</span><span class="p">,</span>
+    <span class="mi">2017</span><span class="p">,</span>
+    <span class="mi">2018</span><span class="p">,</span>
+    <span class="mi">2019</span><span class="p">,</span>
+    <span class="mi">2020</span><span class="p">,</span>
+    <span class="mi">2021</span><span class="p">,</span>
+    <span class="mi">2022</span><span class="p">,</span>
+    <span class="mi">2022</span><span class="p">,</span>
+<span class="p">]</span>
 
 
 <span class="c1"># List of requests to retrieve data</span>
@@ -807,7 +818,7 @@ We will also need libraries for plotting and viewing data.</p>
         <span class="s2">"format"</span><span class="p">:</span> <span class="s2">"zip"</span><span class="p">,</span>
         <span class="s2">"version"</span><span class="p">:</span> <span class="s2">"v2_0_7cds"</span> <span class="k">if</span> <span class="n">year</span> <span class="o">&lt;</span> <span class="mi">2016</span> <span class="k">else</span> <span class="s2">"v2_1_1"</span><span class="p">,</span>
         <span class="s2">"year"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">),</span>
-        <span class="s2">"area"</span><span class="p">:</span> <span class="p">[</span><span class="mi">45</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="c1"># Region of interest (Iberian Peninsula)</span>
+        <span class="s2">"area"</span><span class="p">:</span> <span class="p">[</span><span class="mi">45</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>  <span class="c1"># Region of interest (Iberian Peninsula)</span>
     <span class="p">}</span>
     <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">years</span>
 <span class="p">]</span>
@@ -824,11 +835,7 @@ We will also need libraries for plotting and viewing data.</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Download the dataset</span>
-<span class="n">ds</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
-    <span class="n">collection_id</span><span class="p">,</span>
-    <span class="n">requests</span><span class="p">,</span>
-    <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span>
-<span class="p">)</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span><span class="n">collection_id</span><span class="p">,</span> <span class="n">requests</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="p">)</span><span class="o">.</span><span class="n">swap_dims</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">"year"</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">"time"</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -851,7 +858,7 @@ We will also need libraries for plotting and viewing data.</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Inspect the database</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Inspect the database</span>
 <span class="n">ds</span>
 </pre></div>
 </div>
@@ -2323,7 +2330,7 @@ Attributes: (12/38)
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Configure Dask</span>
-<span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">scheduler</span><span class="o">=</span><span class="s1">'threads'</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="s1">'array.slicing.split_large_chunks'</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+<span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">scheduler</span><span class="o">=</span><span class="s2">"threads"</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="s2">"array.slicing.split_large_chunks"</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
 
 <span class="c1"># Define CRS and bounding box for Iberian Peninsula</span>
 <span class="n">crs_wgs84</span> <span class="o">=</span> <span class="s2">"EPSG:4326"</span>
@@ -2346,7 +2353,9 @@ Attributes: (12/38)
     <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">write_crs</span><span class="p">(</span><span class="s2">"EPSG:4326"</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># Ensure dataset coordinates overlap with the filtered regions</span>
-<span class="n">filtered_lon_min</span><span class="p">,</span> <span class="n">filtered_lat_min</span><span class="p">,</span> <span class="n">filtered_lon_max</span><span class="p">,</span> <span class="n">filtered_lat_max</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">total_bounds</span>
+<span class="n">filtered_lon_min</span><span class="p">,</span> <span class="n">filtered_lat_min</span><span class="p">,</span> <span class="n">filtered_lon_max</span><span class="p">,</span> <span class="n">filtered_lat_max</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">gdf</span><span class="o">.</span><span class="n">total_bounds</span>
+<span class="p">)</span>
 <span class="k">if</span> <span class="p">(</span>
     <span class="n">ds</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">values</span> <span class="o">&gt;</span> <span class="n">filtered_lon_max</span>
     <span class="ow">or</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">values</span> <span class="o">&lt;</span> <span class="n">filtered_lon_min</span>
@@ -2361,17 +2370,19 @@ Attributes: (12/38)
 <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span>
     <span class="n">longitude</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span>
         <span class="nb">max</span><span class="p">(</span><span class="n">filtered_lon_min</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
-        <span class="nb">min</span><span class="p">(</span><span class="n">filtered_lon_max</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="nb">min</span><span class="p">(</span><span class="n">filtered_lon_max</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
     <span class="p">),</span>
     <span class="n">latitude</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span>
         <span class="nb">min</span><span class="p">(</span><span class="n">filtered_lat_max</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
-        <span class="nb">max</span><span class="p">(</span><span class="n">filtered_lat_min</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-    <span class="p">)</span>
+        <span class="nb">max</span><span class="p">(</span><span class="n">filtered_lat_min</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">),</span>
+    <span class="p">),</span>
 <span class="p">)</span>
 
 <span class="c1"># Check subset dataset dimensions</span>
 <span class="k">if</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Subset resulted in an empty dataset. Check the bounds and ensure overlap."</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+        <span class="s2">"Subset resulted in an empty dataset. Check the bounds and ensure overlap."</span>
+    <span class="p">)</span>
 
 <span class="c1"># Create the regionmask</span>
 <span class="n">regions</span> <span class="o">=</span> <span class="n">regionmask</span><span class="o">.</span><span class="n">from_geopandas</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s2">"NUTS_NAME"</span><span class="p">)</span>
@@ -2379,7 +2390,7 @@ Attributes: (12/38)
 <span class="c1"># Create a 2D mask</span>
 <span class="n">mask</span> <span class="o">=</span> <span class="n">regions</span><span class="o">.</span><span class="n">mask</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">],</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">])</span>
 
-<span class="n">ds</span><span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="o">.</span><span class="n">notnull</span><span class="p">(),</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="o">.</span><span class="n">notnull</span><span class="p">(),</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2405,7 +2416,9 @@ Attributes: (12/38)
 
 <span class="c1"># Calculate the difference between consecutive latitude values</span>
 <span class="n">lat_diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">lats</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>  <span class="c1"># Absolute differences</span>
-<span class="n">lat_diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lat_diff</span><span class="p">,</span> <span class="n">lat_diff</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># Assume the last cell has the same size as the one before</span>
+<span class="n">lat_diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+    <span class="n">lat_diff</span><span class="p">,</span> <span class="n">lat_diff</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="p">)</span>  <span class="c1"># Assume the last cell has the same size as the one before</span>
 
 <span class="c1"># Convert latitude differences to kilometres</span>
 <span class="n">resolution_lat_km</span> <span class="o">=</span> <span class="n">lat_diff</span> <span class="o">*</span> <span class="mf">111.195</span>  <span class="c1"># Latitude-dependent resolution</span>
@@ -2421,7 +2434,9 @@ Attributes: (12/38)
 <span class="p">}</span>
 
 <span class="c1"># Add the grid cell area as a coordinate to the dataset</span>
-<span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">cell_area</span><span class="o">=</span><span class="p">(</span><span class="s2">"latitude"</span><span class="p">,</span> <span class="n">grid_cell_area</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>  <span class="c1"># Use `.data` to extract the array</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span>
+    <span class="n">cell_area</span><span class="o">=</span><span class="p">(</span><span class="s2">"latitude"</span><span class="p">,</span> <span class="n">grid_cell_area</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+<span class="p">)</span>  <span class="c1"># Use `.data` to extract the array</span>
 </pre></div>
 </div>
 </div>
@@ -2460,10 +2475,10 @@ Attributes: (12/38)
 <span class="n">forest_classes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">61</span><span class="p">,</span> <span class="mi">62</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">71</span><span class="p">,</span> <span class="mi">72</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">81</span><span class="p">,</span> <span class="mi">82</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">170</span><span class="p">]</span>
 
 <span class="c1"># Create a mask for forested areas</span>
-<span class="n">forest_mask</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">'lccs_class'</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">forest_classes</span><span class="p">)</span>
+<span class="n">forest_mask</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"lccs_class"</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">forest_classes</span><span class="p">)</span>
 
 <span class="c1"># Masked forest area using cell area</span>
-<span class="n">ds_Forest_Area</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">'cell_area'</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">forest_mask</span><span class="p">)</span>
+<span class="n">ds_Forest_Area</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"cell_area"</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">forest_mask</span><span class="p">)</span>
 
 <span class="c1"># Stack latitude and longitude into a single dimension</span>
 <span class="n">ds_Forest_Area</span> <span class="o">=</span> <span class="n">ds_Forest_Area</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">stacked_lat_lon</span><span class="o">=</span><span class="p">(</span><span class="s2">"latitude"</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">))</span>
@@ -2477,9 +2492,7 @@ Attributes: (12/38)
 
 <span class="c1"># Group by regions and compute forested area for each year</span>
 <span class="n">Forest_Area_by_region</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">ds_Forest_Area</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"stacked_mask"</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">"stacked_lat_lon"</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+    <span class="n">ds_Forest_Area</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"stacked_mask"</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">"stacked_lat_lon"</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -2505,35 +2518,43 @@ Attributes: (12/38)
 
     <span class="c1"># Ensure valid region indexing and naming</span>
     <span class="n">region_name</span> <span class="o">=</span> <span class="n">regions</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">reg</span><span class="p">)]</span><span class="o">.</span><span class="n">name</span>
-    <span class="n">years</span> <span class="o">=</span> <span class="n">ds_Forest_Area</span><span class="p">[</span><span class="s1">'year'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">years</span> <span class="o">=</span> <span class="n">ds_Forest_Area</span><span class="p">[</span><span class="s2">"year"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
     <span class="n">values</span> <span class="o">=</span> <span class="n">reg_area</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>  <span class="c1"># Flatten in case of higher-dimensional arrays</span>
 
     <span class="c1"># Save growth data by year</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">growth</span><span class="p">[</span><span class="n">region_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">):</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">values</span><span class="p">)}</span>
+        <span class="n">growth</span><span class="p">[</span><span class="n">region_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">):</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+        <span class="p">}</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">growth</span><span class="p">[</span><span class="n">region_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Handle regions with no data</span>
 
     <span class="c1"># Add results to the list</span>
     <span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
-        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-            <span class="s2">"Region"</span><span class="p">:</span> <span class="n">region_name</span><span class="p">,</span>
-            <span class="s2">"Year"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">),</span>
-            <span class="s2">"Forest_Area"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-        <span class="p">})</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="p">{</span><span class="s2">"Region"</span><span class="p">:</span> <span class="n">region_name</span><span class="p">,</span> <span class="s2">"Year"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">),</span> <span class="s2">"Forest_Area"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)}</span>
+        <span class="p">)</span>
 
 <span class="c1"># Convert results to a DataFrame</span>
 <span class="n">results_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
 
 <span class="c1"># Add geometry to results_df</span>
-<span class="k">if</span> <span class="s1">'NUTS_NAME'</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-    <span class="n">results_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">results_df</span><span class="p">,</span> <span class="n">gdf</span><span class="p">[[</span><span class="s1">'NUTS_NAME'</span><span class="p">,</span> <span class="s1">'geometry'</span><span class="p">]],</span> <span class="n">left_on</span><span class="o">=</span><span class="s2">"Region"</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s2">"NUTS_NAME"</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">"left"</span><span class="p">)</span>
+<span class="k">if</span> <span class="s2">"NUTS_NAME"</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">results_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+        <span class="n">results_df</span><span class="p">,</span>
+        <span class="n">gdf</span><span class="p">[[</span><span class="s2">"NUTS_NAME"</span><span class="p">,</span> <span class="s2">"geometry"</span><span class="p">]],</span>
+        <span class="n">left_on</span><span class="o">=</span><span class="s2">"Region"</span><span class="p">,</span>
+        <span class="n">right_on</span><span class="o">=</span><span class="s2">"NUTS_NAME"</span><span class="p">,</span>
+        <span class="n">how</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span>
+    <span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Warning: NUTS_NAME column not found in gdf."</span><span class="p">)</span>
 
 <span class="c1"># Ensure results_df is a GeoDataFrame</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">results_df</span><span class="p">,</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">):</span>
-    <span class="n">results_df</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">results_df</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="n">gpd</span><span class="o">.</span><span class="n">GeoSeries</span><span class="p">(</span><span class="n">results_df</span><span class="p">[</span><span class="s1">'geometry'</span><span class="p">]),</span> <span class="n">crs</span><span class="o">=</span><span class="s2">"EPSG:4326"</span><span class="p">)</span>
+    <span class="n">results_df</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span>
+        <span class="n">results_df</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="n">gpd</span><span class="o">.</span><span class="n">GeoSeries</span><span class="p">(</span><span class="n">results_df</span><span class="p">[</span><span class="s2">"geometry"</span><span class="p">]),</span> <span class="n">crs</span><span class="o">=</span><span class="s2">"EPSG:4326"</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2553,41 +2574,55 @@ Attributes: (12/38)
 <span class="n">results_df</span> <span class="o">=</span> <span class="n">results_df</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="s2">"EPSG:3035"</span><span class="p">)</span>
 
 <span class="c1"># Calculate the total area of each region (in square kilometers)</span>
-<span class="n">results_df</span><span class="p">[</span><span class="s2">"Region_Total_Area"</span><span class="p">]</span> <span class="o">=</span> <span class="n">results_df</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">area</span> <span class="o">/</span> <span class="mi">10</span><span class="o">**</span><span class="mi">6</span>  <span class="c1"># Convert from m² to km²</span>
+<span class="n">results_df</span><span class="p">[</span><span class="s2">"Region_Total_Area"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">results_df</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">area</span> <span class="o">/</span> <span class="mi">10</span><span class="o">**</span><span class="mi">6</span>
+<span class="p">)</span>  <span class="c1"># Convert from m² to km²</span>
 
 <span class="c1"># Ensure 'Year' is converted to string if needed</span>
-<span class="n">results_df</span><span class="p">[</span><span class="s1">'Year'</span><span class="p">]</span> <span class="o">=</span> <span class="n">results_df</span><span class="p">[</span><span class="s1">'Year'</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<span class="n">results_df</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">]</span> <span class="o">=</span> <span class="n">results_df</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
 
-<span class="c1">#Calculate Forest Percentage</span>
-<span class="n">results_df</span><span class="p">[</span><span class="s1">'Forest_Percentage'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">results_df</span><span class="p">[</span><span class="s1">'Forest_Area'</span><span class="p">]</span> <span class="o">/</span> <span class="n">results_df</span><span class="p">[</span><span class="s1">'Region_Total_Area'</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="c1"># Calculate Forest Percentage</span>
+<span class="n">results_df</span><span class="p">[</span><span class="s2">"Forest_Percentage"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">results_df</span><span class="p">[</span><span class="s2">"Forest_Area"</span><span class="p">]</span> <span class="o">/</span> <span class="n">results_df</span><span class="p">[</span><span class="s2">"Region_Total_Area"</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
 
 <span class="c1"># Pivot the data to have years as columns</span>
-<span class="n">forest_pivot</span> <span class="o">=</span> <span class="n">results_df</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s1">'Region'</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s1">'Year'</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s1">'Forest_Percentage'</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">forest_pivot</span> <span class="o">=</span> <span class="n">results_df</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span>
+    <span class="n">index</span><span class="o">=</span><span class="s2">"Region"</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s2">"Year"</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">"Forest_Percentage"</span>
+<span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 
 <span class="c1"># Extract years for plotting</span>
 <span class="n">years</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">forest_pivot</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()]</span>
 
 <span class="c1"># Normalize color scale across all maps based on percentage coverage</span>
-<span class="n">norm_percentage</span> <span class="o">=</span> <span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">results_df</span><span class="p">[</span><span class="s1">'Forest_Percentage'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="n">norm_percentage</span> <span class="o">=</span> <span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">results_df</span><span class="p">[</span><span class="s2">"Forest_Percentage"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
 
 <span class="c1"># Plot settings</span>
 <span class="n">n_cols</span> <span class="o">=</span> <span class="mi">3</span>
 <span class="n">n_rows</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">years</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_cols</span><span class="p">))</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">n_rows</span><span class="p">,</span> <span class="n">n_cols</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">n_cols</span> <span class="o">*</span> <span class="mi">6</span><span class="p">,</span> <span class="n">n_rows</span> <span class="o">*</span> <span class="mi">4</span><span class="p">),</span> <span class="n">squeeze</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
+    <span class="n">n_rows</span><span class="p">,</span> <span class="n">n_cols</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">n_cols</span> <span class="o">*</span> <span class="mi">6</span><span class="p">,</span> <span class="n">n_rows</span> <span class="o">*</span> <span class="mi">4</span><span class="p">),</span> <span class="n">squeeze</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
 
 <span class="c1"># Plot each year in a separate subplot</span>
 <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">years</span><span class="p">):</span>
     <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">n_cols</span><span class="p">)</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">]</span>
-    <span class="n">results_df_year</span> <span class="o">=</span> <span class="n">results_df</span><span class="p">[</span><span class="n">results_df</span><span class="p">[</span><span class="s1">'Year'</span><span class="p">]</span> <span class="o">==</span> <span class="n">year</span><span class="p">]</span>
-    <span class="n">results_df_year</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s1">'Forest_Percentage'</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">"YlGn"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm_percentage</span><span class="p">)</span>
+    <span class="n">results_df_year</span> <span class="o">=</span> <span class="n">results_df</span><span class="p">[</span><span class="n">results_df</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">]</span> <span class="o">==</span> <span class="n">year</span><span class="p">]</span>
+    <span class="n">results_df_year</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+        <span class="n">column</span><span class="o">=</span><span class="s2">"Forest_Percentage"</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s2">"YlGn"</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+        <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span>
+        <span class="n">norm</span><span class="o">=</span><span class="n">norm_percentage</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Forest Coverage (%) in </span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">"off"</span><span class="p">)</span>
 
 <span class="c1"># Hide unused subplots</span>
 <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">years</span><span class="p">),</span> <span class="n">n_rows</span> <span class="o">*</span> <span class="n">n_cols</span><span class="p">):</span>
     <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">n_cols</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">"off"</span><span class="p">)</span>
 
 <span class="c1"># Step 8: Adjust layout</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
@@ -2832,8 +2867,10 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
             <span class="k">return</span> <span class="n">w</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">default</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">interval_label</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">y1</span><span class="p">):</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">y0</span><span class="p">)</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">y1</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">monotonicity_metrics</span><span class="p">(</span><span class="n">series</span><span class="p">):</span>
     <span class="n">diffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">series</span><span class="p">)</span>
@@ -2854,6 +2891,7 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
         <span class="s2">"Zero_Ratio"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">diffs</span> <span class="o">==</span> <span class="mi">0</span><span class="p">),</span>
     <span class="p">}</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_growth</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">years</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
@@ -2861,11 +2899,13 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
     <span class="n">growth_years</span> <span class="o">=</span> <span class="p">(</span><span class="n">years</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">years</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="k">return</span> <span class="n">growth</span><span class="p">,</span> <span class="n">growth_years</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">detect_spikes</span><span class="p">(</span><span class="n">growth</span><span class="p">,</span> <span class="n">spike_std_factor</span><span class="o">=</span><span class="mf">1.5</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">growth</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
     <span class="n">threshold</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">growth</span><span class="p">))</span> <span class="o">+</span> <span class="n">spike_std_factor</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">growth</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">growth</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">prepare_for_pelt</span><span class="p">(</span><span class="n">growth</span><span class="p">,</span> <span class="n">standardize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">growth</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -2873,6 +2913,7 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
     <span class="k">if</span> <span class="n">standardize</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">growth</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">growth</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">growth</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">growth</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">growth</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">detect_breakpoints</span><span class="p">(</span><span class="n">growth</span><span class="p">,</span> <span class="n">min_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">penalty</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">standardize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">growth</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">min_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
@@ -2884,6 +2925,7 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
 
     <span class="c1"># remove invalid and terminal interval</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">bp</span> <span class="k">for</span> <span class="n">bp</span> <span class="ow">in</span> <span class="n">detected</span> <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">bp</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">growth</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">make_event_record</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">positions</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">pos</span> <span class="o">=</span> <span class="n">positions</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
@@ -2898,9 +2940,11 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
         <span class="n">record</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">extra</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">record</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">update_counts</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="n">interval_counts</span><span class="p">,</span> <span class="n">phase_counts</span><span class="p">,</span> <span class="n">prepost_counts</span><span class="p">):</span>
     <span class="n">interval_counts</span><span class="p">[</span><span class="n">record</span><span class="p">[</span><span class="s2">"Interval"</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="n">phase_counts</span><span class="p">[</span><span class="n">record</span><span class="p">[</span><span class="s2">"Processing_Phase"</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+
 
 <span class="c1"># ==================================================</span>
 <span class="c1"># DATA PREP</span>
@@ -2957,7 +3001,9 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot Breakpoints Series</span>
 <span class="n">n_rows</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">n_regions</span> <span class="o">/</span> <span class="n">n_cols</span><span class="p">))</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">n_rows</span><span class="p">,</span> <span class="n">n_cols</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">n_cols</span> <span class="o">*</span> <span class="mi">8</span><span class="p">,</span> <span class="n">n_rows</span> <span class="o">*</span> <span class="mi">5</span><span class="p">),</span> <span class="n">squeeze</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
+    <span class="n">n_rows</span><span class="p">,</span> <span class="n">n_cols</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">n_cols</span> <span class="o">*</span> <span class="mi">8</span><span class="p">,</span> <span class="n">n_rows</span> <span class="o">*</span> <span class="mi">5</span><span class="p">),</span> <span class="n">squeeze</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
 <span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
 <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">region</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">unique_regions</span><span class="p">):</span>
@@ -2976,24 +3022,22 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
         <span class="n">growth</span><span class="p">,</span>
         <span class="n">min_size</span><span class="o">=</span><span class="n">pelt_min_size</span><span class="p">,</span>
         <span class="n">penalty</span><span class="o">=</span><span class="n">pelt_penalty</span><span class="p">,</span>
-        <span class="n">standardize</span><span class="o">=</span><span class="n">standardize_growth</span>
+        <span class="n">standardize</span><span class="o">=</span><span class="n">standardize_growth</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">spike_positions</span> <span class="o">=</span> <span class="n">growth_years</span><span class="p">[</span><span class="n">spike_idx</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spike_idx</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
-    <span class="n">breakpoint_positions</span> <span class="o">=</span> <span class="n">growth_years</span><span class="p">[</span><span class="n">breakpoint_idx</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">breakpoint_idx</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+    <span class="n">breakpoint_positions</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">growth_years</span><span class="p">[</span><span class="n">breakpoint_idx</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">breakpoint_idx</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+    <span class="p">)</span>
 
     <span class="c1"># Store spikes</span>
     <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">spike_idx</span><span class="p">:</span>
         <span class="n">rec</span> <span class="o">=</span> <span class="n">make_event_record</span><span class="p">(</span>
-            <span class="n">region</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">growth_years</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span>
-            <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s2">"Derivative"</span><span class="p">:</span> <span class="n">growth</span><span class="p">[</span><span class="n">s</span><span class="p">]}</span>
+            <span class="n">region</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">growth_years</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s2">"Derivative"</span><span class="p">:</span> <span class="n">growth</span><span class="p">[</span><span class="n">s</span><span class="p">]}</span>
         <span class="p">)</span>
         <span class="n">spike_records</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rec</span><span class="p">)</span>
         <span class="n">update_counts</span><span class="p">(</span>
-            <span class="n">rec</span><span class="p">,</span>
-            <span class="n">interval_spike_counts</span><span class="p">,</span>
-            <span class="n">phase_spike_counts</span><span class="p">,</span>
-            <span class="n">prepost_spike_counts</span>
+            <span class="n">rec</span><span class="p">,</span> <span class="n">interval_spike_counts</span><span class="p">,</span> <span class="n">phase_spike_counts</span><span class="p">,</span> <span class="n">prepost_spike_counts</span>
         <span class="p">)</span>
 
     <span class="c1"># Store breakpoints</span>
@@ -3004,7 +3048,7 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
             <span class="n">rec</span><span class="p">,</span>
             <span class="n">interval_breakpoint_counts</span><span class="p">,</span>
             <span class="n">phase_breakpoint_counts</span><span class="p">,</span>
-            <span class="n">prepost_breakpoint_counts</span>
+            <span class="n">prepost_breakpoint_counts</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="c1"># Background phases</span>
@@ -3014,7 +3058,7 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
             <span class="n">phase</span><span class="p">[</span><span class="s2">"end"</span><span class="p">],</span>
             <span class="n">color</span><span class="o">=</span><span class="n">phase_colors</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">phase</span><span class="p">[</span><span class="s2">"label"</span><span class="p">],</span> <span class="s2">"lightgrey"</span><span class="p">),</span>
             <span class="n">alpha</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span>
-            <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span>
+            <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="c1"># Main series</span>
@@ -3025,33 +3069,16 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
 
     <span class="c1"># Breakpoints</span>
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">breakpoint_positions</span><span class="p">:</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span>
-            <span class="n">x</span><span class="p">,</span>
-            <span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span>
-            <span class="n">linestyle</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span>
-            <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span>
-            <span class="n">zorder</span><span class="o">=</span><span class="mi">4</span>
-        <span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 
     <span class="c1"># Spikes</span>
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">spike_positions</span><span class="p">:</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span>
-            <span class="n">x</span><span class="p">,</span>
-            <span class="n">color</span><span class="o">=</span><span class="s2">"gold"</span><span class="p">,</span>
-            <span class="n">linestyle</span><span class="o">=</span><span class="s2">":"</span><span class="p">,</span>
-            <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span>
-            <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span>
-        <span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"gold"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">":"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
     <span class="c1"># Growth rate</span>
     <span class="n">ax2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
     <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-        <span class="n">growth_years</span><span class="p">,</span>
-        <span class="n">growth</span><span class="p">,</span>
-        <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span>
-        <span class="n">linestyle</span><span class="o">=</span><span class="s2">"dotted"</span><span class="p">,</span>
-        <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span>
-        <span class="n">zorder</span><span class="o">=</span><span class="mi">6</span>
+        <span class="n">growth_years</span><span class="p">,</span> <span class="n">growth</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"dotted"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">6</span>
     <span class="p">)</span>
     <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Rate of Change"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span>
     <span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">"y"</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span>
@@ -3075,7 +3102,7 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
         <span class="n">facecolor</span><span class="o">=</span><span class="n">phase_colors</span><span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]],</span>
         <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span>
         <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-        <span class="n">label</span><span class="o">=</span><span class="n">p</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span>
+        <span class="n">label</span><span class="o">=</span><span class="n">p</span><span class="p">[</span><span class="s2">"label"</span><span class="p">],</span>
     <span class="p">)</span>
     <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">processing_phases</span>
 <span class="p">]</span>
@@ -3087,15 +3114,19 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
     <span class="n">ncol</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">processing_phases</span><span class="p">),</span>
     <span class="n">frameon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
-    <span class="n">title_fontsize</span><span class="o">=</span><span class="mi">10</span>
+    <span class="n">title_fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="c1"># Line/signal legend</span>
 <span class="n">line_handles</span> <span class="o">=</span> <span class="p">[</span>
     <span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"grey"</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"forest Area"</span><span class="p">),</span>
-    <span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"dotted"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Rate of Change"</span><span class="p">),</span>
+    <span class="n">Line2D</span><span class="p">(</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"dotted"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Rate of Change"</span>
+    <span class="p">),</span>
     <span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Breakpoint"</span><span class="p">),</span>
-    <span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"gold"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">":"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Derivative spike"</span><span class="p">),</span>
+    <span class="n">Line2D</span><span class="p">(</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"gold"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">":"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Derivative spike"</span>
+    <span class="p">),</span>
 <span class="p">]</span>
 
 <span class="n">legend_lines</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
@@ -3105,7 +3136,7 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
     <span class="n">ncol</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">line_handles</span><span class="p">),</span>
     <span class="n">frameon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
-    <span class="n">title_fontsize</span><span class="o">=</span><span class="mi">10</span>
+    <span class="n">title_fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="c1"># Compact spacing between legends and plots</span>
@@ -3145,6 +3176,7 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
 <span class="n">breakpoint_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">breakpoint_records</span><span class="p">)</span>
 <span class="n">spike_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">spike_records</span><span class="p">)</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">classify_transition_relation</span><span class="p">(</span><span class="n">year</span><span class="p">):</span>
     <span class="n">matches</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">years</span> <span class="ow">in</span> <span class="n">sensors_timeline</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -3156,12 +3188,14 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
 
 <span class="k">def</span><span class="w"> </span><span class="nf">build_summary</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span>
-            <span class="s2">"intervals"</span><span class="p">,</span>
-            <span class="s2">"number of regions"</span><span class="p">,</span>
-            <span class="s2">"regions name"</span><span class="p">,</span>
-            <span class="s2">"nearest processing changes"</span><span class="p">,</span>
-        <span class="p">])</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="n">columns</span><span class="o">=</span><span class="p">[</span>
+                <span class="s2">"intervals"</span><span class="p">,</span>
+                <span class="s2">"number of regions"</span><span class="p">,</span>
+                <span class="s2">"regions name"</span><span class="p">,</span>
+                <span class="s2">"nearest processing changes"</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
 
     <span class="n">summary</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"Interval"</span><span class="p">)</span>
@@ -3179,15 +3213,16 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
     <span class="n">summary</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"Interval"</span><span class="p">:</span> <span class="s2">"intervals"</span><span class="p">})</span>
 
     <span class="c1"># Add relation to processing transition</span>
-    <span class="n">summary</span><span class="p">[</span><span class="s2">"nearest processing changes"</span><span class="p">]</span> <span class="o">=</span> <span class="n">summary</span><span class="p">[</span><span class="s2">"mean_year"</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">classify_transition_relation</span><span class="p">)</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s2">"nearest processing changes"</span><span class="p">]</span> <span class="o">=</span> <span class="n">summary</span><span class="p">[</span><span class="s2">"mean_year"</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+        <span class="n">classify_transition_relation</span>
+    <span class="p">)</span>
 
     <span class="c1"># Drop helper column</span>
     <span class="n">summary</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"mean_year"</span><span class="p">])</span>
 
     <span class="c1"># Sort by number of regions, then by interval</span>
     <span class="n">summary</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
-        <span class="p">[</span><span class="s2">"number of regions"</span><span class="p">,</span> <span class="s2">"intervals"</span><span class="p">],</span>
-        <span class="n">ascending</span><span class="o">=</span><span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]</span>
+        <span class="p">[</span><span class="s2">"number of regions"</span><span class="p">,</span> <span class="s2">"intervals"</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]</span>
     <span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">summary</span>
@@ -3443,7 +3478,9 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Prepare data for trend calculation</span>
 
 <span class="n">breakpoints_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">breakpoint_records</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">breakpoints_df</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">breakpoints_df</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"coerce"</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"Int64"</span><span class="p">)</span>
+<span class="n">breakpoints_df</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">breakpoints_df</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"coerce"</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"Int64"</span><span class="p">)</span>
+<span class="p">)</span>
 
 <span class="n">results_df</span> <span class="o">=</span> <span class="n">results_df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">results_df</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">results_df</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"coerce"</span><span class="p">)</span>
@@ -3466,12 +3503,14 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate trends</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">mann_kendall_p</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Return Mann-Kendall p-value and trend label."""</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="s2">"no trend"</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">mk</span><span class="o">.</span><span class="n">original_test</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">trend</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">significance_stars</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
@@ -3484,6 +3523,7 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
         <span class="k">return</span> <span class="s2">"*"</span>
     <span class="k">return</span> <span class="s2">""</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">significance_traffic_light</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">"Unknown"</span>
@@ -3493,6 +3533,7 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
         <span class="k">return</span> <span class="s2">"Amber"</span>
     <span class="k">return</span> <span class="s2">"Red"</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">trend_direction</span><span class="p">(</span><span class="n">rate_per_decade</span><span class="p">,</span> <span class="n">p_value</span><span class="p">,</span> <span class="n">stable_threshold</span><span class="o">=</span><span class="mf">0.10</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Classify overall direction.</span>
@@ -3500,9 +3541,12 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">rate_per_decade</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">"Unknown"</span>
-    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">p_value</span><span class="p">)</span> <span class="ow">and</span> <span class="n">p_value</span> <span class="o">&gt;=</span> <span class="mf">0.05</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">abs</span><span class="p">(</span><span class="n">rate_per_decade</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">stable_threshold</span><span class="p">:</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">p_value</span><span class="p">)</span> <span class="ow">and</span> <span class="n">p_value</span> <span class="o">&gt;=</span> <span class="mf">0.05</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">abs</span><span class="p">(</span>
+        <span class="n">rate_per_decade</span>
+    <span class="p">)</span> <span class="o">&lt;</span> <span class="n">stable_threshold</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">"Stable"</span>
     <span class="k">return</span> <span class="s2">"Increase"</span> <span class="k">if</span> <span class="n">rate_per_decade</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">"Decrease"</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">material_segmentation_change</span><span class="p">(</span><span class="n">total_direction</span><span class="p">,</span> <span class="n">total_rate_decade</span><span class="p">,</span> <span class="n">segment_rows</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""</span>
@@ -3513,42 +3557,31 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">segment_rows</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">"No"</span>
-    
+
     <span class="n">sig</span> <span class="o">=</span> <span class="n">segment_rows</span><span class="p">[</span><span class="n">segment_rows</span><span class="p">[</span><span class="s2">"MK_P_Value"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">sig</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">"No"</span>
-    
+
     <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">sig</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
         <span class="n">seg_dir</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s2">"Direction"</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">total_direction</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"Increase"</span><span class="p">,</span> <span class="s2">"Decrease"</span><span class="p">]</span> <span class="ow">and</span> <span class="n">seg_dir</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"Increase"</span><span class="p">,</span> <span class="s2">"Decrease"</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">total_direction</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"Increase"</span><span class="p">,</span> <span class="s2">"Decrease"</span><span class="p">]</span> <span class="ow">and</span> <span class="n">seg_dir</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="s2">"Increase"</span><span class="p">,</span>
+            <span class="s2">"Decrease"</span><span class="p">,</span>
+        <span class="p">]:</span>
             <span class="k">if</span> <span class="n">seg_dir</span> <span class="o">!=</span> <span class="n">total_direction</span><span class="p">:</span>
                 <span class="k">return</span> <span class="s2">"Yes"</span>
-    
+
     <span class="k">return</span> <span class="s2">"No"</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">confidence_label</span><span class="p">(</span><span class="n">n_breakpoints</span><span class="p">,</span> <span class="n">segmentation_changes</span><span class="p">,</span> <span class="n">total_p</span><span class="p">,</span> <span class="n">total_rate_decade</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    Reviewer asks for confidence considering breakpoints and local drivers.</span>
-<span class="sd">    Since local drivers are not encoded in this table, use a transparent rule:</span>
-<span class="sd">    - High: significant total trend, no material segmentation change, &lt;=1 breakpoint</span>
-<span class="sd">    - Medium: significant total trend but segmentation change or multiple breakpoints</span>
-<span class="sd">    - Low: non-significant total trend or unstable segmented interpretation</span>
-<span class="sd">    """</span>
-    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">total_p</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">"Low"</span>
-    <span class="k">if</span> <span class="n">total_p</span> <span class="o">&gt;=</span> <span class="mf">0.05</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">"Low"</span>
-    <span class="k">if</span> <span class="n">segmentation_changes</span> <span class="o">==</span> <span class="s2">"No"</span> <span class="ow">and</span> <span class="n">n_breakpoints</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">"High"</span>
-    <span class="k">return</span> <span class="s2">"Medium"</span>
 
-
-<span class="c1"># Compute total + segmented trends </span>
+<span class="c1"># Compute total + segmented trends</span>
 
 <span class="n">trend_records</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="k">for</span> <span class="n">region</span> <span class="ow">in</span> <span class="n">results_df</span><span class="p">[</span><span class="s2">"Region"</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
-    <span class="n">region_data</span> <span class="o">=</span> <span class="n">results_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">results_df</span><span class="p">[</span><span class="s2">"Region"</span><span class="p">]</span> <span class="o">==</span> <span class="n">region</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"Year"</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">region_data</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">results_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">results_df</span><span class="p">[</span><span class="s2">"Region"</span><span class="p">]</span> <span class="o">==</span> <span class="n">region</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"Year"</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="p">)</span>
     <span class="n">X_total</span> <span class="o">=</span> <span class="n">region_data</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
     <span class="n">y_total</span> <span class="o">=</span> <span class="n">region_data</span><span class="p">[</span><span class="s2">"Forest_Area"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 
@@ -3560,28 +3593,38 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
 
     <span class="c1"># Convert to % area per decade, as requested by reviewer</span>
     <span class="n">mean_total_area</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_total</span><span class="p">)</span>
-    <span class="n">total_rate_pct_per_year</span> <span class="o">=</span> <span class="p">(</span><span class="n">total_sen_slope</span> <span class="o">/</span> <span class="n">mean_total_area</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">if</span> <span class="n">mean_total_area</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-    <span class="n">total_rate_pct_per_decade</span> <span class="o">=</span> <span class="n">total_rate_pct_per_year</span> <span class="o">*</span> <span class="mi">10</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">total_rate_pct_per_year</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">total_rate_pct_per_year</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">total_sen_slope</span> <span class="o">/</span> <span class="n">mean_total_area</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">if</span> <span class="n">mean_total_area</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="p">)</span>
+    <span class="n">total_rate_pct_per_decade</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">total_rate_pct_per_year</span> <span class="o">*</span> <span class="mi">10</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">total_rate_pct_per_year</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="p">)</span>
 
     <span class="c1"># Mann-Kendall</span>
     <span class="n">total_p_value</span><span class="p">,</span> <span class="n">total_mk_trend</span> <span class="o">=</span> <span class="n">mann_kendall_p</span><span class="p">(</span><span class="n">y_total</span><span class="p">)</span>
     <span class="n">total_direction</span> <span class="o">=</span> <span class="n">trend_direction</span><span class="p">(</span><span class="n">total_rate_pct_per_decade</span><span class="p">,</span> <span class="n">total_p_value</span><span class="p">)</span>
 
-    <span class="n">trend_records</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-        <span class="s2">"Region"</span><span class="p">:</span> <span class="n">region</span><span class="p">,</span>
-        <span class="s2">"Type"</span><span class="p">:</span> <span class="s2">"Total"</span><span class="p">,</span>
-        <span class="s2">"Start_Year"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">region_data</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()),</span>
-        <span class="s2">"End_Year"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">region_data</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()),</span>
-        <span class="s2">"Sen_Slope"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">total_sen_slope</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
-        <span class="s2">"Rate_of_Change_pct_per_year"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">total_rate_pct_per_year</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">total_rate_pct_per_year</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
-        <span class="s2">"Rate_of_Change_pct_per_decade"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">total_rate_pct_per_decade</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">total_rate_pct_per_decade</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
-        <span class="s2">"MK_P_Value"</span><span class="p">:</span> <span class="n">total_p_value</span><span class="p">,</span>
-        <span class="s2">"MK_Trend"</span><span class="p">:</span> <span class="n">total_mk_trend</span><span class="p">,</span>
-        <span class="s2">"Direction"</span><span class="p">:</span> <span class="n">total_direction</span><span class="p">,</span>
-        <span class="s2">"Significance_Stars"</span><span class="p">:</span> <span class="n">significance_stars</span><span class="p">(</span><span class="n">total_p_value</span><span class="p">),</span>
-        <span class="s2">"Traffic_Light"</span><span class="p">:</span> <span class="n">significance_traffic_light</span><span class="p">(</span><span class="n">total_p_value</span><span class="p">),</span>
-        <span class="s2">"Segment_Length"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">region_data</span><span class="p">)</span>
-    <span class="p">})</span>
+    <span class="n">trend_records</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">"Region"</span><span class="p">:</span> <span class="n">region</span><span class="p">,</span>
+            <span class="s2">"Type"</span><span class="p">:</span> <span class="s2">"Total"</span><span class="p">,</span>
+            <span class="s2">"Start_Year"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">region_data</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()),</span>
+            <span class="s2">"End_Year"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">region_data</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()),</span>
+            <span class="s2">"Sen_Slope"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">total_sen_slope</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+            <span class="s2">"Rate_of_Change_pct_per_year"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">total_rate_pct_per_year</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">total_rate_pct_per_year</span><span class="p">)</span>
+            <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+            <span class="s2">"Rate_of_Change_pct_per_decade"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">total_rate_pct_per_decade</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">total_rate_pct_per_decade</span><span class="p">)</span>
+            <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+            <span class="s2">"MK_P_Value"</span><span class="p">:</span> <span class="n">total_p_value</span><span class="p">,</span>
+            <span class="s2">"MK_Trend"</span><span class="p">:</span> <span class="n">total_mk_trend</span><span class="p">,</span>
+            <span class="s2">"Direction"</span><span class="p">:</span> <span class="n">total_direction</span><span class="p">,</span>
+            <span class="s2">"Significance_Stars"</span><span class="p">:</span> <span class="n">significance_stars</span><span class="p">(</span><span class="n">total_p_value</span><span class="p">),</span>
+            <span class="s2">"Traffic_Light"</span><span class="p">:</span> <span class="n">significance_traffic_light</span><span class="p">(</span><span class="n">total_p_value</span><span class="p">),</span>
+            <span class="s2">"Segment_Length"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">region_data</span><span class="p">),</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
 
     <span class="c1"># Breakpoints and segmented trends</span>
     <span class="n">region_breakpoints</span> <span class="o">=</span> <span class="p">(</span>
@@ -3590,11 +3633,19 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
         <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
         <span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
     <span class="p">)</span>
-    <span class="n">bounds</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">region_data</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())]</span> <span class="o">+</span> <span class="n">region_breakpoints</span> <span class="o">+</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">region_data</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())]))</span>
+    <span class="n">bounds</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+        <span class="nb">set</span><span class="p">(</span>
+            <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">region_data</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())]</span>
+            <span class="o">+</span> <span class="n">region_breakpoints</span>
+            <span class="o">+</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">region_data</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())]</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
         <span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="n">segment_data</span> <span class="o">=</span> <span class="n">region_data</span><span class="p">[(</span><span class="n">region_data</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">start_year</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">region_data</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">end_year</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">segment_data</span> <span class="o">=</span> <span class="n">region_data</span><span class="p">[</span>
+            <span class="p">(</span><span class="n">region_data</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">start_year</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">region_data</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">end_year</span><span class="p">)</span>
+        <span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">segment_data</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
             <span class="k">continue</span>
@@ -3605,27 +3656,37 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
         <span class="n">seg_sen_slope</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">theilslopes</span><span class="p">(</span><span class="n">y_seg</span><span class="p">,</span> <span class="n">X_seg</span><span class="p">)</span>
 
         <span class="n">mean_seg_area</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_seg</span><span class="p">)</span>
-        <span class="n">seg_rate_pct_per_year</span> <span class="o">=</span> <span class="p">(</span><span class="n">seg_sen_slope</span> <span class="o">/</span> <span class="n">mean_seg_area</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">if</span> <span class="n">mean_seg_area</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-        <span class="n">seg_rate_pct_per_decade</span> <span class="o">=</span> <span class="n">seg_rate_pct_per_year</span> <span class="o">*</span> <span class="mi">10</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">seg_rate_pct_per_year</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="n">seg_rate_pct_per_year</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">seg_sen_slope</span> <span class="o">/</span> <span class="n">mean_seg_area</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">if</span> <span class="n">mean_seg_area</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="p">)</span>
+        <span class="n">seg_rate_pct_per_decade</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">seg_rate_pct_per_year</span> <span class="o">*</span> <span class="mi">10</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">seg_rate_pct_per_year</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="p">)</span>
 
         <span class="n">seg_p_value</span><span class="p">,</span> <span class="n">seg_mk_trend</span> <span class="o">=</span> <span class="n">mann_kendall_p</span><span class="p">(</span><span class="n">y_seg</span><span class="p">)</span>
         <span class="n">seg_direction</span> <span class="o">=</span> <span class="n">trend_direction</span><span class="p">(</span><span class="n">seg_rate_pct_per_decade</span><span class="p">,</span> <span class="n">seg_p_value</span><span class="p">)</span>
 
-        <span class="n">trend_records</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-            <span class="s2">"Region"</span><span class="p">:</span> <span class="n">region</span><span class="p">,</span>
-            <span class="s2">"Type"</span><span class="p">:</span> <span class="s2">"Segmented"</span><span class="p">,</span>
-            <span class="s2">"Start_Year"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">start_year</span><span class="p">),</span>
-            <span class="s2">"End_Year"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">end_year</span><span class="p">),</span>
-            <span class="s2">"Sen_Slope"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">seg_sen_slope</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
-            <span class="s2">"Rate_of_Change_pct_per_year"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">seg_rate_pct_per_year</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">seg_rate_pct_per_year</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
-            <span class="s2">"Rate_of_Change_pct_per_decade"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">seg_rate_pct_per_decade</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">seg_rate_pct_per_decade</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
-            <span class="s2">"MK_P_Value"</span><span class="p">:</span> <span class="n">seg_p_value</span><span class="p">,</span>
-            <span class="s2">"MK_Trend"</span><span class="p">:</span> <span class="n">seg_mk_trend</span><span class="p">,</span>
-            <span class="s2">"Direction"</span><span class="p">:</span> <span class="n">seg_direction</span><span class="p">,</span>
-            <span class="s2">"Significance_Stars"</span><span class="p">:</span> <span class="n">significance_stars</span><span class="p">(</span><span class="n">seg_p_value</span><span class="p">),</span>
-            <span class="s2">"Traffic_Light"</span><span class="p">:</span> <span class="n">significance_traffic_light</span><span class="p">(</span><span class="n">seg_p_value</span><span class="p">),</span>
-            <span class="s2">"Segment_Length"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">segment_data</span><span class="p">)</span>
-        <span class="p">})</span>
+        <span class="n">trend_records</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">"Region"</span><span class="p">:</span> <span class="n">region</span><span class="p">,</span>
+                <span class="s2">"Type"</span><span class="p">:</span> <span class="s2">"Segmented"</span><span class="p">,</span>
+                <span class="s2">"Start_Year"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">start_year</span><span class="p">),</span>
+                <span class="s2">"End_Year"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">end_year</span><span class="p">),</span>
+                <span class="s2">"Sen_Slope"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">seg_sen_slope</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+                <span class="s2">"Rate_of_Change_pct_per_year"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">seg_rate_pct_per_year</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">seg_rate_pct_per_year</span><span class="p">)</span>
+                <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+                <span class="s2">"Rate_of_Change_pct_per_decade"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">seg_rate_pct_per_decade</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">seg_rate_pct_per_decade</span><span class="p">)</span>
+                <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+                <span class="s2">"MK_P_Value"</span><span class="p">:</span> <span class="n">seg_p_value</span><span class="p">,</span>
+                <span class="s2">"MK_Trend"</span><span class="p">:</span> <span class="n">seg_mk_trend</span><span class="p">,</span>
+                <span class="s2">"Direction"</span><span class="p">:</span> <span class="n">seg_direction</span><span class="p">,</span>
+                <span class="s2">"Significance_Stars"</span><span class="p">:</span> <span class="n">significance_stars</span><span class="p">(</span><span class="n">seg_p_value</span><span class="p">),</span>
+                <span class="s2">"Traffic_Light"</span><span class="p">:</span> <span class="n">significance_traffic_light</span><span class="p">(</span><span class="n">seg_p_value</span><span class="p">),</span>
+                <span class="s2">"Segment_Length"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">segment_data</span><span class="p">),</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
 
 <span class="n">trends_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">trend_records</span><span class="p">)</span>
 </pre></div>
@@ -3663,10 +3724,13 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
 
 <span class="c1"># forest area for each region in the latest year</span>
 <span class="n">area_per_region</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">results_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">results_df</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">==</span> <span class="n">latest_year</span><span class="p">,</span> <span class="p">[</span><span class="s2">"Region"</span><span class="p">,</span> <span class="s2">"Forest_Area"</span><span class="p">]]</span>
+    <span class="n">results_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+        <span class="n">results_df</span><span class="p">[</span><span class="s2">"Year"</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">==</span> <span class="n">latest_year</span><span class="p">,</span> <span class="p">[</span><span class="s2">"Region"</span><span class="p">,</span> <span class="s2">"Forest_Area"</span><span class="p">]</span>
+    <span class="p">]</span>
     <span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">"Region"</span><span class="p">])</span>
     <span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"Region"</span><span class="p">)[</span><span class="s2">"Forest_Area"</span><span class="p">]</span>
 <span class="p">)</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">confidence_label</span><span class="p">(</span><span class="n">total_p_value</span><span class="p">,</span> <span class="n">segment_rows</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""</span>
@@ -3720,23 +3784,24 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
     <span class="n">seg_changes</span> <span class="o">=</span> <span class="n">material_segmentation_change</span><span class="p">(</span>
         <span class="n">total_direction</span><span class="o">=</span><span class="n">total_row</span><span class="p">[</span><span class="s2">"Direction"</span><span class="p">],</span>
         <span class="n">total_rate_decade</span><span class="o">=</span><span class="n">total_row</span><span class="p">[</span><span class="s2">"Rate_of_Change_pct_per_decade"</span><span class="p">],</span>
-        <span class="n">segment_rows</span><span class="o">=</span><span class="n">segment_rows</span>
+        <span class="n">segment_rows</span><span class="o">=</span><span class="n">segment_rows</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">confidence</span> <span class="o">=</span> <span class="n">confidence_label</span><span class="p">(</span>
-        <span class="n">total_p_value</span><span class="o">=</span><span class="n">total_row</span><span class="p">[</span><span class="s2">"MK_P_Value"</span><span class="p">],</span>
-        <span class="n">segment_rows</span><span class="o">=</span><span class="n">segment_rows</span>
+        <span class="n">total_p_value</span><span class="o">=</span><span class="n">total_row</span><span class="p">[</span><span class="s2">"MK_P_Value"</span><span class="p">],</span> <span class="n">segment_rows</span><span class="o">=</span><span class="n">segment_rows</span>
     <span class="p">)</span>
 
-    <span class="n">summary_rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-        <span class="s2">"Region"</span><span class="p">:</span> <span class="n">region</span><span class="p">,</span>
-        <span class="s2">"Total forest area (km²)"</span><span class="p">:</span> <span class="n">area_per_region</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">),</span>
-        <span class="s2">"Growth rate (%/decade)"</span><span class="p">:</span> <span class="n">total_row</span><span class="p">[</span><span class="s2">"Rate_of_Change_pct_per_decade"</span><span class="p">],</span>
-        <span class="s2">"Significance"</span><span class="p">:</span> <span class="n">total_row</span><span class="p">[</span><span class="s2">"Significance_Stars"</span><span class="p">],</span>
-        <span class="s2">"Breakpoints"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_breakpoints</span><span class="p">)</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">n_breakpoints</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s2">"Segmented trend needed?"</span><span class="p">:</span> <span class="n">seg_changes</span><span class="p">,</span>
-        <span class="s2">"Confidence"</span><span class="p">:</span> <span class="n">confidence</span>
-    <span class="p">})</span>
+    <span class="n">summary_rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">"Region"</span><span class="p">:</span> <span class="n">region</span><span class="p">,</span>
+            <span class="s2">"Total forest area (km²)"</span><span class="p">:</span> <span class="n">area_per_region</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">),</span>
+            <span class="s2">"Growth rate (%/decade)"</span><span class="p">:</span> <span class="n">total_row</span><span class="p">[</span><span class="s2">"Rate_of_Change_pct_per_decade"</span><span class="p">],</span>
+            <span class="s2">"Significance"</span><span class="p">:</span> <span class="n">total_row</span><span class="p">[</span><span class="s2">"Significance_Stars"</span><span class="p">],</span>
+            <span class="s2">"Breakpoints"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_breakpoints</span><span class="p">)</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">n_breakpoints</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"Segmented trend needed?"</span><span class="p">:</span> <span class="n">seg_changes</span><span class="p">,</span>
+            <span class="s2">"Confidence"</span><span class="p">:</span> <span class="n">confidence</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
 
 <span class="n">executive_summary_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">summary_rows</span><span class="p">)</span>
 
@@ -3746,14 +3811,19 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
 <span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># Round for display</span>
-<span class="n">executive_summary_df</span><span class="p">[</span><span class="s2">"Growth rate (%/decade)"</span><span class="p">]</span> <span class="o">=</span> <span class="n">executive_summary_df</span><span class="p">[</span><span class="s2">"Growth rate (%/decade)"</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">executive_summary_df</span><span class="p">[</span><span class="s2">"Total forest area (km²)"</span><span class="p">]</span> <span class="o">=</span> <span class="n">executive_summary_df</span><span class="p">[</span><span class="s2">"Total forest area (km²)"</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">executive_summary_df</span><span class="p">[</span><span class="s2">"Growth rate (%/decade)"</span><span class="p">]</span> <span class="o">=</span> <span class="n">executive_summary_df</span><span class="p">[</span>
+    <span class="s2">"Growth rate (%/decade)"</span>
+<span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">executive_summary_df</span><span class="p">[</span><span class="s2">"Total forest area (km²)"</span><span class="p">]</span> <span class="o">=</span> <span class="n">executive_summary_df</span><span class="p">[</span>
+    <span class="s2">"Total forest area (km²)"</span>
+<span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
 <span class="c1"># Normalize text values</span>
-<span class="n">executive_summary_df</span><span class="p">[</span><span class="s2">"Segmented trend needed?"</span><span class="p">]</span> <span class="o">=</span> <span class="n">executive_summary_df</span><span class="p">[</span><span class="s2">"Segmented trend needed?"</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span>
-    <span class="s2">"Yes"</span><span class="p">:</span> <span class="s2">"Yes"</span><span class="p">,</span>
-    <span class="s2">"No"</span><span class="p">:</span> <span class="s2">"No"</span>
-<span class="p">})</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">"No"</span><span class="p">)</span>
+<span class="n">executive_summary_df</span><span class="p">[</span><span class="s2">"Segmented trend needed?"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">executive_summary_df</span><span class="p">[</span><span class="s2">"Segmented trend needed?"</span><span class="p">]</span>
+    <span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s2">"Yes"</span><span class="p">:</span> <span class="s2">"Yes"</span><span class="p">,</span> <span class="s2">"No"</span><span class="p">:</span> <span class="s2">"No"</span><span class="p">})</span>
+    <span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">"No"</span><span class="p">)</span>
+<span class="p">)</span>
 
 <span class="n">executive_summary_df</span><span class="p">[</span><span class="s2">"Confidence"</span><span class="p">]</span> <span class="o">=</span> <span class="n">executive_summary_df</span><span class="p">[</span><span class="s2">"Confidence"</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">"Low"</span><span class="p">)</span>
 <span class="n">executive_summary_df</span><span class="p">[</span><span class="s2">"Significance"</span><span class="p">]</span> <span class="o">=</span> <span class="n">executive_summary_df</span><span class="p">[</span><span class="s2">"Significance"</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
@@ -3773,6 +3843,7 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
 
 <span class="c1"># HTML table display</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">color_significance</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="s2">"***"</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">"background-color: #e2f0d9; color: #1f4d1f; font-weight: bold;"</span>
@@ -3782,12 +3853,14 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
         <span class="k">return</span> <span class="s2">"background-color: #fce5cd; color: #7f3f00; font-weight: bold;"</span>
     <span class="k">return</span> <span class="s2">""</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">color_segmented</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="s2">"No"</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">"background-color: #e2f0d9; color: #1f4d1f; font-weight: bold;"</span>
     <span class="k">elif</span> <span class="n">val</span> <span class="o">==</span> <span class="s2">"Yes"</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">"background-color: #f4cccc; color: #990000; font-weight: bold;"</span>
     <span class="k">return</span> <span class="s2">""</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">color_confidence</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="s2">"High"</span><span class="p">:</span>
@@ -3798,11 +3871,13 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
         <span class="k">return</span> <span class="s2">"background-color: #f4cccc; color: #990000; font-weight: bold;"</span>
     <span class="k">return</span> <span class="s2">""</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">growth_bar</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">""</span>
     <span class="n">pct</span> <span class="o">=</span> <span class="mi">100</span> <span class="k">if</span> <span class="n">vmax</span> <span class="o">==</span> <span class="n">vmin</span> <span class="k">else</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">val</span> <span class="o">-</span> <span class="n">vmin</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">vmax</span> <span class="o">-</span> <span class="n">vmin</span><span class="p">)</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s2">"background: linear-gradient(90deg, #9fc5e8 </span><span class="si">{</span><span class="n">pct</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%, transparent </span><span class="si">{</span><span class="n">pct</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%); text-align: center;"</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">display_executive_summary_table</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
     <span class="n">df_display</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -3830,10 +3905,9 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
             <span class="n">styles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">styles</span>
 
-    <span class="n">styled</span> <span class="o">=</span> <span class="n">df_display</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">format</span><span class="p">({</span>
-        <span class="s2">"Total forest area (km²)"</span><span class="p">:</span> <span class="s2">"</span><span class="si">{:.0f}</span><span class="s2">"</span><span class="p">,</span>
-        <span class="s2">"Growth rate (%/decade)"</span><span class="p">:</span> <span class="s2">"</span><span class="si">{:.1f}</span><span class="s2">"</span>
-    <span class="p">})</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">style_row</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">styled</span> <span class="o">=</span> <span class="n">df_display</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="p">{</span><span class="s2">"Total forest area (km²)"</span><span class="p">:</span> <span class="s2">"</span><span class="si">{:.0f}</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"Growth rate (%/decade)"</span><span class="p">:</span> <span class="s2">"</span><span class="si">{:.1f}</span><span class="s2">"</span><span class="p">}</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">style_row</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="n">html</span> <span class="o">=</span> <span class="n">styled</span><span class="o">.</span><span class="n">to_html</span><span class="p">()</span>
 
@@ -3857,6 +3931,7 @@ Source: See Table 1-3 in <a href="https://cds.climate.copernicus.eu/datasets/sat
 <span class="s2">    """</span>
 
     <span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="n">wrapped_html</span><span class="p">))</span>
+
 
 <span class="n">display_executive_summary_table</span><span class="p">(</span><span class="n">executive_summary_df</span><span class="p">)</span>
 </pre></div>

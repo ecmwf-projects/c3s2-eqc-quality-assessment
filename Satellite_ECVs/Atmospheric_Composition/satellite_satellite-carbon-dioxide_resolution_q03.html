@@ -702,23 +702,20 @@
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">calendar</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span> <span class="c1">#to suppress warning</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">utils</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span>
-
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>  <span class="c1"># to suppress warning</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span>
+
 <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"CDSAPI_RC"</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">"~/putero_davide/.cdsapirc"</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"seaborn-v0_8-notebook"</span><span class="p">)</span>
 
-<span class="n">download</span><span class="o">.</span><span class="n">INVALIDATE_CACHE</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1">#Set True to invalidate the caching</span>
+<span class="n">download</span><span class="o">.</span><span class="n">INVALIDATE_CACHE</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Set True to invalidate the caching</span>
 
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">)</span> <span class="c1">#To filter out warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">)</span>  <span class="c1"># To filter out warnings</span>
 </pre></div>
 </div>
 </div>
@@ -745,21 +742,23 @@
         <span class="k">return</span> <span class="n">da</span>
 
     <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-            <span class="n">da</span> <span class="o">*=</span> <span class="mf">1.0e6</span>
-            <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"ppm"</span>
+        <span class="n">da</span> <span class="o">*=</span> <span class="mf">1.0e6</span>
+        <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"ppm"</span>
     <span class="k">return</span> <span class="n">da</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_coverage_obs4mips</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">missing_values</span><span class="o">=</span><span class="mf">1.0e20</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">"time"</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">da</span> <span class="o">!=</span> <span class="n">missing_values</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span> <span class="o">/</span> <span class="n">da</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_coverage_iasi</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">"time"</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">da</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span> <span class="o">/</span> <span class="n">da</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span>
-    
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">aggregate_coverage_iasi</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
     <span class="n">da</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"mtco2_nobs"</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"time.month"</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">compute_coverage_iasi</span><span class="p">)</span>
     <span class="n">da</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"long_name"</span><span class="p">:</span> <span class="s2">"MTCO$_2$ Data Coverage"</span><span class="p">}</span>
     <span class="k">return</span> <span class="n">da</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"mtco2_coverage"</span><span class="p">)</span>
-    
 </pre></div>
 </div>
 </div>

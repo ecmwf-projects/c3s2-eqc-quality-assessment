@@ -713,28 +713,25 @@ the <a class="reference external" href="https://cds.climate.copernicus.eu/datase
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">textwrap</span>
+
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">)</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">utils</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">linregress</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">cartopy.mpl.gridliner</span><span class="w"> </span><span class="kn">import</span> <span class="n">Gridliner</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">download</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.ticker</span><span class="w"> </span><span class="kn">import</span> <span class="n">FixedLocator</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.signal</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">signal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">linregress</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"seaborn-v0_8-notebook"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">"hatch.linewidth"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">cacholote</span>
+
 <span class="c1"># Set the custom temporary directory</span>
 <span class="n">custom_tmpdir</span> <span class="o">=</span> <span class="s2">"/work/cmcc/am35323/update_cache/.tmp/"</span>
 
@@ -742,9 +739,9 @@ the <a class="reference external" href="https://cds.climate.copernicus.eu/datase
 <span class="n">tempfile</span><span class="o">.</span><span class="n">tempdir</span> <span class="o">=</span> <span class="n">custom_tmpdir</span>
 
 <span class="n">cacholote</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
-    <span class="n">cache_db_urlpath</span><span class="o">=</span><span class="s1">'sqlite:////work/cmcc/am35323/update_cache/.cacholote/cacholote.db'</span><span class="p">,</span>
-    <span class="n">cache_files_urlpath</span><span class="o">=</span><span class="s1">'/work/cmcc/am35323/update_cache/.cacholote/cache_files'</span><span class="p">,</span>
- <span class="p">)</span>
+    <span class="n">cache_db_urlpath</span><span class="o">=</span><span class="s2">"sqlite:////work/cmcc/am35323/update_cache/.cacholote/cacholote.db"</span><span class="p">,</span>
+    <span class="n">cache_files_urlpath</span><span class="o">=</span><span class="s2">"/work/cmcc/am35323/update_cache/.cacholote/cache_files"</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -784,9 +781,9 @@ the <a class="reference external" href="https://cds.climate.copernicus.eu/datase
 
 <span class="c1"># Variable</span>
 <span class="n">variable</span> <span class="o">=</span> <span class="s2">"temperature"</span>
-<span class="k">assert</span> <span class="n">variable</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"temperature"</span><span class="p">)</span> 
+<span class="k">assert</span> <span class="n">variable</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"temperature"</span><span class="p">)</span>
 
-<span class="c1">#Collection id</span>
+<span class="c1"># Collection id</span>
 <span class="n">collection_id</span> <span class="o">=</span> <span class="s2">"CMIP6"</span>
 <span class="k">assert</span> <span class="n">collection_id</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"CMIP6"</span><span class="p">)</span>
 </pre></div>
@@ -805,20 +802,44 @@ the <a class="reference external" href="https://cds.climate.copernicus.eu/datase
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">models_cmip6</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"access_cm2"</span><span class="p">,</span>
-    <span class="s2">"awi_cm_1_1_mr"</span><span class="p">,</span> <span class="s2">"canesm5"</span><span class="p">,</span> 
-    <span class="s2">"canesm5_canoe"</span><span class="p">,</span> <span class="s2">"ciesm"</span><span class="p">,</span> <span class="s2">"cmcc_cm2_sr5"</span><span class="p">,</span> <span class="s2">"cesm2"</span><span class="p">,</span>
-    <span class="s2">"cmcc_esm2"</span><span class="p">,</span> <span class="s2">"cnrm_cm6_1"</span><span class="p">,</span> <span class="s2">"cnrm_cm6_1_hr"</span><span class="p">,</span> <span class="s2">"cnrm_esm2_1"</span><span class="p">,</span>
-    <span class="s2">"ec_earth3_cc"</span><span class="p">,</span> <span class="s2">"ec_earth3_veg_lr"</span><span class="p">,</span>  <span class="s2">"fgoals_g3"</span><span class="p">,</span> <span class="s2">"fgoals_f3_l"</span><span class="p">,</span>
-    <span class="s2">"fio_esm_2_0"</span><span class="p">,</span> <span class="s2">"gfdl_esm4"</span><span class="p">,</span> <span class="s2">"hadgem3_gc31_ll"</span><span class="p">,</span> <span class="s2">"hadgem3_gc31_mm"</span><span class="p">,</span>
-    <span class="s2">"iitm_esm"</span><span class="p">,</span> <span class="s2">"inm_cm4_8"</span><span class="p">,</span> <span class="s2">"inm_cm5_0"</span><span class="p">,</span> <span class="s2">"ipsl_cm6a_lr"</span><span class="p">,</span>
-    <span class="s2">"kiost_esm"</span><span class="p">,</span> <span class="s2">"miroc6"</span><span class="p">,</span> <span class="s2">"miroc_es2l"</span><span class="p">,</span> <span class="s2">"mcm_ua_1_0"</span><span class="p">,</span>
-    <span class="s2">"mpi_esm1_2_lr"</span><span class="p">,</span> <span class="s2">"mri_esm2_0"</span><span class="p">,</span> <span class="s2">"nesm3"</span><span class="p">,</span> 
-    <span class="s2">"noresm2_mm"</span><span class="p">,</span> <span class="s2">"taiesm1"</span><span class="p">,</span> <span class="s2">"ukesm1_0_ll"</span><span class="p">,</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">models_cmip6</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">"access_cm2"</span><span class="p">,</span>
+    <span class="s2">"awi_cm_1_1_mr"</span><span class="p">,</span>
+    <span class="s2">"canesm5"</span><span class="p">,</span>
+    <span class="s2">"canesm5_canoe"</span><span class="p">,</span>
+    <span class="s2">"ciesm"</span><span class="p">,</span>
+    <span class="s2">"cmcc_cm2_sr5"</span><span class="p">,</span>
+    <span class="s2">"cesm2"</span><span class="p">,</span>
+    <span class="s2">"cmcc_esm2"</span><span class="p">,</span>
+    <span class="s2">"cnrm_cm6_1"</span><span class="p">,</span>
+    <span class="s2">"cnrm_cm6_1_hr"</span><span class="p">,</span>
+    <span class="s2">"cnrm_esm2_1"</span><span class="p">,</span>
+    <span class="s2">"ec_earth3_cc"</span><span class="p">,</span>
+    <span class="s2">"ec_earth3_veg_lr"</span><span class="p">,</span>
+    <span class="s2">"fgoals_g3"</span><span class="p">,</span>
+    <span class="s2">"fgoals_f3_l"</span><span class="p">,</span>
+    <span class="s2">"fio_esm_2_0"</span><span class="p">,</span>
+    <span class="s2">"gfdl_esm4"</span><span class="p">,</span>
+    <span class="s2">"hadgem3_gc31_ll"</span><span class="p">,</span>
+    <span class="s2">"hadgem3_gc31_mm"</span><span class="p">,</span>
+    <span class="s2">"iitm_esm"</span><span class="p">,</span>
+    <span class="s2">"inm_cm4_8"</span><span class="p">,</span>
+    <span class="s2">"inm_cm5_0"</span><span class="p">,</span>
+    <span class="s2">"ipsl_cm6a_lr"</span><span class="p">,</span>
+    <span class="s2">"kiost_esm"</span><span class="p">,</span>
+    <span class="s2">"miroc6"</span><span class="p">,</span>
+    <span class="s2">"miroc_es2l"</span><span class="p">,</span>
+    <span class="s2">"mcm_ua_1_0"</span><span class="p">,</span>
+    <span class="s2">"mpi_esm1_2_lr"</span><span class="p">,</span>
+    <span class="s2">"mri_esm2_0"</span><span class="p">,</span>
+    <span class="s2">"nesm3"</span><span class="p">,</span>
+    <span class="s2">"noresm2_mm"</span><span class="p">,</span>
+    <span class="s2">"taiesm1"</span><span class="p">,</span>
+    <span class="s2">"ukesm1_0_ll"</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="n">level_name_era5</span><span class="o">=</span><span class="s2">"pressure_level"</span>
-<span class="n">level_name_cmip6</span><span class="o">=</span><span class="s2">"level"</span>
+<span class="n">level_name_era5</span> <span class="o">=</span> <span class="s2">"pressure_level"</span>
+<span class="n">level_name_cmip6</span> <span class="o">=</span> <span class="s2">"level"</span>
 </pre></div>
 </div>
 </div>
@@ -837,7 +858,6 @@ the <a class="reference external" href="https://cds.climate.copernicus.eu/datase
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">request_era</span> <span class="o">=</span> <span class="p">(</span>
-    
     <span class="s2">"reanalysis-era5-pressure-levels-monthly-means"</span><span class="p">,</span>
     <span class="p">{</span>
         <span class="s2">"product_type"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"monthly_averaged_reanalysis"</span><span class="p">],</span>
@@ -845,22 +865,29 @@ the <a class="reference external" href="https://cds.climate.copernicus.eu/datase
         <span class="s2">"time"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"00:00"</span><span class="p">],</span>
         <span class="s2">"variable"</span><span class="p">:</span> <span class="s2">"temperature"</span><span class="p">,</span>
         <span class="s2">"year"</span><span class="p">:</span> <span class="p">[</span>
-            <span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
         <span class="p">],</span>  <span class="c1"># Include D(year-1)</span>
         <span class="s2">"month"</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">)],</span>
         <span class="s2">"pressure_level"</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">"50"</span><span class="p">,</span><span class="s2">"70"</span><span class="p">,</span><span class="s2">"100"</span><span class="p">,</span>
-            <span class="s2">"150"</span><span class="p">,</span> <span class="s2">"200"</span><span class="p">,</span><span class="s2">"250"</span><span class="p">,</span>
-            <span class="s2">"300"</span><span class="p">,</span> <span class="s2">"400"</span><span class="p">,</span><span class="s2">"500"</span><span class="p">,</span>
-            <span class="s2">"600"</span><span class="p">,</span> <span class="s2">"700"</span><span class="p">,</span><span class="s2">"850"</span><span class="p">,</span>
-            <span class="s2">"925"</span><span class="p">,</span> <span class="s2">"1000"</span><span class="p">,</span>
+            <span class="s2">"50"</span><span class="p">,</span>
+            <span class="s2">"70"</span><span class="p">,</span>
+            <span class="s2">"100"</span><span class="p">,</span>
+            <span class="s2">"150"</span><span class="p">,</span>
+            <span class="s2">"200"</span><span class="p">,</span>
+            <span class="s2">"250"</span><span class="p">,</span>
+            <span class="s2">"300"</span><span class="p">,</span>
+            <span class="s2">"400"</span><span class="p">,</span>
+            <span class="s2">"500"</span><span class="p">,</span>
+            <span class="s2">"600"</span><span class="p">,</span>
+            <span class="s2">"700"</span><span class="p">,</span>
+            <span class="s2">"850"</span><span class="p">,</span>
+            <span class="s2">"925"</span><span class="p">,</span>
+            <span class="s2">"1000"</span><span class="p">,</span>
         <span class="p">],</span>
     <span class="p">},</span>
 <span class="p">)</span>
 
 <span class="n">request_era_ps_mask</span> <span class="o">=</span> <span class="p">(</span>
-    
     <span class="s2">"reanalysis-era5-single-levels-monthly-means"</span><span class="p">,</span>
     <span class="p">{</span>
         <span class="s2">"product_type"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"monthly_averaged_reanalysis"</span><span class="p">],</span>
@@ -868,8 +895,7 @@ the <a class="reference external" href="https://cds.climate.copernicus.eu/datase
         <span class="s2">"time"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"00:00"</span><span class="p">],</span>
         <span class="s2">"variable"</span><span class="p">:</span> <span class="s2">"surface_pressure"</span><span class="p">,</span>
         <span class="s2">"year"</span><span class="p">:</span> <span class="p">[</span>
-            <span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
         <span class="p">],</span>  <span class="c1"># Include D(year-1)</span>
         <span class="s2">"month"</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">)],</span>
     <span class="p">},</span>
@@ -891,7 +917,7 @@ the <a class="reference external" href="https://cds.climate.copernicus.eu/datase
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">request_cmip6</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="c1">#"format": "zip",</span>
+    <span class="c1"># "format": "zip",</span>
     <span class="s2">"temporal_resolution"</span><span class="p">:</span> <span class="s2">"monthly"</span><span class="p">,</span>
     <span class="s2">"experiment"</span><span class="p">:</span> <span class="s2">"historical"</span><span class="p">,</span>
     <span class="s2">"variable"</span><span class="p">:</span> <span class="s2">"air_temperature"</span><span class="p">,</span>
@@ -900,12 +926,21 @@ the <a class="reference external" href="https://cds.climate.copernicus.eu/datase
     <span class="p">],</span>  <span class="c1"># Include D(year-1)</span>
     <span class="s2">"month"</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">)],</span>
     <span class="s2">"level"</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">"50"</span><span class="p">,</span><span class="s2">"70"</span><span class="p">,</span><span class="s2">"100"</span><span class="p">,</span>
-            <span class="s2">"150"</span><span class="p">,</span> <span class="s2">"200"</span><span class="p">,</span><span class="s2">"250"</span><span class="p">,</span>
-            <span class="s2">"300"</span><span class="p">,</span> <span class="s2">"400"</span><span class="p">,</span><span class="s2">"500"</span><span class="p">,</span>
-            <span class="s2">"600"</span><span class="p">,</span> <span class="s2">"700"</span><span class="p">,</span><span class="s2">"850"</span><span class="p">,</span>
-            <span class="s2">"925"</span><span class="p">,</span> <span class="s2">"1000"</span><span class="p">,</span>
-        <span class="p">],</span>
+        <span class="s2">"50"</span><span class="p">,</span>
+        <span class="s2">"70"</span><span class="p">,</span>
+        <span class="s2">"100"</span><span class="p">,</span>
+        <span class="s2">"150"</span><span class="p">,</span>
+        <span class="s2">"200"</span><span class="p">,</span>
+        <span class="s2">"250"</span><span class="p">,</span>
+        <span class="s2">"300"</span><span class="p">,</span>
+        <span class="s2">"400"</span><span class="p">,</span>
+        <span class="s2">"500"</span><span class="p">,</span>
+        <span class="s2">"600"</span><span class="p">,</span>
+        <span class="s2">"700"</span><span class="p">,</span>
+        <span class="s2">"850"</span><span class="p">,</span>
+        <span class="s2">"925"</span><span class="p">,</span>
+        <span class="s2">"1000"</span><span class="p">,</span>
+    <span class="p">],</span>
 <span class="p">}</span>
 <span class="n">model_requests</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">if</span> <span class="n">collection_id</span> <span class="o">==</span> <span class="s2">"CMIP6"</span><span class="p">:</span>
@@ -940,102 +975,130 @@ the <a class="reference external" href="https://cds.climate.copernicus.eu/datase
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_latband_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">lat_start</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">latitude</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="n">lat_max</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"nearest"</span><span class="p">)</span>
     <span class="n">lat_end</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">latitude</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="n">lat_min</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"nearest"</span><span class="p">)</span>
-    
+
     <span class="c1"># Ensure correct slicing order for descending or ascending latitude</span>
-    <span class="n">lat_slice</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">lat_start</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">lat_end</span><span class="o">.</span><span class="n">item</span><span class="p">()),</span> <span class="nb">max</span><span class="p">(</span><span class="n">lat_start</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">lat_end</span><span class="o">.</span><span class="n">item</span><span class="p">()))</span>
-    <span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="n">lat_slice</span><span class="p">)</span>
-    <span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">"longitude"</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">lat_slice</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span>
+        <span class="nb">min</span><span class="p">(</span><span class="n">lat_start</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">lat_end</span><span class="o">.</span><span class="n">item</span><span class="p">()),</span> <span class="nb">max</span><span class="p">(</span><span class="n">lat_start</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">lat_end</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+    <span class="p">)</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">latitude</span><span class="o">=</span><span class="n">lat_slice</span><span class="p">)</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">"longitude"</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">"latitude"</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">get_symmetric_latband_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">north</span> <span class="o">=</span> <span class="n">get_latband_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=</span><span class="n">lat_min</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="n">lat_max</span><span class="p">)</span>
     <span class="n">south</span> <span class="o">=</span> <span class="n">get_latband_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=-</span><span class="n">lat_max</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=-</span><span class="n">lat_min</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">north</span><span class="p">,</span> <span class="n">south</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="s2">"dummy"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">"dummy"</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">round_plev</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
-    <span class="k">if</span> <span class="s1">'plev'</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">coords</span><span class="p">:</span>
-        <span class="n">rounded_plev</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">'plev'</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">decimals</span><span class="o">=</span><span class="n">decimals</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">"plev"</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">coords</span><span class="p">:</span>
+        <span class="n">rounded_plev</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"plev"</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">decimals</span><span class="o">=</span><span class="n">decimals</span><span class="p">)</span>
         <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">plev</span><span class="o">=</span><span class="p">(</span><span class="s2">"plev"</span><span class="p">,</span> <span class="n">rounded_plev</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">ds</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">compute_trends_clim</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="n">obs</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_trends_clim</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">obs</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">linregress_ufunc</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">r_value</span><span class="p">,</span> <span class="n">p_value</span><span class="p">,</span> <span class="n">std_err</span> <span class="o">=</span> <span class="n">linregress</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">slope</span><span class="p">,</span> <span class="n">p_value</span>
 
     <span class="n">da</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">da_clim</span><span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">"time"</span><span class="p">)</span>
-    <span class="n">time</span> <span class="o">=</span> <span class="n">da</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'float64'</span><span class="p">)</span>  
+    <span class="n">da_clim</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">"time"</span><span class="p">)</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">da</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"float64"</span><span class="p">)</span>
     <span class="n">slope</span><span class="p">,</span> <span class="n">pval</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">apply_ufunc</span><span class="p">(</span>
         <span class="n">linregress_ufunc</span><span class="p">,</span>
         <span class="n">da</span><span class="p">,</span>  <span class="c1"># shape: (pressure_level, band, time)</span>
         <span class="n">time</span><span class="p">,</span>
-        <span class="n">input_core_dims</span><span class="o">=</span><span class="p">[[</span><span class="s1">'time'</span><span class="p">],</span> <span class="p">[</span><span class="s1">'time'</span><span class="p">]],</span>
+        <span class="n">input_core_dims</span><span class="o">=</span><span class="p">[[</span><span class="s2">"time"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"time"</span><span class="p">]],</span>
         <span class="n">output_core_dims</span><span class="o">=</span><span class="p">[[],</span> <span class="p">[]],</span>
         <span class="n">vectorize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">dask</span><span class="o">=</span><span class="s1">'parallelized'</span><span class="p">,</span>
-        <span class="n">output_dtypes</span><span class="o">=</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+        <span class="n">dask</span><span class="o">=</span><span class="s2">"parallelized"</span><span class="p">,</span>
+        <span class="n">output_dtypes</span><span class="o">=</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
     <span class="p">)</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
         <span class="p">{</span>
-            <span class="s2">"clim"</span><span class="p">:</span><span class="n">da_clim</span><span class="p">,</span>
+            <span class="s2">"clim"</span><span class="p">:</span> <span class="n">da_clim</span><span class="p">,</span>
             <span class="s2">"slope"</span><span class="p">:</span> <span class="n">slope</span><span class="p">,</span>
-            <span class="s2">"p"</span><span class="p">:</span><span class="n">pval</span><span class="p">,</span>
+            <span class="s2">"p"</span><span class="p">:</span> <span class="n">pval</span><span class="p">,</span>
         <span class="p">}</span>
     <span class="p">)</span>
 
     <span class="c1"># harmonize pressure coordinate name</span>
-    <span class="k">if</span> <span class="n">obs</span><span class="o">==</span><span class="kc">False</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">obs</span><span class="p">:</span>
         <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">"plev"</span><span class="p">:</span> <span class="s2">"pressure_level"</span><span class="p">})</span>
-    
-    <span class="n">ds</span><span class="p">[</span><span class="s1">'signif'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s1">'p'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-    
+
+    <span class="n">ds</span><span class="p">[</span><span class="s2">"signif"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">"p"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">ds</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_band_trends_clim</span><span class="p">(</span>
-    <span class="n">ds</span><span class="p">,</span> <span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span><span class="p">,</span> <span class="n">obs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">ds</span><span class="p">,</span>
+    <span class="n">year_start</span><span class="p">,</span>
+    <span class="n">year_stop</span><span class="p">,</span>
+    <span class="n">obs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="k">if</span> <span class="n">obs</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">obs</span><span class="p">:</span>
         <span class="n">ds_ps_mask</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
             <span class="o">*</span><span class="n">request_era_ps_mask</span><span class="p">,</span>
             <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">masked_list</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">pressure_level</span><span class="o">=</span><span class="p">(</span><span class="s2">"pressure_level"</span><span class="p">,</span> <span class="n">ds</span><span class="o">.</span><span class="n">pressure_level</span><span class="o">.</span><span class="n">values</span> <span class="o">*</span> <span class="mi">100</span><span class="p">))</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span>
+            <span class="n">pressure_level</span><span class="o">=</span><span class="p">(</span><span class="s2">"pressure_level"</span><span class="p">,</span> <span class="n">ds</span><span class="o">.</span><span class="n">pressure_level</span><span class="o">.</span><span class="n">values</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+        <span class="p">)</span>
 
         <span class="k">for</span> <span class="n">level</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">pressure_level</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
-            <span class="n">mask</span> <span class="o">=</span> <span class="n">ds_ps_mask</span><span class="p">[</span><span class="s1">'sp'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">level</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">ds_ps_mask</span><span class="p">[</span><span class="s2">"sp"</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">level</span>
             <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">pressure_level</span><span class="o">=</span><span class="p">[</span><span class="n">level</span><span class="p">])</span>
             <span class="n">masked_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
 
         <span class="c1"># Concatenate along pressure_level</span>
-        <span class="n">mask_levels</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">masked_list</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s1">'pressure_level'</span><span class="p">)</span>
+        <span class="n">mask_levels</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">masked_list</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">"pressure_level"</span><span class="p">)</span>
         <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask_levels</span><span class="p">)</span>
         <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="s2">"latitude"</span><span class="p">)</span>
 
-    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">convert_calendar</span><span class="p">(</span><span class="s1">'proleptic_gregorian'</span><span class="p">,</span> <span class="n">align_on</span><span class="o">=</span><span class="s1">'date'</span><span class="p">,</span> <span class="n">use_cftime</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s1">'areacella'</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">:</span>
-        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="s1">'areacella'</span><span class="p">)</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">convert_calendar</span><span class="p">(</span><span class="s2">"proleptic_gregorian"</span><span class="p">,</span> <span class="n">align_on</span><span class="o">=</span><span class="s2">"date"</span><span class="p">,</span> <span class="n">use_cftime</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">"areacella"</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="s2">"areacella"</span><span class="p">)</span>
     <span class="c1"># Compute means for each band</span>
     <span class="n">latband_mean_global</span> <span class="o">=</span> <span class="n">get_latband_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=-</span><span class="mi">90</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
     <span class="n">latband_mean_NH</span> <span class="o">=</span> <span class="n">get_latband_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
     <span class="n">latband_mean_SH</span> <span class="o">=</span> <span class="n">get_latband_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=-</span><span class="mi">90</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">latband_mean_tropics</span> <span class="o">=</span> <span class="n">get_latband_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=-</span><span class="mf">23.5</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="mf">23.5</span><span class="p">)</span>
-    <span class="n">latband_mean_extratropics</span> <span class="o">=</span> <span class="n">get_symmetric_latband_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=</span><span class="mf">23.5</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="mf">66.5</span><span class="p">)</span>
+    <span class="n">latband_mean_extratropics</span> <span class="o">=</span> <span class="n">get_symmetric_latband_mean</span><span class="p">(</span>
+        <span class="n">ds</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=</span><span class="mf">23.5</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="mf">66.5</span>
+    <span class="p">)</span>
     <span class="n">latband_mean_polar</span> <span class="o">=</span> <span class="n">get_symmetric_latband_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">lat_min</span><span class="o">=</span><span class="mf">66.5</span><span class="p">,</span> <span class="n">lat_max</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
 
     <span class="c1"># Add a new coordinate for each band and concatenate</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">latband_mean_global</span><span class="p">,</span> <span class="n">latband_mean_NH</span><span class="p">,</span> <span class="n">latband_mean_SH</span><span class="p">,</span><span class="n">latband_mean_tropics</span><span class="p">,</span> <span class="n">latband_mean_extratropics</span><span class="p">,</span> <span class="n">latband_mean_polar</span><span class="p">],</span>
-        <span class="n">dim</span><span class="o">=</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">([</span><span class="s2">"Global"</span><span class="p">,</span><span class="s2">"Northern-hemisphere"</span><span class="p">,</span> <span class="s2">"Southern-hemisphere"</span><span class="p">,</span>
-                          <span class="s2">"Tropics"</span><span class="p">,</span> <span class="s2">"Extratropics"</span><span class="p">,</span> <span class="s2">"Polar"</span><span class="p">],</span> <span class="n">dims</span><span class="o">=</span><span class="s2">"band"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"band"</span><span class="p">)</span>
+        <span class="p">[</span>
+            <span class="n">latband_mean_global</span><span class="p">,</span>
+            <span class="n">latband_mean_NH</span><span class="p">,</span>
+            <span class="n">latband_mean_SH</span><span class="p">,</span>
+            <span class="n">latband_mean_tropics</span><span class="p">,</span>
+            <span class="n">latband_mean_extratropics</span><span class="p">,</span>
+            <span class="n">latband_mean_polar</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="n">dim</span><span class="o">=</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="s2">"Global"</span><span class="p">,</span>
+                <span class="s2">"Northern-hemisphere"</span><span class="p">,</span>
+                <span class="s2">"Southern-hemisphere"</span><span class="p">,</span>
+                <span class="s2">"Tropics"</span><span class="p">,</span>
+                <span class="s2">"Extratropics"</span><span class="p">,</span>
+                <span class="s2">"Polar"</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">dims</span><span class="o">=</span><span class="s2">"band"</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">"band"</span><span class="p">,</span>
+        <span class="p">),</span>
     <span class="p">)</span>
-    <span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">"YS"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">"YS"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">round_plev</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">chunk</span><span class="p">({</span><span class="s2">"time"</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">})</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>  <span class="c1"># single chunk over time</span>
-    <span class="n">ds</span><span class="o">=</span><span class="n">compute_trends_clim</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">compute_trends_clim</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds</span>
 </pre></div>
 </div>
@@ -1066,8 +1129,7 @@ the <a class="reference external" href="https://cds.climate.copernicus.eu/datase
     <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">,</span>
     <span class="n">transform_chunks</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">transform_func</span><span class="o">=</span><span class="n">compute_band_trends_clim</span><span class="p">,</span>
-    <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="n">transform_func_kwargs</span>
-    <span class="o">|</span> <span class="p">{</span><span class="s2">"obs"</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+    <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="n">transform_func_kwargs</span> <span class="o">|</span> <span class="p">{</span><span class="s2">"obs"</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -1088,23 +1150,21 @@ the <a class="reference external" href="https://cds.climate.copernicus.eu/datase
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datasets</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="n">model_kwargs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">"chunks"</span><span class="p">:</span> <span class="n">chunks</span> <span class="k">if</span> <span class="n">collection_id</span> <span class="o">==</span> <span class="s2">"CMIP6"</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="s2">"transform_chunks"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="s2">"transform_func"</span><span class="p">:</span>  <span class="n">compute_band_trends_clim</span><span class="p">,</span>
+    <span class="s2">"chunks"</span><span class="p">:</span> <span class="n">chunks</span> <span class="k">if</span> <span class="n">collection_id</span> <span class="o">==</span> <span class="s2">"CMIP6"</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">"transform_chunks"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s2">"transform_func"</span><span class="p">:</span> <span class="n">compute_band_trends_clim</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="k">for</span> <span class="n">model</span><span class="p">,</span> <span class="n">requests</span> <span class="ow">in</span> <span class="n">model_requests</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">model</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span>
-        <span class="o">*</span><span class="n">requests</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">model_kwargs</span><span class="p">,</span>
-        <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="n">transform_func_kwargs</span>
+        <span class="o">*</span><span class="n">requests</span><span class="p">,</span> <span class="o">**</span><span class="n">model_kwargs</span><span class="p">,</span> <span class="n">transform_func_kwargs</span><span class="o">=</span><span class="n">transform_func_kwargs</span>
     <span class="p">)</span>
     <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="p">[</span><span class="n">model</span><span class="p">]))</span>
 
-<span class="n">ds_models</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="s2">"model"</span><span class="p">,</span><span class="n">coords</span><span class="o">=</span><span class="s1">'minimal'</span><span class="p">,</span> <span class="n">compat</span><span class="o">=</span><span class="s1">'override'</span><span class="p">)</span>
+<span class="n">ds_models</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="s2">"model"</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="s2">"minimal"</span><span class="p">,</span> <span class="n">compat</span><span class="o">=</span><span class="s2">"override"</span><span class="p">)</span>
 
-<span class="c1">#1000hPa are excluded (too close to surface)</span>
+<span class="c1"># 1000hPa are excluded (too close to surface)</span>
 <span class="n">ds_era5</span> <span class="o">=</span> <span class="n">ds_era5</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">pressure_level</span><span class="o">=</span><span class="n">ds_era5</span><span class="o">.</span><span class="n">pressure_level</span> <span class="o">!=</span> <span class="mi">100000</span><span class="p">)</span>
 <span class="n">ds_models</span> <span class="o">=</span> <span class="n">ds_models</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">pressure_level</span><span class="o">=</span><span class="n">ds_models</span><span class="o">.</span><span class="n">pressure_level</span> <span class="o">!=</span> <span class="mi">100000</span><span class="p">)</span>
 </pre></div>
@@ -1171,17 +1231,19 @@ model='ukesm1_0_ll'
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.ticker</span><span class="w"> </span><span class="kn">import</span> <span class="n">FixedLocator</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_profile</span><span class="p">(</span><span class="n">ds_era5</span><span class="p">,</span> <span class="n">ds_models</span><span class="p">,</span> <span class="n">plot_type</span><span class="o">=</span><span class="s1">'trend'</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="s1">'log'</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_profile</span><span class="p">(</span><span class="n">ds_era5</span><span class="p">,</span> <span class="n">ds_models</span><span class="p">,</span> <span class="n">plot_type</span><span class="o">=</span><span class="s2">"trend"</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="s2">"log"</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 
-    <span class="n">band_latlon</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"90°S to 90°N"</span><span class="p">,</span> <span class="s2">"0°S to 90°N"</span><span class="p">,</span> <span class="s2">"90°S to 0°N"</span><span class="p">,</span>
-                   <span class="s2">"23.5°S to 23.5°N"</span><span class="p">,</span> <span class="s2">"23.5° to 66.5° - both hemisperes"</span><span class="p">,</span>
-                   <span class="s2">"66.5° to 90° -both hemisperes"</span><span class="p">)</span>    
-    
+    <span class="n">band_latlon</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">"90°S to 90°N"</span><span class="p">,</span>
+        <span class="s2">"0°S to 90°N"</span><span class="p">,</span>
+        <span class="s2">"90°S to 0°N"</span><span class="p">,</span>
+        <span class="s2">"23.5°S to 23.5°N"</span><span class="p">,</span>
+        <span class="s2">"23.5° to 66.5° - both hemisperes"</span><span class="p">,</span>
+        <span class="s2">"66.5° to 90° -both hemisperes"</span><span class="p">,</span>
+    <span class="p">)</span>
+
     <span class="n">bands</span> <span class="o">=</span> <span class="n">ds_era5</span><span class="o">.</span><span class="n">band</span><span class="o">.</span><span class="n">values</span>
     <span class="n">pressure</span> <span class="o">=</span> <span class="n">ds_era5</span><span class="o">.</span><span class="n">pressure_level</span><span class="o">.</span><span class="n">values</span>
 
@@ -1194,13 +1256,13 @@ model='ukesm1_0_ll'
     <span class="n">pressure_desc</span> <span class="o">=</span> <span class="n">pressure</span><span class="p">[</span><span class="n">sort_idx</span><span class="p">]</span>
 
     <span class="c1"># Setup according to plot type</span>
-    <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s1">'trend'</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">"trend"</span><span class="p">:</span>
         <span class="n">factor</span> <span class="o">=</span> <span class="mf">3.15576e17</span>  <span class="c1"># from K/ns to K/decade</span>
-        <span class="n">var_key</span> <span class="o">=</span> <span class="s1">'slope'</span>
+        <span class="n">var_key</span> <span class="o">=</span> <span class="s2">"slope"</span>
         <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span>
-    <span class="k">elif</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s1">'mean'</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">"mean"</span><span class="p">:</span>
         <span class="n">factor</span> <span class="o">=</span> <span class="o">-</span><span class="mf">273.15</span>  <span class="c1"># Kelvin to Celsius</span>
-        <span class="n">var_key</span> <span class="o">=</span> <span class="s1">'clim'</span>
+        <span class="n">var_key</span> <span class="o">=</span> <span class="s2">"clim"</span>
         <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"plot_type must be 'trend' or 'mean'"</span><span class="p">)</span>
@@ -1212,12 +1274,12 @@ model='ukesm1_0_ll'
         <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
         <span class="c1"># Extract data</span>
-        <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s1">'trend'</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">"trend"</span><span class="p">:</span>
             <span class="n">era5_vals</span> <span class="o">=</span> <span class="n">ds_era5</span><span class="p">[</span><span class="n">var_key</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">band</span><span class="o">=</span><span class="n">band_name</span><span class="p">)</span><span class="o">.</span><span class="n">values</span> <span class="o">*</span> <span class="n">factor</span>
             <span class="n">cmip6_band</span> <span class="o">=</span> <span class="n">ds_models</span><span class="p">[</span><span class="n">var_key</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">band</span><span class="o">=</span><span class="n">band_name</span><span class="p">)</span><span class="o">.</span><span class="n">values</span> <span class="o">*</span> <span class="n">factor</span>
-            <span class="k">if</span> <span class="n">bias</span><span class="o">==</span><span class="kc">False</span><span class="p">:</span>
-                <span class="n">cmip6_signif</span> <span class="o">=</span> <span class="n">ds_models</span><span class="p">[</span><span class="s1">'signif'</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">band</span><span class="o">=</span><span class="n">band_name</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
-                <span class="n">era5_signif</span> <span class="o">=</span> <span class="n">ds_era5</span><span class="p">[</span><span class="s1">'signif'</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">band</span><span class="o">=</span><span class="n">band_name</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">bias</span><span class="p">:</span>
+                <span class="n">cmip6_signif</span> <span class="o">=</span> <span class="n">ds_models</span><span class="p">[</span><span class="s2">"signif"</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">band</span><span class="o">=</span><span class="n">band_name</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+                <span class="n">era5_signif</span> <span class="o">=</span> <span class="n">ds_era5</span><span class="p">[</span><span class="s2">"signif"</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">band</span><span class="o">=</span><span class="n">band_name</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
                 <span class="n">cmip6_signif</span> <span class="o">=</span> <span class="n">cmip6_signif</span><span class="p">[:,</span> <span class="n">sort_idx</span><span class="p">]</span>
                 <span class="n">era5_signif</span> <span class="o">=</span> <span class="n">era5_signif</span><span class="p">[</span><span class="n">sort_idx</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># mean</span>
@@ -1234,66 +1296,105 @@ model='ukesm1_0_ll'
             <span class="n">bias_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">bias_models</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
             <span class="c1"># Zero line always for bias</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'grey'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'-'</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"grey"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
             <span class="c1"># Plot individual model biases</span>
             <span class="k">for</span> <span class="n">model_bias</span> <span class="ow">in</span> <span class="n">bias_models</span><span class="p">:</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">model_bias</span><span class="p">,</span> <span class="n">pressure_desc</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'grey'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+                    <span class="n">model_bias</span><span class="p">,</span>
+                    <span class="n">pressure_desc</span><span class="p">,</span>
+                    <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="s2">"grey"</span><span class="p">,</span>
+                    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+                    <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="p">)</span>
 
             <span class="c1"># Plot bias median and spread</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bias_median</span><span class="p">,</span> <span class="n">pressure_desc</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'darkblue'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Bias Median'</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+                <span class="n">bias_median</span><span class="p">,</span>
+                <span class="n">pressure_desc</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">"darkblue"</span><span class="p">,</span>
+                <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="s2">"Bias Median"</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">fill_betweenx</span><span class="p">(</span>
                 <span class="n">pressure_desc</span><span class="p">,</span>
                 <span class="n">bias_median</span> <span class="o">-</span> <span class="n">bias_std</span><span class="p">,</span>
                 <span class="n">bias_median</span> <span class="o">+</span> <span class="n">bias_std</span><span class="p">,</span>
-                <span class="n">color</span><span class="o">=</span><span class="s1">'darkblue'</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">"darkblue"</span><span class="p">,</span>
                 <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
-                <span class="n">label</span><span class="o">=</span><span class="s1">'Bias Spread'</span>
+                <span class="n">label</span><span class="o">=</span><span class="s2">"Bias Spread"</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Zero line for trends only</span>
-            <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s1">'trend'</span><span class="p">:</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'grey'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'-'</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">"trend"</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"grey"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
             <span class="n">cmip6_median</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmedian</span><span class="p">(</span><span class="n">cmip6_band</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
             <span class="n">cmip6_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">cmip6_band</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
             <span class="c1"># Plot individual CMIP6 models</span>
             <span class="k">for</span> <span class="n">model_vals</span> <span class="ow">in</span> <span class="n">cmip6_band</span><span class="p">:</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">model_vals</span><span class="p">,</span> <span class="n">pressure_desc</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'grey'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+                    <span class="n">model_vals</span><span class="p">,</span>
+                    <span class="n">pressure_desc</span><span class="p">,</span>
+                    <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="s2">"grey"</span><span class="p">,</span>
+                    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+                    <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="p">)</span>
 
             <span class="c1"># CMIP6 median + spread</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmip6_median</span><span class="p">,</span> <span class="n">pressure_desc</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'black'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'CMIP6 Median'</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+                <span class="n">cmip6_median</span><span class="p">,</span>
+                <span class="n">pressure_desc</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span>
+                <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="s2">"CMIP6 Median"</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">fill_betweenx</span><span class="p">(</span>
                 <span class="n">pressure_desc</span><span class="p">,</span>
                 <span class="n">cmip6_median</span> <span class="o">-</span> <span class="n">cmip6_std</span><span class="p">,</span>
                 <span class="n">cmip6_median</span> <span class="o">+</span> <span class="n">cmip6_std</span><span class="p">,</span>
-                <span class="n">color</span><span class="o">=</span><span class="s1">'black'</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span>
                 <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
-                <span class="n">label</span><span class="o">=</span><span class="s1">'CMIP6 Spread'</span>
+                <span class="n">label</span><span class="o">=</span><span class="s2">"CMIP6 Spread"</span><span class="p">,</span>
             <span class="p">)</span>
 
             <span class="c1"># ERA5 line</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">era5_vals</span><span class="p">,</span> <span class="n">pressure_desc</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'green'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'ERA5'</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">era5_vals</span><span class="p">,</span> <span class="n">pressure_desc</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"green"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"ERA5"</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s1">'trend'</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">"trend"</span><span class="p">:</span>
                 <span class="c1"># === Significance markers only here ===</span>
                 <span class="n">nonsig_mask_era5</span> <span class="o">=</span> <span class="n">era5_signif</span> <span class="o">==</span> <span class="mi">0</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">era5_vals</span><span class="p">[</span><span class="n">nonsig_mask_era5</span><span class="p">],</span> <span class="n">pressure_desc</span><span class="p">[</span><span class="n">nonsig_mask_era5</span><span class="p">],</span>
-                           <span class="n">color</span><span class="o">=</span><span class="s1">'green'</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'x'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'ERA5 not significant (p≥0.05)'</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+                    <span class="n">era5_vals</span><span class="p">[</span><span class="n">nonsig_mask_era5</span><span class="p">],</span>
+                    <span class="n">pressure_desc</span><span class="p">[</span><span class="n">nonsig_mask_era5</span><span class="p">],</span>
+                    <span class="n">color</span><span class="o">=</span><span class="s2">"green"</span><span class="p">,</span>
+                    <span class="n">marker</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span>
+                    <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+                    <span class="n">label</span><span class="o">=</span><span class="s2">"ERA5 not significant (p≥0.05)"</span><span class="p">,</span>
+                <span class="p">)</span>
 
                 <span class="n">frac_signif</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cmip6_signif</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
                 <span class="n">nonsig_ensemble_mask</span> <span class="o">=</span> <span class="n">frac_signif</span> <span class="o">&lt;</span> <span class="mf">0.66</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">cmip6_median</span><span class="p">[</span><span class="n">nonsig_ensemble_mask</span><span class="p">],</span> <span class="n">pressure_desc</span><span class="p">[</span><span class="n">nonsig_ensemble_mask</span><span class="p">],</span>
-                           <span class="n">color</span><span class="o">=</span><span class="s1">'black'</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'x'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
-                           <span class="n">label</span><span class="o">=</span><span class="s1">'CMIP6 median not significant (less than 66% members with p&lt;0.05)'</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+                    <span class="n">cmip6_median</span><span class="p">[</span><span class="n">nonsig_ensemble_mask</span><span class="p">],</span>
+                    <span class="n">pressure_desc</span><span class="p">[</span><span class="n">nonsig_ensemble_mask</span><span class="p">],</span>
+                    <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span>
+                    <span class="n">marker</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span>
+                    <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+                    <span class="n">label</span><span class="o">=</span><span class="s2">"CMIP6 median not significant (less than 66% members with p&lt;0.05)"</span><span class="p">,</span>
+                <span class="p">)</span>
 
                 <span class="n">sign_ensemble_mask</span> <span class="o">=</span> <span class="n">frac_signif</span> <span class="o">&gt;=</span> <span class="mf">0.66</span>
-                
+
                 <span class="k">if</span> <span class="n">sign_ensemble_mask</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
                     <span class="c1"># For pressures where at least 66% of models are significant:</span>
                     <span class="n">pressures_signif</span> <span class="o">=</span> <span class="n">pressure_desc</span><span class="p">[</span><span class="n">sign_ensemble_mask</span><span class="p">]</span>
-                    <span class="n">cmip6_trends_signif_pressures</span> <span class="o">=</span> <span class="n">cmip6_band</span><span class="p">[:,</span> <span class="n">sign_ensemble_mask</span><span class="p">]</span>  <span class="c1"># shape (models, n_signif_pressures)</span>
+                    <span class="n">cmip6_trends_signif_pressures</span> <span class="o">=</span> <span class="n">cmip6_band</span><span class="p">[</span>
+                        <span class="p">:,</span> <span class="n">sign_ensemble_mask</span>
+                    <span class="p">]</span>  <span class="c1"># shape (models, n_signif_pressures)</span>
 
                     <span class="n">n_models</span> <span class="o">=</span> <span class="n">cmip6_trends_signif_pressures</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
@@ -1308,14 +1409,19 @@ model='ukesm1_0_ll'
                     <span class="n">low_sign_agreement_mask</span> <span class="o">=</span> <span class="n">sign_ratio</span> <span class="o">&lt;</span> <span class="mf">0.80</span>
 
                     <span class="n">pressures_low_sign</span> <span class="o">=</span> <span class="n">pressures_signif</span><span class="p">[</span><span class="n">low_sign_agreement_mask</span><span class="p">]</span>
-                    <span class="n">median_low_sign</span> <span class="o">=</span> <span class="n">cmip6_median</span><span class="p">[</span><span class="n">sign_ensemble_mask</span><span class="p">][</span><span class="n">low_sign_agreement_mask</span><span class="p">]</span>
+                    <span class="n">median_low_sign</span> <span class="o">=</span> <span class="n">cmip6_median</span><span class="p">[</span><span class="n">sign_ensemble_mask</span><span class="p">][</span>
+                        <span class="n">low_sign_agreement_mask</span>
+                    <span class="p">]</span>
 
-                    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">median_low_sign</span><span class="p">,</span> <span class="n">pressures_low_sign</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'black'</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
-                               <span class="n">label</span><span class="o">=</span><span class="s1">'CMIP6 median significant but &lt;80% models share sign'</span><span class="p">)</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+                        <span class="n">median_low_sign</span><span class="p">,</span>
+                        <span class="n">pressures_low_sign</span><span class="p">,</span>
+                        <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span>
+                        <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span>
+                        <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+                        <span class="n">label</span><span class="o">=</span><span class="s2">"CMIP6 median significant but &lt;80% models share sign"</span><span class="p">,</span>
+                    <span class="p">)</span>
 
-
-        
-        
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">pressure_desc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pressure_desc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="n">yscale</span><span class="p">)</span>
         <span class="n">desired_ticks</span> <span class="o">=</span> <span class="p">[</span><span class="mi">925</span><span class="p">,</span> <span class="mi">850</span><span class="p">,</span> <span class="mi">700</span><span class="p">,</span> <span class="mi">600</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">50</span><span class="p">]</span>
@@ -1323,30 +1429,44 @@ model='ukesm1_0_ll'
         <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">FixedLocator</span><span class="p">(</span><span class="n">ticks_to_use</span><span class="p">))</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="si">}</span><span class="s2"> hPa"</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">ticks_to_use</span><span class="p">])</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">band_name</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">band_latlon</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">':'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">":"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 
         <span class="c1"># X-axis limits and labels</span>
-        <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s1">'trend'</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">"trend"</span><span class="p">:</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.6</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">bias</span> <span class="k">else</span> <span class="o">-</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">bias</span> <span class="k">else</span> <span class="mf">0.6</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Trend (K/decade)'</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">bias</span> <span class="k">else</span> <span class="s1">'Trend Bias (K/decade)'</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s1">'mean'</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span>
+                    <span class="s2">"Trend (K/decade)"</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">bias</span> <span class="k">else</span> <span class="s2">"Trend Bias (K/decade)"</span>
+                <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">"mean"</span><span class="p">:</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">80</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">bias</span> <span class="k">else</span> <span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">25</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">bias</span> <span class="k">else</span> <span class="mi">8</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="p">:</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Climatology (°C)'</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">bias</span> <span class="k">else</span> <span class="s1">'Climatology Bias (K)'</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span>
+                    <span class="s2">"Climatology (°C)"</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">bias</span> <span class="k">else</span> <span class="s2">"Climatology Bias (K)"</span>
+                <span class="p">)</span>
 
         <span class="c1"># Y-axis label only for first column</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">plot_type</span> <span class="o">==</span> <span class="s1">'trend'</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">((</span><span class="n">plot_type</span> <span class="o">==</span> <span class="s1">'mean'</span><span class="p">)</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Pressure level (hPa)'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">plot_type</span> <span class="o">==</span> <span class="s2">"trend"</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">plot_type</span> <span class="o">==</span> <span class="s2">"mean"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="p">):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Pressure level (hPa)"</span><span class="p">)</span>
 
     <span class="c1"># Collect handles for shared legend</span>
     <span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
-        <span class="n">h</span><span class="p">,</span> <span class="n">l</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
-        <span class="n">handles</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
-        <span class="n">labels</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+        <span class="n">ax_handles</span><span class="p">,</span> <span class="n">ax_labels</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+        <span class="n">handles</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">ax_handles</span><span class="p">)</span>
+        <span class="n">labels</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">ax_labels</span><span class="p">)</span>
     <span class="n">by_label</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">handles</span><span class="p">))</span>
 
-    <span class="n">ncols_legend</span> <span class="o">=</span> <span class="mi">4</span> <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s1">'trend'</span> <span class="k">else</span> <span class="mi">2</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">by_label</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">by_label</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">loc</span><span class="o">=</span><span class="s1">'lower center'</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="n">ncols_legend</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ncols_legend</span> <span class="o">=</span> <span class="mi">4</span> <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">"trend"</span> <span class="k">else</span> <span class="mi">2</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+        <span class="n">by_label</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span>
+        <span class="n">by_label</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+        <span class="n">loc</span><span class="o">=</span><span class="s2">"lower center"</span><span class="p">,</span>
+        <span class="n">ncol</span><span class="o">=</span><span class="n">ncols_legend</span><span class="p">,</span>
+        <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -1366,7 +1486,7 @@ model='ukesm1_0_ll'
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_profile</span><span class="p">(</span><span class="n">ds_era5</span><span class="p">,</span> <span class="n">ds_models</span><span class="p">,</span><span class="n">plot_type</span><span class="o">=</span><span class="s1">'mean'</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="s1">'log'</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_profile</span><span class="p">(</span><span class="n">ds_era5</span><span class="p">,</span> <span class="n">ds_models</span><span class="p">,</span> <span class="n">plot_type</span><span class="o">=</span><span class="s2">"mean"</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="s2">"log"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1390,7 +1510,7 @@ model='ukesm1_0_ll'
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_profile</span><span class="p">(</span><span class="n">ds_era5</span><span class="p">,</span> <span class="n">ds_models</span><span class="p">,</span><span class="n">plot_type</span><span class="o">=</span><span class="s1">'mean'</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="s1">'log'</span><span class="p">,</span><span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_profile</span><span class="p">(</span><span class="n">ds_era5</span><span class="p">,</span> <span class="n">ds_models</span><span class="p">,</span> <span class="n">plot_type</span><span class="o">=</span><span class="s2">"mean"</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="s2">"log"</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1414,7 +1534,7 @@ model='ukesm1_0_ll'
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_profile</span><span class="p">(</span><span class="n">ds_era5</span><span class="p">,</span> <span class="n">ds_models</span><span class="p">,</span> <span class="n">plot_type</span><span class="o">=</span><span class="s1">'trend'</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="s1">'log'</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_profile</span><span class="p">(</span><span class="n">ds_era5</span><span class="p">,</span> <span class="n">ds_models</span><span class="p">,</span> <span class="n">plot_type</span><span class="o">=</span><span class="s2">"trend"</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="s2">"log"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1440,7 +1560,7 @@ model='ukesm1_0_ll'
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_profile</span><span class="p">(</span><span class="n">ds_era5</span><span class="p">,</span> <span class="n">ds_models</span><span class="p">,</span> <span class="n">plot_type</span><span class="o">=</span><span class="s1">'trend'</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="s1">'log'</span><span class="p">,</span><span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_profile</span><span class="p">(</span><span class="n">ds_era5</span><span class="p">,</span> <span class="n">ds_models</span><span class="p">,</span> <span class="n">plot_type</span><span class="o">=</span><span class="s2">"trend"</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="s2">"log"</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

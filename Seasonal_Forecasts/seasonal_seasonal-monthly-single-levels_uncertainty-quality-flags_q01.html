@@ -726,24 +726,25 @@
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.figure_factory</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ff</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">plotly.express</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">px</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.figure_factory</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ff</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">utils</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dateutil.relativedelta</span><span class="w"> </span><span class="kn">import</span> <span class="n">relativedelta</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
 <span class="n">outdir</span> <span class="o">=</span> <span class="s2">"key_figure/"</span>
 <span class="c1"># Model</span>
-<span class="n">models</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"ecmwf:51"</span><span class="p">,</span>
-          <span class="s2">"ukmo:602"</span><span class="p">,</span>
-          <span class="s2">"meteo_france:8"</span><span class="p">,</span>
-          <span class="s2">"dwd:21"</span><span class="p">,</span>
-          <span class="s2">"cmcc:35"</span><span class="p">,</span>
-          <span class="s2">"ncep:2"</span><span class="p">,</span>
-          <span class="s2">"eccc:2"</span><span class="p">,</span>
-          <span class="s2">"eccc:3"</span><span class="p">,</span>
-          <span class="s2">"jma:3"</span><span class="p">,</span>
-         <span class="p">]</span>
+<span class="n">models</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"ecmwf:51"</span><span class="p">,</span>
+    <span class="s2">"ukmo:602"</span><span class="p">,</span>
+    <span class="s2">"meteo_france:8"</span><span class="p">,</span>
+    <span class="s2">"dwd:21"</span><span class="p">,</span>
+    <span class="s2">"cmcc:35"</span><span class="p">,</span>
+    <span class="s2">"ncep:2"</span><span class="p">,</span>
+    <span class="s2">"eccc:2"</span><span class="p">,</span>
+    <span class="s2">"eccc:3"</span><span class="p">,</span>
+    <span class="s2">"jma:3"</span><span class="p">,</span>
+<span class="p">]</span>
 
 <span class="c1"># Time</span>
 <span class="n">year_forecast</span> <span class="o">=</span> <span class="mi">2023</span>
@@ -758,13 +759,13 @@
 <span class="n">lon_slice</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span>
 
 <span class="c1"># Variable</span>
-<span class="n">var_grb</span> <span class="o">=</span> <span class="s1">'t2m'</span>
-<span class="n">var_api</span> <span class="o">=</span> <span class="s1">'2m_temperature'</span>
-<span class="n">tercile_name</span><span class="o">=</span><span class="p">[</span><span class="s1">'COLD'</span><span class="p">,</span><span class="s1">'NEAR AVERAGE'</span><span class="p">,</span><span class="s1">'WARM'</span><span class="p">]</span>
+<span class="n">var_grb</span> <span class="o">=</span> <span class="s2">"t2m"</span>
+<span class="n">var_api</span> <span class="o">=</span> <span class="s2">"2m_temperature"</span>
+<span class="n">tercile_name</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"COLD"</span><span class="p">,</span> <span class="s2">"NEAR AVERAGE"</span><span class="p">,</span> <span class="s2">"WARM"</span><span class="p">]</span>
 
 <span class="c1"># Download parameters</span>
 <span class="n">chunks</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"year"</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
-<span class="n">n_jobs</span> <span class="o">=</span> <span class="mi">1</span> 
+<span class="n">n_jobs</span> <span class="o">=</span> <span class="mi">1</span>
 
 <span class="n">collection_id</span> <span class="o">=</span> <span class="s2">"seasonal-monthly-single-levels"</span>
 
@@ -779,6 +780,7 @@
     <span class="s2">"month"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
 <span class="p">}</span>
 
+
 <span class="c1"># Define the weighting function</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">regionalised_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">lon_slice</span><span class="p">,</span> <span class="n">lat_slice</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">regionalise</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">lon_slice</span><span class="o">=</span><span class="n">lon_slice</span><span class="p">,</span> <span class="n">lat_slice</span><span class="o">=</span><span class="n">lat_slice</span><span class="p">)</span>
@@ -786,10 +788,10 @@
     <span class="c1"># Convert from K to C if variable is 2m air temperature</span>
     <span class="k">if</span> <span class="s2">"p167"</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">:</span>
         <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">p167</span><span class="o">=</span><span class="s2">"t2m"</span><span class="p">)</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">var_grb</span><span class="o">==</span><span class="s1">'t2m'</span><span class="p">):</span> 
-       <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-           <span class="n">ds</span><span class="p">[</span><span class="n">var_grb</span><span class="p">]</span> <span class="o">-=</span> <span class="mf">273.15</span>
-       <span class="n">ds</span><span class="p">[</span><span class="n">var_grb</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"°C"</span>
+    <span class="k">if</span> <span class="n">var_grb</span> <span class="o">==</span> <span class="s2">"t2m"</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="n">ds</span><span class="p">[</span><span class="n">var_grb</span><span class="p">]</span> <span class="o">-=</span> <span class="mf">273.15</span>
+        <span class="n">ds</span><span class="p">[</span><span class="n">var_grb</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"°C"</span>
     <span class="k">return</span> <span class="n">ds</span>
 </pre></div>
 </div>
@@ -810,7 +812,7 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_datasets</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">string</span> <span class="ow">in</span> <span class="n">models</span><span class="p">:</span>
     <span class="n">centre</span><span class="p">,</span> <span class="n">system</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">":"</span><span class="p">)</span>
-    <span class="n">all_datasets</span><span class="p">[</span><span class="n">centre</span><span class="o">+</span><span class="n">system</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"hindcast"</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">"forecast"</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+    <span class="n">all_datasets</span><span class="p">[</span><span class="n">centre</span> <span class="o">+</span> <span class="n">system</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"hindcast"</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">"forecast"</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
     <span class="n">request</span><span class="p">[</span><span class="s2">"system"</span><span class="p">]</span> <span class="o">=</span> <span class="n">system</span>
     <span class="n">request</span><span class="p">[</span><span class="s2">"originating_centre"</span><span class="p">]</span> <span class="o">=</span> <span class="n">centre</span>
     <span class="k">for</span> <span class="n">model_type</span><span class="p">,</span> <span class="n">years</span> <span class="ow">in</span> <span class="p">{</span>
@@ -840,7 +842,7 @@
             <span class="p">},</span>
         <span class="p">)</span>
         <span class="c1"># Store the downloaded dataset in the dictionary</span>
-        <span class="n">all_datasets</span><span class="p">[</span><span class="n">centre</span><span class="o">+</span><span class="n">system</span><span class="p">][</span><span class="n">model_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span>
+        <span class="n">all_datasets</span><span class="p">[</span><span class="n">centre</span> <span class="o">+</span> <span class="n">system</span><span class="p">][</span><span class="n">model_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span>
 </pre></div>
 </div>
 </div>
@@ -886,18 +888,19 @@
     <span class="n">xlim</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">+</span> <span class="n">xshift</span> <span class="o">*</span> <span class="n">sign</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">sign</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xlim</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))]</span>
     <span class="k">return</span> <span class="n">xlim</span><span class="p">,</span> <span class="n">ylim</span>
 
+
 <span class="c1"># Set up for for multi-ensemble histogram plot</span>
-<span class="n">ensemble_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"lower tercile"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"middle tercile"</span><span class="p">:</span> <span class="p">[]</span> <span class="p">,</span> <span class="s2">"upper tercile"</span><span class="p">:</span> <span class="p">[]}</span>
-<span class="n">multi_ensemble</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"model"</span> <span class="p">:</span> <span class="p">[],</span> <span class="s2">"data"</span><span class="p">:</span> <span class="n">ensemble_data</span><span class="p">}</span>
-<span class="n">letters</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"b"</span><span class="p">,</span><span class="s2">"c"</span><span class="p">,</span><span class="s2">"d"</span><span class="p">,</span><span class="s2">"e"</span><span class="p">,</span><span class="s2">"f"</span><span class="p">,</span><span class="s2">"g"</span><span class="p">,</span><span class="s2">"h"</span><span class="p">,</span><span class="s2">"i"</span><span class="p">,</span><span class="s2">"j"</span><span class="p">,</span><span class="s2">"k"</span><span class="p">,</span><span class="s2">"l"</span><span class="p">,</span><span class="s2">"m"</span><span class="p">]</span>
+<span class="n">ensemble_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"lower tercile"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"middle tercile"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"upper tercile"</span><span class="p">:</span> <span class="p">[]}</span>
+<span class="n">multi_ensemble</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"model"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"data"</span><span class="p">:</span> <span class="n">ensemble_data</span><span class="p">}</span>
+<span class="n">letters</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">,</span> <span class="s2">"c"</span><span class="p">,</span> <span class="s2">"d"</span><span class="p">,</span> <span class="s2">"e"</span><span class="p">,</span> <span class="s2">"f"</span><span class="p">,</span> <span class="s2">"g"</span><span class="p">,</span> <span class="s2">"h"</span><span class="p">,</span> <span class="s2">"i"</span><span class="p">,</span> <span class="s2">"j"</span><span class="p">,</span> <span class="s2">"k"</span><span class="p">,</span> <span class="s2">"l"</span><span class="p">,</span> <span class="s2">"m"</span><span class="p">]</span>
 
 <span class="c1"># Histogram plot for each model system</span>
 <span class="k">for</span> <span class="n">number</span><span class="p">,</span> <span class="n">string</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">models</span><span class="p">):</span>
     <span class="n">centre</span><span class="p">,</span> <span class="n">system</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">":"</span><span class="p">)</span>
-    <span class="n">datasets</span> <span class="o">=</span> <span class="n">all_datasets</span><span class="p">[</span><span class="n">centre</span><span class="o">+</span><span class="n">system</span><span class="p">]</span> 
-    <span class="n">ds_forecast</span> <span class="o">=</span>  <span class="n">datasets</span><span class="p">[</span><span class="s2">"forecast"</span><span class="p">]</span>
+    <span class="n">datasets</span> <span class="o">=</span> <span class="n">all_datasets</span><span class="p">[</span><span class="n">centre</span> <span class="o">+</span> <span class="n">system</span><span class="p">]</span>
+    <span class="n">ds_forecast</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">[</span><span class="s2">"forecast"</span><span class="p">]</span>
     <span class="n">ds_hindcast</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">[</span><span class="s2">"hindcast"</span><span class="p">]</span>
-    
+
     <span class="n">colors</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">26</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">65</span><span class="p">),</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">150</span><span class="p">)]</span>
     <span class="n">values</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">ds_hindcast</span><span class="p">[</span><span class="n">var_grb</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
@@ -959,7 +962,7 @@
             <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">ensemble_data</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">percentage</span><span class="p">)</span>
-    <span class="n">multi_ensemble</span><span class="p">[</span><span class="s2">"model"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">centre</span><span class="o">+</span><span class="s2">"-"</span><span class="o">+</span><span class="n">system</span><span class="p">)</span>
+    <span class="n">multi_ensemble</span><span class="p">[</span><span class="s2">"model"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">centre</span> <span class="o">+</span> <span class="s2">"-"</span> <span class="o">+</span> <span class="n">system</span><span class="p">)</span>
 
     <span class="c1"># Text and labels</span>
     <span class="p">(</span><span class="n">forecast_reference_time</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ds_forecast</span><span class="p">[</span><span class="s2">"forecast_reference_time"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">values</span>
@@ -968,21 +971,21 @@
     <span class="n">letter</span> <span class="o">=</span> <span class="n">letters</span><span class="p">[</span><span class="n">number</span><span class="p">]</span>
     <span class="c1"># Text below each plot</span>
     <span class="n">annotation</span> <span class="o">=</span> <span class="p">{</span>
-       <span class="s1">'xref'</span><span class="p">:</span> <span class="s1">'paper'</span><span class="p">,</span>
-       <span class="s1">'yref'</span><span class="p">:</span> <span class="s1">'paper'</span><span class="p">,</span>  
-       <span class="s1">'x'</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.00</span><span class="p">,</span>  
-       <span class="s1">'y'</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.45</span><span class="p">,</span>  
-       <span class="s1">'showarrow'</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-       <span class="s1">'yshift'</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span>
-       <span class="s1">'font'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'size'</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">'color'</span><span class="p">:</span> <span class="s1">'black'</span><span class="p">},</span>
-       <span class="s1">'text'</span><span class="p">:</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"&lt;b&gt;Figure 1.</span><span class="si">{</span><span class="n">letter</span><span class="si">}</span><span class="s2">&lt;/b&gt;: Histogram plot of </span><span class="si">{</span><span class="n">ds_forecast</span><span class="p">[</span><span class="n">var_grb</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'long_name'</span><span class="p">]</span><span class="si">}</span><span class="s2"> over </span><span class="si">{</span><span class="n">region_name</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">valid_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%b %Y'</span><span class="p">)</span><span class="si">}</span><span class="s2"> (in purple) "</span>
-                <span class="sa">f</span><span class="s2">"and the corresponding </span><span class="si">{</span><span class="n">ds_forecast</span><span class="p">[</span><span class="n">var_grb</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'long_name'</span><span class="p">]</span><span class="si">}</span><span class="s2"> over the &lt;br&gt;hindcast period </span><span class="si">{</span><span class="n">year_start_hindcast</span><span class="si">}</span><span class="s2">-"</span>
-                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">year_stop_hindcast</span><span class="si">}</span><span class="s2"> (in green) from the </span><span class="si">{</span><span class="n">centre</span><span class="si">}</span><span class="s2"> model with start time </span><span class="si">{</span><span class="n">forecast_reference_time</span><span class="si">}</span><span class="s2">. The blue, yellow and red backgound show the lower, middle "</span> 
-                <span class="sa">f</span><span class="s2">"and &lt;br&gt; upper terciles based on the climatology. The probalility (in percent) of a forecast within each of the "</span>
-                <span class="sa">f</span><span class="s2">"three tercile categories, are shown as text at the top. "</span>
-       <span class="p">)</span>
-    <span class="p">}</span> 
+        <span class="s2">"xref"</span><span class="p">:</span> <span class="s2">"paper"</span><span class="p">,</span>
+        <span class="s2">"yref"</span><span class="p">:</span> <span class="s2">"paper"</span><span class="p">,</span>
+        <span class="s2">"x"</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.00</span><span class="p">,</span>
+        <span class="s2">"y"</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.45</span><span class="p">,</span>
+        <span class="s2">"showarrow"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"yshift"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s2">"font"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"size"</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s2">"color"</span><span class="p">:</span> <span class="s2">"black"</span><span class="p">},</span>
+        <span class="s2">"text"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"&lt;b&gt;Figure 1.</span><span class="si">{</span><span class="n">letter</span><span class="si">}</span><span class="s2">&lt;/b&gt;: Histogram plot of </span><span class="si">{</span><span class="n">ds_forecast</span><span class="p">[</span><span class="n">var_grb</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'long_name'</span><span class="p">]</span><span class="si">}</span><span class="s2"> over </span><span class="si">{</span><span class="n">region_name</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">valid_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%b %Y'</span><span class="p">)</span><span class="si">}</span><span class="s2"> (in purple) "</span>
+            <span class="sa">f</span><span class="s2">"and the corresponding </span><span class="si">{</span><span class="n">ds_forecast</span><span class="p">[</span><span class="n">var_grb</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'long_name'</span><span class="p">]</span><span class="si">}</span><span class="s2"> over the &lt;br&gt;hindcast period </span><span class="si">{</span><span class="n">year_start_hindcast</span><span class="si">}</span><span class="s2">-"</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">year_stop_hindcast</span><span class="si">}</span><span class="s2"> (in green) from the </span><span class="si">{</span><span class="n">centre</span><span class="si">}</span><span class="s2"> model with start time </span><span class="si">{</span><span class="n">forecast_reference_time</span><span class="si">}</span><span class="s2">. The blue, yellow and red backgound show the lower, middle "</span>
+            <span class="sa">f</span><span class="s2">"and &lt;br&gt; upper terciles based on the climatology. The probalility (in percent) of a forecast within each of the "</span>
+            <span class="sa">f</span><span class="s2">"three tercile categories, are shown as text at the top. "</span>
+        <span class="p">),</span>
+    <span class="p">}</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
         <span class="n">title</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">{</span><span class="s2">"size"</span><span class="p">:</span> <span class="mi">22</span><span class="p">}),</span>
         <span class="n">yaxis_range</span><span class="o">=</span><span class="n">ylim</span><span class="p">,</span>
@@ -991,8 +994,8 @@
         <span class="n">autosize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
         <span class="n">height</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
-        <span class="n">margin</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">b</span> <span class="o">=</span> <span class="mi">140</span><span class="p">),</span> 
-        <span class="n">annotations</span><span class="o">=</span><span class="p">[</span><span class="n">annotation</span><span class="p">]</span>
+        <span class="n">margin</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="mi">140</span><span class="p">),</span>
+        <span class="n">annotations</span><span class="o">=</span><span class="p">[</span><span class="n">annotation</span><span class="p">],</span>
     <span class="p">)</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">update_xaxes</span><span class="p">(</span>
         <span class="n">title_text</span><span class="o">=</span><span class="p">(</span>
@@ -1040,38 +1043,40 @@ The figure produced reinforces the findings from the figures produced in the las
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">tercile</span> <span class="ow">in</span> <span class="n">multi_ensemble</span><span class="p">[</span><span class="s2">"data"</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">x_index</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tercile</span><span class="p">[</span><span class="n">model_index</span><span class="p">])</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">add_scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x_index</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">values</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s2">"markers"</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="n">model</span><span class="p">,</span> <span class="n">marker_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> 
-                    <span class="n">marker_symbol</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">[</span><span class="n">model_index</span><span class="o">%</span><span class="k">len</span>(symbols)], 
-                    <span class="n">marker_line_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                   <span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">add_scatter</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">x_index</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">values</span><span class="p">,</span>
+        <span class="n">mode</span><span class="o">=</span><span class="s2">"markers"</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+        <span class="n">marker_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">marker_symbol</span><span class="o">=</span><span class="n">symbols</span><span class="p">[</span><span class="n">model_index</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">symbols</span><span class="p">)],</span>
+        <span class="n">marker_line_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
 
 <span class="n">annotation</span> <span class="o">=</span> <span class="p">{</span>
-   <span class="s1">'xref'</span><span class="p">:</span> <span class="s1">'paper'</span><span class="p">,</span>
-   <span class="s1">'yref'</span><span class="p">:</span> <span class="s1">'paper'</span><span class="p">,</span>  
-   <span class="s1">'x'</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.00</span><span class="p">,</span>  
-   <span class="s1">'y'</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.45</span><span class="p">,</span>  
-   <span class="s1">'showarrow'</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-   <span class="s1">'yshift'</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span>
-   <span class="s1">'font'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'size'</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">'color'</span><span class="p">:</span> <span class="s1">'black'</span><span class="p">},</span>
-   <span class="s1">'text'</span><span class="p">:</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"&lt;b&gt;Figure 2&lt;/b&gt;: Distribution of the different forecasts of </span><span class="si">{</span><span class="n">ds_forecast</span><span class="p">[</span><span class="n">var_grb</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'long_name'</span><span class="p">]</span><span class="si">}</span><span class="s2"> over </span><span class="si">{</span><span class="n">region_name</span><span class="si">}</span><span class="s2"> valid for </span><span class="si">{</span><span class="n">valid_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%b %Y'</span><span class="p">)</span><span class="si">}</span><span class="s2"> "</span>
-            <span class="sa">f</span><span class="s2">"compared to their respective &lt;br&gt; hindcast climatologies (</span><span class="si">{</span><span class="n">year_start_hindcast</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">year_stop_hindcast</span><span class="si">}</span><span class="s2">). "</span> 
-            <span class="sa">f</span><span class="s2">"The different symbols shows how the forecasts in each model are distributed with respects to the hindcast. &lt;br&gt;"</span>
-            <span class="sa">f</span><span class="s2">"The values for each model adds up to 100% "</span>
-   <span class="p">)</span>
+    <span class="s2">"xref"</span><span class="p">:</span> <span class="s2">"paper"</span><span class="p">,</span>
+    <span class="s2">"yref"</span><span class="p">:</span> <span class="s2">"paper"</span><span class="p">,</span>
+    <span class="s2">"x"</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.00</span><span class="p">,</span>
+    <span class="s2">"y"</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.45</span><span class="p">,</span>
+    <span class="s2">"showarrow"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s2">"yshift"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">"font"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"size"</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s2">"color"</span><span class="p">:</span> <span class="s2">"black"</span><span class="p">},</span>
+    <span class="s2">"text"</span><span class="p">:</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"&lt;b&gt;Figure 2&lt;/b&gt;: Distribution of the different forecasts of </span><span class="si">{</span><span class="n">ds_forecast</span><span class="p">[</span><span class="n">var_grb</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'long_name'</span><span class="p">]</span><span class="si">}</span><span class="s2"> over </span><span class="si">{</span><span class="n">region_name</span><span class="si">}</span><span class="s2"> valid for </span><span class="si">{</span><span class="n">valid_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%b %Y'</span><span class="p">)</span><span class="si">}</span><span class="s2"> "</span>
+        <span class="sa">f</span><span class="s2">"compared to their respective &lt;br&gt; hindcast climatologies (</span><span class="si">{</span><span class="n">year_start_hindcast</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">year_stop_hindcast</span><span class="si">}</span><span class="s2">). "</span>
+        <span class="sa">f</span><span class="s2">"The different symbols shows how the forecasts in each model are distributed with respects to the hindcast. &lt;br&gt;"</span>
+        <span class="sa">f</span><span class="s2">"The values for each model adds up to 100% "</span>
+    <span class="p">),</span>
 <span class="p">}</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
-    <span class="n">title</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">{</span><span class="s2">"size"</span><span class="p">:</span><span class="mi">22</span><span class="p">}),</span>
+    <span class="n">title</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">{</span><span class="s2">"size"</span><span class="p">:</span> <span class="mi">22</span><span class="p">}),</span>
     <span class="n">font_size</span><span class="o">=</span><span class="mi">17</span><span class="p">,</span>
     <span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
     <span class="n">height</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
-    <span class="n">margin</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">b</span> <span class="o">=</span> <span class="mi">140</span><span class="p">),</span>
-    <span class="n">annotations</span><span class="o">=</span><span class="p">[</span><span class="n">annotation</span><span class="p">]</span>
-
+    <span class="n">margin</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="mi">140</span><span class="p">),</span>
+    <span class="n">annotations</span><span class="o">=</span><span class="p">[</span><span class="n">annotation</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">update_yaxes</span><span class="p">(</span>
-    <span class="n">title_text</span><span class="o">=</span><span class="s2">"Percentage of forecast [%]"</span>
-<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_yaxes</span><span class="p">(</span><span class="n">title_text</span><span class="o">=</span><span class="s2">"Percentage of forecast [%]"</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">update_xaxes</span><span class="p">(</span>
     <span class="n">title_text</span><span class="o">=</span><span class="p">(</span>
         <span class="sa">f</span><span class="s2">" Tercile for </span><span class="si">{</span><span class="n">ds_forecast</span><span class="p">[</span><span class="n">var_grb</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'long_name'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>

@@ -703,20 +703,19 @@
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">textwrap</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">)</span>
 
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">utils</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.dates</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mdates</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">xarrayMannKendall</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mann_Kendall_test</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">utils</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">linregress</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"seaborn-v0_8-notebook"</span><span class="p">)</span>
@@ -765,9 +764,9 @@
 
 <span class="c1"># Variable</span>
 <span class="n">variable</span> <span class="o">=</span> <span class="s2">"precipitation"</span>
-<span class="k">assert</span> <span class="n">variable</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"precipitation"</span><span class="p">)</span> 
+<span class="k">assert</span> <span class="n">variable</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"precipitation"</span><span class="p">)</span>
 
-<span class="c1">#Collection id</span>
+<span class="c1"># Collection id</span>
 <span class="n">collection_id</span> <span class="o">=</span> <span class="s2">"CMIP6"</span>
 <span class="k">assert</span> <span class="n">collection_id</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"CMIP6"</span><span class="p">)</span>
 </pre></div>
@@ -790,10 +789,10 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">match</span> <span class="n">variable</span><span class="p">:</span>
     <span class="k">case</span> <span class="s2">"precipitation"</span><span class="p">:</span>
         <span class="n">resample_reduction</span> <span class="o">=</span> <span class="s2">"sum"</span>
-        <span class="n">era5_variable</span> <span class="o">=</span> <span class="s2">"mean_total_precipitation_rate"</span> 
-        <span class="n">era5_variable_short</span> <span class="o">=</span> <span class="s2">"mtpr"</span> 
+        <span class="n">era5_variable</span> <span class="o">=</span> <span class="s2">"mean_total_precipitation_rate"</span>
+        <span class="n">era5_variable_short</span> <span class="o">=</span> <span class="s2">"mtpr"</span>
         <span class="n">cmip6_variable</span> <span class="o">=</span> <span class="s2">"precipitation"</span>
-        <span class="n">cmip6_variable_short</span><span class="o">=</span><span class="s2">"pr"</span>
+        <span class="n">cmip6_variable_short</span> <span class="o">=</span> <span class="s2">"pr"</span>
         <span class="n">models_cmip6</span> <span class="o">=</span> <span class="p">(</span>
             <span class="s2">"access_cm2"</span><span class="p">,</span>
             <span class="s2">"bcc_csm2_mr"</span><span class="p">,</span>
@@ -806,13 +805,13 @@
             <span class="s2">"inm_cm5_0"</span><span class="p">,</span>
             <span class="s2">"mpi_esm1_2_lr"</span><span class="p">,</span>
             <span class="s2">"miroc6"</span><span class="p">,</span>
-            <span class="s2">"miroc_es2l"</span><span class="p">,</span> 
+            <span class="s2">"miroc_es2l"</span><span class="p">,</span>
             <span class="s2">"mri_esm2_0"</span><span class="p">,</span>
             <span class="s2">"noresm2_mm"</span><span class="p">,</span>
             <span class="s2">"nesm3"</span><span class="p">,</span>
             <span class="s2">"ukesm1_0_ll"</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">variance_values</span><span class="o">=</span><span class="p">[</span><span class="mi">30</span><span class="p">,</span><span class="n">year_stop</span><span class="o">-</span><span class="n">year_start</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">variance_values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="n">year_stop</span> <span class="o">-</span> <span class="n">year_start</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
         <span class="n">mode_var_variable</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"pr"</span><span class="p">,</span> <span class="s2">"coefficient_of_variation"</span><span class="p">]</span>
         <span class="n">cbars</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"cmap_divergent"</span><span class="p">:</span> <span class="s2">"RdBu"</span><span class="p">,</span> <span class="s2">"cmap_sequential"</span><span class="p">:</span> <span class="s2">"viridis_r"</span><span class="p">}</span>
         <span class="n">mode_var_string</span> <span class="o">=</span> <span class="p">{</span>
@@ -838,7 +837,6 @@
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">request_era</span> <span class="o">=</span> <span class="p">(</span>
-    
     <span class="s2">"reanalysis-era5-single-levels-monthly-means"</span><span class="p">,</span>
     <span class="p">{</span>
         <span class="s2">"product_type"</span><span class="p">:</span> <span class="s2">"monthly_averaged_reanalysis"</span><span class="p">,</span>
@@ -851,7 +849,7 @@
         <span class="p">],</span>  <span class="c1"># Include D(year-1)</span>
         <span class="s2">"month"</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">)],</span>
         <span class="s2">"day"</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">day</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">day</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">)],</span>
-        <span class="s2">"area"</span><span class="p">:</span><span class="n">area</span><span class="p">,</span>
+        <span class="s2">"area"</span><span class="p">:</span> <span class="n">area</span><span class="p">,</span>
     <span class="p">},</span>
 <span class="p">)</span>
 
@@ -932,28 +930,36 @@
         <span class="s2">"MAM"</span><span class="p">:</span> <span class="p">(</span><span class="s2">"MAR"</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">"03"</span><span class="p">,</span> <span class="s2">"05"</span><span class="p">),</span>
         <span class="s2">"JJA"</span><span class="p">:</span> <span class="p">(</span><span class="s2">"JUN"</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="s2">"06"</span><span class="p">,</span> <span class="s2">"08"</span><span class="p">),</span>
         <span class="s2">"SON"</span><span class="p">:</span> <span class="p">(</span><span class="s2">"SEP"</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="s2">"09"</span><span class="p">,</span> <span class="s2">"11"</span><span class="p">),</span>
-        <span class="s2">"JJAS"</span><span class="p">:(</span><span class="s2">"JUN"</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="s2">"06"</span><span class="p">,</span> <span class="s2">"09"</span><span class="p">),</span>    
+        <span class="s2">"JJAS"</span><span class="p">:</span> <span class="p">(</span><span class="s2">"JUN"</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="s2">"06"</span><span class="p">,</span> <span class="s2">"09"</span><span class="p">),</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">season_to_month</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">season_abbreviation</span><span class="p">)</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">select_timeseries</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">timeseries</span><span class="p">,</span> <span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">timeseries</span> <span class="o">==</span> <span class="s2">"annual"</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">year_start</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">year_stop</span><span class="p">)))</span>
-    <span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">year_start</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">get_month_info</span><span class="p">(</span><span class="n">timeseries</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
-                         <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">year_stop</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">get_month_info</span><span class="p">(</span><span class="n">timeseries</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">))</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span>
+        <span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">year_start</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">get_month_info</span><span class="p">(</span><span class="n">timeseries</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">year_stop</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">get_month_info</span><span class="p">(</span><span class="n">timeseries</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
     <span class="k">return</span> <span class="n">ds</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_rolling_variance</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">window_years</span><span class="p">):</span>
     <span class="p">(</span><span class="n">da</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
     <span class="n">var</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">window_years</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
-    <span class="n">coeff</span><span class="o">=</span><span class="p">(</span><span class="n">var</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span><span class="o">/</span><span class="n">da</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">window_years</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">coeff</span> <span class="o">=</span> <span class="p">(</span><span class="n">var</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="n">da</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">window_years</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="n">var</span><span class="p">,</span> <span class="n">coeff</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">"coefficient_of_variation"</span><span class="p">)])</span>
     <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">variance</span><span class="o">=</span><span class="p">[</span><span class="n">window_years</span><span class="p">])</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">add_bounds</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">"latitude"</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">}</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">cf</span><span class="o">.</span><span class="n">bounds</span><span class="p">):</span>
         <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">cf</span><span class="o">.</span><span class="n">add_bounds</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">get_grid_out</span><span class="p">(</span><span class="n">request_grid_out</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
     <span class="n">ds_regrid</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span><span class="o">*</span><span class="n">request_grid_out</span><span class="p">)</span>
@@ -968,27 +974,34 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_interannual_variance</span><span class="p">(</span>
-    <span class="n">ds</span><span class="p">,</span> <span class="n">timeseries</span><span class="p">,</span> <span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span><span class="p">,</span> <span class="n">variance_values</span><span class="p">,</span>
-    <span class="n">request_grid_out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">regrid_kwargs</span>
+    <span class="n">ds</span><span class="p">,</span>
+    <span class="n">timeseries</span><span class="p">,</span>
+    <span class="n">year_start</span><span class="p">,</span>
+    <span class="n">year_stop</span><span class="p">,</span>
+    <span class="n">variance_values</span><span class="p">,</span>
+    <span class="n">request_grid_out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">regrid_kwargs</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="c1"># Select the time series</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">select_timeseries</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">timeseries</span><span class="p">,</span> <span class="n">year_start</span><span class="p">,</span> <span class="n">year_stop</span><span class="p">)</span>
-    
+
     <span class="c1"># Get seasonal/annual means</span>
-    <span class="n">resampled</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">"Y"</span> <span class="k">if</span> <span class="n">timeseries</span><span class="o">==</span><span class="s2">"annual"</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">timeseries</span><span class="p">)</span><span class="si">}</span><span class="s2">MS"</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">timeseries</span><span class="o">==</span><span class="s2">"annual"</span><span class="p">:</span>
+    <span class="n">resampled</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span>
+        <span class="n">time</span><span class="o">=</span><span class="s2">"Y"</span> <span class="k">if</span> <span class="n">timeseries</span> <span class="o">==</span> <span class="s2">"annual"</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">timeseries</span><span class="p">)</span><span class="si">}</span><span class="s2">MS"</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">timeseries</span> <span class="o">==</span> <span class="s2">"annual"</span><span class="p">:</span>
         <span class="n">ds</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">resampled</span><span class="p">,</span> <span class="s2">"mean"</span><span class="p">)(</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">ds</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">resampled</span><span class="p">,</span> <span class="s2">"mean"</span><span class="p">)(</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'time.month'</span><span class="p">)[</span><span class="n">get_month_info</span><span class="p">(</span><span class="n">timeseries</span><span class="p">)[</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">resampled</span><span class="p">,</span> <span class="s2">"mean"</span><span class="p">)(</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"time.month"</span><span class="p">)[</span>
+            <span class="n">get_month_info</span><span class="p">(</span><span class="n">timeseries</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="p">]</span>
 
-    <span class="c1">#Change units</span>
-    <span class="n">ds</span> <span class="o">*=</span><span class="mi">86400</span> 
-    
+    <span class="c1"># Change units</span>
+    <span class="n">ds</span> <span class="o">*=</span> <span class="mi">86400</span>
+
     <span class="c1"># Compute variances</span>
     <span class="n">datasets</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">compute_rolling_variance</span><span class="p">(</span>
-            <span class="n">ds</span><span class="p">,</span>
-            <span class="n">window_years</span><span class="o">=</span><span class="n">variance</span><span class="p">)</span>
+        <span class="n">compute_rolling_variance</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">window_years</span><span class="o">=</span><span class="n">variance</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">variance</span> <span class="ow">in</span> <span class="n">variance_values</span>
     <span class="p">]</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="s2">"variance"</span><span class="p">)</span>
@@ -997,8 +1010,8 @@
     <span class="k">if</span> <span class="n">request_grid_out</span><span class="p">:</span>
         <span class="n">grid_out</span> <span class="o">=</span> <span class="n">get_grid_out</span><span class="p">(</span><span class="n">request_grid_out</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">regrid_kwargs</span><span class="p">[</span><span class="s2">"method"</span><span class="p">])</span>
         <span class="n">ds</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">regrid</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">grid_out</span><span class="o">=</span><span class="n">grid_out</span><span class="p">,</span> <span class="o">**</span><span class="n">regrid_kwargs</span><span class="p">)</span>
-    
-    <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">convert_calendar</span><span class="p">(</span><span class="s1">'proleptic_gregorian'</span><span class="p">,</span> <span class="n">align_on</span><span class="o">=</span><span class="s1">'date'</span><span class="p">,</span> <span class="n">use_cftime</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">convert_calendar</span><span class="p">(</span><span class="s2">"proleptic_gregorian"</span><span class="p">,</span> <span class="n">align_on</span><span class="o">=</span><span class="s2">"date"</span><span class="p">,</span> <span class="n">use_cftime</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1052,9 +1065,9 @@
 <span class="n">model_datasets</span> <span class="o">=</span> <span class="p">{}</span>
 
 <span class="n">model_kwargs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">"chunks"</span><span class="p">:</span> <span class="n">chunks</span> <span class="k">if</span> <span class="n">collection_id</span> <span class="o">==</span> <span class="s2">"CMIP6"</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="s2">"transform_chunks"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="s2">"transform_func"</span><span class="p">:</span>  <span class="n">compute_interannual_variance</span><span class="p">,</span>
+    <span class="s2">"chunks"</span><span class="p">:</span> <span class="n">chunks</span> <span class="k">if</span> <span class="n">collection_id</span> <span class="o">==</span> <span class="s2">"CMIP6"</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">"transform_chunks"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s2">"transform_func"</span><span class="p">:</span> <span class="n">compute_interannual_variance</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="k">for</span> <span class="n">model</span><span class="p">,</span> <span class="n">requests</span> <span class="ow">in</span> <span class="n">model_requests</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -1079,7 +1092,9 @@
     <span class="p">)</span>
     <span class="n">interpolated_datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="p">[</span><span class="n">model</span><span class="p">]))</span>
 
-<span class="n">ds_interpolated</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">interpolated_datasets</span><span class="p">,</span> <span class="s2">"model"</span><span class="p">,</span><span class="n">coords</span><span class="o">=</span><span class="s1">'minimal'</span><span class="p">,</span> <span class="n">compat</span><span class="o">=</span><span class="s1">'override'</span><span class="p">)</span>
+<span class="n">ds_interpolated</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="n">interpolated_datasets</span><span class="p">,</span> <span class="s2">"model"</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="s2">"minimal"</span><span class="p">,</span> <span class="n">compat</span><span class="o">=</span><span class="s2">"override"</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1116,9 +1131,11 @@ model='ukesm1_0_ll'
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Drop 'bnds' dimension if it exists for each dataset and for the interpolated dataset</span>
-<span class="n">model_datasets</span> <span class="o">=</span> <span class="p">{</span><span class="n">model</span><span class="p">:</span> <span class="n">ds</span><span class="o">.</span><span class="n">drop_dims</span><span class="p">(</span><span class="s1">'bnds'</span><span class="p">)</span> <span class="k">if</span> <span class="s1">'bnds'</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">dims</span> <span class="k">else</span> <span class="n">ds</span> 
-                  <span class="k">for</span> <span class="n">model</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">model_datasets</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-<span class="n">ds_era5</span><span class="o">=</span><span class="n">ds_era5</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="n">era5_variable_short</span><span class="p">:</span><span class="n">cmip6_variable_short</span><span class="p">})</span>
+<span class="n">model_datasets</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">model</span><span class="p">:</span> <span class="n">ds</span><span class="o">.</span><span class="n">drop_dims</span><span class="p">(</span><span class="s2">"bnds"</span><span class="p">)</span> <span class="k">if</span> <span class="s2">"bnds"</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">dims</span> <span class="k">else</span> <span class="n">ds</span>
+    <span class="k">for</span> <span class="n">model</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">model_datasets</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+<span class="p">}</span>
+<span class="n">ds_era5</span> <span class="o">=</span> <span class="n">ds_era5</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="n">era5_variable_short</span><span class="p">:</span> <span class="n">cmip6_variable_short</span><span class="p">})</span>
 
 <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ds_era5</span><span class="p">,</span> <span class="n">ds_interpolated</span><span class="p">,</span> <span class="o">*</span><span class="n">model_datasets</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
     <span class="n">ds</span><span class="p">[</span><span class="n">cmip6_variable_short</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"long_name"</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span> <span class="s2">"units"</span><span class="p">:</span> <span class="s2">"(mm/day)²"</span><span class="p">}</span>
@@ -1155,49 +1172,50 @@ model='ukesm1_0_ll'
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Define function to plot the caption of the figures (for the ensemble case)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define function to plot the caption of the figures (for the ensemble case)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">add_caption_ensemble</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="n">mode_var</span><span class="o">=</span><span class="s2">"Variance"</span><span class="p">):</span>
 
-    <span class="n">caption_text</span><span class="o">=</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"Fig </span><span class="si">{</span><span class="n">fig_number</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">mode_var</span><span class="si">}</span><span class="s2"> of "</span>
-            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">timeseries</span><span class="si">}</span><span class="s2"> mean precipitation over the </span><span class="si">{</span><span class="n">exp</span><span class="si">}</span><span class="s2"> period (</span><span class="si">{</span><span class="n">year_start</span><span class="si">}</span><span class="s2">–</span><span class="si">{</span><span class="n">year_stop</span><span class="si">}</span><span class="s2">)."</span>
-            <span class="sa">f</span><span class="s2">"The layout includes data corresponding to: (a) ERA5, (b) the ensemble median "</span>
-            <span class="sa">f</span><span class="s2">"(defined as the median of the </span><span class="si">{</span><span class="n">mode_var</span><span class="si">}</span><span class="s2"> values for the selected "</span>
-            <span class="sa">f</span><span class="s2">"subset of models, calculated for each grid cell), "</span>
-            <span class="sa">f</span><span class="s2">"(c) the bias of the ensemble median, and (d) the ensemble spread "</span>
-            <span class="sa">f</span><span class="s2">"(calculated as the standard deviation of the </span><span class="si">{</span><span class="n">mode_var</span><span class="si">}</span><span class="s2"> values "</span>
-            <span class="sa">f</span><span class="s2">"for the selected subset of models)."</span>
+    <span class="n">caption_text</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"Fig </span><span class="si">{</span><span class="n">fig_number</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">mode_var</span><span class="si">}</span><span class="s2"> of "</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">timeseries</span><span class="si">}</span><span class="s2"> mean precipitation over the </span><span class="si">{</span><span class="n">exp</span><span class="si">}</span><span class="s2"> period (</span><span class="si">{</span><span class="n">year_start</span><span class="si">}</span><span class="s2">–</span><span class="si">{</span><span class="n">year_stop</span><span class="si">}</span><span class="s2">)."</span>
+        <span class="sa">f</span><span class="s2">"The layout includes data corresponding to: (a) ERA5, (b) the ensemble median "</span>
+        <span class="sa">f</span><span class="s2">"(defined as the median of the </span><span class="si">{</span><span class="n">mode_var</span><span class="si">}</span><span class="s2"> values for the selected "</span>
+        <span class="sa">f</span><span class="s2">"subset of models, calculated for each grid cell), "</span>
+        <span class="sa">f</span><span class="s2">"(c) the bias of the ensemble median, and (d) the ensemble spread "</span>
+        <span class="sa">f</span><span class="s2">"(calculated as the standard deviation of the </span><span class="si">{</span><span class="n">mode_var</span><span class="si">}</span><span class="s2"> values "</span>
+        <span class="sa">f</span><span class="s2">"for the selected subset of models)."</span>
     <span class="p">)</span>
-            
+
     <span class="n">wrapped_lines</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">caption_text</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">105</span><span class="p">)</span>
     <span class="c1"># Add each line to the figure</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">wrapped_lines</span><span class="p">):</span>
-        <span class="n">fig</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="o">-</span> <span class="n">i</span> <span class="o">*</span> <span class="mf">0.03</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'left'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-    <span class="c1">#end captioning</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span> <span class="n">i</span> <span class="o">*</span> <span class="mf">0.03</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="c1"># end captioning</span>
 
 
-<span class="c1">#Define function to plot the caption of the figures (for the individual models case)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">add_caption_models</span><span class="p">(</span><span class="n">bias</span><span class="p">,</span><span class="n">exp</span><span class="p">,</span> <span class="n">mode_var</span><span class="o">=</span><span class="s2">"Variance"</span><span class="p">):</span>
-    <span class="c1">#Add caption to the figure</span>
-    <span class="k">if</span> <span class="n">bias</span><span class="p">:</span> 
+<span class="c1"># Define function to plot the caption of the figures (for the individual models case)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_caption_models</span><span class="p">(</span><span class="n">bias</span><span class="p">,</span> <span class="n">exp</span><span class="p">,</span> <span class="n">mode_var</span><span class="o">=</span><span class="s2">"Variance"</span><span class="p">):</span>
+    <span class="c1"># Add caption to the figure</span>
+    <span class="k">if</span> <span class="n">bias</span><span class="p">:</span>
         <span class="n">caption_text</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"Fig </span><span class="si">{</span><span class="n">fig_number</span><span class="si">}</span><span class="s2">. Bias of the </span><span class="si">{</span><span class="n">mode_var</span><span class="si">}</span><span class="s2"> of "</span>
-                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">timeseries</span><span class="si">}</span><span class="s2"> mean precipitation over the </span><span class="si">{</span><span class="n">exp</span><span class="si">}</span><span class="s2"> period (</span><span class="si">{</span><span class="n">year_start</span><span class="si">}</span><span class="s2">–</span><span class="si">{</span><span class="n">year_stop</span><span class="si">}</span><span class="s2">)."</span>
-                <span class="sa">f</span><span class="s2">"The layout displays each "</span>
-                <span class="sa">f</span><span class="s2">"individual </span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2"> model."</span>
+            <span class="sa">f</span><span class="s2">"Fig </span><span class="si">{</span><span class="n">fig_number</span><span class="si">}</span><span class="s2">. Bias of the </span><span class="si">{</span><span class="n">mode_var</span><span class="si">}</span><span class="s2"> of "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">timeseries</span><span class="si">}</span><span class="s2"> mean precipitation over the </span><span class="si">{</span><span class="n">exp</span><span class="si">}</span><span class="s2"> period (</span><span class="si">{</span><span class="n">year_start</span><span class="si">}</span><span class="s2">–</span><span class="si">{</span><span class="n">year_stop</span><span class="si">}</span><span class="s2">)."</span>
+            <span class="sa">f</span><span class="s2">"The layout displays each "</span>
+            <span class="sa">f</span><span class="s2">"individual </span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2"> model."</span>
         <span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>       
+    <span class="k">else</span><span class="p">:</span>
         <span class="n">caption_text</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"Fig </span><span class="si">{</span><span class="n">fig_number</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">mode_var</span><span class="si">}</span><span class="s2"> of "</span>
-                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">timeseries</span><span class="si">}</span><span class="s2"> mean precipitation over the </span><span class="si">{</span><span class="n">exp</span><span class="si">}</span><span class="s2"> period (</span><span class="si">{</span><span class="n">year_start</span><span class="si">}</span><span class="s2">–</span><span class="si">{</span><span class="n">year_stop</span><span class="si">}</span><span class="s2">)"</span>
-                <span class="sa">f</span><span class="s2">"The layout displays each individual "</span>
-                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2"> model."</span>
+            <span class="sa">f</span><span class="s2">"Fig </span><span class="si">{</span><span class="n">fig_number</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">mode_var</span><span class="si">}</span><span class="s2"> of "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">timeseries</span><span class="si">}</span><span class="s2"> mean precipitation over the </span><span class="si">{</span><span class="n">exp</span><span class="si">}</span><span class="s2"> period (</span><span class="si">{</span><span class="n">year_start</span><span class="si">}</span><span class="s2">–</span><span class="si">{</span><span class="n">year_stop</span><span class="si">}</span><span class="s2">)"</span>
+            <span class="sa">f</span><span class="s2">"The layout displays each individual "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2"> model."</span>
         <span class="p">)</span>
 
     <span class="n">wrapped_lines</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">caption_text</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">110</span><span class="p">)</span>
     <span class="c1"># Add each line to the figure</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">wrapped_lines</span><span class="p">):</span>
-        <span class="n">fig</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="o">-</span> <span class="n">i</span> <span class="o">*</span> <span class="mf">0.03</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'left'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span> <span class="n">i</span> <span class="o">*</span> <span class="mf">0.03</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">set_extent</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">axs</span><span class="p">,</span> <span class="n">area</span><span class="p">):</span>
     <span class="n">extent</span> <span class="o">=</span> <span class="p">[</span><span class="n">area</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span>
@@ -1297,7 +1315,9 @@ model='ukesm1_0_ll'
     <span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span>
         <span class="n">median</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">show_stats</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cbar_kwargs</span><span class="o">=</span><span class="n">cbar_kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"(b) Ensemble Median"</span> <span class="k">if</span> <span class="n">da_era5</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">"(a) Ensemble Median"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
+        <span class="s2">"(b) Ensemble Median"</span> <span class="k">if</span> <span class="n">da_era5</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">"(a) Ensemble Median"</span>
+    <span class="p">)</span>
 
     <span class="c1"># Bias</span>
     <span class="k">if</span> <span class="n">da_era5</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -1320,7 +1340,11 @@ model='ukesm1_0_ll'
     <span class="n">plot</span><span class="o">.</span><span class="n">projected_map</span><span class="p">(</span>
         <span class="n">std</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">show_stats</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cbar_kwargs</span><span class="o">=</span><span class="n">cbar_kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">default_kwargs</span>
     <span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"(d) Ensemble Standard Deviation"</span> <span class="k">if</span> <span class="n">da_era5</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">"(b) Ensemble Standard Deviation"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
+        <span class="s2">"(d) Ensemble Standard Deviation"</span>
+        <span class="k">if</span> <span class="n">da_era5</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">else</span> <span class="s2">"(b) Ensemble Standard Deviation"</span>
+    <span class="p">)</span>
 
     <span class="n">set_extent</span><span class="p">(</span><span class="n">da_models</span><span class="p">,</span> <span class="n">axs</span><span class="p">,</span> <span class="n">area</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">fig</span>
@@ -1349,24 +1373,30 @@ model='ukesm1_0_ll'
 <span class="c1"># Common title</span>
 <span class="n">common_title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Historical period: </span><span class="si">{</span><span class="n">year_start</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">year_stop</span><span class="si">}</span><span class="s2">."</span>
 
-<span class="k">for</span> <span class="n">var_mode</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"pr"</span><span class="p">,</span><span class="s2">"coefficient_of_variation"</span><span class="p">):</span>
-    <span class="n">title</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">mode_var_string</span><span class="p">[</span><span class="n">var_mode</span><span class="p">]</span><span class="si">}</span><span class="s2"> "</span>
-            <span class="sa">f</span><span class="s2">"(ERA5 vs </span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2"> ensemble) of </span><span class="si">{</span><span class="n">timeseries</span><span class="si">}</span><span class="s2"> mean precipitation</span><span class="se">\n</span><span class="si">{</span><span class="n">common_title</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">var_mode</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"pr"</span><span class="p">,</span> <span class="s2">"coefficient_of_variation"</span><span class="p">):</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">mode_var_string</span><span class="p">[</span><span class="n">var_mode</span><span class="p">]</span><span class="si">}</span><span class="s2"> "</span>
+        <span class="sa">f</span><span class="s2">"(ERA5 vs </span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2"> ensemble) of </span><span class="si">{</span><span class="n">timeseries</span><span class="si">}</span><span class="s2"> mean precipitation</span><span class="se">\n</span><span class="si">{</span><span class="n">common_title</span><span class="si">}</span><span class="s2">"</span>
+    <span class="p">)</span>
     <span class="n">dataset</span><span class="p">,</span> <span class="n">dataset_era5</span> <span class="o">=</span> <span class="n">ds_interpolated</span><span class="p">,</span> <span class="n">ds_era5</span>
-                             
-    <span class="c1">#get the variance of the whole period</span>
-    <span class="n">da</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">variance</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">variance</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s2">"time"</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="n">var_mode</span><span class="p">]</span> 
-    <span class="n">da_era5</span> <span class="o">=</span> <span class="n">dataset_era5</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">variance</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset_era5</span><span class="o">.</span><span class="n">variance</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset_era5</span><span class="p">[</span><span class="s2">"time"</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="n">var_mode</span><span class="p">]</span>
+
+    <span class="c1"># get the variance of the whole period</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span>
+        <span class="n">variance</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">variance</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s2">"time"</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="p">)[</span><span class="n">var_mode</span><span class="p">]</span>
+    <span class="n">da_era5</span> <span class="o">=</span> <span class="n">dataset_era5</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span>
+        <span class="n">variance</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset_era5</span><span class="o">.</span><span class="n">variance</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset_era5</span><span class="p">[</span><span class="s2">"time"</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="p">)[</span><span class="n">var_mode</span><span class="p">]</span>
 
     <span class="n">fig</span> <span class="o">=</span> <span class="n">plot_ensemble</span><span class="p">(</span><span class="n">da_models</span><span class="o">=</span><span class="n">da</span><span class="p">,</span> <span class="n">da_era5</span><span class="o">=</span><span class="n">da_era5</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mf">7.5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
-    
+
     <span class="c1"># Add caption</span>
-    <span class="n">add_caption_ensemble</span><span class="p">(</span><span class="n">exp</span><span class="o">=</span><span class="s2">"historical"</span><span class="p">,</span><span class="n">mode_var</span><span class="o">=</span><span class="n">mode_var_string</span><span class="p">[</span><span class="n">var_mode</span><span class="p">])</span>
-    
+    <span class="n">add_caption_ensemble</span><span class="p">(</span><span class="n">exp</span><span class="o">=</span><span class="s2">"historical"</span><span class="p">,</span> <span class="n">mode_var</span><span class="o">=</span><span class="n">mode_var_string</span><span class="p">[</span><span class="n">var_mode</span><span class="p">])</span>
+
     <span class="c1"># Show the plot</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-    
+
     <span class="c1"># Increment figure number</span>
     <span class="n">fig_number</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
@@ -1396,25 +1426,30 @@ model='ukesm1_0_ll'
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">var_mode</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"pr"</span><span class="p">,</span><span class="s2">"coefficient_of_variation"</span><span class="p">):</span>
-    <span class="n">title</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">mode_var_string</span><span class="p">[</span><span class="n">var_mode</span><span class="p">]</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="n">timeseries</span><span class="si">}</span><span class="s2"> mean precipitation "</span>
-                 <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2"> individual members) </span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">common_title</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">var_mode</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"pr"</span><span class="p">,</span> <span class="s2">"coefficient_of_variation"</span><span class="p">):</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">mode_var_string</span><span class="p">[</span><span class="n">var_mode</span><span class="p">]</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="n">timeseries</span><span class="si">}</span><span class="s2"> mean precipitation "</span>
+        <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2"> individual members) </span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">common_title</span><span class="si">}</span><span class="s2">"</span>
+    <span class="p">)</span>
 
     <span class="c1"># Select the mean values of the variances</span>
-    <span class="n">da_for_kwargs</span> <span class="o">=</span> <span class="n">ds_era5</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">variance</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset_era5</span><span class="o">.</span><span class="n">variance</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset_era5</span><span class="p">[</span><span class="s2">"time"</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="n">var_mode</span><span class="p">]</span>
+    <span class="n">da_for_kwargs</span> <span class="o">=</span> <span class="n">ds_era5</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span>
+        <span class="n">variance</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset_era5</span><span class="o">.</span><span class="n">variance</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset_era5</span><span class="p">[</span><span class="s2">"time"</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="p">)[</span><span class="n">var_mode</span><span class="p">]</span>
 
     <span class="n">fig</span> <span class="o">=</span> <span class="n">plot_models</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="p">{</span>
-            <span class="n">model</span><span class="p">:</span> <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">variance</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">variance</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">"time"</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="n">var_mode</span><span class="p">]</span>
+            <span class="n">model</span><span class="p">:</span> <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">variance</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">variance</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">"time"</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)[</span>
+                <span class="n">var_mode</span>
+            <span class="p">]</span>
             <span class="k">for</span> <span class="n">model</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">model_datasets</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
         <span class="p">},</span>
         <span class="n">da_for_kwargs</span><span class="o">=</span><span class="n">da_for_kwargs</span><span class="p">,</span>
         <span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
     <span class="p">)</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
-            
-    <span class="n">add_caption_models</span><span class="p">(</span><span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">exp</span><span class="o">=</span><span class="s2">"historical"</span><span class="p">,</span> 
-                       <span class="n">mode_var</span><span class="o">=</span><span class="n">mode_var_string</span><span class="p">[</span><span class="n">var_mode</span><span class="p">])</span>
+
+    <span class="n">add_caption_models</span><span class="p">(</span><span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">exp</span><span class="o">=</span><span class="s2">"historical"</span><span class="p">,</span> <span class="n">mode_var</span><span class="o">=</span><span class="n">mode_var_string</span><span class="p">[</span><span class="n">var_mode</span><span class="p">])</span>
 
     <span class="c1"># Show the plot</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -1448,25 +1483,27 @@ model='ukesm1_0_ll'
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">var_mode</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"pr"</span><span class="p">,</span><span class="s2">"coefficient_of_variation"</span><span class="p">):</span>
-    <span class="n">title</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">mode_var_string</span><span class="p">[</span><span class="n">var_mode</span><span class="p">]</span><span class="si">}</span><span class="s2"> bias of </span><span class="si">{</span><span class="n">timeseries</span><span class="si">}</span><span class="s2"> mean precipitation "</span>
-                 <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2"> individual members) </span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">common_title</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">var_mode</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"pr"</span><span class="p">,</span> <span class="s2">"coefficient_of_variation"</span><span class="p">):</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">mode_var_string</span><span class="p">[</span><span class="n">var_mode</span><span class="p">]</span><span class="si">}</span><span class="s2"> bias of </span><span class="si">{</span><span class="n">timeseries</span><span class="si">}</span><span class="s2"> mean precipitation "</span>
+        <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="n">collection_id</span><span class="si">}</span><span class="s2"> individual members) </span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">common_title</span><span class="si">}</span><span class="s2">"</span>
+    <span class="p">)</span>
+
     <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="n">dataset</span><span class="p">,</span> <span class="n">dataset_era</span> <span class="o">=</span> <span class="n">ds_interpolated</span><span class="p">,</span> <span class="n">ds_era5</span>
-        <span class="n">bias</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">dataset</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">variance</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">variance</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s2">"time"</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-                <span class="o">-</span> <span class="n">dataset_era</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">variance</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset_era</span><span class="o">.</span><span class="n">variance</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset_era</span><span class="p">[</span><span class="s2">"time"</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-                <span class="p">)</span>
-  
+        <span class="n">bias</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span>
+            <span class="n">variance</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">variance</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s2">"time"</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="p">)</span> <span class="o">-</span> <span class="n">dataset_era</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span>
+            <span class="n">variance</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset_era</span><span class="o">.</span><span class="n">variance</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset_era</span><span class="p">[</span><span class="s2">"time"</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="p">)</span>
+
     <span class="n">da</span> <span class="o">=</span> <span class="n">bias</span><span class="p">[</span><span class="n">var_mode</span><span class="p">]</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">plot_models</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">da</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">])</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plot_models</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">da</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">])</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
-    <span class="n">add_caption_models</span><span class="p">(</span><span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exp</span><span class="o">=</span><span class="s2">"historical"</span><span class="p">,</span> 
-                       <span class="n">mode_var</span><span class="o">=</span><span class="n">mode_var_string</span><span class="p">[</span><span class="n">var_mode</span><span class="p">])</span>
+    <span class="n">add_caption_models</span><span class="p">(</span><span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exp</span><span class="o">=</span><span class="s2">"historical"</span><span class="p">,</span> <span class="n">mode_var</span><span class="o">=</span><span class="n">mode_var_string</span><span class="p">[</span><span class="n">var_mode</span><span class="p">])</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
-    <span class="n">fig_number</span><span class="o">=</span><span class="n">fig_number</span><span class="o">+</span><span class="mi">1</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">fig_number</span> <span class="o">=</span> <span class="n">fig_number</span> <span class="o">+</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -1502,28 +1539,39 @@ model='ukesm1_0_ll'
     <span class="s2">"lat_slice"</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="n">area</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">area</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
 <span class="p">}</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">plot_trend</span><span class="p">(</span><span class="n">time_series</span><span class="p">,</span> <span class="n">var_values</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
     <span class="n">time_numeric</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">time_series</span><span class="o">.</span><span class="n">to_series</span><span class="p">())</span>
     <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">p_value</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">linregress</span><span class="p">(</span><span class="n">time_numeric</span><span class="p">,</span> <span class="n">var_values</span><span class="p">)</span>
     <span class="n">trend</span> <span class="o">=</span> <span class="n">intercept</span> <span class="o">+</span> <span class="n">slope</span> <span class="o">*</span> <span class="n">time_numeric</span>
-    <span class="n">slope_per_decade</span> <span class="o">=</span> <span class="n">slope</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">*</span> <span class="p">(</span><span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mf">365.25</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="p">)</span>  <span class="c1"># nanoseconds to decade</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time_series</span><span class="p">,</span> <span class="n">trend</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+    <span class="n">slope_per_decade</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">slope</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">*</span> <span class="p">(</span><span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mf">365.25</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="p">)</span>
+    <span class="p">)</span>  <span class="c1"># nanoseconds to decade</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time_series</span><span class="p">,</span> <span class="n">trend</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">slope_per_decade</span><span class="p">,</span> <span class="n">p_value</span>
+
 
 <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"pr"</span><span class="p">,</span> <span class="s2">"coefficient_of_variation"</span><span class="p">]:</span>
     <span class="c1"># Get the spatial mean for ERA5</span>
-    <span class="n">era5_mean</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">regionalise</span><span class="p">(</span><span class="n">ds_era5</span><span class="p">,</span> <span class="o">**</span><span class="n">regionalise_kwargs</span><span class="p">))[</span><span class="n">var</span><span class="p">]</span>
+    <span class="n">era5_mean</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span>
+        <span class="n">utils</span><span class="o">.</span><span class="n">regionalise</span><span class="p">(</span><span class="n">ds_era5</span><span class="p">,</span> <span class="o">**</span><span class="n">regionalise_kwargs</span><span class="p">)</span>
+    <span class="p">)[</span><span class="n">var</span><span class="p">]</span>
 
     <span class="c1"># Get the spatial mean for CMIP6, preserving each model</span>
     <span class="n">cmip6_means</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">diagnostics</span><span class="o">.</span><span class="n">spatial_weighted_mean</span><span class="p">(</span>
             <span class="n">utils</span><span class="o">.</span><span class="n">regionalise</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="p">[</span><span class="n">model</span><span class="p">]),</span> <span class="o">**</span><span class="n">regionalise_kwargs</span><span class="p">)</span>
-        <span class="p">)[</span><span class="n">var</span><span class="p">]</span> <span class="k">for</span> <span class="n">model</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">model_datasets</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">)[</span><span class="n">var</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">model</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">model_datasets</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
     <span class="p">]</span>
 
     <span class="c1"># Calculate the median, ensemble mean, and standard deviation</span>
-    <span class="n">cmip6_mean_median</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">cmip6_means</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">"model"</span><span class="p">)</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="s2">"model"</span><span class="p">,</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">cmip6_mean_ens_mean</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">cmip6_means</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">"model"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">"model"</span><span class="p">,</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">cmip6_mean_median</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">cmip6_means</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">"model"</span><span class="p">)</span><span class="o">.</span><span class="n">median</span><span class="p">(</span>
+        <span class="s2">"model"</span><span class="p">,</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    <span class="n">cmip6_mean_ens_mean</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">cmip6_means</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">"model"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+        <span class="s2">"model"</span><span class="p">,</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
     <span class="n">cmip6_mean_std</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">cmip6_means</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">"model"</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="s2">"model"</span><span class="p">,</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="c1"># Initialize list to store trend information</span>
@@ -1533,44 +1581,64 @@ model='ukesm1_0_ll'
     <span class="n">cmip6_var</span> <span class="o">=</span> <span class="n">cmip6_mean_median</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">variance</span><span class="o">=</span><span class="n">variance_values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">cmip6_var_ens_mean</span> <span class="o">=</span> <span class="n">cmip6_mean_ens_mean</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">variance</span><span class="o">=</span><span class="n">variance_values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">cmip6_mean_std_sel</span> <span class="o">=</span> <span class="n">cmip6_mean_std</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">variance</span><span class="o">=</span><span class="n">variance_values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-            
+
     <span class="c1"># Plotting</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 
     <span class="c1"># Plot individual model series for each variance</span>
     <span class="k">for</span> <span class="n">model_data</span> <span class="ow">in</span> <span class="n">cmip6_means</span><span class="p">:</span>
         <span class="n">model_var</span> <span class="o">=</span> <span class="n">model_data</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">variance</span><span class="o">=</span><span class="n">variance_values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">model_var_values</span> <span class="o">=</span> <span class="n">model_var</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="k">if</span> <span class="n">model_var</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">model_var</span><span class="o">.</span><span class="n">values</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">model_var</span><span class="p">[</span><span class="s1">'time'</span><span class="p">],</span> <span class="n">model_var_values</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'-'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"grey"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+        <span class="n">model_var_values</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">model_var</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="k">if</span> <span class="n">model_var</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">model_var</span><span class="o">.</span><span class="n">values</span>
+        <span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+            <span class="n">model_var</span><span class="p">[</span><span class="s2">"time"</span><span class="p">],</span> <span class="n">model_var_values</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"grey"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span>
+        <span class="p">)</span>
 
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'-'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'grey'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Individual Models'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"grey"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Individual Models"</span><span class="p">)</span>
 
-    <span class="n">era5_var</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"ERA5"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="s2">"ERA5"</span><span class="p">])</span>
-    <span class="n">cmip6_var</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"CMIP6"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="s2">"CMIP6"</span><span class="p">])</span>
+    <span class="n">era5_var</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">"ERA5"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="s2">"ERA5"</span><span class="p">])</span>
+    <span class="n">cmip6_var</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">"CMIP6"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="s2">"CMIP6"</span><span class="p">])</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span>
-        <span class="n">cmip6_var_ens_mean</span><span class="p">[</span><span class="s1">'time'</span><span class="p">],</span>
+        <span class="n">cmip6_var_ens_mean</span><span class="p">[</span><span class="s2">"time"</span><span class="p">],</span>
         <span class="n">cmip6_var_ens_mean</span><span class="o">.</span><span class="n">values</span> <span class="o">+</span> <span class="n">cmip6_mean_std_sel</span><span class="p">,</span>
         <span class="n">cmip6_var_ens_mean</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="n">cmip6_mean_std_sel</span><span class="p">,</span>
-        <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="s2">"CMIP6"</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'CMIP6 Spread'</span>
+        <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="s2">"CMIP6"</span><span class="p">],</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">"CMIP6 Spread"</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">slope_era5</span><span class="p">,</span> <span class="n">p_value_era5</span> <span class="o">=</span> <span class="n">plot_trend</span><span class="p">(</span><span class="n">era5_var</span><span class="p">[</span><span class="s1">'time'</span><span class="p">][</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">era5_var</span><span class="o">.</span><span class="n">values</span><span class="p">)],</span>
-                                          <span class="n">era5_var</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">era5_var</span><span class="o">.</span><span class="n">values</span><span class="p">)],</span> 
-                                          <span class="sa">f</span><span class="s2">"ERA5 Trend"</span><span class="p">,</span> <span class="n">colors</span><span class="p">[</span><span class="s2">"ERA5"</span><span class="p">])</span>
+    <span class="n">slope_era5</span><span class="p">,</span> <span class="n">p_value_era5</span> <span class="o">=</span> <span class="n">plot_trend</span><span class="p">(</span>
+        <span class="n">era5_var</span><span class="p">[</span><span class="s2">"time"</span><span class="p">][</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">era5_var</span><span class="o">.</span><span class="n">values</span><span class="p">)],</span>
+        <span class="n">era5_var</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">era5_var</span><span class="o">.</span><span class="n">values</span><span class="p">)],</span>
+        <span class="s2">"ERA5 Trend"</span><span class="p">,</span>
+        <span class="n">colors</span><span class="p">[</span><span class="s2">"ERA5"</span><span class="p">],</span>
+    <span class="p">)</span>
 
-    <span class="n">slope_cmip6</span><span class="p">,</span> <span class="n">p_value_cmip6</span> <span class="o">=</span> <span class="n">plot_trend</span><span class="p">(</span><span class="n">cmip6_var</span><span class="p">[</span><span class="s1">'time'</span><span class="p">][</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">cmip6_var</span><span class="o">.</span><span class="n">values</span><span class="p">)],</span>
-                                            <span class="n">cmip6_var</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">cmip6_var</span><span class="o">.</span><span class="n">values</span><span class="p">)],</span> 
-                                            <span class="sa">f</span><span class="s2">"CMIP6 Median Trend"</span><span class="p">,</span> <span class="n">colors</span><span class="p">[</span><span class="s2">"CMIP6"</span><span class="p">])</span>
+    <span class="n">slope_cmip6</span><span class="p">,</span> <span class="n">p_value_cmip6</span> <span class="o">=</span> <span class="n">plot_trend</span><span class="p">(</span>
+        <span class="n">cmip6_var</span><span class="p">[</span><span class="s2">"time"</span><span class="p">][</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">cmip6_var</span><span class="o">.</span><span class="n">values</span><span class="p">)],</span>
+        <span class="n">cmip6_var</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">cmip6_var</span><span class="o">.</span><span class="n">values</span><span class="p">)],</span>
+        <span class="s2">"CMIP6 Median Trend"</span><span class="p">,</span>
+        <span class="n">colors</span><span class="p">[</span><span class="s2">"CMIP6"</span><span class="p">],</span>
+    <span class="p">)</span>
 
     <span class="n">trend_info</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">(</span><span class="sa">f</span><span class="s2">"ERA5 </span><span class="si">{</span><span class="n">variance_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">-year </span><span class="si">{</span><span class="n">mode_var_string</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">slope_era5</span><span class="p">,</span> <span class="n">p_value_era5</span><span class="p">),</span>
-        <span class="p">(</span><span class="sa">f</span><span class="s2">"CMIP6 Median </span><span class="si">{</span><span class="n">variance_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">-year </span><span class="si">{</span><span class="n">mode_var_string</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">slope_cmip6</span><span class="p">,</span> <span class="n">p_value_cmip6</span><span class="p">)</span>
+        <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"ERA5 </span><span class="si">{</span><span class="n">variance_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">-year </span><span class="si">{</span><span class="n">mode_var_string</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="n">slope_era5</span><span class="p">,</span>
+            <span class="n">p_value_era5</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"CMIP6 Median </span><span class="si">{</span><span class="n">variance_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">-year </span><span class="si">{</span><span class="n">mode_var_string</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="n">slope_cmip6</span><span class="p">,</span>
+            <span class="n">p_value_cmip6</span><span class="p">,</span>
+        <span class="p">),</span>
     <span class="p">]</span>
 
-    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'End year of the moving window'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"End year of the moving window"</span><span class="p">)</span>
     <span class="n">string_freq</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"(from </span><span class="si">{</span><span class="n">timeseries</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">cmip6_variable_short</span><span class="si">}</span><span class="s2"> means)"</span>
-    <span class="n">title_numb</span><span class="o">=</span><span class="s2">"(a)"</span> <span class="k">if</span> <span class="n">var</span> <span class="o">==</span> <span class="s2">"pr"</span> <span class="k">else</span> <span class="s2">"(b)"</span>
+    <span class="n">title_numb</span> <span class="o">=</span> <span class="s2">"(a)"</span> <span class="k">if</span> <span class="n">var</span> <span class="o">==</span> <span class="s2">"pr"</span> <span class="k">else</span> <span class="s2">"(b)"</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
         <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">title_numb</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">mode_var_string</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">string_freq</span><span class="si">}</span><span class="s2">. "</span>
         <span class="sa">f</span><span class="s2">"Width of the moving window: </span><span class="si">{</span><span class="n">variance_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">-year. </span><span class="se">\n</span><span class="s2">"</span>
@@ -1581,21 +1649,29 @@ model='ukesm1_0_ll'
     <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">DateFormatter</span><span class="p">(</span><span class="s1">'%Y'</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">DateFormatter</span><span class="p">(</span><span class="s2">"%Y"</span><span class="p">))</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span><span class="o">.</span><span class="n">autofmt_xdate</span><span class="p">()</span>
 
     <span class="n">units</span> <span class="o">=</span> <span class="s2">"(mm/day)²"</span> <span class="k">if</span> <span class="n">var</span> <span class="o">==</span> <span class="s2">"pr"</span> <span class="k">else</span> <span class="s2">""</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">units</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">units</span> <span class="o">=</span> <span class="s2">"(mm/day)²"</span> <span class="k">if</span> <span class="n">var</span> <span class="o">==</span> <span class="s2">"pr"</span> <span class="k">else</span> <span class="s2">"1"</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.13</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.015</span><span class="p">,</span>
-                    <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> Trend: </span><span class="si">{</span><span class="n">trend</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">units</span><span class="si">}</span><span class="s2">/decade), p-value: </span><span class="si">{</span><span class="n">p</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2">"</span>
-                                <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">trend</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">trend_info</span><span class="p">]),</span>
-                    <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
-                    <span class="n">ha</span><span class="o">=</span><span class="s1">'left'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span>
-                    <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">boxstyle</span><span class="o">=</span><span class="s2">"square,pad=0.5"</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">"lightgray"</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+        <span class="mf">0.13</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">0.015</span><span class="p">,</span>
+        <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> Trend: </span><span class="si">{</span><span class="n">trend</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">units</span><span class="si">}</span><span class="s2">/decade), p-value: </span><span class="si">{</span><span class="n">p</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2">"</span>
+                <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">trend</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">trend_info</span>
+            <span class="p">]</span>
+        <span class="p">),</span>
+        <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+        <span class="n">ha</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span>
+        <span class="n">va</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span>
+        <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">boxstyle</span><span class="o">=</span><span class="s2">"square,pad=0.5"</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">"lightgray"</span><span class="p">),</span>
+    <span class="p">)</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

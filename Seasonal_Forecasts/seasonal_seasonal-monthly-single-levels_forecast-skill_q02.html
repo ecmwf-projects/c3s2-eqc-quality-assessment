@@ -700,9 +700,9 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">regionmask</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagnostics</span><span class="p">,</span> <span class="n">download</span><span class="p">,</span> <span class="n">plot</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"seaborn-v0_8-notebook"</span><span class="p">)</span>
@@ -950,6 +950,7 @@
 
     <span class="n">ds</span> <span class="o">=</span> <span class="n">diagnostics</span><span class="o">.</span><span class="n">regrid</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">grid_out</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="p">[</span><span class="n">year</span><span class="p">])</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">monthly_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
@@ -1212,7 +1213,11 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">centre</span> <span class="o">=</span> <span class="s2">"ecmwf"</span>
 <span class="n">region</span> <span class="o">=</span> <span class="s2">"WNA"</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">bias</span><span class="p">[</span><span class="s2">"2m_temperature"</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">centre</span><span class="o">=</span><span class="n">centre</span><span class="p">,</span><span class="n">region</span><span class="o">=</span><span class="n">region</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">"valid_month"</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="s2">"RdBu_r"</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">,</span> <span class="mf">.5</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">bias</span><span class="p">[</span><span class="s2">"2m_temperature"</span><span class="p">]</span>
+    <span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">centre</span><span class="o">=</span><span class="n">centre</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="n">region</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">"valid_month"</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">"RdBu_r"</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+<span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"centre: </span><span class="si">{</span><span class="n">centre</span><span class="si">}</span><span class="s2"> - region: </span><span class="si">{</span><span class="n">region</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.01</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1238,29 +1243,50 @@
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_kwargs</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"2m_temperature"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"cmap"</span><span class="p">:</span> <span class="s2">"RdBu_r"</span><span class="p">,</span> <span class="s2">"levels"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">,</span> <span class="mf">.5</span><span class="p">),</span> <span class="s2">"extend"</span><span class="p">:</span> <span class="s2">"both"</span><span class="p">},</span>
-    <span class="s2">"total_precipitation"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"cmap"</span><span class="p">:</span> <span class="s2">"BrBG"</span><span class="p">,</span> <span class="s2">"levels"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">140</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="s2">"extend"</span><span class="p">:</span> <span class="s2">"both"</span><span class="p">},</span>
-    <span class="s2">"10m_wind_speed"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"cmap"</span><span class="p">:</span> <span class="s2">"PuOr"</span><span class="p">,</span> <span class="s2">"levels"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">.2</span><span class="p">),</span> <span class="s2">"extend"</span><span class="p">:</span> <span class="s2">"both"</span><span class="p">},</span>
-    <span class="s2">"2m_dewpoint_temperature"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"cmap"</span><span class="p">:</span> <span class="s2">"BrBG"</span><span class="p">,</span> <span class="s2">"levels"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">,</span> <span class="mf">.5</span><span class="p">),</span> <span class="s2">"extend"</span><span class="p">:</span> <span class="s2">"both"</span><span class="p">},</span>
+    <span class="s2">"2m_temperature"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"cmap"</span><span class="p">:</span> <span class="s2">"RdBu_r"</span><span class="p">,</span>
+        <span class="s2">"levels"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+        <span class="s2">"extend"</span><span class="p">:</span> <span class="s2">"both"</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"total_precipitation"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"cmap"</span><span class="p">:</span> <span class="s2">"BrBG"</span><span class="p">,</span>
+        <span class="s2">"levels"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">140</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
+        <span class="s2">"extend"</span><span class="p">:</span> <span class="s2">"both"</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"10m_wind_speed"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"cmap"</span><span class="p">:</span> <span class="s2">"PuOr"</span><span class="p">,</span>
+        <span class="s2">"levels"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">),</span>
+        <span class="s2">"extend"</span><span class="p">:</span> <span class="s2">"both"</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"2m_dewpoint_temperature"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"cmap"</span><span class="p">:</span> <span class="s2">"BrBG"</span><span class="p">,</span>
+        <span class="s2">"levels"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+        <span class="s2">"extend"</span><span class="p">:</span> <span class="s2">"both"</span><span class="p">,</span>
+    <span class="p">},</span>
 <span class="p">}</span>
 
 <span class="n">cbar_width</span> <span class="o">=</span> <span class="n">cbar_pad</span> <span class="o">=</span> <span class="mf">0.02</span>
 <span class="k">for</span> <span class="n">varname</span><span class="p">,</span> <span class="n">da</span> <span class="ow">in</span> <span class="n">bias</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">facet</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-        <span class="n">col</span><span class="o">=</span><span class="s2">"centre"</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="s2">"region"</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">"valid_month"</span><span class="p">,</span> <span class="n">add_colorbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">plot_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">varname</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">col</span><span class="o">=</span><span class="s2">"centre"</span><span class="p">,</span>
+        <span class="n">row</span><span class="o">=</span><span class="s2">"region"</span><span class="p">,</span>
+        <span class="n">x</span><span class="o">=</span><span class="s2">"valid_month"</span><span class="p">,</span>
+        <span class="n">add_colorbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">plot_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">varname</span><span class="p">,</span> <span class="p">{}),</span>
     <span class="p">)</span>
-    <span class="n">facet</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Seasonal forecast: </span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'long_name'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.02</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">)</span>
+    <span class="n">facet</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"Seasonal forecast: </span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'long_name'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="mf">1.02</span><span class="p">,</span>
+        <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span>
+        <span class="n">fontweight</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">facet</span><span class="o">.</span><span class="n">set_titles</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
-    
+
     <span class="c1"># Create a colorbar for each row</span>
     <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">facet</span><span class="o">.</span><span class="n">axs</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
         <span class="n">pos</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
         <span class="n">cax</span> <span class="o">=</span> <span class="n">facet</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="n">pos</span><span class="o">.</span><span class="n">x1</span> <span class="o">+</span> <span class="n">cbar_pad</span><span class="p">,</span> <span class="n">pos</span><span class="o">.</span><span class="n">y0</span><span class="p">,</span> <span class="n">cbar_width</span><span class="p">,</span> <span class="n">pos</span><span class="o">.</span><span class="n">height</span><span class="p">])</span>
-        <span class="n">facet</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">collections</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-            <span class="n">cax</span><span class="o">=</span><span class="n">cax</span><span class="p">,</span>
-            <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"[</span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'units'</span><span class="p">]</span><span class="si">}</span><span class="s2">]"</span>
-        <span class="p">)</span>
+        <span class="n">facet</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">collections</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cax</span><span class="o">=</span><span class="n">cax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"[</span><span class="si">{</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'units'</span><span class="p">]</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>

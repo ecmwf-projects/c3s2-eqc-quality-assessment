@@ -690,25 +690,21 @@
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">fsspec</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.feature</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cfeature</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mpl</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">regionmask</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ccrs</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.feature</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cfeature</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.ticker</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mticker</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">cartopy.mpl.gridliner</span><span class="w"> </span><span class="kn">import</span> <span class="n">LONGITUDE_FORMATTER</span><span class="p">,</span> <span class="n">LATITUDE_FORMATTER</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.ticker</span><span class="w"> </span><span class="kn">import</span> <span class="n">MultipleLocator</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">xesmf</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xe</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mpatches</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">curve_fit</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xesmf</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xe</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">download</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cartopy.mpl.gridliner</span><span class="w"> </span><span class="kn">import</span> <span class="n">LATITUDE_FORMATTER</span><span class="p">,</span> <span class="n">LONGITUDE_FORMATTER</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.ticker</span><span class="w"> </span><span class="kn">import</span> <span class="n">MultipleLocator</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"seaborn-v0_8-notebook"</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -747,7 +743,7 @@
     <span class="p">{</span>
         <span class="s2">"variable"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"glacier_area"</span><span class="p">],</span>
         <span class="s2">"product_type"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"vector"</span><span class="p">],</span>
-        <span class="s2">"version"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"rgi_</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">rgi_version</span><span class="p">)</span><span class="si">}</span><span class="s2">_0"</span>
+        <span class="s2">"version"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"rgi_</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">rgi_version</span><span class="p">)</span><span class="si">}</span><span class="s2">_0"</span><span class="p">,</span>
     <span class="p">},</span>
 <span class="p">)</span>
 
@@ -784,7 +780,9 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get glacier extent data: takes a couple of minutes</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Downloading and handling glacier extent data from the CDS, this may take a couple of minutes..."</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">"Downloading and handling glacier extent data from the CDS, this may take a couple of minutes..."</span>
+<span class="p">)</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">download</span><span class="o">.</span><span class="n">download_and_transform</span><span class="p">(</span><span class="o">*</span><span class="n">request_extent</span><span class="p">)</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
 <span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
@@ -833,7 +831,7 @@
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">plot_map</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
     <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"markersize"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"legend"</span><span class="p">:</span> <span class="n">var_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span> <span class="o">|</span> <span class="n">kwargs</span>
     <span class="k">if</span> <span class="n">var_name</span><span class="p">:</span>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"c"</span><span class="p">:</span> <span class="n">var_name</span><span class="p">,</span> <span class="s2">"column"</span><span class="p">:</span> <span class="n">var_name</span><span class="p">}</span> <span class="o">|</span> <span class="n">kwargs</span>
@@ -843,11 +841,17 @@
             <span class="n">kwargs</span><span class="p">[</span><span class="s2">"legend_kwds"</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"label"</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">()</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">LAND</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">'w'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">LAND</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"w"</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">OCEAN</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">BORDERS</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-    <span class="n">gl</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span><span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span> <span class="n">draw_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                  <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">BORDERS</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">gl</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span>
+        <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
+        <span class="n">draw_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">"gray"</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">gl</span><span class="o">.</span><span class="n">xformatter</span> <span class="o">=</span> <span class="n">LONGITUDE_FORMATTER</span>
     <span class="n">gl</span><span class="o">.</span><span class="n">yformatter</span> <span class="o">=</span> <span class="n">LATITUDE_FORMATTER</span>
     <span class="n">gdf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -856,10 +860,12 @@
         <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ax</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">weighted_average</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">weights_name</span><span class="p">):</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span> <span class="o">&amp;</span> <span class="n">df</span><span class="p">[</span><span class="n">weights_name</span><span class="p">]</span><span class="o">.</span><span class="n">notnull</span><span class="p">()]</span>
     <span class="n">weights</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">weights_name</span><span class="p">]</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">*</span> <span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">weights</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">myExpFunc</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
@@ -1251,16 +1257,19 @@ year_t = srcdate_t
     <span class="sa">f</span><span class="s2">"Date of delineation data (origin dates) are completely missing for </span><span class="si">{</span><span class="n">missing</span><span class="si">}</span><span class="s2"> glaciers or </span><span class="si">{</span><span class="n">missing_perc</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">% of the dataset."</span><span class="p">,</span>
     <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span>
     <span class="n">bbox</span><span class="o">=</span><span class="p">{</span><span class="s2">"facecolor"</span><span class="p">:</span> <span class="s2">"white"</span><span class="p">,</span> <span class="s2">"edgecolor"</span><span class="p">:</span> <span class="s2">"black"</span><span class="p">},</span>
-<span class="p">);</span>
+<span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
     <span class="mf">0.015</span><span class="p">,</span>
     <span class="mf">0.935</span><span class="p">,</span>
     <span class="sa">f</span><span class="s2">"A total number of </span><span class="si">{</span><span class="n">n_glaciers</span><span class="si">}</span><span class="s2"> glaciers is present in the dataset, covering a total area of </span><span class="si">{</span><span class="n">total_area</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> km²."</span><span class="p">,</span>
     <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span>
     <span class="n">bbox</span><span class="o">=</span><span class="p">{</span><span class="s2">"facecolor"</span><span class="p">:</span> <span class="s2">"white"</span><span class="p">,</span> <span class="s2">"edgecolor"</span><span class="p">:</span> <span class="s2">"black"</span><span class="p">},</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"#95a5a6"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
+    <span class="s2">"Frequency of the year of delineation in the RGIv</span><span class="si">{}</span><span class="s2"> dataset"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rgi_version</span><span class="p">),</span>
+    <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span>
 <span class="p">);</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'#95a5a6'</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">'-'</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Frequency of the year of delineation in the RGIv</span><span class="si">{}</span><span class="s2"> dataset"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rgi_version</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -1279,12 +1288,8 @@ year_t = srcdate_t
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_total</span> <span class="o">=</span> <span class="n">year</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="n">pct_1990_2010</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">year</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="mi">1990</span><span class="p">,</span> <span class="mi">2010</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">n_total</span> <span class="o">*</span> <span class="mi">100</span>
-<span class="p">)</span>
-<span class="n">pct_1995_2005</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">year</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="mi">1995</span><span class="p">,</span> <span class="mi">2005</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">n_total</span> <span class="o">*</span> <span class="mi">100</span>
-<span class="p">)</span>
+<span class="n">pct_1990_2010</span> <span class="o">=</span> <span class="n">year</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="mi">1990</span><span class="p">,</span> <span class="mi">2010</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">n_total</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="n">pct_1995_2005</span> <span class="o">=</span> <span class="n">year</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="mi">1995</span><span class="p">,</span> <span class="mi">2005</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">n_total</span> <span class="o">*</span> <span class="mi">100</span>
 <span class="n">sentence</span> <span class="o">=</span> <span class="p">(</span>
     <span class="sa">f</span><span class="s2">"In the RGIv</span><span class="si">{</span><span class="n">rgi_version</span><span class="si">}</span><span class="s2"> dataset, "</span>
     <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">pct_1990_2010</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">% of all acquisitions occurred between 1990 and 2010, "</span>
@@ -1316,11 +1321,17 @@ year_t = srcdate_t
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># First map</span>
 
 <span class="n">cmap</span> <span class="o">=</span> <span class="n">mpl</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">turbo</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">round_up_to_10</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">num</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span>
+
+
 <span class="n">year2</span> <span class="o">=</span> <span class="n">year</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
 <span class="n">year_rounded_up</span> <span class="o">=</span> <span class="n">year2</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">round_up_to_10</span><span class="p">)</span>
-<span class="n">norm</span> <span class="o">=</span> <span class="n">mpl</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BoundaryNorm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">((</span><span class="n">year</span> <span class="o">//</span> <span class="mi">10</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">year_rounded_up</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">cmap</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
+<span class="n">norm</span> <span class="o">=</span> <span class="n">mpl</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BoundaryNorm</span><span class="p">(</span>
+    <span class="nb">range</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">((</span><span class="n">year</span> <span class="o">//</span> <span class="mi">10</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">year_rounded_up</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">cmap</span><span class="o">.</span><span class="n">N</span>
+<span class="p">)</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">plot_map</span><span class="p">(</span>
     <span class="n">gdf</span><span class="p">,</span>
     <span class="n">var_name</span><span class="o">=</span><span class="s2">"year"</span><span class="p">,</span>
@@ -1416,21 +1427,44 @@ is the glacier area for glacier <span class="math notranslate nohighlight">\(i\)
 <span class="n">r1</span> <span class="o">=</span> <span class="n">regions</span> <span class="o">-</span> <span class="n">bar_width</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># Positions for arithmetic bars</span>
 <span class="n">r2</span> <span class="o">=</span> <span class="n">regions</span> <span class="o">+</span> <span class="n">bar_width</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># Positions for area-weighted bars</span>
 
-<span class="n">textstr</span> <span class="o">=</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">((</span>
-    <span class="s1">'The global arithmetic mean year of delineation (RGI v</span><span class="si">{:.1f}</span><span class="s1">) is </span><span class="si">{:.1f}</span><span class="s1">.'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rgi_version</span><span class="p">,</span> <span class="n">gdf</span><span class="p">[</span><span class="s2">"decimal_year"</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()),</span>
-    <span class="s1">'The global area-weighted mean year of delineation (RGI v</span><span class="si">{:.1f}</span><span class="s1">) is </span><span class="si">{:.1f}</span><span class="s1">.'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rgi_version</span><span class="p">,</span> <span class="n">means</span><span class="p">[</span><span class="s2">"Area-weighted"</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()),</span>
-<span class="p">))</span>
+<span class="n">textstr</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+    <span class="p">(</span>
+        <span class="s2">"The global arithmetic mean year of delineation (RGI v</span><span class="si">{:.1f}</span><span class="s2">) is </span><span class="si">{:.1f}</span><span class="s2">."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">rgi_version</span><span class="p">,</span> <span class="n">gdf</span><span class="p">[</span><span class="s2">"decimal_year"</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="p">),</span>
+        <span class="s2">"The global area-weighted mean year of delineation (RGI v</span><span class="si">{:.1f}</span><span class="s2">) is </span><span class="si">{:.1f}</span><span class="s2">."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">rgi_version</span><span class="p">,</span> <span class="n">means</span><span class="p">[</span><span class="s2">"Area-weighted"</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+<span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">textstr</span><span class="p">)</span>
 
 <span class="c1"># Create the bar plot</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="n">arithmetic_means</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">bar_width</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">192</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="mi">192</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="mi">192</span><span class="o">/</span><span class="mi">255</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Arithmetic'</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">r2</span><span class="p">,</span> <span class="n">area_weighted_means</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">bar_width</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">96</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="mi">96</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="mi">96</span><span class="o">/</span><span class="mi">255</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Area-weighted'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
+    <span class="n">r1</span><span class="p">,</span>
+    <span class="n">arithmetic_means</span><span class="p">,</span>
+    <span class="n">width</span><span class="o">=</span><span class="n">bar_width</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">192</span> <span class="o">/</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">192</span> <span class="o">/</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">192</span> <span class="o">/</span> <span class="mi">255</span><span class="p">),</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">"Arithmetic"</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
+    <span class="n">r2</span><span class="p">,</span>
+    <span class="n">area_weighted_means</span><span class="p">,</span>
+    <span class="n">width</span><span class="o">=</span><span class="n">bar_width</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">96</span> <span class="o">/</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">96</span> <span class="o">/</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">96</span> <span class="o">/</span> <span class="mi">255</span><span class="p">),</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">"Area-weighted"</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="c1"># Add labels, title, and legend</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"RGI region number"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"Year of delineation $\overline</span><span class="si">{year}</span><span class="s2">_a$ or $\overline</span><span class="si">{year}</span><span class="s2">_w$"</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"The (area-weighted) mean year of delineation per RGI region (RGI v</span><span class="si">{}</span><span class="s2">)"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rgi_version</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+    <span class="s2">"The (area-weighted) mean year of delineation per RGI region (RGI v</span><span class="si">{}</span><span class="s2">)"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">rgi_version</span>
+    <span class="p">),</span>
+    <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">regions</span><span class="p">)</span>  <span class="c1"># Ensure x-ticks match region numbers</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">1977</span><span class="p">,</span> <span class="mi">2011</span><span class="p">)</span>  <span class="c1"># Replace 1980 and 2020 with your desired range</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
@@ -1438,13 +1472,7 @@ is the glacier area for glacier <span class="math notranslate nohighlight">\(i\)
 <span class="c1"># Add grid and show plot</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">MultipleLocator</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span>
-    <span class="n">which</span><span class="o">=</span><span class="s1">'major'</span><span class="p">,</span>
-    <span class="n">axis</span><span class="o">=</span><span class="s1">'y'</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="s1">'#95a5a6'</span><span class="p">,</span>
-    <span class="n">linestyle</span><span class="o">=</span><span class="s1">'-'</span><span class="p">,</span>
-    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span>
-<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">which</span><span class="o">=</span><span class="s2">"major"</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">"y"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"#95a5a6"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -1506,7 +1534,9 @@ The global area-weighted mean year of delineation (RGI v6.0) is 2001.3.
     <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"long_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"long_name"</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"_"</span><span class="p">,</span> <span class="s2">" "</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
 
 <span class="c1"># Mass change</span>
-<span class="n">cumulative</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">"glacier_mass_change_gt"</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="s2">"latitude"</span><span class="p">,</span><span class="s2">"longitude"</span><span class="p">),</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="s2">"time"</span><span class="p">)</span>
+<span class="n">cumulative</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s2">"glacier_mass_change_gt"</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="s2">"latitude"</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">),</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="s2">"time"</span><span class="p">)</span>
 <span class="n">cumulative</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"units"</span><span class="p">:</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"glacier_mass_change_gt"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span>
     <span class="s2">"long_name"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Cumulative </span><span class="si">{</span><span class="n">ds</span><span class="p">[</span><span class="s1">'glacier_mass_change_gt'</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">'long_name'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
@@ -1594,16 +1624,12 @@ dV_{\text{region}}^{2000,\overline{year}_w} \text{ [km}^3\text{]} =
 <span class="n">time</span> <span class="o">=</span> <span class="n">original</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span>
 <span class="n">original</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span> <span class="o">+</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">dayofyear</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">365</span> <span class="o">+</span> <span class="n">time</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">is_leap_year</span><span class="p">)</span>
 
-<span class="n">interpolated</span> <span class="o">=</span> <span class="n">original</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span>
-    <span class="n">time</span><span class="o">=</span><span class="n">means</span><span class="p">[</span><span class="s2">"Area-weighted"</span><span class="p">]</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">()</span>
-<span class="p">)</span>
+<span class="n">interpolated</span> <span class="o">=</span> <span class="n">original</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">means</span><span class="p">[</span><span class="s2">"Area-weighted"</span><span class="p">]</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">())</span>
 
-<span class="n">estimate</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1000</span> <span class="o">/</span> <span class="n">rho_i</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span>
-    <span class="n">interpolated</span> <span class="o">-</span> <span class="n">original</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">year</span><span class="p">)</span>
-<span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+<span class="n">estimate</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1000</span> <span class="o">/</span> <span class="n">rho_i</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">interpolated</span> <span class="o">-</span> <span class="n">original</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">year</span><span class="p">))</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
 
-<span class="c1"># Printing loop </span>
-<span class="k">for</span> <span class="n">region</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">region</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">out</span><span class="p">[</span><span class="s2">"estimate"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+<span class="c1"># Printing loop</span>
+<span class="k">for</span> <span class="n">region</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">estimate</span><span class="p">[</span><span class="s2">"region"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">estimate</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span>
         <span class="sa">f</span><span class="s2">"The volume estimate in RGI region </span><span class="si">{</span><span class="n">region</span><span class="si">:</span><span class="s2">&gt;2</span><span class="si">}</span><span class="s2">"</span>
         <span class="sa">f</span><span class="s2">" for the year </span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2"> is"</span>
@@ -1611,7 +1637,7 @@ dV_{\text{region}}^{2000,\overline{year}_w} \text{ [km}^3\text{]} =
         <span class="sa">f</span><span class="s2">" by </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">result</span><span class="p">))</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> km³."</span>
     <span class="p">)</span>
 
-<span class="n">total</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="s2">"estimate"</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">total</span> <span class="o">=</span> <span class="n">estimate</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span>
     <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">The volume estimate at the global scale"</span>
     <span class="sa">f</span><span class="s2">" for the year </span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2"> is"</span>
@@ -1657,7 +1683,7 @@ The volume estimate at the global scale for the year 2000 is underestimated by 1
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Area-weighted estimate</span>
-<span class="n">estimate_weighted</span> <span class="o">=</span> <span class="mi">1000</span><span class="o">*</span><span class="p">(</span><span class="n">estimate</span><span class="o">/</span><span class="n">total_area</span><span class="p">)</span>
+<span class="n">estimate_weighted</span> <span class="o">=</span> <span class="mi">1000</span> <span class="o">*</span> <span class="p">(</span><span class="n">estimate</span> <span class="o">/</span> <span class="n">total_area</span><span class="p">)</span>
 
 <span class="c1"># Plot 1 — Raw estimates</span>
 <span class="n">regions</span> <span class="o">=</span> <span class="n">estimate</span><span class="o">.</span><span class="n">region</span><span class="o">.</span><span class="n">values</span>
@@ -1667,7 +1693,7 @@ The volume estimate at the global scale for the year 2000 is underestimated by 1
 <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
     <span class="n">regions</span><span class="p">,</span>
     <span class="n">estimate</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">196</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span><span class="mi">196</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span><span class="mi">196</span><span class="o">/</span><span class="mi">255</span><span class="p">),</span>
+    <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">196</span> <span class="o">/</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">196</span> <span class="o">/</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">196</span> <span class="o">/</span> <span class="mi">255</span><span class="p">),</span>
 <span class="p">)</span>
 
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"RGI region number"</span><span class="p">)</span>
@@ -1693,7 +1719,7 @@ The volume estimate at the global scale for the year 2000 is underestimated by 1
 <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
     <span class="n">regions</span><span class="p">,</span>
     <span class="n">estimate_weighted</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">196</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span><span class="mi">196</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span><span class="mi">196</span><span class="o">/</span><span class="mi">255</span><span class="p">),</span>
+    <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">196</span> <span class="o">/</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">196</span> <span class="o">/</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">196</span> <span class="o">/</span> <span class="mi">255</span><span class="p">),</span>
 <span class="p">)</span>
 
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"RGI region number"</span><span class="p">)</span>

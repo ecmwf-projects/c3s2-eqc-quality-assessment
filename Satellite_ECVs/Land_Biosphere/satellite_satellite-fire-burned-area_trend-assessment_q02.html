@@ -664,13 +664,13 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="kn">import</span> <span class="n">Patch</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">regionmask</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">scipy.stats</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">shapely</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">c3s_eqc_automatic_quality_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">download</span><span class="p">,</span> <span class="n">utils</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="kn">import</span> <span class="n">Patch</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"seaborn-v0_8-notebook"</span><span class="p">)</span>
 </pre></div>
@@ -774,7 +774,7 @@
 <span class="c1"># Convert units from m2 to km2</span>
 <span class="n">da</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"burned_area"</span><span class="p">]</span>
 <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="n">da</span> <span class="o">*=</span> <span class="mf">1.0e-6</span> <span class="c1"># Conversion factor</span>
+    <span class="n">da</span> <span class="o">*=</span> <span class="mf">1.0e-6</span>  <span class="c1"># Conversion factor</span>
 <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"km2"</span>
 </pre></div>
 </div>
@@ -852,7 +852,7 @@ The Sen slope estimator is found to be a powerful tool to develop the linear rel
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Computation and definition of Mean-Kendall and Theil-Sen Statistics </span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Computation and definition of Mean-Kendall and Theil-Sen Statistics</span>
 <span class="n">da_grouped</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">mask</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">"region"</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="s2">"latitude"</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">,</span> <span class="s2">"month"</span><span class="p">))</span>
 <span class="n">da_grouped</span> <span class="o">=</span> <span class="n">da_grouped</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">region</span><span class="o">=</span><span class="n">regions</span><span class="o">.</span><span class="n">names</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
 
@@ -878,7 +878,7 @@ The Sen slope estimator is found to be a powerful tool to develop the linear rel
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Function for ploting trends</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Function for ploting trends</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">plot_trend</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">facet</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">col</span><span class="o">=</span><span class="s2">"region"</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">sel_dict</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">facet</span><span class="o">.</span><span class="n">axs</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">facet</span><span class="o">.</span><span class="n">name_dicts</span><span class="o">.</span><span class="n">flatten</span><span class="p">()):</span>
@@ -951,21 +951,19 @@ The Sen slope estimator is found to be a powerful tool to develop the linear rel
 <span class="p">)</span>
 <span class="n">significant_gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">gdf</span><span class="p">[</span><span class="s2">"p-value"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">)]</span>
 <span class="n">significant_gdf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-    <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
-    <span class="n">facecolor</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span>
-    <span class="n">hatch</span><span class="o">=</span><span class="s2">"///"</span><span class="p">,</span>
-    <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span>
-    <span class="n">label</span><span class="o">=</span><span class="s1">'Non-Significant'</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span> <span class="n">hatch</span><span class="o">=</span><span class="s2">"///"</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Non-Significant"</span>
 <span class="p">)</span>
 
 <span class="c1"># Create a proxy artist for the legend handle</span>
-<span class="n">legend_handles</span> <span class="o">=</span> <span class="p">[</span><span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">"white"</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">hatch</span><span class="o">=</span><span class="s2">"///"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Non-Significant'</span><span class="p">)]</span>
+<span class="n">legend_handles</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">"white"</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">hatch</span><span class="o">=</span><span class="s2">"///"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Non-Significant"</span><span class="p">)</span>
+<span class="p">]</span>
 
 <span class="c1"># Turn off the axis</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">"off"</span><span class="p">)</span>
 
 <span class="c1"># Show the legend with the proxy artist</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">legend_handles</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">'upper right'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">legend_handles</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"upper right"</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
