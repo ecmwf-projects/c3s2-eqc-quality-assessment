@@ -1,0 +1,32 @@
+name: cleanup-gh-pages
+
+on:
+  schedule:
+  - cron: '0 6 1 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Squashes the gh-pages history into one commit, so old builds stop bloating clones (#654).
+# The current content is kept, including the previews of open PRs. If a deploy pushes
+# meanwhile, the force-with-lease push fails and the next run tries again.
+jobs:
+  squash-history:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: true # the script force-pushes gh-pages
+        sparse-checkout: scripts
+    - name: Squash gh-pages history
+      env:
+        GIT_AUTHOR_NAME: github-actions[bot]
+        GIT_AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+        GIT_COMMITTER_NAME: github-actions[bot]
+        GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+      run: sh scripts/cleanup-gh-pages-history.sh
