@@ -42,7 +42,11 @@ The title should be the only 'level one' heading (single # before the heading), 
 
 ## Production date and author
 
-Include a production date (approximating when the data was downloaded and code first run, or document first accessed). Optionally, the author(s) can be acknowledge, by name and/or institute, or instead 'EQC evaluator'.
+Include a production date (approximating when the data was downloaded and code first run, or document first accessed).
+
+The author(s) of individual notebooks are no longer credited in the notebooks themselves,
+but in a [shared credits page](../credits.md).
+Please feel free to add new or missing authors and affiliations to said page.
 
 ## 🌍 Use case
 
