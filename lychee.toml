@@ -1,0 +1,35 @@
+# Settings of the check-notebook-links hook: https://lychee.cli.rs/guides/config/
+# Successful checks are cached for a day in .lycheecache
+cache = true
+exclude = [
+  # Checked by validate-dois
+  '^https?://(dx\.)?doi\.org/',
+  # Known 403s
+  '^https://www\.volkskrant\.nl/wetenschap/~b301f81f2/',
+  '^https://glisa\.umich\.edu/lake-superior-retrospective/',
+  '^https://psycnet\.apa\.org/record/1948-15040-000',
+  '^https://sealevel\.nasa\.gov/understanding-sea-level/global-sea-level/overview/',
+  '^https://earthobservatory\.nasa\.gov/images/148414/lake-victorias-rising-waters',
+  '^https://timesofmalta\.com/article/february-marks-9th-straight-month-recordsmashing-global-heat\.1087990',
+  # Sites that rate-limit, block or time out on GitHub runners, or fail TLS there
+  '^https://api\.semanticscholar\.org/',
+  '^https://www\.earthdata\.nasa\.gov/',
+  '^https://www\.ipcc\.ch/',
+  '^https://www\.cnr\.it/',
+  '^https://nmme\.earth\.miami\.edu/',
+  '^https://www\.senamhi\.gob\.pe/',
+  '^https://gewexca\.aeris-data\.fr/'
+]
+include_fragments = "anchor-only"
+max_cache_age = "1d"
+# 429s, 5xx and timeouts are retried twice, after retry_wait_time and then twice that
+max_retries = 2
+# lychee can't parse notebooks, so it checks the text of their Markdown cells
+preprocess = { command = "scripts/extract-markdown.py" }
+retry_wait_time = 30
+scheme = ["https", "http"]
+timeout = 60
+
+# GitHub answers concurrent anonymous requests with 504s
+[hosts."github.com"]
+concurrency = 1
