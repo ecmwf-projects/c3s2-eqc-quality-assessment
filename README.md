@@ -8,18 +8,24 @@
 
 ## Quick start
 
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/).
+
 To run the quality assurance checks:
 
 ```bash
-pip install pre-commit
 make qa
 ```
 
 To build the book:
 
 ```bash
-pip install -r requirements.txt
 make build-book
+```
+
+To install the book dependencies (including `myst-nb`, used for glue) in your own environment:
+
+```bash
+pip install --group book  # pip >= 25.1
 ```
 
 ## Naming convention
