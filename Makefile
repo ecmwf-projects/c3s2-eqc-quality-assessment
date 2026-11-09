@@ -6,7 +6,7 @@ UNWANTED_DIR := __MACOSX
 export UV_PROJECT_ENVIRONMENT ?= .venv-tools
 
 
-.PHONY: help qa qa-all clean-book pre-build-book build-book
+.PHONY: help qa qa-all clean-book pre-build-book build-book preview-book stop-preview-book
 
 .DEFAULT_GOAL := help
 
@@ -30,3 +30,23 @@ pre-build-book: clean-book ## Prepare temporary files and run pre-build script
 build-book: pre-build-book ## Build the Jupyter Book
 	cd $(PRE_BUILD_DIR) && uv run --project $(CURDIR) --group book jupyter-book build --html --strict
 	uv run python scripts/post-build.py $(PRE_BUILD_DIR)/_build/html
+
+preview-book: ## Start the preview server in the background
+	@if [ -f .book-preview.pid ] && kill -0 $$(cat .book-preview.pid) 2>/dev/null; then \
+		echo "Preview server is already running at http://localhost:8000"; \
+	else \
+		nohup python3 -m http.server 8000 \
+			--directory "$(CURDIR)/$(PRE_BUILD_DIR)/_build/html" \
+			> /tmp/jupyter-book-preview.log 2>&1 < /dev/null & \
+		echo $$! > .book-preview.pid; \
+		echo "Preview available at http://localhost:8000"; \
+	fi
+
+stop-preview-book: ## Stop the preview server
+	@if [ -f .book-preview.pid ]; then \
+		kill $$(cat .book-preview.pid) 2>/dev/null || true; \
+		rm -f .book-preview.pid; \
+		echo "Preview server stopped."; \
+	else \
+		echo "No preview server running."; \
+	fi
