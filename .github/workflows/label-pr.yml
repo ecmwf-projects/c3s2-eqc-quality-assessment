@@ -1,0 +1,49 @@
+name: label-pr
+
+on:
+  pull_request:
+    types:
+    - opened
+    - reopened
+    - synchronize
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: Pull request number (for PRs from forks)
+        required: true
+        type: number
+
+permissions:
+  contents: read
+
+# Adds type and theme labels from the files a PR changes. The PR's code is never checked out:
+# the labels come from the list of changed files, and the mapping from the base branch.
+# Fork PRs get a read-only token, so they are labelled by running this workflow by hand.
+jobs:
+  label:
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main')
+      || (github.event.pull_request.head.repo.full_name == github.repository
+          && !contains(join(github.event.pull_request.labels.*.name, ','), 'type:'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pull-requests: write
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+        ref: ${{ github.event.pull_request.base.sha || 'main' }}
+        sparse-checkout: .github/scripts
+    - name: Add labels
+      shell: bash # sets pipefail, so a failed API call fails the job
+      env:
+        GH_TOKEN: ${{ github.token }}
+        PR: ${{ inputs.pr || github.event.pull_request.number }}
+      run: |
+        gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/pulls/$PR/files?per_page=100" \
+            | jq -r -f .github/scripts/pr-labels.jq \
+            | while IFS= read -r label; do
+                gh api "repos/$GITHUB_REPOSITORY/issues/$PR/labels" -f "labels[]=$label" --silent
+                echo "Added $label"
+            done
