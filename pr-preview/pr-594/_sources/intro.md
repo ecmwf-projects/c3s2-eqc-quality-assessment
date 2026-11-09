@@ -1,4 +1,4 @@
-![logo](LogoLine_horizon_C3S.png)
+![logo](logoline_c3s.svg)
 
 # C3S EQC quality assessments
 
