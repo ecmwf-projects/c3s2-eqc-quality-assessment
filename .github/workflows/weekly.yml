@@ -16,43 +16,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  autoupdate:
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-    steps:
-    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      with:
-        persist-credentials: true # the autoupdate branch is pushed below
-    - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
-      with:
-        version-file: uv.lock
-    - name: Run autoupdate
-      run: uv run pre-commit autoupdate
-    - name: Create Pull Request
-      env:
-        GH_TOKEN: ${{ github.token }}
-        BRANCH: pre-commit-autoupdate
-      run: |
-        if git diff --quiet; then
-            echo "No updates"
-            exit 0
-        fi
-        git switch -C "$BRANCH"
-        git -c user.name="github-actions[bot]" \
-            -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
-            commit -qam "pre-commit autoupdate"
-        git push --force origin "$BRANCH"
-        if [[ -z $(gh pr list --head "$BRANCH" --json number --jq '.[].number') ]]; then
-            gh pr create --head "$BRANCH" --title "pre-commit autoupdate" \
-                --body "Automated \`pre-commit autoupdate\` by the weekly workflow."
-        fi
-
-  # Runs the updated hooks without write access, as they are not reviewed yet
   checks:
     runs-on: ubuntu-latest
+    timeout-minutes: 150
+    outputs:
+      links: ${{ steps.links.outcome }}
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
@@ -60,8 +28,6 @@ jobs:
     - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
       with:
         version-file: uv.lock
-    - name: Run autoupdate
-      run: uv run pre-commit autoupdate
     - name: Get Python version
       id: python
       run: echo "version=$(uv run python -c 'import platform; print(platform.python_version())')" >>"$GITHUB_OUTPUT"
@@ -71,4 +37,45 @@ jobs:
         key: pre-commit-${{ steps.python.outputs.version }}-${{ hashFiles('.pre-commit-config.yaml') }}
     - name: Run all checks on all files
       timeout-minutes: 60
+      env:
+        SKIP: check-notebook-links
       run: uv run pre-commit run --show-diff-on-failure --color=always --all-files --hook-stage manual
+    # Broken links are reported in an issue instead of failing the workflow
+    - name: Check links on all files
+      id: links
+      if: ${{ !cancelled() }}
+      continue-on-error: true
+      timeout-minutes: 60
+      # Same command as the check-notebook-links hook, with a report for the issue
+      run: |
+        git ls-files '*.ipynb' '*.md' |
+            uv run --group check-links lychee --config lychee.toml --format json --output "$RUNNER_TEMP/links.json" --files-from -
+    - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+      if: ${{ !cancelled() && steps.links.outcome == 'failure' }}
+      with:
+        name: links
+        path: ${{ runner.temp }}/links.json
+        if-no-files-found: error
+        retention-days: 7
+
+  # Only runs the reviewed script on the report of the checks, never the updated hooks
+  report-links:
+    if: ${{ !cancelled() && github.ref == 'refs/heads/main' && needs.checks.outputs.links == 'failure' }}
+    needs: checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      issues: write
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+        sparse-checkout: .github/scripts
+    - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+      with:
+        name: links
+        path: ${{ runner.temp }}
+    - name: Report broken links
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python3 .github/scripts/report-broken-links.py "$RUNNER_TEMP/links.json"
