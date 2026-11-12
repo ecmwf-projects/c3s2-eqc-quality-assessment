@@ -634,8 +634,8 @@
   <p><img alt="logo" src="../_images/logoline_c3s1.svg" /></p>
 <section class="tex2jax_ignore mathjax_ignore" id="consistency-between-the-c3s-atlas-dataset-and-its-origins-multiple-origin-datasets">
 <h1><span class="section-number">7.3. </span>Consistency between the C3S Atlas dataset and its origins: Multiple origin datasets<a class="headerlink" href="#consistency-between-the-c3s-atlas-dataset-and-its-origins-multiple-origin-datasets" title="Link to this heading">#</a></h1>
-<p>Production date: 2025-10-14.</p>
-<p>Dataset version: 2.0.</p>
+<p>Production date: 2025-10-14 (Updated 2026-11-11).</p>
+<p>Dataset version: 2.5.</p>
 <section id="use-case-retrieving-climate-indicators-from-the-copernicus-interactive-climate-atlas">
 <h2>🌍 Use case: Retrieving climate indicators from the Copernicus Interactive Climate Atlas<a class="headerlink" href="#use-case-retrieving-climate-indicators-from-the-copernicus-interactive-climate-atlas" title="Link to this heading">#</a></h2>
 </section>
@@ -646,7 +646,7 @@
 <li><p><strong>Can the dataset underpinning the Copernicus Interactive Climate Atlas be reproduced from its origin datasets?</strong></p></li>
 </ul>
 <p>The <a class="reference external" href="https://atlas.climate.copernicus.eu/atlas" rel="noreferrer" target="_blank"><em>Copernicus Interactive Climate Atlas</em></a>, or <em>C3S Atlas</em> for short, is a C3S web application providing an easy-to-access tool for exploring climate projections, reanalyses, and observational data [<a class="reference external" href="https://doi.org/10.21957/ah52ufc369" rel="noreferrer" target="_blank">Gutiérrez+24</a>].
-Version 2.0 of the application allows the user to interact with 12 datasets:</p>
+Version 2.5 of the application allows the user to interact with 12 datasets:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Type</p></th>
@@ -737,7 +737,7 @@ and can be a jumping-off point for further analysis by the reader.</p>
 <ul class="simple">
 <li><p>Climate indicators (here 3 monthly indicators) provided by the C3S Atlas dataset are highly consistent with values calculated from its origin datasets (here 10 climate projection, observation, and reanalysis datasets).</p></li>
 <li><p>There are some differences in coverage between the C3S Atlas dataset and its origins due to differences in the version used, e.g. E-OBS temperature indicators at the edges of Europe, but these do not affect the vast majority of use cases for the C3S Atlas.</p></li>
-<li><p>Differences between the C3S Atlas dataset and a manual reproduction are rare and generally negligible (median absolute difference of 0 for <code class="docutils literal notranslate"><span class="pre">tx35</span></code> and <code class="docutils literal notranslate"><span class="pre">r01</span></code>, ≤0.0003 °C for SST). Where differences occur, they can be explained by dataset versions or details of the workflow implementation.</p></li>
+<li><p>Differences between the C3S Atlas dataset and a manual reproduction are rare and generally negligible (median absolute difference of 0 for <code class="docutils literal notranslate"><span class="pre">tx35</span></code> and <code class="docutils literal notranslate"><span class="pre">r01</span></code>, ≤0.03 °C for SST). Where differences occur, they can be explained by dataset versions or details of the workflow implementation.</p></li>
 <li><p>The C3S Atlas is traceable and reproducible, and can be confidently used to view, analyse, and download climate data.</p></li>
 <li><p>For specific use cases, like scientific papers, it is recommended to manually process the origin dataset instead of using the C3S Atlas. This is not necessary for other use cases, such as climate risk assessments and climate reports, in which case the C3S Atlas can be used as is.</p></li>
 </ul>
@@ -861,8 +861,24 @@ Further details and alternative options for installing this library are availabl
 <p class="collapsed admonition-title">Show code cell source</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
-<div class="cell_input docutils container">
+<div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/ecmwf-projects/c3s-atlas.git
+</pre></div>
+</div>
+</div>
+</details>
+<details class="admonition hide below-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell output</p>
+<p class="expanded admonition-title">Hide code cell output</p>
+</summary>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting git+https://github.com/ecmwf-projects/c3s-atlas.git
+  Cloning https://github.com/ecmwf-projects/c3s-atlas.git to /tmp/pip-req-build-c8ip0owu
+  Running command git clone --filter=blob:none --quiet https://github.com/ecmwf-projects/c3s-atlas.git /tmp/pip-req-build-c8ip0owu
+  Resolved https://github.com/ecmwf-projects/c3s-atlas.git to commit 8d80d4e98053d96077ba67f29464b4f373ff4037
+  Preparing metadata (setup.py) ... ?25ldone
+?25h
 </pre></div>
 </div>
 </div>
@@ -910,6 +926,7 @@ Further details and alternative options for installing this library are availabl
 <span class="kn">import</span><span class="w"> </span><span class="nn">earthkit.plots</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ekp</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">earthkit.plots.styles</span><span class="w"> </span><span class="kn">import</span> <span class="n">Style</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">"axes.grid"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">"grid.linestyle"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"--"</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>  <span class="c1"># Progress bars</span>
 
@@ -921,7 +938,7 @@ Further details and alternative options for installing this library are availabl
 
 <span class="c1"># Type hints</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">earthkit.plots.geo.domains</span><span class="w"> </span><span class="kn">import</span> <span class="n">Domain</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">earthkit.plots.geography.domains</span><span class="w"> </span><span class="kn">import</span> <span class="n">Domain</span>
 <span class="n">AnyDomain</span> <span class="o">=</span> <span class="p">(</span><span class="n">Domain</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1159,32 +1176,6 @@ These styles define the colour maps and colour bar ranges for each quantity.</p>
 </div>
 </details>
 </div>
-<p>The following functions handle <a class="reference external" href="https://docs.xarray.dev/en/latest/user-guide/dask.html" rel="noreferrer" target="_blank">data chunking in dask</a> for computational efficiency:</p>
-<div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Rechunking of data to speed up dask calculations</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">rechunk</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">""" Rechunk a dataset `ds` based on pre-set memory requirements. """</span>
-    <span class="c1"># Find coordinates (usually lat/lon, sometimes x/y)</span>
-    <span class="n">index_keys</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">indexes</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-    <span class="n">coord_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">index_keys</span> <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">"time"</span><span class="p">]</span>
-
-    <span class="c1"># Assign new chunk sizes</span>
-    <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">nbytes</span> <span class="o">&lt;=</span> <span class="mf">1e8</span><span class="p">:</span>  <span class="c1"># 100 MB</span>
-        <span class="n">chunks</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"time"</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}</span> <span class="o">|</span> <span class="p">{</span><span class="n">coord</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">coord_keys</span><span class="p">}</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">chunks</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"time"</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>  <span class="o">|</span> <span class="p">{</span><span class="n">coord</span><span class="p">:</span> <span class="mi">4000</span> <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">coord_keys</span><span class="p">}</span>
-    <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="n">chunks</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
 <p>The following functions handle the homogenisation of origin data to a consistent format using the <a class="reference external" href="https://ecmwf-projects.github.io/c3s-atlas/intro.html" rel="noreferrer" target="_blank">User-tools for the C3S Atlas</a>:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
@@ -1336,6 +1327,9 @@ This step is explained in more detail in the relevant section below.</p>
         <span class="n">stats</span> <span class="o">=</span> <span class="n">stats</span> <span class="o">|</span> <span class="n">stats_rel</span>
 
     <span class="c1"># Calculate correlation coefficients</span>
+    <span class="c1"># Note: Make sure to use an updated version of xarray (&gt;=2026.9.0) for this!</span>
+    <span class="c1"># Old versions had a normalisation issue causing over-estimation of Pearson r,</span>
+    <span class="c1"># sometimes even values &gt; 1.</span>
     <span class="n">corrs</span> <span class="o">=</span> <span class="p">{</span><span class="sa">r</span><span class="s2">"Pearson r"</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">dataset1</span><span class="p">[</span><span class="n">indicator</span><span class="p">],</span> <span class="n">dataset2</span><span class="p">[</span><span class="n">indicator</span><span class="p">])}</span>
     <span class="n">stats</span> <span class="o">=</span> <span class="n">stats</span> <span class="o">|</span> <span class="n">corrs</span>
 
@@ -1471,7 +1465,7 @@ This step is explained in more detail in the relevant section below.</p>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">geospatial_comparison_multiple_origins</span><span class="p">(</span><span class="n">data1</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">],</span> <span class="n">data2</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">],</span> <span class="n">indicator</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">date</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
                                            <span class="n">label1</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">"C3S Atlas dataset"</span><span class="p">,</span> <span class="n">label2</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">"Reproduced from origin"</span><span class="p">,</span>
-                                           <span class="n">domain</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AnyDomain</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                           <span class="n">domain</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AnyDomain</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hide_land</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                                            <span class="n">glue_label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 
 <span class="w">    </span><span class="sd">"""</span>
@@ -1484,7 +1478,7 @@ This step is explained in more detail in the relevant section below.</p>
     <span class="n">loop_origins</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">common_keys</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">"Plotting datasets"</span><span class="p">,</span> <span class="n">leave</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="c1"># Create figure</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">ekp</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">rows</span><span class="o">=</span><span class="n">n_datasets</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">7.5</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="o">*</span><span class="n">n_datasets</span><span class="p">)))</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">ekp</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">rows</span><span class="o">=</span><span class="n">n_datasets</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">7.5</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="o">*</span><span class="n">n_datasets</span><span class="p">)))</span>
 
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">loop_origins</span><span class="p">:</span>
         <span class="n">data1_here</span><span class="p">,</span> <span class="n">data2_here</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">date</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"nearest"</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">(</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">)]</span>
@@ -1506,8 +1500,9 @@ This step is explained in more detail in the relevant section below.</p>
         <span class="n">subplot</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
 
     <span class="c1"># Decorate figure</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">land</span><span class="p">()</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">coastlines</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">hide_land</span><span class="p">:</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">land</span><span class="p">(</span><span class="n">zorder</span><span class="o">=</span><span class="mf">1.98</span><span class="p">)</span>    <span class="c1"># On top of data, below gridlines</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">coastlines</span><span class="p">(</span><span class="n">zorder</span><span class="o">=</span><span class="mf">1.99</span><span class="p">)</span>  <span class="c1"># On top of data, below gridlines</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span><span class="n">linestyle</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">"grid.linestyle"</span><span class="p">])</span>
 
     <span class="c1"># Show result</span>
@@ -1529,7 +1524,7 @@ This step is explained in more detail in the relevant section below.</p>
     <span class="n">loop_origins</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">common_keys</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">"Plotting datasets"</span><span class="p">,</span> <span class="n">leave</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="c1"># Create figure</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">ekp</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">rows</span><span class="o">=</span><span class="n">n_datasets</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mf">7.5</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">n_datasets</span><span class="p">)))</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">ekp</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">rows</span><span class="o">=</span><span class="n">n_datasets</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">7.5</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">n_datasets</span><span class="p">)))</span>
 
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">loop_origins</span><span class="p">:</span>
         <span class="n">data1_here</span><span class="p">,</span> <span class="n">data2_here</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">date</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"nearest"</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">(</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">)]</span>
@@ -1839,6 +1834,9 @@ meaning any datasets not downloaded will automatically be skipped in the analysi
 </section>
 <section id="cmip6">
 <h4>CMIP6<a class="headerlink" href="#cmip6" title="Link to this heading">#</a></h4>
+<p>In this section,
+we download data from CMIP6 and the corresponding C3S Atlas data.
+This involves downloading ~175 MB of data in total.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1860,7 +1858,7 @@ meaning any datasets not downloaded will automatically be skipped in the analysi
 <p class="collapsed admonition-title">Show code cell source</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
-<div class="cell_input above-output-prompt docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setup: Origin request</span>
 <span class="n">CMIP6_ID</span> <span class="o">=</span> <span class="s2">"projections-cmip6"</span>
 <span class="n">request_CMIP6</span> <span class="o">=</span> <span class="p">{</span>
@@ -1879,48 +1877,7 @@ meaning any datasets not downloaded will automatically be skipped in the analysi
 <span class="n">data</span> <span class="o">=</span> <span class="n">homogenise</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"tasmax"</span><span class="p">,</span> <span class="n">CMIP6_ID</span><span class="p">)</span>
 <span class="n">indicator_CMIP6</span> <span class="o">=</span> <span class="n">cal_tx35</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">propagate_nan</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">regridded_CMIP6</span> <span class="o">=</span> <span class="n">regrid</span><span class="p">(</span><span class="n">indicator_CMIP6</span><span class="p">,</span> <span class="s2">"tx35"</span><span class="p">,</span>
-                                 <span class="n">lat_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">89.5</span><span class="p">,</span> <span class="mf">89.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">lon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">179.5</span><span class="p">,</span> <span class="mf">179.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</details>
-<details class="admonition hide below-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell output</p>
-<p class="expanded admonition-title">Hide code cell output</p>
-</summary>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Unknown file type, no reader available. path=/home/ob2/cds_data/cds-67885792c67c919c6adef8f9452ca11327458aa2fc79e661bd6835af4bbb1791.d/provenance.png magic=b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\n\xd3\x00\x00\x03"\x08\x02\x00\x00\x00\x99\xec9+\x00\x00\x00\x06bKGD\x00\xff\x00\xff\x00\xff\xa0\xbd\xa7\x93\x00\x00 \x00IDATx\x9c\xec\xddw' content_type=None
-2025-10-13 16:44:59,142 — Homogenization-fixers — INFO — Dataset has already the correct names for its coordinates
-2025-10-13 16:44:59,155 — Homogenization-fixers — INFO — Fixing calendar for &lt;xarray.Dataset&gt; Size: 81MB
-Dimensions:    (time: 365, bnds: 2, lat: 192, lon: 288)
-Coordinates:
-  * time       (time) object 3kB 2080-01-01 12:00:00 ... 2080-12-31 12:00:00
-  * lat        (lat) float64 2kB -90.0 -89.06 -88.12 -87.17 ... 88.12 89.06 90.0
-  * lon        (lon) float64 2kB 0.0 1.25 2.5 3.75 ... 355.0 356.2 357.5 358.8
-    height     float64 8B ...
-Dimensions without coordinates: bnds
-Data variables:
-    time_bnds  (time, bnds) object 6kB dask.array&lt;chunksize=(1, 2), meta=np.ndarray&gt;
-    lat_bnds   (lat, bnds) float64 3kB dask.array&lt;chunksize=(192, 2), meta=np.ndarray&gt;
-    lon_bnds   (lon, bnds) float64 5kB dask.array&lt;chunksize=(288, 2), meta=np.ndarray&gt;
-    tasmax     (time, lat, lon) float32 81MB dask.array&lt;chunksize=(1, 192, 288), meta=np.ndarray&gt;
-Attributes: (12/48)
-    Conventions:            CF-1.7 CMIP-6.2
-    activity_id:            ScenarioMIP
-    branch_method:          standard
-    branch_time_in_child:   60225.0
-    branch_time_in_parent:  60225.0
-    comment:                none
-    ...                     ...
-    title:                  CMCC-ESM2 output prepared for CMIP6
-    variable_id:            tasmax
-    variant_label:          r1i1p1f1
-    license:                CMIP6 model data produced by CMCC is licensed und...
-    cmor_version:           3.6.0
-    tracking_id:            hdl:21.14100/ba2e335b-8bac-45ec-abbe-f1f16299d2d4
-2025-10-13 16:44:59,332 — UNITS_TRANSFORM — INFO — The dataset tasmax units are not in the correct magnitude. A conversion from K to Celsius will be performed.
-2025-10-13 16:44:59,405 — Homogenization-fixers — INFO — The dataset is in daily or monthly resolution, we don't need to resample it from hourly frequency
+                         <span class="n">lat_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">89.5</span><span class="p">,</span> <span class="mf">89.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">lon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">179.5</span><span class="p">,</span> <span class="mf">179.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -1968,6 +1925,9 @@ Attributes: (12/48)
 </section>
 <section id="cmip5">
 <h4>CMIP5<a class="headerlink" href="#cmip5" title="Link to this heading">#</a></h4>
+<p>In this section,
+we download data from CMIP5 and the corresponding C3S Atlas data.
+This involves downloading ~1.2 GB of data in total.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1990,7 +1950,7 @@ Attributes: (12/48)
 <p class="collapsed admonition-title">Show code cell source</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
-<div class="cell_input above-output-prompt docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setup: Origin request</span>
 <span class="n">CMIP5_ID</span> <span class="o">=</span> <span class="s2">"projections-cmip5-daily-single-levels"</span>
 <span class="n">request_CMIP5</span> <span class="o">=</span> <span class="p">{</span>
@@ -2010,47 +1970,7 @@ Attributes: (12/48)
 <span class="n">data</span> <span class="o">=</span> <span class="n">homogenise</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"tasmax"</span><span class="p">,</span> <span class="n">CMIP5_ID</span><span class="p">)</span>
 <span class="n">indicator_CMIP5</span> <span class="o">=</span> <span class="n">cal_tx35</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="n">regridded_CMIP5</span> <span class="o">=</span> <span class="n">regrid</span><span class="p">(</span><span class="n">indicator_CMIP5</span><span class="p">,</span> <span class="s2">"tx35"</span><span class="p">,</span>
-                                 <span class="n">lat_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">89.</span><span class="p">,</span> <span class="mf">89.</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">lon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">179.</span><span class="p">,</span> <span class="mf">179.</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</details>
-<details class="admonition hide below-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell output</p>
-<p class="expanded admonition-title">Hide code cell output</p>
-</summary>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-10-13 16:45:09,478 — Homogenization-fixers — INFO — Dataset has already the correct names for its coordinates
-2025-10-13 16:45:09,481 — Homogenization-fixers — INFO — Fixing calendar for &lt;xarray.Dataset&gt; Size: 41MB
-Dimensions:    (time: 366, bnds: 2, lat: 145, lon: 192)
-Coordinates:
-  * time       (time) datetime64[ns] 3kB 2080-01-01T12:00:00 ... 2080-12-31T1...
-  * lat        (lat) float64 1kB -90.0 -88.75 -87.5 -86.25 ... 87.5 88.75 90.0
-  * lon        (lon) float64 2kB 0.0 1.875 3.75 5.625 ... 354.4 356.2 358.1
-    height     float64 8B ...
-Dimensions without coordinates: bnds
-Data variables:
-    time_bnds  (time, bnds) datetime64[ns] 6kB dask.array&lt;chunksize=(366, 2), meta=np.ndarray&gt;
-    lat_bnds   (lat, bnds) float64 2kB dask.array&lt;chunksize=(145, 2), meta=np.ndarray&gt;
-    lon_bnds   (lon, bnds) float64 3kB dask.array&lt;chunksize=(192, 2), meta=np.ndarray&gt;
-    tasmax     (time, lat, lon) float32 41MB dask.array&lt;chunksize=(366, 145, 192), meta=np.ndarray&gt;
-Attributes: (12/28)
-    institution:            CSIRO (Commonwealth Scientific and Industrial Res...
-    institute_id:           CSIRO-BOM
-    experiment_id:          rcp85
-    source:                 ACCESS1-0 2011. Atmosphere: AGCM v1.0 (N96 grid-p...
-    model_id:               ACCESS1-0
-    forcing:                GHG, Oz, SA, Sl, Vl, BC, OC, (GHG = CO2, N2O, CH4...
-    ...                     ...
-    table_id:               Table day (01 February 2012) b6353e9919862612c81d...
-    title:                  ACCESS1-0 model output prepared for CMIP5 RCP8.5
-    parent_experiment:      historical
-    modeling_realm:         atmos
-    realization:            1
-    cmor_version:           2.8.0
-2025-10-13 16:45:09,492 — UNITS_TRANSFORM — INFO — The dataset tasmax units are not in the correct magnitude. A conversion from K to Celsius will be performed.
-2025-10-13 16:45:09,543 — Homogenization-fixers — INFO — The dataset is in daily or monthly resolution, we don't need to resample it from hourly frequency
+                         <span class="n">lat_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">89.</span><span class="p">,</span> <span class="mf">89.</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">lon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">179.</span><span class="p">,</span> <span class="mf">179.</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -2098,6 +2018,9 @@ Attributes: (12/28)
 </section>
 <section id="cordex-eur-11">
 <h4>CORDEX-EUR-11<a class="headerlink" href="#cordex-eur-11" title="Link to this heading">#</a></h4>
+<p>In this section,
+we download data from CORDEX and the corresponding C3S Atlas data.
+This involves downloading ~17 GB of data in total.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -2124,7 +2047,7 @@ Attributes: (12/28)
 <p class="collapsed admonition-title">Show code cell source</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
-<div class="cell_input above-output-prompt docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setup: Origin request</span>
 <span class="n">CORDEX_EUR_11_ID</span> <span class="o">=</span> <span class="s2">"projections-cordex-domains-single-levels"</span>
 <span class="n">request_CORDEX_EUR_11</span> <span class="o">=</span> <span class="p">{</span>
@@ -2150,50 +2073,7 @@ Attributes: (12/28)
 <span class="n">data</span> <span class="o">=</span> <span class="n">homogenise</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"tasmax"</span><span class="p">,</span> <span class="n">CORDEX_EUR_11_ID</span><span class="p">)</span>
 <span class="n">indicator_CORDEX_EUR_11</span> <span class="o">=</span> <span class="n">cal_tx35</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="n">regridded_CORDEX_EUR_11</span> <span class="o">=</span> <span class="n">regrid</span><span class="p">(</span><span class="n">indicator_CORDEX_EUR_11</span><span class="p">,</span> <span class="s2">"tx35"</span><span class="p">,</span>
-                                         <span class="n">lat_range</span><span class="o">=</span><span class="p">(</span><span class="mf">21.8125</span><span class="p">,</span> <span class="mf">72.6875</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">),</span> <span class="n">lon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">44.8125</span><span class="p">,</span> <span class="mf">65.1875</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</details>
-<details class="admonition hide below-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell output</p>
-<p class="expanded admonition-title">Hide code cell output</p>
-</summary>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-10-13 16:45:13,404 — Homogenization-fixers — INFO — Fixing coordinates names: {'rlon': 'x', 'rlat': 'y'}
-2025-10-13 16:45:13,407 — Homogenization-fixers — INFO — Fixing calendar for &lt;xarray.Dataset&gt; Size: 263MB
-Dimensions:                     (time: 366, bnds: 2, y: 412, x: 424, vertices: 4)
-Coordinates:
-  * time                        (time) datetime64[ns] 3kB 2080-01-01T12:00:00...
-  * y                           (y) float64 3kB -23.38 -23.27 ... 21.72 21.84
-  * x                           (x) float64 3kB -28.38 -28.27 ... 18.04 18.16
-    lat                         (y, x) float32 699kB dask.array&lt;chunksize=(412, 424), meta=np.ndarray&gt;
-    lon                         (y, x) float32 699kB dask.array&lt;chunksize=(412, 424), meta=np.ndarray&gt;
-    height                      float64 8B ...
-Dimensions without coordinates: bnds, vertices
-Data variables:
-    time_bnds                   (time, bnds) datetime64[ns] 6kB dask.array&lt;chunksize=(1, 2), meta=np.ndarray&gt;
-    rotated_latitude_longitude  int32 4B ...
-    lat_vertices                (y, x, vertices) float32 3MB dask.array&lt;chunksize=(412, 424, 4), meta=np.ndarray&gt;
-    lon_vertices                (y, x, vertices) float32 3MB dask.array&lt;chunksize=(412, 424, 4), meta=np.ndarray&gt;
-    tasmax                      (time, y, x) float32 256MB dask.array&lt;chunksize=(1, 412, 424), meta=np.ndarray&gt;
-Attributes: (12/35)
-    institution:                    Helmholtz-Zentrum Geesthacht, Climate Ser...
-    institute_id:                   GERICS
-    experiment_id:                  rcp85
-    source:                         GERICS-REMO2015
-    model_id:                       GERICS-REMO2015
-    forcing:                        N/A
-    ...                             ...
-    parent_experiment:              N/A
-    modeling_realm:                 atmos
-    realization:                    1
-    cmor_version:                   2.9.1
-    tracking_id:                    hdl:21.14103/c3a4e035-9dcd-429f-a86d-8d53...
-    c3s_disclaimer:                 This data has been produced in the contex...
-2025-10-13 16:45:13,425 — UNITS_TRANSFORM — INFO — The dataset tasmax units are not in the correct magnitude. A conversion from K to Celsius will be performed.
-2025-10-13 16:45:13,436 — Homogenization-fixers — INFO — The dataset is in daily or monthly resolution, we don't need to resample it from hourly frequency
+                                 <span class="n">lat_range</span><span class="o">=</span><span class="p">(</span><span class="mf">21.8125</span><span class="p">,</span> <span class="mf">72.6875</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">),</span> <span class="n">lon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">44.8125</span><span class="p">,</span> <span class="mf">65.1875</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -2241,17 +2121,16 @@ Attributes: (12/35)
 </section>
 <section id="era5">
 <h4>ERA5<a class="headerlink" href="#era5" title="Link to this heading">#</a></h4>
-<p>Note that ERA5 data for a year are &gt;30 GB in size.
-These data may take up to several hours to download
-and
-require sufficient storage to download and cache.</p>
+<p>In this section,
+we download data from ERA5 and the corresponding C3S Atlas data.
+This involves downloading ~13 GB of data in total.</p>
 <div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
-<div class="cell_input above-output-prompt docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setup: Origin request</span>
 <span class="n">ERA5_ID</span> <span class="o">=</span> <span class="s2">"reanalysis-era5-single-levels"</span>
 <span class="n">request_ERA5</span> <span class="o">=</span> <span class="p">{</span>
@@ -2263,6 +2142,7 @@ require sufficient storage to download and cache.</p>
     <span class="s2">"time"</span><span class="p">:</span> <span class="n">HOURS24</span><span class="p">,</span>
     <span class="s2">"data_format"</span><span class="p">:</span> <span class="s2">"netcdf"</span><span class="p">,</span>
     <span class="s2">"download_format"</span><span class="p">:</span> <span class="s2">"zip"</span><span class="p">,</span>
+    <span class="s2">"no_cache"</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="c1"># Download data, pre-process, calculate indicator</span>
@@ -2271,35 +2151,6 @@ require sufficient storage to download and cache.</p>
 <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">"valid_time"</span><span class="p">:</span> <span class="s2">"time"</span><span class="p">})</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">homogenise</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"tasmax"</span><span class="p">,</span> <span class="n">ERA5_ID</span><span class="p">)</span>
 <span class="n">indicator_ERA5</span> <span class="o">=</span> <span class="n">cal_tx35</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-<details class="admonition hide below-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell output</p>
-<p class="expanded admonition-title">Hide code cell output</p>
-</summary>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-10-13 16:45:32,294 — Homogenization-fixers — INFO — Fixing coordinates names: {'longitude': 'lon', 'latitude': 'lat'}
-2025-10-13 16:45:32,298 — Homogenization-fixers — INFO — Fixing calendar for &lt;xarray.Dataset&gt; Size: 2GB
-Dimensions:  (time: 365, lat: 721, lon: 1440)
-Coordinates:
-    number   int64 8B ...
-  * lat      (lat) float64 6kB 90.0 89.75 89.5 89.25 ... -89.5 -89.75 -90.0
-  * lon      (lon) float64 12kB 0.0 0.25 0.5 0.75 ... 359.0 359.2 359.5 359.8
-  * time     (time) datetime64[ns] 3kB 2010-01-01 2010-01-02 ... 2010-12-31
-Data variables:
-    tasmax   (time, lat, lon) float32 2GB dask.array&lt;chunksize=(1, 52, 103), meta=np.ndarray&gt;
-Attributes:
-    GRIB_centre:             ecmf
-    GRIB_centreDescription:  European Centre for Medium-Range Weather Forecasts
-    GRIB_subCentre:          0
-    Conventions:             CF-1.7
-    institution:             European Centre for Medium-Range Weather Forecasts
-    history:                 2025-10-07T20:34 GRIB to CDM+CF via cfgrib-0.9.1...
-2025-10-13 16:45:32,381 — UNITS_TRANSFORM — INFO — The dataset tasmax units are not in the correct magnitude. A conversion from K to Celsius will be performed.
-2025-10-13 16:45:34,651 — Homogenization-fixers — INFO — The dataset is in daily or monthly resolution, we don't need to resample it from hourly frequency
 </pre></div>
 </div>
 </div>
@@ -2346,17 +2197,16 @@ Attributes:
 </section>
 <section id="era5-land">
 <h4>ERA5-Land<a class="headerlink" href="#era5-land" title="Link to this heading">#</a></h4>
-<p>Note that ERA5-Land data for a year are &gt;200 GB in size.
-These data may take up to several hours to download
-and
-require sufficient storage to download and cache.</p>
+<p>In this section,
+we download data from ERA5-Land and the corresponding C3S Atlas data.
+This involves downloading ~32 GB of data in total.</p>
 <div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
-<div class="cell_input above-output-prompt docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setup: Origin request</span>
 <span class="n">ERA5_Land_ID</span> <span class="o">=</span> <span class="s2">"reanalysis-era5-land"</span>
 <span class="n">request_ERA5_Land</span> <span class="o">=</span> <span class="p">{</span>
@@ -2378,36 +2228,6 @@ require sufficient storage to download and cache.</p>
 <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">"valid_time"</span><span class="p">:</span> <span class="s2">"time"</span><span class="p">})</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">homogenise</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"tasmax"</span><span class="p">,</span> <span class="n">ERA5_Land_ID</span><span class="p">)</span>
 <span class="n">indicator_ERA5_Land</span> <span class="o">=</span> <span class="n">cal_tx35</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-<details class="admonition hide below-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell output</p>
-<p class="expanded admonition-title">Hide code cell output</p>
-</summary>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 12/12 [00:00&lt;00:00, 247.68it/s]
-2025-10-13 16:45:38,419 — Homogenization-fixers — INFO — Fixing coordinates names: {'longitude': 'lon', 'latitude': 'lat'}
-2025-10-13 16:45:38,422 — Homogenization-fixers — INFO — Fixing calendar for &lt;xarray.Dataset&gt; Size: 9GB
-Dimensions:  (time: 365, lat: 1801, lon: 3600)
-Coordinates:
-    number   int64 8B 0
-  * lat      (lat) float64 14kB 90.0 89.9 89.8 89.7 ... -89.7 -89.8 -89.9 -90.0
-  * lon      (lon) float64 29kB 0.0 0.1 0.2 0.3 0.4 ... 359.6 359.7 359.8 359.9
-  * time     (time) datetime64[ns] 3kB 2010-01-01 2010-01-02 ... 2010-12-31
-Data variables:
-    tasmax   (time, lat, lon) float32 9GB dask.array&lt;chunksize=(1, 164, 328), meta=np.ndarray&gt;
-Attributes:
-    GRIB_centre:             ecmf
-    GRIB_centreDescription:  European Centre for Medium-Range Weather Forecasts
-    GRIB_subCentre:          0
-    Conventions:             CF-1.7
-    institution:             European Centre for Medium-Range Weather Forecasts
-    history:                 2025-10-08T09:44 GRIB to CDM+CF via cfgrib-0.9.1...
-2025-10-13 16:45:38,476 — UNITS_TRANSFORM — INFO — The dataset tasmax units are not in the correct magnitude. A conversion from K to Celsius will be performed.
-2025-10-13 16:45:40,453 — Homogenization-fixers — INFO — The dataset is in daily or monthly resolution, we don't need to resample it from hourly frequency
 </pre></div>
 </div>
 </div>
@@ -2471,28 +2291,27 @@ Attributes:
 </section>
 <section id="e-obs">
 <h4>E-OBS<a class="headerlink" href="#e-obs" title="Link to this heading">#</a></h4>
-<p>Note that E-OBS data for the full period are &gt;30 GB in size.
-These data may take up to several hours to download
-and
-require sufficient storage to download and cache.</p>
+<p>In this section,
+we download data from E-OBS and the corresponding C3S Atlas data.
+This involves downloading ~5 GB of data in total.</p>
 <div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
-<div class="cell_input above-output-prompt docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setup: Origin request</span>
 <span class="n">E_OBS_ID</span> <span class="o">=</span> <span class="s2">"insitu-gridded-observations-europe"</span>
 <span class="n">request_E_OBS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"licence_type"</span><span class="p">:</span> <span class="s2">"restricted_research_licence"</span><span class="p">,</span>
     <span class="s2">"product_type"</span><span class="p">:</span> <span class="s2">"ensemble_mean"</span><span class="p">,</span>
     <span class="s2">"variable"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"maximum_temperature"</span><span class="p">],</span>
     <span class="s2">"grid_resolution"</span><span class="p">:</span> <span class="s2">"0_1deg"</span><span class="p">,</span>
     <span class="c1"># It is not possible to provide specific years to "period",</span>
     <span class="c1"># but a function that picks the shortest period covering all</span>
     <span class="c1"># YEAR_HISTORICAL would be useful to reduce download size</span>
-    <span class="s2">"period"</span><span class="p">:</span> <span class="s2">"full_period"</span><span class="p">,</span>
-    <span class="s2">"version"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"30_0e"</span><span class="p">],</span>
+    <span class="s2">"version"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"34_0e"</span><span class="p">],</span>
 <span class="p">}</span>
 
 <span class="c1"># Download data, pre-process, calculate indicator, regrid</span>
@@ -2502,34 +2321,7 @@ require sufficient storage to download and cache.</p>
 <span class="n">data</span> <span class="o">=</span> <span class="n">homogenise</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"tasmax"</span><span class="p">,</span> <span class="n">E_OBS_ID</span><span class="p">)</span>
 <span class="n">indicator_E_OBS</span> <span class="o">=</span> <span class="n">cal_tx35</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="n">regridded_E_OBS</span> <span class="o">=</span> <span class="n">regrid</span><span class="p">(</span><span class="n">indicator_E_OBS</span><span class="p">,</span> <span class="s2">"tx35"</span><span class="p">,</span>
-                                 <span class="n">lat_range</span><span class="o">=</span><span class="p">(</span><span class="mf">25.0625</span><span class="p">,</span> <span class="mf">71.4375</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">),</span> <span class="n">lon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">24.9375</span><span class="p">,</span> <span class="mf">45.4375</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</details>
-<details class="admonition hide below-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell output</p>
-<p class="expanded admonition-title">Hide code cell output</p>
-</summary>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-10-13 16:45:43,266 — Homogenization-fixers — INFO — Fixing coordinates names: {'longitude': 'lon', 'latitude': 'lat'}
-2025-10-13 16:45:43,269 — Homogenization-fixers — INFO — Fixing calendar for &lt;xarray.Dataset&gt; Size: 479MB
-Dimensions:  (time: 365, lat: 465, lon: 705)
-Coordinates:
-  * lat      (lat) float64 4kB 25.05 25.15 25.25 25.35 ... 71.25 71.35 71.45
-  * lon      (lon) float64 6kB -24.95 -24.85 -24.75 -24.65 ... 45.25 45.35 45.45
-  * time     (time) datetime64[ns] 3kB 2010-01-01 2010-01-02 ... 2010-12-31
-Data variables:
-    tasmax   (time, lat, lon) float32 479MB dask.array&lt;chunksize=(1, 465, 705), meta=np.ndarray&gt;
-Attributes:
-    E-OBS_version:  30.0e
-    Conventions:    CF-1.4
-    References:     http://surfobs.climate.copernicus.eu/dataaccess/access_eo...
-    history:        Fri Aug 30 11:43:24 2024: ncks --no-abc -d time,0,27209 /...
-    NCO:            netCDF Operators version 5.1.8 (Homepage = http://nco.sf....
-2025-10-13 16:45:43,279 — UNITS_TRANSFORM — INFO — The dataset tasmax units are already in the correct magnitude
-2025-10-13 16:45:43,422 — Homogenization-fixers — INFO — The dataset is in daily or monthly resolution, we don't need to resample it from hourly frequency
+                         <span class="n">lat_range</span><span class="o">=</span><span class="p">(</span><span class="mf">25.0625</span><span class="p">,</span> <span class="mf">71.4375</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">),</span> <span class="n">lon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">24.9375</span><span class="p">,</span> <span class="mf">45.4375</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -2576,13 +2368,16 @@ Attributes:
 </section>
 <section id="berkearth">
 <h4>BERKEARTH<a class="headerlink" href="#berkearth" title="Link to this heading">#</a></h4>
+<p>In this section,
+we download data from Berkeley Earth and the corresponding C3S Atlas data.
+This involves downloading ~107 MB of data in total.</p>
 <div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
-<div class="cell_input above-output-prompt docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setup: Origin request</span>
 <span class="n">BERKEARTH_ID</span> <span class="o">=</span> <span class="s2">"insitu-gridded-observations-global-and-regional"</span>
 <span class="n">request_BERKEARTH</span> <span class="o">=</span> <span class="p">{</span>
@@ -2601,41 +2396,6 @@ Attributes:
 <span class="n">data</span><span class="p">[</span><span class="s2">"tasmax"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Celsius"</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">homogenise</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"tasmax"</span><span class="p">,</span> <span class="n">BERKEARTH_ID</span><span class="p">)</span>
 <span class="n">indicator_BERKEARTH</span> <span class="o">=</span> <span class="n">cal_tx35</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-<details class="admonition hide below-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell output</p>
-<p class="expanded admonition-title">Hide code cell output</p>
-</summary>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-10-13 16:45:55,010 — Homogenization-fixers — INFO — Fixing coordinates names: {'longitude': 'lon', 'latitude': 'lat'}
-2025-10-13 16:45:55,015 — Homogenization-fixers — INFO — Fixing calendar for &lt;xarray.Dataset&gt; Size: 95MB
-Dimensions:  (time: 365, lat: 180, lon: 360)
-Coordinates:
-  * time     (time) datetime64[ns] 3kB 2010-01-01 2010-01-02 ... 2010-12-31
-  * lon      (lon) float32 1kB -179.5 -178.5 -177.5 -176.5 ... 177.5 178.5 179.5
-  * lat      (lat) float32 720B -89.5 -88.5 -87.5 -86.5 ... 86.5 87.5 88.5 89.5
-Data variables:
-    tasmax   (time, lat, lon) float32 95MB dask.array&lt;chunksize=(1, 180, 360), meta=np.ndarray&gt;
-Attributes: (12/21)
-    CDI:                        Climate Data Interface version 1.9.10 (https:...
-    institution:                Berkeley Earth Surface Temperature Project
-    Conventions:                Berkeley Earth Internal Convention (based on ...
-    title:                      Gridded Berkeley Earth Surface Temperature An...
-    source_history:             14-Sep-2020 16:15:39
-    comment:                    This file contains surface temperature anomal...
-    ...                         ...
-    geospatial_lon_resolution:  1.0
-    climexp_url:                https://climexp.knmi.nl/select.cgi?berkeley_t...
-    history:                    Fri Jun 18 07:44:32 2021: cdo -O -splityear /...
-    time_coverage_start:        1880-01-01 00:00:00
-    time_coverage_end:          2019-12-31 00:00:00
-    CDO:                        Climate Data Operators version 1.9.10 (https:...
-2025-10-13 16:45:55,027 — UNITS_TRANSFORM — INFO — The dataset tasmax units are already in the correct magnitude
-2025-10-13 16:45:55,109 — Homogenization-fixers — INFO — The dataset is in daily or monthly resolution, we don't need to resample it from hourly frequency
 </pre></div>
 </div>
 </div>
@@ -2682,13 +2442,16 @@ Attributes: (12/21)
 </section>
 <section id="oras5">
 <h4>ORAS5<a class="headerlink" href="#oras5" title="Link to this heading">#</a></h4>
+<p>In this section,
+we download data from ORAS5 and the corresponding C3S Atlas data.
+This involves downloading ~830 MB of data in total.</p>
 <div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
-<div class="cell_input above-output-prompt docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setup: Origin request</span>
 <span class="n">ORAS5_ID</span> <span class="o">=</span> <span class="s2">"reanalysis-oras5"</span>
 <span class="n">request_ORAS5</span> <span class="o">=</span> <span class="p">{</span>
@@ -2706,20 +2469,7 @@ Attributes: (12/21)
 <span class="n">data</span> <span class="o">=</span> <span class="n">homogenise</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"sst"</span><span class="p">,</span> <span class="n">ORAS5_ID</span><span class="p">)</span>
 <span class="n">indicator_ORAS5</span> <span class="o">=</span> <span class="n">cal_sst</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="n">regridded_ORAS5</span> <span class="o">=</span> <span class="n">regrid</span><span class="p">(</span><span class="n">indicator_ORAS5</span><span class="p">,</span> <span class="s2">"sst"</span><span class="p">,</span>
-                                 <span class="n">lat_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">89.875</span><span class="p">,</span> <span class="mf">89.875</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">),</span> <span class="n">lon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">179.875</span><span class="p">,</span> <span class="mf">179.875</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</details>
-<details class="admonition hide below-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell output</p>
-<p class="expanded admonition-title">Hide code cell output</p>
-</summary>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-10-14 00:08:31,387 — Homogenization-fixers — INFO — Fixing coordinates names: {'nav_lon': 'lon', 'nav_lat': 'lat'}
-2025-10-14 00:08:31,416 — UNITS_TRANSFORM — INFO — The dataset sst units are already in the correct magnitude
-2025-10-14 00:08:31,451 — Homogenization-fixers — INFO — The dataset is in daily or monthly resolution, we don't need to resample it from hourly frequency
+                         <span class="n">lat_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">89.875</span><span class="p">,</span> <span class="mf">89.875</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">),</span> <span class="n">lon_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">179.875</span><span class="p">,</span> <span class="mf">179.875</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -2765,24 +2515,24 @@ Attributes: (12/21)
 </section>
 <section id="sst-cci">
 <h4>SST-CCI<a class="headerlink" href="#sst-cci" title="Link to this heading">#</a></h4>
-<p>Note that SST-CCI data for a year are &gt;150 GB in size.
-These data may take up to several hours to download
-and
-require sufficient storage to download and cache.</p>
+<p>In this section,
+we download data from ORAS5 and the corresponding C3S Atlas data.
+This involves downloading ~13 GB of data in total.</p>
 <div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
-<div class="cell_input above-output-prompt docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setup: Origin request</span>
 <span class="n">SST_CCI_ID</span> <span class="o">=</span> <span class="s2">"satellite-sea-surface-temperature"</span>
 <span class="n">request_main_SST_CCI</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"variable"</span><span class="p">:</span> <span class="s2">"all"</span><span class="p">,</span>
     <span class="s2">"processinglevel"</span><span class="p">:</span> <span class="s2">"level_4"</span><span class="p">,</span>
     <span class="s2">"sensor_on_satellite"</span><span class="p">:</span> <span class="s2">"combined_product"</span><span class="p">,</span>
-    <span class="s2">"version"</span><span class="p">:</span> <span class="s2">"2_1"</span><span class="p">,</span>
+    <span class="s2">"version"</span><span class="p">:</span> <span class="s2">"3_0"</span><span class="p">,</span>
+    <span class="s2">"temporal_resolution"</span><span class="p">:</span> <span class="s2">"daily"</span><span class="p">,</span>
     <span class="s2">"year"</span><span class="p">:</span> <span class="p">[</span><span class="n">YEAR_HISTORICAL</span><span class="p">,],</span>
 <span class="p">}</span>
 
@@ -2795,49 +2545,6 @@ require sufficient storage to download and cache.</p>
 <span class="n">data</span><span class="p">[</span><span class="s2">"sst"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Kelvin"</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">homogenise</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"sst"</span><span class="p">,</span> <span class="n">SST_CCI_ID</span><span class="p">)</span>
 <span class="n">indicator_SST_CCI</span> <span class="o">=</span> <span class="n">cal_sst</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-<details class="admonition hide below-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell output</p>
-<p class="expanded admonition-title">Hide code cell output</p>
-</summary>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 36/36 [00:00&lt;00:00, 165.43it/s]
-2025-11-03 16:20:40,236 — Homogenization-fixers — INFO — Dataset has already the correct names for its coordinates
-2025-11-03 16:20:40,240 — Homogenization-fixers — INFO — Fixing calendar for &lt;xarray.Dataset&gt; Size: 151GB
-Dimensions:                   (time: 365, lat: 3600, lon: 7200, bnds: 2)
-Coordinates:
-  * lat                       (lat) float32 14kB -89.97 -89.93 ... 89.93 89.97
-  * lon                       (lon) float32 29kB -180.0 -179.9 ... 179.9 180.0
-  * time                      (time) datetime64[ns] 3kB 2010-01-01T12:00:00 ....
-Dimensions without coordinates: bnds
-Data variables:
-    sst                       (time, lat, lon) float32 38GB dask.array&lt;chunksize=(1, 1200, 2400), meta=np.ndarray&gt;
-    mask                      (time, lat, lon) float32 38GB dask.array&lt;chunksize=(1, 1800, 3600), meta=np.ndarray&gt;
-    sea_ice_fraction          (time, lat, lon) float32 38GB dask.array&lt;chunksize=(1, 1800, 3600), meta=np.ndarray&gt;
-    analysed_sst_uncertainty  (time, lat, lon) float32 38GB dask.array&lt;chunksize=(1, 1200, 2400), meta=np.ndarray&gt;
-    time_bnds                 (time, bnds) datetime64[ns] 6kB dask.array&lt;chunksize=(1, 2), meta=np.ndarray&gt;
-    lat_bnds                  (time, lat, bnds) float32 11MB dask.array&lt;chunksize=(1, 3600, 2), meta=np.ndarray&gt;
-    lon_bnds                  (time, lon, bnds) float32 21MB dask.array&lt;chunksize=(1, 7200, 2), meta=np.ndarray&gt;
-Attributes: (12/58)
-    Conventions:                     CF-1.5, Unidata Observation Dataset v1.0
-    title:                           ESA SST CCI OSTIA L4 product
-    summary:                         OSTIA L4 product from the ESA SST CCI pr...
-    references:                      http://www.esa-sst-cci.org
-    institution:                     ESACCI
-    history:                         Created using OSTIA reanalysis system v3.0
-    ...                              ...
-    source:                          ATSR&lt;1,2&gt;-ESACCI-L3U-v2.0, AATSR-ESACCI-...
-    platform:                        ERS-&lt;1,2&gt;, Envisat, NOAA-&lt;07,09,11,12,14...
-    creator_name:                    ESA SST CCI
-    product_specification_version:   SST_CCI-PSD-UKMO-201-Issue-2
-    id:                              OSTIA-ESACCI-L4-GLOB-v2.1
-    product_version:                 2.1
-2025-11-03 16:20:40,294 — UNITS_TRANSFORM — INFO — The dataset sst units are not in the correct magnitude. A conversion from Kelvin to Celsius will be performed.
-2025-11-03 16:20:41,695 — Homogenization-fixers — INFO — The dataset is in daily or monthly resolution, we don't need to resample it from hourly frequency
 </pre></div>
 </div>
 </div>
@@ -2889,13 +2596,16 @@ Attributes: (12/58)
 </section>
 <section id="cpc">
 <h4>CPC<a class="headerlink" href="#cpc" title="Link to this heading">#</a></h4>
+<p>In this section,
+we download data from CPC and the corresponding C3S Atlas data.
+This involves downloading ~790 MB of data in total.</p>
 <div class="cell tag_hide-input tag_hide-output docutils container">
 <details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
 <p class="collapsed admonition-title">Show code cell source</p>
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
-<div class="cell_input above-output-prompt docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setup: Origin request</span>
 <span class="n">CPC_ID</span> <span class="o">=</span> <span class="s2">"insitu-gridded-observations-global-and-regional"</span>
 <span class="n">request_CPC</span> <span class="o">=</span> <span class="p">{</span>
@@ -2913,41 +2623,6 @@ Attributes: (12/58)
 <span class="n">data</span><span class="p">[</span><span class="s2">"pr"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"mm day**-1"</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">homogenise</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"pr"</span><span class="p">,</span> <span class="n">CPC_ID</span><span class="p">)</span>
 <span class="n">indicator_CPC</span> <span class="o">=</span> <span class="n">cal_r01</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-<details class="admonition hide below-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell output</p>
-<p class="expanded admonition-title">Hide code cell output</p>
-</summary>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-10-13 16:23:32,652 — Homogenization-fixers — INFO — Dataset has already the correct names for its coordinates
-2025-10-13 16:23:32,661 — Homogenization-fixers — INFO — Fixing calendar for &lt;xarray.Dataset&gt; Size: 757MB
-Dimensions:  (time: 365, lat: 360, lon: 720)
-Coordinates:
-  * time     (time) datetime64[ns] 3kB 2010-01-01T12:00:00 ... 2010-12-31T12:...
-  * lon      (lon) float64 6kB 0.25 0.75 1.25 1.75 ... 358.2 358.8 359.2 359.8
-  * lat      (lat) float64 3kB -89.75 -89.25 -88.75 -88.25 ... 88.75 89.25 89.75
-Data variables:
-    pr       (time, lat, lon) float64 757MB dask.array&lt;chunksize=(1, 360, 720), meta=np.ndarray&gt;
-Attributes: (12/19)
-    CDI:                        Climate Data Interface version 1.9.10 (https:...
-    institution:                NOAA/NCEP/CPC (converted to netcdf at KNMI)
-    Conventions:                CF-1.4
-    NCO:                        netCDF Operators version 4.9.0 (Homepage = ht...
-    title:                      CPC unified (gauge-based) precipitation
-    source_url:                 ftp://ftp.cpc.ncep.noaa.gov/precip/CPC_UNI_PR...
-    ...                         ...
-    geospatial_lon_resolution:  0.5
-    climexp_url:                https://climexp.knmi.nl/select.cgi?prcp_cpc_d...
-    history:                    Fri Jun 18 07:52:31 2021: cdo -O -splityear /...
-    time_coverage_start:        1979-01-01 12:00:00
-    time_coverage_end:          2021-12-31 12:00:00
-    CDO:                        Climate Data Operators version 1.9.10 (https:...
-2025-10-13 16:23:32,818 — UNITS_TRANSFORM — INFO — The dataset pr units are not in the correct magnitude. A conversion from mm day**-1 to mm will be performed.
-2025-10-13 16:23:32,972 — Homogenization-fixers — INFO — The dataset is in daily or monthly resolution, we don't need to resample it from hourly frequency
 </pre></div>
 </div>
 </div>
@@ -3009,26 +2684,6 @@ we manually clear out some memory-intensive objects that are no longer necessary
 </div>
 </details>
 </div>
-<p>We also <a class="reference external" href="https://docs.xarray.dev/en/latest/user-guide/dask.html" rel="noreferrer" target="_blank">re-chunk</a> the datasets to be more computationally efficient:</p>
-<div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">dataset_dict</span> <span class="ow">in</span> <span class="p">[</span><span class="n">c3s_atlas_tx35_future</span><span class="p">,</span> <span class="n">origin_tx35_future</span><span class="p">,</span> <span class="n">origin_c3s_atlasgrid_tx35_future</span><span class="p">,</span>
-                     <span class="n">c3s_atlas_tx35_historical</span><span class="p">,</span> <span class="n">origin_tx35_historical</span><span class="p">,</span> <span class="n">origin_c3s_atlasgrid_tx35_historical</span><span class="p">,</span>
-                     <span class="n">c3s_atlas_sst</span><span class="p">,</span> <span class="n">origin_sst</span><span class="p">,</span> <span class="n">origin_c3s_atlasgrid_sst</span><span class="p">,</span>
-                     <span class="n">c3s_atlas_r01</span><span class="p">,</span> <span class="n">origin_r01</span><span class="p">,</span> <span class="n">origin_c3s_atlasgrid_r01</span><span class="p">,</span>
-                    <span class="p">]:</span>
-    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">dataset_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-        <span class="n">dataset_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">rechunk</span><span class="p">(</span><span class="n">dataset_dict</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
 </section>
 </section>
 <section id="results">
@@ -3069,7 +2724,7 @@ Some examples are provided in the cell (commented out using <code class="docutil
 <span class="c1"># domain = "Mediterranean"</span>
 
 <span class="c1"># Other examples -- uncomment where desired</span>
-<span class="c1"># domain = ekp.geo.domains.union(["Portugal", "Spain"], name="Iberia")</span>
+<span class="c1"># domain = ekp.geography.domains.union(["Portugal", "Spain"], name="Iberia")</span>
 <span class="c1"># domain = "Italy"</span>
 <span class="c1"># domain = "South America"</span>
 </pre></div>
@@ -3091,7 +2746,7 @@ The
 E-OBS <code class="docutils literal notranslate"><span class="pre">tx35</span></code> (Figure <a class="reference internal" href="#derived-multi-origin-c3s-atlas-consistency-q03-fig-geo-tx35historical"><span class="std std-numref">7.3.3</span></a>)
 comparison shows clear differences in terms of coverage,
 which is explained by differences in versions used
-(26.0e in the production of the C3S Atlas dataset, 30.0e here).
+(31.0e in the production of the C3S Atlas dataset, 34.0e here).
 Additionally,
 the CMIP5 comparison
 (Figure <a class="reference internal" href="#derived-multi-origin-c3s-atlas-consistency-q03-fig-geo-tx35future"><span class="std std-numref">7.3.2</span></a>)
@@ -3164,7 +2819,7 @@ should be aware that the indicator values retrieved for a specific location may 
 <p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">geospatial_comparison_multiple_origins</span><span class="p">(</span><span class="n">c3s_atlas_sst</span><span class="p">,</span> <span class="n">origin_sst</span><span class="p">,</span> <span class="s2">"sst"</span><span class="p">,</span> <span class="n">date_historical</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">domain</span><span class="p">,</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">geospatial_comparison_multiple_origins</span><span class="p">(</span><span class="n">c3s_atlas_sst</span><span class="p">,</span> <span class="n">origin_sst</span><span class="p">,</span> <span class="s2">"sst"</span><span class="p">,</span> <span class="n">date_historical</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">domain</span><span class="p">,</span> <span class="n">hide_land</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                                        <span class="n">glue_label</span><span class="o">=</span><span class="s2">"derived_multi-origin-c3s-atlas_consistency_q03_fig-geo-sst"</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -3190,7 +2845,7 @@ should be aware that the indicator values retrieved for a specific location may 
 <label class="sd-tab-label" data-sync-group="tab" data-sync-id="tx35future" for="sd-tab-item-0">
 Projected <code class="docutils literal notranslate"><span class="pre">tx35</span></code></label><div class="sd-tab-content docutils">
 <figure class="align-default" id="derived-multi-origin-c3s-atlas-consistency-q03-fig-geo-tx35future" style="width: 700px">
-<img alt="../_images/73e2682c44403358ead14e9dd8e6f4360f7da506318e13efb1079b22cdaba741.png" src="../_images/73e2682c44403358ead14e9dd8e6f4360f7da506318e13efb1079b22cdaba741.png" />
+<img alt="../_images/4ec0c668cb66fa24cb76c91fa66830d4f20c41127066a9b6c75f739b37cb256c.png" src="../_images/4ec0c668cb66fa24cb76c91fa66830d4f20c41127066a9b6c75f739b37cb256c.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 7.3.2 </span><span class="caption-text">Comparison between C3S Atlas dataset and reproduction for
 projected
@@ -3204,7 +2859,7 @@ on the native grid of each dataset.</span><a class="headerlink" href="#derived-m
 <label class="sd-tab-label" data-sync-group="tab" data-sync-id="tx35historical" for="sd-tab-item-1">
 Historical <code class="docutils literal notranslate"><span class="pre">tx35</span></code></label><div class="sd-tab-content docutils">
 <figure class="align-default" id="derived-multi-origin-c3s-atlas-consistency-q03-fig-geo-tx35historical" style="width: 700px">
-<img alt="../_images/39856847b76aa41c8b1a4891fb70c892d7dfa652ed0e3da120569ce78e263b07.png" src="../_images/39856847b76aa41c8b1a4891fb70c892d7dfa652ed0e3da120569ce78e263b07.png" />
+<img alt="../_images/a89d9366ff5cca8c8fcceb964443a6a834270387d6538b34c994fbbf01a55c1b.png" src="../_images/a89d9366ff5cca8c8fcceb964443a6a834270387d6538b34c994fbbf01a55c1b.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 7.3.3 </span><span class="caption-text">Comparison between C3S Atlas dataset and reproduction for
 historical
@@ -3218,7 +2873,7 @@ on the native grid of each dataset.</span><a class="headerlink" href="#derived-m
 <label class="sd-tab-label" data-sync-group="tab" data-sync-id="sst" for="sd-tab-item-2">
 <code class="docutils literal notranslate"><span class="pre">sst</span></code></label><div class="sd-tab-content docutils">
 <figure class="align-default" id="derived-multi-origin-c3s-atlas-consistency-q03-fig-geo-sst" style="width: 700px">
-<img alt="../_images/1ac5341f4ad2543f104790368dc1e175e8d552b79b7f2a00f4289aa214ba8d61.png" src="../_images/1ac5341f4ad2543f104790368dc1e175e8d552b79b7f2a00f4289aa214ba8d61.png" />
+<img alt="../_images/fcb550a342971bd86b5f9a940135ea9f6c41618ffb23d3d6e15bc7a16ad149db.png" src="../_images/fcb550a342971bd86b5f9a940135ea9f6c41618ffb23d3d6e15bc7a16ad149db.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 7.3.4 </span><span class="caption-text">Comparison between C3S Atlas dataset and reproduction for
 historical
@@ -3232,7 +2887,7 @@ on the native grid of each dataset.</span><a class="headerlink" href="#derived-m
 <label class="sd-tab-label" data-sync-group="tab" data-sync-id="r01" for="sd-tab-item-3">
 <code class="docutils literal notranslate"><span class="pre">r01</span></code></label><div class="sd-tab-content docutils">
 <figure class="align-default" id="derived-multi-origin-c3s-atlas-consistency-q03-fig-geo-r01" style="width: 700px">
-<img alt="../_images/ac09ad983a92b1101cc47c84d9cbef32f55d1fb7b431f9a1e46de8f8038062e3.png" src="../_images/ac09ad983a92b1101cc47c84d9cbef32f55d1fb7b431f9a1e46de8f8038062e3.png" />
+<img alt="../_images/50f74c393b69d7d3ccc9f2e58f3d34b06df05ec675147d4cf5af869c03452b5a.png" src="../_images/50f74c393b69d7d3ccc9f2e58f3d34b06df05ec675147d4cf5af869c03452b5a.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 7.3.5 </span><span class="caption-text">Comparison between C3S Atlas dataset and reproduction for
 historical
@@ -3304,7 +2959,7 @@ on the native grid of each dataset.</span><a class="headerlink" href="#derived-m
 <label class="sd-tab-label" data-sync-group="tab" data-sync-id="tx35future" for="sd-tab-item-4">
 Projected <code class="docutils literal notranslate"><span class="pre">tx35</span></code></label><div class="sd-tab-content docutils">
 <figure class="align-default" id="derived-multi-origin-c3s-atlas-consistency-q03-fig-hist-tx35future-native" style="width: 700px">
-<img alt="../_images/4e36157275795d346231c255ae11018e41ee498c0681220fee709cdb6e6694d9.png" src="../_images/4e36157275795d346231c255ae11018e41ee498c0681220fee709cdb6e6694d9.png" />
+<img alt="../_images/86cd8ffa730774a28af57a6b10640daab3f42c8120331ac40c45c86ebafb469f.png" src="../_images/86cd8ffa730774a28af57a6b10640daab3f42c8120331ac40c45c86ebafb469f.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 7.3.6 </span><span class="caption-text">Comparison between overall distributions of
 projected
@@ -3319,7 +2974,7 @@ on the native grid of each dataset.</span><a class="headerlink" href="#derived-m
 <label class="sd-tab-label" data-sync-group="tab" data-sync-id="tx35historical" for="sd-tab-item-5">
 Historical <code class="docutils literal notranslate"><span class="pre">tx35</span></code></label><div class="sd-tab-content docutils">
 <figure class="align-default" id="derived-multi-origin-c3s-atlas-consistency-q03-fig-hist-tx35historical-native" style="width: 700px">
-<img alt="../_images/400307558fb10441813a70206f84e524ccdc525f0503ab90d2c6dc5659cf5c52.png" src="../_images/400307558fb10441813a70206f84e524ccdc525f0503ab90d2c6dc5659cf5c52.png" />
+<img alt="../_images/71d316f5c29c235fa388c81edc49b667d5e152082efdd89ef852a9f89cdbfeba.png" src="../_images/71d316f5c29c235fa388c81edc49b667d5e152082efdd89ef852a9f89cdbfeba.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 7.3.7 </span><span class="caption-text">Comparison between overall distributions of
 historical
@@ -3334,7 +2989,7 @@ on the native grid of each dataset.</span><a class="headerlink" href="#derived-m
 <label class="sd-tab-label" data-sync-group="tab" data-sync-id="sst" for="sd-tab-item-6">
 <code class="docutils literal notranslate"><span class="pre">sst</span></code></label><div class="sd-tab-content docutils">
 <figure class="align-default" id="derived-multi-origin-c3s-atlas-consistency-q03-fig-hist-sst-native" style="width: 700px">
-<img alt="../_images/1db22d16f5bbdb17fc88a9c6c3cf2fae8f0aed875f5a59877247993f4e996f49.png" src="../_images/1db22d16f5bbdb17fc88a9c6c3cf2fae8f0aed875f5a59877247993f4e996f49.png" />
+<img alt="../_images/fbb792279e126454933f1c6a6fb0f46d5e8329cc62265767c7ccae57594b54fd.png" src="../_images/fbb792279e126454933f1c6a6fb0f46d5e8329cc62265767c7ccae57594b54fd.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 7.3.8 </span><span class="caption-text">Comparison between overall distributions of
 historical
@@ -3349,7 +3004,7 @@ on the native grid of each dataset.</span><a class="headerlink" href="#derived-m
 <label class="sd-tab-label" data-sync-group="tab" data-sync-id="r01" for="sd-tab-item-7">
 <code class="docutils literal notranslate"><span class="pre">r01</span></code></label><div class="sd-tab-content docutils">
 <figure class="align-default" id="derived-multi-origin-c3s-atlas-consistency-q03-fig-hist-r01-native" style="width: 700px">
-<img alt="../_images/c41aff8f1bd2e6dca89892ad1789ecf708087141ebaa096daeee281f616bcaaa.png" src="../_images/c41aff8f1bd2e6dca89892ad1789ecf708087141ebaa096daeee281f616bcaaa.png" />
+<img alt="../_images/3f160e4f0cc843342deb7f186dea85d4745faaee49eb7d79be3a06b550aaa1a5.png" src="../_images/3f160e4f0cc843342deb7f186dea85d4745faaee49eb7d79be3a06b550aaa1a5.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 7.3.9 </span><span class="caption-text">Comparison between overall distributions of
 historical
@@ -3383,42 +3038,42 @@ We first examine some metrics that describe the difference Δ between correspond
 <div class="cell_output docutils container">
 <div class="output text_html"><style type="text/css">
 </style>
-<table id="T_e8fcc">
+<table id="T_9e4e5">
   <caption>C3S Atlas – Reproduced</caption>
   <thead>
     <tr>
       <th class="blank level0" >&nbsp;</th>
-      <th id="T_e8fcc_level0_col0" class="col_heading level0 col0" >Mean Δ</th>
-      <th id="T_e8fcc_level0_col1" class="col_heading level0 col1" >Median Δ</th>
-      <th id="T_e8fcc_level0_col2" class="col_heading level0 col2" >Median |Δ|</th>
-      <th id="T_e8fcc_level0_col3" class="col_heading level0 col3" >% where |Δ| ≥ ε</th>
-      <th id="T_e8fcc_level0_col4" class="col_heading level0 col4" >Pearson r</th>
+      <th id="T_9e4e5_level0_col0" class="col_heading level0 col0" >Mean Δ</th>
+      <th id="T_9e4e5_level0_col1" class="col_heading level0 col1" >Median Δ</th>
+      <th id="T_9e4e5_level0_col2" class="col_heading level0 col2" >Median |Δ|</th>
+      <th id="T_9e4e5_level0_col3" class="col_heading level0 col3" >% where |Δ| ≥ ε</th>
+      <th id="T_9e4e5_level0_col4" class="col_heading level0 col4" >Pearson r</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th id="T_e8fcc_level0_row0" class="row_heading level0 row0" >CMIP6</th>
-      <td id="T_e8fcc_row0_col0" class="data row0 col0" >-0.00095</td>
-      <td id="T_e8fcc_row0_col1" class="data row0 col1" >0.00000</td>
-      <td id="T_e8fcc_row0_col2" class="data row0 col2" >0.00000</td>
-      <td id="T_e8fcc_row0_col3" class="data row0 col3" >0.09388</td>
-      <td id="T_e8fcc_row0_col4" class="data row0 col4" >0.99998</td>
+      <th id="T_9e4e5_level0_row0" class="row_heading level0 row0" >CMIP6</th>
+      <td id="T_9e4e5_row0_col0" class="data row0 col0" >-0.00095</td>
+      <td id="T_9e4e5_row0_col1" class="data row0 col1" >0.00000</td>
+      <td id="T_9e4e5_row0_col2" class="data row0 col2" >0.00000</td>
+      <td id="T_9e4e5_row0_col3" class="data row0 col3" >0.09388</td>
+      <td id="T_9e4e5_row0_col4" class="data row0 col4" >0.99998</td>
     </tr>
     <tr>
-      <th id="T_e8fcc_level0_row1" class="row_heading level0 row1" >CMIP5</th>
-      <td id="T_e8fcc_row1_col0" class="data row1 col0" >0.00000</td>
-      <td id="T_e8fcc_row1_col1" class="data row1 col1" >0.00000</td>
-      <td id="T_e8fcc_row1_col2" class="data row1 col2" >0.00000</td>
-      <td id="T_e8fcc_row1_col3" class="data row1 col3" >10.20628</td>
-      <td id="T_e8fcc_row1_col4" class="data row1 col4" >1.00000</td>
+      <th id="T_9e4e5_level0_row1" class="row_heading level0 row1" >CMIP5</th>
+      <td id="T_9e4e5_row1_col0" class="data row1 col0" >0.00000</td>
+      <td id="T_9e4e5_row1_col1" class="data row1 col1" >0.00000</td>
+      <td id="T_9e4e5_row1_col2" class="data row1 col2" >0.00000</td>
+      <td id="T_9e4e5_row1_col3" class="data row1 col3" >10.20628</td>
+      <td id="T_9e4e5_row1_col4" class="data row1 col4" >1.00000</td>
     </tr>
     <tr>
-      <th id="T_e8fcc_level0_row2" class="row_heading level0 row2" >CORDEX-EUR-11</th>
-      <td id="T_e8fcc_row2_col0" class="data row2 col0" >-0.00065</td>
-      <td id="T_e8fcc_row2_col1" class="data row2 col1" >0.00000</td>
-      <td id="T_e8fcc_row2_col2" class="data row2 col2" >0.00000</td>
-      <td id="T_e8fcc_row2_col3" class="data row2 col3" >4.20466</td>
-      <td id="T_e8fcc_row2_col4" class="data row2 col4" >1.00000</td>
+      <th id="T_9e4e5_level0_row2" class="row_heading level0 row2" >CORDEX-EUR-11</th>
+      <td id="T_9e4e5_row2_col0" class="data row2 col0" >-0.00065</td>
+      <td id="T_9e4e5_row2_col1" class="data row2 col1" >0.00000</td>
+      <td id="T_9e4e5_row2_col2" class="data row2 col2" >0.00000</td>
+      <td id="T_9e4e5_row2_col3" class="data row2 col3" >4.20466</td>
+      <td id="T_9e4e5_row2_col4" class="data row2 col4" >1.00000</td>
     </tr>
   </tbody>
 </table>
@@ -3439,50 +3094,50 @@ We first examine some metrics that describe the difference Δ between correspond
 <div class="cell_output docutils container">
 <div class="output text_html"><style type="text/css">
 </style>
-<table id="T_d10f9">
+<table id="T_685fe">
   <caption>C3S Atlas – Reproduced</caption>
   <thead>
     <tr>
       <th class="blank level0" >&nbsp;</th>
-      <th id="T_d10f9_level0_col0" class="col_heading level0 col0" >Mean Δ</th>
-      <th id="T_d10f9_level0_col1" class="col_heading level0 col1" >Median Δ</th>
-      <th id="T_d10f9_level0_col2" class="col_heading level0 col2" >Median |Δ|</th>
-      <th id="T_d10f9_level0_col3" class="col_heading level0 col3" >% where |Δ| ≥ ε</th>
-      <th id="T_d10f9_level0_col4" class="col_heading level0 col4" >Pearson r</th>
+      <th id="T_685fe_level0_col0" class="col_heading level0 col0" >Mean Δ</th>
+      <th id="T_685fe_level0_col1" class="col_heading level0 col1" >Median Δ</th>
+      <th id="T_685fe_level0_col2" class="col_heading level0 col2" >Median |Δ|</th>
+      <th id="T_685fe_level0_col3" class="col_heading level0 col3" >% where |Δ| ≥ ε</th>
+      <th id="T_685fe_level0_col4" class="col_heading level0 col4" >Pearson r</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th id="T_d10f9_level0_row0" class="row_heading level0 row0" >ERA5</th>
-      <td id="T_d10f9_row0_col0" class="data row0 col0" >0.00003</td>
-      <td id="T_d10f9_row0_col1" class="data row0 col1" >0.00000</td>
-      <td id="T_d10f9_row0_col2" class="data row0 col2" >0.00000</td>
-      <td id="T_d10f9_row0_col3" class="data row0 col3" >0.00311</td>
-      <td id="T_d10f9_row0_col4" class="data row0 col4" >1.00000</td>
+      <th id="T_685fe_level0_row0" class="row_heading level0 row0" >ERA5</th>
+      <td id="T_685fe_row0_col0" class="data row0 col0" >0.00003</td>
+      <td id="T_685fe_row0_col1" class="data row0 col1" >0.00000</td>
+      <td id="T_685fe_row0_col2" class="data row0 col2" >0.00000</td>
+      <td id="T_685fe_row0_col3" class="data row0 col3" >0.00311</td>
+      <td id="T_685fe_row0_col4" class="data row0 col4" >1.00000</td>
     </tr>
     <tr>
-      <th id="T_d10f9_level0_row1" class="row_heading level0 row1" >ERA5-Land</th>
-      <td id="T_d10f9_row1_col0" class="data row1 col0" >-0.00002</td>
-      <td id="T_d10f9_row1_col1" class="data row1 col1" >0.00000</td>
-      <td id="T_d10f9_row1_col2" class="data row1 col2" >0.00000</td>
-      <td id="T_d10f9_row1_col3" class="data row1 col3" >0.00597</td>
-      <td id="T_d10f9_row1_col4" class="data row1 col4" >1.00000</td>
+      <th id="T_685fe_level0_row1" class="row_heading level0 row1" >ERA5-Land</th>
+      <td id="T_685fe_row1_col0" class="data row1 col0" >-0.00002</td>
+      <td id="T_685fe_row1_col1" class="data row1 col1" >0.00000</td>
+      <td id="T_685fe_row1_col2" class="data row1 col2" >0.00000</td>
+      <td id="T_685fe_row1_col3" class="data row1 col3" >0.00597</td>
+      <td id="T_685fe_row1_col4" class="data row1 col4" >1.00000</td>
     </tr>
     <tr>
-      <th id="T_d10f9_level0_row2" class="row_heading level0 row2" >E-OBS</th>
-      <td id="T_d10f9_row2_col0" class="data row2 col0" >-0.11389</td>
-      <td id="T_d10f9_row2_col1" class="data row2 col1" >0.00000</td>
-      <td id="T_d10f9_row2_col2" class="data row2 col2" >0.00000</td>
-      <td id="T_d10f9_row2_col3" class="data row2 col3" >3.63519</td>
-      <td id="T_d10f9_row2_col4" class="data row2 col4" >0.91907</td>
+      <th id="T_685fe_level0_row2" class="row_heading level0 row2" >E-OBS</th>
+      <td id="T_685fe_row2_col0" class="data row2 col0" >-0.01063</td>
+      <td id="T_685fe_row2_col1" class="data row2 col1" >0.00000</td>
+      <td id="T_685fe_row2_col2" class="data row2 col2" >0.00000</td>
+      <td id="T_685fe_row2_col3" class="data row2 col3" >4.00855</td>
+      <td id="T_685fe_row2_col4" class="data row2 col4" >0.99470</td>
     </tr>
     <tr>
-      <th id="T_d10f9_level0_row3" class="row_heading level0 row3" >BERKEARTH</th>
-      <td id="T_d10f9_row3_col0" class="data row3 col0" >0.00000</td>
-      <td id="T_d10f9_row3_col1" class="data row3 col1" >0.00000</td>
-      <td id="T_d10f9_row3_col2" class="data row3 col2" >0.00000</td>
-      <td id="T_d10f9_row3_col3" class="data row3 col3" >0.00000</td>
-      <td id="T_d10f9_row3_col4" class="data row3 col4" >1.00000</td>
+      <th id="T_685fe_level0_row3" class="row_heading level0 row3" >BERKEARTH</th>
+      <td id="T_685fe_row3_col0" class="data row3 col0" >0.00000</td>
+      <td id="T_685fe_row3_col1" class="data row3 col1" >0.00000</td>
+      <td id="T_685fe_row3_col2" class="data row3 col2" >0.00000</td>
+      <td id="T_685fe_row3_col3" class="data row3 col3" >0.00000</td>
+      <td id="T_685fe_row3_col4" class="data row3 col4" >1.00000</td>
     </tr>
   </tbody>
 </table>
@@ -3503,34 +3158,34 @@ We first examine some metrics that describe the difference Δ between correspond
 <div class="cell_output docutils container">
 <div class="output text_html"><style type="text/css">
 </style>
-<table id="T_a8fea">
+<table id="T_48410">
   <caption>C3S Atlas – Reproduced</caption>
   <thead>
     <tr>
       <th class="blank level0" >&nbsp;</th>
-      <th id="T_a8fea_level0_col0" class="col_heading level0 col0" >Mean Δ</th>
-      <th id="T_a8fea_level0_col1" class="col_heading level0 col1" >Median Δ</th>
-      <th id="T_a8fea_level0_col2" class="col_heading level0 col2" >Median |Δ|</th>
-      <th id="T_a8fea_level0_col3" class="col_heading level0 col3" >% where |Δ| ≥ ε</th>
-      <th id="T_a8fea_level0_col4" class="col_heading level0 col4" >Pearson r</th>
+      <th id="T_48410_level0_col0" class="col_heading level0 col0" >Mean Δ</th>
+      <th id="T_48410_level0_col1" class="col_heading level0 col1" >Median Δ</th>
+      <th id="T_48410_level0_col2" class="col_heading level0 col2" >Median |Δ|</th>
+      <th id="T_48410_level0_col3" class="col_heading level0 col3" >% where |Δ| ≥ ε</th>
+      <th id="T_48410_level0_col4" class="col_heading level0 col4" >Pearson r</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th id="T_a8fea_level0_row0" class="row_heading level0 row0" >ORAS5</th>
-      <td id="T_a8fea_row0_col0" class="data row0 col0" >0.00000</td>
-      <td id="T_a8fea_row0_col1" class="data row0 col1" >0.00000</td>
-      <td id="T_a8fea_row0_col2" class="data row0 col2" >0.00024</td>
-      <td id="T_a8fea_row0_col3" class="data row0 col3" >65.47403</td>
-      <td id="T_a8fea_row0_col4" class="data row0 col4" >1.00000</td>
+      <th id="T_48410_level0_row0" class="row_heading level0 row0" >ORAS5</th>
+      <td id="T_48410_row0_col0" class="data row0 col0" >0.00000</td>
+      <td id="T_48410_row0_col1" class="data row0 col1" >0.00000</td>
+      <td id="T_48410_row0_col2" class="data row0 col2" >0.00024</td>
+      <td id="T_48410_row0_col3" class="data row0 col3" >65.47403</td>
+      <td id="T_48410_row0_col4" class="data row0 col4" >1.00000</td>
     </tr>
     <tr>
-      <th id="T_a8fea_level0_row1" class="row_heading level0 row1" >SST-CCI</th>
-      <td id="T_a8fea_row1_col0" class="data row1 col0" >0.00003</td>
-      <td id="T_a8fea_row1_col1" class="data row1 col1" >0.00009</td>
-      <td id="T_a8fea_row1_col2" class="data row1 col2" >0.00020</td>
-      <td id="T_a8fea_row1_col3" class="data row1 col3" >65.15363</td>
-      <td id="T_a8fea_row1_col4" class="data row1 col4" >1.00000</td>
+      <th id="T_48410_level0_row1" class="row_heading level0 row1" >SST-CCI</th>
+      <td id="T_48410_row1_col0" class="data row1 col0" >-0.01408</td>
+      <td id="T_48410_row1_col1" class="data row1 col1" >0.00018</td>
+      <td id="T_48410_row1_col2" class="data row1 col2" >0.03354</td>
+      <td id="T_48410_row1_col3" class="data row1 col3" >66.11236</td>
+      <td id="T_48410_row1_col4" class="data row1 col4" >0.99995</td>
     </tr>
   </tbody>
 </table>
@@ -3551,26 +3206,26 @@ We first examine some metrics that describe the difference Δ between correspond
 <div class="cell_output docutils container">
 <div class="output text_html"><style type="text/css">
 </style>
-<table id="T_ec1de">
+<table id="T_e5889">
   <caption>C3S Atlas – Reproduced</caption>
   <thead>
     <tr>
       <th class="blank level0" >&nbsp;</th>
-      <th id="T_ec1de_level0_col0" class="col_heading level0 col0" >Mean Δ</th>
-      <th id="T_ec1de_level0_col1" class="col_heading level0 col1" >Median Δ</th>
-      <th id="T_ec1de_level0_col2" class="col_heading level0 col2" >Median |Δ|</th>
-      <th id="T_ec1de_level0_col3" class="col_heading level0 col3" >% where |Δ| ≥ ε</th>
-      <th id="T_ec1de_level0_col4" class="col_heading level0 col4" >Pearson r</th>
+      <th id="T_e5889_level0_col0" class="col_heading level0 col0" >Mean Δ</th>
+      <th id="T_e5889_level0_col1" class="col_heading level0 col1" >Median Δ</th>
+      <th id="T_e5889_level0_col2" class="col_heading level0 col2" >Median |Δ|</th>
+      <th id="T_e5889_level0_col3" class="col_heading level0 col3" >% where |Δ| ≥ ε</th>
+      <th id="T_e5889_level0_col4" class="col_heading level0 col4" >Pearson r</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th id="T_ec1de_level0_row0" class="row_heading level0 row0" >CPC</th>
-      <td id="T_ec1de_row0_col0" class="data row0 col0" >0.00000</td>
-      <td id="T_ec1de_row0_col1" class="data row0 col1" >0.00000</td>
-      <td id="T_ec1de_row0_col2" class="data row0 col2" >0.00000</td>
-      <td id="T_ec1de_row0_col3" class="data row0 col3" >0.00000</td>
-      <td id="T_ec1de_row0_col4" class="data row0 col4" >1.00000</td>
+      <th id="T_e5889_level0_row0" class="row_heading level0 row0" >CPC</th>
+      <td id="T_e5889_row0_col0" class="data row0 col0" >0.00000</td>
+      <td id="T_e5889_row0_col1" class="data row0 col1" >0.00000</td>
+      <td id="T_e5889_row0_col2" class="data row0 col2" >0.00000</td>
+      <td id="T_e5889_row0_col3" class="data row0 col3" >0.00000</td>
+      <td id="T_e5889_row0_col4" class="data row0 col4" >1.00000</td>
     </tr>
   </tbody>
 </table>
@@ -3587,7 +3242,7 @@ are all close to 0
 and the vast majority of pixels show a near-zero difference
 (defined here as |Δ| ≥ ε with ε = 10<sup>–5</sup> to avoid floating-point errors)
 in all comparisons.
-E-OBS shows the most significant differences,
+E-OBS and SST-CCI show the most significant differences,
 likely explained by differences in the version used
 as in the previous section.</p>
 <p>These observations are confirmed by
@@ -3598,7 +3253,7 @@ the geospatial distributions
 (Figures <a class="reference internal" href="#derived-multi-origin-c3s-atlas-consistency-q03-fig-geocomp-tx35future"><span class="std std-numref">7.3.14</span></a>–<a class="reference internal" href="#derived-multi-origin-c3s-atlas-consistency-q03-fig-geocomp-r01"><span class="std std-numref">7.3.17</span></a>).
 Notably,
 while the difference between <code class="docutils literal notranslate"><span class="pre">tx35</span></code> in the C3S Atlas dataset and E-OBS is typically small,
-with a median of 0 and with ≤4% of pixels showing non-zero differences,
+with a median of 0 and with 4% of pixels showing non-zero differences,
 it has a long tail of large differences
 (Figure <a class="reference internal" href="#derived-multi-origin-c3s-atlas-consistency-q03-fig-hist-tx35historical-c3s-atlas"><span class="std std-numref">7.3.11</span></a>).
 These pixels are concentrated at the periphery of the domain
@@ -3684,7 +3339,7 @@ if only to remove the amount of steps that may affect the result.</p>
 <label class="sd-tab-label" data-sync-group="tab" data-sync-id="tx35future" for="sd-tab-item-8">
 Projected <code class="docutils literal notranslate"><span class="pre">tx35</span></code></label><div class="sd-tab-content docutils">
 <figure class="align-default" id="derived-multi-origin-c3s-atlas-consistency-q03-fig-hist-tx35future-c3s-atlas" style="width: 700px">
-<img alt="../_images/3243bc603152607be2d654e0e77b4b72535cba8fc2370d203480ef29f57bd7b4.png" src="../_images/3243bc603152607be2d654e0e77b4b72535cba8fc2370d203480ef29f57bd7b4.png" />
+<img alt="../_images/47007fa111190d4184f0485db9e64db5597c3e4b919673d15ace2cebd4fa057e.png" src="../_images/47007fa111190d4184f0485db9e64db5597c3e4b919673d15ace2cebd4fa057e.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 7.3.10 </span><span class="caption-text">Comparison between overall distributions of
 projected
@@ -3700,7 +3355,7 @@ including the per-pixel difference.</span><a class="headerlink" href="#derived-m
 <label class="sd-tab-label" data-sync-group="tab" data-sync-id="tx35historical" for="sd-tab-item-9">
 Historical <code class="docutils literal notranslate"><span class="pre">tx35</span></code></label><div class="sd-tab-content docutils">
 <figure class="align-default" id="derived-multi-origin-c3s-atlas-consistency-q03-fig-hist-tx35historical-c3s-atlas" style="width: 700px">
-<img alt="../_images/f7749ca374f3531ba4cf3e791891eab5ce63c4eedb432f1f5a089bbe3a51a49f.png" src="../_images/f7749ca374f3531ba4cf3e791891eab5ce63c4eedb432f1f5a089bbe3a51a49f.png" />
+<img alt="../_images/08ebba7dd7fb92a76f78b79b35e05e47800723cc9ec7d5eff0dda465c181b385.png" src="../_images/08ebba7dd7fb92a76f78b79b35e05e47800723cc9ec7d5eff0dda465c181b385.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 7.3.11 </span><span class="caption-text">Comparison between overall distributions of
 historical
@@ -3716,7 +3371,7 @@ including the per-pixel difference.</span><a class="headerlink" href="#derived-m
 <label class="sd-tab-label" data-sync-group="tab" data-sync-id="sst" for="sd-tab-item-10">
 <code class="docutils literal notranslate"><span class="pre">sst</span></code></label><div class="sd-tab-content docutils">
 <figure class="align-default" id="derived-multi-origin-c3s-atlas-consistency-q03-fig-hist-sst-c3s-atlas" style="width: 700px">
-<img alt="../_images/2bf3bbfc79c4e3bef360d0ec84935d4a695046c3a7c1afa6715b0f1cc2340cdd.png" src="../_images/2bf3bbfc79c4e3bef360d0ec84935d4a695046c3a7c1afa6715b0f1cc2340cdd.png" />
+<img alt="../_images/01fd6996867bfcb7efb1c6625d27660fdd53e1ee5e02cd8b7bfd64ba6fb3bb80.png" src="../_images/01fd6996867bfcb7efb1c6625d27660fdd53e1ee5e02cd8b7bfd64ba6fb3bb80.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 7.3.12 </span><span class="caption-text">Comparison between overall distributions of
 historical
@@ -3732,7 +3387,7 @@ including the per-pixel difference.</span><a class="headerlink" href="#derived-m
 <label class="sd-tab-label" data-sync-group="tab" data-sync-id="r01" for="sd-tab-item-11">
 <code class="docutils literal notranslate"><span class="pre">r01</span></code></label><div class="sd-tab-content docutils">
 <figure class="align-default" id="derived-multi-origin-c3s-atlas-consistency-q03-fig-hist-r01-c3s-atlas" style="width: 700px">
-<img alt="../_images/7ee5244c2af4db7b20a4410350189fba48aee08c2534da1dd0d9e9c60e212984.png" src="../_images/7ee5244c2af4db7b20a4410350189fba48aee08c2534da1dd0d9e9c60e212984.png" />
+<img alt="../_images/a5ff7ec7abf484ea7aea3022490ca312e68da13a260112ffc6cd37967de5c0dd.png" src="../_images/a5ff7ec7abf484ea7aea3022490ca312e68da13a260112ffc6cd37967de5c0dd.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 7.3.13 </span><span class="caption-text">Comparison between overall distributions of
 historical
@@ -3806,7 +3461,7 @@ including the per-pixel difference.</span><a class="headerlink" href="#derived-m
 <label class="sd-tab-label" data-sync-group="tab" data-sync-id="tx35future" for="sd-tab-item-12">
 Projected <code class="docutils literal notranslate"><span class="pre">tx35</span></code></label><div class="sd-tab-content docutils">
 <figure class="align-default" id="derived-multi-origin-c3s-atlas-consistency-q03-fig-geocomp-tx35future" style="width: 700px">
-<img alt="../_images/edc9df803afc1bd69a25dc06d345f31f939a7cd5392e5b68ff715c08604d7b46.png" src="../_images/edc9df803afc1bd69a25dc06d345f31f939a7cd5392e5b68ff715c08604d7b46.png" />
+<img alt="../_images/657738cffb3074ab2a605904b80cd998e8a9e3bc227ddca06e192bbbfc149068.png" src="../_images/657738cffb3074ab2a605904b80cd998e8a9e3bc227ddca06e192bbbfc149068.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 7.3.14 </span><span class="caption-text">Comparison between C3S Atlas dataset and reproduction for
 projected
@@ -3821,7 +3476,7 @@ including the per-pixel difference.</span><a class="headerlink" href="#derived-m
 <label class="sd-tab-label" data-sync-group="tab" data-sync-id="tx35historical" for="sd-tab-item-13">
 Historical <code class="docutils literal notranslate"><span class="pre">tx35</span></code></label><div class="sd-tab-content docutils">
 <figure class="align-default" id="derived-multi-origin-c3s-atlas-consistency-q03-fig-geocomp-tx35historical" style="width: 700px">
-<img alt="../_images/9d96192e46d9635ad57876b18f5335cc63a451b40f092dde2c0fd7b00bf4b0f5.png" src="../_images/9d96192e46d9635ad57876b18f5335cc63a451b40f092dde2c0fd7b00bf4b0f5.png" />
+<img alt="../_images/e44ff6fbb3b56cca6c2c5c6d1ae8e095c1e723211f0fada0b3523bf2ced7d9a6.png" src="../_images/e44ff6fbb3b56cca6c2c5c6d1ae8e095c1e723211f0fada0b3523bf2ced7d9a6.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 7.3.15 </span><span class="caption-text">Comparison between C3S Atlas dataset and reproduction for
 historical
@@ -3836,7 +3491,7 @@ including the per-pixel difference.</span><a class="headerlink" href="#derived-m
 <label class="sd-tab-label" data-sync-group="tab" data-sync-id="sst" for="sd-tab-item-14">
 <code class="docutils literal notranslate"><span class="pre">sst</span></code></label><div class="sd-tab-content docutils">
 <figure class="align-default" id="derived-multi-origin-c3s-atlas-consistency-q03-fig-geocomp-sst" style="width: 700px">
-<img alt="../_images/462c80cf58b6e459539f4f9ddaf5f620d33a600ec1d1ca5a80195c543bc929e1.png" src="../_images/462c80cf58b6e459539f4f9ddaf5f620d33a600ec1d1ca5a80195c543bc929e1.png" />
+<img alt="../_images/b17838261bce5cc5d1ef39844d888bbd3b52bd5850764e498cfaee44b043b40e.png" src="../_images/b17838261bce5cc5d1ef39844d888bbd3b52bd5850764e498cfaee44b043b40e.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 7.3.16 </span><span class="caption-text">Comparison between C3S Atlas dataset and reproduction for
 historical
@@ -3851,7 +3506,7 @@ including the per-pixel difference.</span><a class="headerlink" href="#derived-m
 <label class="sd-tab-label" data-sync-group="tab" data-sync-id="r01" for="sd-tab-item-15">
 <code class="docutils literal notranslate"><span class="pre">r01</span></code></label><div class="sd-tab-content docutils">
 <figure class="align-default" id="derived-multi-origin-c3s-atlas-consistency-q03-fig-geocomp-r01" style="width: 700px">
-<img alt="../_images/6537d9c4ac9ffee5cc6ef0b7ae8d2ebf894b1a5def563b4f469137023c8af15a.png" src="../_images/6537d9c4ac9ffee5cc6ef0b7ae8d2ebf894b1a5def563b4f469137023c8af15a.png" />
+<img alt="../_images/d800eb4997b0c8c86e5107415c7dd75c09b86f3a6bc7975e3bbcfc93d059c006.png" src="../_images/d800eb4997b0c8c86e5107415c7dd75c09b86f3a6bc7975e3bbcfc93d059c006.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 7.3.17 </span><span class="caption-text">Comparison between C3S Atlas dataset and reproduction for
 historical
