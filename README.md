@@ -28,7 +28,7 @@ The site is written to `_pre_build/_build/html`. To preview it locally, start th
 make preview-book
 ```
 
-The site is available at [http://localhost:8000](http://localhost:8000). The server runs in the background and can remain running while you rebuild the book. Refresh your browser to see updates. To stop the server:
+The site is available at `http://localhost:8000`. The server runs in the background and can remain running while you rebuild the book. Refresh your browser to see updates. To stop the server:
 
 ```bash
 make stop-preview-book
