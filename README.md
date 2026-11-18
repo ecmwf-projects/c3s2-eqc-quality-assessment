@@ -16,10 +16,22 @@ To run the quality assurance checks:
 make qa
 ```
 
-To build the book:
+To build the book with [Jupyter Book](https://jupyterbook.org) (it needs [Node.js](https://nodejs.org) 18 or later, and offers to install it if it is missing):
 
 ```bash
 make build-book
+```
+
+The site is written to `_pre_build/_build/html`. To preview it locally, start the preview server:
+
+```bash
+make preview-book
+```
+
+The site is available at `http://localhost:8000`. The server runs in the background and can remain running while you rebuild the book. Refresh your browser to see updates. To stop the server:
+
+```bash
+make stop-preview-book
 ```
 
 To install the book dependencies (including `myst-nb`, used for glue) in your own environment:
